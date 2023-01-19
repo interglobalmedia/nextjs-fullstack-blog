@@ -5,7 +5,7 @@ import Logo from './logo'
 function MainNavigation() {
     return (
         <header className={classes.header}>
-            <Link href="/">
+            <Link href='/'>
                 <Logo />
             </Link>
             <nav>
