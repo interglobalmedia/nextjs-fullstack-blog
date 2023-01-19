@@ -3,27 +3,33 @@ import Image from 'next/image'
 import classes from './post-item.module.scss'
 
 function PostItem(props) {
-    
-    const { title, image, excerpt, date, slug } = props
 
-    const formattedDate = new Date(date).toLocaleDateString('en-US', {
-        data: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    })
+    const { post } = props
 
-    const imagePath = `/images/posts/${slug}/${image}`
+    const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    };
+
+    const formattedDate = new Date(post.date).toLocaleDateString('en-US', options)
+
+    console.log(formattedDate)
+
+    const imagePath = `/images/posts/${post.slug}/${post.image}`
+
+    const linkPath = `/posts/${post.slug}`
     return (
         <li className={classes.post}>
-            <Link>
-                <div className={classes.image}>
-                    <Image src={imagePath} alt={title} width={300} height={200} />
-                </div>
-                <div className={classes.content}>
-                    <h3>{title}</h3>
-                    <time>{formattedDate}}</time>
-                    <p>{excerpt}</p>
-                </div>
+            <Link href={linkPath}>
+                <figure className={classes.image}>
+                    <Image src={imagePath} alt={post.title} width={300} height={200} layout="responsive" legacyBehavior />
+                    <figcaption className={classes.content}>
+                        <h3>{post.title}</h3>
+                        <time>{formattedDate}</time>
+                        <p>{post.excerpt}</p>
+                    </figcaption>
+                </figure>
             </Link>
         </li>
     )
