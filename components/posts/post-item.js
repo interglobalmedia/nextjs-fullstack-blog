@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import classes from './post-item.module.scss'
 
 function PostItem(props) {
@@ -23,7 +23,7 @@ function PostItem(props) {
         <li className={classes.post}>
             <Link href={linkPath}>
                 <figure className={classes.image}>
-                    <Image src={imagePath} alt={post.title} width={300} height={200} layout="responsive" legacyBehavior />
+                    <Image src={imagePath} alt={post.title} width={300} height={200} layout="responsive" legacybehavior="true" />
                     <figcaption className={classes.content}>
                         <h3>{post.title}</h3>
                         <time>{formattedDate}</time>
