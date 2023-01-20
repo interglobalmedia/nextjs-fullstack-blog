@@ -27,6 +27,7 @@ function PostItem(props) {
                     <figcaption className={classes.content}>
                         <h3>{post.title}</h3>
                         <time>{formattedDate}</time>
+                        <p>{post.author}</p>
                         <p>{post.excerpt}</p>
                     </figcaption>
                 </figure>
