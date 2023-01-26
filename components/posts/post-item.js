@@ -23,7 +23,8 @@ function PostItem(props) {
         <li className={classes.post}>
             <Link href={linkPath}>
                 <figure className={classes.image}>
-                    <Image src={imagePath} alt={post.title} width={300} height={200} layout="responsive" legacybehavior="true" />
+                    <Image src={imagePath} alt={post.title} width={300} height={200} layout="responsive"
+                    className={classes.img}    legacybehavior="true" />
                     <figcaption className={classes.content}>
                         <h3>{post.title}</h3>
                         <time>{formattedDate}</time>
