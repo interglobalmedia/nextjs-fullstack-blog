@@ -3,7 +3,12 @@
   margin: 0;
   padding: 0;
   display: grid;
+  align-items: stretch;
+  margin: 3rem auto 6rem;
+  display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  /* Added this so that there is a gap between the rows as well */
   gap: 1.5rem;
   align-content: center;
+
 }
