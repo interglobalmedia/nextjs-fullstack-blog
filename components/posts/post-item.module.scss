@@ -14,22 +14,30 @@
   // max-height: 25rem;
   /* add so that things would display correctly and figcaption would display at all because set to position: absolute. */
   position: relative;
-  overflow: hidden;
+  // overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   box-sizing: border-box;
   margin: 0 auto;
   background-color: var(--color-grey-800);
-  grid-column-start: auto;
-  grid-row-start: auto;
+  // grid-column-start: auto;
+  // grid-row-start: auto;
   color: #fff;
   background-size: cover;
   background-position: center;
   box-shadow: -2px 2px 10px 0 rgb(68 68 68 / 40%);
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
-  counter-increment: item-counter;
+  // counter-increment: item-counter;
+}
+
+.img {
+  display: block;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  max-width: 800px;
 }
 
 .image>img {
@@ -65,9 +73,13 @@
   // background: #eee;
   text-transform: lowercase;
   letter-spacing: 1px;
+  /* This is to make sure that the figcaption is spaced the same in terms of parts, i.e. title, date, author, and then excerpt. */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.content::before {
+.content::after {
   // content: counter(item-counter);
   font-weight: bold;
   font-size: 1.1rem;

@@ -1,4 +1,6 @@
 import ReactMarkdown from 'react-markdown'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import Image from "next/legacy/image";
 import PostHeader from './post-header'
 import classes from './post-content.module.scss'
@@ -14,21 +16,31 @@ function PostContent(props) {
             if (node.children[0].tagName === 'img') {
                 const image = node.children[0]
 
+                return (
+                    <div className={classes.image}>
+                        <Image src={`/images/posts/${post.slug}/${image.properties.src}`} alt={image.properties.alt} width={600} height={300} layout="responsive" />
+                    </div>
+                )
+            }
+            return <p>{paragraph.children}</p>
+        },
+        code(code) {
+            const languageArray = code.className.split("-");
+            const language = languageArray[1];
+     
             return (
-                <div className={classes.image}>
-                    <Image src={`/images/posts/${post.slug}/${image.properties.src}`} alt={image.properties.alt} width={600} height={300} layout="responsive"/>
-                </div>
-            )
+                <SyntaxHighlighter language={language} style={atomDark}>
+                    {code.children[0]}
+                </SyntaxHighlighter>
+            );
         }
-        return<p>{ paragraph.children }</p>
     }
-    }
-return (
-    <article className={classes.content}>
-        <PostHeader title={post.title} image={imagePath} />
-        <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
-    </article>
-)
+    return (
+        <article className={classes.content}>
+            <PostHeader title={post.title} image={imagePath} />
+            <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
+        </article>
+    )
 }
 
 export default PostContent
