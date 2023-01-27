@@ -1,14 +1,20 @@
+/* scss variables */
+$min-360: '(min-width: 360px)';
+
 .post {
-  background-color: var(--color-grey-900);
-  box-shadow: 0 1px 4px rgb(0 0 0 / 20%);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  display: grid;
+  justify-content: center;
   height: 100%;
-  text-align: center;
+  list-style-type: none;
+  margin-bottom: 1.5rem;
   transition: opacity 0.3s ease-in-out;
 }
 
-.post:hover {
-  background: transparent;
-  box-shadow: none;
+.post:last-of-type {
+  margin-bottom: 6rem;
 }
 
 .post a {
@@ -16,29 +22,27 @@
 }
 
 .image {
-  width: 100%;
+  max-width: 800px;
   background-color: var(--color-grey-800);
   background-position: center;
   background-size: cover;
   box-shadow: -2px 2px 10px 0 rgb(68 68 68 / 40%);
   box-sizing: border-box;
   color: #fff;
-  display: flex;
-  flex-direction: column;
-  grid-column-start: auto;
-  grid-row-start: auto;
+  cursor: pointer;
 
-  /*  Add height property so that the figure element, figure img and figcaption completely fill up the space! And this is achieved with the auto property value. */
+  /*  Add height property so that the figure element, figure img and figcaption completely fill up the space! And this is achieved with the auto property value. And making it auto also makes the height of each image the same. */
   height: auto;
-  justify-content: flex-end;
   margin: 0 auto;
-  max-width: 800px;
-  overflow: hidden;
-
+  
   /* add so that things would display correctly and figcaption would display at all because set to position: absolute. */
   position: relative;
   transition: transform 0.3s ease-in-out;
-  cursor: pointer;
+  @media #{$min-360} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    
+  }
 }
 
 .image>img {
@@ -50,7 +54,6 @@
 .image::after {
   background-color: #000; 
   content: "";
-  height: 100%;
   opacity: 0.3;
   position: absolute;
   transition: opacity 0.3s ease-in-out;
@@ -81,7 +84,7 @@
   font-size: 1.1rem;
   font-weight: bold;
   padding-left: 1rem;
-  padding-right: 0.5em;
+  padding-right: 1em;
 }
 
 .content h3 {
