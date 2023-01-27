@@ -10,6 +10,7 @@ function Hero() {
                     alt="Maria Campbell profile image"
                     width={300}
                     height={300}
+                    layout="responsive"
                 />
             </div>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
