@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from "next/legacy/image";
-import classes from './post-item.module.scss'
+import classes from '../../styles/post-item.module.scss'
 
 function PostItem(props) {
 

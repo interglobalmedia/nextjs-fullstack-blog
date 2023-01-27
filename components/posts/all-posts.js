@@ -1,6 +1,6 @@
 import PostsGrid from './posts-grid'
 
-import classes from './all-posts.module.scss'
+import classes from '../../styles/all-posts.module.scss'
 
 function AllPosts(props) {
     return (
