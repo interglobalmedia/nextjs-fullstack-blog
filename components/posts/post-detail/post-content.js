@@ -3,7 +3,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import Image from "next/legacy/image";
 import PostHeader from './post-header'
-import classes from './post-content.module.scss'
+import classes from '../../../styles/post-content.module.scss'
 
 function PostContent(props) {
     const { post } = props

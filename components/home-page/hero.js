@@ -1,5 +1,5 @@
 import Image from "next/legacy/image";
-import classes from './hero.module.scss'
+import classes from '../../styles/hero.module.scss'
 
 function Hero() {
     return (

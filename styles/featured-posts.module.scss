@@ -1,17 +1,17 @@
+/* scss variables */
+$min-768: '(min-width: 768px)';
+
 .latest {
-  width: 90%;
-  max-width: 80rem;
   margin: var(--size-8) auto;
+  max-width: 80rem;
+  width: 90%;
 }
 
 .latest>h2 {
-  font-size: var(--size-8);
   color: var(--color-grey-800);
+  font-size: var(--size-8);
   text-align: center;
-}
-
-@media (min-width: 768px) {
-  .latest h2 {
+  @media #{$min-768} {
     font-size: var(--size-16);
   }
 }

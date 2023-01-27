@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import classes from './main-navigation.module.scss'
 import Logo from './logo'
+import classes from '../../styles/main-navigation.module.scss'
 
 function MainNavigation() {
     return (

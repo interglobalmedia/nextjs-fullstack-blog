@@ -1,0 +1,26 @@
+/* scss variables */
+$min-768: '(min-width: 768px)';
+
+.content {
+  background-color: var(--color-grey-100);
+  border-radius: 6px;
+  font-size: var(--size-5);
+  line-height: var(--size-8);
+  margin: var(--size-8) auto;
+  max-width: 60rem;
+  padding: var(--size-4);
+  width: 95%;
+  @media #{$min-768} {
+    padding: var(--size-8);
+  }
+}
+
+.content p {
+  color: var(--color-grey-800);
+}
+
+.content .image {
+  margin: var(--size-4) auto;
+  max-width: 600px;
+  width: 100%;
+}

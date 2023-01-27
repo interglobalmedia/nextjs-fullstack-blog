@@ -1,4 +1,4 @@
-import classes from './logo.module.scss'
+import classes from '../../styles/logo.module.scss'
 
 function Logo() {
     return (
