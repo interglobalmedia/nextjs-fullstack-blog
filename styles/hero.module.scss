@@ -12,10 +12,10 @@
   background-color: var(--color-grey-700);
   border-radius: 50%;
   box-shadow: 0 1px 8px rgb(0 0 0 / 20%);
-  height: 300px;
+  max-height: 200px;
   margin: auto;
   overflow: hidden;
-  width: 300px;
+  max-width: 200px;
 }
 
 .image img {
