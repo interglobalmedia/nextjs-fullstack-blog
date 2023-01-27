@@ -1,0 +1,13 @@
+/* scss variables */
+$min-768: '(min-width: 768px)';
+
+.logo {
+  color: var(--color-grey-50);
+  font-family: Oswald, sans-serif;
+  font-size: var(--size-5);
+  font-weight: bold;
+  text-transform: uppercase;
+  @media #{$min-768} {
+    font-size: var(--size-8);
+  }
+}

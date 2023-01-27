@@ -1,0 +1,14 @@
+.grid {
+  align-content: center;
+  align-items: stretch;
+  display: grid;
+  list-style: none;
+  
+  /* Added this so that there is a gap between the rows as well */
+  gap: 1.5rem;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  margin: 3rem auto 6rem;
+  overflow: hidden;
+  padding: 0;
+}

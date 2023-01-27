@@ -1,0 +1,17 @@
+/* scss variables */
+$min-768: '(min-width: 768px)';
+
+.posts {
+  margin: var(--size-8) auto;
+  max-width: 60rem;
+  width: 90%;
+}
+
+.posts>h1 {
+  color: var(--color-grey-800);
+  font-size: var(--size-8);
+  text-align: center;
+  @media #{$min-768} {
+    font-size: var(--size-16);
+  }
+}
