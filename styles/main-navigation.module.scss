@@ -2,9 +2,11 @@
 $min-360: '(min-width: 360px)';
 $min-768: '(min-width: 768px)';
 
+/* stylelint-disable scss/no-global-function-names */
+
 .header {
   align-items: center;
-  background-color: var(--color-grey-900);
+  background-color: darken(#1c1c1c, 1.25%);
   display: flex;
   height: 6rem;
   justify-content: center;

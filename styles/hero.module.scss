@@ -1,11 +1,9 @@
+/* stylelint-disable scss/no-global-function-names */
+
 .hero {
-  background-image: linear-gradient(
-    to bottom,
-    var(--color-grey-900),
-    var(--color-grey-800)
-  );
   padding: var(--size-8) 0;
   text-align: center;
+  background-color: darken(#1c1c1c, 1.25%);
 }
 
 .image {
