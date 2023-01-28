@@ -1,6 +1,8 @@
 /* scss variables */
 $min-360: '(min-width: 360px)';
 
+/* stylelint-disable scss/no-global-function-names */
+
 .post {
   background: transparent;
   border: 0;
@@ -23,7 +25,7 @@ $min-360: '(min-width: 360px)';
 
 .image {
   max-width: 800px;
-  background-color: var(--color-grey-800);
+  background-color: darken(#1c1c1c, 1.25%);
   background-position: center;
   background-size: cover;
   box-shadow: -2px 2px 10px 0 rgb(68 68 68 / 40%);
@@ -61,17 +63,20 @@ $min-360: '(min-width: 360px)';
 }
  
 .image:hover {
-  background-color: var(--color-grey-800);
+  background-color: #2d2828;
   transform: scale(1.05);
 }
 
 .image:hover::after {
-  background-color: #000;
   opacity: 0;
 }
 
 .content {
+  align-items: flex-start;
   color: #828282;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   letter-spacing: 1px;
   padding: var(--size-4);
   position: relative;
@@ -96,9 +101,11 @@ $min-360: '(min-width: 360px)';
 .content time {
   color: var(--color-grey-400);
   font-style: italic;
+  margin: var(--size-2) 0;
 }
 
 .content p {
   color: var(--color-grey-200);
   line-height: var(--size-6);
+  margin: var(--size-2) 0;
 }
