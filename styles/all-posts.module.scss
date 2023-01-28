@@ -1,6 +1,8 @@
 /* scss variables */
 $min-768: '(min-width: 768px)';
 
+/* stylelint-disable scss/no-global-function-names */
+
 .posts {
   margin: var(--size-8) auto;
   max-width: 60rem;
@@ -8,7 +10,7 @@ $min-768: '(min-width: 768px)';
 }
 
 .posts>h1 {
-  color: var(--color-grey-800);
+  color: darken(#1c1c1c, 1.25%);
   font-size: var(--size-8);
   text-align: center;
   @media #{$min-768} {
