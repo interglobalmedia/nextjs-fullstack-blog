@@ -9,6 +9,7 @@ export default function Document() {
         <div className="site-content">
           <Main />
           <NextScript />
+          <div id="notifications"></div>
         </div>
         <Footer />
       </body>
