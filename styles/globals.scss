@@ -1,5 +1,9 @@
 @import 'https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto&family=Source+Sans+Pro:wght@300&display=swap';
 
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
 /* stylelint-disable scss/no-global-function-names */
 
 * {
