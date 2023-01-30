@@ -109,3 +109,9 @@ $min-360: '(min-width: 360px)';
   line-height: var(--size-6);
   margin: var(--size-2) 0;
 }
+
+/* tag styling */
+
+.content .tag:hover {
+  text-decoration: underline;
+}

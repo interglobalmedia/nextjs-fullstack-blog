@@ -38,6 +38,7 @@ body {
   --size-5: 1.25rem;
   --size-6: 1.5rem;
   --size-8: 2rem;
+  --size-12: 3rem;
   --size-16: 4rem;
   --size-20: 5rem;
   --size-40: 10rem;
@@ -63,8 +64,21 @@ h3 {
   font-family: Oswald, Roboto, sans-serif;
 }
 
+ul {
+  margin-bottom: 1rem;
+}
+
+li {
+  margin-left: 1rem;
+}
+
 a {
   text-decoration: none;
+}
+
+p {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 button {
