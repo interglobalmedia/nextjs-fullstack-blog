@@ -1,0 +1,15 @@
+/* scss variables */
+$min-768: '(min-width: 768px)';
+
+/* stylelint-disable scss/no-global-function-names */
+
+.tag>h1 {
+    color: darken(#1c1c1c, 1.25%);
+    font-size: var(--size-8);
+    margin: var(--size-8) auto;
+    text-align: center;
+
+    @media #{$min-768} {
+    font-size: var(--size-12);
+  }
+}  
