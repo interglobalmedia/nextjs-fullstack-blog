@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from "next/legacy/image";
+import { getTagLink } from './get-tag-link'
 import classes from '../../styles/post-item.module.scss'
 
 function PostItem(props) {
@@ -30,6 +31,7 @@ function PostItem(props) {
                         <time>{formattedDate}</time>
                         <p>{post.author}</p>
                         <p>{post.excerpt}</p>
+                        <p>{post.tags.map(tag => getTagLink(tag)).reduce((prev, curr) => [prev, ', ', curr])}</p>
                     </figcaption>
                 </figure>
             </Link>
