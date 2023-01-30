@@ -3,6 +3,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import Image from "next/legacy/image";
 import PostHeader from './post-header'
+import { getTagLink } from '../get-tag-link'
 import classes from '../../../styles/post-content.module.scss'
 
 function PostContent(props) {
@@ -38,6 +39,7 @@ function PostContent(props) {
     return (
         <article className={classes.content}>
             <PostHeader title={post.title} image={imagePath} />
+            {<p>{post.tags.map(tag => getTagLink(tag)).reduce((prev, curr) => [prev, ', ', curr])}</p>}
             <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
         </article>
     )
