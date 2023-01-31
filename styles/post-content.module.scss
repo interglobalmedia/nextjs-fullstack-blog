@@ -21,5 +21,10 @@ $min-768: '(min-width: 768px)';
 
 .content .image {
   margin: var(--size-4) auto;
+  margin-bottom: -1rem;
   width: 100%;
 }
+
+.content .image + p {
+    text-align: center;
+  }
