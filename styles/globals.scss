@@ -74,10 +74,16 @@ ul {
 
 li {
   margin-left: 1rem;
+  list-style-type: square;
 }
 
 a {
   text-decoration: none;
+  color: #8d0a9d;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 p {
