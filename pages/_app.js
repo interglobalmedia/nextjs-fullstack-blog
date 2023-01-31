@@ -3,6 +3,7 @@ import Layout from '../components/layout/layout'
 import Head from 'next/head'
 
 export default function App({ Component, pageProps }) {
+  
   return (
     <Layout>
       <Head>
@@ -16,10 +17,10 @@ export default function App({ Component, pageProps }) {
         />
         <link
           rel="icon"
-          href="favicon.ico"
+          href="/favicon.ico"
         />
       </Head>
-    <Component {...pageProps} />
+        <Component {...pageProps} />
     </Layout>
   )
 }
