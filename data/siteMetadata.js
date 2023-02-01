@@ -1,4 +1,8 @@
 const siteMetadata = {
+    siteUrl: '/',
+    sitemap: '/sitemap.xml',
+    locale: 'en-US',
+    language: 'en-us',
     title: `Maria's Next Blog`,
     author: 'Maria D. Campbell',
     email: 'interglobalmedia@interglobalmedianetwork.com',
