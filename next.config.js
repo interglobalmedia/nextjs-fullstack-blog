@@ -10,7 +10,8 @@ const withMDX = require('@next/mdx')({
     rehypePlugins: [],
     /* If you use `MDXProvider`, uncomment the following line. */
     providerImportSource: "@mdx-js/react",
-  },
+},
+  
   webpack: (config, { dev, isServer }) => {
 		config.module.rules.push({
 			test: /\.svg$/,
