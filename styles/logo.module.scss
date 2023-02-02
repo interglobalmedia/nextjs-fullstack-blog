@@ -4,10 +4,12 @@ $min-768: '(min-width: 768px)';
 .logo {
   color: var(--color-grey-50);
   font-family: Oswald, sans-serif;
-  font-size: var(--size-5);
+  font-size: var(--size-6);
   font-weight: bold;
+  margin-left: -1rem;
   text-transform: uppercase;
   @media #{$min-768} {
-    font-size: var(--size-8);
+    font-size: var(--size-12);
+    margin-left: 0;
   }
 }
