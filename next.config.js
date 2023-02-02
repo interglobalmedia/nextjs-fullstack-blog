@@ -31,6 +31,9 @@ const withMDX = require('@next/mdx')({
 		if (isServer) {
 			require("./scripts/sitemap-generator");
 		}
+		if (!isServer) {
+			require("./scripts/compose")
+		}
 
 		config.plugins.push(
 			new webpack.EnvironmentPlugin(
