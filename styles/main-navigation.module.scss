@@ -2,126 +2,71 @@
 $min-360: '(min-width: 360px)';
 $min-768: '(min-width: 768px)';
 
+/* main-navigation styling */
+
 /* stylelint-disable scss/no-global-function-names */
 
 .header {
-  align-items: center;
-  background-color: darken(#1c1c1c, 1.25%);
-  display: flex;
-  height: 6rem;
-  justify-content: center;
-  padding: 0 10%;
-  width: 100vw;
-
-  @media #{$min-360} {
-    justify-content: space-between;
-  }
+	align-items: center;
+	background-color: darken(#1c1c1c, 1.25%);
+	display: flex;
+	height: 6rem;
+	justify-content: space-between;
+	margin: 0 auto;
+	padding: 0 10%;
+	width: 100%;
 }
 
 .header ul {
-  align-items: baseline;
-  justify-content: flex-end;
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  @media #{$min-768} {
-    gap: 0.5rem;
-  }
+	align-items: baseline;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	@media #{$min-768} {
+		flex-direction: row;
+		gap: 0.5rem;
+		justify-content: center;
+	}
 }
 
 .header li {
-  margin: 0 var(--size-4);
-  color: white;
-  list-style-type: none;
+	@media #{$min-768} {
+		list-style-type: none;
+		margin: 0 var(--size-4);
+	}
 }
 
 .header a {
-  color: var(--color-grey-100);
-  font-size: var(--size-4);
+	color: var(--color-grey-100);
+	font-size: var(--size-6);
 
-  @media #{$min-768} {
-    font-size: var(--size-5);
-  }
+	@media #{$min-768} {
+		color: white;
+		font-size: var(--size-5);
+		margin-top: -4.5rem;
+	}
 }
 
 .header a:hover,
 .header a:active,
 .header a.active {
-  color: var(--color-grey-200);
+	color: var(--color-grey-200);
 }
 
-.svg-wrapper {
-    display: flex;
+/* logo-wrapper styling */
+
+.logo-wrapper {
+	@media #{$min-768} {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+		margin-top: 6rem;
+		max-width: 7rem;
+		width: 100%;
+	}
 }
 
-/* Responsive Hamburger menu styling */
-
-.hamburger {
-  background-color: transparent;
-
-  /* show the hamburger menu image */
-  background-size: 100%;
-  border: none;
-  cursor: pointer;
-  display: block;
-  position: absolute;
-  right: 1.25rem;
-  top: 1.5rem;
-
-  /* always keep ham on top of everything */
-  z-index: 21;
-  @media #{$min-768} {
-    display: none;
-  }
-}
-
-/* hamburger svg styling */
-.hamburger>svg {
-  width: 3.125rem;
-  height: 3.125rem;
-}
-
-.line {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 6;
-  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
-    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.top {
-  stroke-dasharray: 60 207;
-  stroke-width: 6;
-}
-
-.middle {
-  stroke-dasharray: 60 60;
-  stroke-width: 6;
-}
-
-.bottom {
-  stroke-dasharray: 60 207;
-  stroke-width: 6;
-}
-
-.show-close .top {
-  stroke-dasharray: 90 207;
-  stroke-dashoffset: -134;
-  stroke-width: 6;
-}
-
-.show-close .middle {
-  stroke-dasharray: 1 60;
-  stroke-dashoffset: -30;
-  stroke-width: 6;
-}
-
-.show-close .bottom {
-  stroke-dasharray: 90 207;
-  stroke-dashoffset: -134;
-  stroke-width: 6;
-}
-
-/* end svg styling */
+/* end logo-wrapper styling */
