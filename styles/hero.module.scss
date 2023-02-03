@@ -1,9 +1,9 @@
 /* stylelint-disable scss/no-global-function-names */
 
 .hero {
+  background-color: darken(#1c1c1c, 1.25%);
   padding: var(--size-8) 0;
   text-align: center;
-  background-color: darken(#1c1c1c, 1.25%);
 }
 
 .image {
@@ -12,8 +12,8 @@
   box-shadow: 0 1px 8px rgb(0 0 0 / 20%);
   max-height: 200px;
   margin: auto;
-  overflow: hidden;
   max-width: 200px;
+  overflow: hidden;
 }
 
 .image img {
