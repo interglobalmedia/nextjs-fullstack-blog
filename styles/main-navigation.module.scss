@@ -44,9 +44,9 @@ $min-768: '(min-width: 768px)';
 	font-size: var(--size-6);
 
 	@media #{$min-768} {
-		color: white;
+		color: #fff;
 		font-size: var(--size-5);
-		margin-top: -4.5rem;
+		margin-top: -3.75rem;
 	}
 }
 
