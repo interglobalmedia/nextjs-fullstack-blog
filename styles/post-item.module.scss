@@ -24,7 +24,6 @@ $min-768: '(min-width: 768px)';
 }
 
 .image {
-  max-width: 800px;
   background-color: darken(#1c1c1c, 1.25%);
   background-position: center;
   background-size: cover;
@@ -36,7 +35,8 @@ $min-768: '(min-width: 768px)';
   /*  Add height property so that the figure element, figure img and figcaption completely fill up the space! And this is achieved with the auto property value. And making it auto also makes the height of each image the same. */
   height: auto;
   margin: 0 auto;
-  margin-left: -1.25rem;;
+  margin-left: -1.25rem;
+  max-width: 800px;
   
   /* add so that things would display correctly and figcaption would display at all because set to position: absolute. */
   position: relative;
