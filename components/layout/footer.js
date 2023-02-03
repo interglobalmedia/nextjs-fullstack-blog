@@ -13,7 +13,6 @@ function Footer() {
                             name="mail"
                             href={`mailto:${siteMetadata.email}`}
                             size="6"
-                            // className={classes.mail}
                         />
                     </div>
                     <div>

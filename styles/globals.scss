@@ -1,105 +1,294 @@
 @import 'https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto&family=Source+Sans+Pro:wght@300&display=swap';
 
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* scss variables */
+$min-320: '(min-width: 320px)';
+$min-360: '(min-width: 360px)';
+$max-767: '(max-width: 767px)';
+$min-768: '(min-width: 768px)';
+
+/* color variables */
+$aussie-blue: #80d0ff;
 
 /* stylelint-disable scss/no-global-function-names */
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 body {
-  --color-grey-50: hsl(265deg 55% 96%);
-  --color-grey-100: hsl(265deg 19% 88%);
-  --color-grey-200: hsl(265deg 7% 70%);
-  --color-grey-300: hsl(265deg 6% 66%);
-  --color-grey-400: hsl(265deg 4% 57%);
-  --color-grey-500: hsl(265deg 3% 53%);
-  --color-grey-600: hsl(265deg 4% 42%);
-  --color-grey-700: hsl(265deg 4% 31%);
-  --color-grey-800: hsl(276deg 5% 20%);
-  --color-grey-900: hsl(280deg 5% 13%);
-  --color-primary-50: #c8b3ce;
-  --color-primary-100: #a07aaa;
-  --color-primary-200: #884c97;
-  --color-primary-300: #843897;
-  --color-primary-400: #732392;
-  --color-primary-500: #5a097a;
-  --color-primary-600: #480264;
-  --color-primary-700: #3d0264;
-  --color-success-100: #a2f0bc;
-  --color-success-500: #12bd4b;
-  --color-error-100: #f1acc9;
-  --color-error-500: #a10c4a;
-  --size-1: 0.25rem;
-  --size-2: 0.5rem;
-  --size-3: 0.75rem;
-  --size-4: 1rem;
-  --size-5: 1.25rem;
-  --size-6: 1.5rem;
-  --size-8: 2rem;
-  --size-10: 2.5rem;
-  --size-12: 3rem;
-  --size-16: 4rem;
-  --size-20: 5rem;
-  --size-40: 10rem;
+	--color-grey-50: hsl(265deg 55% 96%);
+	--color-grey-100: hsl(265deg 19% 88%);
+	--color-grey-200: hsl(265deg 7% 70%);
+	--color-grey-300: hsl(265deg 6% 66%);
+	--color-grey-400: hsl(265deg 4% 57%);
+	--color-grey-500: hsl(265deg 3% 53%);
+	--color-grey-600: hsl(265deg 4% 42%);
+	--color-grey-700: hsl(265deg 4% 31%);
+	--color-grey-800: hsl(276deg 5% 20%);
+	--color-grey-900: hsl(280deg 5% 13%);
+	--color-primary-50: #c8b3ce;
+	--color-primary-100: #a07aaa;
+	--color-primary-200: #884c97;
+	--color-primary-300: #843897;
+	--color-primary-400: #732392;
+	--color-primary-500: #5a097a;
+	--color-primary-600: #480264;
+	--color-primary-700: #3d0264;
+	--color-success-100: #a2f0bc;
+	--color-success-500: #12bd4b;
+	--color-error-100: #f1acc9;
+	--color-error-500: #a10c4a;
+	--size-1: 0.25rem;
+	--size-2: 0.5rem;
+	--size-3: 0.75rem;
+	--size-4: 1rem;
+	--size-5: 1.25rem;
+	--size-6: 1.5rem;
+	--size-8: 2rem;
+	--size-10: 2.5rem;
+	--size-12: 3rem;
+	--size-16: 4rem;
+	--size-20: 5rem;
+	--size-40: 10rem;
 
-  background-color: var(--color-grey-500);
-  color: #252525;
-  font-family: Roboto, sans-serif;
-  margin: 0;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+	background-color: var(--color-grey-500);
+	color: #252525;
+	font-family: Roboto, sans-serif;
+	margin: 0;
+	overflow-x: hidden;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 }
 
 .site-content {
-  flex: 1;
-  width: 100%;
+	flex: 1;
+	width: 100%;
 }
 
 h1,
 h2,
 h3 {
-  font-family: Oswald, Roboto, sans-serif;
+	font-family: Oswald, Roboto, sans-serif;
 }
 
 ul {
-  margin-bottom: 1rem;
+	margin-bottom: 1rem;
 }
 
 li {
-  margin-left: 1rem;
-  list-style-type: square;
+	margin-left: 1rem;
+	list-style-type: square;
 }
 
 a {
-  text-decoration: none;
-  color: #8d0a9d;
+	text-decoration: none;
+	color: #8d0a9d;
 }
 
 a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 p {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+	margin-bottom: 1rem;
+	margin-top: 1rem;
 }
 
 button {
-  cursor: pointer;
-  font: inherit;
+	cursor: pointer;
+	font: inherit;
 }
 
 footer {
-    color: darken(#1c1c1c, 1.25%);
-    font-size: 1.3rem;
-    letter-spacing: 0.09em;
-    text-align: center;
+	color: darken(#1c1c1c, 1.25%);
+	font-size: 1.3rem;
+	letter-spacing: 0.09em;
+	text-align: center;
+}
+
+li.menu-link-li {
+	margin: 0 0 1.5rem 1.5rem;
+}
+
+a.menu-link {
+	list-style-type: none;
+	margin: 2.25vh;
+}
+
+/* svg styling */
+
+.svg-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 12rem;
+}
+
+/* theme moon icon styling */
+.moon-sun {
+  @media #{$max-767} {
+    position: absolute;
+    right: 5rem;
+    top: 1.85rem;
+    z-index: 9;
+  }
+
+  @media #{$min-768} {
+    position: absolute;
+    right: 6rem;
+    top: 1.75rem;
+  }
+}
+
+/* moon-sun svg styling */@at-root
+.moon-sun > svg {
+    width: 2rem;
+    height: 2rem;
+    color: #fff;
+}
+
+/* Responsive Hamburger menu styling */
+
+/* hamburger styling */
+
+.hamburger {
+	@media #{$max-767} {
+		background-color: transparent;
+
+		/* show the hamburger menu image */
+		background-size: 100%;
+		border: none;
+		cursor: pointer;
+		display: block;
+		position: absolute;
+		right: 1.125rem;
+		top: 1.5rem;
+
+		/* always keep ham on top of everything */
+		z-index: 21;
+	}
+	@media #{$min-768} {
+		display: none;
+	}
+}
+
+/* hamburger svg styling */
+.hamburger > svg {
+	width: 3.125rem;
+	height: 3.125rem;
+}
+
+.line {
+	fill: none;
+	stroke: #fff;
+	stroke-width: 6;
+	transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+		stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.top {
+	stroke-dasharray: 60 207;
+	stroke-width: 6;
+}
+
+.middle {
+	stroke-dasharray: 60 60;
+	stroke-width: 6;
+}
+
+.bottom {
+	stroke-dasharray: 60 207;
+	stroke-width: 6;
+}
+
+.show-close .top {
+	stroke-dasharray: 90 207;
+	stroke-dashoffset: -134;
+	stroke-width: 6;
+}
+
+.show-close .middle {
+	stroke-dasharray: 1 60;
+	stroke-dashoffset: -30;
+	stroke-width: 6;
+}
+
+.show-close .bottom {
+	stroke-dasharray: 90 207;
+	stroke-dashoffset: -134;
+	stroke-width: 6;
+}
+
+/* end svg styling */
+
+.main-nav {
+	@media #{$max-767} {
+		background-color: darken(#1c1c1c, 1.25%);
+		display: block;
+		height: 100vh;
+		left: 0;
+		right: 0;
+		margin-top: 0;
+		margin-left: 0;
+		margin-right: 0;
+		padding-top: 5rem;
+		overflow-y: hidden;
+		position: fixed;
+		top: 0;
+
+		/* hide the menu above the screen by default */
+		transform: translateX(-100%);
+
+		/* transition adds a little animation when sliding in and out the menu */
+		transition: transform 0.2s ease;
+		width: 100vw;
+
+		/* needed for me because of my intro box in index.html.
+		Otherwise navigation backdrop would be behind the intro box when opened */
+		z-index: 10;
+
+		/* so that the nav link underlining from framer motion does not span across the width of the main-nav backdrop */
+
+		& li > a {
+			display: block;
+			width: 6rem;
+		}
+
+		& li:nth-of-type(1) > a {
+			width: 3.5rem;
+		}
+
+		& li:nth-of-type(2) > a {
+			width: 3.5rem;
+		}
+	}
+
+	@media #{$min-768} {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 1.5rem;
+		margin-right: 6rem;
+		margin-top: 6rem;
+		font-size: 1.2rem;
+		width: 100vw;
+	}
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.show-nav {
+	/* show the menu */
+	transform: translateX(0);
+}
+
+/* targets active class of anchor nav link in mobile (smaller) viewports */
+.menu-link.active,
+.navigation-underline.active {
+	color: lighten($aussie-blue, 10%);
 }

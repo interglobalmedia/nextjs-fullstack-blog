@@ -1,15 +1,25 @@
-/* scss variables */
+/* scss variables */;
+$min-360: '(min-width: 360px)';
 $min-768: '(min-width: 768px)';
 
 .logo {
   color: var(--color-grey-50);
   font-family: Oswald, sans-serif;
-  font-size: var(--size-6);
+  font-size: var(--size-8);
   font-weight: bold;
-  margin-left: -1rem;
+  left: 1.125rem;
+  margin: 0;
+  max-width: 6rem;
+  padding: 0;
+  position: absolute;
   text-transform: uppercase;
+  top: 1.5rem;
+  width: 100%;
+  @media #{$min-360} {
+    font-size: var(--size-10);
+    top: 1.125rem;
+  }
   @media #{$min-768} {
-    font-size: var(--size-12);
-    margin-left: 0;
+    left: 6rem;
   }
 }
