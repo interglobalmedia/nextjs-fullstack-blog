@@ -1,5 +1,4 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-import Footer from '../components/layout/footer'
 
 export default function Document() {
   return (
@@ -11,7 +10,7 @@ export default function Document() {
           <NextScript />
           <div id="notifications"></div>
         </div>
-        <Footer />
+        <div id="footer"></div>
       </body>
     </Html>
   )
