@@ -23,6 +23,10 @@ $min-768: '(min-width: 768px)';
   color: var(--color-grey-100);
 }
 
+.post a:hover {
+  text-decoration: none;
+}
+
 .image {
   background-color: darken(#1c1c1c, 1.25%);
   background-position: center;

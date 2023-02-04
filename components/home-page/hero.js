@@ -3,7 +3,7 @@ import classes from '../../styles/hero.module.scss'
 
 function Hero() {
     return (
-        <section className={classes.hero}>
+        <section className={`hero ${classes.hero}`}>
             <div className={classes.image}>
                 <Image
                     src="/images/site/profile_image.jpg"
