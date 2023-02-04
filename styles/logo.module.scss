@@ -1,6 +1,6 @@
 /* scss variables */;
 $min-360: '(min-width: 360px)';
-$min-768: '(min-width: 768px)';
+$min-1024: '(min-width: 1024px)';
 
 .logo {
   color: var(--color-grey-50);
@@ -19,7 +19,7 @@ $min-768: '(min-width: 768px)';
     font-size: var(--size-10);
     top: 1.125rem;
   }
-  @media #{$min-768} {
+  @media #{$min-1024} {
     left: 6rem;
   }
 }
