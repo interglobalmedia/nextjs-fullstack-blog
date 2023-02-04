@@ -25,10 +25,10 @@ function PostItem(props) {
             <Link href={linkPath}>
                 <figure className={classes.image}>
                     <Image src={imagePath} alt={post.title} width={300} height={200} layout="responsive"
-                    className={classes.img}    legacybehavior="true" />
+                    className={classes.img} legacybehavior="true" />
                     <figcaption className={classes.content}>
                         <h3>{post.title}</h3>
-                        <time>{formattedDate}</time>
+                        <time className={`time`}>{formattedDate}</time>
                         <p>{post.author}</p>
                         <p>{post.excerpt}</p>
                         <p>{post.tags.map(tag => getTagLink(tag)).reduce((prev, curr) => [prev, ', ', curr])}</p>
