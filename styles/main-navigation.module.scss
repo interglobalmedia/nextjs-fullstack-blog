@@ -1,6 +1,7 @@
 /* scss variables */
 $min-360: '(min-width: 360px)';
 $min-768: '(min-width: 768px)';
+$min-1024: '(min-width: 1024px)';
 
 /* main-navigation styling */
 
@@ -22,10 +23,10 @@ $min-768: '(min-width: 768px)';
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	list-style: none;
+	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	@media #{$min-768} {
+	@media #{$min-1024} {
 		flex-direction: row;
 		gap: 0.5rem;
 		justify-content: center;
@@ -33,20 +34,18 @@ $min-768: '(min-width: 768px)';
 }
 
 .header li {
-	@media #{$min-768} {
-		list-style-type: none;
+	@media #{$min-1024} {
 		margin: 0 var(--size-4);
 	}
 }
 
 .header a {
 	color: var(--color-grey-100);
-	font-size: var(--size-6);
+	font-size: var(--size-7);
 
-	@media #{$min-768} {
+	@media #{$min-1024} {
 		color: #fff;
-		font-size: var(--size-5);
-		margin-top: -3.75rem;
+		margin-top: -4.25rem;
 	}
 }
 
@@ -59,7 +58,7 @@ $min-768: '(min-width: 768px)';
 /* logo-wrapper styling */
 
 .logo-wrapper {
-	@media #{$min-768} {
+	@media #{$min-1024} {
 		align-items: center;
 		display: flex;
 		justify-content: center;
