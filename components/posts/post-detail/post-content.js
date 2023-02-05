@@ -12,6 +12,19 @@ function PostContent(props) {
     const readTime = getReadTime(post.content)
     const imagePath = `/images/posts/${post.slug}/${post.image}`
 
+    const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        weekday: "long",
+        hour: "numeric",
+        minute: "numeric",
+    };
+
+    const formattedDate = new Date(post.date).toLocaleDateString('en-US', options)
+    
+    const lastModifiedFormattedDate = new Date(post.lastModified).toLocaleDateString('en-US', options)
+
     const customRenderers = {
         p(paragraph) {
             const { node } = paragraph
@@ -41,8 +54,8 @@ function PostContent(props) {
     return (
         <article className={classes.content}>
             <PostHeader title={post.title} image={imagePath} />
-            <p>{`${readTime} min read`}</p>
-            <p>Last modified on</p>
+            <p>{`${formattedDate} | ${readTime} min read`}</p>
+            <p>Last modified on {lastModifiedFormattedDate}</p>
             {<p>{post.tags.map(tag => getTagLink(tag)).reduce((prev, curr) => [prev, ', ', curr])}</p>}
             <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
         </article>
