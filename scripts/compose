@@ -70,13 +70,20 @@ inquirer.prompt([
 		type: 'datetime',
 		name: 'date',
 		message: 'When would you like the post to be published?',
-		format: ['dd', '-', 'mm', '-', 'yyyy'],
+		format: ['dd', '-', 'mm', '-', 'yyyy', ' ', 'hh', ':', 'MM', ' ', 'TT'],
+	},
+	{
+		type: 'datetime',
+		name: 'lastModified',
+		message: 'When would you like the post to be modified?',
+		format: ['dd', '-', 'mm', '-', 'yyyy', ' ', 'hh', ':', 'MM', ' ', 'TT'],
 	},
 ])
 .then(answers => {
-    const { slug, date, title, author, excerpt, tags,  isPublished, isFeatured } = answers;
-    date.setHours(12, 0, 0, 0);
-    const fileName = `data/posts/${slug}.mdx`;
+    const { slug, date, lastModified, title, author, excerpt, tags,  isPublished, isFeatured } = answers;
+	date.getHours() + ' ' + date.getMinutes()
+	lastModified.getHours() + ' ' + lastModified.getMinutes()
+    const fileName = `data/posts/${slug}.mdx`
     if (fs.existsSync(fileName)) {
       throw "That post already exists!";
     }
@@ -85,6 +92,7 @@ inquirer.prompt([
 `---
 slug: "${slug}"
 date: "${date.toISOString()}"
+lastModified: "${date.toISOString()}"
 title: "${title}"
 author: "${author}"
 excerpt: "${excerpt}"
