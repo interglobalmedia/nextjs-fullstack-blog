@@ -5,9 +5,11 @@ import Image from "next/legacy/image";
 import PostHeader from './post-header'
 import { getTagLink } from '../get-tag-link'
 import classes from '../../../styles/post-content.module.scss'
+import getReadTime from '../../../lib/utils/read-time'
 
 function PostContent(props) {
     const { post } = props
+    const readTime = getReadTime(post.content)
     const imagePath = `/images/posts/${post.slug}/${post.image}`
 
     const customRenderers = {
@@ -39,6 +41,8 @@ function PostContent(props) {
     return (
         <article className={classes.content}>
             <PostHeader title={post.title} image={imagePath} />
+            <p>{`${readTime} min read`}</p>
+            <p>Last modified on</p>
             {<p>{post.tags.map(tag => getTagLink(tag)).reduce((prev, curr) => [prev, ', ', curr])}</p>}
             <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
         </article>
