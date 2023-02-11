@@ -2,35 +2,190 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>/contact</loc>
-		<lastmod>2-4-2023 at 1:46 pm</lastmod>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/</loc>
-		<lastmod>2-4-2023 at 1:46 pm</lastmod>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/getting-started-with-nextjs</loc>
-		<lastmod>2-4-2023 at 1:46 pm</lastmod>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/mastering-javascript</loc>
-		<lastmod>2-4-2023 at 1:46 pm</lastmod>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>/posts/my-new-post</loc>
-		<lastmod>2-4-2023 at 1:46 pm</lastmod>
+		<loc>/posts/my-updated-custom-react-workflow-2nd-edition-is-here</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/opening-up-iterm2-via-spotlight-search-on-your-mac</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/postgresql-and-the-osx-migration-assistant</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/react-workflows-update-1</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc
+			>/posts/refactoring-your-js-workflow-when-your-images-are-in-your-css-only</loc
+		>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/removing-caps-from-css-headings</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/renaming-your-remote-github-repository</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/requestanimationframe-and-polyfill-in-reactjs</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/the-babel-7-config</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc
+			>/posts/the-chrome-favicon-nightmare-and-how-i-finally-fixed-it</loc
+		>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/the-importance-of-adapting-to-change-quickly</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/the-importance-of-eslint-and-react</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/the-jest-side-effect</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/the-new-npm-audit-with-6-npm</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/the-say-command-in-osx-command-line</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/to-npm-trash-or-not-to-npm-trash</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc
+			>/posts/upgrading-postgresql-from-version-104-to-111-via-homebrew-osx</loc
+		>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/what-to-do-when-you-cant-upgrade-oh-my-zsh</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/when-a-bare-bones-automated-js-workflow-makes-sense</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/when-an-object-property-key-is-a-string-in-javascript</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>/posts/when-and-why-it-is-important-to-refactor-code</loc>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc
+			>/posts/why-your-local-machine-computer-may-not-be-pointing-to-your-newly-propagated-site</loc
+		>
+		<lastmod>2-8-2023 at 12:45 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
