@@ -1,6 +1,8 @@
 /* stylelint-disable import-notation */
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata&family=Oswald&family=Roboto&display=swap');
 
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
@@ -13,6 +15,12 @@ $max-1023: '(max-width: 1023px)';
 $min-1024: '(min-width: 1024px)';
 $min-768: '(min-width: 768px)';
 
+/* icon related variables */
+$icon-size: 2.81rem;
+
+/* border related variables */
+$border-radius: 0.5;
+
 /* color variables */
 $aussie-blue: #80d0ff;
 $chai-punk-pink-lite: #f293b1;
@@ -22,6 +30,9 @@ $discord-charcoal: #23272a;
 $discord-lilac-lighter: #9eb3e6;
 $french-yellow: #ffe556;
 $ghost-white: #f8f8ff;
+
+/* stylelint-disable scss/no-global-function-names */
+$icon-background: darken(#1c1c1c, 1.25%);
 $inline-code-color-lite-mode: #4D0F0F;
 $main-background: #fee9d7;
 $peppermint-blush-white: #f2ebe3;
@@ -30,8 +41,6 @@ $tailwind-lighter-orange: rgb(213 129 100 / 100%);
 $tailwind-lightest-orange: rgb(229 178 160 / 100%);
 $tailwind-peppermint-green: #14b8a6;
 $white: #fff;
-
-/* stylelint-disable scss/no-global-function-names */
 
 * {
 	box-sizing: border-box;
@@ -657,4 +666,20 @@ ul>li figure img {
     border-top-right-radius: 0;
   }
 }
+
+/* styling for scroll-top button. had to be added in global scope to work */
+
+.buttons-container {
+	margin-top: 30px;
+	width: 100%;
+	height: $icon-size;
+}
+
+span.material-icons {
+	position: relative;
+	color: $aussie-blue;
+	font-size: $icon-size;
+	transition: all 0.25s ease;
+}
+
 
