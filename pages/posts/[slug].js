@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Head from 'next/head'
 import PostContent from '../../components/posts/post-detail/post-content'
-import {getPostData, getPostFiles} from '../../lib/posts-util'
+import { getPostData, getPostFiles } from '../../lib/posts-util'
 
 function PostDetailPage(props) {
     return (
