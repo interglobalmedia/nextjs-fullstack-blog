@@ -1,12 +1,14 @@
+
 import PostItem from './post-item'
 import classes from '../../styles/posts-grid.module.scss'
 
 function PostsGrid(props) {
-    const { posts } = props;
+    const { posts } = props
 
-    console.log(posts)
     return (
-        <ul className={`grid ${classes.grid}`}>
+        <ul
+            className={`grid ${classes.grid}`}
+        >
             {posts.map(post => (
                 <PostItem key={post.slug} post={post} />
             ))}
