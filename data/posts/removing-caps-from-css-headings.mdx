@@ -1,0 +1,69 @@
+---
+slug: removing-caps-from-css-headings
+date: '2019-01-08T23:32:33.150Z'
+lastModified: '2023-02-07T21:04:33.150Z'
+title: Removing Caps from CSS Headings
+author: Maria D. Campbell
+excerpt: Removing caps from CSS headings.
+image: jeremy-bishop-50060-unsplash.jpg
+tags: ['css', 'front end development', 'headers', 'no caps', 'styles']
+isPublished: true
+isFeatured: false
+---
+
+![Young man with cap and sunglasses](jeremy-bishop-50060-unsplash.jpg)
+
+*Photo by [Jeremy Bishop](https://unsplash.com/@jeremybishop) on [Unsplash](https://unsplash.com/photos/KskAuKwwZ5U)*
+
+I was ***wrapping up*** my `React Workflows without Create React App` ***presentation***
+using [reveal.js](https://revealjs.com/#/) for the `ReactNYC meetup` this
+`Thursday, September 28, 2017`, and was ***not pleased*** with the ***way*** some of my
+`slide titles` ***came out***. ***Many*** of ***them*** were ***made up*** of `code`, and they ***looked*** awfully funny ***all*** in ***caps***! I had ***never*** thought about ***changing*** the **_styling_** of `css headers` ***before***. I just ***passively accepted*** that `headers` were in `caps`. But ***working*** on this ***presentation*** got me ***thinking***, `“There just has to be a better way!”`. So ***after*** a ***bit*** of ***googling***, I ***came across*** the
+[first part](https://css-tricks.com/almanac/properties/t/text-transform/) of ***my answer***:
+
+```markdown
+lowercase makes all of the letters in the selected text lowercase.
+
+uppercase makes all of the letters in the selected text uppercase.
+
+capitalize capitalizes the first letter of each word in the selected text.
+
+none leaves the text's case and capitalization exactly as it was entered.
+
+inherit gives the text the case and capitalization of its parent.
+```
+
+However, **_just adding_** `text-transform: none` to your `css headers` is not
+enough. Nothing changed. So I looked a bit further, and
+[this](https://kriesi.at/support/topic/remove-caps-in-headings-enfold-theme/) is
+what I came up with:
+
+```css
+h1,
+h2,
+h3 {
+    text-transform: none !important;
+}
+```
+
+***And*** it ***worked***!
+
+***Funny how*** you ***can un-earth*** the ***most precious gems*** from the ***most unlikely*** `places`! So ***this is*** what I **_added_** to ***my*** [reveal.js](https://revealjs.com/#/) `custom.css`:
+
+```css
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-transform: none !important;
+}
+```
+
+***Now*** my ***code related*** `headings` ***look like*** what ***they are***!
+
+And **_btw_**, if you are ***giving*** a `presentation` ***any time soon***, you should
+***strongly consider*** using [reveal.md](https://github.com/webpro/reveal-md). It’s so ***awesome***!
+
+*Happy coding!*

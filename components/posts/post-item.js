@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { getTagLink } from './get-tag-link'
 import classes from '../../styles/post-item.module.scss'
 
@@ -22,11 +22,16 @@ function PostItem(props) {
 
     const linkPath = `/posts/${post.slug}`
     return (
-        <li className={classes.post}>
+        <li className={`post ${classes.post}`}>
             <Link href={linkPath}>
                 <figure className={classes.image}>
-                    <Image src={imagePath} alt={post.title} width={300} height={200} layout="responsive"
-                    className={classes.img} legacybehavior="true" />
+                    <Image
+                        src={imagePath}
+                        alt={post.title}
+                        width={300}
+                        height={200}
+                        className={classes.img}
+                        />
                     <figcaption className={classes.content}>
                         <h3>{post.title}</h3>
                         <time className={`time`}>{formattedDate}</time>
@@ -37,7 +42,7 @@ function PostItem(props) {
                 </figure>
             </Link>
         </li>
-    )
+    );
 }
 
 export default PostItem

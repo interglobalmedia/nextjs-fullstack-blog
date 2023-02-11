@@ -1,0 +1,121 @@
+---
+slug: changing-your-homebrew-postgresql-configuration-from-trust-to-md5
+date: '2019-01-11T18:30:50.639Z'
+lastModified: '2023-02-08T23:11:50.639Z'
+title: Changing Your (Homebrew) postgreSQL Configuration from trust to md5
+author: Maria D. campbell
+excerpt: Changing your (Homebrew) postgreSQL configuration from trust to md5.
+image: md5.png
+tags:
+    [
+        'back-end-development',
+        'command line',
+        'database configuration',
+        'homebrew',
+        'md5',
+        'osx',
+        'root user',
+        'terminal',
+        'trust',
+        'user-authentication'
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![md5](md5.png)
+
+_"md5"_
+
+As I **_had mentioned_** in my **_previous_** `post`
+[Upgrading PostgreSQL from version 10.4 to 11.1 via Homebrew (OSX)](/posts/upgrading-postgresql-from-version-104-to-111-via-homebrew-osx/), I had **_one_** `last step` I **_had_** to **_take_** to **_ensure_** that my
+`PostgreSQL` **_upgraden_** `configuration` **_mirrored_** that of the
+**_previous version_**. I had to **_change_** the **_following configuration_**
+that was **_implemented_** on `version upgrade`:
+
+```shell
+WARNING: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
+```
+
+This ***means*** that **_any_** `postgres` ***user***, `root` or ***otherwise***, can ***login*** to `postgreSQL` in the `Command Line`, ***whether*** it ***be*** the `system` ` `Terminal` or **_integrated_** `Terminal` in a `text editor`,
+**_without providing_** a`password`. That is the ***default behavior*** when
+**_installing_** with `Homebrew`. I had ***changed*** it in the ***previous version*** so that `all users` ***had*** to ***login*** with their `password`.
+
+***Once*** you KNOW ***what*** you ***have*** to ***do***, it ***really*** is ***not*** that ***complicated***.
+
+The ***following*** are the ***steps*** I ***had*** to ***take*** to ***change*** my `postgreSQL` **_configuration_** from `trust` to `md5`:
+
+***First*** I ***had*** to go ***login*** to `postgres` via the `Command Line`:
+
+```shell
+psql
+```
+
+***Then*** I ***typed*** the ***following*** `command` ***inside*** my `postgres` `root user` (`whoami`):
+
+```shell
+SHOW hba_file;
+```
+
+***This*** `command` ***returned*** the ***following***:
+
+```shell
+hba_file
+-------------------------------------
+ /usr/local/var/postgres/pg_hba.conf
+(1 row)
+```
+
+***This*** is the `path` to the `pg_hba.conf` ***file***. ***This*** is the `postgreSQL` **_configuration_** file.
+
+***Next***, I ***scrolled down*** toward the ***bottom*** of the ***file*** until I ***came across*** a `table` that **_contains_** a `column` ***called*** `Method`. It ***contains*** the `trust` ***configuration***. I ***changed*** all ***instances*** of `trust` with `md5`.
+
+```shell
+CAUTION: Configuring the system for local "trust" authentication
+# allows any local user to connect as any PostgreSQL user, including
+# the database superuser.  If you do not trust all your local users,
+# use another authentication method.
+```
+
+`md5` ***ensures*** that `users` ***have*** to ***provide*** their `user passwords` at
+`psql login` in **_any_** `Terminal` **_instance_**. This ***adds*** `another layer`
+of ***security*** to your `postgres databases`, and ***mirrors*** `login` to the `pgAdmin GUI`.
+
+***Next***, I **_closed_** the `pg_hba.conf` ***file***, quit ***all instances*** of
+`Terminal`, and then ***reloaded*** it.
+
+***Then*** I ***typed*** `psql` to ***login*** to `postgres` and was ***prompted*** to ***enter*** my `password`. I ***did***, but it **_failed_**! ***Of course*** it ***failed***, because ***when*** I ***created*** my `root user`, I **_never entered_** my `password`. I ***only created*** the `database` ***naming*** it with my `username`, so as ***far*** as `postgreSQL` wass ***concerned***, ***since*** it **did not know** of ***any*** `password` for ***this*** `user`, `authentication` **_failed_**.
+
+***But*** I had **_already removed_** `superuser` ***powers*** from my `postgres`
+***user***, so the `postgres` ***user*** did ***not*** have the ***authorization*** to
+***alter*** the `root user` in ***any way***.
+
+I **_had_** to **_go back_** **into** my `pg_hba.conf` file **_again_** and
+***temporarily replace*** `md5` with `trust` ***so that*** I could ***re-login*** to
+`postgreSQL` as `root` ***without*** a `password`, **_alter_** the `postgres` ***user***
+to `superuser`, **_logout_** as `root`, and then **_login_** as `postgres` and
+**_alter_** the `root user` by **_adding_** a `password`:
+
+```js
+ALTER USER username PASSWORD 'password';
+```
+
+***Then*** I ***logged out*** of `postgres` and ***even stopped*** it from ***running*** with the `command`
+
+```shell
+brew services stop postgresql
+```
+
+***because*** `brew services` is my ***preferred way*** of ***starting*** and ***stopping*** the `postgreSQL` **_server_**. This is ***necessary*** in ***order*** for ***any changes*** made to be ***recognized*** at the ***next login***. The ***same goes*** for ***making changes*** to the `pg_hba.conf` ***file***. You ***have*** to ***make sure*** that `postgresql` is ***not running*** in ***order*** for the `configuration changes` to be ***recognized*** at the ***next*** `psql` **_login_**.
+
+***Next***, I **_quit_** `Terminal` and then **_reloaded_** as ***before***.
+
+***Then*** I ***tried*** to ***login*** again as the `root user` (`whoami`). ***This time*** I was ***prompted*** to ***provide*** my `password`, and ***everything worked*** as ***expected***.
+
+This ***taught me*** that ***maybe*** it ***would*** be ***good*** to ***have*** a `backup superuser` for ***cases*** like ***this***, so I ***kept*** the `superuser` **_configuration_** for the `postgres` ***user*** for the ***time being***. Its `superuser` ***powers***, ***however***, are NOT as ***extensive*** as the `root user`.
+
+## Related Resources
+
+- [Upgrading PostgreSQL from version 10.4 to 11.1 via Homebrew (OSX)](/posts/upgrading-postgresql-from-version-104-to-111-via-homebrew-osx/)

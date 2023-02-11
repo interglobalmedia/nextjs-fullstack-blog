@@ -1,18 +1,25 @@
 /* scss variables */
+$min-320: '(min-width: 320px)';
 $min-768: '(min-width: 768px)';
 
 /* stylelint-disable scss/no-global-function-names */
 
 .post {
   background: transparent;
-  border: 0;
-  box-shadow: none;
+  
+  /* Adding css grid here makes all post items the same! */
   display: grid;
-  justify-content: center;
+  grid-template-columns: repeat(1, 1fr);
   height: 100%;
   list-style-type: none;
   margin-bottom: 1.5rem;
+  margin-left: 1.0875rem;
   transition: opacity 0.3s ease-in-out;
+  width: 100%;
+
+  @media #{$min-320} {
+    margin-left: 1.125rem;
+  }
 }
 
 .post:last-of-type {
@@ -21,6 +28,7 @@ $min-768: '(min-width: 768px)';
 
 .post a {
   color: var(--color-grey-100);
+  word-break: normal;
 }
 
 .post a:hover {
@@ -37,22 +45,22 @@ $min-768: '(min-width: 768px)';
   cursor: pointer;
 
   /*  Add height property so that the figure element, figure img and figcaption completely fill up the space! And this is achieved with the auto property value. And making it auto also makes the height of each image the same. */
-  height: auto;
   margin: 0 auto;
   margin-left: -1.25rem;
-  max-width: 800px;
-  
+  overflow: hidden;
+
   /* add so that things would display correctly and figcaption would display at all because set to position: absolute. */
   position: relative;
   transition: transform 0.3s ease-in-out;
+  width: 100%;
+  max-width: 1024px;
   @media #{$min-768} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    
   }
 }
 
-.image>img {
+.image>.img {
   height: 100%;
   object-fit: cover;
   width: 100%;
@@ -78,6 +86,8 @@ $min-768: '(min-width: 768px)';
 
 .content {
   align-items: flex-start;
+  border: 0;
+  border-radius: 6px;
   color: #828282;
   display: flex;
   flex-direction: column;

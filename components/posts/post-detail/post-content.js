@@ -22,7 +22,7 @@ function PostContent(props) {
     };
 
     const formattedDate = new Date(post.date).toLocaleDateString('en-US', options)
-    
+
     const lastModifiedFormattedDate = new Date(post.lastModified).toLocaleDateString('en-US', options)
 
     const customRenderers = {
@@ -34,25 +34,41 @@ function PostContent(props) {
 
                 return (
                     <div className={classes.image}>
-                        <Image src={`/images/posts/${post.slug}/${image.properties.src}`} alt={image.properties.alt} width={600} height={300} layout="responsive" />
+                        <Image src={`/images/posts/${post.slug}/${image.properties.src}`} alt={image.properties.alt} width={600} height={400} layout="responsive" />
                     </div>
                 )
             }
             return <p>{paragraph.children}</p>
         },
-        code(code) {
-            const languageArray = code.className.split("-");
-            const language = languageArray[1];
-     
+
+        pre({ node, ...props }) {
             return (
-                <SyntaxHighlighter language={language} style={atomDark}>
-                    {code.children[0]}
-                </SyntaxHighlighter>
-            );
+            <pre className="pre" {...props} />
+            )
+        },
+        code({ node, inline, className, children, ...props }) {
+            // const languageArray = code.className.split("-");
+            // const language = languageArray[1];
+            const match = /language-(\w+)/.exec(className || '')
+            return !inline && match ?
+                (
+                    // eslint-disable-next-line react/no-children-prop
+                    <SyntaxHighlighter children={String(children).replace(/\n$/, '')}
+                        style={atomDark}
+                        language={match[1]}
+                        // PreTag="div"
+                        // className="pre-div"
+                        {...props}>
+                    </SyntaxHighlighter>
+                ) : (
+                    <span className={`inline-code`} {...props}>
+                        {children}
+                    </span>
+                )
         }
     }
     return (
-        <article className={classes.content}>
+        <article className={`content ${classes.content}`}>
             <PostHeader title={post.title} image={imagePath} />
             <p>{`${formattedDate} | ${readTime} min read`}</p>
             <p>Last modified on {lastModifiedFormattedDate}</p>

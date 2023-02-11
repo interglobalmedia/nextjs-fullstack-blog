@@ -1,5 +1,6 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
+const typography = require('@tailwindcss/typography')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -31,7 +32,7 @@ module.exports = {
       },
       colors: {
         primary: colors.teal,
-        // gray: colors.neutral,
+        gray: colors.neutral,
         transparent: 'transparent',
         black: '#000',
         white: '#ff73fa',

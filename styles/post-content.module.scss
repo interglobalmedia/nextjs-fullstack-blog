@@ -6,7 +6,7 @@ $min-768: '(min-width: 768px)';
   border-radius: 6px;
   font-size: var(--size-5);
   line-height: var(--size-8);
-  margin: var(--size-8) auto;
+  margin: var(--size-8) auto var(--size-12);
   max-width: 60rem;
   padding: var(--size-4);
   width: 95%;
@@ -27,4 +27,4 @@ $min-768: '(min-width: 768px)';
 
 .content .image + p {
     text-align: center;
-  }
+}
