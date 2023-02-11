@@ -54,9 +54,9 @@ export default function App({ Component, pageProps, router }) {
           variants={variants}
           transition={{ duration: 0.5, type: 'tween' }}
         >
-          <main className={`${inconsolata.className}`}>
-            <Component {...pageProps} />
-          </main>
+            <main className={`${inconsolata.className}`}>
+              <Component {...pageProps} />
+            </main>
         </motion.div>
       </Layout>
     </ThemeProvider>

@@ -1,0 +1,107 @@
+---
+slug: the-importance-of-adapting-to-change-quickly
+date: '2018-10-28T19:42:41.483Z'
+lastModified: '2023-02-07T16:26:41.483Z'
+title: The Importance of Adapting to Change Quickly
+author: Maria D. Campbell
+excerpt: The importance of adapting to change quickly.
+image: usgs-D5Q37Vo-ANg-unsplash.jpg
+tags:
+    [
+        'fullstack development',
+        'nodejs',
+        'web development',
+        'web development workflows',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Aerial view of Halema‘uma‘u at the summit of Kīlauea](usgs-D5Q37Vo-ANg-unsplash.jpg)
+
+_Photo by [USGS](https://unsplash.com/@usgs) on
+[Unsplash](https://unsplash.com/photos/D5Q37Vo-ANg)_
+
+**Note Tuesday, February 7, 2023**: The `Trump Talks Trash` **_app_** has been
+**_refactored_** since this `post` **_was written_**. I have **_included_**
+`links` to **_both_** the `live application` and the `Github repository` at the
+**_end_** of this `post`.
+
+**_Lately_**, I had **_been focusing_** more on the `backend` of
+`web development`. **_Recently_**, I **_started revisiting_** some of the
+`front end` **_projects_** I had **_created_** some **_time ago_**. Some
+**_were_** even from **_more than_** `two years` **_ago_**! **_One_**
+`static app` in **_particular_**, **_no longer_** even **_worked locally_** or
+**_remotely_** (for **_different reasons_**).
+
+**_Looking on it_**, I **_found_** that `Front End` **_development_** can be
+**_extremely_** `workflow` **_heavy_**. **_In fact_**, it **_usually_** is, if
+there is **_anything_** of **_any import_** going on. But with **_knowledge_**
+of the **_big picture_**, one can **_pare down_** the `workflow`
+**_drastically_** if it is a **_simple_** `application`.
+
+**_More_** than **_two years_** ago, I **_had created_** a `static app` called
+`Random Quote Machine`. I **_used_** `webpack`, **_many_** `npm packages`,
+`ES6 modules`, **jQuery**, **JavaScript**, **Gulp**, etc. It was just a single
+page app! Yes, I **_had developed_** a **_great_** `front end workflow` which I
+**_re-used_** in **_many_** of my `static apps`, so that **_made_** `set up`
+**_fairly quick_**. BUT it **_had taken_** a **_long time_** to **_fine tune_**
+it! I had **_much more_** `code` **_dedicated_** to the `workflow` **_than_** I
+**_did_** to the `app code` **_itself_**.
+
+**_When_** I **_revisited_** my `Random Quote Machine` to **_update_** it, I
+**_found_** that it **_would involve_** a **_complete revam_**p. **_First_** of
+**_all_**, a **_number_** of the `packages` I had **_been using_** now
+**_revealed_** `vulnerabilities`. **_How_** do I **_know_** that? Because **_as
+of_** `npm@6`, a **_new feature_** called `npm security audits` **_began_**.
+**_Fixing_** these `vulnerabilities` if they are **_not_** immediately
+**_fixable_** **_with_** the `npm audit fix` **command** can be **_fairly
+complicated_**. And **_many packages_** are **_not regularly_** `maintained` in
+the **_long run_**. A `package` can be the **_hottest thing_** around **_one
+day_**, and **_abandoned_** or **_lost_** its **_popularity_** to the **_next_**
+`hottest thing` the **_next day_**.
+
+I **_really wanted_** to **_create_** a **_new_** `random quote api` **_app_**
+that was
+
+1. **_Free to use_**
+
+2. Had **_no api keys_**. I finally came up with one! Not surprisingly, it was a
+   `quotes api` consisting of **_Trump_** **quotes** called
+   `What Does Trump Think?` For me it was not so much about getting the right
+   kind of quotes, just that it was **_free_** and **did not require**
+   `api keys`!
+
+I **_also_** didn’t want to **_fiddle_** with **_updating_** a **_new_**
+`front end workflow` for **_this particular_** `project`. I **_ended_** up
+**_creating_** a [Nodejs](https://nodejs.org/en/) `app` **_using_** the
+[ejs](https://ejs.co/) (`embedded javascript`) **_view engine_** for
+[Express](https://expressjs.com/), a `minimalist framework for Nodejs`. I was
+**_only using_** **_one_** `image` which was **_not large_**, and there were
+**_no fancy_** `animations` **_involved_**.
+
+I **_reduced_** my `code` **_drastically_**. I **_updated_** the `method` I
+**_used_** to **_call_** the `API`. I **_used_** the
+[fetch() API method](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+**_instead_** of
+[AJAX](https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX). This **_also
+meant_** that I could **_use_** `pure`
+[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+**_instead_** of **_mixing_** with [jQuery](https://github.com/jquery/jquery) as
+well.
+
+I **_must admit_** that this was **_just_** a `quick fix` for **_something_**
+that really **_did not need_** more **_complexity_** and that I **_have_** to
+**_continue investigating_** what my **_new_** `front end workflow` **_should
+be_**. It **_still_** is a **_good example_** of **_adapting quickly_** to
+`change` when it **_comes to_** (`web`) `development`. One has to
+**_constantly_** be on **_one’s toes_**. I’m **_telling you_**, that is **_very
+hard_** to **_do_**!
+
+## Related Resources
+
+-   [Running A Security Audit - npmjs.com](https://docs.npmjs.com/getting-started/running-a-security-audit)
+
+-   [Trump Talks Trash app](https://trump-talks-nextjs.vercel.app/)
+
+-   [Trump Talks Github Repository](https://github.com/interglobalmedia/trump-talks-nextjs)

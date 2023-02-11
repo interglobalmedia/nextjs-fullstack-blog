@@ -24,7 +24,7 @@ $min-768: '(min-width: 768px)';
   font-size: var(--size-8);
   line-height: initial;
   margin: 0;
-  text-align: center;
+  text-align: left;
   @media #{$min-768} {
     font-size: var(--size-16);
     text-align: left;

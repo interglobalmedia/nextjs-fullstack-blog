@@ -15,11 +15,21 @@ $min-768: '(min-width: 768px)';
 
 /* color variables */
 $aussie-blue: #80d0ff;
+$chai-punk-pink-lite: #f293b1;
 $cream: #ffe9d6;
+$discord-burgundy: #b81111;
 $discord-charcoal: #23272a;
+$discord-lilac-lighter: #9eb3e6;
+$french-yellow: #ffe556;
+$ghost-white: #f8f8ff;
+$inline-code-color-lite-mode: #4D0F0F;
+$main-background: #fee9d7;
+$peppermint-blush-white: #f2ebe3;
 $tailwind-dark-orange: rgb(202 96 60 / 100%);
 $tailwind-lighter-orange: rgb(213 129 100 / 100%);
 $tailwind-lightest-orange: rgb(229 178 160 / 100%);
+$tailwind-peppermint-green: #14b8a6;
+$white: #fff;
 
 /* stylelint-disable scss/no-global-function-names */
 
@@ -95,6 +105,7 @@ h3 {
 
 h2 {
   font-size: 1.75rem;
+  margin-bottom: 1rem;
   @media #{$min-768} {
     font-size: 2rem;
   }
@@ -102,6 +113,7 @@ h2 {
 
 h3 {
   font-size: 1.5rem;
+  margin-bottom: 1rem;
   @media #{$min-768} {
     font-size: 1.75rem;
   }
@@ -127,6 +139,7 @@ li {
 a {
 	text-decoration: none;
 	color: #8d0a9d;
+  word-break: break-all;
 }
 
 a:hover {
@@ -146,10 +159,6 @@ p {
 	margin-top: 1rem;
 }
 
-.dark article {
-  background-color: darken(#1c1c1c, 1.25%);
-}
-
 .dark main p, .dark main ul {
   color: #fff;
 }
@@ -167,6 +176,32 @@ li.menu-link-li {
 a.menu-link {
 	list-style-type: none;
 	margin: 2.25vh;
+}
+
+blockquote {
+  margin-left: 1rem;
+  padding-left: 0.5rem;
+  border-left: 4px solid darken($aussie-blue, 30%);
+  background-color: var(--color-grey-200);
+}
+
+.dark strong {
+  color: $ghost-white;
+}
+
+/* styling for inline code workaround */
+
+.inline-code {
+  color: darken(#e4695d, 30%);
+}
+
+.dark .inline-code {
+  color: #ff357c;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.inline-code, .dark .inline-code {
+  word-break: break-all;
 }
 
 /* svg styling */
@@ -274,7 +309,6 @@ a.menu-link {
 }
 
 /* end svg styling */
-
 .main-nav {
 	@media #{$max-767} {
     & li > a {
@@ -565,10 +599,20 @@ a.menu-link {
     background: rgba(44 62 80 / 100%);
 }
 
+/* dark theme for hero for post content article element  */
+
+.dark .content {
+  background: darken(#1c1c1c, 1.25%);
+}
+
 /* dark theme for hero h1 element  */
 
 .dark .hero h1 {
   color: lighten($tailwind-dark-orange, 5%);
+}
+
+.dark .pre pre {
+  background: lighten(#1c1c1c, 5%) !important;
 }
 
 /* dark theme styling for post item */
@@ -595,3 +639,22 @@ a.menu-link {
   background-color: lighten($tailwind-dark-orange, 1.25%);
   color: #000;
 }
+
+ul>li figure {
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+
+  /* stylelint-disable declaration-block-no-redundant-longhand-properties */
+  border-top-left-radius: 6px;
+}
+
+ul>li figure img {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  @media #{$min-768} {
+    border-bottom-left-radius: 6px;
+    border-top-right-radius: 0;
+  }
+}
+

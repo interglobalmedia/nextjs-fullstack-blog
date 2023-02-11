@@ -1,0 +1,116 @@
+---
+slug: the-babel-7-config
+date: '2018-12-03T13:30:37.404Z'
+lastModified: '2023-02-07T14:23:37.404Z'
+title: The Babel 7 Config
+author: Maria D. Campbell
+excerpt: The Babel 7 config.
+image: babel-jsx.png
+tags:
+    [
+        'babel 7',
+        'jest',
+        'react',
+        'webpack',
+        'test driven development',
+        'web development workflows',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Image of Babel for JSX](babel-jsx.png)
+
+_Photo of
+[Babel for JS(X)](https://www.npmjs.com/package/babel-jsx-pragma-module-auto-import)
+on
+[npmjs.com](https://www.npmjs.com/package/babel-jsx-pragma-module-auto-import)_
+
+**Update December 3, 2018:** There were some **_issues_** along the way **_due
+to_** `breaking changes`in `Babel 7`, which **_affected_** `Jest`, `React`, and
+`ESLint`. **_Unless_** you are **_using_** `create-react-app`, your `workflow`
+might **_have_** to **_be adjusted_**, **_depending_** on **_what support_** you
+**_want_** to **_provide_** in **_any given_** `application`. I have
+brought **_all resources together_** in the `repository` for the **_second
+edition_** of my **_custom_** `React Workflow` on `Github`. **_Please
+visit_** [the the slide deck's issues](https://github.com/interglobalmedia/react-workflow-updated-2018/issues/1) to
+**_learn more_**.
+
+For the **_last day_** or so, I have been **_working on_** making `Jest` **_play
+nice_** with the **_new_** `Babel 7`. It was **_quite_** the **_journey_**, but
+I **_finally_** got **_there_**. **_So far_**!
+
+-   **_First_** I created an `application` with my **_updated_** **_custom_**
+    `React workflow` that **_only supported_** `favicons`, and **_no_**
+    `images`. That **_worked fine_**.
+
+-   **_Now_** I am **_working_** on **_another_** `application` that is
+    **_supposed to_** support **_both_** `favicons` **_and_** `images` (`jpgs`).
+    I **_immediately_** encountered **_issues_** with `Jest`
+    (`unexpected token import`) and **_had_** to **_reconfigure_** it. Then it
+    `worked fine` **_temporarily_**.
+
+-   It **_ended up_** that I **_had_** to **_change_** my `Babel 7`
+    **_configuration file_** from `.babelrc` to `babel.config.js`. `Babel 7`
+    **_no longer_** automatically **_loads_** `.babelrc`. **_New_** to `Babel`
+    in `7`, is the **_concept_** of a `"root"` **_directory_**. For
+    **_project-wide_** `configuration`, `Babel` will **_automatically search_**
+    for a `"babel.config.js"` in this `root` **_directory_**:
+
+> Because project-wide config files are separated from the physical location of
+> the config file, they can be ideal for configuration that must apply broadly,
+> even allowing plugins and presets to easily apply to files in `node_modules`
+> or in symlinked packages, which were traditionally quite painful to configure
+> in Babel 6.x. –
+> [Babel Docs](https://babeljs.io/docs/en/next/config-files#project-wide-configuration)
+
+-   I **_created_** a **_new_** `babel.config.js` in the **_root_** of my
+    `project`:
+
+```js
+module.exports = {
+	presets: ['@babel/preset-env', '@babel/preset-react'],
+	plugins: [
+		'@babel/plugin-syntax-dynamic-import',
+		'@babel/plugin-proposal-class-properties',
+		'@babel/plugin-proposal-export-namespace-from',
+		'@babel/plugin-proposal-throw-expressions',
+		'@babel/plugin-transform-modules-commonjs',
+		'@babel/plugin-proposal-export-default-from',
+		'@babel/plugin-proposal-object-rest-spread',
+		'@babel/plugin-transform-object-assign',
+	],
+}
+```
+
+**_When_** I **_made_** the **_changes_**, I **_also created_** a `script` to
+**_clear_** the `Jest` **_cache_**:
+
+```js
+"clear": "jest --clearCache"
+```
+
+**_After clearing_** the `Jest` **_cache_**, I **_ran_** my `npm run test`
+**_script_** and my `tests` **_passed_**.
+
+**_One more_** very **_important thing_** that **_relates_** to
+`syntax error(s)` **_related_** to the **_proposed_** `static class properties`
+in `React`. **_Yesterday_** I **_added_** the **_following_** in my
+`.eslintrc.json` to **_make_** it **_go away_**:
+
+```js
+"parser": "babel-eslint",
+```
+
+**_When_** I **_introduced_** `image imports` to **_my_** `project`
+**_causing_** my `Jest` **_tests_** to **_fail_**, it **_also affected_** the
+**_proposed_** `static class properties` I was **_using_** in **_one_** of
+**_my_** `components`. **_Nothing_** seemed to **_make_** it **_go away_** until
+I **_added_** `this line` to my `.eslintrc.json`. I **_found_** this **_fix_**
+in the [ESLint](https://eslint.org/docs/user-guide/configuring) **_docs_** and
+**_subsequently_** in the [Babel-Eslint](https://github.com/babel/babel-eslint)
+`Github` **_repository_**.
+
+## Related Resources
+
+-   [Babel7 Jest unexpected token export](https://stackoverflow.com/questions/52387820/babel7-jest-unexpected-token-export)

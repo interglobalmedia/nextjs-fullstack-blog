@@ -1,0 +1,208 @@
+---
+slug: installing-pgadmin-only-after-installing-postgresql-with-homebrew-part-2
+date: '2018-06-17T21:20:46.379Z'
+lastModified: '2023-02-10T23:39:46.379Z'
+title:
+    Installing pgAdmin Only After Installing postgreSQL with Homebrew Part 2
+author: Maria D. Campbell
+excerpt: Installing pgAdmin only after installing postreSQL with Homebrew.
+image: postgresql.jpg
+tags:
+    [
+        'command line',
+        'creating postgres user',
+        'homebrew',
+        'osx',
+        'pgadmin',
+        'postgresql',
+        'postgres password',
+        'postgres user',
+        'terminal'
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Image of the postGreSQL elephant brand logo](postgresql.jpg)
+
+*[postgreSQL](https://www.postgresql.org/)*
+
+This `post` ***assumes*** that you ***have already*** `backed up` your ***existing databases***
+somewhere (if you cared about them!). I will ***not be*** going over ***those steps***.
+
+***Getting*** to ***know*** the `tools` you ***use*** as a `developer` is ***just*** as ***important*** as
+***learning*** to ***program***. If you ***don’t know*** `how` to `use them` ***properly***, your
+`programming` ***will suffer***!
+
+Which ***takes*** me ***back*** to my ***battle*** with `postgreSQL` on ***my machine*** in a ***way*** that ***suited*** my ***needs***.
+
+***As*** I ***had mentioned*** in my `previous post`, I ***wanted*** the ***ability*** to `play around` with
+`postgreSQL` and ***view*** it in a `Graphical User Interface` (`GUI`), but ***also*** have ***all*** the ***features*** of a `Homebrew` ***install*** ***Unfortunately***, I had ***initially***
+`stumbled` ***clumsily*** and ***imperfectly*** `through` the ***proces***s, ***making*** a `few errors` ***along*** the ***way***. ***Part*** of it actually ***had*** to ***do*** with the (***relatively new***) `Migration Assistant` on `OSX`. It had ***screwed up*** my `postgreSQL` **_install_** when it was ***migrated*** to my `current machine`, and ***getting*** rid of ***all*** `traces` of my `download(s)` ***from*** [postgresql.org](https://www.postgresql.org/) was a ***bit*** of a
+***challenge***. It ***involved*** getting **_rid_** of the `standard account` which had
+been ***created*** by the `Migration Assistant` ***during*** the ***restoration*** of my `data` and ***subsequent migration*** to my **_new computer_**, getting ***rid*** of the `install` I ***had made*** yesterday, ***re-installing*** `postgreSQL`
+with `Homebrew`, and ***making sure*** that I ***added*** a `postgres user` ***afterwards***
+that ***contained*** a `password` (it ***does not*** by ***default***).
+
+## Uninstalling the [postgresql.org](https://www.postgresql.org/) install
+
+To ***uninstall*** the [postgresql.org](https://www.postgresql.org/) **_install_**,
+***click*** on your `Macintosh HD` ***icon*** on your ***desktop***, go into `Library` ***folder***, and then ***into*** your `postgreSQL` **_folder_** which `resides` **_inside_** the `Library` ***folder***. ***Inside***, you ***will see*** `something called` the `postgreSQL` **_uninstaller_**. ***Click*** on that to **_uninstall_** `postgreSQL` from
+***your machine***. ***At*** the ***end***, it will ***tell you*** that the `uninstall` is
+**_complete_**, but that your `data` was **_not_** `removed`. You ***have*** to **_move_** the `postgreSQL` ***folder*** and the **_remaining_** `contents` ***into*** the **_trash_**. When ***doing so***, you ***will be*** `prompted` to ***input*** your `administrator password`. ***When*** you **8**, the `folder` will ***be moved*** to the ***trash***.
+
+## Installing PostgreSQL with Homebrew
+
+**_Installing_** `postgreSQL` with `Homebrew` is ***very easy***. First ***make sure***, ***of course***, that you **_do have_** `Homebrew` **_installed_**! To ***check whether*** you ***indeed*** have `Homebrew` **_installed_**, ***type*** the ***following*** `command` in
+`Terminal`:
+
+```shell
+brew update
+```
+
+If ***this*** `command` ***returns results***, that ***means*** `Homebrew` has been ***installed*** on
+your `machine`. If ***no results*** are `returned`, you ***do not***. To ***install*** `Homebrew`,
+***please visit*** the `Homebrew` ***site***:
+
+- [Homebrew](https://brew.sh/)
+
+***Once*** you have `Homebrew` **_installed_**, do the ***following***:
+
+```shell
+brew update
+```
+
+This just ***makes sure*** that `Homebrew` is ***up*** to ***date***. it is ***just*** `best practice` to ***run*** this `command` ***before installing*** a `program` with `Homebrew`. ***Next***, ***run*** the ***following*** `command` to **_install_** `postgreSQL`:
+
+```shell
+brew install postgresql
+```
+
+***After*** the `install` has been ***completed***, ***run*** the ***following*** `command` to get
+`postgreSQL` up and **_running_**:
+
+```shell
+brew services start postgresql
+```
+
+This `command` will **_start_** your `postgres server`. No ***fuss*** no ***muss***! To
+**_stop_** the `postgres server`, ***run*** the ***following*** `command`:
+
+```shell
+brew services stop postgresql
+```
+
+**_But don’t_** do that **_just yet!_**
+
+***Run*** the ***following*** `command`:
+
+```shell
+createdb `whoami`
+```
+
+This ***will create*** your `default user database` with your `computer shortname`. `whoami` **_refers to_** your `computer shortname`.
+
+Then ***run*** the `command`
+
+```shell
+psql
+```
+
+to ***log into*** `postgreSQL`. The ***beautiful thing*** about a `Homebrew*` ***install*** is
+that you can simply `use` your **_native_** `Terminal` ***window*** you `use` for
+***controlling*** your `machine` ***instead*** of the `Sql` ***shell*** that ***comes*** with the
+[postgresql.org](https://www.postgresql.org/) ***install***. That is just an ***extra***
+painful ***step*** that ***takes*** up ***more time*** to `execute`.
+
+I ***love using*** my `shortname` for `local development`. But I ***can’t*** use it to
+***log into*** `pgAdmin`! By ***default***, `Homebrew` ***only*** `sets up` the ***account*** you
+***create*** with the
+
+```shell
+createdb `whoami`
+```
+
+`command`.
+
+## Creating the default postgres user needed for pgAdmin
+
+You ***have*** to `create` a **_second_** `user` ***called*** `postgres` in ***order*** to ***be able*** to `connect` ***with*** and `log in` to `pgAdmin`. To ***create*** the `postgres user`, ***type*** the ***following*** `command` in `Terminal` while **_still_** `logged in` to
+`postgres`:
+
+```js
+createuser -s postgres
+```
+
+This will ***create*** a `postgres superuser`. Then ***type*** the ***following*** `command` to ***make sure*** that ***this*** `user` has ***indeed*** been ***created***:
+
+```js
+\du
+```
+
+***This*** `command` ***returns*** the ***list*** of `users` you have ***available*** to you in your
+`postgreSQL` ***install***.
+
+There is ***still*** one `last step` to the ***process*** in ***order*** to `make connection` with
+`pgAdmin` ***possible***. You ***have*** to ***create*** a `password` for the `postgres user`
+you just ***created***. By **_default_**, the `user` is `created` **_without_** a
+`password` ***with*** the `command` I **_provided_** `here`. To **_create_** a `password` for the `postgres user`, ***run*** the ***following*** `command` while still `logged in` to `postgreSQL`:
+
+```js
+ALTER USER  postgres  WITH PASSWORD ‘password’;
+```
+
+Just ***replace*** `password` with ***whatever*** `password` you ***want*** to `assign`.
+
+**_THEN_**, you will ***want*** to ***install*** `pgAdmin` on `your machine`. Go to the
+`pgAdmin` ***website*** to ***download*** the `GUI`:
+
+- [pgAdmin website](https://www.pgadmin.org/)
+
+***After*** the `download` has been ***completed***, ***click*** on the `dmg` (disk image file) in
+your `downloads` ***folder*** to `open up` the `application` and ***install*** it. A `window` will
+***pop up*** with the `postgreSQL` ***icon***. **_Drag_** the `icon` into your `applications` ***folder***. This will ***install*** it in your `applications` ***folder***.
+
+***Next***, you ***want*** to ***make sure*** that you are ***logged in*** to `postgres` with your
+`postgres user` in ***order*** to `be able` to **_log in_** and `connect` ***with*** `pgAdmin`. You are ***not*** `logged in` by **_default_** into `user postgres` when you ***install*** `postgres` with `Homebrew`. This is ***what*** `confused` ***me*** `at first`. It ***made*** me ***think*** that I ***couldn’t*** `connect` with `pgAdmin` with a
+`Homebrew` **_install_**. ***All*** you ***have*** to ***do*** is `use` a ***different*** `command` to ***log in*** to ***another*** `user`:
+
+```js
+psql -U postgres
+```
+
+`psql` **_defaults_** to your `user` ***account name***. In ***this case***, it is the `user account` **_shortname_** on `your machine`. The `command` here ***says*** to **_log in_** with the `-U` (`user`) `postgres`.
+
+## Logging into pgAdmin
+
+***Once*** you are **_logged in_** to `postgres` with `user postgres`, ***go into*** your `Applications` ***folder*** and ***click*** on the `pgAdmin` ***icon***. It will ***open up*** in a
+***new tab*** in your ***favorite browser***.
+
+***When*** it has ***completed loading***, **_click_** on the `Servers` **_tab_** to the
+***left*** in the ***browser window*** under `Browser`. A ***new tab*** called `postgreSQL 10`
+(or ***whatever version*** you have on `your machine`) will ***appear***. ***Click*** on ***that***.
+
+***Now*** a `connect to server` ***modal*** will ***appear***, in ***which*** you are `prompted` to ***enter*** your `password` for ***your*** `user postgres` so as to ***connect*** to the `server`:
+
+```shell
+Please enter the password for the user 'postgres' to connect the server - "PostgreSQL 10"
+Password
+```
+
+**_Now_** you ***understand*** the `importance` of having a `user` called `postgres` with a
+***dedicated*** `password`!
+
+***Once*** you **_provide_** your `postgres password` and ***click*** on the `OK button`,
+you will be **_logged in_** to `pgAdmin`, and are ***good*** to ***go***! You will ***even see*** all your `user databases` and ***any others*** you ***might have*** `created` along the
+***way***!
+
+*Happy databasing with `PostgreSQL`*!
+
+## Related Resources
+
+- [Completely Uninstall and Reinstall PSQL on OSX](https://medium.com/@bitadj/completely-uninstall-and-reinstall-psql-on-osx-551390904b86)
+
+- [pgAdmin.org](https://www.pgadmin.org/)
+
+- [psql: FATAL: role “postgres” does not exist](https://stackoverflow.com/questions/15301826/psql-fatal-role-postgres-does-not-exist)
+
+- [Uninstall Postgres 10 on macOS – EnterpriseDB installer](https://dba.stackexchange.com/questions/185476/uninstall-postgres-10-on-macos-enterprisedb-installer)
