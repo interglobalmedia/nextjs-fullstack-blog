@@ -3,7 +3,7 @@ import classes from '../../styles/all-posts.module.scss'
 
 function AllPosts(props) {
     const { posts } = props
-
+    
     return (
         <section className={classes.posts}>
             <h1>All Posts</h1>
