@@ -1,0 +1,37 @@
+/* color variables 1 */
+
+/* stylelint-disable scss/no-global-function-names */
+$icon-background: darken(#1c1c1c, 1.25%);
+$inline-code-color-lite-mode: #4D0F0F;
+$main-background: #fee9d7;
+$peppermint-blush-white: #f2ebe3;
+$tailwind-dark-orange: rgb(202 96 60 / 100%);
+$tailwind-lighter-orange: rgb(213 129 100 / 100%);
+$tailwind-lightest-orange: rgb(229 178 160 / 100%);
+$tailwind-peppermint-green: #14b8a6;
+$white: #fff;
+
+/* color variables 2 */
+$aussie-blue: #80d0ff;
+$chai-punk-pink-lite: #f293b1;
+$cream: #ffe9d6;
+$discord-burgundy: #b81111;
+$discord-charcoal: #23272a;
+$discord-lilac-lighter: #9eb3e6;
+$french-yellow: #ffe556;
+$ghost-white: #f8f8ff;
+
+/* scss @media query variables */
+$min-320: '(min-width: 320px)';
+$min-360: '(min-width: 360px)';
+$max-767: '(max-width: 767px)';
+$max-1023: '(max-width: 1023px)';
+$min-1024: '(min-width: 1024px)';
+$min-768: '(min-width: 768px)';
+
+/* icon related variables */
+$icon-size: 2.81rem;
+
+/* border related variables */
+$border-radius: 0.5;
+
