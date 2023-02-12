@@ -1,7 +1,7 @@
-import Image from "next/legacy/image";
 import classes from '../../../styles/post-header.module.scss'
+
 function PostHeader(props) {
-    const { title, image } = props
+    const { title } = props
     
     return (
         <header className={`${classes.header} header`}>

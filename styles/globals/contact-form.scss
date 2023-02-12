@@ -1,0 +1,24 @@
+/* dark theme for contact form page */
+
+.dark section.contact {
+  background: #1c1c1c;
+}
+
+.dark section.contact h1 {
+  /* stylelint-disable scss/no-global-function-names */
+  color: lighten($tailwind-dark-orange, 5%);
+}
+
+.dark label.label {
+  color: darken($tailwind-lightest-orange, 2.5%);
+}
+
+button {
+	cursor: pointer;
+	font: inherit;
+}
+
+.dark .contact-btn-submit {
+  background-color: lighten($tailwind-dark-orange, 1.25%);
+  color: #000;
+}
