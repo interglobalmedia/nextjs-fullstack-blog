@@ -1,20 +1,15 @@
 /* color vcariables */
-$aussie-blue: #80d0ff;
 $cream: #ffe9d6;
-$light-mint: #c7e9c0;
-$light-sky-blue: #99d1e7;
-$pastel-green: #31a354;
-$light-pink: pink;
-$antique-white: antiquewhite;
-$french-yellow: #fff100;
+
+/* stylelint-disable scss/no-global-function-names */
+$icon-background: darken(#1c1c1c, 1.25%);
+
+/* border related variables */
 $border-radius: 0.5;
 
 /* icon related variables */
 $icon-font: 2em;
 $icon-size: 2.81rem;
-
-/* stylelint-disable scss/no-global-function-names */
-$icon-background: darken(#1c1c1c, 1.25%);
 
 /*  scroll */
 .scroll {
