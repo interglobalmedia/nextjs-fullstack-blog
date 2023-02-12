@@ -1,3 +1,6 @@
+/* color variables 2 */
+$aussie-blue: #80d0ff;
+
 .grid {
   list-style-type: none;
   margin: 3rem auto 0;
@@ -5,4 +8,10 @@
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   width: 100%;
+}
+
+.search {
+  background: $aussie-blue;
+  height: 3.25rem;
+  font-size: 1.3rem;
 }
