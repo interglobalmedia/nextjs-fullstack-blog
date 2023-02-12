@@ -2,6 +2,8 @@ import { Fragment } from 'react'
 import Head from 'next/head'
 import PostContent from '../../components/posts/post-detail/post-content'
 import { getPostData, getPostFiles } from '../../lib/posts-util'
+import ScrollTop from '../../components/buttons/scroll-top'
+import ScrollStep from '../../components/buttons/scroll-step'
 
 function PostDetailPage(props) {
     return (
@@ -11,6 +13,11 @@ function PostDetailPage(props) {
                 <meta name="description" content={props.post.excerpt} />
             </Head>
             <PostContent post={props.post} />
+            <div className={`buttons-container`}
+            >
+                <ScrollStep />
+                <ScrollTop />
+            </div>
         </Fragment>
     )
 }
@@ -18,7 +25,7 @@ function PostDetailPage(props) {
 export function getStaticProps(context) {
     const { params } = context
     const { slug } = params
-    
+
     const postData = getPostData(slug)
 
     return {
