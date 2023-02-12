@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import classes from '../../styles/scroll-top-btn.module.scss'
+import classes from '../../styles/scroll-btn.module.scss'
 
 export default function GoTop() {
     const [showGoTop, setShowGoTop] = useState(false)
@@ -28,7 +28,7 @@ export default function GoTop() {
     if (typeof document === "object") {
         return createPortal((
             <>
-                <button className={`${classes.scroll} ${classes.top} ${classes.icon} ${classes['icon-fill']}`} onClick={handleScrollUp} style={{
+                <button className={`icon-fill ${classes.scroll} ${classes.top} ${classes.icon} ${classes['icon-fill']}`} onClick={handleScrollUp} style={{
                     display: showGoTop ? "none" : "block"
                 }}><span className={`material-icons`}>
                         keyboard_arrow_up

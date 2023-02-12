@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import classes from '../../styles/scroll-top-btn.module.scss'
+import classes from '../../styles/scroll-btn.module.scss'
 
 export default function ScrollStep() {
     const [showScrollStep, setShowScrollStep] = useState(false)
@@ -30,7 +30,7 @@ export default function ScrollStep() {
 
     if (typeof document === "object") {
         return createPortal((
-            <button className={`scroll ${classes.scroll} ${classes.bottom} ${classes.icon} ${classes['icon-fill']}`} onClick={handleStepButton} style={{
+            <button className={`icon-fill ${classes.scroll} ${classes.bottom} ${classes.icon} ${classes['icon-fill']}`} onClick={handleStepButton} style={{
                     display: showScrollStep ? "none" : "block"
                 }}><span className="material-icons">
                 keyboard_arrow_down
