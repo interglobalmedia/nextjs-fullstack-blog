@@ -16,8 +16,6 @@ function PostItem(props) {
 
     const formattedDate = new Date(post.date).toLocaleDateString('en-US', options)
 
-    console.log(formattedDate)
-
     const imagePath = `/images/posts/${post.slug}/${post.image}`
 
     const linkPath = `/posts/${post.slug}`
