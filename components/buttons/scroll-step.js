@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import classes from '../../styles/scroll-btn.module.scss'
+import classes from '../../styles/scroll-buttons.module.scss'
 
 export default function ScrollStep() {
     const [showScrollStep, setShowScrollStep] = useState(false)
