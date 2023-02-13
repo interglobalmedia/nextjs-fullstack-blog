@@ -1,11 +1,26 @@
 import ReactMarkdown from 'react-markdown'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
+import atomDark from 'react-syntax-highlighter/dist/cjs/styles/prism/atom-dark'
+import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript'
+import css from 'react-syntax-highlighter/dist/cjs/languages/prism/css'
+import sh from 'react-syntax-highlighter/dist/cjs/languages/prism/bash'
+import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json'
+import md from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown'
+import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx'
+import scss from 'react-syntax-highlighter/dist/cjs/languages/prism/scss'
 import Image from "next/legacy/image";
 import PostHeader from './post-header'
 import { getTagLink } from '../get-tag-link'
 import classes from '../../../styles/post-content.module.scss'
 import getReadTime from '../../../lib/utils/read-time'
+
+SyntaxHighlighter.registerLanguage('js', js)
+SyntaxHighlighter.registerLanguage('css', css)
+SyntaxHighlighter.registerLanguage('shell', sh)
+SyntaxHighlighter.registerLanguage('json', json)
+SyntaxHighlighter.registerLanguage('md', md)
+SyntaxHighlighter.registerLanguage('jsx', jsx)
+SyntaxHighlighter.registerLanguage('scss', scss)
 
 function PostContent(props) {
     const { post } = props

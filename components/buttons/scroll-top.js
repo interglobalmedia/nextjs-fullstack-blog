@@ -6,6 +6,7 @@ export default function GoTop() {
     const [showGoTop, setShowGoTop] = useState(false)
     const [showMe, setShowMe] = useState(false)
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleVisibleButton = () => {
         if (setShowGoTop(window.pageYOffset > 50)) {
             setShowGoTop(true)
@@ -23,7 +24,7 @@ export default function GoTop() {
     useEffect(() => {
         window.addEventListener('scroll', handleVisibleButton)
         return () => window.removeEventListener('scroll', handleVisibleButton)
-    }, [])
+    }, [handleVisibleButton])
 
     if (typeof document === "object") {
         return createPortal((
