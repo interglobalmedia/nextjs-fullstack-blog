@@ -2,28 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>/contact</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/a-must-have-frontend-developer-tool</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/a-new-react-workflow-with-react-166-and-webpack-4</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -32,14 +32,14 @@
 		<loc
 			>/posts/changing-your-homebrew-postgresql-configuration-from-trust-to-md5</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/class-conflicts</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -48,14 +48,14 @@
 		<loc
 			>/posts/compressing-and-uncompressing-directories-from-the-command-line</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/dont-name-any-of-your-project-directories-functions</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -64,14 +64,14 @@
 		<loc
 			>/posts/downloading-a-pdf-file-from-the-internet-using-command-line-on-your-mac</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/ekeycode-ewhich</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -80,63 +80,63 @@
 		<loc
 			>/posts/es2018-language-features-available-in-v8js-v64-and-chrome-64</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/eslint-parsing-in-react</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/fixing-your-nvm-install</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/flexbox-sticky-footer-and-react</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/getting-started-with-nextjs</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/guess-the-keys</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/how-to-add-files-to-your-gitignore-with-no-sweat</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/how-to-completely-remove-cached-ip-addresses</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/how-to-copy-a-directory-from-command-line</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -145,7 +145,7 @@
 		<loc
 			>/posts/how-to-remove-an-unwanted-local-repository-in-sourcetree-with-command-line</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -154,7 +154,7 @@
 		<loc
 			>/posts/how-to-save-terminal-output-to-a-file-for-future-reference</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -163,56 +163,56 @@
 		<loc
 			>/posts/how-to-uninstall-postgresql-on-osx-and-reinstall-with-homebrew</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/how-to-uninstall-vs-code-seamlessly-on-your-mac</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/html5-canvas-game-development</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/i-gave-my-first-presentation-tonight</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/im-now-on-patreon</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/implementing-es6-modules-without-webpack-or-babel</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/importing-images-in-react-20-jest-and-babel-7</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/importing-images-in-react</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -221,7 +221,7 @@
 		<loc
 			>/posts/installing-pgadmin-only-after-installing-postgresql-with-homebrew-part-2</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -230,70 +230,70 @@
 		<loc
 			>/posts/installing-pgadmin-only-after-installing-postgresql-with-homebrew</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/installing-visual-studio-code-text-editor-on-a-mac</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/jest-react-and-mocks</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/mastering-javascript</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/my-amazon-s3-moment</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/my-first-time-using-react-16</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/my-updated-custom-react-workflow-2nd-edition-is-here</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/opening-up-iterm2-via-spotlight-search-on-your-mac</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/postgresql-and-the-osx-migration-assistant</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/react-workflows-update-1</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -302,35 +302,35 @@
 		<loc
 			>/posts/refactoring-your-js-workflow-when-your-images-are-in-your-css-only</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/removing-caps-from-css-headings</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/renaming-your-remote-github-repository</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/requestanimationframe-and-polyfill-in-reactjs</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/the-babel-7-config</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -339,49 +339,49 @@
 		<loc
 			>/posts/the-chrome-favicon-nightmare-and-how-i-finally-fixed-it</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/the-importance-of-adapting-to-change-quickly</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/the-importance-of-eslint-and-react</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/the-jest-side-effect</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/the-new-npm-audit-with-6-npm</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/the-say-command-in-osx-command-line</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/to-npm-trash-or-not-to-npm-trash</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -390,35 +390,35 @@
 		<loc
 			>/posts/upgrading-postgresql-from-version-104-to-111-via-homebrew-osx</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/what-to-do-when-you-cant-upgrade-oh-my-zsh</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/when-a-bare-bones-automated-js-workflow-makes-sense</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/when-an-object-property-key-is-a-string-in-javascript</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>/posts/when-and-why-it-is-important-to-refactor-code</loc>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -427,7 +427,7 @@
 		<loc
 			>/posts/why-your-local-machine-computer-may-not-be-pointing-to-your-newly-propagated-site</loc
 		>
-		<lastmod>2-13-2023 at 2:10 am</lastmod>
+		<lastmod>2-13-2023 at 3:14 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
