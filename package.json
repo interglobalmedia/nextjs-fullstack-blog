@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && node ./scripts/generate-sitemap",
+    "analyze": "cross-env ANALYZE=true next build",
     "svg": "svgr -d components/social-icons components/social-icons/svgs",
     "export": "next export",
     "start": "next start",
@@ -31,6 +32,7 @@
     "next": "13.1.2",
     "next-seo": "^5.15.0",
     "next-themes": "^0.2.1",
+    "preact": "^10.12.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-markdown": "^8.0.5",
@@ -38,9 +40,11 @@
     "sass": "^1.57.1"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^13.1.6",
     "@svgr/cli": "^6.5.1",
     "@svgr/webpack": "^6.5.1",
     "autoprefixer": "^10.4.13",
+    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",

@@ -1,7 +1,9 @@
 
-import PostItem from './post-item'
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import classes from '../../styles/posts-grid.module.scss'
+
+const DynamicPostItem = dynamic(() => import('./post-item'))
 
 function PostsGrid(props) {
     const { posts, initialDisplayPosts = [] } = props
@@ -51,7 +53,7 @@ function PostsGrid(props) {
                 {!filteredPosts.length && 'No posts found.'}
                 {
                     displayPosts.map(post => (
-                        <PostItem key={post.slug} post={post} />
+                        <DynamicPostItem key={post.slug} post={post} />
                     ))
                 }
             </ul>
