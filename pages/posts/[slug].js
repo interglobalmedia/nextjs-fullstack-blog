@@ -1,9 +1,11 @@
 import { Fragment } from 'react'
 import Head from 'next/head'
-import PostContent from '../../components/posts/post-detail/post-content'
+import dynamic from 'next/dynamic'
 import { getPostData, getPostFiles } from '../../lib/posts-util'
-import ScrollTop from '../../components/buttons/scroll-top'
-import ScrollStep from '../../components/buttons/scroll-step'
+
+const DynamicPostContent = dynamic(() => import('../../components/posts/post-detail/post-content'))
+const DynamicScrollTop = dynamic(() => import('../../components/buttons/scroll-top'))
+const DynamicScrollStep = dynamic(() => import('../../components/buttons/scroll-step'))
 
 function PostDetailPage(props) {
     return (
@@ -12,11 +14,11 @@ function PostDetailPage(props) {
                 <title>{props.post.title}</title>
                 <meta name="description" content={props.post.excerpt} />
             </Head>
-            <PostContent post={props.post} />
+            <DynamicPostContent post={props.post} />
             <div className={`buttons-container`}
             >
-                <ScrollStep />
-                <ScrollTop />
+                <DynamicScrollStep />
+                <DynamicScrollTop />
             </div>
         </Fragment>
     )
