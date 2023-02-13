@@ -1,9 +1,10 @@
 import { Fragment } from 'react'
+import dynamic from 'next/dynamic'
 import { getAllPosts, getAllPostsByTag } from '../../../lib/posts-util'
 import Head from 'next/head'
-import PostItem from '../../../components/posts/post-item'
-
 import classes from '../../../styles/tag.module.scss'
+
+const DynamicPostItem = dynamic(() => import('../../../components/posts/post-item'))
 
 export default function Tag(props) {
     const { posts, tag } = props
@@ -17,7 +18,7 @@ export default function Tag(props) {
             <section className={classes.tag}>
                 <h1>tag: {tag}</h1>
                 {posts.map((post) => (
-                    <PostItem key={post.slug} post={post} tag={post.tag} />
+                    <DynamicPostItem key={post.slug} post={post} tag={post.tag} />
                 ))}
             </section>
         </Fragment>
