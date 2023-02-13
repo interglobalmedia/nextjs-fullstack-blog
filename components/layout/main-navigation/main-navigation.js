@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { document } from 'browser-monads'
-import { motion, AnimateSharedLayout } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import useIsMounted from '../../../hooks/useIsMounted'

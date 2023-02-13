@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 
 const dotenv = require('dotenv')
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 
 const withMDX = require('@next/mdx')({
 	extension: /\.mdx?$/,
@@ -35,13 +36,28 @@ const withMDX = require('@next/mdx')({
 			require("./scripts/compose")
 		}
 
-		config.plugins.push(
-			new webpack.EnvironmentPlugin(
-				'NEXT_PUBLIC_MONGODB_URL',
-			),
-		)
-
 		return config
+	},
+
+	constants: (phase) => {
+		if (phase === PHASE_DEVELOPMENT_SERVER) {
+			return {
+				env: {
+					mongodb_username: `${MONGODB_USERNAME}`,
+					mongodb_password: `${MONGODB_PASSWORD}`,
+					mongodb_clusername: `${MONGODB_CLUSTERNAME}`,
+					mongodb_database: `${MONGODB_DATABASE_DEV}`
+				}
+			}
+		}
+		return {
+				env: {
+					mongodb_username: `${MONGODB_USERNAME}`,
+					mongodb_password: `${MONGODB_PASSWORD}`,
+					mongodb_clusername: `${MONGODB_CLUSTERNAME}`,
+					mongodb_database: `${MONGODB_DATABASE}`
+				}
+			}
 	}
 })
 
