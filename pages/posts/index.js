@@ -1,11 +1,11 @@
 import { Fragment } from 'react'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import AllPosts from '../../components/posts/all-posts'
 import { getAllPosts } from '../../lib/posts-util'
 import ScrollTop from '../../components/buttons/scroll-top'
 import ScrollStep from '../../components/buttons/scroll-step'
 
-export const POSTS_PER_PAGE = 10
+const DynamicAllPosts = dynamic(() => import('../../components/posts/all-posts'))
 
 function AllPostsPage(props) {
   const { posts } = props
@@ -16,7 +16,7 @@ function AllPostsPage(props) {
         <title>All Maria D. Campbell's Posts</title>
         <meta name="description" content="Search through Maria D. Campbell's posts on fullstack development, macOS, Command Line, and Git." />
       </Head>
-      <AllPosts posts={posts} />
+      <DynamicAllPosts posts={posts} />
       <div className={`buttons-container`}
       >
         <ScrollStep />
