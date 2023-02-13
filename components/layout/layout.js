@@ -1,13 +1,15 @@
 import { Fragment } from 'react'
-import MainNavigation from './main-navigation/main-navigation'
-import Footer from './footer'
+import dynamic from 'next/dynamic'
+
+const DynamicMainNavigation = dynamic(() => import('./main-navigation/main-navigation'))
+const DynamicFooter = dynamic(() => import('./footer'))
 
 function Layout(props) {
     return (
         <Fragment>
-            <MainNavigation />
+            <DynamicMainNavigation />
             <main>{props.children}</main>
-            <Footer />
+            <DynamicFooter />
         </Fragment>
     )
 
