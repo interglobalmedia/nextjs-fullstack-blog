@@ -1,12 +1,11 @@
-import * as SvgIconsComponent from '../components/social-icons'
+import * as SvgIconsComponent from '../components/social-share-icons'
 
-const SocialIcon = ({ name, href, size = 8 }) => {
+const SocialShareIcon = ({ name, href, size = 8 }) => {
     const ComponentsMap = {
-        github: SvgIconsComponent.Github,
-        linkedin: SvgIconsComponent.Linkedin,
         twitter: SvgIconsComponent.Twitter,
-        email: SvgIconsComponent.Email,
-        sitemap: SvgIconsComponent.Sitemap,
+        linkedin: SvgIconsComponent.Linkedin,
+        'social-hacker-news': SvgIconsComponent.SocialHackerNews,
+        'social-reddit': SvgIconsComponent.SocialReddit,
     }
  
     if (name in ComponentsMap) {
@@ -26,4 +25,4 @@ const SocialIcon = ({ name, href, size = 8 }) => {
     }
 }
 
-export default SocialIcon
+export default SocialShareIcon
