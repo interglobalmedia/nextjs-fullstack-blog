@@ -1,5 +1,6 @@
 const siteMetadata = {
-    siteUrl: '/',
+    siteUrl: 'https://www.mariadcampbell.com',
+    domain: 'mariadcampbell.com',
     sitemap: '/sitemap.xml',
     locale: 'en-US',
     language: 'en-us',
@@ -10,6 +11,11 @@ const siteMetadata = {
 	github: 'https://github.com/interglobalmedia',
     twitter: 'https://twitter.com/letsbsocial1',
     linkedin: 'https://www.linkedin.com/in/mariacampbell/',
+    reddit: `https://www.reddit.com/interglobalmedia1`,
+    redditHandle: `interglobalmedia1`,
+    twitterHandle: `letsbsocial1`,
+    combinatorHandle: `mariador62`,
+    linkedinHandle: `mariacampbell`
 }
 
 module.exports = siteMetadata
