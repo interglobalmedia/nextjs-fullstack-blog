@@ -37,12 +37,12 @@ body {
 
 	background-color: var(--color-grey-500);
 	color: #252525;
+	display: flex;
+	flex-direction: column;
 	font-family: Inconsolata, monospace;
 	font-weight: 400;
 	margin: 0;
 	overflow-x: hidden;
-	display: flex;
-	flex-direction: column;
 	min-height: 100vh;
 }
 
@@ -59,6 +59,19 @@ body {
 
 .dark footer a {
   color: #8d0a9d;
+}
+
+/* dark footer social icons styling  */
+
+.dark div > div.footer-email, .dark div > div.footer-github, .dark div > div.footer-twitter, .dark div > div.footer-linkedin, .dark div > div.footer-sitemap {
+
+  /* stylelint-disable scss/no-global-function-names */
+  fill: darken($tailwind-peppermint-green, 12.5%);
+
+  &:hover {
+    fill: darken($tailwind-dark-orange,1.25%);
+	transition: fill 1s ease-out;
+  }
 }
 
 
