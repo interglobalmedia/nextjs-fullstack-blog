@@ -9,36 +9,36 @@ function Footer() {
     if (typeof document === "object") {
         return createPortal((
             <footer className={`${classes.footer}`}>
-                <div className={classes['svg-wrapper']}>
-                    <div className={classes.email}>
+                <div className={`${classes['svg-wrapper']}`}>
+                    <div className={`footer-email ${classes['footer-email']}`}>
                         <SocialIcon
-                            name="mail"
+                            name="email"
                             href={`mailto:${siteMetadata.email}`}
                             size="6"
                         />
                     </div>
-                    <div className={classes.github}>
+                    <div className={`footer-github ${classes['footer-github']}`}>
                         <SocialIcon
                             name="github"
                             href={siteMetadata.github}
                             size="6"
                         />
                     </div>
-                    <div className={classes.twitter}>
+                    <div className={`footer-twitter ${classes['footer-twitter']}`}>
                         <SocialIcon
                             name="twitter"
                             href={siteMetadata.twitter}
                             size="6"
                         />
                     </div>
-                    <div className={classes.linkedin}>
+                    <div className={`footer-linkedin ${classes['footer-linkedin']}`}>
                         <SocialIcon
                             name="linkedin"
                             href={siteMetadata.linkedin}
                             size="6"
                         />
                     </div>
-                    <div className={classes.sitemap}>
+                    <div className={`footer-sitemap ${classes['footer-sitemap']}`}>
                         <SocialIcon
                             name="sitemap"
                             href={siteMetadata.sitemap}
