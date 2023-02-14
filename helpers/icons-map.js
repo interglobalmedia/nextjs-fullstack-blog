@@ -5,7 +5,7 @@ const SocialIcon = ({ name, href, size = 8 }) => {
         github: SvgIconsComponent.Github,
         linkedin: SvgIconsComponent.Linkedin,
         twitter: SvgIconsComponent.Twitter,
-        mail: SvgIconsComponent.Mail,
+        email: SvgIconsComponent.Email,
         sitemap: SvgIconsComponent.Sitemap,
     }
  
