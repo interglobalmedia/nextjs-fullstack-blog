@@ -7,6 +7,7 @@
     "build": "next build && node ./scripts/generate-sitemap",
     "analyze": "cross-env ANALYZE=true next build",
     "svg": "svgr -d components/social-icons components/social-icons/svgs",
+    "svg:share": "svgr -d components/social-share-icons components/social-share-icons/svgs",
     "export": "next export",
     "start": "next start",
     "lint": "next lint",

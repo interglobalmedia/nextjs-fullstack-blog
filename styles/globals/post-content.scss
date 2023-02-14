@@ -26,6 +26,7 @@ a:hover {
 p {
 	margin-bottom: 1rem;
 	margin-top: 1rem;
+    word-break: break-all;
 }
 
 .dark main p,
@@ -76,4 +77,16 @@ blockquote {
 
 .dark .time {
 	color: darken($tailwind-lighter-orange, 2.5%);
+}
+
+/* dark social share icon styling */
+
+.dark div > div.share-hacker-news, .dark div > div.share-twitter, .dark div > div.share-reddit, .dark div > div.share-linkedin {
+  fill: darken($aussie-blue, 2.5%);
+
+  &:hover {
+    fill: darken($tailwind-dark-orange, 2.5%);
+	transition: fill 1s ease-out;
+	transform: rotate3d(0, 0, 0, 0deg);
+  }
 }
