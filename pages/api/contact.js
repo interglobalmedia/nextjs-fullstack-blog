@@ -21,10 +21,10 @@ async function handler(req, res) {
         const mongodb_username = process.env.MONGODB_USERNAME
         const mongodb_password = process.env.MONGODB_PASSWORD
         const mongodb_clustername = process.env.MONGODB_CLUSTERNAME
-        const mongodb_database_dev = process.env.MONGODB_DATABASE_DEV
+        const mongodb_database = process.env.MONGODB_DATABASE
 
         try {
-            const mongodb_url = `mongodb+srv://${mongodb_username}:${mongodb_password}@${mongodb_clustername}.qbavi.mongodb.net/${mongodb_database_dev}`
+            const mongodb_url = `mongodb+srv://${mongodb_username}:${mongodb_password}@${mongodb_clustername}.qbavi.mongodb.net/${mongodb_database}`
             client = await MongoClient.connect(`${mongodb_url}`)
 
         } catch (error) {
