@@ -18,7 +18,11 @@ button {
 	font: inherit;
 }
 
-.dark .contact-btn-submit {
+.dark div>.contact-btn-submit {
   background-color: lighten($tailwind-dark-orange, 1.25%);
   color: #000;
+
+  &:hover {
+    background-color: darken($tailwind-lightest-orange, 1.5%);
+  }
 }

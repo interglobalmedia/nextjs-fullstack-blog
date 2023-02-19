@@ -1,29 +1,7 @@
 const webpack = require('webpack')
 
-const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
-
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
 	enabled: process.env.ANALYZE === 'true',
-	function(phase) {
-		if (phase === PHASE_DEVELOPMENT_SERVER) {
-			return {
-				env: {
-					mongodb_username: `${MONGODB_USERNAME}`,
-					mongodb_password: `${MONGODB_PASSWORD}`,
-					mongodb_clusername: `${MONGODB_CLUSTERNAME}`,
-					mongodb_database: `${MONGODB_DATABASE_DEV}`
-				}
-			}
-		}
-		return {
-			env: {
-				mongodb_username: `${MONGODB_USERNAME}`,
-				mongodb_password: `${MONGODB_PASSWORD}`,
-				mongodb_clusername: `${MONGODB_CLUSTERNAME}`,
-				mongodb_database: `${MONGODB_DATABASE}`
-			}
-		}
-	},
 
 	webpack: (config, { dev, isServer }) => {
 		config.module.rules.push({
