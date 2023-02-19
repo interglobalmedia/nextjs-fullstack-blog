@@ -10,17 +10,19 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 				env: {
 					mongodb_username: `${MONGODB_USERNAME}`,
 					mongodb_password: `${MONGODB_PASSWORD}`,
-					mongodb_clusername: `${MONGODB_CLUSTERNAME}`,
+					mongodb_clustername: `${MONGODB_CLUSTERNAME}`,
 					mongodb_database: `${MONGODB_DATABASE_DEV}`
 				}
 			}
 		}
-		return {
-			env: {
-				mongodb_username: `${MONGODB_USERNAME}`,
-				mongodb_password: `${MONGODB_PASSWORD}`,
-				mongodb_clusername: `${MONGODB_CLUSTERNAME}`,
-				mongodb_database: `${MONGODB_DATABASE}`
+		if (phase === PHASE_PRODUCTION_SERVER) {
+			return {
+				env: {
+					mongodb_username: `${MONGODB_USERNAME}`,
+					mongodb_password: `${MONGODB_PASSWORD}`,
+					mongodb_clustername: `${MONGODB_CLUSTERNAME}`,
+					mongodb_database: `${MONGODB_DATABASE}`
+				}
 			}
 		}
 	},
