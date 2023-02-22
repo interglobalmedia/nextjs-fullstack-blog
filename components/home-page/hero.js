@@ -14,7 +14,8 @@ function Hero() {
                 />
             </div>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
-            <h1>Hi, I'm Maria!</h1>
+            <h1>Hi, I'm <a href="https://www.interglobalmedianetwork.com/about" target="_blank"
+                rel="noopener noreferrer">Maria</a>!</h1>
             <p>I blog about fullstack development as well as macOS, Command Line, Git, and ethics in technology.</p>
         </section>
     )

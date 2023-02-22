@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Notification from '../ui/notifications'
-import { sendContactData } from '../../helpers/sendContactData'
+import { sendContactData } from '../../helpers/send-contact-data'
 
 import classes from '../../styles/contact-form.module.scss'
 

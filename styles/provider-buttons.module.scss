@@ -1,0 +1,29 @@
+/* color variables */
+$tailwind-peppermint-green: #14b8a6;
+
+ul.provider-list {
+	display: flex;
+	justify-content: center;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+
+	& li:first-child {
+		background: #000;
+		border-radius: 5px;
+		font-size: 1.4rem;
+		list-style-type: none;
+		margin-left: 0;
+		padding: 0.5rem;
+
+		& button, & a {
+			color: ghostwhite;
+            text-decoration: none;
+		}
+
+        &:hover {
+            background: darken($tailwind-peppermint-green, 12.5%);
+            transition: background-color 1.5s ease-in-out; 
+        }
+	}
+}
