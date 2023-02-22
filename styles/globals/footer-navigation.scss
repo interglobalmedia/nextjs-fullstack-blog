@@ -1,0 +1,6 @@
+ul.footer-navigation {
+    @media #{$min-1024} {
+        margin: 3rem 0;
+        padding: 1.5rem 0;
+    }
+}

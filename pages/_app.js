@@ -6,6 +6,7 @@ import { ThemeProvider } from 'next-themes'
 import { motion } from 'framer-motion'
 import { Inconsolata, Roboto, Oswald } from '@next/font/google'
 import { useEffect, useState } from 'react'
+import { SessionProvider } from 'next-auth/react'
 
 const inconsolata = Inconsolata({
   weight: ['300', '400', '700'],
@@ -42,34 +43,36 @@ export default function App({ Component, pageProps, router }) {
 
   return (
     <ThemeProvider attribute="class" defaultTheme={siteMetadata.theme}>
-      <Layout>
-        <Head>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-          <meta
-            name="author"
-            content="Maria D. Campbell"
-          />
-          <link
-            rel="icon"
-            href="/favicon.ico"
-          />
-        </Head>
-        <motion.div
-          key={router.route}
-          initial="hidden"
-          animate="enter"
-          exit="exit"
-          variants={variants}
-          transition={{ duration: 0.5, type: 'tween' }}
-        >
-          <main className={`${inconsolata.className}`}>
-            <Component {...pageProps} />
-          </main>
-        </motion.div>
-      </Layout>
+      <SessionProvider session={pageProps.session}>
+        <Layout>
+          <Head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0"
+            />
+            <meta
+              name="author"
+              content="Maria D. Campbell"
+            />
+            <link
+              rel="icon"
+              href="/favicon.ico"
+            />
+          </Head>
+          <motion.div
+            key={router.route}
+            initial="hidden"
+            animate="enter"
+            exit="exit"
+            variants={variants}
+            transition={{ duration: 0.5, type: 'tween' }}
+          >
+            <main className={`${inconsolata.className}`}>
+              <Component {...pageProps} />
+            </main>
+          </motion.div>
+        </Layout>
+      </SessionProvider>
     </ThemeProvider>
   )
 }

@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic'
-// import PostsGrid from '../posts/posts-grid'
 import classes from '../../styles/featured-posts.module.scss'
 
 const DynamicPostsGrid = dynamic(() => import('../posts/posts-grid'))
