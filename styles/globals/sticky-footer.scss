@@ -58,15 +58,15 @@ body {
 /* global footer styling */
 
 .dark footer a {
-  color: #8d0a9d;
+
+  /* stylelint-disable scss/no-global-function-names */
+  color: lighten($tailwind-lighter-orange, 7.5%);
 }
 
 /* dark footer social icons styling  */
 
 .dark div > div.footer-email, .dark div > div.footer-github, .dark div > div.footer-twitter, .dark div > div.footer-linkedin, .dark div > div.footer-sitemap {
-
-  /* stylelint-disable scss/no-global-function-names */
-  fill: darken($tailwind-peppermint-green, 12.5%);
+  fill: darken($aussie-blue, 12.5%);
 
   &:hover {
     fill: darken($tailwind-dark-orange,1.25%);
@@ -74,4 +74,10 @@ body {
   }
 }
 
+.dark .footer {
+	background: #1c1c1c;
+}
 
+.dark .footer > p {
+	color: ghostwhite;
+}
