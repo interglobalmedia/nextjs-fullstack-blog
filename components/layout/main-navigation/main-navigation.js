@@ -3,7 +3,6 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { document } from 'browser-monads'
 import { useRouter } from 'next/router'
-import { useSession, signIn, signOut } from 'next-auth/react'
 import Logo from '../logo'
 import headerNavLinks from '../../../data/header-navlinks'
 import { isActiveLink } from '../../../lib/utils/activeLink'
@@ -14,7 +13,6 @@ import classes from '../../../styles/main-navigation.module.scss'
 function MainNavigation() {
     const [mobileNavOpen, setMobileNavOpen] = useState(false)
     const router = useRouter()
-    const { data: session, status } = useSession()
 
     const toggleMobileNav = () => {
         setMobileNavOpen(!mobileNavOpen)
