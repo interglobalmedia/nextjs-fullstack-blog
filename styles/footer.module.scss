@@ -1,23 +1,33 @@
 /* color variables 2 */
-$aussie-blue: #80d0ff;
-$tailwind-dark-orange: rgb(202 96 60 / 100%);
+$peppermint-blush-white: #f2ebe3;
 $tailwind-peppermint-green: #14b8a6;
 
 .footer {
 	width: 100%;
+	background: $peppermint-blush-white;
+	margin-bottom: -0.5rem;
+	padding-top: 1rem;
+}
+
+.provider-wrapper {
+	margin: 0 auto 4rem;
+}
+
+.sign-in,
+.follow {
+	text-align: center;
 }
 
 .svg-wrapper {
 	display: flex;
 	flex-direction: row;
-  flex-wrap: wrap;
+	flex-wrap: wrap;
 	gap: 1.5rem;
 	justify-content: center;
 	margin-bottom: 3rem;
 }
 
 .footer > p {
-  
 	/* stylelint-disable scss/no-global-function-names */
 	color: darken(#1c1c1c, 1.25%);
 	font-size: 1.3rem;
@@ -37,19 +47,19 @@ $tailwind-peppermint-green: #14b8a6;
 	fill: darken(#1c1c1c, 15%);
 
 	&:hover {
-		fill: darken($tailwind-peppermint-green, 12.5%);
-    transition: all 1s ease-out;
+		fill: $tailwind-peppermint-green;
+		transition: all 1s ease-out;
 	}
 }
 
 .svg-wrapper > div.footer-email {
 	height: 3.75rem;
-  margin-right: 0.25rem;
+	margin-right: 0.25rem;
 	width: 3.75rem;
 }
 
 .svg-wrapper > div.footer-sitemap {
 	height: 3.875rem;
-  margin-top: -0.25rem;
+	margin-top: -0.25rem;
 	width: 3.875rem;
 }
