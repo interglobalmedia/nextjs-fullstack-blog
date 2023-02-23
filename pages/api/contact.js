@@ -4,7 +4,7 @@ async function handler(req, res) {
     if (req.method === 'POST') {
         const { name, twitterHandle, linkedinHandle, githubHandle, message } = req.body
 
-        if ( !name || name.trim() === '' || !twitterHandle || !twitterHandle.includes('@') || !linkedinHandle || linkedinHandle.trim() === '' || !githubHandle || githubHandle.trim() === '' || !message || message.trim() === '') {
+        if ( !name || name.trim() === '' || !twitterHandle || !twitterHandle.trim() === '' || !linkedinHandle || linkedinHandle.trim() === '' || !githubHandle || githubHandle.trim() === '' || !message || message.trim() === '') {
             res.status(422).json({ message: 'Invalid input.' })
             return
         }
