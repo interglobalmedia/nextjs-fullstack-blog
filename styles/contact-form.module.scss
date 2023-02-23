@@ -43,6 +43,7 @@ $min-768: '(min-width: 768px)';
 .controls {
   column-gap: 1rem;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
 }
 
