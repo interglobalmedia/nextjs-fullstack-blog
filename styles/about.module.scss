@@ -1,3 +1,6 @@
+/* media query variables */
+$min-768: '(min-width: 768px)';
+
 /* color variables */
 $aussie-blue: #80d0ff;
 
@@ -17,11 +20,14 @@ $aussie-blue: #80d0ff;
 
 .about-section > h1 {
 	color: var(--color-grey-300);
-	font-size: var(--size-16);
+	font-size: var(--size-12);
 	margin: var(--size-4) 0;
     text-align: center;
     -webkit-text-stroke-color: #000;
     -webkit-text-stroke-width: 1.25px;
+    @media #{$min-768} {
+    font-size: var(--size-16);
+  }
 }
 
 .info {
