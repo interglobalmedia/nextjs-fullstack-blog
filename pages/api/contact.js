@@ -2,17 +2,19 @@ import { MongoClient } from 'mongodb'
 
 async function handler(req, res) {
     if (req.method === 'POST') {
-        const { email, name, message } = req.body
+        const { name, twitterHandle, linkedinHandle, githubHandle, message } = req.body
 
-        if (!email || !email.includes('@') || !name || name.trim() === '' || !message || message.trim() === '') {
+        if ( !name || name.trim() === '' || !twitterHandle || !twitterHandle.includes('@') || !linkedinHandle || linkedinHandle.trim() === '' || !githubHandle || githubHandle.trim() === '' || !message || message.trim() === '') {
             res.status(422).json({ message: 'Invalid input.' })
             return
         }
 
         /* store it in a database */
         const newMessage = {
-            email,
             name,
+            twitterHandle,
+            linkedinHandle,
+            githubHandle,
             message
         }
 
