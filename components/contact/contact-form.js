@@ -5,8 +5,10 @@ import { sendContactData } from '../../helpers/send-contact-data'
 import classes from '../../styles/contact-form.module.scss'
 
 function ContactForm() {
-    const [enteredEmail, setEnteredEmail] = useState('')
     const [enteredName, setEnteredName] = useState('')
+    const [enteredTwitterHandle, setEnteredTwitterHandle] = useState('')
+    const [enteredLinkedinHandle, setEnteredLinkedinHandle] = useState('')
+    const [enteredGithubHandle, setEnteredGithubHandle] = useState('')
     const [enteredMessage, setEnteredMessage] = useState('')
     /* 'pending', 'success', or 'error', or null or undefined if we don't have any initial request */
     const [requestStatus, setRequestStatus] = useState()
@@ -35,16 +37,20 @@ function ContactForm() {
 
         try {
             await sendContactData({
-            email: enteredEmail,
-            name: enteredName,
-            message: enteredMessage
-        })
+                name: enteredName,
+                twitterHandle: enteredTwitterHandle,
+                linkedinHandle: enteredLinkedinHandle,
+                githubHandle: enteredGithubHandle,
+                message: enteredMessage
+            })
 
             setRequestStatus('success')
-            setEnteredEmail('')
             setEnteredName('')
-            setEnteredMessage('')
-            
+            setEnteredTwitterHandle('')
+                setEnteredLinkedinHandle('')
+                setEnteredGithubHandle('')
+                setEnteredMessage('')
+
         } catch (error) {
             setRequestError(error.message)
             setRequestStatus('error')
@@ -83,16 +89,6 @@ function ContactForm() {
             <form className={classes.form} onSubmit={sendMessageHandler}>
                 <div className={classes.controls}>
                     <div className={classes.control}>
-                        <label className={`label`} htmlFor="email">Your Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={enteredEmail}
-                            onChange={(event) => setEnteredEmail(event.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className={classes.control}>
                         <label className={`label`} htmlFor="name">Your Name</label>
                         <input
                             type="text"
@@ -100,6 +96,33 @@ function ContactForm() {
                             required
                             value={enteredName}
                             onChange={event => setEnteredName(event.target.value)} />
+                    </div>
+                    <div className={classes.control}>
+                        <label className={`label`} htmlFor="twitter-handle">Your TwitterHandle</label>
+                        <input
+                            type="text"
+                            id="twitter-handle"
+                            required
+                            value={enteredTwitterHandle}
+                            onChange={event => setEnteredTwitterHandle(event.target.value)} />
+                    </div>
+                    <div className={classes.control}>
+                        <label className={`label`} htmlFor="linkedin-handle">Your Linkedin Handle</label>
+                        <input
+                            type="text"
+                            id="linkedin-handle"
+                            required
+                            value={enteredLinkedinHandle}
+                            onChange={event => setEnteredLinkedinHandle(event.target.value)} />
+                    </div>
+                    <div className={classes.control}>
+                        <label className={`label`} htmlFor="github-handle">Your Github Handle</label>
+                        <input
+                            type="text"
+                            id="github-handle"
+                            required
+                            value={enteredGithubHandle}
+                            onChange={event => setEnteredGithubHandle(event.target.value)} />
                     </div>
                 </div>
                 <div className={classes.control}>
