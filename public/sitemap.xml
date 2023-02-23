@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
+		<loc>https://www.mariadcampbell.comabout</loc>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>https://www.mariadcampbell.comauth</loc>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
 		<loc>https://www.mariadcampbell.comcontact</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>https://www.mariadcampbell.comguestbook</loc>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -18,7 +39,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/a-must-have-frontend-developer-tool</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -27,7 +48,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/a-new-react-workflow-with-react-166-and-webpack-4</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -36,14 +57,14 @@
 		<loc
 			>https://www.mariadcampbell.composts/changing-your-homebrew-postgresql-configuration-from-trust-to-md5</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/class-conflicts</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -52,7 +73,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/compressing-and-uncompressing-directories-from-the-command-line</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -61,7 +82,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/dont-name-any-of-your-project-directories-functions</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -70,14 +91,14 @@
 		<loc
 			>https://www.mariadcampbell.composts/downloading-a-pdf-file-from-the-internet-using-command-line-on-your-mac</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/ekeycode-ewhich</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -86,21 +107,21 @@
 		<loc
 			>https://www.mariadcampbell.composts/es2018-language-features-available-in-v8js-v64-and-chrome-64</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/eslint-parsing-in-react</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/fixing-your-nvm-install</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -109,7 +130,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/flexbox-sticky-footer-and-react</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -118,14 +139,14 @@
 		<loc
 			>https://www.mariadcampbell.composts/getting-started-with-nextjs</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/guess-the-keys</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -134,7 +155,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/how-to-add-files-to-your-gitignore-with-no-sweat</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -143,7 +164,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/how-to-completely-remove-cached-ip-addresses</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -152,7 +173,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/how-to-copy-a-directory-from-command-line</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -161,7 +182,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/how-to-remove-an-unwanted-local-repository-in-sourcetree-with-command-line</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -170,7 +191,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/how-to-save-terminal-output-to-a-file-for-future-reference</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -179,7 +200,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/how-to-uninstall-postgresql-on-osx-and-reinstall-with-homebrew</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -188,7 +209,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/how-to-uninstall-vs-code-seamlessly-on-your-mac</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -197,7 +218,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/html5-canvas-game-development</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -206,14 +227,14 @@
 		<loc
 			>https://www.mariadcampbell.composts/i-gave-my-first-presentation-tonight</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/im-now-on-patreon</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -222,7 +243,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/implementing-es6-modules-without-webpack-or-babel</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -231,14 +252,14 @@
 		<loc
 			>https://www.mariadcampbell.composts/importing-images-in-react-20-jest-and-babel-7</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/importing-images-in-react</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -247,7 +268,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/installing-pgadmin-only-after-installing-postgresql-with-homebrew-part-2</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -256,7 +277,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/installing-pgadmin-only-after-installing-postgresql-with-homebrew</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -265,28 +286,28 @@
 		<loc
 			>https://www.mariadcampbell.composts/installing-visual-studio-code-text-editor-on-a-mac</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/jest-react-and-mocks</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/mastering-javascript</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/my-amazon-s3-moment</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -295,7 +316,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/my-first-time-using-react-16</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -304,7 +325,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/my-updated-custom-react-workflow-2nd-edition-is-here</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -313,7 +334,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/nextjs-environment-variable-support-and-the-envlocal-file</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -322,7 +343,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/opening-up-iterm2-via-spotlight-search-on-your-mac</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -331,14 +352,14 @@
 		<loc
 			>https://www.mariadcampbell.composts/postgresql-and-the-osx-migration-assistant</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/react-workflows-update-1</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -347,7 +368,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/refactoring-your-js-workflow-when-your-images-are-in-your-css-only</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -356,7 +377,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/removing-caps-from-css-headings</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -365,7 +386,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/renaming-your-remote-github-repository</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -374,14 +395,14 @@
 		<loc
 			>https://www.mariadcampbell.composts/requestanimationframe-and-polyfill-in-reactjs</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/the-babel-7-config</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -390,7 +411,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/the-chrome-favicon-nightmare-and-how-i-finally-fixed-it</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -399,7 +420,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/the-importance-of-adapting-to-change-quickly</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -408,14 +429,14 @@
 		<loc
 			>https://www.mariadcampbell.composts/the-importance-of-eslint-and-react</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.composts/the-jest-side-effect</loc>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -424,7 +445,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/the-new-npm-audit-with-6-npm</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -433,7 +454,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/the-say-command-in-osx-command-line</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -442,7 +463,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/to-npm-trash-or-not-to-npm-trash</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -451,7 +472,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/upgrading-postgresql-from-version-104-to-111-via-homebrew-osx</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -460,7 +481,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/what-to-do-when-you-cant-upgrade-oh-my-zsh</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -469,7 +490,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/when-a-bare-bones-automated-js-workflow-makes-sense</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -478,7 +499,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/when-an-object-property-key-is-a-string-in-javascript</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -487,7 +508,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/when-and-why-it-is-important-to-refactor-code</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -496,7 +517,7 @@
 		<loc
 			>https://www.mariadcampbell.composts/why-your-local-machine-computer-may-not-be-pointing-to-your-newly-propagated-site</loc
 		>
-		<lastmod>2-19-2023 at 12:43 pm</lastmod>
+		<lastmod>2-22-2023 at 9:41 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
