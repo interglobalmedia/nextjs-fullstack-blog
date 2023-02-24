@@ -16,6 +16,17 @@ function Footer() {
             <footer className={`footer ${classes.footer}`}>
                 <FooterNavigation />
                 <div className={classes['provider-wrapper']}>
+                    {!session ? (
+                        <>
+                            <p>Not signed in</p>
+                            <br />
+                            <button onClick={() => signIn()}>Sign in</button>
+                        </>
+                    ) : (
+                        <div className={styles.header}>
+                            <h4>Signed in as {session.user.name}</h4>
+                            <button onClick={() => signOut()}>Sign out</button>
+                        </div>)}
                     {status === `unauthenticated` && <h2 className={classes['sign-in']}>Sign in</h2>}
                     {status === `authenticated` && <h2 className={classes['sign-in']}></h2>}
                     <ProviderButtons />
