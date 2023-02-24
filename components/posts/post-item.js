@@ -1,7 +1,15 @@
 import Link from 'next/link'
-import Image from "next/image";
+import Image from 'next/image'
+import { Oswald } from '@next/font/google'
 import { getTagLink } from './get-tag-link'
 import classes from '../../styles/post-item.module.scss'
+
+const oswald = Oswald({
+  weight: ['400'],
+  subsets: ['latin'],
+    display: 'optional',
+    variable: '--oswald-font',
+})
 
 function PostItem(props) {
 
@@ -30,7 +38,7 @@ function PostItem(props) {
                         height={200}
                         className={classes.img}
                         />
-                    <figcaption className={classes.content}>
+                    <figcaption className={`${classes.content} ${oswald.variable}`}>
                         <h3>{post.title}</h3>
                         <time className={`time`}>{formattedDate}</time>
                         <p>{post.author}</p>
