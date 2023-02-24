@@ -5,7 +5,7 @@ const DynamicPostsGrid = dynamic(() => import('../posts/posts-grid'))
 
 function FeaturedPosts(props) {
     return (
-        <section className={classes.latest}>
+        <section className={`${classes.latest}`}>
             <h2>Featured Posts</h2>
             {/* separate component for list of posts here */}
             <DynamicPostsGrid posts={props.posts} />
