@@ -7,7 +7,7 @@ function AllPosts(props) {
     const { posts } = props
     
     return (
-        <section className={classes.posts}>
+        <section className={`${classes.posts}`}>
             <h1>All Posts</h1>
             <DynamicPostsGrid posts={posts} />
         </section>
