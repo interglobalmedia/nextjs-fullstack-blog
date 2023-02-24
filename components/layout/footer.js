@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import siteMetadata from '../../data/siteMetadata'
 import SocialIcon from '../../helpers/icons-map'
 import ProviderButtons from '../buttons/provider-buttons'
@@ -14,12 +14,19 @@ function Footer() {
     if (typeof document === "object") {
         return createPortal((
             <footer className={`footer ${classes.footer}`}>
-                <FooterNavigation />
-                <div className={classes['provider-wrapper']}>
-                    {status === `unauthenticated` && <h2 className={classes['sign-in']}>Sign in</h2>}
-                    {status === `authenticated` && <h2 className={classes['sign-in']}></h2>}
-                    <ProviderButtons />
-                </div>
+                {session && session.user ?
+                    (<FooterNavigation />) : (
+                        <p>You need to sign in to access the Contact and Guestbook pages.</p>
+                    )}
+                {session && session.user ? (
+                    <div className={classes['provider-button']}>
+                        <button onClick={() => signOut()}>Sign out</button>
+                    </div>
+                ) : (
+                    <div className={classes['provider-button']}>
+                        <button onClick={() => signIn()}>Sign in with Github</button>
+                    </div>
+                )}
                 <h2 className={classes.follow}>Follow</h2>
                 <div className={`${classes['svg-wrapper']}`}>
                     <div className={`footer-email ${classes['footer-email']}`}>
