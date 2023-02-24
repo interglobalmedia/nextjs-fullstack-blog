@@ -2,7 +2,6 @@ import { connectToDB } from '../lib/db'
 import { useSession, getSession } from 'next-auth/react'
 import classes from '../styles/guestbook.module.scss'
 function GuestBook({ messages }) {
-    const { data: session } = useSession()
     const twitterUrl = `https://twitter.com/`
     const linkedinUrl = `https://www.linkedin.com/in/`
     const githubUrl = `https://github.com/`
@@ -37,14 +36,6 @@ function GuestBook({ messages }) {
                         </li>
                     ))}
                 </ul>
-            </section>
-            <section className={classes['guestbook-section']}>
-                {
-                    session &&
-                    <>
-                        <p style={{ marginBottom: '10px' }}> Welcome, {session.user.name ?? session.user.email}</p> <br />
-                    </>
-                }
             </section>
         </>
     )

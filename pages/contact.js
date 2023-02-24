@@ -4,7 +4,6 @@ import Head from 'next/head'
 import ContactForm from '../components/contact/contact-form'
 
 function ContactPage() {
-    const { data: session } = useSession()
     return (
         <Fragment>
             <Head>
@@ -12,14 +11,6 @@ function ContactPage() {
                 <meta name="description" content="Send Maria D. Campbell your messages" />
             </Head>
             <ContactForm />
-            <section className={classes['guestbook-section']}>
-                {
-                    session &&
-                    <>
-                        <p style={{ marginBottom: '10px' }}> Welcome, {session.user.name ?? session.user.email}</p> <br />
-                    </>
-                }
-            </section>
         </Fragment>
         
     )
