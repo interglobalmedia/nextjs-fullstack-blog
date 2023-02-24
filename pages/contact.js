@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { useSession, getSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import ContactForm from '../components/contact/contact-form'
 

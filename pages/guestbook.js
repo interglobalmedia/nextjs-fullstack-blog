@@ -1,5 +1,5 @@
 import { connectToDB } from '../lib/db'
-import { useSession, getSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import classes from '../styles/guestbook.module.scss'
 function GuestBook({ messages }) {
     const twitterUrl = `https://twitter.com/`
@@ -41,13 +41,22 @@ function GuestBook({ messages }) {
     )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+    const session = await getSession({ req: context.req })
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/auth',
+                permanent: false,
+            },
+        }
+    }
     let messages = []
     const client = await connectToDB()
     const db = client.db()
     const messagesCollection = db.collection('messages')
     const result = await messagesCollection.find({}).toArray()
-    // const parsedMessages = JSON.parse(JSON.stringify(result))
+    const parsedMessages = JSON.parse(JSON.stringify(result))
     client.close()
     messages = result.map((message) => {
         message.name,
@@ -58,6 +67,7 @@ export async function getServerSideProps() {
     return {
         props: {
             messages: parsedMessages,
+            session
         }
     }
 }
