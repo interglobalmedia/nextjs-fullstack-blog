@@ -8,25 +8,23 @@ import FooterNavigation from './footer-navigation/footer-navigation'
 import classes from '../../styles/footer.module.scss'
 
 function Footer() {
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
 
 
     if (typeof document === "object") {
         return createPortal((
             <footer className={`footer ${classes.footer}`}>
-                {session && session.user ?
-                    (<FooterNavigation />) : (
-                        <p>You need to sign in to access the Contact and Guestbook pages.</p>
-                    )}
-                {session && session.user ? (
+                {status === `authenticated` &&
+                    <FooterNavigation />}
+                {status === `unauthenticated` &&
+                    <p>You need to sign in to access the Contact and Guestbook pages.</p>}
+                {status === `authenticated` &&
                     <div className={classes['provider-button']}>
                         <button onClick={() => signOut()}>Sign out</button>
-                    </div>
-                ) : (
-                    <div className={classes['provider-button']}>
-                        <button onClick={() => signIn()}>Sign in with Github</button>
-                    </div>
-                )}
+                    </div>}
+                {status === `unauthenticated` && <div className={classes['provider-button']}>
+                    <button onClick={() => signIn()}>Sign in with Github</button>
+                </div>}
                 <h2 className={classes.follow}>Follow</h2>
                 <div className={`${classes['svg-wrapper']}`}>
                     <div className={`footer-email ${classes['footer-email']}`}>
