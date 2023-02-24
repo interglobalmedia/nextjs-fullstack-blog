@@ -41,16 +41,7 @@ function GuestBook({ messages }) {
     )
 }
 
-export async function getServerSideProps(context) {
-    const session = await getSession({ req: context.req })
-    if (!session) {
-        return {
-            redirect: {
-                destination: '/auth',
-                permanent: false,
-            },
-        }
-    }
+export async function getServerSideProps() {
     let messages = []
     const client = await connectToDB()
     const db = client.db()
@@ -67,7 +58,6 @@ export async function getServerSideProps(context) {
     return {
         props: {
             messages: parsedMessages,
-            session
         }
     }
 }
