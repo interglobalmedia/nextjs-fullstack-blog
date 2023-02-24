@@ -4,16 +4,17 @@ $min-768: '(min-width: 768px)';
 /* stylelint-disable scss/no-global-function-names */
 
 .latest {
-  margin: var(--size-8) auto 0;
-  max-width: 60rem;
-  width: 90%;
+	margin: var(--size-8) auto 0;
+	max-width: 60rem;
+	width: 90%;
 }
 
-.latest>h2 {
-  color: darken(#1c1c1c, 1.25%);
-  font-size: var(--size-12);
-  text-align: center;
-  @media #{$min-768} {
-    font-size: var(--size-16);
-  }
+.latest > h2 {
+	color: darken(#1c1c1c, 1.25%);
+	font-family: var(--oswald-font);
+	font-size: var(--size-12);
+	text-align: center;
+	@media #{$min-768} {
+		font-size: var(--size-16);
+	}
 }
