@@ -45,7 +45,7 @@ function FooterNavigation() {
                                         ></motion.div>
                                     )}</Link>
                         </li>}
-                    {status === `unauthenticated` &&
+                    {status === `authenticated` &&
                         <li className='menu-link-li'>
                             <Link href='/guestbook' className={`${router.pathname} ===
                     '/guestbook' ? 'active' : ''} menu-link relative mr-6 flex flex-col font-medium text-gray-900 dark:text-gray-100 sm:mr-8 sm:p-4`}>Guestbook{isActiveLink(
