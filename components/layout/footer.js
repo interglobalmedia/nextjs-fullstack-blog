@@ -19,10 +19,10 @@ function Footer() {
                 {status === `unauthenticated` &&
                     <p>You need to sign in to access the Contact and Guestbook pages.</p>}
                 {status === `authenticated` &&
-                    <div className={classes['provider-button']}>
+                    <div className={`provider-button ${classes['provider-button']}`}>
                         <button onClick={() => signOut()}>Sign out</button>
                     </div>}
-                {status === `unauthenticated` && <div className={classes['provider-button']}>
+                {status === `unauthenticated` && <div className={`provider-button ${classes['provider-button']}`}>
                     <button onClick={() => signIn()}>Sign in with Github</button>
                 </div>}
                 <h2 className={classes.follow}>Follow</h2>
