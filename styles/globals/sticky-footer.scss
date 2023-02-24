@@ -70,7 +70,7 @@ body {
 
   &:hover {
     fill: darken($tailwind-dark-orange,1.25%);
-	transition: fill 1s ease-out;
+	transition: fill 2s ease-out;
   }
 }
 
@@ -80,4 +80,14 @@ body {
 
 .dark .footer > p {
 	color: ghostwhite;
+}
+
+.dark .provider-button {
+	background: darken($aussie-blue, 12.5%);
+	color: #000;
+
+	&:hover {
+    background: darken($tailwind-dark-orange,1.25%);
+	transition: background 2s ease-in-out;
+  }
 }

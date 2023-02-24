@@ -14,12 +14,17 @@ function Footer() {
     if (typeof document === "object") {
         return createPortal((
             <footer className={`footer ${classes.footer}`}>
-                <FooterNavigation />
-                <div className={classes['provider-wrapper']}>
-                    {status === `unauthenticated` && <h2 className={classes['sign-in']}>Sign in</h2>}
-                    {status === `authenticated` && <h2 className={classes['sign-in']}></h2>}
-                    <ProviderButtons />
-                </div>
+                {status === `authenticated` &&
+                    <FooterNavigation />}
+                {status === `unauthenticated` &&
+                    <p>You need to sign in to access the Contact and Guestbook pages.</p>}
+                {status === `authenticated` &&
+                    <div className={`provider-button ${classes['provider-button']}`}>
+                        <button onClick={() => signOut()}>Sign out</button>
+                    </div>}
+                {status === `unauthenticated` && <div className={`provider-button ${classes['provider-button']}`}>
+                    <button onClick={() => signIn()}>Sign in with Github</button>
+                </div>}
                 <h2 className={classes.follow}>Follow</h2>
                 <div className={`${classes['svg-wrapper']}`}>
                     <div className={`footer-email ${classes['footer-email']}`}>

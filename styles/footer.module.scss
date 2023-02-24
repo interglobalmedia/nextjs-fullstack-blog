@@ -63,3 +63,24 @@ $tailwind-peppermint-green: #14b8a6;
 	margin-top: -0.25rem;
 	width: 3.875rem;
 }
+
+/* Auth Sign in Sign out buttons */
+
+.provider-button {
+	background: #000;	
+	border-radius: 5px;
+	color: ghostwhite;
+	display: flex;
+	font-size: 1.1rem;
+	justify-content: center;
+	list-style-type: none;
+	margin: 1.5rem auto;
+	padding: 0.5rem;
+	text-decoration: none;
+	width: 14rem;
+
+	&:hover {
+		background: darken($tailwind-peppermint-green, 12.5%);
+		transition: background-color 1.5s ease-in-out;
+	}
+}

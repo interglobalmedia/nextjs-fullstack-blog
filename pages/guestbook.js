@@ -1,11 +1,12 @@
+import { getSession } from 'next-auth/react'
 import { connectToDB } from '../lib/db'
-import { useSession, getSession } from 'next-auth/react'
 import classes from '../styles/guestbook.module.scss'
 function GuestBook({ messages }) {
-    const { data: session } = useSession()
+
     const twitterUrl = `https://twitter.com/`
     const linkedinUrl = `https://www.linkedin.com/in/`
     const githubUrl = `https://github.com/`
+
     return (
         <>
             <section className={`guestbook-section ${classes['guestbook-section']}`}>
@@ -14,7 +15,7 @@ function GuestBook({ messages }) {
                     {messages.map((message) => (
                         // eslint-disable-next-line react/jsx-key
                         <li className={`guest ${classes.guest}`}>
-                            
+
                             <ul className={classes['message-name']}>
                                 <li>Name:</li>
                                 <li><b>{message.name}</b></li>
@@ -38,24 +39,18 @@ function GuestBook({ messages }) {
                     ))}
                 </ul>
             </section>
-            <section className={classes['guestbook-section']}>
-                {
-                    session &&
-                    <>
-                        <p style={{ marginBottom: '10px' }}> Welcome, {session.user.name ?? session.user.email}</p> <br />
-                    </>
-                }
-            </section>
         </>
     )
 }
 
 export async function getServerSideProps(context) {
     const session = await getSession({ req: context.req })
+    console.log('session', session)
+
     if (!session) {
         return {
             redirect: {
-                destination: '/auth',
+                destination: '/',
                 permanent: false,
             },
         }
@@ -65,18 +60,18 @@ export async function getServerSideProps(context) {
     const db = client.db()
     const messagesCollection = db.collection('messages')
     const result = await messagesCollection.find({}).toArray()
-    // const parsedMessages = JSON.parse(JSON.stringify(result))
+    const parsedMessages = JSON.parse(JSON.stringify(result))
     client.close()
     messages = result.map((message) => {
         message.name,
-        message.twitterHandle,
-        message.linkedinHandle,
-        message.githubHandle
+            message.twitterHandle,
+            message.linkedinHandle,
+            message.githubHandle
     })
     return {
         props: {
-            messages: parsedMessages,
-            session
+            session,
+            messages: parsedMessages
         }
     }
 }

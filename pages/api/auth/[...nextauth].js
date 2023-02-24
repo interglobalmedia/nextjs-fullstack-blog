@@ -6,7 +6,7 @@ const options = {
         GithubProvider({
             clientId: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            nextAuthSecret: process.env. NEXTAUTH_SECRET
+            nextAuthSecret: process.env.NEXTAUTH_SECRET
         })
     ]
 }

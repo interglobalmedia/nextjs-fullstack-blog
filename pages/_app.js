@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import { Inconsolata, Roboto, Oswald } from '@next/font/google'
 import { useEffect, useState } from 'react'
 import { SessionProvider } from 'next-auth/react'
+import PlausibleProvider from 'next-plausible'
 
 const inconsolata = Inconsolata({
   weight: ['300', '400', '700'],
@@ -67,9 +68,11 @@ export default function App({ Component, pageProps, router }) {
             variants={variants}
             transition={{ duration: 0.5, type: 'tween' }}
           >
-            <main className={`${inconsolata.className}`}>
-              <Component {...pageProps} />
-            </main>
+            <PlausibleProvider domain="mariadcampbell.com">
+              <main className={`${inconsolata.className}`}>
+                <Component {...pageProps} />
+              </main>
+            </PlausibleProvider>
           </motion.div>
         </Layout>
       </SessionProvider>
