@@ -17,7 +17,7 @@ function ContactPage() {
 }
 
 export async function getServerSideProps(context) {
-    const session = await getSession(context)
+    const session = await getSession({req: context.req})
     if (!session) {
     return {
       redirect: {
