@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
-import { useSession, signIn } from 'next-auth/react'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import siteMetadata from '../../data/siteMetadata'
 import SocialIcon from '../../helpers/icons-map'
 import ProviderButtons from '../buttons/provider-buttons'
@@ -8,7 +8,7 @@ import FooterNavigation from './footer-navigation/footer-navigation'
 import classes from '../../styles/footer.module.scss'
 
 function Footer() {
-    const { data: session, status } = useSession()
+    const { data: session } = useSession()
 
 
     if (typeof document === "object") {
