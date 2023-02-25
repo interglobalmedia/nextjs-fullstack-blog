@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
-import Notification from '../ui/notifications'
+import dynamic from 'next/dynamic'
 import { sendContactData } from '../../helpers/send-contact-data'
 
 import classes from '../../styles/contact-form.module.scss'
+
+const DynamicNotification = dynamic(() => import('../ui/notifications'))
 
 function ContactForm() {
     const [enteredName, setEnteredName] = useState('')
@@ -84,7 +86,7 @@ function ContactForm() {
     }
 
     return (
-        <section className={`contact ${classes.contact}`}>
+        <section className={`contact ${classes.contact} ${oswald.variable}`}>
             <h1>How can I help you?</h1>
             <form className={classes.form} onSubmit={sendMessageHandler}>
                 <div className={classes.controls}>
@@ -140,7 +142,7 @@ function ContactForm() {
                 </div>
             </form>
             {notification &&
-                <Notification status={notification.status}
+                <DynamicNotification status={notification.status}
                     title={notification.title}
                     message={notification.message}
                 />}

@@ -1,6 +1,3 @@
-/* stylelint-disable import-notation */
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata&family=Oswald&family=Roboto&display=swap');
-
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 @import 'tailwindcss/base';
@@ -8,17 +5,4 @@
 @import 'tailwindcss/utilities';
 
 /* globals directories imports */
-@import 'globals/variables';
-@import 'globals/reset';
-@import 'globals/sticky-footer';
-@import 'globals/headings';
-@import 'globals/post-header';
-@import 'globals/post-content';
-@import 'globals/main-navigation';
-@import 'globals/about';
-@import 'globals/contact-form';
-@import 'globals/post-item';
-@import 'globals/scroll-buttons';
-@import 'globals/provider-buttons';
-@import 'globals/footer-navigation';
-@import 'globals/guestbook';
+@import 'globals/global-styles';

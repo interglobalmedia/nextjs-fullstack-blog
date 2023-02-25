@@ -19,8 +19,9 @@ $min-768: '(min-width: 768px)';
   }
 }
 
-.header h1 {
+.header>h1 {
   color: var(--color-primary-500);
+  font-family: var(--oswald-font);
   font-size: var(--size-8);
   line-height: initial;
   margin: 0;

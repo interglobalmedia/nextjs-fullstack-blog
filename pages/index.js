@@ -1,8 +1,10 @@
 import { Fragment } from 'react'
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 import Hero from '../components/home-page/hero'
-import FeaturedPosts from '../components/home-page/featured-posts'
 import { getFeaturedPosts } from '../lib/posts-util'
+
+const DynamicFeaturedPosts = dynamic(() => import('../components/home-page/featured-posts'))
 
 function HomePage(props) {
   return (
@@ -16,7 +18,7 @@ function HomePage(props) {
         />
       </Head>
       <Hero />
-      <FeaturedPosts posts={props.posts} />
+      <DynamicFeaturedPosts posts={props.posts} />
     </Fragment>
   )
 }
