@@ -8,14 +8,12 @@ import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json'
 import md from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown'
 import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx'
 import scss from 'react-syntax-highlighter/dist/cjs/languages/prism/scss'
-import Image from "next/legacy/image";
-import PostHeader from './post-header'
+import dynamic from 'next/dynamic'
+import Image from 'next/legacy/image'
 import { getTagLink } from '../get-tag-link'
 import classes from '../../../styles/post-content.module.scss'
 import getReadTime from '../../../lib/utils/read-time'
 import siteMetadata from '../../../data/siteMetadata'
-
-import SocialShareIcon from '../../../helpers/social-icons-map.js'
 
 SyntaxHighlighter.registerLanguage('js', js)
 SyntaxHighlighter.registerLanguage('css', css)
@@ -24,6 +22,9 @@ SyntaxHighlighter.registerLanguage('json', json)
 SyntaxHighlighter.registerLanguage('md', md)
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 SyntaxHighlighter.registerLanguage('scss', scss)
+
+const DynamicPostHeader = dynamic(() => import('./post-header'))
+const DynamicSocialShareIcon = dynamic(() => import('../../../helpers/social-icons-map.js'))
 
 function PostContent(props) {
     const { post } = props
@@ -94,14 +95,14 @@ function PostContent(props) {
     }
     return (
         <article className={`content ${classes.content}`}>
-            <PostHeader title={post.title} image={imagePath} />
-            <div className={classes['share-icons-wrapper']}>
-                <h1 className={classes['social-share-heading']}>
+            <DynamicPostHeader title={post.title} image={imagePath} />
+            <div className={`${classes['share-icons-wrapper']}`}>
+                <h1 className={`${classes['social-share-heading']}`}>
                     Social Share:
                 </h1>
                 <div className={classes['svg-wrapper']}>
                     <div className={`share-hacker-news ${classes['share-hacker-news']}`}>
-                        <SocialShareIcon
+                        <DynamicSocialShareIcon
                             name="social-hacker-news"
                             href={`https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
                                 post.slug
@@ -110,7 +111,7 @@ function PostContent(props) {
                         />
                     </div>
                     <div className={`share-twitter ${classes['share-twitter']}`}>
-                        <SocialShareIcon
+                        <DynamicSocialShareIcon
                             name="twitter"
                             href={`https://twitter.com/intent/tweet?url=${post.slug}&text=${text.twitterText} "${post.title}" by ${siteMetadata.twitterHandle} on ${siteMetadata.domain}`}
                             size="6"
@@ -118,7 +119,7 @@ function PostContent(props) {
                     </div>
                     <div className={`share-reddit ${classes
                         ['share-reddit']}`}>
-                        <SocialShareIcon
+                        <DynamicSocialShareIcon
                             name="social-reddit"
                             href={`https://www.reddit.com/submit?title=${post.title}&url=${post.slug}&text=${text.redditText}`}
                             size="6"
@@ -126,7 +127,7 @@ function PostContent(props) {
                     </div>
                     <div className={`share-linkedin ${classes
                         ['share-linkedin']}`}>
-                        <SocialShareIcon
+                        <DynamicSocialShareIcon
                             name="linkedin"
                             href={`https://www.linkedin.com/share?mini=true&url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.linkedinText}`}
                             size="6"

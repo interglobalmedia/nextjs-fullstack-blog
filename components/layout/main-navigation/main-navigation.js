@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { document } from 'browser-monads'
 import { useRouter } from 'next/router'
-import Logo from '../logo'
 import headerNavLinks from '../../../data/header-navlinks'
 import { isActiveLink } from '../../../lib/utils/activeLink'
-import MoonSunButton from '../../buttons/moon-sun-button'
-import HamButton from '../../buttons/ham-button'
 import classes from '../../../styles/main-navigation.module.scss'
+
+const DynamicLogo = dynamic(() => import('../logo'))
+const DynamicMoonSunButton = dynamic(() => import('../../buttons/moon-sun-button'))
+const DynamicHamButton = dynamic(() => import('../../buttons/ham-button'))
 
 function MainNavigation() {
     const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -45,7 +47,7 @@ function MainNavigation() {
             <nav className='navbar'>
                 <div className={classes['logo-wrapper']}>
                     <Link href='/' className={classes.logo}>
-                        <Logo />
+                        <DynamicLogo />
                     </Link>
                 </div>
                 <ul
@@ -79,8 +81,8 @@ function MainNavigation() {
                     ))}
                 </ul>
                 <div className={`svg-wrapper`}>
-                    <HamButton />
-                    <MoonSunButton />
+                    <DynamicHamButton />
+                    <DynamicMoonSunButton />
                 </div>
             </nav>
         </header>

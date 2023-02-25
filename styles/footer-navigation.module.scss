@@ -19,14 +19,14 @@ $min-1024: '(min-width: 1024px)';
 .footer-header ul {
 	align-items: flex-start;
 	display: flex;
-    flex-wrap: wrap;
+	flex-wrap: wrap;
 	justify-content: center;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	@media #{$min-1024} {
 		gap: 0.5rem;
-        margin: 6rem 0 0;
+		margin: 6rem 0 0;
 	}
 }
 

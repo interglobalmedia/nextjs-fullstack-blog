@@ -1,0 +1,770 @@
+/* color variables 1 */
+
+/* stylelint-disable scss/no-global-function-names */
+$tailwind-dark-orange: rgb(202 96 60 / 100%);
+$tailwind-lighter-orange: rgb(213 129 100 / 100%);
+$tailwind-lightest-orange: rgb(229 178 160 / 100%);
+$white: #fff;
+
+/* color variables 2 */
+$aussie-blue: #80d0ff;
+$cream: #ffe9d6;
+$discord-charcoal: #23272a;
+$ghost-white: #f8f8ff;
+
+/* scss @media query variables */
+$max-767: '(max-width: 767px)';
+$max-1023: '(max-width: 1023px)';
+$min-768: '(min-width: 768px)';
+$min-1024: '(min-width: 1024px)';
+
+/* icon related variables */
+$icon-size: 2.81rem;
+
+/* CSS reset */
+* {
+	box-sizing: border-box;
+	letter-spacing: 0.07em;
+	margin: 0;
+	padding: 0;
+}
+
+/* dark theme styling for body/sticky footer */
+body {
+	--color-grey-50: hsl(265deg 55% 96%);
+	--color-grey-100: hsl(265deg 19% 88%);
+	--color-grey-200: hsl(265deg 7% 70%);
+	--color-grey-300: hsl(265deg 6% 66%);
+	--color-grey-400: hsl(265deg 4% 57%);
+	--color-grey-500: hsl(265deg 3% 53%);
+	--color-grey-600: hsl(265deg 4% 42%);
+	--color-grey-700: hsl(265deg 4% 31%);
+	--color-grey-800: hsl(276deg 5% 20%);
+	--color-grey-900: hsl(280deg 5% 13%);
+	--color-primary-50: #c8b3ce;
+	--color-primary-100: #a07aaa;
+	--color-primary-200: #884c97;
+	--color-primary-300: #843897;
+	--color-primary-400: #732392;
+	--color-primary-500: #5a097a;
+	--color-primary-600: #480264;
+	--color-primary-700: #3d0264;
+	--color-success-100: #a2f0bc;
+	--color-success-500: #12bd4b;
+	--color-error-100: #f1acc9;
+	--color-error-500: #a10c4a;
+	--size-1: 0.25rem;
+	--size-2: 0.5rem;
+	--size-3: 0.75rem;
+	--size-4: 1rem;
+	--size-5: 1.25rem;
+	--size-6: 1.5rem;
+	--size-7: 1.75rem;
+	--size-8: 2rem;
+	--size-10: 2.5rem;
+	--size-12: 3rem;
+	--size-16: 4rem;
+	--size-20: 5rem;
+	--size-40: 10rem;
+
+	background-color: var(--color-grey-500);
+	color: #252525;
+	display: flex;
+	flex-direction: column;
+	font-family: Inconsolata, monospace;
+	font-weight: 400;
+	margin: 0;
+	overflow-x: hidden;
+	min-height: 100vh;
+}
+
+.dark body {
+	background-color: #cdb5cd;
+}
+
+.site-content {
+	flex: 1;
+	width: 100%;
+}
+
+/* global styles for headings */
+h1,
+h2,
+h3 {
+	font-family: var(--oswald-font);
+}
+
+h2 {
+	font-size: 1.75rem;
+	margin-bottom: 1rem;
+	@media #{$min-768} {
+		font-size: 2rem;
+	}
+}
+
+h3 {
+	font-size: 1.5rem;
+	margin-bottom: 1rem;
+	@media #{$min-768} {
+		font-size: 1.75rem;
+	}
+}
+
+.dark h1,
+.dark h2,
+.dark h3 {
+	color: lighten($tailwind-dark-orange, 5%);
+}
+
+/* dark theme styling for main-navigation */
+li.menu-link-li {
+	margin: 0 0 1.5rem 1.5rem;
+	list-style-type: none;
+}
+
+a.menu-link {
+	list-style-type: none;
+	margin: 2.25vh;
+}
+
+/* svg styling */
+
+.svg-wrapper {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	max-width: 12rem;
+}
+
+/* theme moon icon styling */
+.moon-sun {
+	@media #{$max-1023} {
+		position: absolute;
+		right: 5rem;
+		top: 1.85rem;
+		z-index: 9;
+	}
+
+	@media #{$min-1024} {
+		position: absolute;
+		right: 6rem;
+		top: 1.75rem;
+	}
+}
+
+/* moon-sun svg styling */
+@at-root .moon-sun > svg {
+	width: 2rem;
+	height: 2rem;
+	color: #fff;
+}
+
+/* Responsive Hamburger menu styling */
+
+/* hamburger styling */
+
+.hamburger {
+	@media #{$max-1023} {
+		background-color: transparent;
+
+		/* show the hamburger menu image */
+		background-size: 100%;
+		border: none;
+		cursor: pointer;
+		display: block;
+		position: absolute;
+		right: 1.125rem;
+		top: 1.5rem;
+
+		/* always keep ham on top of everything */
+		z-index: 21;
+	}
+	@media #{$min-1024} {
+		display: none;
+	}
+}
+
+/* hamburger svg styling */
+.hamburger > svg {
+	width: 3.125rem;
+	height: 3.125rem;
+}
+
+.line {
+	fill: none;
+	stroke: #fff;
+	stroke-width: 6;
+	transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+		stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.top {
+	stroke-dasharray: 60 207;
+	stroke-width: 6;
+}
+
+.middle {
+	stroke-dasharray: 60 60;
+	stroke-width: 6;
+}
+
+.bottom {
+	stroke-dasharray: 60 207;
+	stroke-width: 6;
+}
+
+.show-close .top {
+	stroke-dasharray: 90 207;
+	stroke-dashoffset: -134;
+	stroke-width: 6;
+}
+
+.show-close .middle {
+	stroke-dasharray: 1 60;
+	stroke-dashoffset: -30;
+	stroke-width: 6;
+}
+
+.show-close .bottom {
+	stroke-dasharray: 90 207;
+	stroke-dashoffset: -134;
+	stroke-width: 6;
+}
+
+/* end svg styling */
+.main-nav {
+	@media #{$max-767} {
+		& li > a {
+			display: block;
+		}
+
+		& li:nth-of-type(1) > a {
+			width: 4rem;
+		}
+
+		& li:nth-of-type(2) > a {
+			width: 5rem;
+		}
+
+		& li:nth-of-type(3) > a {
+			width: 5rem;
+		}
+	}
+	@media #{$max-1023} {
+		background-color: darken(#1c1c1c, 1.25%);
+		display: block;
+		height: 100vh;
+		left: 0;
+		right: 0;
+		margin-top: 0;
+		margin-left: 0;
+		margin-right: 0;
+		padding-top: 5rem;
+		overflow-y: hidden;
+		position: fixed;
+		top: 0;
+
+		/* hide the menu above the screen by default */
+		transform: translateX(-100%);
+
+		/* transition adds a little animation when sliding in and out the menu */
+		transition: transform 0.2s ease;
+		width: 100vw;
+
+		/* needed for me because of my intro box in index.html.
+		Otherwise navigation backdrop would be behind the intro box when opened */
+		z-index: 10;
+
+		/* so that the nav link underlining from framer motion does not span across the width of the main-nav backdrop */
+	}
+
+	@media #{$min-1024} {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 1.5rem;
+		margin-right: 6rem;
+		margin-top: 6rem;
+		font-size: 1.2rem;
+		width: 100vw;
+	}
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.show-nav {
+	/* show the menu */
+	transform: translateX(0);
+}
+
+/* targets active class of anchor nav link in mobile (smaller) viewports */
+.menu-link.active,
+.navigation-underline.active {
+	color: lighten($aussie-blue, 10%);
+}
+
+.dark .main-nav {
+	@media #{$max-1023} {
+		background: rgba(44 62 80 / 100%);
+	}
+}
+
+.menu-link.font-bold.tracking-widest,
+.menu-link.p-1.font-medium {
+	font-weight: 500;
+}
+
+/* for .active link underline styling */
+
+.navigation-underline,
+.dark .navigation-underline,
+.menu-link,
+.dark .menu-link {
+	font-weight: 500;
+
+	// font-size: 1.3rem;
+	position: relative;
+}
+
+/* need to replace .menu-link class with navigation-underline class so that underline animation works! */
+/* stylelint-disable-next-line no-descending-specificity */
+.navigation-underline,
+.menu-link {
+	&::before {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 2px;
+		bottom: 0;
+		left: 0;
+		background-color: lighten($aussie-blue, 25%);
+		visibility: hidden;
+		transform: scaleX(0);
+		transition: all 0.3s ease-in-out;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 2px;
+		bottom: 0;
+		left: 0;
+		background-color: lighten($aussie-blue, 25%);
+		visibility: hidden;
+		transform: scaleX(0);
+		transition: all 0.3s ease-in-out;
+	}
+}
+
+/* stylelint-disable no-duplicate-selectors */
+.navigation-underline.active,
+.menu-link.active {
+	&::before {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 2px;
+		bottom: 0;
+		left: 0;
+		background-color: lighten($aussie-blue, 3.5%);
+		visibility: visible;
+		transform: scaleX(1);
+		transition: all 0.3s ease-in-out;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background: lighten($aussie-blue, 3.5%);
+		margin-bottom: 0;
+		transition: background-color 3s linear;
+		visibility: visible;
+		transform: scaleX(1);
+
+		/* stylelint-disable-next-line declaration-block-no-duplicate-properties */
+		transition: all 1s ease-in-out;
+	}
+}
+
+.navigation-underline.active {
+	&::before {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 2px;
+		bottom: 0;
+		left: 0;
+		background: lighten($aussie-blue, 3.5%);
+		transition: background-color 3s ease-in-out;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background: lighten($aussie-blue, 3.5%);
+		transition: background-color 3s ease-in-out;
+	}
+}
+
+.dark .navigation-underline.active,
+.dark .menu-link.active {
+	&::before {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 2px;
+		bottom: 0;
+		left: 0;
+		background-color: lighten($tailwind-dark-orange, 3.5%);
+		visibility: visible;
+		transform: scaleX(1);
+		transition: all 0.3s ease-in-out;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background: lighten($tailwind-dark-orange, 3.5%);
+		margin-bottom: 0;
+		transition: background-color 3s linear;
+		visibility: visible;
+		transform: scaleX(1);
+
+		/* stylelint-disable-next-line declaration-block-no-duplicate-properties */
+		transition: all 1s ease-in-out;
+	}
+}
+
+.dark .navigation-underline.active {
+	&::before {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 2px;
+		bottom: 0;
+		left: 0;
+		background: lighten($tailwind-dark-orange, 3.5%);
+		transition: background-color 3s ease-in-out;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background: lighten($tailwind-dark-orange, 3.5%);
+		transition: background-color 3s ease-in-out;
+	}
+}
+
+/* end .active link underline styling */
+
+/* stylelint-disable-next-line no-descending-specificity */
+
+/* stylelint-disable-next-line no-descending-specificity */
+.navigation-underline.active,
+.menu-link.active {
+	color: lighten($aussie-blue, 5%);
+	text-shadow: 1px 1px 2px lighten($discord-charcoal, 15%);
+	transition: color 0.5s ease-in-out;
+}
+
+.dark .menu-link.active {
+	color: lighten($tailwind-dark-orange, 3.5%);
+	text-shadow: 1px 1px 2px $discord-charcoal;
+	transition: all 0.5s ease-in-out;
+
+	&:hover {
+		color: darken($cream, 15%);
+		transition: all 0.5s ease-in-out;
+	}
+}
+
+/* stylelint-disable no-descending-specificity */
+.menu-link {
+	&:hover {
+		color: lighten($aussie-blue, 15%);
+		text-shadow: 1px 1px 2px lighten($discord-charcoal, 15%);
+		text-decoration: none;
+		transition: color 0.5s ease-in-out;
+	}
+
+	/* stylelint-disable selector-class-pattern */
+	&.sm\:p-4 {
+		@media #{$min-768} {
+			padding: 0 1rem;
+		}
+	}
+}
+
+.dark .menu-link {
+	&:hover {
+		color: darken($cream, 15%);
+		text-shadow: 1px 1px 2px $discord-charcoal;
+		transition: color 0.5s ease-in-out;
+	}
+}
+
+/* Mobile nav backdrop color */
+.fixed.h-full.w-full.transform.bg-gray-200.opacity-95.duration-300.ease-in-out {
+	background: rgb(103 128 159 / 100%);
+}
+
+.dark
+	.fixed.h-full.w-full.transform.bg-gray-200.opacity-95.duration-300.ease-in-out {
+	background: rgba(44 62 80 / 100%);
+}
+
+/* dark theme styling for posts-grid */
+.dark .search {
+	height: 3.25rem;
+	font-size: 1.3rem;
+}
+
+/* dark theme styling for post header */
+.dark .header h1 {
+	color: lighten($tailwind-dark-orange, 5%);
+}
+
+/* dark theme styling for post-content */
+ul {
+	margin-bottom: 1rem;
+}
+
+li {
+	margin-left: 1rem;
+	list-style-type: square;
+}
+
+a {
+	text-decoration: none;
+	color: #8d0a9d;
+	word-break: break-all;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* dark theme styling for global anchor element and global .tag class selector  */
+.dark a,
+.dark .tag {
+	color: darken($tailwind-lightest-orange, 2.5%);
+}
+
+p {
+	margin-bottom: 1rem;
+	margin-top: 1rem;
+	word-break: break-all;
+}
+
+.dark main p,
+.dark main ul {
+	color: $white;
+}
+
+blockquote {
+	margin-left: 1rem;
+	padding-left: 0.5rem;
+	border-left: 4px solid darken($aussie-blue, 30%);
+	background-color: var(--color-grey-200);
+}
+
+.dark strong {
+	color: $ghost-white;
+}
+
+/* styling for inline code workaround */
+.inline-code {
+	color: darken(#e4695d, 30%);
+}
+
+.dark .inline-code {
+	color: #ff357c;
+}
+
+.inline-code,
+.dark .inline-code {
+	word-break: break-all;
+}
+
+/* dark theme for hero for post content article element  */
+.dark .content {
+	background: darken(#1c1c1c, 1.25%);
+}
+
+/* dark theme for pre element in post-content */
+.dark .pre pre {
+	background: lighten(#1c1c1c, 5%) !important;
+}
+
+/* dark theme styling for post item */
+.dark .time {
+	color: darken($tailwind-lighter-orange, 2.5%);
+}
+
+/* dark social share icon styling */
+.dark div > div.share-hacker-news,
+.dark div > div.share-twitter,
+.dark div > div.share-reddit,
+.dark div > div.share-linkedin {
+	fill: darken($aussie-blue, 2.5%);
+
+	&:hover {
+		fill: darken($tailwind-dark-orange, 2.5%);
+		transition: fill 1s ease-out;
+		transform: rotate3d(0, 0, 0, 0deg);
+	}
+}
+
+/*  dark theme styling for about page */
+.dark .about-section > h1 {
+	color: #1c1c1c;
+}
+
+.dark .about-article {
+	background: #1c1c1c;
+}
+
+/* dark theme styling for post-item */
+
+ul > li figure {
+	border-bottom-right-radius: 6px;
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+
+	/* stylelint-disable declaration-block-no-redundant-longhand-properties */
+	border-top-left-radius: 6px;
+}
+
+ul > li figure img {
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	@media #{$min-768} {
+		border-bottom-left-radius: 6px;
+		border-top-right-radius: 0;
+	}
+}
+
+/* dark them styling for contact-form component page */
+.dark section.contact {
+	background: #1c1c1c;
+}
+
+.dark section.contact h1 {
+	color: lighten($tailwind-dark-orange, 5%);
+}
+
+.dark label.label {
+	color: darken($tailwind-lightest-orange, 2.5%);
+}
+
+button {
+	cursor: pointer;
+	font: inherit;
+}
+
+.dark div > .contact-btn-submit {
+	background-color: lighten($tailwind-dark-orange, 1.25%);
+	color: #000;
+
+	&:hover {
+		background-color: darken($tailwind-lightest-orange, 1.5%);
+	}
+}
+
+/* dark theme styling for guestbook page */
+.dark .guestbook-section > h1 {
+	color: #1c1c1c;
+}
+
+.dark .guest {
+	background: #1c1c1c;
+	border: 1.5px solid #000;
+}
+
+/* styling for scroll buttons. had to be added in global scope to work */
+.buttons-container {
+	margin-top: 30px;
+	width: 100%;
+	height: $icon-size;
+}
+
+span.material-icons {
+	position: relative;
+	color: $aussie-blue;
+	font-size: $icon-size;
+	transition: all 0.25s ease;
+}
+
+.dark span.material-icons {
+	color: $ghost-white;
+}
+
+.dark .icon-fill {
+	&:hover::before {
+		box-shadow: inset 0 0 0 6rem darken($tailwind-dark-orange, 2.5%);
+	}
+}
+
+/* dark theme styling for footer */
+
+/*  dark theme styling for footer-navigation component */
+ul.footer-navigation {
+	@media #{$min-1024} {
+		margin: 3rem 0;
+		padding: 1.5rem 0;
+	}
+}
+
+/* dark theme styling for provider-button */
+.dark .provider-button {
+	background: darken($aussie-blue, 12.5%);
+	color: #000;
+
+	&:hover {
+		background: darken($tailwind-dark-orange, 1.25%);
+		transition: background 2s ease-in-out;
+	}
+}
+
+/* dark footer anchor styling */
+.dark footer a {
+	color: lighten($tailwind-lighter-orange, 7.5%);
+}
+
+/* dark footer social icons styling  */
+
+.dark div > div.footer-email,
+.dark div > div.footer-github,
+.dark div > div.footer-twitter,
+.dark div > div.footer-linkedin,
+.dark div > div.footer-sitemap {
+	fill: darken($aussie-blue, 12.5%);
+
+	&:hover {
+		fill: darken($tailwind-dark-orange, 1.25%);
+		transition: fill 2s ease-out;
+	}
+}
+
+.dark .footer {
+	background: #1c1c1c;
+}
+
+.dark .footer > p {
+	color: $ghost-white;
+}

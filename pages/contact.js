@@ -1,7 +1,9 @@
 import { Fragment } from 'react'
 import { getSession } from 'next-auth/react'
 import Head from 'next/head'
-import ContactForm from '../components/contact/contact-form'
+import dynamic from 'next/dynamic'
+
+const DynamicContactForm = dynamic(() => import('../components/contact/contact-form'))
 
 function ContactPage() {
     return (
@@ -10,7 +12,7 @@ function ContactPage() {
                 <title>Contact Maria D. Campbell</title>
                 <meta name="description" content="Send Maria D. Campbell your messages" />
             </Head>
-            <ContactForm />
+            <DynamicContactForm />
         </Fragment>
         
     )

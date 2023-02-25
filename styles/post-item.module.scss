@@ -107,8 +107,9 @@ $min-768: '(min-width: 768px)';
   padding-right: 1em;
 }
 
-.content h3 {
+.content>h3 {
   color: var(--color-grey-100);
+  font-family: var(--oswald-font);
   font-size: var(--size-6);
   margin: var(--size-2) 0;
 }

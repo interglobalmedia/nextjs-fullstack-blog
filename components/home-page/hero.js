@@ -1,4 +1,4 @@
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image';
 import classes from '../../styles/hero.module.scss'
 
 function Hero() {
