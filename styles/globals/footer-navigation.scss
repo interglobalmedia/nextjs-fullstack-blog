@@ -1,0 +1,18 @@
+/*  dark theme styling for footer-navigation component */
+ul.footer-navigation {
+	@media #{$min-1024} {
+		margin: 3rem 0;
+		padding: 1.5rem 0;
+	}
+}
+
+/* dark theme styling for provider-button */
+.dark .provider-button {
+	background: darken($aussie-blue, 12.5%);
+	color: #000;
+
+	&:hover {
+		background: darken($tailwind-dark-orange, 1.25%);
+		transition: background 2s ease-in-out;
+	}
+}

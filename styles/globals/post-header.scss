@@ -1,0 +1,4 @@
+/* dark theme styling for post header */
+.dark .header h1 {
+	color: lighten($tailwind-dark-orange, 5%);
+}

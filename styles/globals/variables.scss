@@ -1,0 +1,22 @@
+/* color variables 1 */
+
+/* stylelint-disable scss/no-global-function-names */
+$tailwind-dark-orange: rgb(202 96 60 / 100%);
+$tailwind-lighter-orange: rgb(213 129 100 / 100%);
+$tailwind-lightest-orange: rgb(229 178 160 / 100%);
+$white: #fff;
+
+/* color variables 2 */
+$aussie-blue: #80d0ff;
+$cream: #ffe9d6;
+$discord-charcoal: #23272a;
+$ghost-white: #f8f8ff;
+
+/* scss @media query variables */
+$max-767: '(max-width: 767px)';
+$max-1023: '(max-width: 1023px)';
+$min-768: '(min-width: 768px)';
+$min-1024: '(min-width: 1024px)';
+
+/* icon related variables */
+$icon-size: 2.81rem;
