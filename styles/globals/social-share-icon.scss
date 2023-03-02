@@ -1,0 +1,14 @@
+/* dark social share icon styling */
+.dark div > div.share-hacker-news,
+.dark div > div.share-twitter,
+.dark div > div.share-reddit,
+.dark div > div.share-linkedin {
+    /* stylelint-disable scss/no-global-function-names */
+	fill: darken($aussie-blue, 2.5%);
+
+	&:hover {
+		fill: darken($tailwind-dark-orange, 2.5%);
+		transition: fill 1s ease-out;
+		transform: rotate3d(0, 0, 0, 0deg);
+	}
+}

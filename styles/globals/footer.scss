@@ -1,0 +1,30 @@
+/* dark theme styling for footer */
+
+/* dark footer anchor styling */
+.dark footer a {
+    /* stylelint-disable scss/no-global-function-names */
+	color: lighten($tailwind-lighter-orange, 7.5%);
+}
+
+/* dark footer social icons styling  */
+
+.dark div > div.footer-email,
+.dark div > div.footer-github,
+.dark div > div.footer-twitter,
+.dark div > div.footer-linkedin,
+.dark div > div.footer-sitemap {
+	fill: darken($aussie-blue, 12.5%);
+
+	&:hover {
+		fill: darken($tailwind-dark-orange, 1.25%);
+		transition: fill 2s ease-out;
+	}
+}
+
+.dark .footer {
+	background: #1c1c1c;
+}
+
+.dark .footer > p {
+	color: $ghost-white;
+}

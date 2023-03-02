@@ -1,0 +1,29 @@
+/* global styles for headings */
+h1,
+h2,
+h3 {
+	font-family: var(--oswald-font);
+}
+
+h2 {
+	font-size: 1.75rem;
+	margin-bottom: 1rem;
+	@media #{$min-768} {
+		font-size: 2rem;
+	}
+}
+
+h3 {
+	font-size: 1.5rem;
+	margin-bottom: 1rem;
+	@media #{$min-768} {
+		font-size: 1.75rem;
+	}
+}
+
+.dark h1,
+.dark h2,
+.dark h3 {
+    /* stylelint-disable scss/no-global-function-names */
+	color: lighten($tailwind-dark-orange, 5%);
+}

@@ -5,4 +5,19 @@
 @import 'tailwindcss/utilities';
 
 /* globals directories imports */
-@import 'globals/global-styles';
+@import 'globals/variables';
+@import 'globals/reset';
+@import 'globals/body';
+@import 'globals/headings';
+@import 'globals/main-navigation';
+@import 'globals/posts-grid';
+@import 'globals/post-header';
+@import 'globals/post-content';
+@import 'globals/post-item';
+@import 'globals/social-share-icon';
+@import 'globals/about';
+@import 'globals/contact-form';
+@import 'globals/guestbook';
+@import 'globals/scroll-buttons';
+@import 'globals/footer';
+@import 'globals/footer-navigation';
