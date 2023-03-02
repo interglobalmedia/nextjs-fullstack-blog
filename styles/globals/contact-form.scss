@@ -4,6 +4,7 @@
 }
 
 .dark section.contact h1 {
+    /* stylelint-disable scss/no-global-function-names */
 	color: lighten($tailwind-dark-orange, 5%);
 }
 

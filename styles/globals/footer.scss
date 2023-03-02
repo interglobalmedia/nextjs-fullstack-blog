@@ -2,6 +2,7 @@
 
 /* dark footer anchor styling */
 .dark footer a {
+    /* stylelint-disable scss/no-global-function-names */
 	color: lighten($tailwind-lighter-orange, 7.5%);
 }
 

@@ -21,6 +21,7 @@ a:hover {
 /* dark theme styling for global anchor element and global .tag class selector  */
 .dark a,
 .dark .tag {
+    /* stylelint-disable scss/no-global-function-names */
 	color: darken($tailwind-lightest-orange, 2.5%);
 }
 
@@ -55,6 +56,7 @@ blockquote {
 	color: #ff357c;
 }
 
+/* stylelint-disable no-descending-specificity */
 .inline-code,
 .dark .inline-code {
 	word-break: break-all;

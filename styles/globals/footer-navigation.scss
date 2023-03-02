@@ -8,6 +8,7 @@ ul.footer-navigation {
 
 /* dark theme styling for provider-button */
 .dark .provider-button {
+    /* stylelint-disable scss/no-global-function-names */
 	background: darken($aussie-blue, 12.5%);
 	color: #000;
 

@@ -133,6 +133,7 @@ a.menu-link {
 		}
 	}
 	@media #{$max-1023} {
+        /* stylelint-disable scss/no-global-function-names */
 		background-color: darken(#1c1c1c, 1.25%);
 		display: block;
 		height: 100vh;
