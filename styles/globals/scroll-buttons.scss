@@ -1,0 +1,24 @@
+/* styling for scroll buttons. had to be added in global scope to work */
+.buttons-container {
+	margin-top: 30px;
+	width: 100%;
+	height: $icon-size;
+}
+
+span.material-icons {
+	position: relative;
+	color: $aussie-blue;
+	font-size: $icon-size;
+	transition: all 0.25s ease;
+}
+
+.dark span.material-icons {
+	color: $ghost-white;
+}
+
+.dark .icon-fill {
+	&:hover::before {
+        /* stylelint-disable scss/no-global-function-names */
+		box-shadow: inset 0 0 0 6rem darken($tailwind-dark-orange, 2.5%);
+	}
+}

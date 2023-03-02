@@ -1,0 +1,78 @@
+/* dark theme styling for post-content */
+ul {
+	margin-bottom: 1rem;
+}
+
+li {
+	margin-left: 1rem;
+	list-style-type: square;
+}
+
+a {
+	text-decoration: none;
+	color: #8d0a9d;
+	word-break: break-all;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* dark theme styling for global anchor element and global .tag class selector  */
+.dark a,
+.dark .tag {
+    /* stylelint-disable scss/no-global-function-names */
+	color: darken($tailwind-lightest-orange, 2.5%);
+}
+
+p {
+	margin-bottom: 1rem;
+	margin-top: 1rem;
+	word-break: break-all;
+}
+
+.dark main p,
+.dark main ul {
+	color: $white;
+}
+
+blockquote {
+	margin-left: 1rem;
+	padding-left: 0.5rem;
+	border-left: 4px solid darken($aussie-blue, 30%);
+	background-color: var(--color-grey-200);
+}
+
+.dark strong {
+	color: $ghost-white;
+}
+
+/* styling for inline code workaround */
+.inline-code {
+	color: darken(#e4695d, 30%);
+}
+
+.dark .inline-code {
+	color: #ff357c;
+}
+
+/* stylelint-disable no-descending-specificity */
+.inline-code,
+.dark .inline-code {
+	word-break: break-all;
+}
+
+/* dark theme for hero for post content article element  */
+.dark .content {
+	background: darken(#1c1c1c, 1.25%);
+}
+
+/* dark theme for pre element in post-content */
+.dark .pre pre {
+	background: lighten(#1c1c1c, 5%) !important;
+}
+
+/* dark theme styling for post item */
+.dark .time {
+	color: darken($tailwind-lighter-orange, 2.5%);
+}

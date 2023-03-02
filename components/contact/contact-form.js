@@ -86,7 +86,7 @@ function ContactForm() {
     }
 
     return (
-        <section className={`contact ${classes.contact} ${oswald.variable}`}>
+        <section className={`contact ${classes.contact}`}>
             <h1>How can I help you?</h1>
             <form className={classes.form} onSubmit={sendMessageHandler}>
                 <div className={classes.controls}>
