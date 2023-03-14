@@ -113,7 +113,7 @@ function PostContent(props) {
                     <div className={`share-twitter ${classes['share-twitter']}`}>
                         <DynamicSocialShareIcon
                             name="twitter"
-                            href={`https://twitter.com/intent/tweet?url=${post.slug}&text=${text.twitterText} "${post.title}" by ${siteMetadata.twitterHandle} on ${siteMetadata.domain}`}
+                            href={`https://twitter.com/intent/tweet?url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.twitterText} "${post.title}" by ${siteMetadata.twitterHandle} on ${siteMetadata.domain}`}
                             size="6"
                         />
                     </div>
