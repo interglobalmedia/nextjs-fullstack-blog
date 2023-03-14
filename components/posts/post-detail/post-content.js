@@ -118,7 +118,7 @@ function PostContent(props) {
                         />
                     </div>
                     <div className={`share-reddit ${classes
-                        ['share-reddit']}`}>
+                    ['share-reddit']}`}>
                         <DynamicSocialShareIcon
                             name="social-reddit"
                             href={`https://www.reddit.com/submit?title=${post.title}&url=${post.slug}&text=${text.redditText}`}
@@ -126,7 +126,7 @@ function PostContent(props) {
                         />
                     </div>
                     <div className={`share-linkedin ${classes
-                        ['share-linkedin']}`}>
+                    ['share-linkedin']}`}>
                         <DynamicSocialShareIcon
                             name="linkedin"
                             href={`https://www.linkedin.com/share?mini=true&url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.linkedinText}`}
