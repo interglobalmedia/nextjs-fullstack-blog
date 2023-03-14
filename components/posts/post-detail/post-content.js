@@ -113,12 +113,12 @@ function PostContent(props) {
                     <div className={`share-twitter ${classes['share-twitter']}`}>
                         <DynamicSocialShareIcon
                             name="twitter"
-                            href={`https://twitter.com/intent/tweet?url=${post.slug}&text=${text.twitterText} "${post.title}" by ${siteMetadata.twitterHandle} on ${siteMetadata.domain}`}
+                            href={`https://twitter.com/intent/tweet?url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.twitterText} "${post.title}" by ${siteMetadata.twitterHandle} on ${siteMetadata.domain}`}
                             size="6"
                         />
                     </div>
                     <div className={`share-reddit ${classes
-                        ['share-reddit']}`}>
+                    ['share-reddit']}`}>
                         <DynamicSocialShareIcon
                             name="social-reddit"
                             href={`https://www.reddit.com/submit?title=${post.title}&url=${post.slug}&text=${text.redditText}`}
@@ -126,7 +126,7 @@ function PostContent(props) {
                         />
                     </div>
                     <div className={`share-linkedin ${classes
-                        ['share-linkedin']}`}>
+                    ['share-linkedin']}`}>
                         <DynamicSocialShareIcon
                             name="linkedin"
                             href={`https://www.linkedin.com/share?mini=true&url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.linkedinText}`}
