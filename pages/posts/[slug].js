@@ -12,10 +12,12 @@ function PostDetailPage(props) {
         <Fragment>
             <Head>
                 <title>{props.post.title}</title>
+                <meta name="author" content={post.author} />
                 <meta name="description" content={props.post.excerpt} />
-                <meta property='og:title' content={props.post.title} />
-                <meta property='og:image' content={`/images/posts/${props.post.slug}/${props.post.image}`} />
-                <meta property='og:description' content={props.post.excerpt} />
+                <meta name="title" property='og:title' content={props.post.title} />
+                <meta name="image" property='og:image' content={`/images/posts/${props.post.slug}/${props.post.image}`} />
+                <meta name="description" property='og:description' content={props.post.excerpt} />
+                <meta name="publish_date" property="og:publish_date" content={post.date}></meta>
                 <meta property='og:url' content={`/posts/${props.post.slug}`} />
             </Head>
             <DynamicPostContent post={props.post} />
