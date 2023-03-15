@@ -1,4 +1,6 @@
 import ReactMarkdown from 'react-markdown'
+import { Fragment } from 'react'
+import Head from 'next/head'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import atomDark from 'react-syntax-highlighter/dist/cjs/styles/prism/atom-dark'
 import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript'
@@ -48,7 +50,7 @@ function PostContent(props) {
         twitterText: `I just read about`,
         combinatorText: `I just read an article about ${post.title} by ${siteMetadata.combinatorHandle} on ${siteMetadata.domain}`,
         redditText: `I just read an article about "${post.title}" by ${siteMetadata.redditHandle} on ${siteMetadata.domain}`,
-        linkedinText: `I just read an article about "${post.title}" by ${siteMetadata.linkedinHandle} on ${siteMetadata.domain}`,
+        linkedinText: `I just read an article about "${post.title}" by "${siteMetadata.linkedinHandle}" on ${siteMetadata.domain}`,
     }
 
     const customRenderers = {
@@ -94,6 +96,13 @@ function PostContent(props) {
         }
     }
     return (
+        <Fragment>
+            <Head>
+                <meta property='og:title' content={post.title} />
+                <meta property='og:image' content={`/images/posts/${post.slug}/${post.image}`} />
+                <meta property='og:description' content={post.excerpt} />
+                <meta property='og:url' content={`/posts/${post.slug}/`} />
+        </Head>
         <article className={`content ${classes.content}`}>
             <DynamicPostHeader title={post.title} image={imagePath} />
             <div className={`${classes['share-icons-wrapper']}`}>
@@ -139,7 +148,8 @@ function PostContent(props) {
             <p>Last modified on {lastModifiedFormattedDate}</p>
             {<p>{post.tags.map(tag => getTagLink(tag)).reduce((prev, curr) => [prev, ', ', curr])}</p>}
             <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
-        </article>
+            </article>
+        </Fragment>
     )
 }
 
