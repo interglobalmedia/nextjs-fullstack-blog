@@ -131,7 +131,7 @@ function PostContent(props) {
                     ['share-linkedin']}`}>
                         <DynamicSocialShareIcon
                             name="linkedin"
-                            href={`https://www.linkedin.com/share?mini=true&url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.linkedinText}`}
+                            href={`https://www.linkedin.com/shareArticle?mini=true&url=${siteMetadata.siteUrl}/posts/${post.slug}&title=${post.title}&summary=${post.excerpt}&text=${text.linkedinText}&source=mariadcampbell`}
                             size="6"
                         />
                     </div>
