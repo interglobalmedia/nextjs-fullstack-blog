@@ -53,6 +53,10 @@ export default function App({ Component, pageProps, router }) {
               name="author"
               content="Maria D. Campbell"
             />
+            <meta
+              name="description"
+              content="I blog about fullstack development as well as macOS, Command Line, Git, and ethics in technology."
+            />
             <link
               rel="icon"
               href="/favicon.ico"
