@@ -13,6 +13,10 @@ function PostDetailPage(props) {
             <Head>
                 <title>{props.post.title}</title>
                 <meta name="description" content={props.post.excerpt} />
+                <meta property='og:title' content={props.post.title} />
+                <meta property='og:image' content={`/images/posts/${props.post.slug}/${props.post.image}`} />
+                <meta property='og:description' content={props.post.excerpt} />
+                <meta property='og:url' content={`/posts/${props.post.slug}`} />
             </Head>
             <DynamicPostContent post={props.post} />
             <div className={`buttons-container`}
