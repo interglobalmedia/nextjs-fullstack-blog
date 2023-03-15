@@ -96,13 +96,6 @@ function PostContent(props) {
         }
     }
     return (
-        <Fragment>
-            <Head>
-                <meta property='og:title' content={post.title} />
-                <meta property='og:image' content={`/images/posts/${post.slug}/${post.image}`} />
-                <meta property='og:description' content={post.excerpt} />
-                <meta property='og:url' content={`/posts/${post.slug}/`} />
-        </Head>
         <article className={`content ${classes.content}`}>
             <DynamicPostHeader title={post.title} image={imagePath} />
             <div className={`${classes['share-icons-wrapper']}`}>
@@ -148,8 +141,7 @@ function PostContent(props) {
             <p>Last modified on {lastModifiedFormattedDate}</p>
             {<p>{post.tags.map(tag => getTagLink(tag)).reduce((prev, curr) => [prev, ', ', curr])}</p>}
             <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
-            </article>
-        </Fragment>
+        </article>
     )
 }
 
