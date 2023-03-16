@@ -1,5 +1,6 @@
 const siteMetadata = {
     siteUrl: 'https://www.mariadcampbell.com',
+    siteName: `Maria D. Campbell`,
     domain: 'mariadcampbell.com',
     sitemap: '/sitemap.xml',
     locale: 'en-US',
