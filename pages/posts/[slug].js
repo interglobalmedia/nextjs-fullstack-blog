@@ -10,6 +10,9 @@ const DynamicScrollStep = dynamic(() => import('../../components/buttons/scroll-
 
 function PostDetailPage(props) {
     const { post } = props
+    const url = `${siteMetadata.siteUrl}/posts/${post.slug}`
+    console.log(url)
+    const ogImage = `${siteMetadata.siteUrl}/api/og?title=${post.title}&author=${post.author}&date=${post.date}`
 return (
     <Fragment>
         <Head>
@@ -18,6 +21,7 @@ return (
             <meta name="description" content={post.excerpt} />
             <meta name="author" content={post.author} />
             <meta name="robots" content="index,follow" />
+            <meta property="og:image" content={ogImage} />
         </Head>
         <DynamicPostContent post={post} />
         <div className={`buttons-container`}
