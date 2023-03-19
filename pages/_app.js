@@ -49,14 +49,6 @@ export default function App({ Component, pageProps, router }) {
               name="viewport"
               content="width=device-width, initial-scale=1.0"
             />
-            <meta
-              name="author"
-              content="Maria D. Campbell"
-            />
-            <meta
-              name="description"
-              content="I blog about fullstack development as well as macOS, Command Line, Git, and ethics in technology."
-            />
             <link
               rel="icon"
               href="/favicon.ico"
