@@ -19,7 +19,7 @@ export default function handler(req = NextRequest) {
     const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https'
     const host = process.env.NODE_ENV === 'development' ? 'localhost:3000' : 'www.mariadcampbell.com'
     const image = `/images/site/drew-farwell-6pQiSb5qnEo-unsplash.jpg`
-    const ogImage = `${process.env.NEXT_PUBLIC_BASE_URL}/${image}`
+    const ogImage = `${siteMetadata.siteUrl}/${image}`
     const hasTitle = searchParams.has('title')
     const title = hasTitle ? searchParams.get('title')?.slice(0, 100) : 'No Title'
     const hasAuthor = searchParams.has('author')
