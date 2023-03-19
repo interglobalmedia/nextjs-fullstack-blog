@@ -12,8 +12,7 @@ export default function Tag(props) {
     return (
         <Fragment>
             <Head>
-                <title>Post Tags</title>
-                <meta name="description" content={posts.excerpt} />
+                <title>tag: {tag}</title>
             </Head>
             <section className={classes.tag}>
                 <h1>tag: {tag}</h1>
