@@ -10,9 +10,9 @@ const DynamicScrollStep = dynamic(() => import('../../components/buttons/scroll-
 
 function PostDetailPage(props) {
     const { post } = props
-    const image = `/images/site/drew-farwell-6pQiSb5qnEo-unsplash.jpg`
+    const image = `${siteMetadata.siteUrl}/images/posts/${post.slug}/$post.image`
     const url = `${siteMetadata.siteUrl}/posts/${post.slug}`
-    const imageUrl = `${siteMetadata.siteUrl}/api/og/${image}`
+    const imageUrl = `${siteMetadata.siteUrl}/api/og?title=${post.title}&author=${post.author}&date=${post.date}`
 return (
     <Fragment>
         <Head>
