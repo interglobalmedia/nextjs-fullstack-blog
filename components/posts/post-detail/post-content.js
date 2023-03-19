@@ -1,6 +1,4 @@
 import ReactMarkdown from 'react-markdown'
-import { Fragment } from 'react'
-import Head from 'next/head'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import atomDark from 'react-syntax-highlighter/dist/cjs/styles/prism/atom-dark'
 import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript'
@@ -115,7 +113,7 @@ function PostContent(props) {
                     <div className={`share-twitter ${classes['share-twitter']}`}>
                         <DynamicSocialShareIcon
                             name="twitter"
-                            href={`https://twitter.com/intent/tweet?url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.twitterText} "${post.title}" by ${siteMetadata.twitterHandle} on ${siteMetadata.domain}`}
+                            href={`https://twitter.com/intent/tweet?url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.twitterText} "${post.title}" by @${siteMetadata.twitterHandle} on ${siteMetadata.domain}`}
                             size="6"
                         />
                     </div>
