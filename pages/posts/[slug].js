@@ -2,30 +2,45 @@ import { Fragment } from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import { getPostData, getPostFiles } from '../../lib/posts-util'
+import siteMetadata from '../../data/siteMetadata'
 
 const DynamicPostContent = dynamic(() => import('../../components/posts/post-detail/post-content'))
 const DynamicScrollTop = dynamic(() => import('../../components/buttons/scroll-top'))
 const DynamicScrollStep = dynamic(() => import('../../components/buttons/scroll-step'))
 
 function PostDetailPage(props) {
-    return (
-        <Fragment>
-            <Head>
-                <title>{props.post.title}</title>
-                <meta name="description" content={props.post.excerpt} />
-                <meta property='og:title' content={props.post.title} />
-                <meta property='og:image' content={`/images/posts/${props.post.slug}/${props.post.image}`} />
-                <meta property='og:description' content={props.post.excerpt} />
-                <meta property='og:url' content={`/posts/${props.post.slug}`} />
-            </Head>
-            <DynamicPostContent post={props.post} />
-            <div className={`buttons-container`}
-            >
-                <DynamicScrollStep />
-                <DynamicScrollTop />
-            </div>
-        </Fragment>
-    )
+    const { post } = props
+    const url = `${siteMetadata.siteUrl}/posts/${post.slug}`
+    const imageUrl = `${siteMetadata.siteUrl}${post.image}`
+return (
+    <Fragment>
+        <Head>
+            <title>{post.title}</title>
+            {url && <link rel="canonical" href={url} />}
+            <meta name="description" content={post.excerpt} />
+            <meta name="author" content={post.author} />
+            <meta name="robots" content="index,follow" />
+            <meta property="og:title" content={post.title} />
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content={imageUrl} />
+            {url && <meta property="og:url" content={url} />}
+            <meta property="og:description" content={post.excerpt} />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:author" content={siteMetadata.twitter} />
+            <meta name="twitter:site" content={siteMetadata.twitter} />
+            {url && <meta name="twitter:url" content={url} />}
+            <meta name="twitter:title" content={post.title} />
+            <meta name="twitter:image" content={imageUrl} />
+            <meta name="twitter:description" content={post.excerpt} />
+        </Head>
+        <DynamicPostContent post={post} />
+        <div className={`buttons-container`}
+        >
+            <DynamicScrollStep />
+            <DynamicScrollTop />
+        </div>
+    </Fragment>
+)
 }
 
 export function getStaticProps(context) {
@@ -38,7 +53,7 @@ export function getStaticProps(context) {
         props: {
             post: postData
         },
-        revalidate: 600
+        revalidate: 10
     }
 }
 
