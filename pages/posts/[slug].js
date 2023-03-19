@@ -10,9 +10,6 @@ const DynamicScrollStep = dynamic(() => import('../../components/buttons/scroll-
 
 function PostDetailPage(props) {
     const { post } = props
-    const image = `${siteMetadata.siteUrl}/images/posts/${post.slug}/$post.image`
-    const url = `${siteMetadata.siteUrl}/posts/${post.slug}`
-    const imageUrl = `${siteMetadata.siteUrl}/api/og?title=${post.title}&author=${post.author}&date=${post.date}`
 return (
     <Fragment>
         <Head>
@@ -21,18 +18,6 @@ return (
             <meta name="description" content={post.excerpt} />
             <meta name="author" content={post.author} />
             <meta name="robots" content="index,follow" />
-            <meta property="og:title" content={post.title} />
-            <meta property="og:type" content="website" />
-            <meta property="og:image" content={imageUrl} />
-            {url && <meta property="og:url" content={url} />}
-            <meta property="og:description" content={post.excerpt} />
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:author" content={siteMetadata.twitter} />
-            <meta name="twitter:site" content={siteMetadata.twitter} />
-            {url && <meta name="twitter:url" content={url} />}
-            <meta name="twitter:title" content={post.title} />
-            <meta name="twitter:image" content={imageUrl} />
-            <meta name="twitter:description" content={post.excerpt} />
         </Head>
         <DynamicPostContent post={post} />
         <div className={`buttons-container`}
