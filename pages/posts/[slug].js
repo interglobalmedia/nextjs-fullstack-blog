@@ -34,16 +34,18 @@ return (
 
 export async function getStaticProps(context) {
     const { params } = context
-    const { slug, title, author, date } = params
+    const { slug } = params
 
-    const postData = getPostData(slug)
+    const post = getPostData(slug)
 
-    const ogImage = `${siteMetadata.siteUrl}/api/og?title=${title}&author=${author}&date=${date}`
+    const ogImage = `${siteMetadata.siteUrl}/api/og?title=${post.title}&author=${post.author}&date=${post.date}&url=${siteMetadata.siteUrl}${post.slug}`
+
+    console.log('og image', ogImage)
 
     return {
         props: {
-            post: postData,
-            ogImage: ogImage
+            post,
+            ogImage
         },
         revalidate: 10
     }
