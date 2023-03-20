@@ -19,13 +19,10 @@ export default function handler(req = NextRequest) {
     const base_url = process.env.NEXT_PUBLIC_BASE_URL
     const image = `/images/site/drew-farwell-6pQiSb5qnEo-unsplash.jpg`
     const ogImage = `${base_url}${image}`
-    const hasTitle = searchParams.has('title')
-    const title = hasTitle ? searchParams.get('title')?.slice(0, 100) : 'No Title'
-    const hasAuthor = searchParams.has('author')
-    const author = hasAuthor ? searchParams.get('author').slice(0, 200) : 'Maria D. Campbell'
+    const title = searchParams.get('title') || 'No Title'
+    const author = searchParams.get('author') || 'Maria D. Campbell'
     const date = new Date(searchParams.get('date') || Date.now())
-    const hasUrl = searchParams.has('url')
-    const url = hasUrl ? searchParams.get('url')?.slice(0, 300) : 'no-url'
+    const url = searchParams.get('url') || 'no-url'
 
 
     return new ImageResponse(
