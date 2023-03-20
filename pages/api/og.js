@@ -17,8 +17,6 @@ export default function handler(req = NextRequest) {
         weekday: "long"
     }
     const base_url = process.env.NEXT_PUBLIC_BASE_URL
-    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https'
-    const host = process.env.NODE_ENV === 'development' ? 'localhost:3000' : 'www.mariadcampbell.com'
     const image = `/images/site/drew-farwell-6pQiSb5qnEo-unsplash.jpg`
     const ogImage = `${base_url}${image}`
     const hasTitle = searchParams.has('title')
@@ -36,7 +34,7 @@ export default function handler(req = NextRequest) {
                     backgroundColor: 'black',
                     backgroundSize: '150px 150px',
                     // height: '100%',
-                    height: 800,
+                    height: 630,
                     width: '100%',
                     maxWidth: 1200,
                     display: 'flex',
