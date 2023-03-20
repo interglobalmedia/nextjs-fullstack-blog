@@ -110,7 +110,7 @@ export default function handler(req = NextRequest) {
                         whiteSpace: 'pre-wrap',
                     }}
                 >
-                    {url}
+                    <a href={url} target="_blank" rel="noopener noreferrer">{title}</a>
                 </div>
             </div>
         ),
