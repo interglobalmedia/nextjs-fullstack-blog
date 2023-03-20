@@ -104,9 +104,9 @@ function PostContent(props) {
                     <div className={`share-hacker-news ${classes['share-hacker-news']}`}>
                         <DynamicSocialShareIcon
                             name="social-hacker-news"
-                            href={`https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
-                                post.slug
-                            )}&text=${encodeURIComponent(text.combinatorText)}%0A%0A`}
+                            href={`https://news.ycombinator.com/submitlink?u=${encodeURIComponent(`
+                                ${siteMetadata.siteUrl}/posts/${post.slug}`
+                            )}`}
                             size="6"
                         />
                     </div>
@@ -121,7 +121,7 @@ function PostContent(props) {
                     ['share-reddit']}`}>
                         <DynamicSocialShareIcon
                             name="social-reddit"
-                            href={`https://www.reddit.com/submit?title=${post.title}&url=${post.slug}&text=${text.redditText}`}
+                            href={`https://www.reddit.com/submit?title=${post.title}&url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.redditText}`}
                             size="6"
                         />
                     </div>
