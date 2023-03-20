@@ -106,6 +106,7 @@ function PostContent(props) {
                             name="social-hacker-news"
                             href={`https://news.ycombinator.com/submitlink?u=
                                 ${siteMetadata.siteUrl}/posts/${post.slug}`}
+                            size="6"
                         />
                     </div>
                     <div className={`share-twitter ${classes['share-twitter']}`}>
