@@ -45,7 +45,7 @@ function PostContent(props) {
     const lastModifiedFormattedDate = new Date(post.lastModified).toLocaleDateString('en-US', options)
 
     const text = {
-        twitterText: `I just read about`,
+        twitterText: `I just read about ${post.title} by @${siteMetadata.twitterHandle} on ${siteMetadata.domain} ${siteMetadata.siteUrl}/posts/${post.slug}`,
         combinatorText: `I just read an article about ${post.title} by ${siteMetadata.combinatorHandle} on ${siteMetadata.domain}`,
         redditText: `I just read an article about "${post.title}" by ${siteMetadata.redditHandle} on ${siteMetadata.domain}`,
         linkedinText: `I just read an article about "${post.title}" by "${siteMetadata.linkedinHandle}" on ${siteMetadata.domain}`,
@@ -113,7 +113,7 @@ function PostContent(props) {
                     <div className={`share-twitter ${classes['share-twitter']}`}>
                         <DynamicSocialShareIcon
                             name="twitter"
-                            href={`https://twitter.com/intent/tweet?url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.twitterText} "${post.title}" by @${siteMetadata.twitterHandle} on ${siteMetadata.domain}`}
+                            href={`https://twitter.com/intent/tweet?url=${text.twitterText}`}
                             size="6"
                         />
                     </div>
@@ -129,7 +129,7 @@ function PostContent(props) {
                     ['share-linkedin']}`}>
                         <DynamicSocialShareIcon
                             name="linkedin"
-                            href={`https://www.linkedin.com/share?mini=true&url=${siteMetadata.siteUrl}/posts/${post.slug}&title=${post.title}&summary=${post.excerpt}&text=${text.linkedinText}`}
+                            href={`https://www.linkedin.com/share?mini=true&url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.linkedinText}`}
                             size="6"
                         />
                     </div>
