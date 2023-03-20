@@ -34,7 +34,7 @@ export default function handler(req = NextRequest) {
                 style={{
                     display: 'flex',
                     backgroundColor: 'black',
-                    backgroundSize: '150px 150px',
+                    // backgroundSize: '150px 150px',
                     // height: '100%',
                     height: 630,
                     width: '100%',
@@ -110,7 +110,7 @@ export default function handler(req = NextRequest) {
                         whiteSpace: 'pre-wrap',
                     }}
                 >
-                    <a href={url} target="_blank" rel="noopener noreferrer">{title}</a>
+                    {url}
                 </div>
             </div>
         ),
