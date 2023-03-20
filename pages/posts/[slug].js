@@ -9,10 +9,8 @@ const DynamicScrollTop = dynamic(() => import('../../components/buttons/scroll-t
 const DynamicScrollStep = dynamic(() => import('../../components/buttons/scroll-step'))
 
 function PostDetailPage(props) {
-    const { post } = props
+    const { post, ogImage } = props
     const url = `${siteMetadata.siteUrl}/posts/${post.slug}`
-    console.log(url)
-    const ogImage = `${siteMetadata.siteUrl}/api/og?title=${post.title}&author=${post.author}&date=${post.date}`
 return (
     <Fragment>
         <Head>
@@ -22,6 +20,7 @@ return (
             <meta name="author" content={post.author} />
             <meta name="robots" content="index,follow" />
             <meta property="og:image" content={ogImage} />
+            <meta name="twitter:image" content={ogImage} />
         </Head>
         <DynamicPostContent post={post} />
         <div className={`buttons-container`}
@@ -33,15 +32,18 @@ return (
 )
 }
 
-export function getStaticProps(context) {
+export async function getStaticProps(context) {
     const { params } = context
-    const { slug } = params
+    const { slug, title, author, date } = params
 
     const postData = getPostData(slug)
 
+    const ogImage = `${siteMetadata.siteUrl}/api/og?title=${title}&author=${author}&date=${date}`
+
     return {
         props: {
-            post: postData
+            post: postData,
+            ogImage: ogImage
         },
         revalidate: 10
     }
