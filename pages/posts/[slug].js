@@ -1,8 +1,9 @@
 import { Fragment } from 'react'
-import Head from 'next/head'
+// import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import { getPostData, getPostFiles } from '../../lib/posts-util'
 import siteMetadata from '../../data/siteMetadata'
+import Head from '../../components/seo/head.js'
 
 const DynamicPostContent = dynamic(() => import('../../components/posts/post-detail/post-content'))
 const DynamicScrollTop = dynamic(() => import('../../components/buttons/scroll-top'))
@@ -11,28 +12,24 @@ const DynamicScrollStep = dynamic(() => import('../../components/buttons/scroll-
 function PostDetailPage(props) {
     const { post, ogImage } = props
     const url = `${siteMetadata.siteUrl}/posts/${post.slug}`
-return (
-    <Fragment>
-        <Head>
-            <title>{post.title}</title>
-            {url && <link rel="canonical" href={url} />}
-            <meta name="description" content={post.excerpt} />
-            <meta name="author" content={post.author} />
-            <meta name="robots" content="index,follow" />
-            <meta property="og:image" content={ogImage} />
-            <meta property="og:title" content={post.title} />
-            <meta property="og:description" content={post.excerpt} />
-            <meta name="twitter:image" content={ogImage} />
-            {url && <meta name="twitter:url" content={url} />}
-        </Head>
-        <DynamicPostContent post={post} />
-        <div className={`buttons-container`}
-        >
-            <DynamicScrollStep />
-            <DynamicScrollTop />
-        </div>
-    </Fragment>
-)
+    return (
+        <Fragment>
+            <Head
+                title={post.title}
+                excerpt={post.excerpt}
+                image={ogImage}
+                url={url}
+                author={`Maria D. Campbell`}
+            />
+            {console.log('og-image', ogImage)}
+            <DynamicPostContent post={post} />
+            <div className={`buttons-container`}
+            >
+                <DynamicScrollStep />
+                <DynamicScrollTop />
+            </div>
+        </Fragment>
+    )
 }
 
 export async function getStaticProps(context) {
@@ -40,10 +37,9 @@ export async function getStaticProps(context) {
     const { slug } = params
 
     const post = getPostData(slug)
+    const ogImage = `${siteMetadata.siteUrl}/api/og?title=${post.title}&author=${post.author}&date=${post.date}&&url=${process.env.NEXT_PUBLIC_BASE_URL}/images/site/drew-farwell-6pQiSb5qnEo-unsplash.jpg`
 
-    const ogImage = `${siteMetadata.siteUrl}/api/og?title=${post.title}&author=${post.author}&date=${post.date}&url=${siteMetadata.siteUrl}/posts/${post.slug}`
-
-    console.log('og image', ogImage)
+    console.log('og-image now', ogImage)
 
     return {
         props: {
