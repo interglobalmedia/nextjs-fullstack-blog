@@ -21,6 +21,7 @@ return (
             <meta name="robots" content="index,follow" />
             <meta property="og:image" content={ogImage} />
             <meta name="twitter:image" content={ogImage} />
+            {url && <meta name="twitter:url" content={url} />}
         </Head>
         <DynamicPostContent post={post} />
         <div className={`buttons-container`}

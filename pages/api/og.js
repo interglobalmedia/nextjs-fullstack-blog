@@ -24,6 +24,8 @@ export default function handler(req = NextRequest) {
     const hasAuthor = searchParams.has('author')
     const author = hasAuthor ? searchParams.get('author').slice(0, 200) : 'Maria D. Campbell'
     const date = new Date(searchParams.get('date') || Date.now())
+    const hasUrl = searchParams.has('url')
+    const url = hasUrl ? searchParams.get('url')?.slice(0, 300) : 'no-url'
 
 
     return new ImageResponse(
@@ -55,7 +57,7 @@ export default function handler(req = NextRequest) {
                     }}
                 >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                   <img
+                    <img
                         alt="Woman surfing waves in the ocean"
                         height={232}
                         src={ogImage}
@@ -75,7 +77,9 @@ export default function handler(req = NextRequest) {
                         lineHeight: 1.4,
                         whiteSpace: 'pre-wrap',
                     }}
-                >{title}</div>
+                >
+                    {title}
+                </div>
                 <div
                     style={{
                         display: 'flex',
@@ -92,6 +96,21 @@ export default function handler(req = NextRequest) {
                     {author +
                         ' – ' +
                         date.toLocaleDateString('en-US', options)}
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        fontSize: 30,
+                        fontStyle: 'normal',
+                        letterSpacing: '-0.025em',
+                        color: 'white',
+                        marginTop: 30,
+                        padding: '0 120px',
+                        lineHeight: 1.4,
+                        whiteSpace: 'pre-wrap',
+                    }}
+                >
+                    {url}
                 </div>
             </div>
         ),
