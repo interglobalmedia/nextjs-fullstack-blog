@@ -38,7 +38,7 @@ export async function getStaticProps(context) {
 
     const post = getPostData(slug)
 
-    const ogImage = `${siteMetadata.siteUrl}/api/og?title=${post.title}&author=${post.author}&date=${post.date}&url=${siteMetadata.siteUrl}${post.slug}`
+    const ogImage = `${siteMetadata.siteUrl}/api/og?title=${post.title}&author=${post.author}&date=${post.date}&url=${siteMetadata.siteUrl}/posts/${post.slug}`
 
     console.log('og image', ogImage)
 
