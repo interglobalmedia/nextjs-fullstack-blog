@@ -19,10 +19,10 @@ return (
             <meta name="description" content={post.excerpt} />
             <meta name="author" content={post.author} />
             <meta name="robots" content="index,follow" />
-            <meta property="og:image" content={post.image} />
+            <meta property="og:image" content={ogImage} />
             <meta property="og:title" content={post.title} />
             <meta property="og:description" content={post.excerpt} />
-            <meta name="twitter:image" content={post.image} />
+            <meta name="twitter:image" content={ogImage} />
             {url && <meta name="twitter:url" content={url} />}
         </Head>
         <DynamicPostContent post={post} />
