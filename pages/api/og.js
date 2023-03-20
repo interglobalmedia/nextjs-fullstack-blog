@@ -16,15 +16,16 @@ export default function handler(req = NextRequest) {
         day: "numeric",
         weekday: "long"
     }
-    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https'
-    const host = process.env.NODE_ENV === 'development' ? 'localhost:3000' : 'www.mariadcampbell.com'
+    const base_url = process.env.NEXT_PUBLIC_BASE_URL
     const image = `/images/site/drew-farwell-6pQiSb5qnEo-unsplash.jpg`
-    const ogImage = `${process.env.NEXT_PUBLIC_BASE_URL}/${image}`
+    const ogImage = `${base_url}${image}`
     const hasTitle = searchParams.has('title')
     const title = hasTitle ? searchParams.get('title')?.slice(0, 100) : 'No Title'
     const hasAuthor = searchParams.has('author')
     const author = hasAuthor ? searchParams.get('author').slice(0, 200) : 'Maria D. Campbell'
     const date = new Date(searchParams.get('date') || Date.now())
+    const hasUrl = searchParams.has('url')
+    const url = hasUrl ? searchParams.get('url')?.slice(0, 300) : 'no-url'
 
 
     return new ImageResponse(
@@ -35,7 +36,7 @@ export default function handler(req = NextRequest) {
                     backgroundColor: 'black',
                     backgroundSize: '150px 150px',
                     // height: '100%',
-                    height: 800,
+                    height: 630,
                     width: '100%',
                     maxWidth: 1200,
                     display: 'flex',
@@ -56,7 +57,7 @@ export default function handler(req = NextRequest) {
                     }}
                 >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                   <img
+                    <img
                         alt="Woman surfing waves in the ocean"
                         height={232}
                         src={ogImage}
@@ -76,7 +77,9 @@ export default function handler(req = NextRequest) {
                         lineHeight: 1.4,
                         whiteSpace: 'pre-wrap',
                     }}
-                >{title}</div>
+                >
+                    {title}
+                </div>
                 <div
                     style={{
                         display: 'flex',
@@ -93,6 +96,21 @@ export default function handler(req = NextRequest) {
                     {author +
                         ' – ' +
                         date.toLocaleDateString('en-US', options)}
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        fontSize: 30,
+                        fontStyle: 'normal',
+                        letterSpacing: '-0.025em',
+                        color: 'white',
+                        marginTop: 30,
+                        padding: '0 120px',
+                        lineHeight: 1.4,
+                        whiteSpace: 'pre-wrap',
+                    }}
+                >
+                    <a href={url} target="_blank" rel="noopener noreferrer">{title}</a>
                 </div>
             </div>
         ),

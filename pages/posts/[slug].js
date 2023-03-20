@@ -9,9 +9,8 @@ const DynamicScrollTop = dynamic(() => import('../../components/buttons/scroll-t
 const DynamicScrollStep = dynamic(() => import('../../components/buttons/scroll-step'))
 
 function PostDetailPage(props) {
-    const { post } = props
+    const { post, ogImage } = props
     const url = `${siteMetadata.siteUrl}/posts/${post.slug}`
-    const imageUrl = `${siteMetadata.siteUrl}${post.image}`
 return (
     <Fragment>
         <Head>
@@ -20,18 +19,9 @@ return (
             <meta name="description" content={post.excerpt} />
             <meta name="author" content={post.author} />
             <meta name="robots" content="index,follow" />
-            <meta property="og:title" content={post.title} />
-            <meta property="og:type" content="website" />
-            <meta property="og:image" content={imageUrl} />
-            {url && <meta property="og:url" content={url} />}
-            <meta property="og:description" content={post.excerpt} />
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:author" content={siteMetadata.twitter} />
-            <meta name="twitter:site" content={siteMetadata.twitter} />
+            <meta property="og:image" content={ogImage} />
+            <meta name="twitter:image" content={ogImage} />
             {url && <meta name="twitter:url" content={url} />}
-            <meta name="twitter:title" content={post.title} />
-            <meta name="twitter:image" content={imageUrl} />
-            <meta name="twitter:description" content={post.excerpt} />
         </Head>
         <DynamicPostContent post={post} />
         <div className={`buttons-container`}
@@ -43,15 +33,20 @@ return (
 )
 }
 
-export function getStaticProps(context) {
+export async function getStaticProps(context) {
     const { params } = context
     const { slug } = params
 
-    const postData = getPostData(slug)
+    const post = getPostData(slug)
+
+    const ogImage = `${siteMetadata.siteUrl}/api/og?title=${post.title}&author=${post.author}&date=${post.date}&url=${siteMetadata.siteUrl}/posts/${post.slug}`
+
+    console.log('og image', ogImage)
 
     return {
         props: {
-            post: postData
+            post,
+            ogImage
         },
         revalidate: 10
     }
