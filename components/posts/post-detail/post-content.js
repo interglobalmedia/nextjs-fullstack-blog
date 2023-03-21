@@ -14,6 +14,7 @@ import { getTagLink } from '../get-tag-link'
 import classes from '../../../styles/post-content.module.scss'
 import getReadTime from '../../../lib/utils/read-time'
 import siteMetadata from '../../../data/siteMetadata'
+import Share from '../../share/share'
 
 SyntaxHighlighter.registerLanguage('js', js)
 SyntaxHighlighter.registerLanguage('css', css)
@@ -27,9 +28,10 @@ const DynamicPostHeader = dynamic(() => import('./post-header'))
 const DynamicSocialShareIcon = dynamic(() => import('../../../helpers/social-icons-map.js'))
 
 function PostContent(props) {
-    const { post } = props
+    const { post, handleSocialShare } = props
     const readTime = getReadTime(post.content)
     const imagePath = `/images/posts/${post.slug}/${post.image}`
+    const url = `${siteMetadata.siteUrl}/posts/${post.slug}`
 
     const options = {
         year: "numeric",
@@ -105,7 +107,7 @@ function PostContent(props) {
                         <DynamicSocialShareIcon
                             name="social-hacker-news"
                             href={`https://news.ycombinator.com/submitlink?u=
-                                ${siteMetadata.siteUrl}/posts/${post.slug}`}
+                                ${url}&t=${post.title}`}
                             size="6"
                         />
                     </div>
@@ -120,10 +122,11 @@ function PostContent(props) {
                     ['share-linkedin']}`}>
                         <DynamicSocialShareIcon
                             name="linkedin"
-                            href={`https://www.linkedin.com/share?mini=true&url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.linkedinText}`}
+                            href={`https://www.linkedin.com/share?mini=true&url=${url}&text=${text.linkedinText}`}
                             size="6"
                         />
                     </div>
+                    <Share title={post.title} url={url} onClick={handleSocialShare} />
                 </div>
             </div>
             <p>{`${formattedDate} | ${readTime} min read`}</p>
