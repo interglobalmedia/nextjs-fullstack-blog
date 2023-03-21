@@ -1,0 +1,14 @@
+.code-copy-btn {
+    color: white;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    font-size: 1.25em;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.code-copy-btn:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
