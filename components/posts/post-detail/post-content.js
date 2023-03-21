@@ -15,6 +15,7 @@ import classes from '../../../styles/post-content.module.scss'
 import getReadTime from '../../../lib/utils/read-time'
 import siteMetadata from '../../../data/siteMetadata'
 import Share from '../../share/share'
+import CodeCopyBtn from './code-copy-btn'
 
 SyntaxHighlighter.registerLanguage('js', js)
 SyntaxHighlighter.registerLanguage('css', css)
@@ -28,6 +29,11 @@ const DynamicPostHeader = dynamic(() => import('./post-header'))
 const DynamicSocialShareIcon = dynamic(() => import('../../../helpers/social-icons-map.js'))
 
 function PostContent(props) {
+    // Add the CodeCopyBtn component to our PRE element
+    const Pre = ({ children }) => <pre className={classes['blog-pre']}>
+        <CodeCopyBtn>{children}</CodeCopyBtn>
+        {children}
+    </pre>
     const { post, handleSocialShare } = props
     const readTime = getReadTime(post.content)
     const imagePath = `/images/posts/${post.slug}/${post.image}`
@@ -69,9 +75,12 @@ function PostContent(props) {
             return <p>{paragraph.children}</p>
         },
 
-        pre({ node, ...props }) {
+        pre({ node, children, ...props }) {
             return (
-                <pre className="pre" {...props} />
+                <pre className='blog-pre' {...props}>
+                    <CodeCopyBtn>{children}</CodeCopyBtn>
+                    {children}
+                </pre>
             )
         },
         code({ node, inline, className, children, ...props }) {
@@ -84,7 +93,7 @@ function PostContent(props) {
                     <SyntaxHighlighter children={String(children).replace(/\n$/, '')}
                         style={atomDark}
                         language={match[1]}
-                        // PreTag="div"
+                        PreTag="div"
                         // className="pre-div"
                         {...props}>
                     </SyntaxHighlighter>
