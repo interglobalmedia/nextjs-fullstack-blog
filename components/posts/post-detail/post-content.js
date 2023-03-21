@@ -14,6 +14,7 @@ import { getTagLink } from '../get-tag-link'
 import classes from '../../../styles/post-content.module.scss'
 import getReadTime from '../../../lib/utils/read-time'
 import siteMetadata from '../../../data/siteMetadata'
+import Share from '../../share/share'
 
 SyntaxHighlighter.registerLanguage('js', js)
 SyntaxHighlighter.registerLanguage('css', css)
@@ -27,9 +28,10 @@ const DynamicPostHeader = dynamic(() => import('./post-header'))
 const DynamicSocialShareIcon = dynamic(() => import('../../../helpers/social-icons-map.js'))
 
 function PostContent(props) {
-    const { post } = props
+    const { post, handleSocialShare } = props
     const readTime = getReadTime(post.content)
     const imagePath = `/images/posts/${post.slug}/${post.image}`
+    const url = `${siteMetadata.siteUrl}/posts/${post.slug}`
 
     const options = {
         year: "numeric",
@@ -48,7 +50,7 @@ function PostContent(props) {
         twitterText: `I just read about ${post.title} by @${siteMetadata.twitterHandle} on ${siteMetadata.domain} ${siteMetadata.siteUrl}/posts/${post.slug}`,
         combinatorText: `I just read an article about ${post.title} by ${siteMetadata.combinatorHandle} on ${siteMetadata.domain}`,
         redditText: `I just read an article about "${post.title}" by ${siteMetadata.redditHandle} on ${siteMetadata.domain}`,
-        linkedinText: `I just read an article about "${post.title}" by "${siteMetadata.linkedinHandle}" on ${siteMetadata.domain}`,
+        linkedinText: `I just read an article about "${post.title}" by "${siteMetadata.linkedinHandle}"  ${siteMetadata.domain}`,
     }
 
     const customRenderers = {
@@ -104,9 +106,8 @@ function PostContent(props) {
                     <div className={`share-hacker-news ${classes['share-hacker-news']}`}>
                         <DynamicSocialShareIcon
                             name="social-hacker-news"
-                            href={`https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
-                                post.slug
-                            )}&text=${encodeURIComponent(text.combinatorText)}%0A%0A`}
+                            href={`https://news.ycombinator.com/submitlink?u=
+                                ${url}&t=${post.title}`}
                             size="6"
                         />
                     </div>
@@ -117,22 +118,15 @@ function PostContent(props) {
                             size="6"
                         />
                     </div>
-                    <div className={`share-reddit ${classes
-                    ['share-reddit']}`}>
-                        <DynamicSocialShareIcon
-                            name="social-reddit"
-                            href={`https://www.reddit.com/submit?title=${post.title}&url=${post.slug}&text=${text.redditText}`}
-                            size="6"
-                        />
-                    </div>
                     <div className={`share-linkedin ${classes
                     ['share-linkedin']}`}>
                         <DynamicSocialShareIcon
                             name="linkedin"
-                            href={`https://www.linkedin.com/share?mini=true&url=${siteMetadata.siteUrl}/posts/${post.slug}&text=${text.linkedinText}`}
+                            href={`https://www.linkedin.com/share?mini=true&url=${url}&text=${text.linkedinText}`}
                             size="6"
                         />
                     </div>
+                    <Share title={post.title} url={url} onClick={handleSocialShare} />
                 </div>
             </div>
             <p>{`${formattedDate} | ${readTime} min read`}</p>
