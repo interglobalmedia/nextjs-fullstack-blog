@@ -53,8 +53,8 @@ function PostContent(props) {
     const lastModifiedFormattedDate = new Date(post.lastModified).toLocaleDateString('en-US', options)
 
     const text = {
-        twitterText: `I just read about ${post.title} by @${siteMetadata.twitterHandle} on ${siteMetadata.domain} ${siteMetadata.siteUrl}/posts/${post.slug}`,
-        combinatorText: `I just read an article about ${post.title} by ${siteMetadata.combinatorHandle} on ${siteMetadata.domain}`,
+        twitterText: `I just read about "${post.title} by @${siteMetadata.twitterHandle}" on ${siteMetadata.domain} ${siteMetadata.siteUrl}/posts/${post.slug}`,
+        combinatorText: `I just read an article about "${post.title}" by ${siteMetadata.combinatorHandle} on ${siteMetadata.domain}`,
         redditText: `I just read an article about "${post.title}" by ${siteMetadata.redditHandle} on ${siteMetadata.domain}`,
         linkedinText: `I just read an article about "${post.title}" by "${siteMetadata.linkedinHandle}"  ${siteMetadata.domain}`,
     }

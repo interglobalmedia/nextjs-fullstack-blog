@@ -1,0 +1,167 @@
+---
+slug: understanding-the-github-ssh-mistake-fix-and-how-it-would-have-affected-me-if-i-hadnt-been-able-to-fix-it
+date: '2023-03-25T15:27:03.967Z'
+lastModified: '2023-03-25T15:27:03.967Z'
+title: Understanding the Github SSH Mistake "Fix" and How it Would Have Affected me if I Hadn't Been Able to Fix it
+author: Maria D. Campbell
+excerpt: Understanding the Github SSH mistake "fix" and how it would have affected me if I hadn't been able to fix it.
+image: fly-d-WNHl-WwdwCs-unsplash.jpg
+tags: ['git', 'github', 'human error', 'security breach', 'ssh']
+isPublished: true
+isFeatured: true
+---
+
+![Cyber security image](fly-d-WNHl-WwdwCs-unsplash.jpg)
+
+_Photo by [Fly:D](https://unsplash.com/@flyd2069) on
+[Unsplash](https://unsplash.com/photos/WNHl-WwdwCs)_
+
+***Yesterda***y, at around `10am`, I ***tried*** to ***push*** some ***local changes*** to ***one*** of my ***repos*** on `Github`, and I was ***not able***. I ***got*** the ***following error***:
+
+```shell
+WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!Someone could be eavesdropping on you right now (man-in-the-middle attack)!It is also possible that a host key has just been changed.
+The fingerprint for the RSA key sent by the remote host isXXXXXXXXXXXXXXXXXXXX
+Please contact your system administrator.Add correct host key in /Users/xxxxxxxx/.ssh/known_hosts to get rid of this message.Offending RSA key in /Users/xxxxxxxx/.ssh/known_hosts:3Host key for github.com has changed and you have requested strict checking.Host key verification failed.fatal: Could not read from remote repository.
+Please make sure you have the correct access rightsand the repository exists.
+```
+
+***Then***, I ***conducted*** some `Google` ***searches*** based on the `text` ***returned*** to the `Terminal` ***console***, and ***ended up*** landing on a Github Community Thread` with ***older discussions*** regarding ***non-working*** SSH keys` ***entitled*** [SSH Key is not working #23215](htt`ps://github.com/orgs/community/discussions/23215#discussioncomment-5422704). I ***shared*** my `issue`. ***Meanwhile***, I ***found*** an `article` ***entitled*** [GitHub publishes RSA SSH host keys by mistake, issues update](https://www.theregister.com/2023/03/24/github_changes_its_ssh_host/?utm_medium=share&utm_content=article&utm_source=twitter) on a `site` ***called*** `The Register`. They ***explained*** what ***happened*** on `Github` and ***why*** we would*** want*** to `read` the `post` that `Github` ***published*** on their `blog` to ***fix*** our ***connection issues***.
+
+The ***fact*** that the mistake` was ***made***, that there had been `security breaches` ***within*** the ***last year*** on `Github`, and a ***whole list*** of ***other things*** I ***won’t*** even ***bother mentioning*** (but are ***included*** in the ***above post*** and ***others***), I ***saw*** a `red flag` and did ***not trust*** anything that `Github` was ***telling me*** to ***do***. I had ***set up*** my `SSH keys` some ***years ago***, but had ***changed*** the `keys` ***over*** the ***years***. However, I ***now*** was ***not*** quite ***sure*** what they were ***asking*** me ***to do***. I ***initially*** did ***not follow*** all the `steps`, ***only some***, ***because*** I ***wanted*** to ***know*** what ***all*** those ***steps*** `meant`.
+
+I ***learned*** the ***hard way***, and ***through omission***. I ***generated*** `new keys` without*** removing*** `Github's` ***old*** `public key` from the ***Git*** `known_hosts` file. I ***never*** really ***paid attention*** to it, ***because*** I did ***not*** have to. I had ***never encountered*** such a `problem` ***anywhere else***. When I ***tried*** to ***add*** a ***new*** `public SSH key` to `Github`, it was ***rejected***! I ***could not*** understand ***why***. And ***neither*** did I ***get*** any `answers` from `Github`.
+
+When I ***finally*** had done ***enough research*** and ***understood*** what was ***being asked*** of ***me***, I ***removed*** the ***Github*** `public SSH key` from my `known_hosts` file ***with*** the ***following*** `comnand`:
+
+```shell
+ssh-keygen -R github.com
+```
+
+***Then***, I ***had*** to ***add*** the ***new*** `Github public SSH key` to ***my*** `known_hosts` file, and I ***did this*** by ***adding*** (***exactly***) the ***following*** to my `known_hosts` file ***at*** the ***top***:
+
+```shell
+github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=
+```
+
+I ***tried*** to ***automatically*** update ***GitHub.com’s*** `RSA SSH key` in my `~/.ssh/known_hosts`, but it ***did not*** work for ***me***. I ***went*** for the ***manual approach***.
+
+***However***, ***before*** I ***actually*** did this, and I had ***not yet*** `received` any ***answers*** to my ***questions*** from ***anyone*** at `Github Support`, I ***tested*** out ***working*** with `Bitbucket` ***over*** `SSH`. I ***replaced*** `Github’s` ***identity*** file ***with*** `Bitbucket’s`, and ***then*** forgot ***about it***. ***When*** I ***tried*** to ***connect*** to `Github` ***after*** I ***had added*** the ***new*** `public key`, it did ***not work***. I ***subsequently*** thought to ***check*** the `~/.ssh/known_hosts` file, ***because*** I ***wanted*** to ***include*** both `Bitbucket` and `Github`. ***That*** is ***when*** I ***discovered*** my `error` and ***changed*** it. ***Once*** I ***did that***, I was ***able*** to ***connect*** to `Github` ***again***.
+
+***Following*** the ***suggested steps*** in `Github’s` post ***entitled*** [We updated our RSA SSH host key](https://github.blog/2023-03-23-we-updated-our-rsa-ssh-host-key/) , the `fix` ***did work***. There is ***no need*** to ***change*** anything ***else***. ***No need*** to ***change*** your `SSH key pair`. Just ***follow*** the ***steps*** in the `post`.
+
+But ***what*** does that ***all*** mean? ***What*** is the ***role*** of the `~/.ssh/known_hosts` file?
+
+The ***purpose*** of the `known_hosts` file is to ***manage*** one’s ***saved*** `SSH server key fingerprints`. In ***other words***, the `fingerprints` of ***all servers*** that we ***connect*** with ***remotely*** using `SSH`. And I ***use*** it in ***many*** different ***places***.
+
+> It is ***used*** to ***store*** the `SSH server key fingerprints` of the `servers` that you have ***connected*** to in the ***past***. ***This*** is ***how*** a `server` ***identifies*** itself `cryptographically`, and are ***used*** by `SSH clients` to ***verify*** that ***future connections*** to the ***same server***, are ***actually*** to the ***same server***, and ***not*** to a ***different server*** because of a `man-in-the-middle` ***attack***, `DNS hijack`, ***etc***. - ***jamieweb.net***, ***Managing Your SSH known_hosts Using Git***
+
+Then `jamieweb.com` ***continues*** with
+
+> `Fingerprints` can be ***added*** to the `known_hosts` file in ***multiple ways***, but there are ***two*** `main ones`:
+
+```shell
+ssh ldn01.jamieweb.net
+The authenticity of host 'ldn01.jamieweb.net (139.162.222.67)' can't be established.
+ECDSA key fingerprint is SHA256:cNtT9V+VonaofCCCYjtul100tp1/g/wqdUJZ76GYoP4.
+Are you sure you want to continue connecting (yes/no)?
+```
+
+This is ***similar*** to ***when*** I ***connected*** with ***one*** of my `Namecheap` ***servers*** for my ***then*** `letsbsocial.nyc` site I ***created*** for my `COMD2451 Web Design 1` ***course*** I ***taught*** at `CityTech`. ***Because*** it ***uses*** anonymous` SSH` that ***changes*** each time you ***use*** it, ***thereby*** making ***each fingerprint*** `new` and `unknown`, it ***returns*** the ***same kind*** of `message` as ***shown above***. And ***each time*** I ***select*** `“yes”`. And ***after*** `“yes”` is ***selected***, the ***full*** key `fingerprint` is ***added*** to my `~/.ssh/known_hosts` file.
+
+***However***, in the ***case*** of the `Github` ***incident***, `Github` ***provided*** a `curl command` which was to ***add*** their `fingerprint` to my `known_hosts` file. I was ***not successful*** with it, so I ***manually added*** it to `known_hosts`.
+
+***What*** did ***this do*** for ***me***? It ***saved me*** a `step` when I ***tested*** my ***new*** `SSH connection` to `Github`. ***First***, I ***typed*** the ***following command*** in `Terminal` and ***hit*** `return`:
+
+```shell
+ssh -T git@github.com
+```
+
+***Then***, ***because*** I ***had added*** `Github’s` ***new*** `fingerprint` of their `public key` to the ***top*** of my `known_hosts` file, the ***following*** was ***returned*** in `Terminal`:
+
+```shell
+Hi interglobalmedia! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+***According*** to `Github`, this is ***what*** I ***should have*** expected. If I ***hadn’t added*** the `public key fingerprint` to `known_hosts`, the ***following*** would have ***first appeared***:
+
+> The authenticity of host 'github.com (IP ADDRESS)' can't be established.
+> ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+> Are you sure you want to continue connecting (yes/no)?
+
+***And***, as I ***mention earlier***, I ***select*** `“yes”`. ***Then*** the `fingerprint` is ***added*** to the `known_hosts` file. I ***wouldn’t*** get the ***one above***, I would ***get another*** which I could ***check*** to ***make sure*** that my `local install` of my `SSH public key fingerprint` ***matched*** the ***remote*** `SSH public key fingerprint`.
+
+To ***make sure*** that ***both*** MY `local` and `remote` ***public key fingerprints*** `match` (this is ***where*** the `Github` ***post*** with their `fix` ***got confusing*** for me ***until*** I ***realized*** what ***adding*** their `public SSH key fingerprint` ***was for***), I would ***run*** the ***following*** in `Terminal`:
+
+```shell
+curl -sL https://github.com/interglobalmedia.keys
+```
+
+***This*** `command` ***returns*** my `public SSH key fingerprint` (which ***means*** that it is a ***partial string*** of my `SSH public key`), and if my `remote fingerprint` ***matches*** my `local one`, I ***get back*** something like the ***following***:
+
+```shell
+ssh-ed25519 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+
+Then I can ***go into*** my ***local*** `SSH public key`, ***open it***, and ***check*** it ***against*** what is ***returned*** from `Github`.I ***already*** had ***checked*** for the `validity` of my `authentication` with `Github`, but I ***also*** ran this `command` ***because*** of ***what*** `Github` ***states*** in their `post`:
+
+```shell
+ssh-keygen -R github.com
+$ curl -L https://api.github.com/meta | jq -r '.ssh_keys | .[]' | sed -e 's/^/github.com /' >> ~/.ssh/known_hosts
+```
+
+> You can ***verify*** that your `hosts` are ***connecting*** via our new `RSA SSH key` by ***confirming*** that you ***see*** the ***following fingerprint***:
+
+```shell
+SHA256:uNiVztksCsDhcc0u9e8BujQXVUpKZIDTMczCvj3tD2s
+```
+
+The `curl command` did ***not work*** for ***me***. I ***manually added*** this (***new***) `fingerprint` to my `known_hosts` file. The ***first line*** refers to ***removing*** `Github’s` ***old*** `public SSH key` ***from*** the `known_hosts` file. It is then ***placed*** in a file in your `~/.ssh` folder ***called*** `known_hosts.old`.
+
+The ***point*** is to ***make sure*** that the `fingerprint` you ***have remotely*** on `Github` ***matches*** the ***one*** you ***have stored*** on your `local machine`, and that ***when*** you ***run*** the `ssh -T git@github.com` command, you ***always*** get back ***something like***:
+
+```shell
+Hi interglobalmedia! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+`“interglobalmedia”` should be replaced with your Github username.
+
+It had ***been*** a ***while*** since I had ***set up*** anything ***intentionally*** (and ***thought*** about it) in `known_hosts`. ***With*** `Cyberduck`, I ***knew*** what was ***going on***, but I ***didn’t bother*** to ***look into*** `where` the `result` of the `“yes”` prompt ***ended up***. And ***when*** the `Github` ***incident*** took place, I did ***not want*** to ***rush*** into ***anything*** until I ***understood*** what I was ***doing***. It ***did disrupt*** my ***work*** for a ***couple*** of ***days***. But ***being*** a ***bit*** of a `conspiracy theorist` (***can*** you ***blame*** me?), I ***wanted*** to ***further investigate*** the `process` ***before*** moving forward. I ***also wanted*** to ***think through*** what `fallback strategy` I could ***put*** in ***place*** in the ***future*** if a `security breach` were to ***take place*** again on `Github`. ***Consider this*** (***similar scenario*** for ***many*** on `Github`):
+
+***Not*** `being able` to ***connect*** to `Github` ***put*** my `development work` to a ***standstill*** until I ***could find*** a ***similar alternative***, because I ***couldn't rely*** on their ***responding*** to and ***helping*** me ***fix*** my `issues`. I ***am sure*** there are ***myriad*** `support tickets` being ***generated*** every minute.
+
+I ***ended up*** posting an `article` on `Linkedin`, ***because*** I was ***not able*** to ***do so*** on my ***own sites***.
+
+I was ***considering*** the ***possibility*** of ***using*** `Bitbucket` ***exclusively***, but that ***opens up*** a whole ***other can*** of ***worms***. ***Where*** would ***all*** those `static sites` I am ***currently hosting*** on `GitHub GH Pages` ***go to***? And all the `code refactoring` I would ***have*** to ***do*** to ***make them*** fit ***other*** `hosting scenarios`? `Bitbucket` is ***not*** set up ***like*** `GitHub`, and is ***very difficult*** to ***configure***. Which ***means*** a ***huge*** `learning curve` and a ***long time*** to `set up`. Which ***means*** not doing other ***income generating*** things.
+
+I ***still*** have to ***consider*** a `fallback` ***in order*** to ***avoid*** a `standstill` to ***my business*** in the ***future***, and in the ***most economical*** way ***possible***. I am a (***very***) ***small business***!
+
+*Happy SSHing!*
+
+## Related Resources
+
+- [We updated our RSA SSH host key (github.blog)](https://github.blog/2023-03-23-we-updated-our-rsa-ssh-host-key/): ***YCombinator***
+
+- [Managing Your SSH known_hosts Using Git](https://www.jamieweb.net/blog/managing-your-ssh-known_hosts-using-git/): ***jamieweb.net***
+
+- [SSH Key is not working #23215](https://github.com/orgs/community/discussions/23215#discussioncomment-5422704): ***Github Community Discussions***
+
+- [GitHub SSH Public Key Fingerprint Checking](https://protodave.com/tips/github-ssh-public-key-fingerprint-checking/): ***protodave***
+
+- [GitHub publishes RSA SSH host keys by mistake, issues update](https://www.theregister.com/2023/03/24/github_changes_its_ssh_host/?utm_medium=share&utm_content=article&utm_source=twitter): ***The Register***
+
+- [Has GitHub changed his remote host key?](https://github.com/orgs/community/discussions/50878): ***#50878: Github Community Discussions***
+
+- [Testing your SSH connection](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection): ***Github Docs***
+
+- [GitHub.com rotates its exposed private SSH key](https://www.bleepingcomputer.com/news/security/githubcom-rotates-its-exposed-private-ssh-key/): ***Bleeping Computer***
+
+- [GitHub Swiftly Replaces Exposed RSA SSH Key to Protect Git Operations](https://thehackernews.com/2023/03/github-swiftly-replaces-exposed-rsa-ssh.html): ***The Hacker News***
+
+
+
+
+
+
+
+
+
