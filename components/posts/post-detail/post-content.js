@@ -57,6 +57,7 @@ function PostContent(props) {
         combinatorText: `I just read an article about "${post.title}" by ${siteMetadata.combinatorHandle} on ${siteMetadata.domain}`,
         redditText: `I just read an article about "${post.title}" by ${siteMetadata.redditHandle} on ${siteMetadata.domain}`,
         linkedinText: `I just read an article about "${post.title}" by "${siteMetadata.linkedinHandle}"  ${siteMetadata.domain}`,
+        tumblrText: `I just read about "${post.title} by @${siteMetadata.tumblrHandle}" on ${siteMetadata.domain} ${siteMetadata.siteUrl}/posts/${post.slug}`,
     }
 
     const customRenderers = {
@@ -132,6 +133,14 @@ function PostContent(props) {
                         <DynamicSocialShareIcon
                             name="linkedin"
                             href={`https://www.linkedin.com/share?mini=true&url=${url}&text=${text.linkedinText}`}
+                            size="6"
+                        />
+                    </div>
+                    <div className={`share-tumblr ${classes
+                    ['share-tumblr']}`}>
+                        <DynamicSocialShareIcon
+                            name="tumblr"
+                            href={`https://www.tumblr.com/share/link?url=${url}`}
                             size="6"
                         />
                     </div>

@@ -16,7 +16,8 @@ const siteMetadata = {
     redditHandle: `interglobalmedia1`,
     twitterHandle: `letsbsocial1`,
     combinatorHandle: `mariador62`,
-    linkedinHandle: `mariacampbell`
+    linkedinHandle: `mariacampbell`,
+    tumblrHandle: `åletsbcultures`
 }
 
 module.exports = siteMetadata
