@@ -2,7 +2,8 @@
 .dark div > div.share-hacker-news,
 .dark div > div.share-twitter,
 .dark div > div.share-reddit,
-.dark div > div.share-linkedin {
+.dark div > div.share-linkedin,
+.dark div > div.share-tumblr {
     /* stylelint-disable scss/no-global-function-names */
 	fill: darken($aussie-blue, 2.5%);
 

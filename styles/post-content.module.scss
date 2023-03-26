@@ -82,10 +82,16 @@ $aussie-blue: #80d0ff;
 	margin-right: 0.25rem;
 }
 
+.svg-wrapper div.share-tumblr {
+	margin-top: -0.375rem;
+	margin-left: -0.75rem;
+}
+
 .svg-wrapper > div.share-hacker-news,
 .svg-wrapper > div.share-twitter,
 .svg-wrapper > div.share-reddit,
-.svg-wrapper > div.share-linkedin {
+.svg-wrapper > div.share-linkedin,
+.svg-wrapper > div.share-tumblr {
 	fill: darken(#1c1c1c, 15%);
 
 	&:hover {
