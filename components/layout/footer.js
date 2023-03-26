@@ -63,6 +63,13 @@ function Footer() {
                             size="6"
                         />
                     </div>
+                    <div className={`footer-tumblr ${classes['footer-tumblr']}`}>
+                        <DynamicSocialIcon
+                            name="tumblr"
+                            href={siteMetadata.tumblr}
+                            size="6"
+                        />
+                    </div>
                     <div className={`footer-sitemap ${classes['footer-sitemap']}`}>
                         <DynamicSocialIcon
                             name="sitemap"

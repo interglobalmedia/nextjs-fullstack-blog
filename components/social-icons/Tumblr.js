@@ -1,8 +1,8 @@
 import * as React from 'react'
 const SvgTumblr = (props) => (
 	<svg
-		width={800}
-		height={800}
+		width={70}
+		height={70}
 		viewBox="0 0 24 24"
 		xmlns="http://www.w3.org/2000/svg"
 		{...props}

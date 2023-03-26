@@ -13,6 +13,7 @@ const siteMetadata = {
     twitter: 'https://twitter.com/letsbsocial1',
     linkedin: 'https://www.linkedin.com/in/mariacampbell/',
     reddit: `https://www.reddit.com/interglobalmedia1`,
+    tumblr: `https://www.tumblr.com/interglobalmedia`,
     redditHandle: `interglobalmedia1`,
     twitterHandle: `letsbsocial1`,
     combinatorHandle: `mariador62`,

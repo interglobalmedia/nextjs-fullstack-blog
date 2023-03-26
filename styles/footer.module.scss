@@ -41,7 +41,8 @@ $tailwind-peppermint-green: #14b8a6;
 .svg-wrapper > div.footer-github,
 .svg-wrapper > div.footer-twitter,
 .svg-wrapper > div.footer-linkedin,
-.svg-wrapper > div.footer-sitemap {
+.svg-wrapper > div.footer-sitemap,
+.svg-wrapper > div.footer-tumblr {
 	height: 3.5rem;
 	width: 3.5rem;
 	fill: darken(#1c1c1c, 15%);
@@ -54,14 +55,24 @@ $tailwind-peppermint-green: #14b8a6;
 
 .svg-wrapper > div.footer-email {
 	height: 3.75rem;
-	margin-right: 0.25rem;
+	margin-right: 0.5rem;
 	width: 3.75rem;
 }
 
 .svg-wrapper > div.footer-sitemap {
 	height: 3.875rem;
+	margin-left: -0.5rem;
 	margin-top: -0.25rem;
 	width: 3.875rem;
+}
+
+.svg-wrapper > div.footer-linkedin {
+	margin-right: -0.5rem;
+}
+
+.svg-wrapper > div.footer-tumblr {
+	margin-top: -0.5rem;
+	margin-left: -0.5rem;
 }
 
 /* Auth Sign in Sign out buttons */
