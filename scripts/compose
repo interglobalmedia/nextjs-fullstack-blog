@@ -83,12 +83,12 @@ inquirer.prompt([
     const { slug, date, lastModified, title, author, excerpt, tags,  isPublished, isFeatured } = answers;
 	date.getHours() + ' ' + date.getMinutes()
 	lastModified.getHours() + ' ' + lastModified.getMinutes()
-    const fileName = `data/posts/${slug}.mdx`
+    const fileName = `data/blog/${slug}.mdx`
     if (fs.existsSync(fileName)) {
       throw "That post already exists!";
     }
     fs.writeFileSync(
-    `data/posts/${ slug }.mdx`,
+    `data/blog/${ slug }.mdx`,
 `---
 slug: "${slug}"
 date: "${date.toISOString()}"
@@ -104,7 +104,7 @@ isFeatured: ${isFeatured}
 `);
 
 
-    fs.mkdirSync(`public/images/posts/${slug}`, { recursive: true })
+    fs.mkdirSync(`public/images/blog/${slug}`, { recursive: true })
     console.log(`\n${slug} was created!`)
     open(`http://localhost:3000/posts/${slug}`)
   });
