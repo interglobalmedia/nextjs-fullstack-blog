@@ -36,8 +36,8 @@ function PostContent(props) {
     </pre>
     const { post, handleSocialShare } = props
     const readTime = getReadTime(post.content)
-    const imagePath = `/images/posts/${post.slug}/${post.image}`
-    const url = `${siteMetadata.siteUrl}/posts/${post.slug}`
+    const imagePath = `/images/blog/${post.slug}/${post.image}`
+    const url = `${siteMetadata.siteUrl}/blog/${post.slug}`
 
     const options = {
         year: "numeric",
@@ -53,11 +53,11 @@ function PostContent(props) {
     const lastModifiedFormattedDate = new Date(post.lastModified).toLocaleDateString('en-US', options)
 
     const text = {
-        twitterText: `I just read about "${post.title}" by @${siteMetadata.twitterHandle} on "${siteMetadata.domain}" ${siteMetadata.siteUrl}/posts/${post.slug}`,
+        twitterText: `I just read about "${post.title}" by @${siteMetadata.twitterHandle} on "${siteMetadata.domain}" ${siteMetadata.siteUrl}/blog/${post.slug}`,
         combinatorText: `I just read an article about "${post.title}" by ${siteMetadata.combinatorHandle} on ${siteMetadata.domain}`,
         redditText: `I just read an article about "${post.title}" by ${siteMetadata.redditHandle} on ${siteMetadata.domain}`,
         linkedinText: `I just read an article about "${post.title}" by "${siteMetadata.linkedinHandle}" on ${siteMetadata.domain}`,
-        tumblrText: `I just read about "${post.title} by @${siteMetadata.tumblrHandle} on ${siteMetadata.domain} ${siteMetadata.siteUrl}/posts/${post.slug}`,
+        tumblrText: `I just read about "${post.title} by @${siteMetadata.tumblrHandle} on ${siteMetadata.domain} ${siteMetadata.siteUrl}/blog/${post.slug}`,
     }
 
     const customRenderers = {
@@ -69,7 +69,7 @@ function PostContent(props) {
 
                 return (
                     <div className={classes.image}>
-                        <Image src={`/images/posts/${post.slug}/${image.properties.src}`} alt={image.properties.alt} width={600} height={400} layout="responsive" />
+                        <Image src={`/images/blog/${post.slug}/${image.properties.src}`} alt={image.properties.alt} width={600} height={400} layout="responsive" />
                     </div>
                 )
             }
