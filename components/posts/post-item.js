@@ -24,9 +24,9 @@ function PostItem(props) {
 
     const formattedDate = new Date(post.date).toLocaleDateString('en-US', options)
 
-    const imagePath = `/images/posts/${post.slug}/${post.image}`
+    const imagePath = `/images/blog/${post.slug}/${post.image}`
 
-    const linkPath = `/posts/${post.slug}`
+    const linkPath = `/blog/${post.slug}`
     return (
         <li className={`post ${classes.post}`}>
             <Link href={linkPath}>

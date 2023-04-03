@@ -10,8 +10,8 @@ const formatSitemapDate = require('../lib/utils/formatSitemapDate')
   const pages = await globby([
     'pages/*.js',
     'pages/*.tsx',
-    'data/posts/**/*.mdx',
-    'data/posts/**/*.md',
+    'data/blog/**/*.mdx',
+    'data/blog/**/*.md',
     '!pages/_*.js',
     '!pages/_*.tsx',
     '!pages/api',
@@ -35,7 +35,7 @@ const formatSitemapDate = require('../lib/utils/formatSitemapDate')
                 }
                 const path = page
                   .replace('pages/', '')
-                  .replace('data/posts', 'posts')
+                  .replace('data/blog', 'blog')
                   .replace('public/', '/')
                   .replace('.js', '')
                   .replace('.tsx', '')
@@ -44,7 +44,7 @@ const formatSitemapDate = require('../lib/utils/formatSitemapDate')
                   .replace('/feed.xml', '')
                 const route = path === 'index' ? '' : path
 
-                if (page.search('pages/404.') > -1 || page.search(`pages/posts/[...slug].`) > -1) {
+                if (page.search('pages/404.') > -1 || page.search(`pages/blog/[...slug].`) > -1) {
                   return
                 }
                 return `
