@@ -2,531 +2,588 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://www.mariadcampbell.comabout</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.comauth</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.comcontact</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.comguestbook</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/a-must-have-frontend-developer-tool</loc
+			>https://www.mariadcampbell.comblog/a-must-have-frontend-developer-tool</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/a-new-react-workflow-with-react-166-and-webpack-4</loc
+			>https://www.mariadcampbell.comblog/a-new-react-workflow-with-react-166-and-webpack-4</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/changing-your-homebrew-postgresql-configuration-from-trust-to-md5</loc
+			>https://www.mariadcampbell.comblog/changing-your-homebrew-postgresql-configuration-from-trust-to-md5</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/class-conflicts</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/class-conflicts</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/compressing-and-uncompressing-directories-from-the-command-line</loc
+			>https://www.mariadcampbell.comblog/compressing-and-uncompressing-directories-from-the-command-line</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>https://www.mariadcampbell.comblog/does-ai-have-ethics</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/dont-name-any-of-your-project-directories-functions</loc
+			>https://www.mariadcampbell.comblog/dont-name-any-of-your-project-directories-functions</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/downloading-a-pdf-file-from-the-internet-using-command-line-on-your-mac</loc
+			>https://www.mariadcampbell.comblog/downloading-a-pdf-file-from-the-internet-using-command-line-on-your-mac</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/ekeycode-ewhich</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/ekeycode-ewhich</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/es2018-language-features-available-in-v8js-v64-and-chrome-64</loc
+			>https://www.mariadcampbell.comblog/es2018-language-features-available-in-v8js-v64-and-chrome-64</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/eslint-parsing-in-react</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/eslint-parsing-in-react</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/fixing-your-nvm-install</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/fixing-your-nvm-install</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/flexbox-sticky-footer-and-react</loc
+			>https://www.mariadcampbell.comblog/flexbox-sticky-footer-and-react</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/getting-started-with-nextjs</loc
+			>https://www.mariadcampbell.comblog/getting-started-with-nextjs</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/guess-the-keys</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/guess-the-keys</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/how-to-add-files-to-your-gitignore-with-no-sweat</loc
+			>https://www.mariadcampbell.comblog/how-to-add-files-to-your-gitignore-with-no-sweat</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/how-to-completely-remove-cached-ip-addresses</loc
+			>https://www.mariadcampbell.comblog/how-to-completely-remove-cached-ip-addresses</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/how-to-copy-a-directory-from-command-line</loc
+			>https://www.mariadcampbell.comblog/how-to-copy-a-directory-from-command-line</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/how-to-remove-an-unwanted-local-repository-in-sourcetree-with-command-line</loc
+			>https://www.mariadcampbell.comblog/how-to-remove-an-unwanted-local-repository-in-sourcetree-with-command-line</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/how-to-save-terminal-output-to-a-file-for-future-reference</loc
+			>https://www.mariadcampbell.comblog/how-to-save-terminal-output-to-a-file-for-future-reference</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/how-to-uninstall-postgresql-on-osx-and-reinstall-with-homebrew</loc
+			>https://www.mariadcampbell.comblog/how-to-uninstall-postgresql-on-osx-and-reinstall-with-homebrew</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/how-to-uninstall-vs-code-seamlessly-on-your-mac</loc
+			>https://www.mariadcampbell.comblog/how-to-uninstall-vs-code-seamlessly-on-your-mac</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/html5-canvas-game-development</loc
+			>https://www.mariadcampbell.comblog/html5-canvas-game-development</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/i-gave-my-first-presentation-tonight</loc
+			>https://www.mariadcampbell.comblog/i-gave-my-first-presentation-tonight</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/im-now-on-patreon</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/im-now-on-patreon</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/implementing-es6-modules-without-webpack-or-babel</loc
+			>https://www.mariadcampbell.comblog/implementing-es6-modules-without-webpack-or-babel</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/importing-images-in-react-20-jest-and-babel-7</loc
+			>https://www.mariadcampbell.comblog/importing-images-in-react-20-jest-and-babel-7</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/importing-images-in-react</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/importing-images-in-react</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/installing-pgadmin-only-after-installing-postgresql-with-homebrew-part-2</loc
+			>https://www.mariadcampbell.comblog/installing-pgadmin-only-after-installing-postgresql-with-homebrew-part-2</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/installing-pgadmin-only-after-installing-postgresql-with-homebrew</loc
+			>https://www.mariadcampbell.comblog/installing-pgadmin-only-after-installing-postgresql-with-homebrew</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/installing-visual-studio-code-text-editor-on-a-mac</loc
+			>https://www.mariadcampbell.comblog/installing-visual-studio-code-text-editor-on-a-mac</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/ipad-vs-traditional-radio-or-stereo</loc
+			>https://www.mariadcampbell.comblog/ipad-vs-traditional-radio-or-stereo</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/jest-react-and-mocks</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/jest-react-and-mocks</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/mastering-javascript</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/mastering-javascript</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/my-amazon-s3-moment</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/my-amazon-s3-moment</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/my-first-time-using-react-16</loc
+			>https://www.mariadcampbell.comblog/my-first-time-using-react-16</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/my-updated-custom-react-workflow-2nd-edition-is-here</loc
+			>https://www.mariadcampbell.comblog/my-updated-custom-react-workflow-2nd-edition-is-here</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/nextjs-environment-variable-support-and-the-envlocal-file</loc
+			>https://www.mariadcampbell.comblog/nextjs-environment-variable-support-and-the-envlocal-file</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/opening-up-iterm2-via-spotlight-search-on-your-mac</loc
+			>https://www.mariadcampbell.comblog/opening-up-iterm2-via-spotlight-search-on-your-mac</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/postgresql-and-the-osx-migration-assistant</loc
+			>https://www.mariadcampbell.comblog/postgresql-and-the-osx-migration-assistant</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/react-workflows-update-1</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/react-workflows-update-1</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/refactoring-your-js-workflow-when-your-images-are-in-your-css-only</loc
+			>https://www.mariadcampbell.comblog/refactoring-your-js-workflow-when-your-images-are-in-your-css-only</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/removing-caps-from-css-headings</loc
+			>https://www.mariadcampbell.comblog/removing-caps-from-css-headings</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/renaming-your-remote-github-repository</loc
+			>https://www.mariadcampbell.comblog/renaming-your-remote-github-repository</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/requestanimationframe-and-polyfill-in-reactjs</loc
+			>https://www.mariadcampbell.comblog/requestanimationframe-and-polyfill-in-reactjs</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
-		<loc>https://www.mariadcampbell.composts/the-babel-7-config</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<loc>https://www.mariadcampbell.comblog/sharing-images-on-tumblr</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/the-chrome-favicon-nightmare-and-how-i-finally-fixed-it</loc
+			>https://www.mariadcampbell.comblog/stegenography-using-python-vs-steghide-via-cli-and-how-does-it-compare-to-cryptography</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>https://www.mariadcampbell.comblog/the-babel-7-config</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/the-importance-of-adapting-to-change-quickly</loc
+			>https://www.mariadcampbell.comblog/the-chrome-favicon-nightmare-and-how-i-finally-fixed-it</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/the-importance-of-eslint-and-react</loc
+			>https://www.mariadcampbell.comblog/the-importance-of-adapting-to-change-quickly</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
-		<changefreq>daily</changefreq>
-		<priority>1.0</priority>
-	</url>
-
-	<url>
-		<loc>https://www.mariadcampbell.composts/the-jest-side-effect</loc>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/the-new-npm-audit-with-6-npm</loc
+			>https://www.mariadcampbell.comblog/the-importance-of-eslint-and-react</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>https://www.mariadcampbell.comblog/the-jest-side-effect</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/the-say-command-in-osx-command-line</loc
+			>https://www.mariadcampbell.comblog/the-new-npm-audit-with-6-npm</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/to-npm-trash-or-not-to-npm-trash</loc
+			>https://www.mariadcampbell.comblog/the-say-command-in-osx-command-line</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/upgrading-postgresql-from-version-104-to-111-via-homebrew-osx</loc
+			>https://www.mariadcampbell.comblog/to-npm-trash-or-not-to-npm-trash</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/what-to-do-when-you-cant-upgrade-oh-my-zsh</loc
+			>https://www.mariadcampbell.comblog/understanding-the-github-ssh-mistake-fix-and-how-it-would-have-affected-me-if-i-hadnt-been-able-to-fix-it</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/when-a-bare-bones-automated-js-workflow-makes-sense</loc
+			>https://www.mariadcampbell.comblog/upgrading-postgresql-from-version-104-to-111-via-homebrew-osx</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/when-an-object-property-key-is-a-string-in-javascript</loc
+			>https://www.mariadcampbell.comblog/what-happens-when-you-edit-a-twitter-tweet</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/when-and-why-it-is-important-to-refactor-code</loc
+			>https://www.mariadcampbell.comblog/what-to-do-when-you-cant-upgrade-oh-my-zsh</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc
-			>https://www.mariadcampbell.composts/why-your-local-machine-computer-may-not-be-pointing-to-your-newly-propagated-site</loc
+			>https://www.mariadcampbell.comblog/when-a-bare-bones-automated-js-workflow-makes-sense</loc
 		>
-		<lastmod>3-20-2023 at 10:27 am</lastmod>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc
+			>https://www.mariadcampbell.comblog/when-an-object-property-key-is-a-string-in-javascript</loc
+		>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc
+			>https://www.mariadcampbell.comblog/when-and-why-it-is-important-to-refactor-code</loc
+		>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc
+			>https://www.mariadcampbell.comblog/why-increasing-your-technological-intelligence-is-important</loc
+		>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc
+			>https://www.mariadcampbell.comblog/why-your-local-machine-computer-may-not-be-pointing-to-your-newly-propagated-site</loc
+		>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc>https://www.mariadcampbell.comblog/wireshark-vs-tcpdump-macos</loc>
+		<lastmod>12-11-2023 at 5:13 pm</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
