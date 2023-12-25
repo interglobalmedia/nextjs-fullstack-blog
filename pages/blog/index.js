@@ -14,7 +14,7 @@ function AllPostsPage(props) {
       <Head>
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         <title>All Maria D. Campbell's Posts</title>
-        <meta name="description" content="Search through Maria D. Campbell's posts on fullstack development, macOS, Command Line, and Git." />
+        <meta name="description" content="Search through Maria D. Campbell's posts on cybersecurity,  ethics in technology, fullstack development, macOS, Command Line, and Git." />
       </Head>
       <DynamicAllPosts posts={posts} />
       <div className={`buttons-container`}
