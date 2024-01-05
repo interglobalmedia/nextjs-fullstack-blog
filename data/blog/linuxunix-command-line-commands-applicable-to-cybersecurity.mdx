@@ -1,0 +1,253 @@
+---
+slug: "linuxunix-command-line-commands-applicable-to-cybersecurity"
+date: "2024-01-04T18:56:33.365Z"
+lastModified: "2024-01-04T18:56:33.365Z"
+title: "Linux/Unix Command Line Commands applicable to Cybersecurity"
+author: "Maria D. Campbell"
+excerpt: "Linux?Unix Command Line commands applicable to Cybersecurity."
+image: pexels-pew-nguyen-241028.jpg
+tags: ["command line", "cybersecurity", "linux", "macOS", "unix"]
+isPublished: true
+isFeatured: true
+---
+
+![Security](pexels-pew-nguyen-241028.jpg)
+
+*Photo by [Pew Nguyen](https://www.pexels.com/@nguyendesigner/) on [pexels.com](https://www.pexels.com/photo/signage-241028/)*
+
+## Linux Terminal commands applicable to Cybersecurity
+
+### sudo
+
+`sudo` is crucial to security professionals. Most who work in cybersecurity will not have administrative privileges when working with the Command Line/Terminal in the Linux operating system, so they have to use the `sudo` command before commands which require running the command as administrator. The same goes for the Unix operating system. 
+
+For example, let's say I had to install the [Wireshark network protocol analyzer](/blog/wireshark-vs-tcpdump-macos) in my virtual instance of Kali Linux, and I logged in as a standard user without administrative privileges. I would run the following command in the Kali Linux Terminal window:
+
+```shell
+sudo apt install wireshark
+```
+
+I would be prompted for my user password, and if correctly inputted, the command line command would be executed and Wireshark would be installed.
+ 
+### chmod
+
+The `chmod` command allows an administrator or user with superuser (sudo) privileges to set or modify a file's or folder's permissions of any user on the system. This command is ciritcal to controlling who can read, write, and execute files and folders. This plays a critical role in the cybersecruity concepts of least privilege. Using chmod allows security professionals to change user permissions and ensure the permissions are aligned with the principle of least privilege.
+
+A standard user can also use `chmod` on files and folders that they own as well without the use of `sudo`.
+
+For examole, if I were a standard user on a system, and I wanted to change the permissions of a file I owned called `login_sessions.txt` and set it specifically to read permissions for users, groups, and other (everyone else), I would do the following:
+
+```shell
+chmod u=r,g=r,o=r login_sessions.txt
+```
+
+Here, by using the `=` sign to set read permissions for users (u), groups (g) and other (o) with `chmod` sets or assigns the permissions exactly as specified. And it overwrites existing permissions. For example, if a user, group, or other, previously had write or execute permissions, they are removed after I specify only read permissions with `=`.
+
+### chown
+
+The `chown` command changes ownershio of a file or directory. `chown` can be used to change user or group ownership. Only the root user or standard user with superuser (sudo) privileges can use the `chown` command.
+
+Let's say I was a standard user, and I wanted to change the ownership of a file called `access.txt` to the user `rreynolds`. I would run the following command i n Terminal:
+
+```shell
+sudo chown rreynolds access.txt
+```
+
+If I wanted to change the group owner of `access.txt` to `security`, I would run the following command in Terminal:
+
+```shell
+sudo chown :security access.txt
+```
+
+I have to enter a colon (`:`) before the name of the group (`security`) to designate it as a group name. And then if I wanted to check if user and group ownserhip of the file had been successfully changed, I would run the following command in Terminal:
+
+```shell
+ls -l access.txt
+```
+
+And it would return something like the following:
+
+```shell
+-rw-r--r--  1 rreynolds  security  780 Dec 12 10:50 access.txt
+```
+
+`rreynolds` is the new user owner, and `security` the new group owner.
+
+I could have also changed the user owner and group owner with one command instead of two. I could have done the follwoing in Terminal instead:
+
+```shell
+sudo chown rreynolds:security access.txt
+```
+
+Here, the user owner follows the chown command, the `:` (`colon`) follows the user owner, and the group owner follows the `:` (`colon`).
+
+
+### passwd
+
+The `passwd` command changes the password for a user. A standard user can only change their own password, but a root user or standard user with superuser privileges can change the password for any account. That's why it is so important to be careful about whom to give access to superuser privileges via the `sudo` command.
+
+To change your own password, all you need to do is type `passwd` in the Terminal window, and something like the following will be initially returned:
+
+```shell
+passwd
+Changing password for maria.
+Current password:
+```
+
+If you successfully input your current passward, then you will be prompted to input your new password. And then you will be prompted to enter the new password a second time to make sure that they match. If they don't match, you will be prompted to enter a replacement password.
+
+### iptables
+
+`iptables` is a firewall program for Linux. It monitors traffic to and from your server using tables. These tables contain sets of rules called chains that filter incoming and outgoing data packets.
+
+`iptables` play a crucial role in securing computer networks from unauthorized access and potential threats.
+
+According to [IPtables explained](https://infosec-jobs.com/insights/iptables-explained/),
+
+>IPtables is a user-space utility program that allows administrators to configure and manage firewall rules within the Linux kernel. It acts as a packet filter and network address translator (NAT), controlling the flow of network traffic based on predefined rulesets. IPtables operates at the network layer (Layer 3) of the OSI model, examining packets and making decisions on whether to allow or deny them based on specified criteria.
+
+To learn more about `iptables`, please visit the post entitled [IPtables explained](https://infosec-jobs.com/insights/iptables-explained/) on `infosec-jobs.com`.
+
+### netstat
+
+The `netstat` command provides information about network connections, ports in use, and the processes using them. `netstat` can be used for troubleshooting network issues, monitoring network performance, and investigating security incidents. Information provided by `netstat` can be crucial for detecting malicious activity on the network.
+
+`netstat` can be used to [identify open ports on a system](https://medium.com/@aa.adnane/using-netstat-for-network-security-identifying-potential-threats-and-improving-protection-65e93eda7b68). That way, administrators can determine which ports are being used by legitimate applications and which might be used by attackers to gain access to the system. To learn more about how netstat can be used for network security, please visit the post entitled [Using Netstat for Network Security: Identifying Potential Threats and Improving Protection](https://medium.com/@aa.adnane/using-netstat-for-network-security-identifying-potential-threats-and-improving-protection-65e93eda7b68) by Adnane Arharbi, Eng on `medium.com`.
+
+`netstat` is also available on Windows and macOS.
+
+### ss
+
+The `ss` command, which stands for `socket statistics`, is a powerful tool for inspecting and displaying detailed information about sockets on Linux. It offers insights into network connections, routing tables, and more. `ss` is a modern replacement for `netstat`, and it is faster and provides more information. It displays more TCP and state information than other tools.
+
+The output of the `ss` command returns a list of open non-listening sockets with established connections.
+
+To learn more about the `ss` command, please visit the post entitled [How To Use Linux SS Command](https://phoenixnap.com/kb/ss-command) on `phoenixnap.com`.
+
+### fail2ban
+
+`fail2ban` is technically not a Linux command but a service that can be installed on the Linux operating system. It is an essential tool that protects your system from brute force attacks. It monitors log files for too many failed login attempts and bans the offending IP addresses for a certain period of time.
+
+`fail2ban` works hand in hand with a firewall, so it is recommended to install and enable them as separate security layers. `fail2ban` does not come built-in to Kali Linux by default, but it is Kali Linux compatible and can be installed using `apt`.
+
+### ps
+
+The `ps` command stands for `process status`, and it is used to view active processes on a system. The command is the same on both Linux and Unix (macOS). The command monitors what is running on your system and can be used in combination with other commands to kill unresponsive or malicious processes.
+
+The `ps` command lists the currently running processes and their PIDs along with some other information. When I now ran the `ps` command in my Terminal, the following was returned:
+
+```shell
+ESCOC
+  PID TTY           TIME CMD
+48676 ttys000    0:00.68 -zsh
+66889 ttys003    0:01.13 /bin/zsh -il
+86858 ttys003    0:00.30 npm run serve
+86881 ttys003    0:00.55 npm exec @marp-team/marp-cli@latest -s content/
+86913 ttys003   19:20.03 node /Users/mariacam/Development/google-it-suppport-c
+ 3587 ttys004    0:01.84 -zsh
+ 4300 ttys006    0:00.59 /bin/zsh -il
+ 6340 ttys006    0:00.27 npm run dev
+ 6363 ttys006    0:00.78 node /Users/mariacam/Development/nextjs-and-react-com
+ 6364 ttys006    0:37.73 /Users/mariacam/.nvm/versions/node/v20.9.0/bin/node /
+ 6464 ttys006    0:00.39 /Users/mariacam/.nvm/versions/node/v20.9.0/bin/node /
+ 6465 ttys006    0:00.36 /Users/mariacam/.nvm/versions/node/v20.9.0/bin/node /
+ 6466 ttys006    0:00.35 /Users/mariacam/.nvm/versions/node/v20.9.0/bin/node /
+ 6467 ttys006    0:00.34 /Users/mariacam/.nvm/versions/node/v20.9.0/bin/node /
+ 6468 ttys006    0:00.37 /Users/mariacam/.nvm/versions/node/v20.9.0/bin/node /
+ 6955 ttys006    0:00.37 /Users/mariacam/.nvm/versions/node/v20.9.0/bin/node /
+ 6972 ttys006    0:00.36 /Users/mariacam/.nvm/versions/node/v20.9.0/bin/node /
+11982 ttys006    0:00.38 /Users/mariacam/.nvm/versions/node/v20.9.0/bin/node /
+12196 ttys006    0:00.37 /Users/mariacam/.nvm/versions/node/v20.9.0/bin/node /
+11055 ttys007    0:00.62 -zsh
+```
+
+Not too much going on at the moment, but you get the idea!
+
+### usermod
+
+The `usermod` command allows an administrator to modify a user account. You either have to be the root user or user with superuser rights (sudo) to be able to use the `usermod` command.
+
+The `usermod` command allows the administrator to add or remove users from groups, but it also does much more. 
+
+You can use the `usermod` command to add a user to a single group or to multiple groups at the same time. You can use `usermod` to lock a user's account  by disabling their password. By the same token, you can unlock a user's account as well. You can use `usermod` to set the user's account to expire on a certain day. You can also disable the expiration date for a user account. You can use `usermod` to change the username of a user account. You can use `usermod` to change the the name of the user's home directory, especially if you have changed the user's username, so you probably would want to match the name of their home direcotry to that of their username. You can also use `usermod` to specify the default shell for a user. This is the shell they are presented with whenever they log in to their computer. Let's say, for example, that we want to change the Linux user's default shell from bash to zsh. We could do this using `usermod`. You can also use `usermod` to change the actual name of the user as opposed to the username. You can also use `usermod` to change the user's unique ID which was allocated tp them when the user account was initially created. To learn more about such use cases for the `usermod` command, please visit the post entitled [usermod command in Linux with examples](https://linuxconfig.org/usermod) by Luke Reynolds on `linuxconfig.org`.
+
+### find
+
+According to [RedHat](https://www.redhat.com/sysadmin/linux-find-command),
+
+>The find command is one of the most useful Linux commands, especially when you're faced with the hundreds and thousands of files and folders on a modern computer. As its name implies, find helps you find things, and not just by filename.
+
+There are many ways you can use the find command, among them being finding a file by name, find a file by approximate name, find the contents of a directory, find a file by content instead of by name, find files by type, find directories, find files by age, find a path, and more. To learn more about such types of searches using the find command, please visit the post entitled [10 ways to use the Linux find command](https://www.redhat.com/sysadmin/linux-find-command) by Seth Kenlon on `redhat.com`. You can also read my post on the find command entitled [How to find a folder on your computer](/blog/how-to-find-a-folder-on-your-computer).
+
+### history
+
+The `history` command is not specific to cybersecirty related tasks, but it is still quite helpful and efficient! The `history` command displays the complete list of commands executed in Terminal by the current user, and not just for the specific current session. At least that is the case for me on macOS. What is so great about the history command is that if I forget a command or don't remember a command completely, I can refer to it within `history`. 
+
+However, it is important to note that if the list of commands resulting from the execution of the `history` command is very long, I am not able to see the complete list in the Terminal window. In that case, I can run the following command in Terminal to print the list of commands to a file other than the original `.zsh_history` file located in my home directory containing the commands in question:
+
+```shell
+history > ~/desktop/history_for_print.txt
+```
+
+This would print out the output of the `history` command in a new file called `history_for_print.txt` located on my computer's `desktop`. This way I would be able to easily refer to and find the command I am looking for from the complete list of commands saved to `history`.
+
+### last
+
+The `last` command can be very useful to security professionals, because it provides information about the last logged in user(s). It allows me to track user login activities as well as to investigate a possible security breach. The command is the same for Unix (macOS). In my case, I am the only user on my system, so the output of the `last` command is usually not very exiciting:
+
+```shell
+mariacam   ttys007                         Thu Jan  4 15:43   still logged in
+mariacam   ttys007                         Thu Jan  4 15:17 - 15:17  (00:00)
+mariacam   ttys008                         Thu Jan  4 15:15 - 15:15  (00:00)
+mariacam   ttys007                         Thu Jan  4 15:04 - 15:04  (00:00)
+mariacam   ttys004                         Thu Jan  4 13:50   still logged in
+mariacam   ttys000                         Sun Dec 31 07:19   still logged in
+```
+
+As for the meaning of `ttys`, it stands for `teletypes`. `tty` stands for `teletype`. Every time we open up a new Terminal window, it is allocated a ["pseudo teletype"](https://superuser.com/questions/812086/ttysxxx-in-who-command) aka `ptty`. So why this `ptty`? When the operating system needs to send information to one of the active Terminal windows, it specifies the `ptty` the information is going to get sent to.
+
+### lastb
+
+The `lastb` command is specific to Linux. There is no such command in Unix (macOS). However, I do have Kali Linux installed on my machine via the `UTM VM`. So I ran the command there:
+
+```shell
+sudo lastb
+```
+
+I had to use `sudo` because standard users don't have read permissions on the `/var/log/btmp` file.
+
+The `lastb` command requires administrative privileges, and since I logged in as a standard user, I had to add `sudo` before the `lastb` command. The `lastb` command returned the following:
+
+```shell
+btmp begins Thu Jan  4 16:11:03 2024
+```
+
+This means that there were no failed login attempts recorded yet for users, and the `/var/log/btmp` file was just created for future recording of bad login attempts for users on the system.
+
+## Related Resources
+
+- [How to use the history command in Linux](https://opensource.com/article/18/6/history-command): *by Steve Morris on opensource.com*
+
+- [Linux last Command](https://www.baeldung.com/linux/last-command): *by Kai Yuan on baeldung.com*
+
+- [How to Secure Your Linux Server with Fail2Ban Configuration](https://www.hostinger.com/tutorials/fail2ban-configuration): *by Noviantika G. on hostinger.com*
+
+- [How To Install fail2ban on Kali Linux](https://installati.one/install-fail2ban-kalilinux/)
+
+- [How to install and configure Fail2ban on Linux](https://linuxconfig.org/how-to-install-and-configure-fail2ban-on-linux): *by Egidio Docile on linuxconfig.org*
+
+- [The ps Command](https://eng.libretexts.org/Bookshelves/Computer_Science/Operating_Systems/Linux_-_The_Penguin_Marches_On_(McClanahan)/08%3A_How_to_Manage_System_Components/4.9%3A_Process_Troubleshooting/4.09.01%3A_Process_Troubleshooting_ps_command)
+
+- [How to Use the Netstat Command on Mac](https://www.lifewire.com/using-netstat-command-on-mac-4176069): *by Alexander Fox on Lifewire*
+
+- [netstat commands for Windows, Linux, and Mac at a glance](https://www.ionos.com/digitalguide/server/tools/netstat-commands/)
+
+- [How to Use netstat on Linux](https://www.howtogeek.com/513003/how-to-use-netstat-on-linux/)
+
+- [Using Netstat for Network Security: Identifying Potential Threats and Improving Protection](https://medium.com/@aa.adnane/using-netstat-for-network-security-identifying-potential-threats-and-improving-protection-65e93eda7b68): *by Adnane Arharbi, Eng on medium.com*
+
+- [IPtables explained](https://infosec-jobs.com/insights/iptables-explained/)
+
+- [10 ways to use the Linux find command](https://www.redhat.com/sysadmin/linux-find-command): *by Seth Kenlon on redhat.com*
+
+- [usermod command in Linux with examples](https://linuxconfig.org/usermod): *by Luke Reynolds on linuxconfig.org*
