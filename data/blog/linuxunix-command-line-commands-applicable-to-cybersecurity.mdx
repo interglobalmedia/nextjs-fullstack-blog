@@ -1,7 +1,7 @@
 ---
 slug: "linuxunix-command-line-commands-applicable-to-cybersecurity"
 date: "2024-01-04T18:56:33.365Z"
-lastModified: "2024-01-04T18:56:33.365Z"
+lastModified: "2024-01-06T04:44:33.365Z"
 title: "Linux/Unix Command Line Commands applicable to Cybersecurity"
 author: "Maria D. Campbell"
 excerpt: "Linux?Unix Command Line commands applicable to Cybersecurity."
@@ -223,6 +223,46 @@ btmp begins Thu Jan  4 16:11:03 2024
 ```
 
 This means that there were no failed login attempts recorded yet for users, and the `/var/log/btmp` file was just created for future recording of bad login attempts for users on the system.
+
+### lsof
+
+The `lsof` command stands for `"list open files"`. It shows which files are open and which `processes` are using them. Linux sees every object on the system as a file, such as devices, directories, etc., so unidentified open files prevent users from modifying them. And since there are so many files on a system, this can make it difficult to pinpoint malicious `processes`. The `lsof` command helps identify these `processes`.
+
+Since everything on the Linux operating system is treated as a `"file"`, the `lsof` command is not limited to the `local filesystem`. It can also be used for `network debugging`. Let's say that I want to know which `process` is using `port 8080`. I would run the following command in Terminal:
+
+```shell
+lsof -i :8080
+```
+
+And it returns:
+
+```shell
+COMMAND   PID     USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    44782 mariacam   22u  IPv6 0xd377de18813aeb07      0t0  TCP *:http-alt (LISTEN)
+```
+
+I actually `ran` this command within `macOS itself` and `not` in `Kali Linux`, but the `behavior` for this command in both Linux and macOS is the same. 
+
+The `process` running on `port 8080` is `node`. The `user` is `mariacam`, the `IP version` is `IPv6`, and `TCP *:http-alt`  refers to a [wildcard DNS record](https://www.cloudns.net/wiki/article/190/). It is used to match requests for ***non-existent*** `domain names`. Like in the case here. 
+
+The `process` is running on `localhost` and therefore a `domain name` does not exist. `http-alt` stands for ["http alternative (service)"](https://www.mnot.net/blog/2016/03/09/alt-svc), and it allows a web server (technically an `Origin`, which here is the `localhost`) to say that another server is `"authoritative"` for its resources. `Clients` that `support services` can `open` a `connection` and `treat` the `alternative service` as if it were the `origin`.
+
+However, running `lsof -i :8080` does `not` return all the `possible information` regarding the `particular process` running on `port 8080` with the `PID` of `44782`. To `get` that `additional information`, I `run` the `following command`:
+
+```shell
+ps -f 44782
+```
+
+Which returns:
+
+```shell
+ UID   PID  PPID   C STIME   TTY           TIME CMD
+  502 44782 44748   0  8:12PM ttys011    0:02.20 node /Users/mariacam/Development/google-it-suppport-certificate/the-bits-and-bytes-of-computer-networking/node_modules/.bin/marp -s content/
+```
+
+Using the `ps` command followed by the `-f` option results in `more detailed information` regarding the `process`. As mentioned earlier in this post, `ps` stands for "`process status`". Now I am provided with the `UID` of the `user` as well as the `PPID`. `PPID` stands for the `"process ID of the parent process"`, and `UID` stands for the `"user who owns the process"`. I also am `provided` with the `path` to the `actual location` of the `process` running on `port 8080` with the `PID` of `44782`. 
+
+**Lastly**, `node /Users/mariacam/Development/google-it-suppport-certificate/the-bits-and-bytes-of-computer-networking/node_modules/.bin/marp -s content/` is the absolute path  to the `node script` as apposed to the `"npm run serve"` local script (`"serve": "npx @marp-team/marp-cli@latest -s content/"` **located** in the `package.json` file) I actually used to run my `slide deck` **created with** the `marp-cli` npm package.
 
 ## Related Resources
 
