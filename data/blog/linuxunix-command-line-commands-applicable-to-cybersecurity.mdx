@@ -264,6 +264,116 @@ Using the `ps` command followed by the `-f` option results in `more detailed inf
 
 **Lastly**, `node /Users/mariacam/Development/google-it-suppport-certificate/the-bits-and-bytes-of-computer-networking/node_modules/.bin/marp -s content/` is the absolute path  to the `node script` as opposed to the `"npm run serve"` local script (`"serve": "npx @marp-team/marp-cli@latest -s content/"` **located** in the `package.json` file) I actually used to run my `slide deck` **created with** the `marp-cli` npm package.
 
+### file
+
+The `file` command followed by the `path` to a `file` will return basic information about the file. For exaample, if I wanted to find out information about an `image file`, I could run something like the following in Terminal (macOS):
+
+```shell
+file pexels-pew-nguyen-241028.jpg
+```
+
+And it would return the following in Terminal (macOS):
+
+```shell
+pexels-pew-nguyen-241028.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, progressive, precision 8, 1280x853, components 3
+```
+
+The `output` is `chock full` of `information` about the `file`!
+
+If I wanted to find out the `file type` for `pexels-pew-nguyen-241028.jpg`, I would run the following command (macOS):
+
+```shell
+file -i pexels-pew-nguyen-241028.jpg
+```
+
+And it would return the following:
+
+```shell
+pexels-pew-nguyen-241028.jpg: regular file
+```
+
+Which is fine, but not the most informative information. Just that the image file is a `"regular file"`.
+
+A ["regular file"](https://www.computerhope.com/jargon/r/regular-file.htm) simply means that it is one type of file stored in a file system. it is called `"regular"` to distinguish it from other `"special types"` of files. [Executable files](https://www.computerhope.com/jargon/e/execfile.htm), [text files](https://www.computerhope.com/jargon/t/textfile.htm), and [image files](https://www.computerhope.com/jargon/i/image.htm) are `"regular files"`, for example.
+
+On the other hand, if I ran the same two commands in `Kali Linux` (`Linux`), I might get something slightly different and more informative. If I ran the file command:
+
+```shell
+file pexels-brian-machado-10626267.jpg
+```
+
+The following would be returned:
+
+```shell
+pexels-brian-machado-10626267.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, progressive, precision 8, 640x425, components 3
+```
+
+The `file` command followed by the `path` to the file returns the same kind of information as on `macOS`. So nothing new there. But when I run the `file` command followed by the `-i` option and then the `path` to the file, something like the following is returned:
+
+```shell
+pexels-brian-machado-10626267.jpg: image/jpeg; charset=binary
+```
+
+The `-i` option outputs the file's `MIME TYPE` (`--mime-type and --mime-encoding`). So `image/jpeg` is the `MIME TYPE` and `charset=binary` is the `MIME ENCODING`. The information returned in `Linux` is perhaps a bit more informative than the information returned in `macOS`. There are many other options available to use with the `file` command, which can all be found by running the `file --help` command.
+
+The `file` command followed by options such as `-i` is only only one use. There are many other ways one can use the `file` command. For example, I use it to change all `image` (`JPEG`) files in a folder to `WEBP` format. For example:
+
+```shell
+`for file in images/*; do cwebp -q 100 "$file" -o "${file%.*}.webp"; done`
+```
+
+However, I did not quite remember what full command was for this function, so first I ran the following to find it in my CLI history:
+
+```shell
+history | grep 'cwebp'
+```
+
+This command returns all the commands in `CLI history` that contain the `'cwebp'` command. That way I was able to retrieve the whole for in loop containing the `file` command and the `cwebp` command. BTW, `cwebp` is a is a package available on both `macOS` and `Linux`. On `macOS`, I `installed` it via `Homebrew`. And on `Linux`, it is `installable` via the `apt-get` package management for `Ubuntu` and `Debian`. To learn mroe about `CWEBP`, please visit the [WEBP website](https://developers.google.com/speed/webp/docs/precompiled).
+
+### | (pipe)
+
+The `pipe` (`|`) command is **essential** for command line users. It's **primary purpose** is to connect the output of one command (to the left of the pipe) directly into the input of another (to the right of the pipe). Going back to the `pipe` command used in the `file` command example:
+
+```shell
+history | grep 'cwebp'
+```
+
+I am taking the `output` of the `history` command and `directing it` into the `input` of the `grep` command. This command returned the following (`macOS`):
+
+```shell
+# snippet
+7896  cwebp kyle-glenn-dGk-qYBk4OA-unsplash.jpg -q 100 -o kyle-glenn-dGk-qYBk4OA-unsplash.webp
+ 8093  cwebp erik-mclean-RfkaDKptt-A-unsplash.jpg -q 100 -o erik-mclean-RfkaDKptt-A-unsplash.webp
+ 8295  cwebp possessed-photography-jIBMSMs4_kA-unsplash.jpg -q 100 -o possessed-photography-jIBMSMs4_kA-unsplash.webp
+ 8482  `for file in images/*; do cwebp -q 100 "$file" -o "${file%.*}.webp"; done`
+ 8853  `dor file in images/*; do cwebp -q 50 "$file" -o "${file%.*}.webp"; done`
+ 8859  `for file in images/*; do cwebp -q 50 "$file" -o "${file%.*}.webp"; done`
+ 9369  cwebp kenny-eliason-hF-Vaf9P1vs-unsplash.jpg -q 50 -o kenny-eliason-hF-Vaf9P1vs-unsplash.webp
+```
+
+Another example (`Linux`):
+
+```shell
+history | grep 'file'
+```
+
+This command returns the following in Linux:
+
+```shell
+122  profile
+  131  file -i ls
+  138  file -i pexels-brian-machado-10626267.jpg
+  139  file pexels-brian-machado-10626267.jpg
+  140  file -h
+  141  file --help
+  142  file -i pexels-brian-machado-10626267.jpg
+  143  file --apple pexels-brian-machado-10626267.jpg
+```
+
+### grep
+
+[grep](https://www.hostinger.com/tutorials/grep-command-in-linux-useful-examples/) stands for `"global regular expression print"`. It searches for text and strings defined by users in a given file. In my case, `history | grep 'file'`, I am searching for the command `file` within the history command. And previous to that example, I was searching for the `cwebp` command within the `history` command. There are very many uses for `grep`. It is a ***must useful*** and ***efficient*** command!
+
 ## Related Resources
 
 - [How to use the history command in Linux](https://opensource.com/article/18/6/history-command): *by Steve Morris on opensource.com*
@@ -272,22 +382,26 @@ Using the `ps` command followed by the `-f` option results in `more detailed inf
 
 - [How to Secure Your Linux Server with Fail2Ban Configuration](https://www.hostinger.com/tutorials/fail2ban-configuration): *by Noviantika G. on hostinger.com*
 
-- [How To Install fail2ban on Kali Linux](https://installati.one/install-fail2ban-kalilinux/)
+- [How To Install fail2ban on Kali Linux](https://installati.one/install-fail2ban-kalilinux/): *Installati.one*
 
 - [How to install and configure Fail2ban on Linux](https://linuxconfig.org/how-to-install-and-configure-fail2ban-on-linux): *by Egidio Docile on linuxconfig.org*
 
-- [The ps Command](https://eng.libretexts.org/Bookshelves/Computer_Science/Operating_Systems/Linux_-_The_Penguin_Marches_On_(McClanahan)/08%3A_How_to_Manage_System_Components/4.9%3A_Process_Troubleshooting/4.09.01%3A_Process_Troubleshooting_ps_command)
+- [The ps Command](https://eng.libretexts.org/Bookshelves/Computer_Science/Operating_Systems/Linux_-_The_Penguin_Marches_On_(McClanahan)/08%3A_How_to_Manage_System_Components/4.9%3A_Process_Troubleshooting/4.09.01%3A_Process_Troubleshooting_ps_command): *libretexts.org*
 
 - [How to Use the Netstat Command on Mac](https://www.lifewire.com/using-netstat-command-on-mac-4176069): *by Alexander Fox on Lifewire*
 
-- [netstat commands for Windows, Linux, and Mac at a glance](https://www.ionos.com/digitalguide/server/tools/netstat-commands/)
+- [netstat commands for Windows, Linux, and Mac at a glance](https://www.ionos.com/digitalguide/server/tools/netstat-commands/): *ionos.com*
 
-- [How to Use netstat on Linux](https://www.howtogeek.com/513003/how-to-use-netstat-on-linux/)
+- [How to Use netstat on Linux](https://www.howtogeek.com/513003/how-to-use-netstat-on-linux/): *by Dave McKay on howtogeek.com*
 
 - [Using Netstat for Network Security: Identifying Potential Threats and Improving Protection](https://medium.com/@aa.adnane/using-netstat-for-network-security-identifying-potential-threats-and-improving-protection-65e93eda7b68): *by Adnane Arharbi, Eng on medium.com*
 
-- [IPtables explained](https://infosec-jobs.com/insights/iptables-explained/)
+- [IPtables explained](https://infosec-jobs.com/insights/iptables-explained/): *infosec-jobs.com*
 
 - [10 ways to use the Linux find command](https://www.redhat.com/sysadmin/linux-find-command): *by Seth Kenlon on redhat.com*
 
 - [usermod command in Linux with examples](https://linuxconfig.org/usermod): *by Luke Reynolds on linuxconfig.org*
+
+- [Creating WebP Images with the Command Line](https://web.dev/articles/codelab-serve-images-webp): *by Katie Hempenius on web.dev*
+
+- [The Linux File Command: How to Use It to Determine a File Type](https://www.hostinger.com/tutorials/linux-file-command/): *Edward S. & Noviantika G. on hostinger.com*
