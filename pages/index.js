@@ -16,6 +16,7 @@ function HomePage(props) {
           name="description"
           content="I blog about cybersecurity, fullstack development as well as macOS, Command Line, Git, and ethics in technology."
         />
+        <meta name="keywords" content="command line, cryptography, css, cybersecurity, django 4, encryption, git, jira, javascript, html, linux, kali linux, mysql, nodejs, npm, python, sql, windows, wordpress" />
       </Head>
       <Hero />
       <DynamicFeaturedPosts posts={props.posts} />
