@@ -13,7 +13,7 @@ isFeatured: false
 
 ![How to prevent buttons from moving on click](olivier-miche-skva4bc_bsg-unsplash.webp)
 
-***Image by*** [Olivier Miche](https://unsplash.com/@oliviermiche) ***on*** [unsplash.com](https://unsplash.com/photos/Skva4bc_Bsg)
+***Photo by*** [Olivier Miche](https://unsplash.com/@oliviermiche) ***on*** [unsplash.com](https://unsplash.com/photos/Skva4bc_Bsg)
 
 Recently I just finished a `geo ip api` **_application_** as a project for the `JavaScript` **course** I am teaching, and I **_couldn't_** get my **buttons** to **_stop moving_** when I **clicked** them. I quickly figured out that it was the **_disappearance_** of the **browser window scrollbar** that was **_causing_** the **buttons** to **_move_**! When there was **_no data_** **rendered** to the **_page_**, there was **no overflow** on the **_Y axis_**, so **_by default_**, there was **no scrollbar**. But when I clicked on the `"Find me"` button that **_triggered_** the `getGeoIp()` **function**, which resulted in the **_appearance_** of the **data** on the **_page_**, the **scrollbar** **_appeared_**. The **toggling** of the `appearance` and `disappearance` of the **browser window** **_scrollbar_** was what **caused**m the **buttons** to **_move_**.
 
