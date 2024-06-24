@@ -1,0 +1,43 @@
+---
+slug: how-to-enable-async-await-in-a-nodejsexpress
+date: '2020-11-27T19:28:18.769Z'
+lastModified: '2020-11-27T19:28:18.769Z'
+title: How to enable async await in a Node.js/Express
+author: Maria D. Campbell
+excerpt: How to configure ESLint to recognize async/await in a Node.js/Express.js application.
+image: jay-clark-Vh5LC_xYd28-unsplash.webp
+tags: ['linters', 'eslint', 'async-await', 'nodejs', 'expressjs']
+isPublished: true
+isFeatured: false
+---
+
+![How to enable async await in a Node.js/Express](jay-clark-Vh5LC_xYd28-unsplash.webp)
+
+***Image by*** [Jay Clark](https://unsplash.com/@jayclark) ***on*** [unsplash.com](https://unsplash.com/photos/Vh5LC_xYd28)
+
+I was going through the **final project** for the **course** I am **teaching**
+at **CityTech** called **Dynamic Web 1** which **includes** **_covering_**
+`Modern Javascript` and **introduces** `Node.js`, `environment` **variables**,
+`.dotenv`, `ESLint` **rules**, `APIs`, `API keys`, and **_how_** to **protect** them, the **creation** of `local` **scripts** in `package.json`, the `EJS` **templating engine** for `Express.js`, and `async/await`.
+
+As I was **writing** the **documentation** for **building** the **application**, I **_noticed_** that there was an `ESLint` **error** **_regarding_** a couple of `arrow` **functions** I was **using**. I **_couldn’t_** **understand** at **first** **_how_** that **could be** the **case**, but **_after_** **further investigation**, I **realized** it was **_not_** the `arrow` **function** that was **causing** the **error**, but **implementation** of `async/await` itself.
+
+`async/await` was **introduced** to `JavaScript` in `ES2017`. **Since** I did
+**_not_** **include** that in my `ESLint` **config**, the **use** of
+`async/await` **using** `ESLint` **threw&& an **error\*\*.
+
+I **_had_** to **add** the **_following_** **property** to the `"parserOptions"` **object** within in my `eslintrc.json` **file** in **order** to **make** that `error` **go away**:
+
+```json
+"parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "script"
+},
+```
+
+And **_that_** was **it**!
+
+## Related Resources
+
+-   [need a correct eslintrc for async/await - using 7.6+ nodejs](https://stackoverflow.com/questions/44170348/need-a-correct-eslintrc-for-async-await-using-7-6-nodejs): ***stackoverflow***
+

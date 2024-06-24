@@ -25,6 +25,10 @@ a:hover {
 	color: darken($tailwind-lightest-orange, 2.5%);
 }
 
+.dark blockquote a {
+	color: $tailwind-dark-orange;
+}
+
 p {
 	margin-bottom: 1rem;
 	margin-top: 1rem;
