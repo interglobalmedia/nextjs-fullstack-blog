@@ -22,7 +22,7 @@ function Footer() {
     if (typeof document === "object") {
         return createPortal((
             <footer className={`footer ${classes.footer}`}>
-                {status === `authenticated` &&
+                {/* {status === `authenticated` &&
                     <DynamicFooterNavigation />}
                 {status === `unauthenticated` &&
                     <p>You need to sign in to access the Contact and Guestbook pages.</p>}
@@ -32,7 +32,7 @@ function Footer() {
                     </div>}
                 {status === `unauthenticated` && <div className={`provider-button ${classes['provider-button']}`}>
                     <button onClick={() => signIn()}>Sign in with Github</button>
-                </div>}
+                </div>} */}
                 <h2 className={`${classes.follow} ${oswald.variable}`}>Follow</h2>
                 <div className={`${classes['svg-wrapper']}`}>
                     <div className={`footer-email ${classes['footer-email']}`}>
@@ -70,13 +70,13 @@ function Footer() {
                             size="6"
                         />
                     </div>
-                    <div className={`footer-sitemap ${classes['footer-sitemap']}`}>
+                    {/* <div className={`footer-sitemap ${classes['footer-sitemap']}`}>
                         <DynamicSocialIcon
                             name="sitemap"
                             href={siteMetadata.sitemap}
                             size="6"
                         />
-                    </div>
+                    </div> */}
                 </div>
                 <p>
                     {`© ${new Date().getFullYear()}`} {` • `}{' '}
