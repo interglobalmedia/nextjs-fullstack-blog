@@ -8,6 +8,9 @@ const headerNavLinks = [
     {
         href: '/about', text: 'About',
     },
+    {
+        href: '/skills', text: 'Skills',
+    },
 ]
 
 export default headerNavLinks
