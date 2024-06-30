@@ -1,13 +1,13 @@
 import { Fragment } from 'react'
 // import Head from 'next/head'
 import dynamic from 'next/dynamic'
-import { getPostData, getPostFiles } from '../../lib/posts-util'
-import siteMetadata from '../../data/siteMetadata'
+import { getPostData, getPostFiles } from '../../lib/posts-util.js'
+import siteMetadata from '../../data/siteMetadata.js'
 import Head from '../../components/seo/head.js'
 
-const DynamicPostContent = dynamic(() => import('../../components/posts/post-detail/post-content'))
-const DynamicScrollTop = dynamic(() => import('../../components/buttons/scroll-top'))
-const DynamicScrollStep = dynamic(() => import('../../components/buttons/scroll-step'))
+const DynamicPostContent = dynamic(() => import('../../components/posts/post-detail/post-content.js'))
+const DynamicScrollTop = dynamic(() => import('../../components/buttons/scroll-top.js'))
+const DynamicScrollStep = dynamic(() => import('../../components/buttons/scroll-step.js'))
 
 function PostDetailPage(props) {
     const { post } = props
