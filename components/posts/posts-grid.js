@@ -1,12 +1,13 @@
 
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
+import Pagination from '../pagination/pagination'
 import classes from '../../styles/posts-grid.module.scss'
 
 const DynamicPostItem = dynamic(() => import('./post-item'))
 
 function PostsGrid(props) {
-    const { posts, initialDisplayPosts = [] } = props
+    const { posts, initialDisplayPosts = [], pagination } = props
     const [searchValue, setSearchValue] = useState('')
     const filteredPosts = posts.filter((frontMatter) => {
         const searchContent =
@@ -57,6 +58,12 @@ function PostsGrid(props) {
                     ))
                 }
             </ul>
+            {pagination && pagination.totalPages > 1 && !searchValue && (
+				<Pagination
+					currentPage={pagination.currentPage}
+					totalPages={pagination.totalPages}
+				/>
+			)}
         </>
     )
 }
