@@ -4,8 +4,8 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <body>
-        <div className="site-content">
+      <body className="site">
+        <div className="site-content-wrapper">
           <Main />
           <NextScript />
           <div id="notifications"></div>

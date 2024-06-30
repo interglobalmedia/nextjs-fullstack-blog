@@ -20,14 +20,14 @@ a.menu-link {
 
 /* theme moon icon styling */
 .moon-sun {
-	@media #{$max-1023} {
+	@media #{$max-1279} {
 		position: absolute;
 		right: 5rem;
 		top: 1.85rem;
 		z-index: 9;
 	}
 
-	@media #{$min-1024} {
+	@media #{$min-1280} {
 		position: absolute;
 		right: 6rem;
 		top: 1.75rem;
@@ -46,7 +46,7 @@ a.menu-link {
 /* hamburger styling */
 
 .hamburger {
-	@media #{$max-1023} {
+	@media #{$max-1279} {
 		background-color: transparent;
 
 		/* show the hamburger menu image */
@@ -61,7 +61,7 @@ a.menu-link {
 		/* always keep ham on top of everything */
 		z-index: 21;
 	}
-	@media #{$min-1024} {
+	@media #{$min-1280} {
 		display: none;
 	}
 }
@@ -125,14 +125,14 @@ a.menu-link {
 		}
 
 		& li:nth-of-type(2) > a {
-			width: 6rem;
+			width: 5rem;
 		}
 
 		& li:nth-of-type(3) > a {
 			width: 6rem;
 		}
 	}
-	@media #{$max-1023} {
+	@media #{$max-1279} {
         /* stylelint-disable scss/no-global-function-names */
 		background-color: darken(#1c1c1c, 1.25%);
 		display: block;
@@ -161,7 +161,7 @@ a.menu-link {
 		/* so that the nav link underlining from framer motion does not span across the width of the main-nav backdrop */
 	}
 
-	@media #{$min-1024} {
+	@media #{$min-1280} {
 		display: flex;
 		justify-content: center;
 		margin-bottom: 1.5rem;
@@ -185,7 +185,7 @@ a.menu-link {
 }
 
 .dark .main-nav {
-	@media #{$max-1023} {
+	@media #{$max-1279} {
 		background: rgba(44 62 80 / 100%);
 	}
 }

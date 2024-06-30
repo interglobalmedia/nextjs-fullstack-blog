@@ -1,0 +1,4 @@
+.dark a button[rel=next], .dark a button[rel=previous] {
+  /* stylelint-disable scss/no-global-function-names */
+  color: lighten($tailwind-darkest-orange, 1.25%);
+}

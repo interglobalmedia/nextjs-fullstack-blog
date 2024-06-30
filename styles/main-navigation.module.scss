@@ -2,6 +2,7 @@
 $min-360: '(min-width: 360px)';
 $min-768: '(min-width: 768px)';
 $min-1024: '(min-width: 1024px)';
+$min-1280: '(min-width: 1280px)';
 
 /* main-navigation styling */
 
@@ -26,14 +27,14 @@ $min-1024: '(min-width: 1024px)';
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	@media #{$min-1024} {
+	@media #{$min-1280} {
 		flex-direction: row;
 		gap: 0.5rem;
 	}
 }
 
 .header li {
-	@media #{$min-1024} {
+	@media #{$min-1280} {
 		margin: 0 var(--size-4);
 	}
 }
@@ -42,7 +43,7 @@ $min-1024: '(min-width: 1024px)';
 	color: var(--color-grey-100);
 	font-size: var(--size-7);
 
-	@media #{$min-1024} {
+	@media #{$min-1280} {
 		color: #fff;
 		margin-top: -4.25rem;
 	}
@@ -57,7 +58,7 @@ $min-1024: '(min-width: 1024px)';
 /* logo-wrapper styling */
 
 .logo-wrapper {
-	@media #{$min-1024} {
+	@media #{$min-1280} {
 		align-items: center;
 		display: flex;
 		justify-content: center;

@@ -8,7 +8,7 @@ function Layout(props) {
     return (
         <Fragment>
             <DynamicMainNavigation />
-            <main>{props.children}</main>
+                <main>{props.children}</main>
             <DynamicFooter />
         </Fragment>
     )
