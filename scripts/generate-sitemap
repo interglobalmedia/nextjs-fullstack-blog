@@ -49,7 +49,7 @@ const formatSitemapDate = require('../lib/utils/formatSitemapDate')
                 }
                 return `
                         <url>
-                            <loc>${siteMetadata.siteUrl}${route}</loc>
+                            <loc>${siteMetadata.siteUrl}/${route}</loc>
                             <lastmod>${formatSitemapDate(new Date())}</lastmod>
                             <changefreq>daily</changefreq>
                             <priority>1.0</priority>
