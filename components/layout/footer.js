@@ -1,8 +1,7 @@
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { Oswald } from '@next/font/google'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { Oswald } from 'next/font/google'
 import siteMetadata from '../../data/siteMetadata'
 import classes from '../../styles/footer.module.scss'
 
@@ -17,22 +16,10 @@ const oswald = Oswald({
 })
 
 function Footer() {
-    const { data: session, status } = useSession()
 
     if (typeof document === "object") {
         return createPortal((
             <footer className={`footer ${classes.footer}`}>
-                {/* {status === `authenticated` &&
-                    <DynamicFooterNavigation />}
-                {status === `unauthenticated` &&
-                    <p>You need to sign in to access the Contact and Guestbook pages.</p>}
-                {status === `authenticated` &&
-                    <div className={`provider-button ${classes['provider-button']}`}>
-                        <button onClick={() => signOut()}>Sign out</button>
-                    </div>}
-                {status === `unauthenticated` && <div className={`provider-button ${classes['provider-button']}`}>
-                    <button onClick={() => signIn()}>Sign in with Github</button>
-                </div>} */}
                 <h2 className={`${classes.follow} ${oswald.variable}`}>Follow</h2>
                 <div className={`${classes['svg-wrapper']}`}>
                     <div className={`footer-email ${classes['footer-email']}`}>
@@ -70,13 +57,13 @@ function Footer() {
                             size="6"
                         />
                     </div>
-                    {/* <div className={`footer-sitemap ${classes['footer-sitemap']}`}>
+                    <div className={`footer-sitemap ${classes['footer-sitemap']}`}>
                         <DynamicSocialIcon
                             name="sitemap"
                             href={siteMetadata.sitemap}
                             size="6"
                         />
-                    </div> */}
+                    </div>
                 </div>
                 <p>
                     {`© ${new Date().getFullYear()}`} {` • `}{' '}
