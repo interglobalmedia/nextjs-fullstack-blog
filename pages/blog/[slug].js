@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic'
 import { getPostData, getPostFiles } from '../../lib/posts-util.js'
 
 import Head from '../../components/seo/head.js'
-import Comments from "../../components/comments";
 
 const DynamicPostContent = dynamic(() => import('../../components/posts/post-detail/post-content.js'))
 const DynamicScrollTop = dynamic(() => import('../../components/buttons/scroll-top.js'))
@@ -22,12 +21,11 @@ function PostDetailPage(props) {
                 author={`Maria D. Campbell`}
             />
             <DynamicPostContent post={post} />
-            <Comments />
             <div className={`buttons-container`}
             >
                 <DynamicScrollStep />
                 <DynamicScrollTop />
-            </div>
+                </div>
         </Fragment>
     )
 }

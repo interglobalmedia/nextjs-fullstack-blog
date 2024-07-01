@@ -16,6 +16,7 @@ import getReadTime from '../../../lib/utils/read-time'
 import siteMetadata from '../../../data/siteMetadata'
 import Share from '../../share/share'
 import CodeCopyBtn from './code-copy-btn'
+import Comments from '../../comments/comments'
 
 SyntaxHighlighter.registerLanguage('js', js)
 SyntaxHighlighter.registerLanguage('css', css)
@@ -152,6 +153,7 @@ function PostContent(props) {
             <p>Last modified on {lastModifiedFormattedDate}</p>
             {<p>{post.tags.map(tag => getTagLink(tag)).reduce((prev, curr) => [prev, ', ', curr])}</p>}
                 <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
+              <Comments />
         </article>
         </>
     )
