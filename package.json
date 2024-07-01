@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "-": "^0.0.1",
+    "@giscus/react": "^3.0.0",
     "@mdx-js/loader": "^2.2.1",
     "@mdx-js/react": "^2.2.1",
     "@next/mdx": "^13.1.2",
