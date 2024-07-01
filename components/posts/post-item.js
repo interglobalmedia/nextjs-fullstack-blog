@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Oswald } from '@next/font/google'
+import { Oswald } from 'next/font/google'
 import { getTagLink } from './get-tag-link'
 import classes from '../../styles/post-item.module.scss'
 
