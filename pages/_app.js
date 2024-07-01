@@ -2,7 +2,7 @@ import '../styles/globals.scss'
 import Layout from '../components/layout/layout'
 import Head from 'next/head'
 import siteMetadata from '../data/siteMetadata'
-import { ThemeProvider } from 'next-themes'
+import ThemeProvider from '../components/context/theme-provider';
 import { motion } from 'framer-motion'
 import { Inconsolata, Oswald } from 'next/font/google'
 import { useEffect, useState } from 'react'
@@ -40,7 +40,7 @@ export default function App({ Component, pageProps, router }) {
 
 
   return (
-    <ThemeProvider attribute="class" defaultTheme={siteMetadata.theme}>
+    <ThemeProvider>
         <Layout>
           <Head>
             <meta
