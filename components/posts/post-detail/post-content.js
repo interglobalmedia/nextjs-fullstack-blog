@@ -16,6 +16,7 @@ import getReadTime from '../../../lib/utils/read-time'
 import siteMetadata from '../../../data/siteMetadata'
 import Share from '../../share/share'
 import CodeCopyBtn from './code-copy-btn'
+import Comments from '../../comments/'
 
 SyntaxHighlighter.registerLanguage('js', js)
 SyntaxHighlighter.registerLanguage('css', css)
@@ -37,7 +38,7 @@ function PostContent(props) {
     const { post, handleSocialShare } = props
     const readTime = getReadTime(post.content)
     const imagePath = `/images/blog/${post.slug}/${post.image}`
-    const url = `${siteMetadata.siteUrl}/blog/${post.slug}`
+    const url = `{siteMetadata.siteUrl}/blog/${post.slug}`
 
     const options = {
         year: "numeric",
@@ -53,7 +54,7 @@ function PostContent(props) {
     const lastModifiedFormattedDate = new Date(post.lastModified).toLocaleDateString('en-US', options)
 
     const text = {
-        twitterText: `I just read about "${post.title}" by @${siteMetadata.twitterHandle} on "${siteMetadata.domain}" ${siteMetadata.siteUrl}/blog/${post.slug}`,
+        twitterText: `I just read about "${post.title}" by @${siteMetadata.twitterHandle} on "{siteMetadata.domain}" ${siteMetadata.siteUrl}/blog/${post.slug}`,
         combinatorText: `I just read an article about "${post.title}" by ${siteMetadata.combinatorHandle} on ${siteMetadata.domain}`,
         redditText: `I just read an article about "${post.title}" by ${siteMetadata.redditHandle} on ${siteMetadata.domain}`,
         linkedinText: `I just read an article about "${post.title}" by "${siteMetadata.linkedinHandle}" on ${siteMetadata.domain}`,
@@ -106,6 +107,7 @@ function PostContent(props) {
         }
     }
     return (
+        <>
         <article className={`content ${classes.content}`}>
             <DynamicPostHeader title={post.title} image={imagePath} />
             <div className={`${classes['share-icons-wrapper']}`}>
@@ -150,8 +152,10 @@ function PostContent(props) {
             <p>{`${formattedDate} | ${readTime} min read`}</p>
             <p>Last modified on {lastModifiedFormattedDate}</p>
             {<p>{post.tags.map(tag => getTagLink(tag)).reduce((prev, curr) => [prev, ', ', curr])}</p>}
-            <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
+                <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
+                <Comments post={post} />
         </article>
+        </>
     )
 }
 
