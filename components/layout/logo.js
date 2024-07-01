@@ -1,4 +1,4 @@
-import { Oswald } from '@next/font/google'
+import { Oswald } from 'next/font/google'
 import classes from '../../styles/logo.module.scss'
 
 const oswald = Oswald({

@@ -4,9 +4,8 @@ import Head from 'next/head'
 import siteMetadata from '../data/siteMetadata'
 import { ThemeProvider } from 'next-themes'
 import { motion } from 'framer-motion'
-import { Inconsolata, Oswald } from '@next/font/google'
+import { Inconsolata, Oswald } from 'next/font/google'
 import { useEffect, useState } from 'react'
-import { SessionProvider } from 'next-auth/react'
 import PlausibleProvider from 'next-plausible'
 
 const inconsolata = Inconsolata({
@@ -42,7 +41,6 @@ export default function App({ Component, pageProps, router }) {
 
   return (
     <ThemeProvider attribute="class" defaultTheme={siteMetadata.theme}>
-      <SessionProvider session={pageProps.session}>
         <Layout>
           <Head>
             <meta
@@ -74,7 +72,6 @@ export default function App({ Component, pageProps, router }) {
             </PlausibleProvider>
           </motion.div>
         </Layout>
-      </SessionProvider>
     </ThemeProvider>
   )
 }
