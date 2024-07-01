@@ -3,9 +3,11 @@ $min-768: '(min-width: 768px)';
 
 /* color variables 2 */
 $aussie-blue: #80d0ff;
+$asian-green: #ccc;
 
 .content {
-	background-color: var(--color-grey-100);
+	background-color: var(--color-grey-200);
+	background-color: darken($asian-green, 10%);
 	border-radius: 6px;
 	font-size: var(--size-5);
 	line-height: var(--size-8);
