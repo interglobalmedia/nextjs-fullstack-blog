@@ -26,49 +26,50 @@ function Footer() {
                         <DynamicSocialIcon
                             name="email"
                             href={`mailto:${siteMetadata.email}`}
+                            // default={siteMetadata.email}
                             size="6"
                         />
                     </div>
                     <div className={`footer-github ${classes['footer-github']}`}>
                         <DynamicSocialIcon
                             name="github"
-                            href={siteMetadata.github}
+                            href={`${siteMetadata.github}`}
                             size="6"
                         />
                     </div>
                     <div className={`footer-twitter ${classes['footer-twitter']}`}>
                         <DynamicSocialIcon
                             name="twitter"
-                            href={siteMetadata.twitter}
+                            href={`${siteMetadata.twitter}`}
                             size="6"
                         />
                     </div>
                     <div className={`footer-linkedin ${classes['footer-linkedin']}`}>
                         <DynamicSocialIcon
                             name="linkedin"
-                            href={siteMetadata.linkedin}
+                            href={`${siteMetadata.linkedin}`}
                             size="6"
                         />
                     </div>
                     <div className={`footer-tumblr ${classes['footer-tumblr']}`}>
                         <DynamicSocialIcon
                             name="tumblr"
-                            href={siteMetadata.tumblr}
+                            href={`${siteMetadata.tumblr}`}
                             size="6"
                         />
                     </div>
                     <div className={`footer-sitemap ${classes['footer-sitemap']}`}>
                         <DynamicSocialIcon
                             name="sitemap"
-                            href={siteMetadata.sitemap}
+                            href={`${siteMetadata.sitemap}`}
                             size="6"
                         />
                     </div>
                 </div>
                 <p>
                     {`© ${new Date().getFullYear()}`} {` • `}{' '}
-                    {siteMetadata.author}{' '} {` • `}
-                    <Link href="/">{siteMetadata.title}</Link>
+                    {`${siteMetadata.author}`}{' '} {` • `}
+                    <Link href="/">{`${siteMetadata.title}`}</Link>
                 </p>
             </footer>
         ), document.getElementById('footer'))
