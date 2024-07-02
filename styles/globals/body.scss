@@ -36,7 +36,8 @@ body {
 	--size-20: 5rem;
 	--size-40: 10rem;
 
-	background-color: var(--color-grey-500);
+	background-color: var(--color-grey-100);
+	background-color: lighten(#5e718b, 15%);
 	color: #252525;
 	display: flex;
 	flex-direction: column;
