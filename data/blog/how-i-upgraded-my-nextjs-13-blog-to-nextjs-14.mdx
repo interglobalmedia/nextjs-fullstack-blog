@@ -1,0 +1,41 @@
+---
+slug: how-i-upgraded-my-nextjs-13-blog-to-nextjs-14
+date: '2024-07-02T17:01:55.835Z'
+lastModified: '2024-07-02T17:42:55.835Z'
+title: How I upgraded my Nextjs 13 blog to Nextjs 14
+author: Maria D. Campbell
+excerpt: How I upgraded my Nextjs 13 blog to Nextjs 14
+image: heliberto-arias-zpUoGZWwoR0-unsplash.jpg
+tags: ['nextjs']
+isPublished: true
+isFeatured: true
+---
+
+![Upgrading technology](heliberto-arias-zpUoGZWwoR0-unsplash.jpg)
+
+***Photo b***y [Heliberto Arias](https://unsplash.com/@helibertoarias) ***on*** [unsplash.com](https://unsplash.com/photos/green-and-white-circuit-board-zpUoGZWwoR0)
+
+I was nervous about upgrading this blog from Nextjs 13 to Nextjs 14. There was all this talk about how many changes had been made to Nextjs and how complex it would be to upgrade. And initially I tried going the route that everyone was talking about. Implementing all the possible new features. What a disaster that was.
+
+Then I came across some Next.js documentation meant for those that already had a Nextjs site and just wanted to incrementally upgrade their sites to work with Nextjs 14. It was the following:
+
+- [Upgrading from 13 to 14](https://nextjs.org/docs/app/building-your-application/upgrading/version-14#upgrading-from-13-to-14)
+
+As for husky, I am still on v8. When I tried to create a new Nextjs 14 site from scratch, there were breaking changes with husky v9. To learn more about those changes, please visit the [husky v9.0.1 release page](https://github.com/typicode/husky/releases/tag/v9.0.1). If you are still using husky v8, you can visit my articles entitled [Adding Husky to Your Development Workflow](/blog/adding-husky-to-your-development-workflow), [Making the Git pre-commit hook work on macOS](), [Fixing MDX linting errors in Next.js using eslint-plugin-mdx](blog/fixing-mdx-linting-errors-in-nextjs-using-eslint-plugin), and [Add Husky to s Subfolder of a Git Root Repository](/blog/add-husky-to-s-subfolder-of-a-git-root-repository).
+
+You might be prompted to make minor changes in your code along the way, but it really did not end up being the nightmare I thought it would be. Features I added to this site that I did not have previously and worked well when I upgraded to Nextjs 14 are the following:
+
+- Blog page pagination
+- Giscus comments
+
+Things that broke even in Nextjs 13 and still did not work in Nextjs 14 that I had to remove:
+
+- next-auth using Github authentication for people to sign into a Contact page and the associated Guestbook page where the contents of a Contact form would appear. This was driven by a MongoDB database.
+
+I removed both the Contact page and the Guestbook page and all their associated files. I think adding comments to my posts via Giscus comments is a better way to go anyway.
+
+And that was it! No fuss no muss. Just do it.
+
+## Related Resources
+
+- [nextjs-fullstack-blog (mariadcampbell.com Github repository)](https://github.com/interglobalmedia/nextjs-fullstack-blog)
