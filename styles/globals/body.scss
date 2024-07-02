@@ -37,6 +37,7 @@ body {
 	--size-40: 10rem;
 
 	background-color: var(--color-grey-100);
+	/* stylelint-disable scss/no-global-function-names */
 	background-color: lighten(#5e718b, 15%);
 	color: #252525;
 	display: flex;
