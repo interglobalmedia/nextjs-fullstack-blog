@@ -2,28 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://www.mariadcampbell.com/about</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/skills</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -32,7 +32,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/a-must-have-frontend-developer-tool</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -41,7 +41,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/a-new-react-workflow-with-react-166-and-webpack-4</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -50,7 +50,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/add-husky-to-s-subfolder-of-a-git-root-repository</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -59,7 +59,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/adding-host-property-to-webpack-config</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -68,7 +68,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/adding-husky-to-your-development-workflow</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -77,7 +77,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/apis-for-developers-and-what-pitfalls-to-watch-out-for</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -86,7 +86,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/applying-how-i-created-a-figure-element-component-to-creating-a-static-text-tweet-component</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -95,7 +95,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/building-a-storage-fun-with-forms-app</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -104,7 +104,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/changing-mac-default-screenshot-file-format-to-jpg</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -113,14 +113,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/changing-your-homebrew-postgresql-configuration-from-trust-to-md5</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/class-conflicts</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -129,7 +129,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/compressing-and-uncompressing-directories-from-the-command-line</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -138,7 +138,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/connecting-to-mongodb-compass-to-access-local-mongodb-databases-via-the-new-mongosh-shell</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -147,7 +147,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/connecting-your-iphone-hotspot-to-your-macbook-pro-ventura-os</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -156,7 +156,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/converting-image-formats-on-macos-using-the-finder-app</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -165,7 +165,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/creating-a-custom-html5-video-player-and-the-shadow-dom</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -174,14 +174,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/creating-react-boilerplate-code-in-vs-code</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/data-recovery-with-git</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -190,14 +190,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/deploying-to-gh-pages-with-git-subtree</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/does-ai-have-ethics</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -206,7 +206,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/dont-name-any-of-your-project-directories-functions</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -215,14 +215,23 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/downloading-a-pdf-file-from-the-internet-using-command-line-on-your-mac</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/ekeycode-ewhich</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc
+			>https://www.mariadcampbell.com/blog/enabling-shebang-for-shell-script-files-inside-vim-editor-on-macos-when-skipping-insert-command</loc
+		>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -231,7 +240,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/enabling-the-auto-complete-feature-in-git-with-z-shell</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -240,7 +249,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/encrypting-and-decrypting-files-and-strings</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -249,7 +258,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/error-hydration-failed-because-the-initial-ui-does-not-match-what-was-rendered-on-the-server-in-nextjs</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -258,21 +267,21 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/es2018-language-features-available-in-v8js-v64-and-chrome-64</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/eslint-parsing-in-react</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/firefox-0-day-flaw-update</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -281,7 +290,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/fixing-mdx-linting-errors-in-nextjs-using-eslint-plugin-mdx</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -290,14 +299,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/fixing-the-path-to-xcode-after-installing-latest-version-on-macos-monterey</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/fixing-your-nvm-install</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -306,7 +315,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/flexbox-sticky-footer-and-react</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -315,7 +324,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/forking-a-repository-on-github-and-subsequently-creating-a-pull-request</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -324,7 +333,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/getting-started-with-nextjs</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -333,14 +342,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/git-instaweb-and-local-git-commits</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/git-large-file-storage</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -349,7 +358,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/github-automated-security-fixes-beta</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -358,14 +367,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/github-integration-app-smart-commits-on-jira</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/guess-the-keys</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -374,7 +383,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/hiding-a-na-value-of-a-src-attribute-of-an-img-tag-from-an-api</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -383,7 +392,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/hosting-my-full-stack-react-nodejs-socketio-application-on-heroku</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -392,7 +401,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-and-why-i-came-to-dropping-off-my-macbook-pro-with-super-computer-doctor-in-murray-hill</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -401,7 +410,16 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-challenges-road-blocks-and-mistakes-can-lead-to-fruitful-progress-as-a-web-designer-or-developer</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+
+	<url>
+		<loc
+			>https://www.mariadcampbell.com/blog/how-i-upgraded-my-nextjs-13-blog-to-nextjs-14</loc
+		>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -410,7 +428,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-itunes-match-saved-me-from-losing-itunes-purchases-bought-under-previous-apple-ids</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -419,7 +437,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-add-files-to-your-gitignore-with-no-sweat</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -428,7 +446,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-completely-remove-cached-ip-addresses</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -437,7 +455,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-copy-a-directory-from-command-line</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -446,7 +464,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-create-a-sticky-footer-when-you-originally-didnt-account-for-having-one</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -455,7 +473,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-create-new-lines-inside-text-prop-values-in-nextjs-and-javascript-in-general</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -464,7 +482,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-enable-async-await-in-a-nodejsexpress</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -473,7 +491,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-find-a-folder-on-your-computer</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -482,7 +500,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-prevent-buttons-from-moving-on-click</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -491,7 +509,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-remove-an-unwanted-local-repository-in-sourcetree-with-command-line</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -500,7 +518,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-save-terminal-output-to-a-file-for-future-reference</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -509,7 +527,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-set-up-more-than-one-wireless-printer-with-hp-eprint-using-the-hp-smart-app</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -518,7 +536,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-take-a-screenshot-on-your-mac-mojave-or-later</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -527,7 +545,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-uninstall-postgresql-on-osx-and-reinstall-with-homebrew</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -536,7 +554,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-uninstall-vs-code-seamlessly-on-your-mac</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -545,7 +563,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/how-to-unsend-a-gmail-email</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -554,7 +572,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/html5-canvas-game-development</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -563,14 +581,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/i-gave-my-first-presentation-tonight</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/im-now-on-patreon</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -579,7 +597,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/image-lazy-loading-with-vanilla-javascript</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -588,7 +606,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/implementing-es6-modules-without-webpack-or-babel</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -597,14 +615,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/importing-images-in-react-20-jest-and-babel-7</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/importing-images-in-react</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -613,7 +631,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/installing-pgadmin-only-after-installing-postgresql-with-homebrew-part-2</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -622,7 +640,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/installing-pgadmin-only-after-installing-postgresql-with-homebrew</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -631,7 +649,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/installing-python-380-on-your-mac-with-pyenv</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -640,7 +658,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/installing-the-latest-version-of-mongodb-on-macos-monterey</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -649,7 +667,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/installing-the-latest-version-of-python-on-mac-os-catalina-and-overriding-the-old-default-pre-installed-version</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -658,7 +676,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/installing-visual-studio-code-text-editor-on-a-mac</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -667,14 +685,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/ipad-vs-traditional-radio-or-stereo</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/jest-react-and-mocks</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -683,7 +701,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/linuxunix-command-line-commands-applicable-to-cybersecurity</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -692,14 +710,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/making-the-git-pre-commit-hook-work-on-macos</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/mastering-javascript</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -708,7 +726,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/mongodb-compass-vs-robo-3t-vs-local-mongo-shell</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -717,14 +735,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/multer-amazon-s3-and-aws-amplify</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/my-amazon-s3-moment</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -733,7 +751,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/my-experience-updating-my-nextjs-business-site-to-fix-npm-packages</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -742,7 +760,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/my-first-time-using-react-16</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -751,7 +769,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/my-updated-custom-react-workflow-2nd-edition-is-here</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -760,7 +778,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/narrowly-escaping-the-need-to-remove-giscus</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -769,14 +787,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/nextjs-environment-variable-support-and-the-envlocal-file</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/nodejs-and-graphql</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -785,7 +803,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/opening-up-iterm2-via-spotlight-search-on-your-mac</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -794,7 +812,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/outdated-content-and-google-custom-search</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -803,7 +821,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/outdated-javascript-tooling-vulnerabilities-and-security</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -812,7 +830,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/portal-in-nextjs-and-the-sticky-footer</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -821,14 +839,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/postgresql-and-the-osx-migration-assistant</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/react-workflows-update-1</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -837,7 +855,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/refactoring-your-js-workflow-when-your-images-are-in-your-css-only</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -846,7 +864,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/reinstalling-git-with-homebrew-to-get-the-latest-version</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -855,7 +873,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/removing-caps-from-css-headings</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -864,7 +882,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/removing-unstaged-changes-to-your-individual-files-in-git</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -873,7 +891,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/renaming-your-remote-github-repository</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -882,7 +900,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/requestanimationframe-and-polyfill-in-reactjs</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -891,7 +909,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/reverting-a-file-to-a-specific-revision-in-git</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -900,7 +918,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/reverting-a-particular-committed-file-to-a-previous-version-in-git</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -909,7 +927,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/rewording-a-pushed-git-commit-message</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -918,14 +936,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/safari-web-inspector-vs-chrome-developer-tools-vs-firefox-browser-tools</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/sharing-images-on-tumblr</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -934,7 +952,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/stegenography-using-python-vs-steghide-via-cli-and-how-does-it-compare-to-cryptography</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -943,7 +961,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/sticky-footers-in-the-age-of-coronavirus</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -952,7 +970,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/successfully-using-live-share-extension-in-vs-code</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -961,7 +979,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/switching-shells-on-macos-catalina</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -970,14 +988,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-apple-dictation-and-text-editors-bug</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/the-babel-7-config</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -986,7 +1004,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-browser-war-chrome-vs-firefox</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -995,7 +1013,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-chrome-favicon-nightmare-and-how-i-finally-fixed-it</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1004,7 +1022,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-emerging-new-balance-of-power</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1013,7 +1031,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-importance-and-advantage-of-git-push-u</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1022,7 +1040,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-importance-of-adapting-to-change-quickly</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1031,7 +1049,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-importance-of-eslint-and-react</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1040,7 +1058,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-importance-of-taking-time-out-to-check-your-code-and-html-markup</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1049,14 +1067,14 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-importance-of-updates-and-why-they-are-important-in-cybersecurity</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
 
 	<url>
 		<loc>https://www.mariadcampbell.com/blog/the-jest-side-effect</loc>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1065,7 +1083,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-new-https-authentication-to-github</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1074,7 +1092,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-new-mongodb-shell-mongosh</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1083,7 +1101,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-new-npm-audit-with-6-npm</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1092,7 +1110,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-new-world-do-it-yourself-diy</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1101,7 +1119,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-real-reason-behind-why-vscode-seemed-to-go-haywire-on-me</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1110,7 +1128,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-really-cool-jscolor-color-picker</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1119,7 +1137,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-say-command-in-osx-command-line</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1128,7 +1146,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/the-sticky-footer-and-nextjs-13</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1137,7 +1155,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/to-npm-trash-or-not-to-npm-trash</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1146,7 +1164,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/understanding-the-github-ssh-mistake-fix-and-how-it-would-have-affected-me-if-i-hadnt-been-able-to-fix-it</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1155,7 +1173,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/updating-the-node-architecture-on-macbook-pro-silicon</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1164,7 +1182,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/upgrading-postgresql-from-version-104-to-111-via-homebrew-osx</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1173,7 +1191,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/using-google-meet-for-on-the-fly-screen-sharing</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1182,7 +1200,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/using-node-sass-instead-of-system-sass-in-macos-catalina</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1191,7 +1209,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/using-post-request-with-vs-codes-rest-client</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1200,7 +1218,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/using-vs-codes-rest-client-extension-instead-of-postman</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1209,7 +1227,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/vs-code-and-the-live-server-extension</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1218,7 +1236,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/what-bypassed-rule-violations-means-when-pushing-changes-to-github-remote</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1227,7 +1245,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/what-happens-when-you-edit-a-twitter-tweet</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1236,7 +1254,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/what-to-do-when-you-cant-upgrade-oh-my-zsh</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1245,7 +1263,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/when-a-bare-bones-automated-js-workflow-makes-sense</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1254,7 +1272,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/when-an-object-property-key-is-a-string-in-javascript</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1263,7 +1281,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/when-and-why-it-is-important-to-refactor-code</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1272,7 +1290,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/when-deploying-an-app-to-gh-pages-that-uses-confetti-js</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1281,7 +1299,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/when-the-homebrew-command-brew-update-fails</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1290,7 +1308,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/why-being-able-to-use-dotenv-with-nextjs-is-so-huge</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1299,7 +1317,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/why-i-chose-plausible-analytics-with-my-nextjs-site</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1308,7 +1326,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/why-i-fell-in-love-with-vs-codes-live-share-and-why-you-should-too</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1317,7 +1335,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/why-increasing-your-technological-intelligence-is-important</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1326,7 +1344,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/why-you-should-use-the-npkill-node-module</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1335,7 +1353,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/why-your-local-machine-computer-may-not-be-pointing-to-your-newly-propagated-site</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1344,7 +1362,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/windows-cmd-basics-and-commands-by-example</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
@@ -1353,7 +1371,7 @@
 		<loc
 			>https://www.mariadcampbell.com/blog/wireshark-vs-tcpdump-macos</loc
 		>
-		<lastmod>7-1-2024 at 12:07 pm</lastmod>
+		<lastmod>7-4-2024 at 8:17 am</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
 	</url>
