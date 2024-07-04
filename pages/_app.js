@@ -1,7 +1,6 @@
 import '../styles/globals.scss'
 import Layout from '../components/layout/layout'
 import Head from 'next/head'
-import siteMetadata from '../data/siteMetadata'
 import ThemeProvider from '../components/context/theme-provider';
 import { motion } from 'framer-motion'
 import { Inconsolata, Oswald } from 'next/font/google'
@@ -44,12 +43,12 @@ export default function App({ Component, pageProps, router }) {
         <Layout>
           <Head>
             <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1.0"
+              name='viewport'
+              content='width=device-width, initial-scale=1.0'
             />
             <link
-              rel="icon"
-              href="/favicon.ico"
+              rel='icon'
+              href='/favicon.ico'
             />
             <style jsx global>{`
         :root {
@@ -59,13 +58,13 @@ export default function App({ Component, pageProps, router }) {
           </Head>
           <motion.div
             key={router.route}
-            initial="hidden"
-            animate="enter"
-            exit="exit"
+            initial='hidden'
+            animate='enter'
+            exit='exit'
             variants={variants}
             transition={{ duration: 0.5, type: 'tween' }}
           >
-            <PlausibleProvider domain="mariadcampbell.com">
+            <PlausibleProvider domain='mariadcampbell.com'>
               <main className={`${inconsolata.className} ${oswald.variable}`}>
                 <Component {...pageProps} />
               </main>

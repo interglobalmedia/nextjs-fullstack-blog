@@ -52,8 +52,8 @@ export default function AllPostsPage(props) {
       <Head>
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         <title>All Maria D. Campbell's Posts</title>
-        <meta name="description" content="Search through Maria D. Campbell's posts on cybersecurity,  ethics in technology, fullstack development, macOS, Command Line, and Git." />
-        <meta name="keywords" content="command line, cryptography, css, cybersecurity, django 4, encryption, git, jira, javascript, html, linux, kali linux, mysql, nodejs, npm, python, sql, windows, wordpress" />
+        <meta name='description' content="Search through Maria D. Campbell's posts on cybersecurity,  ethics in technology, fullstack development, macOS, Command Line, and Git." />
+        <meta name='keywords' content='command line, cryptography, css, cybersecurity, django 4, encryption, git, jira, javascript, html, linux, kali linux, mysql, nodejs, npm, python, sql, windows, wordpress' />
       </Head>
       <DynamicAllPosts posts={posts} initialDisplayPosts={initialDisplayPosts} pagination={pagination} />
       <div className={`buttons-container`}

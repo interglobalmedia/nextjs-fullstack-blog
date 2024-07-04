@@ -1,4 +1,3 @@
-const webpack = require('webpack')
 const path = require('path')
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -21,10 +20,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 		}
 
 		if (isServer) {
-			require("./scripts/generate-sitemap");
+			require('./scripts/generate-sitemap');
 		}
 		if (!isServer) {
-			require("./scripts/compose")
+			require('./scripts/compose')
 		}
 
 		return config

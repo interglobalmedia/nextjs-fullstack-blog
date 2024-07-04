@@ -26,11 +26,11 @@ export default function GoTop() {
         return () => window.removeEventListener('scroll', handleVisibleButton)
     }, [handleVisibleButton])
 
-    if (typeof document === "object") {
+    if (typeof document === 'object') {
         return createPortal((
             <>
                 <button className={`icon-fill ${classes.scroll} ${classes.top} ${classes.icon} ${classes['icon-fill']}`} onClick={handleScrollUp} style={{
-                    display: showGoTop ? "none" : "block"
+                    display: showGoTop ? 'none' : 'block'
                 }}><span className={`material-icons`}>
                         keyboard_arrow_up
                     </span></button>

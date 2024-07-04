@@ -16,10 +16,10 @@ function PostItem(props) {
     const { post } = props
 
     const options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        weekday: "long"
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long'
     };
 
     const formattedDate = new Date(post.date).toLocaleDateString('en-US', options)

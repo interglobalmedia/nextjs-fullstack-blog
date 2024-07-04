@@ -36,7 +36,7 @@ function Share({ title, url }) {
         }
     }
     return (
-        <ul className="space-y-2 sm:items-start sm:space-x-2 sm:space-y-0 xl:space-y-2 sm:flex xl:space-x-0 xl:block">
+        <ul className='space-y-2 sm:items-start sm:space-x-2 sm:space-y-0 xl:space-y-2 sm:flex xl:space-x-0 xl:block'>
             {isShareApiAvailable && (
                 <li className={`w-full ${classes['share-list-item']}`}>
                     <Button
@@ -45,7 +45,7 @@ function Share({ title, url }) {
                             value: 'Share Anywhere clicked',
                             name: 'Share Anywhere clicked'
                         }}
-                        variant="secondary"
+                        variant='secondary'
                         onClick={handleSocialShare}>
                         Share Anywhere
                     </Button>

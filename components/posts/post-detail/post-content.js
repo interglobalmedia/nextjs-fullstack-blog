@@ -41,12 +41,12 @@ function PostContent(props) {
     const url = `{siteMetadata.siteUrl}/blog/${post.slug}`
 
     const options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        weekday: "long",
-        hour: "numeric",
-        minute: "numeric",
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long',
+        hour: 'numeric',
+        minute: 'numeric',
     };
 
     const formattedDate = new Date(post.date).toLocaleDateString('en-US', options)
@@ -58,7 +58,7 @@ function PostContent(props) {
         combinatorText: `I just read an article about "${post.title}" by ${siteMetadata.combinatorHandle} on ${siteMetadata.domain}`,
         redditText: `I just read an article about "${post.title}" by ${siteMetadata.redditHandle} on ${siteMetadata.domain}`,
         linkedinText: `I just read an article about "${post.title}" by "${siteMetadata.linkedinHandle}" on ${siteMetadata.domain}`,
-        tumblrText: `I just read about "${post.title} by @${siteMetadata.tumblrHandle} on ${siteMetadata.domain} ${siteMetadata.siteUrl}/blog/${post.slug}`,
+        tumblrText: `I just read about "${post.title}" by @${siteMetadata.tumblrHandle} on "${siteMetadata.domain}" ${siteMetadata.siteUrl}/blog/${post.slug}`,
     }
 
     const customRenderers = {
@@ -86,7 +86,7 @@ function PostContent(props) {
             )
         },
         code({ node, inline, className, children, ...props }) {
-            // const languageArray = code.className.split("-");
+            // const languageArray = code.className.split('-');
             // const language = languageArray[1];
             const match = /language-(\w+)/.exec(className || '')
             return !inline && match ?
@@ -95,8 +95,8 @@ function PostContent(props) {
                     <SyntaxHighlighter children={String(children).replace(/\n$/, '')}
                         style={atomDark}
                         language={match[1]}
-                        PreTag="div"
-                        // className="pre-div"
+                        PreTag='div'
+                        // className='pre-div'
                         {...props}>
                     </SyntaxHighlighter>
                 ) : (
@@ -117,33 +117,33 @@ function PostContent(props) {
                 <div className={classes['svg-wrapper']}>
                     <div className={`share-hacker-news ${classes['share-hacker-news']}`}>
                         <DynamicSocialShareIcon
-                            name="social-hacker-news"
+                            name='social-hacker-news'
                             href={`https://news.ycombinator.com/submitlink?u=
                                 ${url}&t=${post.title}`}
-                            size="6"
+                            size='6'
                         />
                     </div>
                     <div className={`share-twitter ${classes['share-twitter']}`}>
                         <DynamicSocialShareIcon
-                            name="twitter"
+                            name='twitter'
                             href={`https://twitter.com/intent/tweet?url=${text.twitterText}`}
-                            size="6"
+                            size='6'
                         />
                     </div>
                     <div className={`share-linkedin ${classes
                     ['share-linkedin']}`}>
                         <DynamicSocialShareIcon
-                            name="linkedin"
+                            name='linkedin'
                             href={`https://www.linkedin.com/share?mini=true&url=${url}&text=${text.linkedinText}`}
-                            size="6"
+                            size='6'
                         />
                     </div>
                     <div className={`share-tumblr ${classes
                     ['share-tumblr']}`}>
                         <DynamicSocialShareIcon
-                            name="tumblr"
+                            name='tumblr'
                             href={`https://www.tumblr.com/share/link?url=${url}`}
-                            size="6"
+                            size='6'
                         />
                     </div>
                     <Share title={post.title} url={url} onClick={handleSocialShare} />

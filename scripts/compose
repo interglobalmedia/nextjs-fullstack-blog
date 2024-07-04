@@ -1,7 +1,7 @@
 const fs = require('fs')
 const slugify = require('slug')
 const inquirer = require('inquirer')
-const open = require("open")
+const open = require('open')
 
 inquirer.registerPrompt('datetime', require('inquirer-datepicker-prompt'))
 
@@ -28,10 +28,10 @@ inquirer.prompt([
 		message: 'Enter Excerpt',
 	},
     {
-      type: "confirm",
-      name: "isPublished",
+      type: 'confirm',
+      name: 'isPublished',
       default: false,
-      message: "Is Published?"
+      message: 'Is Published?'
     },
 	{
 		type: 'confirm',
@@ -85,17 +85,17 @@ inquirer.prompt([
 	lastModified.getHours() + ' ' + lastModified.getMinutes()
     const fileName = `data/blog/${slug}.mdx`
     if (fs.existsSync(fileName)) {
-      throw "That post already exists!";
+      throw 'That post already exists!';
     }
     fs.writeFileSync(
     `data/blog/${ slug }.mdx`,
 `---
-slug: "${slug}"
-date: "${date.toISOString()}"
-lastModified: "${date.toISOString()}"
-title: "${title}"
-author: "${author}"
-excerpt: "${excerpt}"
+slug: '${slug}'
+date: '${date.toISOString()}'
+lastModified: '${date.toISOString()}'
+title: '${title}'
+author: '${author}'
+excerpt: '${excerpt}'
 tags: ${JSON.stringify(tags)}
 isPublished: ${isPublished}
 isFeatured: ${isFeatured}

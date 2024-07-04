@@ -15,7 +15,7 @@ const ThemeProvider = ({ children }) => {
 
   return (
 
-    <NextThemesProvider attribute="class" defaultTheme={`${siteMetadata.theme}`}>
+    <NextThemesProvider attribute='class' defaultTheme={`${siteMetadata.theme}`}>
       {children}
     </NextThemesProvider>
 

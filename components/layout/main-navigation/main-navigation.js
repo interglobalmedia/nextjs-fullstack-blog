@@ -67,8 +67,8 @@ function MainNavigation() {
                                     router.pathname,
                                 ) && (
                                         <motion.div
-                                            layoutId="navigation-underline"
-                                            className="navigation-underline active"
+                                            layoutId='navigation-underline'
+                                            className='navigation-underline active'
                                             transition={{
                                                 duration: 0.5,
                                                 type: 'tween',
