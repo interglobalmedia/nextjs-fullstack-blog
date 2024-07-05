@@ -8,32 +8,44 @@ excerpt: Compressing and uncompressing directories from the Command Line.
 image: jj-ying-WmnsGyaFnCQ-unsplash.jpg
 tags: ['command line', 'compressing directories', 'osx', 'unix']
 isPublished: true
-isFeatured: true
+isFeatured: false
 ---
 
 ![Yards and yards of elastic](jj-ying-WmnsGyaFnCQ-unsplash.jpg)
 
-***Photo by*** [JJ Ying](https://unsplash.com/@jjying) ***on*** [Unsplash](https://unsplash.com/photos/WmnsGyaFnCQ)
+**_Photo by_** [JJ Ying](https://unsplash.com/@jjying) **_on_**
+[Unsplash](https://unsplash.com/photos/WmnsGyaFnCQ)
 
-***Recently***, I ***have found*** the ***need*** to **_compress_** `directories` for **_upload_** to `Canvas`, an `open-source` `learning management system` (`LMS`) ***used*** for `managing content`. It ***became*** a ***real pain*** to ***have*** to ***leave*** `Terminal` to **8** the `gzipping` ***done***. So I ***decided*** to ***learn how*** to ***do*** it `directly` from the `Command Line`. The ***problem*** with ***some*** of my `projects` is that I ***have*** `directories` I do ***not want*** to `include`, such as
-the `node_modules` ***directory***. So ***this*** is ***what*** I ***did*** to `exclude` the `node_modules` ***directory***:
+**_Recently_**, I **_have found_** the **_need_** to **_compress_**
+`directories` for **_upload_** to `Canvas`, an `open-source`
+`learning management system` (`LMS`) **_used_** for `managing content`. It
+**_became_** a **_real pain_** to **_have_** to **_leave_** `Terminal` to **8**
+the `gzipping` **_done_**. So I **_decided_** to **_learn how_** to **_do_** it
+`directly` from the `Command Line`. The **_problem_** with **_some_** of my
+`projects` is that I **_have_** `directories` I do **_not want_** to `include`,
+such as the `node_modules` **_directory_**. So **_this_** is **_what_** I
+**_did_** to `exclude` the `node_modules` **_directory_**:
 
 ```shell
 zip -r stripe-dropdown.zip stripe-dropdown/* -x "stripe-dropdown/node_modules/*"
 ```
 
-The `command` **_means_** that we are `zipping` ***recursively***
-`everything` in the `stripe-dropdown` ***directory***, **_including_**
-`subdirectories` and `files`, but **_excluding_** the `node_modules`
-***directory*** and **_everything_** `inside` of it. We ***have*** to ***add*** the
-**_full path_** to the `node_modules` ***directory*** in ***order*** to
-**_successfully_** `ignore` it. `-r` stands for `recursively`, and the `*`
-***stands for*** `wildcard`, ***meaning*** `everything`. The `-x` ***flag*** means
-`exclude`, ***followed by*** the `path` to the `directory` to `exclude`. I was
-in the `parent directory` of `stripe-dropdown` when I ***executed*** this `command`, so the `path` to `node_modules` in `stripe-dropdown` ***relative*** to its `parent directory`, `development`, was `"stripe-dropddown/node_modules/*"`. On `OSX`, you have to ***encapsulate*** the `path` to the `directory` to **_ignore_** with
-`quotes`.
+The `command` **_means_** that we are `zipping` **_recursively_** `everything`
+in the `stripe-dropdown` **_directory_**, **_including_** `subdirectories` and
+`files`, but **_excluding_** the `node_modules` **_directory_** and
+**_everything_** `inside` of it. We **_have_** to **_add_** the **_full path_**
+to the `node_modules` **_directory_** in **_order_** to **_successfully_**
+`ignore` it. `-r` stands for `recursively`, and the `*` **_stands for_**
+`wildcard`, **_meaning_** `everything`. The `-x` **_flag_** means `exclude`,
+**_followed by_** the `path` to the `directory` to `exclude`. I was in the
+`parent directory` of `stripe-dropdown` when I **_executed_** this `command`, so
+the `path` to `node_modules` in `stripe-dropdown` **_relative_** to its
+`parent directory`, `development`, was `"stripe-dropddown/node_modules/*"`. On
+`OSX`, you have to **_encapsulate_** the `path` to the `directory` to
+**_ignore_** with `quotes`.
 
-***This*** is ***what*** was `printed` to the `Terminal` ***console*** as `directories` and `files` were being ***compressed***:
+**_This_** is **_what_** was `printed` to the `Terminal` **_console_** as
+`directories` and `files` were being **_compressed_**:
 
 ```shell
 zip -r stripe-dropdown.zip stripe-dropdown/* -x "stripe-dropdown/node_modules/*"
@@ -76,16 +88,16 @@ adding: stripe-dropdown/README.md (deflated 55%)
   adding: stripe-dropdown/styles/styles.css (deflated 72%)
 ```
 
-***Then***, to `unzip` this ***same directory*** from `Command Line`, ***do*** the
-***following***:
+**_Then_**, to `unzip` this **_same directory_** from `Command Line`, **_do_**
+the **_following_**:
 
 ```shell
 unzip stripe-dropdown
 ```
 
-And ***below*** is ***what*** was `printed` to the `Terminal` ***console*** as
-`directories` and `files` were ***extracted*** from the `.zip` and
-***inflated/uncompressed***:
+And **_below_** is **_what_** was `printed` to the `Terminal` **_console_** as
+`directories` and `files` were **_extracted_** from the `.zip` and
+**_inflated/uncompressed_**:
 
 ```shell
 unzip stripe-dropdown
@@ -129,17 +141,25 @@ Archive:  stripe-dropdown.zip
   inflating: stripe-dropdown/styles/styles.css
 ```
 
-***Be sure*** to ***be*** in the ***same*** `parent directory` ***as*** the `.zip`. ***For example***, I ***moved mine*** onto the `desktop` so as ***not*** to ***confuse*** it ***with*** my `original` and `complete directory` in `~/development`, then ***made sure*** that I ***changed into*** the `desktop directory`, `cd ~/desktop`, and then ***executed*** the `unzip` command ***followed by*** the `name` of the `directory` (`stripe-dropdown`) that had been `zipped`. ***No need*** for ***adding*** the `.zip` ***extension***. And ***that’s it***! ***No more need*** to ***leave*** the `Command Line` and ***go to*** your `Mac`’s `menu bar`, **_searching_** for
-`compress stripe-dropdown` (or ***whatever*** the `name` of the `directory` you ***want*** to
-`compress` is) **_under_** the `file` ***tab***, and **_no more need_** to ***leave***
-`Command Line` to ***double click*** on a `.zip` to **_expand it_** into a
-`directory`. It is a ***great*** `time saver`!
+**_Be sure_** to **_be_** in the **_same_** `parent directory` **_as_** the
+`.zip`. **_For example_**, I **_moved mine_** onto the `desktop` so as **_not_**
+to **_confuse_** it **_with_** my `original` and `complete directory` in
+`~/development`, then **_made sure_** that I **_changed into_** the
+`desktop directory`, `cd ~/desktop`, and then **_executed_** the `unzip` command
+**_followed by_** the `name` of the `directory` (`stripe-dropdown`) that had
+been `zipped`. **_No need_** for **_adding_** the `.zip` **_extension_**. And
+**_that’s it_**! **_No more need_** to **_leave_** the `Command Line` and **_go
+to_** your `Mac`’s `menu bar`, **_searching_** for `compress stripe-dropdown`
+(or **_whatever_** the `name` of the `directory` you **_want_** to `compress`
+is) **_under_** the `file` **_tab_**, and **_no more need_** to **_leave_**
+`Command Line` to **_double click_** on a `.zip` to **_expand it_** into a
+`directory`. It is a **_great_** `time saver`!
 
 ![Screenshot of Terminal window](terminal.png)
 
-***Screenshot of Terminal window***
+**_Screenshot of Terminal window_**
 
-*Happy `zipping` and `unzipping`*!
+_Happy `zipping` and `unzipping`_!
 
 ### Related Resources:
 
