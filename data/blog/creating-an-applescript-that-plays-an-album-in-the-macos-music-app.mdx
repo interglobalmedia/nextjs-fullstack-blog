@@ -13,21 +13,25 @@ isFeatured: false
 
 ![Screenshot of Death to Analog album in the macOS Music app](Screenshot-2024-07-04-at-4.47.25-PM.jpg)
 
-***Screenshot of Death to Analog album in the macOS Music app***
+**_Screenshot of Death to Analog album in the macOS Music app_**
 
-
-Not only have I been deep diving into shell scripts, but I am also (finally) getting to know AppleScripts. So the first AppleScript I created plays a complete album in the Music App:
+Not only have I been deep diving into shell scripts, but I am also (finally)
+getting to know AppleScripts. So the first AppleScript I created plays a
+complete album in the Music App:
 
 ```shell
 osascript -e 'tell application "Music" to play every track of playlist "Library" whose album is "Death to Analog"'
 ```
 
-Luckily there is only one album in my Music "Library" called "Death to Analog"
-!
+Luckily there is only one album in my Music "Library" called "Death to Analog" !
 
-After the complete album has been played, the Music app stops playing. And that is it!
+After the complete album has been played, the Music app stops playing. And that
+is it!
 
 ## Related Resources
 
-- [Creating a shell script from an AppleScript targeting the macOS Music app](/blog/creating-a-shell-script-from-an-applescript-targeting-the-macos-music-app): ***mariadcampbell.com***
+-   [Creating a shell script from an AppleScript targeting the macOS Music app](/blog/creating-a-shell-script-from-an-applescript-targeting-the-macos-music-app):
+    **_mariadcampbell.com_**
 
+-   [Playing a single song in the Music app using AppleScript](http://localhost:3000/blog/playing-a-single-song-in-the-music-app-using-applescript):
+    **_mariadcampbell.com_**
