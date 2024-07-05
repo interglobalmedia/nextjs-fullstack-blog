@@ -1,0 +1,115 @@
+---
+slug: playing-a-single-song-in-the-music-app-using-applescript
+date: '2024-07-05T10:07:09.740Z'
+lastModified: '2024-07-05T10:07:09.740Z'
+title: Playing a single song in the Music app using AppleScript
+author: Maria D. Campbell
+excerpt: Playing a single song in the macOS Music app using AppleScript
+image: nikolai-chernichenko-hFBsF-CX5eQ-unsplash.jpg
+tags: ['AppleScript', 'command line', 'macOS', 'shell scripting']
+isPublished: true
+isFeatured: false
+---
+
+![Horizontally sliced apple](nikolai-chernichenko-hFBsF-CX5eQ-unsplash.jpg)
+
+**_Photo by_** [Nikolai Chernichenko](https://unsplash.com/@perfectcoding)
+**_on_**
+[unsplash.com](https://unsplash.com/photos/red-apple-sliced-hFBsF-CX5eQ)
+
+I have previously written posts about
+[creating an AppleScript that plays an album in the macOS Music app](/blog/creating-an-applescript-that-plays-an-album-in-the-macos-music-app)
+and
+[creating a shell script from an AppleScript targeting the macOS Music app](/blog/creating-a-shell-script-from-an-applescript-targeting-the-macos-music-app).
+Now I will discuss creating an AppleScript that plays a single song in the macOS
+Music app.
+
+First, I made sure to create my schell script file inside a folder I had created
+for all my shell scripts called `macos-scripting` located at the root of my home
+folder (`~`). The folder hierarachy looks like the following:
+
+```markdown
+~/ #home folder
+
+-   macos-scripting/ concatenate.sh concatenate.txt download_install_firefox.sh
+    play_album.sh play_song.sh wifi_reset.sh
+```
+
+It is important to keep all shell scripts in one place. It is also important to
+give a recognizable and memorable name to the folder so that it is easy to find.
+
+Next, I added the following at the top of the file:
+
+```shell
+#!/bin/zsh
+```
+
+This shebang (`#!`), is followed by the path to `zsh` in `/bin`, and is what
+distinguishes this file as a (`zsh`) shell script. Specifically, `#!/bin/zsh`
+tells the computer that we want to use zsh as the default shell. `/bin/zsh` is
+the path to zsh eecutables. `/bin` stands for `binary` — a directory of all
+executable commands for our apps.
+
+Next, I add the shell script (technically AppleScript using the osascript
+command):
+
+```shell
+#!/bin/zsh
+
+osascript -e 'tell application "Music"
+  set mySongs to every track of library playlist 1 whose artist is "Spirit Nation" and name is "Wankatakiya"
+  repeat with aSong in mySongs
+      play aSong
+  end repeat
+end tell'
+```
+
+Here, the script is telling the Music app to play a song called "Wankatakiya" by
+the artist "Spirit Nation". The app plays that one song, and then stops. That's
+because tje script is speicifcally targeting the artist `Spirit Nation` AND
+their single song `Wankatakiya`. However, if I were to change the code the
+script to the following:
+
+```shell
+#!/bin/zsh
+
+osascript -e 'tell application "Music"
+  set mySongs to every track of library playlist 1 whose artist is "Spirit Nation"
+  repeat with aSong in mySongs
+      play aSong
+  end repeat
+end tell'
+```
+
+The Music app would play the single song called "Spirit Nation" by
+`Spirit Nation`. That is because this time `whose artist is "Spirit Nation"` is
+not followed by the `and` operator and then a specific song.
+
+If I were to do the following:
+
+```shell
+#!/bin/zsh
+
+osascript -e 'tell application "Music"
+  set mySongs to every track of library playlist 1 whose artist is "Creed"
+  repeat with aSong in mySongs
+      play aSong
+  end repeat
+end tell'
+```
+
+This plays the last song of the last Creed album alphabetically listed under
+`"Artists" -> "Creed"`. First there is the album "Himan Clay", then "My Own
+Prison", and finally "Weathered". And the last song in "Weathered" is the song
+"Lullaby", and that is what the script plays.
+
+And just as with any code, especially Python, for example, the script has to be
+correctly formatted/indented. Otherwise it does not work!
+
+## Related Resources
+
+-   [Creating an AppleScript that plays an album in the macOS Music app](/blog/creating-an-applescript-that-plays-an-album-in-the-macos-music-app):
+    **_mariadcampbell.com_**
+
+-   [Creating a shell script from an AppleScript targeting the macOS Music app](/blog/creating-a-shell-script-from-an-applescript-targeting-the-macos-music-app):
+    **_mariadcampbell.com_**
