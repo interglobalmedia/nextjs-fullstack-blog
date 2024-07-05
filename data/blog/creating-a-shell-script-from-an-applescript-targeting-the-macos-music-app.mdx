@@ -1,0 +1,66 @@
+---
+slug: creating-a-shell-script-from-an-applescript-targeting-the-macos-music-app
+date: '2024-07-04T22:11:35.844Z'
+lastModified: '2024-07-04T22:11:35.844Z'
+title: Creating a shell script from an AppleScript targeting the macOS Music app
+author: Maria D. Campbell
+excerpt: Creating a shell script from an AppleScript targeting the macOS Music app.
+image: eran-menashri-aw3j_lgA0Q8-unsplash.jpg
+tags: ['AppleScript', 'macOS', 'shell scripting']
+isPublished: true
+isFeatured: false
+---
+
+![A bed of shells](eran-menashri-aw3j_lgA0Q8-unsplash.jpg)
+
+***Photo by*** [Eran Menashri](https://unsplash.com/@chesnutt) ***on*** [unsplash.com](https://unsplash.com/photos/white-and-brown-stone-fragments-aw3j_lgA0Q8)
+
+I just finished writing a post entitled [Creating an AppleScript that plays an album in the macOS Music app](/blog/creating-an-applescript-that-plays-an-album-in-the-macos-music-app) which played an album in the macOS Music app. But I didn't want to have to type the whole AppleScript in the Terminal each time I wanted to play that album from the command line. Too cumbersome! So I created a shell script containing the AppleScript I had created.
+
+First I created the shell script file and opened it up in vim:
+
+```shell
+vim play_album.sh
+```
+
+When the `play_album.sh` file opened up in vim, I pressed the `i` key to switch into insert mode so I could start typing my shell script. I typed the following:
+
+```shell
+#!/bin/zsh
+
+osascript -e 'tell application "Music" to play every track of playlist "Library" whose album is "Death to Analog"'
+```
+
+After executing the shell script, the following is returned in Terminal:
+
+```shell
+Music, Music, Music, Music, Music, Music, Music, Music, Music, Music, Music, Music, Music, Music
+```
+
+Each instance of "Music" represents an album track. "Death to Analog" contains 14 tracks, so 14 instances of "Music" were returned in Terminal.
+
+According to [loobins.io](https://www.loobins.io/binaries/osascript/),
+
+> The osascript binary is a command-line utility included in macOS that allows users to run AppleScript and Open Scripting Architecture (OSA) scripts or commands. AppleScript is a scripting language that is designed for power users to automate various tasks, application actions, and to interact with the operating system.
+
+The `-e` switch executes script line by line. According to `man osascript` (the osascript manual),
+
+> -e statement
+Enter one line of a script.  If -e is given, osascript will not
+look for a filename in the argument list.  Multiple -e options may
+be given to build up a multi-line script.  Because most scripts use
+characters that are special to many shell programs (for example,
+AppleScript uses single and double quote marks, “(”, “)”, and “*”),
+the statement will have to be correctly quoted and escaped to get
+it past the shell intact.
+
+The AppleScript also has to be correctly indented when multi-line.
+
+And that is how to play an album in your Music app's Library using AppleScript in macOS!
+
+**Note**: As an exercise, you can take the AppleScript created in my post entitled [Creating an AppleScript that plays an album in the macOS Music app](/blog/creating-an-applescript-that-plays-an-album-in-the-macos-music-app) and transform it into a shell script as well.
+
+## Related Resources
+
+- [Creating an AppleScript that plays an album in the macOS Music app](/blog/creating-an-applescript-that-plays-an-album-in-the-macos-music-app): ***mariadcampbell.com***
+
