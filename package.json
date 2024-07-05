@@ -14,7 +14,6 @@
 		"stylelint": "stylelint styles/**/*.scss",
 		"stylelint:fix": "stylelint --fix **/*.scss",
 		"prettier": "prettier \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|graphql|mdx)\"",
-		"validate": "npm run lint && npm run stylelint && npm run prettier",
 		"prepare": "husky install"
 	},
 	"dependencies": {
