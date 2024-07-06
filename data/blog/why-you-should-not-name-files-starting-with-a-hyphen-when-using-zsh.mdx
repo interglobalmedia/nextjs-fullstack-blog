@@ -1,0 +1,46 @@
+---
+slug: why-you-should-not-name-files-starting-with-a-hyphen-when-using-zsh
+date: '2024-07-06T12:07:02.107Z'
+lastModified: '2024-07-06T12:07:02.107Z'
+title: Why you should not name files starting with a hyphen when using zsh
+author: Maria D. Campbell
+excerpt: Why you should not name files starting with a hyphen when using zsh.
+image: pexels-kindelmedia-7714795.jpg
+tags: ['file naming', 'illegal options', 'macOS', 'zsh']
+isPublished: true
+isFeatured: false
+---
+
+![Illegal options](pexels-kindelmedia-7714795.jpg)
+
+**_Photo by_** [Kindel Media](https://www.pexels.com/@kindelmedia/) **_on_**
+[pexels.com](https://www.pexels.com/photo/police-officer-putting-handcuffs-on-another-person-7714795/)
+
+Recently, for kicks, I tried to name a file starting with a hyphen (`-`), and
+the following was returned in Terminal:
+
+```shell
+touch -file
+touch: illegal option -- i
+usage: touch [-A [-][[hh]mm]SS] [-achm] [-r file] [-t [[CC]YY]MMDDhhmm[.SS]]
+       [-d YYYY-MM-DDThh:mm:SS[.frac][tz]] file
+```
+
+However, if I try to name my file `file`, I am able to do so. The reason I can't
+name files starting with `-` is because of the `-` in one of the zsh
+directories. Usually the command line flags are given following a `-`. In the
+example above, `-file` is being treated as an illegal option for the `touch`
+command. But if I run the following command:
+
+```shell
+touch -- -file
+```
+
+I am able to successfully create a file named `-file`. Why? Because the `--`
+indicates that `-file` is not a flag. However, I do not recommend naming files
+(or folders) that start with a hyphen (`-`)!
+
+## Related Resources
+
+-   [Parse error in globbing filenames containing dashes in zsh](https://stackoverflow.com/questions/51666340/parse-error-in-globbing-filenames-containing-dashes-in-zsh):
+    **_stackoverflow_**
