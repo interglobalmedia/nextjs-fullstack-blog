@@ -1,0 +1,154 @@
+---
+slug: how-to-write-protect-a-file-in-macos
+date: '2024-07-06T10:36:50.119Z'
+lastModified: '2024-07-06T11:40:50.119Z'
+title: How to write protect a file in macOS
+author: 'Maria D. Campbell'
+excerpt: How to write protect a file in macOS.
+image: mr-cup-fabien-barral-o6GEPQXnqMY-unsplash.jpg
+tags:
+    [
+        'chflags',
+        'command line',
+        'macOS',
+        'modify file flags',
+        'schg',
+        'system immutable flag',
+        'uchg',
+        'user immutable flag',
+        'write protecting files',
+    ]
+isPublished: true
+isFeatured: true
+---
+
+![Immutable records](mr-cup-fabien-barral-o6GEPQXnqMY-unsplash.jpg)
+
+**_Photo by_** [Mr Cup / Fabien Barral](https://unsplash.com/@iammrcup) **_on_**
+[unsplash.com](https://unsplash.com/photos/assorted-color-folder-lot-o6GEPQXnqMY)
+
+Sometimes you want to make sure that important files are not removed via Command
+Line when using the `rm` (`remove`) command, you want to make sure that these
+important files are write protected.
+
+I'm going to use one of my shell script files I have created and spoke about in
+previous posts as an example. In general, I want to make sure that my shell
+scripts cannot accidentally be removed anyway!
+
+When a file is "write protected", that means that it is "unalterable". It cannot
+be changed or deleted by any type of user, including the root (or superuser) in
+the macOS UNIX operating system.
+
+First I use the `chflags` (change flags) command follwed by the `schg` (set the
+system immutable flag) flag. This sets the sets the system immutable flag type
+to a file:
+
+```shell
+chflags schg hello.sh
+```
+
+However, if I run the above command as is, the following is returned in
+Terminal:
+
+```shell
+chflags: hello.sh: Operation not permitted
+```
+
+That's because I have to run it as `superuser`. So I have to add sudo to the
+beginning of the command like so:
+
+```shell
+sudo chflags schg hello.sh
+```
+
+And the following is returned:
+
+```shell
+Password:
+```
+
+And I have to input my user password.
+
+Then, if I try and delete the hello.sh file with the comamnd `rm hello.sh`, the
+following is returned in Terminal:
+
+```shell
+override rwx------ mariacam/staff schg for hello.sh?
+```
+
+If I do actually want to delete the file, I type `y` for `yes`, and if it was a
+mistake and I don't want to delete it, I type `n` for `no`.
+
+I can also run the following command without `sudo` (which stands for
+`superuser do`):
+
+```shell
+chflags uchg hello.sh
+```
+
+`uchg` represents the `user immutable flag`. With the system immutable flag, the
+superuser can remove whichever file across the whole computer system, no matter
+who owns which file. With the `user immutable flag`, only the owner can delete
+files which they own. Other users on the system cannot delete another
+owner/user's files.
+
+So if I run the `chflags uchg test.txt` command, followed by the `rm test.txt`
+command, the following is returned in Terminal:
+
+```shell
+override rwx------ mariacam/staff uchg for test.txt?
+```
+
+Again, I can either type `y` for `yes` if I want to actually delete the file, or
+`n` for `no` if I don't. This prompt gives me the opportunity to change my mind
+before actually deleting the file. However, if I do type `y` to remove the file,
+I get the following in Terminal:
+
+```shell
+rm: test.txt: Operation not permitted
+```
+
+This proves that the `test.txt` file is truly "write protected" or "immutable".
+
+If I decide that I no longer want the test.txt file to be write protected, I can
+"unprotect" the file and therefore delete it with the `rm` command. To achieve
+this, I run the following command in Terminal:
+
+```shell
+chflags nouchg test.txt
+```
+
+And then if I run the following command:
+
+```shell
+ls -l test.txt
+```
+
+The following is returned in Terminal:
+
+```shell
+-rwx------  1 mariacam  staff  0 Jul  6 07:21 test.txt
+```
+
+And then if I run `rm test.txt` followed by the `ls` command inside the
+macos-scripting folder, the following is returned:
+
+```shell
+concatenate.sh              play_album.sh
+concatenate.txt             play_song.sh
+download_install_firefox.sh wifi_reset.sh
+hello.sh
+```
+
+The `test.txt` file is successfully removed. The same can be done with the
+`schg` flag. Instead of `nouchg` I would use `noschg`. I simply have to put `no`
+in front of either the `user immutable flag` (`uchg`) or the
+`system immutable flag` (`schg`) to remove the file's write protection. `no`
+clears the flag.
+
+**Note**: The above commands work for both files and folders alike.
+
+## Related Resources
+
+[Apple OS X: Write Protect File From Command Line](https://www.cyberciti.biz/faq/apple-osx-write-protecting-file-folders-bash-command/):
+by Vivek Gite, cyberciti.biz/
