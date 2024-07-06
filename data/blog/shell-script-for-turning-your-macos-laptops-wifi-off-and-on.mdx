@@ -1,0 +1,277 @@
+---
+slug: shell-script-for-turning-your-macos-laptops-wifi-off-and-on
+date: '2024-07-06T17:32:24.667Z'
+lastModified: '2024-07-06T17:32:24.667Z'
+title: Shell script for turning your macOS laptop's Wifi off and on
+author: Maria D. Campbell
+excerpt: Shell script for turning your macOS laptop's WiFi off and on.
+image: ann-b7ooyxpub4A-unsplash.jpg
+tags: ['macOS']
+isPublished: true
+isFeatured: true
+---
+
+![WiFi unavailable](ann-b7ooyxpub4A-unsplash.jpg)
+
+**_Photo by_** [Ann](https://unsplash.com/@ann10) **_on_**
+[unsplash.com](https://unsplash.com/photos/there-is-no-wifi-in-the-forest-but-you-will-find-a-better-connection-b7ooyxpub4A)
+
+Recently I wrote a couple of articles regarding AppleScript and an arrticle
+regarding integrating an AppleScript into a zsh shell script. Now I talk about
+creating a shell script in macOS that turns off and on the Wifi on my macOS
+laptop.
+
+First I create a `wifi_reset.sh` file inside a folder called macos-scripting
+located at the root of my home folder (`~`):
+
+```shell
+~/ #home folder
+macos-scripting/
+  concatenate.sh concatenate.txt
+  download_install_firefox.sh
+  play_album.sh play_song.sh wifi_reset.sh
+  wifi_reset.sh
+```
+
+Next, I add the `shebang` and `path` to `zsh binary` at the top of the file:
+
+```shell
+#!/bin/zsh
+```
+
+Then I add a set of comments that is sometimes referred to as a script frame or
+set of commented steps that helps me better think through the code I need to
+create in each step of the scripting process:
+
+```shell
+# Reset Wi Fi
+# by turning it off and on again
+
+# turn off WiFi
+
+# wait for a few seconds
+
+# turn on WiFi
+```
+
+First let's add the code for turning off the WiFi and break it down:
+
+```shell
+# Reset Wi Fi
+# by turning it off and on again
+
+# turn off WiFi
+networksetup -setairportpower en0 off
+
+# wait for a few seconds
+
+# turn on WiFi
+```
+
+`networksetup` is a macOS built-in tool that controls and modifies network
+settings from the command line (Terminal). Specifically, it is a configuration
+tool for controlling network settings located in System Preferences.
+
+The `-setairportpower` flag sets Wi-Fi power to either on or off. To learn more
+about networksetup and its available flags, you can run `man networksetup` in
+Terminal.
+
+`en0` represents the my laptop's hardware port. It follows the
+`-setairportpower` flag. However, I need to take another step via Terminal to
+find out what the value of my WiFi's hardware port is. The syntax for the
+`-setairportpower` flag is:
+
+```shell
+-setairportpower hardwareport on | off
+```
+
+In order to find out what the hardware port of my laptop's WiFi is, I run the
+following command in Terminal:
+
+```shell
+networksetup -listallhardwareports
+```
+
+And it returns the following in Terminal:
+
+```shell
+# The ethernet addresses have been removed
+Hardware Port: Ethernet Adapter (en4)
+Device: en4
+Ethernet Address:
+
+Hardware Port: Ethernet Adapter (en5)
+Device: en5
+Ethernet Address:
+
+Hardware Port: Ethernet Adapter (en6)
+Device: en6
+Ethernet Address:
+
+Hardware Port: Thunderbolt Bridge
+Device: bridge0
+Ethernet Address:
+
+Hardware Port: Wi-Fi
+Device: en0
+Ethernet Address:
+
+Hardware Port: Thunderbolt 1
+Device: en1
+Ethernet Address:
+
+Hardware Port: Thunderbolt 2
+Device: en2
+Ethernet Address:
+
+Hardware Port: Thunderbolt 3
+Device: en3
+Ethernet Address:
+
+VLAN Configurations
+===================
+```
+
+The `Hardware Port: Wi-Fi` value, the value of its Device key is `en0`. So that
+is what follows `networksetup -setairportpower`. And since I want to turn off my
+WiFi, `off` follows `en0`.
+
+Next, I'll add the code for turning on my WiFi again:
+
+```shell
+# Reset Wi Fi
+# by turning it off and on again
+
+# turn off WiFi
+networksetup -setairportpower en0 off
+
+# wait for a few seconds
+
+# turn on WiFi
+networksetup -setairportpower en0 on
+```
+
+I also want to set a delay between turning WiFi off and on again, so that
+switching it off is actually perceptible:
+
+```shell
+# Reset Wi Fi
+# by turning it off and on again
+
+# turn off WiFi
+networksetup -setairportpower en0 off
+
+# wait for a few seconds
+sleep 5
+
+# turn on WiFi
+networksetup -setairportpower en0 on
+```
+
+The macOS sleep command takes a single argument, which is the length of time
+that you want to pause before restarting a process suchb as turning on the WiFi
+again. Here, the length of the pause is 5 seconds.
+
+I can also add feedback in the Terminal while the shell script is running so
+that I better know what is going on. When is the Wifi turned off and when is it
+turned on again? So I add the following:
+
+```shell
+# Reset Wi Fi
+# by turning it off and on again
+
+# turn off WiFi
+echo "Disabling Wi-Fi"
+networksetup -setairportpower en0 off
+
+# wait for a few seconds
+sleep 5
+
+# turn on WiFi
+networksetup -setairportpower en0 on
+```
+
+Now, when I run the `./wifi_reset.sh` shell script, the following is returned in
+TGerminal:
+
+```shell
+Disabling Wi-Fi
+Waiting...
+Re-enabled Wi-Fi
+```
+
+If I removed the echo commands, nothing would be output to Terminal. I would
+just have to watch the WiFi status menu icon in the Apple menu to see when the
+icon transforms into a `\` (off) and then the WiFi icon again (on).
+
+**Note**: the `echo` command outputs text that follows the command. And if you
+want to output text which consists of multiple lines, you would wrap it in
+double quotes.
+
+Last but not least, I have to change my shell script file's permissions. If I
+did not complete this step, by default, I would not be able to run the script:
+
+```shell
+ls -l wifi_reset.sh
+-rw-r--r--  1 mariacam  staff  264 Jul  5 14:31 wifi_reset.sh
+```
+
+`-rw-` represents the permissions of the owner of the file (me). The first `-`
+indicates a file, and `rw-` represents the default permissions of the owner of
+the file. The owner has read (r) and write permissions, but not execute (x)
+permissions. So if I try and execute the `wifi_reset.sh` without changing the
+default permissions, the following is returned in Terminal:
+
+```shell
+zsh: permission denied: ./wifi_reset.sh
+```
+
+If I run the following command to change the shell script's file permissions
+within the macos-scripting folder in Terminal (where the shell script resides):
+
+```shell
+chmod +x wifi_reset.sh
+```
+
+And then run the `ls -l wifi_reset.sh` command, the following is returned:
+
+```shell
+-rwxr-xr-x  1 mariacam  staff  264 Jul  5 14:31 wifi_reset.sh
+```
+
+`chmod +x` automatically adds execute permissions to the owner, groups, and
+other (users) on macOS. Even though I am the only user on my computer, maybe I
+still want to be extra careful and only add execute permissions to myself! In
+that case, I would run the following `chmod` command instead:
+
+```shell
+chmod 700 wifi_reset.sh
+```
+
+And when I run the `ls -l wifi_reset.sh` command, it returns the following in
+Terminal:
+
+```shell
+-rwx------  1 mariacam  staff  264 Jul  5 14:31 wifi_reset.sh
+```
+
+Now `groups` and `other` (`users`) don't have the default `read` (`r`) anymore.
+I set all my permissions this way. It's much safer!
+
+**Note**: the `chmod`, aka `change mode` command allows an administrator to set
+or modify a file's permissions.
+
+## Related Resources
+
+-   [man echo](https://ss64.com/mac/echo.html)
+
+-   [networksetup(8) [osx man page]](https://www.unix.com/man-page/osx/8/networksetup/)
+
+-   [Understanding User Accounts in macOS](https://www.intego.com/mac-security-blog/understanding-user-accounts-in-macos/):
+    **_by Kirk McElhearn, intego.com_**
+
+-   [How to Change Mac Permissions via the Mac Terminal](https://www.techrepublic.com/article/change-mac-permissions-via-the-command-line-to-save-time/):
+    **_by Cory Bohon, techrepublic.com_**
+
+-   [Linux chmod command](https://www.computerhope.com/unix/uchmod.htm):
+    **_computerhope.com_**
