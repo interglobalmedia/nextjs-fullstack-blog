@@ -20,11 +20,21 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 		}
 
 		if (isServer) {
-			require('./scripts/generate-sitemap');
+			require('./scripts/generate-sitemap')
 		}
 		if (!isServer) {
 			require('./scripts/compose')
 		}
+
+		config.plugins.push(
+			new webpack.EnvironmentPlugin(
+				'NEXT_PUBLIC_GISCUS_REPO',
+				'NEXT_PUBLIC_GISCUS_REPOSITORY_ID',
+				'NEXT_PUBLIC_GISCUS_CATEGORY',
+				'NEXT_PUBLIC_GISCUS_CATEGORY_ID',
+				'NEXT_PUBLIC_PLAUSIBLE_API_KEY',
+			),
+		)
 
 		return config
 	},
@@ -37,7 +47,7 @@ const nextConfig = {
 	/* Optionally, add any other Next.js config below */
 	reactStrictMode: true,
 	sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
+		includePaths: [path.join(__dirname, 'styles')],
 	},
 }
 
