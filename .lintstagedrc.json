@@ -1,5 +1,8 @@
 {
-	"*.+(js|jsx|ts|tsx)": ["eslint --fix", "jest --findRelatedTests"],
+	"*.+(js|jsx|ts|tsx)": [
+		"eslint --fix",
+		"jest --findRelatedTests --passWithNoTests"
+	],
 	"*.+(js|jsx|ts|tsx|json|css|md|mdx)": ["prettier --write"],
 	"styles/**/*.scss": ["stylelint --fix"]
 }
