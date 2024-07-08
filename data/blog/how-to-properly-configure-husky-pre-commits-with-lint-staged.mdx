@@ -1,7 +1,7 @@
 ---
 slug: how-to-properly-configure-husky-pre-commits-with-lint-staged
 date: '2024-07-08T15:57:34.846Z'
-lastModified: '2024-07-08T16:38:34.846Z'
+lastModified: '2024-07-08T17:3:34.846Z'
 title: How to properly configure husky pre-commits with lint-staged
 author: Maria D. Campbell
 excerpt: How to properly configure husky pre-commits with lint-staged.
@@ -77,14 +77,15 @@ like the following:
 
 ```json
 {
-	"*.+(js|jsx|ts|tsx)": ["eslint --fix", "jest --findRelatedTests"],
+	"*.+(js|jsx|ts|tsx)": ["eslint --fix", "jest --passWithNoTests"],
 	"*.+(js|jsx|ts|tsx|json|css|md|mdx)": ["prettier --write"],
 	"styles/**/*.scss": ["stylelint --fix"]
 }
 ```
 
 I added scripts for `eslint`, `prettier` and `stylelint`. I also added a `jest`
-script because I had created some `tests`.
+script because I had created some `tests`. And I use the `--passWithNoTests` to
+bypass any potential errors when`git committing`.
 
 Last, but not least, I changed the script in the husky pre-commit hook. The
 content of the file looks like the following:
