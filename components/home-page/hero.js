@@ -16,11 +16,7 @@ function Hero() {
 			<h1>
 				{/*eslint-disable-next-line react/no-unescaped-entities */}
 				Hi, I'm{' '}
-				<a
-					href="https://www.interglobalmedianetwork.com/about"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
+				<a href="/about" target="_blank" rel="noopener noreferrer">
 					Maria
 				</a>
 				!
