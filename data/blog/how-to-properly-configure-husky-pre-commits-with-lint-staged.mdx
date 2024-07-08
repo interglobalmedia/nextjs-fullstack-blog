@@ -1,0 +1,126 @@
+---
+slug: how-to-properly-configure-husky-pre-commits-with-lint-staged
+date: '2024-07-08T15:57:34.846Z'
+lastModified: '2024-07-08T16:38:34.846Z'
+title: How to properly configure husky pre-commits with lint-staged
+author: Maria D. Campbell
+excerpt: How to properly configure husky pre-commits with lint-staged.
+image: kasia-derenda-Ek0rfaRcnDA-unsplash.jpg
+tags: ['git', 'git hooks', 'husky', 'pre-commit hook', 'lint-staged']
+isPublished: true
+isFeatured: true
+---
+
+![Hooked fish](kasia-derenda-Ek0rfaRcnDA-unsplash.jpg)
+
+**_Photo by_** [Kasia Derenda](https://unsplash.com/@kasiade) **_on_**
+[unsplash.com](https://unsplash.com/photos/a-fish-hanging-from-a-hook-in-the-water-Ek0rfaRcnDA)
+
+Recently I updated the husky pre-commit hook I use in my JavaScript workflows,
+including React and Next.js. Why? Because the way I had it set up, linting was
+happening AFTER I git committed my files, and not before. So that meant that a
+lot of code was output to Terminal before reaching the git commmit message in
+VIM.
+
+Originally, I had the following in my husky pre-commit file:
+
+```shell
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npm run validate
+```
+
+And I had the following scripts in `package.json`:
+
+```json
+"scripts": {
+  "dev": "next dev",
+  "build": "next build && node ./scripts/generate-sitemap",
+  "start": "next start",
+  "analyze": "cross-env ANALYZE=true next build",
+  "svg": "svgr -d components/social-icons components/social-icons/svgs",
+  "svg:share": "svgr -d components/social-share-icons components/social-share-icons/svgs",
+  "export": "next export",
+  "lint": "next lint",
+  "stylelint": "stylelint styles/**/*.scss",
+  "stylelint:fix": "stylelint --fix **/*.scss",
+  "prettier": "prettier \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|graphql|mdx)\"",
+  "validate": "npm run lint && npm run stylelint && npm run prettier",
+  "prepare": "husky install"
+},
+```
+
+The top level script used in the pre-commit file was `validate`, and it ran the
+`lint`, `stylelint`, and `prettier` scripts. So linting took place AFTER
+`git commit` a file. And I did not want to do that! It wasted a lot of time and
+looked messy!
+
+This meant that I both had to reconfigure lint-staged and change the script I
+added to the husky pre-commit file. Originally, I had the following lint-staged
+related json in my package.json file:
+
+```json
+"lint-staged": {
+  "*.+(js|jsx|ts|tsx)": [
+    "eslint --fix"
+  ],
+  "*.+(js|jsx|ts|tsx|json|css|md|mdx)": [
+    "prettier --write"
+  ]
+}
+```
+
+I wanted to separate concerns as much as possible, so I decided to move the
+lint-staged related code into a file called `.linststagedrc.json`. And it looks
+like the following:
+
+```json
+{
+	"*.+(js|jsx|ts|tsx)": ["eslint --fix", "jest --findRelatedTests"],
+	"*.+(js|jsx|ts|tsx|json|css|md|mdx)": ["prettier --write"],
+	"styles/**/*.scss": ["stylelint --fix"]
+}
+```
+
+I added scripts for `eslint`, `prettier` and `stylelint`. I also added a `jest`
+script because I had created some `tests`.
+
+Last, but not least, I changed the script in the husky pre-commit hook. The
+content of the file looks like the following:
+
+```shell
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx lint-staged
+```
+
+And my scripts in package.json looks like the following:
+
+```json
+"scripts": {
+  "dev": "next dev",
+  "dev-secure": "next dev --experimental-https",
+  "build": "next build && node ./scripts/generate-sitemap",
+  "start": "next start",
+  "analyze": "cross-env ANALYZE=true next build",
+  "svg": "svgr -d components/social-icons components/social-icons/svgs",
+  "svg:share": "svgr -d components/social-share-icons components/social-share-icons/svgs",
+  "export": "next export",
+  "lint": "next lint",
+  "stylelint": "stylelint styles/**/*.scss",
+  "stylelint:fix": "stylelint --fix **/*.scss",
+  "prettier": "prettier \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|graphql|mdx)\"",
+  "prepare": "husky install",
+  "test": "jest --coverage"
+},
+```
+
+Now, when I run the latest version of `lint-staged` with `npx` (without actually
+having to permanently install it), it in turn runs the `eslint`, `stylelint`,
+`prettier`, and `jest` scripts located in `.lintstagedrc.json`. And that is it!
+
+## Related Resources
+
+-   [mariadcampbell.com repository on Github](https://github.com/interglobalmedia/nextjs-fullstack-blog)
