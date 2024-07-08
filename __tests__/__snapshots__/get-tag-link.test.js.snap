@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getTagLink renders a tag link 1`] = `
+<a
+  href=""
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onTouchStart={[Function]}
+>
+  #
+  <a
+    className="tag tag"
+    href="/blog/tag/macOS"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
+  >
+    #
+    macOS
+  </a>
+</a>
+`;

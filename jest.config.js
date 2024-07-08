@@ -3,10 +3,21 @@
  * https://jestjs.io/docs/configuration
  */
 
+const nextJest = require('next/jest')
+
+const createJestConfig = nextJest({
+	// Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+	dir: './',
+})
+
 /** @type {import('jest').Config} */
-const config = {
+const jestConfig = {
 	// All imported modules in your tests should be mocked automatically
 	// automock: false,
+	moduleNameMapper: {
+		//imports to be ignored by jest
+		'react-markdown': '<rootDir>/__mocks__/empty-mock.js',
+	},
 
 	// Stop running tests after `n` failures
 	// bail: 0,
@@ -18,7 +29,7 @@ const config = {
 	clearMocks: true,
 
 	// Indicates whether the coverage information should be collected while executing the test
-	collectCoverage: true,
+	// collectCoverage: true,
 
 	// An array of glob patterns indicating a set of files for which coverage information should be collected
 	// collectCoverageFrom: undefined,
@@ -32,7 +43,7 @@ const config = {
 	// ],
 
 	// Indicates which provider should be used to instrument code for coverage
-	coverageProvider: 'v8',
+	// coverageProvider: 'v8',
 
 	// A list of reporter names that Jest uses when writing coverage reports
 	// coverageReporters: [
@@ -144,8 +155,11 @@ const config = {
 	// A list of paths to snapshot serializer modules Jest should use for snapshot testing
 	// snapshotSerializers: [],
 
+	// A list of paths to modules that run some code to configure or set up the testing framework before each test
+	setupFilesAfterEnv: ['./jest.setup.js'],
+
 	// The test environment that will be used for testing
-	// testEnvironment: "jest-environment-node",
+	testEnvironment: 'jest-environment-jsdom',
 
 	// Options that will be passed to the testEnvironment
 	// testEnvironmentOptions: {},
@@ -195,4 +209,4 @@ const config = {
 	// watchman: true,
 }
 
-module.exports = config
+module.exports = createJestConfig(jestConfig)
