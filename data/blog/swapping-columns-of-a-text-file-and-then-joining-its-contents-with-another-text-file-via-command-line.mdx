@@ -1,0 +1,228 @@
+---
+slug: swapping-columns-of-a-text-file-and-then-joining-its-contents-with-another-text-file-via-command-line
+date: '2024-07-08T22:07:43.140Z'
+lastModified: '2024-07-08T22:07:43.140Z'
+title:
+    Swapping columns of a text file and then joining its contents with another
+    text file via Command Line
+author: Maria D. Campbell
+excerpt:
+    Swapping columns of a text file and then joining its contents with another
+    text file via Command Line.
+image: jared-brashier-DoddrXpLw3A-unsplash.jpg
+tags: ['command line', 'awk', 'join', 'macOS']
+isPublished: true
+isFeatured: true
+---
+
+![Swapping matching columns](jared-brashier-DoddrXpLw3A-unsplash.jpg)
+
+**_Photo by_** [Jared Brashier](https://unsplash.com/@jaredbrashier) **_on_**
+[unsplash.com](https://unsplash.com/photos/brown-and-white-2-storey-house-DoddrXpLw3A)
+
+I came across a problem which I wanted to solve. It could even prove quite
+practical. It involved joining two text files. However, the order of the columns
+were not the same, and in order for the join command to work, they had to be the
+same.
+
+I called the first file file1.txt, and it contained the following:
+
+```shell
+John  1
+
+Jane  2
+
+Mary  3
+```
+
+I called the second file file2.txt, and it contained the following:
+
+```shell
+1 Doe
+
+2 Doe
+
+3 Sue
+```
+
+What differs between the two files? For one, in file1.txt, column 1 is populated
+by people's first names followed by a number column. In file2.txt, column 1 is
+populated by numbers, and column 2 contains people's last names. So if I were to
+try to join the two files without manipulating their content with the following
+command:
+
+```shell
+join file1.txt file2.txt
+```
+
+it would result in the following output in Termninal:
+
+```shell
+
+```
+
+Exactly. Nothing would output to the Termninal. It took me a little while to
+figure out what to do, but I did know that I would have to switch the order of
+the columns in `file1.txt` so that it would match the order of the columns in
+`file2.txt`. I initially couldn't figure it out with join (I subsequently did
+later on), but I did come across the `awk` command, which even now just seems
+more intuitive and much more flexible. I ended up doing the following:
+
+```shell
+awk '{ t=$1; $1=$2; $2=t; print }' file1.txt > file1a.txt
+join file1a.txt file2.txt
+```
+
+The first line of the script resulted in a third file called file1a.txt, and it
+contained the following:
+
+```shell
+1 John
+
+2 Jane
+
+3 Mary
+```
+
+The order of `file1a.txt` matched the order of `file2.txt`. This made it easy to
+`join` the contents of the two files represented in line 2 of the code.
+`join file1a.txt file2.txt` resulted in the following in Terminal:
+
+```shell
+1 John Doe
+
+2 Jane Doe
+
+3 Mary Sue
+```
+
+This is exactly what I wanted to achieve.
+
+So what is the `awk` command and why is it so powerful? According to `man awk`
+(`awk` manual built into `Terminal`),
+
+> `awk` is a pattern-directed scanning and processing language. wk scans each
+> input file for lines that match any of a set of patterns specified literally
+> in prog or in one or more files specified as -f progfile. With each pattern
+> there can be an associated action that will be performed when a line of a file
+> matches the pattern.
+
+`awk` was perfect for the task at hand:
+
+> An `input line` is normally made up of `fields` separated by `white space`, or
+> by the regular expression `FS`. The `fields` are denoted `$1`, `$2`, ...,
+> while `$0` refers to the entire line.
+
+Now let's break down the code. `awk` is a macOS built-in command, which is
+convenient, and it dates back to early Linux (and Unix). It is part of the
+[POXIX standard](https://stackoverflow.com/questions/1780599/what-is-the-meaning-of-posix),
+which makes application programming interfaces provided by Unix-y operating
+systems (and ancillary issues, such as command line shell utilities) more
+comprehensible and consistent. This then allows for code portability across
+various Unix derivatives, including Linux and macOS. `awk` is great for solving
+issues in our data files.
+
+after the awk command is:
+
+```shell
+'{ t=$1; $1=$2; $2=t; print }'
+```
+
+'{}' denotes encapsulating the complete code to manipulate the file that follows
+and that it should be executed all together. `t` denotes an arbitrarily chosen
+variable and `$1` represents field one (aka column). `$1=$2` means that column 1
+now equals column 2, and `$2=t` means column 2 now equals t, meaning that column
+2 now is replacing column one, so column 1 now positioned where column 2
+originally was positioned, and column 1 is now positioned where column 2 was
+originally positioned. Column 1 has switched positions with column 2, resulting
+in the following in Command Line:
+
+```shell
+# file1.txt
+1 John
+
+2 Jane
+
+3 Mary
+```
+
+`print` simply means to print the output of the command. `file1.txt` represents
+the file to manipulate.
+
+I also wanted to make sure to be able to preserve the file manipulation on
+file1.txt, so I redirected the manipulation into a new file called file1a.txt,
+which was created at the same time as the redirection, represented by `>`. The
+contents of file1a.txt was the following;
+
+```shell
+1 John
+
+2 Jane
+
+3 Mary
+```
+
+which is exactly what I wanted, as previously indicated. Which made it then
+possible to run the following command in Terminal:
+
+```shell
+join file1atxt > file2.txt
+```
+
+which resulted in the following:
+
+```shell
+1 John Doe
+
+2 Jane Doe
+
+3 Mary Sue
+```
+
+I subsequently found out that there is an even shorter version of this awk
+command, very similar to the join command (which I will discuss shortly):
+
+```shell
+awk '{ print $2, $1 }' file1.txt
+```
+
+In this case, `print` has to precede `$2, $1`. Why? Because print has to precede
+the fields it will print. In the original example, the fields were being saved
+into variables first, so print was placed at the end. I still had to add
+`> file1a.txt` after `awk '{ print $2, $1 }'` in order to preserve the temporary
+changes made to file1.txt output to the Command Line.
+
+The similar join command which changes the column/field order of one file to
+match the other file is the following:
+
+```shell
+join -1 2 -2 1 file1.txt file2.txt
+```
+
+which results in the following in Terminal:
+
+```shell
+1 John Doe
+
+2 Jane Doe
+
+3 Mary Sue
+```
+
+`-1` refers to file1.txt and `-2` refers to file2.txt. And the non minus number
+that follows represents the column position it will be switched to.
+
+In this case, it is definitely shorter and therefore easier to use the join
+command, but the original awk command definitely clarified what was going on
+under the hood, which then made it very easy to figure out the join command.
+
+I'm glad I had a chance to use `awk`, and will continue to explore it. But I am
+also glad I got to know `join` better!
+
+## Related Resources
+
+-   [How to Use Awk to Print Fields and Columns in File](https://www.tecmint.com/awk-print-fields-columns-with-space-separator/):
+    **_tecmint Linux blog_**
+
+-   [Awk One-Liners Explained, Part II: Text Conversion and Substitution](https://catonmat.net/awk-one-liners-explained-part-two):
+    **_catonmat_**
