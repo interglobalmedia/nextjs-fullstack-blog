@@ -25,7 +25,7 @@ practical. It involved joining two text files. However, the order of the columns
 were not the same, and in order for the join command to work, they had to be the
 same.
 
-I called the first file file1.txt, and it contained the following:
+I called the first file `file1.txt`, and it contained the following:
 
 ```shell
 John  1
@@ -35,7 +35,7 @@ Jane  2
 Mary  3
 ```
 
-I called the second file file2.txt, and it contained the following:
+I called the second file `file2.txt`, and it contained the following:
 
 ```shell
 1 Doe
@@ -46,7 +46,7 @@ I called the second file file2.txt, and it contained the following:
 ```
 
 What differs between the two files? For one, in file1.txt, column 1 is populated
-by people's first names followed by a number column. In file2.txt, column 1 is
+by people's first names followed by a number column. In `file2.txt`, column 1 is
 populated by numbers, and column 2 contains people's last names. So if I were to
 try to join the two files without manipulating their content with the following
 command:
@@ -55,13 +55,13 @@ command:
 join file1.txt file2.txt
 ```
 
-it would result in the following output in Termninal:
+it would result in the following output in `Terminal`:
 
 ```shell
 
 ```
 
-Exactly. Nothing would output to the Termninal. It took me a little while to
+Exactly. Nothing would output to the `Terminal`. It took me a little while to
 figure out what to do, but I did know that I would have to switch the order of
 the columns in `file1.txt` so that it would match the order of the columns in
 `file2.txt`. I initially couldn't figure it out with join (I subsequently did
@@ -73,8 +73,8 @@ awk '{ t=$1; $1=$2; $2=t; print }' file1.txt > file1a.txt
 join file1a.txt file2.txt
 ```
 
-The first line of the script resulted in a third file called file1a.txt, and it
-contained the following:
+The first line of the script resulted in a third file called `file1a.txt`, and
+it contained the following:
 
 ```shell
 1 John
@@ -122,20 +122,20 @@ comprehensible and consistent. This then allows for code portability across
 various Unix derivatives, including Linux and macOS. `awk` is great for solving
 issues in our data files.
 
-after the awk command is:
+after the `awk` command is:
 
 ```shell
 '{ t=$1; $1=$2; $2=t; print }'
 ```
 
-'{}' denotes encapsulating the complete code to manipulate the file that follows
-and that it should be executed all together. `t` denotes an arbitrarily chosen
-variable and `$1` represents field one (aka column). `$1=$2` means that column 1
-now equals column 2, and `$2=t` means column 2 now equals t, meaning that column
-2 now is replacing column one, so column 1 now positioned where column 2
-originally was positioned, and column 1 is now positioned where column 2 was
-originally positioned. Column 1 has switched positions with column 2, resulting
-in the following in Command Line:
+`'{}'` denotes encapsulating the complete code to manipulate the file that
+follows and that it should be executed all together. `t` denotes an arbitrarily
+chosen variable and `$1` represents field one (aka column). `$1=$2` means that
+column 1 now equals column 2, and `$2=t` means column 2 now equals t, meaning
+that column 2 now is replacing column one, so column 1 now positioned where
+column 2 originally was positioned, and column 1 is now positioned where column
+2 was originally positioned. Column 1 has switched positions with column 2,
+resulting in the following in `Command Line`:
 
 ```shell
 # file1.txt
@@ -163,7 +163,7 @@ contents of file1a.txt was the following;
 ```
 
 which is exactly what I wanted, as previously indicated. Which made it then
-possible to run the following command in Terminal:
+possible to run the following command in `Terminal`:
 
 ```shell
 join file1atxt > file2.txt
@@ -179,8 +179,8 @@ which resulted in the following:
 3 Mary Sue
 ```
 
-I subsequently found out that there is an even shorter version of this awk
-command, very similar to the join command (which I will discuss shortly):
+I subsequently found out that there is an even shorter version of this `awk`
+command, very similar to the `join` command (which I will discuss shortly):
 
 ```shell
 awk '{ print $2, $1 }' file1.txt
@@ -190,16 +190,16 @@ In this case, `print` has to precede `$2, $1`. Why? Because print has to precede
 the fields it will print. In the original example, the fields were being saved
 into variables first, so print was placed at the end. I still had to add
 `> file1a.txt` after `awk '{ print $2, $1 }'` in order to preserve the temporary
-changes made to file1.txt output to the Command Line.
+changes made to `file1.txt` output to the `Command Line`.
 
-The similar join command which changes the column/field order of one file to
+The similar `join` command which changes the column/field order of one file to
 match the other file is the following:
 
 ```shell
 join -1 2 -2 1 file1.txt file2.txt
 ```
 
-which results in the following in Terminal:
+which results in the following in `Terminal`:
 
 ```shell
 1 John Doe
@@ -209,12 +209,12 @@ which results in the following in Terminal:
 3 Mary Sue
 ```
 
-`-1` refers to file1.txt and `-2` refers to file2.txt. And the non minus number
-that follows represents the column position it will be switched to.
+`-1` refers to `file1.txt` and `-2` refers to `file2.txt`. And the non minus
+number that follows represents the column position it will be switched to.
 
 In this case, it is definitely shorter and therefore easier to use the join
-command, but the original awk command definitely clarified what was going on
-under the hood, which then made it very easy to figure out the join command.
+command, but the original `awk` command definitely clarified what was going on
+under the hood, which then made it very easy to figure out the `join` command.
 
 I'm glad I had a chance to use `awk`, and will continue to explore it. But I am
 also glad I got to know `join` better!
