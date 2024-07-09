@@ -2,26 +2,36 @@
 slug: enabling-content-insertion-inside-the-vim-editor-on-macos-when-skipping-the-insert-command
 date: '2024-07-04T12:29:40.574Z'
 lastModified: '2024-07-04T12:29:40.574Z'
-title: Enabling content insertion inside the VIM editor on macOS when skipping the insert command
+title:
+    Enabling content insertion inside the VIM editor on macOS when skipping the
+    insert command
 author: Maria D. Campbell
-excerpt: Enabling content insertion inside the VIM editor on macOS when skipping the insert command.
+excerpt:
+    Enabling content insertion inside the VIM editor on macOS when skipping the
+    insert command.
 image: Screenshot-024-07-04-at-7.30.07-AM.jpg
 tags: ['command line', 'macOS']
 isPublished: true
-isFeatured: true
+isFeatured: false
 ---
 
-I have been delving more into IT related topics lately, such as creating shell scripts. I also decided to include the built-in VIM text editor in the shell script creatiion process.
+I have been delving more into IT related topics lately, such as creating shell
+scripts. I also decided to include the built-in VIM text editor in the shell
+script creatiion process.
 
 I first ran the following command in Terminal:
 
 ![vim command](Screenshot-2024-07-04-at-7.26.39-AM.jpg)
 
-This opened a new shell script file in VIM. Then, by accident, I immediately started typing `#` in the `wifi_reset.sh` inside VIM, and the following occurred:
+This opened a new shell script file in VIM. Then, by accident, I immediately
+started typing `#` in the `wifi_reset.sh` inside VIM, and the following
+occurred:
 
 ![VIM error when skipping insert command and type content](Screenshot-024-07-04-at-7.30.07-AM.jpg)
 
-The reason for this error was that I didn't press the `i` key before starting to type in the `wifi_reset.sh` file inside VIM. In order to rectify this, I hit the `esc` key, then the shift key + `:` key followed by typing `set prompt`:
+The reason for this error was that I didn't press the `i` key before starting to
+type in the `wifi_reset.sh` file inside VIM. In order to rectify this, I hit the
+`esc` key, then the shift key + `:` key followed by typing `set prompt`:
 
 ```shell
 :set prompt
@@ -32,4 +42,3 @@ Then I hit the `i` key and was taken into insert mode:
 ![insert mode in VIM](Screenshot-2024-07-04-at-8.41.14-AM.jpg)
 
 And that was it! Now I could start typing with no resultant errors.
-
