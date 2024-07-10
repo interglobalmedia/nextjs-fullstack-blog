@@ -1,0 +1,185 @@
+---
+slug: introduction-to-command-prompt-commands-in-windows-11
+date: '2024-07-10T02:37:23.269Z'
+lastModified: '2024-07-10T02:37:23.269Z'
+title: Introduction to Command Prompt Commands in Windows 11
+author: Maria D. Campbell
+excerpt: Introduction to Command Prompt Commands in Windows 11.
+image: mael-balland-JKuJstzs1mQ-unsplash.jpg
+tags: ['command line', 'command prompt', 'windows terminal', 'windows 11']
+isPublished: true
+isFeatured: false
+---
+
+![At the command](mael-balland-JKuJstzs1mQ-unsplash.jpg)
+
+Photo by [Maël BALLAND](https://unsplash.com/@mael_balland) on
+[unsplash.com](https://unsplash.com/photos/man-wearing-black-top-and-black-baseball-cap-using-green-headset-JKuJstzs1mQ)
+
+I finally got a new `Windows` laptop. A `Dell Inspiron`, and I love it. It is
+feeling more `Linux-like` than `Windows-like` (they are trying to emulate
+`Linux` or `Unix` systems as much as much as possible within their limits). It
+still is somewhat of a pain to work with, but I am also setting up `VirtualBox`
+and a `Linux Distribution` (either Kali Linux or Ubuntu) so that I can have
+access to a `Linux` environment. I have already set up `VSCode`, installed
+`Git`, and added `Git Bash` to `VSCode` as the `integrated Terminal`. But of
+course I can't use `Unix-like` or `Linux-like` commands. It still only receives
+`Windows Command Prompt` commands. The only aspect that resembtes `Linux` or
+`Unix` are the `Git` commands themselves. As for communication with `Github`, I
+generated `SSH keys`, just as I have on my `macOS laptop`. It too was easy
+peasy. An important note about that, however. Generate your `SSH keys` in the
+`Command Prompt` and not in `VSCode`. `VSCode` complained that my `SSH` file
+permissions were too open and would not save the key pair to my computer. But
+when I tried to generate the key pair in `Command Prompt`, I had no issues.
+
+## cd commandj
+
+The `cd` command, aka changing directories, is the same in `Windows` as in
+`Linux` and `Unix` (`macOS`). Let's say I was in the `home directory`
+(`C:\Users\Owner\Desktop\development`), and I wanted to change into a folder
+called `development` located on the `desktop`. I would run the following command
+in `Command Prompt`:
+
+```shell
+cd desktop/development
+```
+
+And this would take me to:
+
+```shell
+C:\Users\Owner\Desktop\development
+```
+
+Notice how I created the `cd` command followed by the `path` I wanted to get to?
+I used `/` instead of `\`, and it worked. That was not possible in `Windows 10`.
+`Windows` is really trying to become more like `Linux` and `Unix` when it comes
+to the `Terminal`. They even call the `Command Prompt` app the `Terminal` app.
+At least that's the way it is on my `Dell Inspiron`!
+
+If I want to go up one directory, I would run the following `cd` command:
+
+```shell
+cd ..
+```
+
+Or I could do the following if I were in a folder called `development` located
+in the `desktop` directory (`\Users\Owner\Destkop\development`):
+
+```shell
+cd Users\Owner\Desktop
+```
+
+And it would take me to the `Desktop`.
+
+## dir command
+
+If I want to `list` the `contents` of a directory, I would run the `dir`
+command. Let's say I am on the desktop (`C:\Users\Owner\Desktop`), and I run the
+`dir` command:
+
+```shell
+dir
+```
+
+This is equivalent to the `ls` command in Unix, and the following would be
+returned in `Terminal`:
+
+```shell
+07/09/2024  08:12 PM   <DIR>        .
+07/09/10:32 10:32 PM   <DIR>        ..
+07/09/2024  10:34 PM   <DIR>        development
+07/09/2024  04:25 PM   <DIR>        kali-linux-install
+03/02/2024  05:01 PM          2,350 Microsoft Edge.lnk
+03/03/2024  07:45 PM          2,521 Nordpass.lnk
+03/03/2024  08:22 PM          1,274 Norton Installation Files.lnk
+03/02/2024  08:26 PM          1,933 Zoom.lnk
+                4 File(s)     8,178 bytes
+                4 Dir(s)  890,759,966,720 bytes free
+```
+
+## type nul command
+
+Now let's say I wanted to create a file. This command differs greatly from Linux
+or Unix. There, I would run the following:
+
+```shell
+touch file1.txt
+```
+
+The `touch` command followed by a `filename` creates a new file called
+`file1.txt` in the `current directory`. In Windows, I run the following command:
+
+```shell
+type nul > file1.txt
+```
+
+This command creates a file called `file1.txt`. There are other ways of creating
+a file in `Windows`, but I will cover that in a later post.
+
+## del command
+
+Now let's say I wanted to delete a file I had created called `file2.txt`. I
+would run the following command in Command Prompt inside the directory where the
+file is located:
+
+```shell
+# C:\Users\Owner\Desktop
+del file2.txt
+```
+
+Then, to make sure that I did successfully `delete` the file `file2.txt`, I run
+the `dir` command, and it's gone.
+
+## rmdir command
+
+Now let's say I want to `delete` an empty `folder`. I would run the following
+command in Command Prompt from within the directory where the folder is located:
+
+```shell
+# C:\Users\Owner\Desktop
+rmdir MyNewFolder
+```
+
+And when I run the `dir` command, `MyNewFolder` no longer exists.
+
+## rmdir /s command
+
+Now let's say I want to `delete` a `folder` that is not empty, and I run the
+following command:
+
+```shell
+# C:\Users\Owner\Desktop
+rmdir MyNewFolder
+```
+
+The folliowing is returned in `Command Prompt` (`Terminal`):
+
+```shell
+The directory is not empty.
+```
+
+And `MyNewFolder` is not deleted. However, if I run:
+
+```shell
+rmdir /s MyNewFolder
+```
+
+The following is returned in `Command Prompt`:
+
+```shell
+NewFolder, Are you sure (Y/N)?
+```
+
+Since I am the owner of this folder, I am able to delete it and its contents.
+Since I do want to delete the folder, I type `Y`. Now when I run the `dir`
+command, the folder is gone. `/s` deletes a directory tree (the specified
+directory, in this case `MyNewFolder`, and all its `subdirectories`, including
+all `files`).
+
+## Related Resources
+
+-   [How to Create and Delete Files and Directories from Windows Command Prompt](https://www.wikihow.com/Create-and-Delete-Files-and-Directories-from-Windows-Command-Prompt):
+    **_wikiHow_**
+
+-   [rmdir](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/rmdir):
+    **_learn.microsoft.com_**
