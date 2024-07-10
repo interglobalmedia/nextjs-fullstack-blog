@@ -1,0 +1,119 @@
+---
+slug: how-to-show-hidden-files-in-windows-11
+date: '2024-07-10T21:31:19.164Z'
+lastModified: '2024-07-10T21:31:19.164Z'
+title: How to show hidden Files in Windows 11
+author: Maria D. Campbell
+excerpt: How to show hidden Files in Windows 11.
+tags:
+    [
+        'command line',
+        'command prompt',
+        'file explorer',
+        'showing hidden files',
+        'terminal',
+        'windows 11',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+Sometimes we have to make changes to files whose names begin with a dot (`.`),
+but dot files are hidden, and we can't see them!
+
+In this article, I will discuss how we can show hidden files in Windows 11. And
+for those of you that are familiar with Windows 10, showing hidden files in
+Windows 11 is much more straightforward, and the process is different.
+
+## Showing hidden files via the File Explorer
+
+In order to show hidden files in File Explorer, first I launch File Explorer via
+the search bar in the Windows dock and type "File Explorer". Then I click on
+"File Explorer" to go into it and find the location of the hidden files (or
+folders) I want to reveal:
+
+![Search results from Search bar located in Windows dock](Screenshot-2024-07-10-175829.png)
+
+**_Search results from Search bar located in Windows dock_**
+
+In this case, I have selected a folder called "development" on the Desktop, and
+it looks something like the following:
+
+![development folder selected in File Explorer](Screenshot-2024-07-10-175551.png)
+
+I click on the View tab in the File Explorer menu bar, and the following
+appears:
+
+![View tab expanded](Screenshot-2024-07-10-175614.png)
+
+**_View tab expanded_**
+
+Next, I go down to the Show option at the bottom and select it. The following
+appears:
+
+![Show option expanded](Screenshot-2024-07-10-175738.png)
+
+**_Show option expanded_**
+
+As shown in the screenshot, I select "Hidden Items", which then results in the
+appearance of a dot folder called `.git`.
+
+![Show hidden folder via File Explorer](Screenshot-2024-07-10-174646.png)
+
+**_Show hidden folder via File Explorer_**
+
+When I deselect "Hidden Items", `.git` disappears.
+
+![Revealed hidden folder hidden again](Screenshot-2024-07-10-175551.png)
+
+**_Revealed hidden folder hidden again_**
+
+## Showing hidden files via Command Prompt
+
+If are like me, and you like working via Command Line (Command Prompt) as much
+as possible, you can go to the same search bar in the Windows dock and type the
+following:
+
+```shell
+cmd
+```
+
+Then I click on Command Prompt in the search results, and something like the
+following appears:
+
+![Command Prompt window](Screenshot-2024-07-10-190019.png)
+
+**_Command Prompt window_**
+
+Next, I `cd` into the folder where I want to reveal hidden files or folders:
+
+![cd into folder where to reveal hidden files or folders](Screenshot-2024-07-10-190446.png)
+
+Then I run the `dir` command to see what is visible in the folder:
+
+![running the dir command in Command Prompt](Screenshot-2024-07-10-190519.png)
+
+**_Running the `dir` command in Command Prompt_**
+
+No dot (hidden) commands are visible. They are not by default.
+
+Next I run the following command in Command Prompt:
+
+```shell
+dir /a:h
+```
+
+which results in the following:
+
+![running the dir /a:h command in Command processrompt](Screenshot-2024-07-10-190614.png)
+
+**_Running the `dir /a:h` command in Command Prompt_**
+
+Now a dot folder called `.git` appears. However, when I run the `dir` command
+again, the .git folder is hidden again, because the result of `dir /a:h` is not
+persistent.
+
+## Related Resources
+
+-   [How To Show Hidden Files in Windows (For Beginners)](https://allaboutcookies.org/show-hidden-files-in-Windows):
+    **_by Mars Groves, all about cookies_**
