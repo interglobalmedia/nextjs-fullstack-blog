@@ -1,0 +1,212 @@
+---
+slug: redirect-operators-in-linux-and-unix-macos
+date: '2024-07-12T10:26:06.081Z'
+lastModified: '2024-07-12T10:26:06.081Z'
+title: Redirect operators in Linux and Unix (macOS)
+author: Maria D. Campbell
+excerpt: Redirect operators in Linux and Unix (macOS)
+image: pexels-isaquepereira-394377.jpg
+tags: ['command line', 'linux', 'macOS', 'redirect operator', 'stdin', 'stdout']
+isPublished: true
+isFeatured: true
+---
+
+![Redirecting](pexels-isaquepereira-394377.jpg)
+
+**_Photo by_** [Isaque Pereira](https://www.pexels.com/@isaquepereira/) **_on_**
+[pexels.com](https://www.pexels.com/photo/yellow-arrow-led-signage-394377/)
+
+In order to understand what `redirect operators` do in `Linux` or `Unix`
+(`macOS`), one first has to understand what `stdin` and `stdout` mean.
+
+In the case of a personal `macOS` device, **_by default_**, `stdin` refers to a
+device's `keyboard`, and `stdout` refers to `Command Line` (`Terminal`). And
+these pathways are called streams.
+
+That being said, we don't always want to output `stdout` to `Command Line`,
+which is not persistent by default. Perhaps we want to save it somewhere. It is
+possible to change our `default input` and `output` locations. This means making
+the OS to obtain information from somewhere other than the `stdin` or send
+results to somewhere other than the `stdout`. This functionality is known as
+`redirection`.
+
+## The output redirector operator (`>`)
+
+The default `output redirector operator` is the most popular and well known of
+`redirectors`. As previously mentioned, by default, when not using
+`redirection`, `stdout` is made in `Terminal`. However, this `output` is not
+persistent because it is not saved to `Terminal`! If it was, we would have an
+awful lot of clutter there!
+
+In `Linux Command Line`, if I were to run the following in `Terminal`:
+
+```shell
+$HOME
+```
+
+the following would be returned in `Terminal`:
+
+```shell
+bash: /home/maria: Is a directory
+```
+
+I type `$HOME` with my `laptop keyboard`, my `stdin`, and it is output to the
+`Terminal window`, my `stdout`. But it is not saved anywhere, so I can't refer
+to that particular output later. But as also previously mentioned, I can
+`redirect` this `output` somewhere else, and even `save` the `data` using the
+`output redirector` (`>`). So let's say I run the following command instead:
+
+```shell
+printenv 'HOME' > home.txt
+```
+
+Then, if I use the `cat` command to output the contents of `home.txt`:
+
+```shell
+cat home.txt
+```
+
+It results in the following `output` in `Terminal`:
+
+```shell
+/home/maria
+```
+
+However, if I simply ran the following without using the
+`output redirector operator`:
+
+```shell
+printenv 'HOME'
+```
+
+the following would be returned in `Terminal`:
+
+```shell
+/home/maria
+```
+
+And `/home/maria` would not be `redirected` and `output` to `home.txt`.
+
+The `printenv` command prints the value of an `environment variable`, and
+`$HOME` is one of them. In this case, `printenv` is printing the value of the
+`global environment variable` called `'HOME'`. And since I am not appending `$`
+to the beginning of `HOME`, it is not being treated as a `variable` containing a
+`value` (HOME=/home/maria), but simply as the `value` of `$HOME`.
+
+## The input redirector operator (`<`)
+
+The default input redirector (`<`) redirects `stdin` somewhere else. For
+example, if I type the following in `Terminal` followed by the `Return`
+(`Enter`) key:
+
+```shell
+printenv 'HOME' < home.txt
+```
+
+this would result in the following in `Terminal`:
+
+```shell
+/home/maria
+```
+
+And if I open up `home.txt` with the `vim` command:
+
+```shell
+vim home.txt
+```
+
+The following would appear:
+
+```shell
+/home/maria
+```
+
+If I were to combine the `input` and `output` operator, for example:
+
+```shell
+printenv 'HOME' < home.txt > home2.txt
+```
+
+This command both redirects `stdin` and `stdout`, and also creates a new file
+called `home2.txt` if it does not already exist, thanks to the `output operator`
+(`>`).
+
+When I run the following in `Terminal`:
+
+```shell
+cat home2.txt
+```
+
+it returns the following in `Terminal`:
+
+```shell
+/home/maria
+```
+
+When I run the following in `Terminal`:
+
+```shell
+cat home.txt
+```
+
+it returns the following:
+
+```shell
+/home/maria
+```
+
+However, because I am using the (single) `regular output operator` (`>`), it
+`overwrites` the previous content of `home2.txt` with a new instance of
+`/home/maria`. What if I `didn't want` to `overwrite` the contents of
+`home2.txt`?
+
+## The output redirector append operator (`>>`)
+
+If I just want to `append` the `contents` of `stdin` (i.e., `home.txt`) to
+`stdout` (i.e., `home2.txt`), I would run the following in `Terminal`:
+
+```shell
+printenv 'HOME' < home.txt >> home2.txt
+```
+
+Then, when I run the following command in `Terminal`:
+
+```shell
+cat home2.txt
+```
+
+it returns the following in `Terminal`:
+
+```shell
+/home/maria
+/home/maria
+```
+
+And if I run the following in `Terminal`:
+
+```shell
+cat home.txt
+```
+
+it returns the following in `Terminal`:
+
+```shell
+/home/text
+```
+
+The `contents` of `home.txt` remains the same because it is the `stdin`, but
+`home.txt` now `includes` a `second line` of `text`, which has been `appended`
+to the `original` first line of `text`. `No data` was `overwritten` or `lost`.
+
+**An important thing to note**: Usually one should use the
+`output redirector append operator` (`>>`) instead of the
+`output redirector operator` (`>`) so as not to lose any file data (unless there
+is a specific reason to use `>`)!
+
+## Related Resources
+
+-   [I/O redirection](https://tldp.org/LDP/intro-linux/html/sect_05_01.html):
+    **_by Machtelt Garrels, Introduction to Linux_**
+
+-   [Five ways to use redirect operators in Bash](https://www.redhat.com/sysadmin/redirect-operators-bash):
+    **_by Damon Garn, RedHat_**
