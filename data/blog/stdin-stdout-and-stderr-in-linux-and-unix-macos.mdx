@@ -42,8 +42,10 @@ support specialist, or cybersecurity professional, for example, you are very
 familiar with errors. Cybersecurity professionals are constantly dealing with
 logging errors related to network security.
 
-stdin, stdout, and stderr are three standard data streams that one creates when
-executing a command in Linux. And what is a stream? According to opensource.com,
+`stdin`, `stdout`, and `stderr` are three standard `data streams` that one
+`creates` when `executing` a `command` in `Linux`. And what is a `stream`?
+According to
+[opensource.com](https://opensource.com/article/18/10/linux-data-streams),
 
 > As its name implies, a data stream is a stream of data—especially text
 > data—being passed from one file, device, or program to another using STDIO
@@ -60,14 +62,14 @@ And then David Both goes on to say,
 > post, we will explore `data streams`—what they are, how to create them, and a
 > little bit about how to use them.
 
-stdin is represented by File handle 0, stdout is represented by File handle 1,
-and stderr is represented by File handle 2.
+`stdin` is `represented` by `File handle 0`, `stdout` is `represented` by
+`File handle 1`, and `stderr` is `represented` by `File handle 2`.
 
 ## Streams are treated like files in Linux
 
 So why `File handle 0`, `file handle 1`, and `File handle 2`, when dealing with
 `stdin`, `stdout`, and `stderr`? Because in `Linux`, `streams` are treated like
-`files`. We can `read` a `file` or `data` into a `file`.
+`files`. We can `read` a `file` or `write data` into a `file`.
 
 ## `stderr` data stream
 
@@ -156,7 +158,7 @@ macos-scripting:
 
 Now two lines exist. `macos-scripting:` just means that it is an empty directory
 (which it actually is). And what does `2>&1` mean? It means that I want to
-redirect the `output` of the results of both my `stdout` represented by
+`redirect` the `output` of the results of both my `stdout` represented by
 `File handle 1` AND `stderr` represented by `File handle 2` to my
 `list-directory.txt` file. And the regular `stdout redirector operator`
 **_redirects_** the `output` of `ls macos-scripting linux-scripting` to
@@ -218,7 +220,7 @@ According to `Aidela Karamyan` on
 > essential for any Linux developer. &mdash; Aidela Karamyan,
 > [baeldung.com](https://www.baeldung.com/linux/fix-missing-dev-null)
 
-He goes on to say,
+She goes on to say,
 
 > In Linux systems, devices are files stored in the /dev directory. These files
 > can represent both physical and virtual devices. /dev/null is a virtual null
@@ -273,7 +275,7 @@ And then ran:
 cat /dev/null
 ```
 
-The following would be returned in Terminal:
+The following would be returned in `Terminal`:
 
 ```shell
 
@@ -292,7 +294,7 @@ And then I ran the following:
 cat list-directory.txt
 ```
 
-The following is returned in Terminal:
+The following is returned in `Terminal`:
 
 ```shell
 macos-scripting:
@@ -316,13 +318,13 @@ ls macos-scripting linux-scripting &> /dev/null
 ```
 
 Nothing would be returned in `Terminal`. The results of
-`ls macos-scripting linux-scripting` would all be redirected to `/dev/null` and
-discarded.
+`ls macos-scripting linux-scripting` would all be `redirected` to `/dev/null`
+and `discarded`.
 
 ## Related Resources
 
 -   [Redirect operators in Linux and Unix (macOS)](http://localhost:3000/blog/redirect-operators-in-linux-and-unix-macos):
-    mariadcampbell.com
+    **_mariadcampbell.com_**
 
 -   [How to Create /dev/null](https://www.baeldung.com/linux/fix-missing-dev-null):
     **_by Aidela Karamyan, baeldung.com_**
