@@ -8,72 +8,110 @@ excerpt: How to save Terminal output to a file for future reference.
 image: richard-rivas-oF2Q8vnW0nI-unsplash.jpg
 tags: ['command line']
 isPublished: true
-isFeatured: true
+isFeatured: false
 ---
 
 ![Drop of water on a line](richard-rivas-oF2Q8vnW0nI-unsplash.jpg)
 
-***Photo by*** [Richard Rivas](https://unsplash.com/@richardrivas) ***on*** [Unsplash](https://unsplash.com/photos/oF2Q8vnW0nI)
+**_Photo by_** [Richard Rivas](https://unsplash.com/@richardrivas) **_on_**
+[Unsplash](https://unsplash.com/photos/oF2Q8vnW0nI)
 
-***Recently*** I ***upgraded*** to `Mojave` on my `Macbook Pro` (late 2015). I then
-***decided*** it was ***also time*** to ***upgrade*** `Homebrew`. I ***needed*** to ***update*** `postgres`, so ***thought*** I ***would update*** `everything else`. `postgres` ***was*** a ***success***. ***Read more*** in `my posts` ***entitled*** [Upgrading postgreSQL from version 10.4 to 11.1 via Homebrew (OSX)](/posts/upgrading-postgresql-from-version-104-to-111-via-homebrew-osx/) and [Changing your (Homebrew) postgreSQL configuration from trust to md5](/posts/changing-your-homebrew-postgresql-configuration-from-trust-to-md5/).
+**_Recently_** I **_upgraded_** to `Mojave` on my `Macbook Pro` (late 2015). I
+then **_decided_** it was **_also time_** to **_upgrade_** `Homebrew`. I
+**_needed_** to **_update_** `postgres`, so **_thought_** I **_would update_**
+`everything else`. `postgres` **_was_** a **_success_**. **_Read more_** in
+`my posts` **_entitled_**
+[Upgrading postgreSQL from version 10.4 to 11.1 via Homebrew (OSX)](/posts/upgrading-postgresql-from-version-104-to-111-via-homebrew-osx/)
+and
+[Changing your (Homebrew) postgreSQL configuration from trust to md5](/posts/changing-your-homebrew-postgresql-configuration-from-trust-to-md5/).
 
-***Unbeknownst*** to ***me*** until ***today***, my `Ruby` ***system install*** `broke` in ***the process***. I ***hadn’t done*** `anything related` to `Ruby` ***installations*** in a ***couple*** of ***years***, ***and had*** to ***refresh*** my ***memory*** on it. ***Had*** I ***installed*** with `RVM`? I ***checked*** to ***see*** if I ***had*** it ***installed*** on ***my computer***. ***No***. ***What else*** could I ***have used*** to
-**_manage_** my `Ruby` ***installs***? I ***googled*** for ***information regarding*** the `error`
-I ***got*** when ***trying*** to ***watch*** a `s` on a `Node project` I am ***working on*** in which I ***decided*** to ***switch*** from `CSS` to `SCSS` (today). I just ***find it*** to
-be a much ***more efficient*** and ***powerful way*** to ***work*** with `global styles`.
+**_Unbeknownst_** to **_me_** until **_today_**, my `Ruby` **_system install_**
+`broke` in **_the process_**. I **_hadn’t done_** `anything related` to `Ruby`
+**_installations_** in a **_couple_** of **_years_**, **_and had_** to
+**_refresh_** my **_memory_** on it. **_Had_** I **_installed_** with `RVM`? I
+**_checked_** to **_see_** if I **_had_** it **_installed_** on **_my
+computer_**. **_No_**. **_What else_** could I **_have used_** to **_manage_**
+my `Ruby` **_installs_**? I **_googled_** for **_information regarding_** the
+`error` I **_got_** when **_trying_** to **_watch_** a `s` on a `Node project` I
+am **_working on_** in which I **_decided_** to **_switch_** from `CSS` to
+`SCSS` (today). I just **_find it_** to be a much **_more efficient_** and
+**_powerful way_** to **_work_** with `global styles`.
 
-HOWEVER, when I ***wanted*** to ***go back*** and ***write about*** this `experience` ***after*** I had ***already closed*** my `Terminal` **_instance_**, I ***couldn’t retrieve*** the `output`
-or `stderr(s)` of ***my commands***! So I ***decided*** to ***look into*** a ***way*** of ***making sure*** that it would ***not happen*** `again`. My ***search*** was ***successful***. I ***found*** a `command`(s) that would `print out` ***either*** the `output` of a `command` or the `stderr` in
-`Terminal` to a `text file` of ***my choosing***. I ***made sure*** to ***test*** it ***before writing*** this ***post***, and ***it worked***!
+HOWEVER, when I **_wanted_** to **_go back_** and **_write about_** this
+`experience` **_after_** I had **_already closed_** my `Terminal`
+**_instance_**, I **_couldn’t retrieve_** the `output` or `stderr(s)` of **_my
+commands_**! So I **_decided_** to **_look into_** a **_way_** of **_making
+sure_** that it would **_not happen_** `again`. My **_search_** was
+**_successful_**. I **_found_** a `command`(s) that would `print out`
+**_either_** the `output` of a `command` or the `stderr` in `Terminal` to a
+`text file` of **_my choosing_**. I **_made sure_** to **_test_** it **_before
+writing_** this **_post_**, and **_it worked_**!
 
-I ***took*** a ***simple command***, `ruby -v`, ***which outputs*** the (`system`) `version` of `ruby` that is ***running*** on ***my machine*** and ***printed it*** to a ***file*** on ***my desktop*** called `ruby-output.txt`. The ***following*** is the `command` I **8** in `Terminal`:
+I **_took_** a **_simple command_**, `ruby -v`, **_which outputs_** the
+(`system`) `version` of `ruby` that is **_running_** on **_my machine_** and
+**_printed it_** to a **_file_** on **_my desktop_** called `ruby-output.txt`.
+The **_following_** is the `command` I **8** in `Terminal`:
 
 ```shell
 ruby -v 2>&1 | tee ~/desktop/ruby_output.txt
 ```
 
-This **_resulted_** in ***both*** `output` to the `console` AND `output` to a **_new file_** on my ***desktop*** called `ruby_output.txt`. If I had ***already known*** about
-***this*** `command`, I ***could have*** `re-run` the `ruby -v` ***command*** along with ***the rest*** of this ***new command*** in `Terminal` ***after receiving*** the `Ruby` ***related errors*** so as to ***reference*** that ***information*** when ***writing*** my `post`! ***This time*** around I ***went back*** to my `Google searches` to ***see*** what I had ***googled***. But ***in future***, I ***will have*** a much ***more reliable*** and (time) ***efficient solution***!
+This **_resulted_** in **_both_** `output` to the `console` AND `output` to a
+**_new file_** on my **_desktop_** called `ruby_output.txt`. If I had **_already
+known_** about **_this_** `command`, I **_could have_** `re-run` the `ruby -v`
+**_command_** along with **_the rest_** of this **_new command_** in `Terminal`
+**_after receiving_** the `Ruby` **_related errors_** so as to **_reference_**
+that **_information_** when **_writing_** my `post`! **_This time_** around I
+**_went back_** to my `Google searches` to **_see_** what I had **_googled_**.
+But **_in future_**, I **_will have_** a much **_more reliable_** and (time)
+**_efficient solution_**!
 
-**Important note:** If you ***want*** to ***add*** another `command output` to the
-**_same file_** that **_doesn’t overwrite_** the ***previous output***, do NOT ***use***
-this ***exact command***. It **_will_** `overwrite` the ***previous output***. ***What
-happens*** is, a ***new file*** of the ***same name*** `overwrites` the ***existing file*** and also
-`replaces` the ***previous output*** with the ***current output***! In ***order*** to `append`
-**_new output_** without **_overwriting_** the ***previous output***, ***use*** the
-***following command***:
+**Important note:** If you **_want_** to **_add_** another `command output` to
+the **_same file_** that **_doesn’t overwrite_** the **_previous output_**, do
+NOT **_use_** this **_exact command_**. It **_will_** `overwrite` the
+**_previous output_**. **_What happens_** is, a **_new file_** of the **_same
+name_** `overwrites` the **_existing file_** and also `replaces` the **_previous
+output_** with the **_current output_**! In **_order_** to `append` **_new
+output_** without **_overwriting_** the **_previous output_**, **_use_** the
+**_following command_**:
 
 ```shell
 sass --watch public/styles/styles.scss >> ~/desktop/ruby_output.txt
 ```
 
-**_However_**, ***nothing*** gets `output` to `Terminal`. ***Only*** to ***the file***! If you
-***want*** to ***see*** the `output` in `Terminal` as ***well*** as ***outputting*** to ***the file***, ***run*** the ***following command***:
+**_However_**, **_nothing_** gets `output` to `Terminal`. **_Only_** to **_the
+file_**! If you **_want_** to **_see_** the `output` in `Terminal` as **_well_**
+as **_outputting_** to **_the file_**, **_run_** the **_following command_**:
 
 ```shell
 ruby -v 2>>&1 | tee -a ~/desktop/ruby_output.tx
 ```
 
-Let’s ***break*** this ***down***. `ruby -v` is the `command` I ***wanted*** to ***run*** in `Terminal` to ***get back*** the `system version` I am ***using*** on my `computer`. The ***following*** is `output` in `Terminal`:
+Let’s **_break_** this **_down_**. `ruby -v` is the `command` I **_wanted_** to
+**_run_** in `Terminal` to **_get back_** the `system version` I am **_using_**
+on my `computer`. The **_following_** is `output` in `Terminal`:
 
 ```shell
 ruby 2.7.0dev (2019-01-17) [x86_64-darwin18]
 ```
 
-`2` and `1` are `file descriptors`. `2` ***stands*** for `standard error` (`stderr`),
-and `1` ***stands*** for `standard output` (`stdout`). ***pipe***, `|`, in ***this case,*** is
-***used*** to **_pass_** the `stdout` or the `stderr` to the
-`tee -a ~/desktop/ruby_output.txt` ***command***. `>>` ***means*** to ***append***. I am ***telling*** `Terminal` to **_append_** the `stdin` and `stdout`. If I ***only used*** `>`, then
-there ***would be*** an `overwrite`, as ***shown previously***. `tee` ***allows you*** to
-**_send_** `stdout` to a ***file*** while `piping` the **_same_** `stdout` to
-**_another_** `command`. ***Here***, the **_other command_** is `-a`. `tee` is
-***always used*** with a `pipe` (`|`) **_preceding_** it.
+`2` and `1` are `file descriptors`. `2` **_stands_** for `standard error`
+(`stderr`), and `1` **_stands_** for `standard output` (`stdout`). **_pipe_**,
+`|`, in **_this case,_** is **_used_** to **_pass_** the `stdout` or the
+`stderr` to the `tee -a ~/desktop/ruby_output.txt` **_command_**. `>>`
+**_means_** to **_append_**. I am **_telling_** `Terminal` to **_append_** the
+`stdin` and `stdout`. If I **_only used_** `>`, then there **_would be_** an
+`overwrite`, as **_shown previously_**. `tee` **_allows you_** to **_send_**
+`stdout` to a **_file_** while `piping` the **_same_** `stdout` to **_another_**
+`command`. **_Here_**, the **_other command_** is `-a`. `tee` is **_always
+used_** with a `pipe` (`|`) **_preceding_** it.
 
-AND it was ***also output*** to the `ruby_output.txt` ***file*** living on `my desktop`. In
-***addition***, **_nothing_** was **_overwritten_**. The `stdout` was simply **_appended_**
-to the ***rest*** of the `stdout` I ***had added*** `previously`. The ***key*** to this is in the `-a` **_flag_**, which is `short` for `append`. ***For example***, this is ***what*** is
-***currently residing*** in ***that file***:
+AND it was **_also output_** to the `ruby_output.txt` **_file_** living on
+`my desktop`. In **_addition_**, **_nothing_** was **_overwritten_**. The
+`stdout` was simply **_appended_** to the **_rest_** of the `stdout` I **_had
+added_** `previously`. The **_key_** to this is in the `-a` **_flag_**, which is
+`short` for `append`. **_For example_**, this is **_what_** is **_currently
+residing_** in **_that file_**:
 
 ```shell
 ruby 2.7.0dev (2019-01-17) [x86_64-darwin18]
@@ -87,58 +125,85 @@ If I really wanted to get fancy, I could have done the following:
 script -a ~/desktop/log-all.txt
 ```
 
-I ***would start*** this `script` at the **_beginning_** of a `Terminal` ***session***.
-`script` ***means*** that I am ***starting*** a `script` **_native_** to `Unix`, which
-will `print out` **_both_** `Terminal` `stdin` AND `stdout` to a ***file*** on my
-***desktop*** called `log-all.txt`. The `default command` ***for this*** on `Linux` is
-`script session.log`. ***However***, I have ***seen*** the `log file` can be ***called anything***
-that will NOT `overwrite` some ***important*** `system file` of the ***same name*** in the ***same location***!!! So ***be careful*** when ***creating*** a `script` with `script`. The ***above
-command*** `output` the ***following*** in `Terminal`:
+I **_would start_** this `script` at the **_beginning_** of a `Terminal`
+**_session_**. `script` **_means_** that I am **_starting_** a `script`
+**_native_** to `Unix`, which will `print out` **_both_** `Terminal` `stdin` AND
+`stdout` to a **_file_** on my **_desktop_** called `log-all.txt`. The
+`default command` **_for this_** on `Linux` is `script session.log`.
+**_However_**, I have **_seen_** the `log file` can be **_called anything_**
+that will NOT `overwrite` some **_important_** `system file` of the **_same
+name_** in the **_same location_**!!! So **_be careful_** when **_creating_** a
+`script` with `script`. The **_above command_** `output` the **_following_** in
+`Terminal`:
 
 ```shell
 Script started, output file is /Users/mariacam/desktop/log-all.txt
 ```
 
-**_Then_**, ***when*** I ***wanted*** to ***stop*** the `script`, I ***typed*** the ***following*** in `Terminal`:
+**_Then_**, **_when_** I **_wanted_** to **_stop_** the `script`, I **_typed_**
+the **_following_** in `Terminal`:
 
 ```shell
 exit
 ```
 
-You can ***also end*** a ***session*** with `Control + D`. ***Then all*** `stdin` and `stdout`
-***from*** `Terminal` is ***printed out*** to the `destination file`.
+You can **_also end_** a **_session_** with `Control + D`. **_Then all_**
+`stdin` and `stdout` **_from_** `Terminal` is **_printed out_** to the
+`destination file`.
 
-But ***let’s say*** I just ***wanted*** to ***print out*** a `history` of my ***commands*** to a ***file***. ***This is*** actually ***what*** I ***did*** just ***now***:
+But **_let’s say_** I just **_wanted_** to **_print out_** a `history` of my
+**_commands_** to a **_file_**. **_This is_** actually **_what_** I **_did_**
+just **_now_**:
 
 ```shell
 history >> ~/desktop/history_log.txt
 ```
 
-And I ***get*** my `Command Line` `history` ***printed out*** in `history_log.txt` on
-`my desktop`. I am ***not sharing*** it ***here*** as ***some*** `sensitive information` is ***logged there***! ***Anything*** you **_type out_** in `Command Line`, **_including_**
-`passwords` and such, **_will appear_** in your `history`. So ***be careful***
-about ***what kind*** of `Command Line` **_information_** you ***share***.
+And I **_get_** my `Command Line` `history` **_printed out_** in
+`history_log.txt` on `my desktop`. I am **_not sharing_** it **_here_** as
+**_some_** `sensitive information` is **_logged there_**! **_Anything_** you
+**_type out_** in `Command Line`, **_including_** `passwords` and such, **_will
+appear_** in your `history`. So **_be careful_** about **_what kind_** of
+`Command Line` **_information_** you **_share_**.
 
-***Some*** of the `commands` ***listed there*** I ***hadn’t*** even ***used*** in ***AGES***! And it ***goes up*** to the ***latest one***, ***not including*** those in the ***current session***. I ***have*** to `log out` of it ***before*** it is ***included*** in ***that*** `history`.
+**_Some_** of the `commands` **_listed there_** I **_hadn’t_** even **_used_**
+in **_AGES_**! And it **_goes up_** to the **_latest one_**, **_not including_**
+those in the **_current session_**. I **_have_** to `log out` of it **_before_**
+it is **_included_** in **_that_** `history`.
 
-This is ***all well*** and ***good***. From ***too little*** `information` to ***too much***! I ***like*** the `script session` ***approach*** for my ***current purposes*** of ***committing information*** to `“printed history”`. It ***gives me*** the ***information*** I ***need*** and ***from*** the ***time*** I ***need*** to ***include both*** `Terminal` `stdin` and `stdout`! Of ***course*** if I ***forget*** to ***run*** `script` at the ***beginning*** of my `session` (and ***even later***), and I just ***want*** to ***save*** the `anomalies` I ***come across***, I ***can*** just ***use*** the `command`:
+This is **_all well_** and **_good_**. From **_too little_** `information` to
+**_too much_**! I **_like_** the `script session` **_approach_** for my
+**_current purposes_** of **_committing information_** to `“printed history”`.
+It **_gives me_** the **_information_** I **_need_** and **_from_** the
+**_time_** I **_need_** to **_include both_** `Terminal` `stdin` and `stdout`!
+Of **_course_** if I **_forget_** to **_run_** `script` at the **_beginning_**
+of my `session` (and **_even later_**), and I just **_want_** to **_save_** the
+`anomalies` I **_come across_**, I **_can_** just **_use_** the `command`:
 
 ```shell
 ruby -v 2>>&1 | tee -a ~/desktop/ruby_output.txt
 ```
 
-***for example***.
+**_for example_**.
 
-***There is*** so ***much more*** on ***this topic***. I ***highly encourage*** `everyone` to ***delve deeper*** into `Command Line`. ***Believe me***, it will ***help you*** to ***become*** a much `better developer` in ***so many*** different ***ways***. ***Not just*** through `npm i` or `git init`, but will ***permit you*** to ***easily retrieve*** why something ***worked*** or ***didn’t work*** (and ***write*** an `accurate post` ***about it*** `even after` ***logging out*** of your `Terminal` **_instance_**). And ***so much more***! Last ***but not*** least, it ***permits you*** to ***gain*** a ***better understanding*** and ***control*** of ***your machine***!
+**_There is_** so **_much more_** on **_this topic_**. I **_highly encourage_**
+`everyone` to **_delve deeper_** into `Command Line`. **_Believe me_**, it will
+**_help you_** to **_become_** a much `better developer` in **_so many_**
+different **_ways_**. **_Not just_** through `npm i` or `git init`, but will
+**_permit you_** to **_easily retrieve_** why something **_worked_** or
+**_didn’t work_** (and **_write_** an `accurate post` **_about it_**
+`even after` **_logging out_** of your `Terminal` **_instance_**). And **_so
+much more_**! Last **_but not_** least, it **_permits you_** to **_gain_** a
+**_better understanding_** and **_control_** of **_your machine_**!
 
 ## Related Resources
 
-- [In the shell, what does “2>&1” mean?](https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean)
+-   [In the shell, what does “2>&1” mean?](https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean)
 
-- [script (Unix)](<https://en.wikipedia.org/wiki/Script_(Unix)>)
+-   [script (Unix)](<https://en.wikipedia.org/wiki/Script_(Unix)>)
 
-- [The Unix “SCRIPT” command : a command recorder](https://www.ibm.com/developerworks/community/blogs/nix/entry/the_unix_script_command_a_command_recorder2?lang=en)
+-   [The Unix “SCRIPT” command : a command recorder](https://www.ibm.com/developerworks/community/blogs/nix/entry/the_unix_script_command_a_command_recorder2?lang=en)
 
-- [script: Save Your Session Log](https://www.unixtutorial.org/script-save-your-session-log)
+-   [script: Save Your Session Log](https://www.unixtutorial.org/script-save-your-session-log)
 
-- [How do I save Terminal output to a file?](https://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file)
+-   [How do I save Terminal output to a file?](https://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file)

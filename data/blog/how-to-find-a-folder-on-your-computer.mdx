@@ -8,22 +8,37 @@ excerpt: How to find a folder on your computer.
 image: pexels-skitterphoto-63901.jpg
 tags: ['command line', 'find command', 'macOS']
 isPublished: true
-isFeatured: true
+isFeatured: false
 ---
 
 ![How to find something](pexels-skitterphoto-63901.jpg)
 
-***Photo by*** [Skitterphoto](https://www.pexels.com/@skitterphoto/) ***on*** [pexels.com](https://www.pexels.com/photo/black-binocular-on-round-device-63901/)
+**_Photo by_** [Skitterphoto](https://www.pexels.com/@skitterphoto/) **_on_**
+[pexels.com](https://www.pexels.com/photo/black-binocular-on-round-device-63901/)
 
-*This post was originally published on [Linkedin](https://www.linkedin.com/pulse/how-find-folder-your-computer-maria-campbell-0fove/?trackingId=W1MgENojTX2AMi9x3zWXTg%3D%3D) on October 19, 2023.*
+_This post was originally published on
+[Linkedin](https://www.linkedin.com/pulse/how-find-folder-your-computer-maria-campbell-0fove/?trackingId=W1MgENojTX2AMi9x3zWXTg%3D%3D)
+on October 19, 2023._
 
-I have a lot of folders containing projects on my computer. Sometimes I don't remember where I have placed them! This happened to me recently. The general command to run if you want to look through ALL the directories on your computer is the following:
+I have a lot of folders containing projects on my computer. Sometimes I don't
+remember where I have placed them! This happened to me recently. The general
+command to run if you want to look through ALL the directories on your computer
+is the following:
 
 ```shell
 find / -type d -name "kali-linux-fundamentals"
 ```
 
-`"find"` represents the `find` command. `"/"` represents the `top root directory` on my `macOS device`. `-type` followed by the `"type"` I am looking for, which is a `folder`, is then followed by `d`, which represents `"directory"`. `-name` is followed by the `"name"` of the `directory` I am looking for, enclosed in double quotes. However, it could take a long time to go through `ALL directories` on one's `device`, and there also would be a lot of directories which would result in the message `"Permission denied"`. In my case, I knew that all my `developer/cybersecurity` related projects are within a `sub-directory` of my `home directory` called `"development"`. So I did the following:
+`"find"` represents the `find` command. `"/"` represents the
+`top root directory` on my `macOS device`. `-type` followed by the `"type"` I am
+looking for, which is a `folder`, is then followed by `d`, which represents
+`"directory"`. `-name` is followed by the `"name"` of the `directory` I am
+looking for, enclosed in double quotes. However, it could take a long time to go
+through `ALL directories` on one's `device`, and there also would be a lot of
+directories which would result in the message `"Permission denied"`. In my case,
+I knew that all my `developer/cybersecurity` related projects are within a
+`sub-directory` of my `home directory` called `"development"`. So I did the
+following:
 
 ```shell
 find ~/development -type d -name "kali-linux-fundamentals"
@@ -35,6 +50,15 @@ And this returned:
 /Users/mariacam/development/digital-forensics/kali-linux-fundamentals
 ```
 
-If I were to use a `relative path` instead, as I typically do to navigate around my macOS device via the CLI (command line interface aka Terminal), I would use `~/development/digital-forensics/kali-linux-fundamentals` to get there from my `home directory` represented by the tilde (`~`).
+If I were to use a `relative path` instead, as I typically do to navigate around
+my macOS device via the CLI (command line interface aka Terminal), I would use
+`~/development/digital-forensics/kali-linux-fundamentals` to get there from my
+`home directory` represented by the tilde (`~`).
 
-So if you have a lot of `projects/directories` on your `macOS`, and you want to find out where a particular one is (because you forgot), you can run the above command. I also highly recommend placing related directories, i.e., development-related projects or even slide decks under one root directory, which would be located within your home directory, so that when you have to search for a project, you would not have to search through ALL the directories on your system! 
+So if you have a lot of `projects/directories` on your `macOS`, and you want to
+find out where a particular one is (because you forgot), you can run the above
+command. I also highly recommend placing related directories, i.e.,
+development-related projects or even slide decks under one root directory, which
+would be located within your home directory, so that when you have to search for
+a project, you would not have to search through ALL the directories on your
+system!
