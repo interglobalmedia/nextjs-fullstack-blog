@@ -1,61 +1,71 @@
 import classes from '../../styles/skills.module.scss'
 const Skills = () => {
 	return (
-    <section className={classes['skills-content']}>
-      <ul className={classes['abilities']}>
+		<section className={classes['skills-content']}>
+			<ul className={classes['abilities']}>
 				<li
-          className={classes['ability-command-line']} title='command line interface'
+					className={classes['ability-command-line']}
+					title="command line interface"
 				>
 					CLI
 				</li>
-        <li className={classes['ability-css3']} title='css3'>
+				<li className={classes['ability-css3']} title="css3">
 					CSS3
 				</li>
-        <li className={classes['ability-ejs']} title='ejs'>
+				<li className={classes['ability-ejs']} title="ejs">
 					EJS
 				</li>
-        <li className={classes['ability-express']} title='express'>
+				<li className={classes['ability-express']} title="express">
 					Express
 				</li>
-        <li className={classes['ability-git']} title='git'>
+				<li className={classes['ability-git']} title="git">
 					{' '}
 					Git
 				</li>
-        <li className={classes['ability-html5']} title='html5'>
+				<li className={classes['ability-html5']} title="html5">
 					HTML5
 				</li>
-        <li className={classes['ability-jira']} title='jira software'>
+				<li className={classes['ability-jira']} title="jira software">
 					Jira
 				</li>
-        <li className={classes['ability-js']} title='javascript'>
+				<li className={classes['ability-js']} title="javascript">
 					JS
 				</li>
-        <li className={classes['ability-markdown']} title='markdown'>
+				<li className={classes['ability-linux']} title="linux">
+					Linux
+				</li>
+				<li className={classes['ability-macos']} title="macos">
+					macOS
+				</li>
+				<li className={classes['ability-markdown']} title="markdown">
 					MD
 				</li>
-        <li className={classes['ability-mongodb']} title='mongodb'>
+				<li className={classes['ability-mongodb']} title="mongodb">
 					MongoDB
 				</li>
-        <li className={classes['ability-nextjs']} title='nextjs'>
-					NextJS
+				<li className={classes['ability-nextjs']} title="next.js">
+					Next.JS
 				</li>
-        <li className={classes['ability-nodejs']} title='nodejs'>
-					NodeJS
+				<li className={classes['ability-nodejs']} title="node.js">
+					Node.JS
 				</li>
-        <li className={classes['ability-npm']} title='npm'>
+				<li className={classes['ability-npm']} title="npm">
 					NPM
 				</li>
-        <li className={classes['ability-react']} title='react'>
+				<li className={classes['ability-react']} title="react">
 					React
 				</li>
-        <li className={classes['ability-sass']} title='sass'>
+				<li className={classes['ability-sass']} title="sass">
 					Sass
 				</li>
-        <li className={classes['ability-sql']} title='sql'>
+				<li className={classes['ability-sql']} title="sql">
 					SQL
 				</li>
-        <li className={classes['ability-vscode']} title='vs code'>
-					VS Code
+				<li className={classes['ability-vscode']} title="vscode">
+					VSCode
+				</li>
+				<li className={classes['ability-windows']} title="windows">
+					Windows
 				</li>
 			</ul>
 		</section>
