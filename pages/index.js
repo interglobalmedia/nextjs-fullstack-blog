@@ -13,14 +13,16 @@ function HomePage(props) {
 		<Fragment>
 			<Head>
 				{/* eslint-disable-next-line react/no-unescaped-entities */}
-				<title>Maria D. Campbell's Next Blog</title>
+				<title>Maria D. Campbell's Next Blog Home Page</title>
 				<meta
 					name="description"
-					content="I blog about cybersecurity, fullstack development as well as macOS, Command Line, Git, and ethics in technology."
+					content="Welcome to my Home page, which contains featured blog posts. I blog about cybersecurity, fullstack development as well as
+				macOS, Command Line, Linux, shell scripting, Windows, Git, and ethics
+				in technology"
 				/>
 				<meta
 					name="keywords"
-					content="applescript, awk, chflags, schg, chmod, command line, command prompt, cryptography, css, cybersecurity, django 4, encryption, environment variables, file conversion, file permissions, git, git hooks, github, branch protection, grep, husky, jira, javascript, html, lint-staged, linux, kali linux, keyboard shortcuts, macos, mysql, nextjs, nodejs, npm, pipe, python, react, react portal, redirect operators, shell scripting, software updates, sql, ssh, stdin, stdout, stderr, unix, virtualbox, windows, windows 11, write protect files, zsh"
+					content="applescript, awk, chflags, schg, chmod, command line, command prompt, cryptography, css, cybersecurity, django 4, encryption, environment variables, file conversion, file permissions, git, git hooks, github, branch protection, grep, husky, jira, javascript, html, lint-staged, linux, kali linux, keyboard shortcuts, macos, mysql, next.js, node.js, npm, pipe, python, react, react portal, redirect operators, shell scripting, software updates, sql, ssh, stdin, stdout, stderr, unix, virtualbox, windows, windows 11, write protect files, zsh"
 				/>
 			</Head>
 			<Hero />
