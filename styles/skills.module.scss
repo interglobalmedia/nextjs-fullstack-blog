@@ -11,106 +11,144 @@ $sand: #f9bf8f;
 /* heading one, article styles */
 
 h1.heading-one {
-    font-size: 2.75rem;
-    margin: 1.5rem auto;
-    text-align: center;
-    width: 100%;
+	font-size: 2.75rem;
+	margin: 1.5rem auto;
+	text-align: center;
+	width: 100%;
 }
 
 /* Ability */
 .skills-content {
-    color: $main-black;
-    text-transform: lowercase;
-    width: 90%;
-    @media #{$min-740} {
-        font-size: 1.5rem;
-    }
+	color: $main-black;
+	text-transform: lowercase;
+	width: 90%;
+	@media #{$min-740} {
+		font-size: 1.5rem;
+	}
 }
 
 .abilities {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    text-align: left;
-    transform: scaleX(1);
-    width: 90%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	text-align: left;
+	transform: scaleX(1);
+	width: 90%;
 
-    & li {
-        color: $chocolate;
-        list-style-type: none;
-        margin: 0 0 1.25rem 2.5rem;
-        padding-left: 0.5rem;
-        width: 97.5%;
-        @media #{$min-740} {
-            margin-left: 5rem;
-        }
-    }
+	& li {
+		color: $chocolate;
+		list-style-type: none;
+		margin: 0 0 1.25rem 2.5rem;
+		padding-left: 0.5rem;
+		width: 97.5%;
+		@media #{$min-740} {
+			margin-left: 5rem;
+		}
+	}
 }
-
 
 /* Anything that starts with class of .ability */
 
-.ability-command-line, .ability-css3, .ability-ejs, .ability-express, .ability-git, .ability-html5, .ability-jira, .ability-js, .ability-markdown, .ability-mongodb, .ability-nextjs, .ability-nodejs, .ability-npm, .ability-react, .ability-sass, .ability-sql, .ability-vscode {
-    position: relative;
-    transform: scaleX(1.1);
+.ability-command-line,
+.ability-css3,
+.ability-ejs,
+.ability-express,
+.ability-git,
+.ability-html5,
+.ability-jira,
+.ability-js,
+.ability-linux,
+.ability-macos,
+.ability-markdown,
+.ability-mongodb,
+.ability-nextjs,
+.ability-nodejs,
+.ability-npm,
+.ability-react,
+.ability-sass,
+.ability-sql,
+.ability-vscode,
+.ability-windows {
+	position: relative;
+	transform: scaleX(1.1);
 
-    &::before,
-    &::after {
-        content: '';
-        position: absolute;
-    }
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+	}
 
-    &::before {
-        color: lighten($aussie-blue, 10%);
-        margin-left: -2.3em;
-        text-align: right;
-        top: 0;
-    }
+	&::before {
+		/* stylelint-disable scss/no-global-function-names */
+		color: lighten($aussie-blue, 10%);
+		margin-left: -2.3em;
+		text-align: right;
+		top: 0;
+	}
 
-    &::after {
-        background: $bright-coral;
-        height: 100%;
-        left: 0;
-        top: 0;
-        width: 0;
-        z-index: -1;
-    }
+	&::after {
+		background: $bright-coral;
+		height: 100%;
+		left: 0;
+		top: 0;
+		width: 0;
+		z-index: -1;
+	}
 }
 
 .ability-digital-photography,
 .ability-keynote {
-    &::before {
-        margin-left: -3em;
-    }
+	&::before {
+		margin-left: -3em;
+	}
 }
-
 
 /* create a map variable for abilities. this is so we can have a key and a value pair. */
 
-$abilities: ('command-line': 80, 'css3': 90, 'ejs': 75, 'express': 70, 'git': 80, 'html5': 90, 'jira': 60, 'js': 80, 'markdown': 90, 'mongodb': 60, 'nextjs': 60, 'nodejs': 70, 'npm': 90, 'react': 70, 'sass': 90, 'sql': 60, 'vscode': 80, 'wordpress': 70);
+$abilities: (
+	'command-line': 80,
+	'css3': 90,
+	'ejs': 75,
+	'express': 70,
+	'git': 80,
+	'html5': 90,
+	'jira': 60,
+	'js': 80,
+	'linux': 40,
+	'macos': 70,
+	'markdown': 90,
+	'mongodb': 60,
+	'nextjs': 60,
+	'nodejs': 70,
+	'npm': 90,
+	'react': 70,
+	'sass': 90,
+	'sql': 60,
+	'vscode': 80,
+	'windows': 40,
+);
 
 /* create animation for each ability for width */
 
-@each $ability,
-$score in $abilities {
-    @keyframes show-ability-#{$ability} {
-        from {
-            width: 0;
-        }
+@each $ability, $score in $abilities {
+	@keyframes show-ability-#{$ability} {
+		from {
+			width: 0;
+		}
 
-        to {
-            width: $score * 1%;
-        }
-    }
-    .ability-#{$ability} {
-        &::before {
-            content: '#{$score}%';
-            left: $score * 1%;
-        }
+		to {
+			width: $score * 1%;
+		}
+	}
+	.ability-#{$ability} {
+		&::before {
+			content: '#{$score}%';
+			left: $score * 1%;
+		}
 
-        &::after {
-            animation: show-ability-#{$ability} ease-in-out 02s 0.5s 1;
-            animation-fill-mode: forwards;
-        }
-    }
+		&::after {
+			animation: show-ability-#{$ability} ease-in-out 02s 0.5s 1;
+			animation-fill-mode: forwards;
+		}
+	}
 }
