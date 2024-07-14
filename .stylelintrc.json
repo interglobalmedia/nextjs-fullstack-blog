@@ -1,4 +1,7 @@
 {
-    "extends": ["stylelint-config-standard-scss", "stylelint-config-prettier-scss"],
-    "enableFix": true
+	"extends": [
+		"stylelint-config-standard-scss",
+		"stylelint-config-prettier-scss"
+	],
+	"enableFix": true
 }
