@@ -62,11 +62,7 @@ function PostContent(props) {
 		post.lastModified,
 	).toLocaleDateString('en-US', options)
 
-	const twitterIntentUrl = `https://twitter.com/intent/tweet?url=${`https://www.mariadcampbell.com/blog/${post.slug}`}&text=I just read about "${
-		post.title
-	}" by @${siteMetadata.twitterHandle} on ${siteMetadata.domain}`
-
-	const combinatorIntent = `${`https://www.mariadcampbell.com/blog/${post.slug}`}`
+	const combinatorIntent = `${`https://www.mariadcampbell.com/blog/${post.slug}`} `
 
 	const customRenderers = {
 		p(paragraph) {
@@ -139,13 +135,7 @@ function PostContent(props) {
 					</div>
 					<div
 						className={`share-twitter ${classes['share-twitter']}`}
-					>
-						<DynamicSocialShareIcon
-							name="twitter"
-							href={twitterIntentUrl}
-							size="6"
-						/>
-					</div>
+					></div>
 					<Share
 						title={post.title}
 						url={url}
