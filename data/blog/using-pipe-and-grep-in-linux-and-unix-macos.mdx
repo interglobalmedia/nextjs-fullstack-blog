@@ -1,7 +1,7 @@
 ---
 slug: using-pipe-and-grep-in-linux-and-unix-macos
 date: '2024-07-13T10:02:39.445Z'
-lastModified: '2024-07-13T10:02:39.445Z'
+lastModified: '2024-07-14T11:34:39.445Z'
 title: Using pipe (|) and grep in Linux and Unix (macOS)
 author: Maria D. Campbell
 excerpt: Using pipe (|) and grep in Linux and Unix (macOS)
@@ -377,6 +377,22 @@ the `1 MB` limit, and `first-named-pipe` would never execute!
 
 I am still `not` quite `sure` what are the `true benefits` of `named pipes`, but
 as I learn more, I will share my findings!
+
+**Note**: The `one advantage` of a `named pipe` is if I run the following in one
+`Terminal` window inside the `text-files` folder:
+
+```shell
+ls -la > first-named-pipe
+```
+
+And then open up another `Terminal` window inside `text-files` and run the
+following:
+
+```shell
+cat first-named-pipe
+```
+
+`cat first-named-pipe` would `execute` in `Terminal` window 2.
 
 ## Related Resources
 
