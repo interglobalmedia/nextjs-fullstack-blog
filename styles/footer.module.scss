@@ -2,6 +2,8 @@
 $peppermint-blush-white: #f2ebe3;
 $tailwind-peppermint-green: #14b8a6;
 
+/* stylelint-disable declaration-block-no-redundant-longhand-properties */
+
 .footer {
 	width: 100%;
 	background: $peppermint-blush-white;
@@ -29,6 +31,7 @@ $tailwind-peppermint-green: #14b8a6;
 
 .footer > p {
 	/* stylelint-disable scss/no-global-function-names */
+
 	color: darken(#1c1c1c, 1.25%);
 	font-size: 1.3rem;
 	letter-spacing: 0.09em;
@@ -53,6 +56,7 @@ $tailwind-peppermint-green: #14b8a6;
 	}
 }
 
+/* stylelint-disable no-descending-specificity */
 .svg-wrapper > div.footer-email {
 	height: 3.75rem;
 	margin-right: 0.5rem;
