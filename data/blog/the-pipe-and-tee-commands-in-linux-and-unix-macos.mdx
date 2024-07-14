@@ -1,0 +1,266 @@
+---
+slug: the-pipe-and-tee-commands-in-linux-and-unix-macos
+date: '2024-07-14T17:21:43.791Z'
+lastModified: '2024-07-14T17:21:43.791Z'
+title: The pipe (|) and tee commands in Linux and Unix (macOS)
+author: Maria D. Campbell
+excerpt: The pipe (|) and tee commands in Linux and Unix (macOS)
+image: pexels-kampus-6542382.jpg
+tags: ['command line', 'linux', 'unix', 'macos', 'pipe', 'tee']
+isPublished: true
+isFeatured: false
+---
+
+![Tee](pexels-kampus-6542382.jpg)
+
+**_Photo by_** [Kampus Production](https://www.pexels.com/@kampus/) **_on_**
+[pexels.com](https://www.pexels.com/photo/a-person-holding-a-golf-ball-6542382/)
+
+I just finished a article entitled
+[Using pipe (|) and grep in Linux and Unix (macOS)](http://localhost:3000/blog/using-pipe-and-grep-in-linux-and-unix-macos).
+In this article, I will discuss using pipe (`|`) and `tee` in `Linux`.
+
+As discussed in my article
+[Using pipe (|) and grep in Linux and Unix (macOS)](/blog/using-pipe-and-grep-in-linux-and-unix-macos),
+the pipe (`|`) command, aka `un-named pipe`, `transmits` the `output` of one
+command to another command. It can `redirect stdout`, `stdin`, or `stderr` of
+one process to another for further processing.
+
+The `tee` command reads the
+[stdin](/blog/stdin-stdout-and-stderr-in-linux-and-unix-macos) and writes it to
+both [stdout](/blog/stdin-stdout-and-stderr-in-linux-and-unix-macos) and one or
+more `files`. According to
+[Geeks for Geeks](https://www.geeksforgeeks.org/tee-command-linux-example/),
+
+> The (tee) command is named after the T-splitter used in plumbing.
+
+`Geeks for Geeks` also states,
+
+> It basically breaks the output of a program so that it can be both displayed
+> and saved in a file. It does both the tasks simultaneously...
+
+The best way to describe what tee does is by example. Let's say I ran the
+following in `Terminal` from inside a `folder` called `text-files`:
+
+```shell
+ls | tee tee.txt
+```
+
+It would return the following in `Terminal`:
+
+```shell
+duplicates.txt
+first-named-pipe
+list-home-directory.txt
+names1.txt
+names2.txt
+tee.txt
+```
+
+And if I ran `cat tee.txt`, the following would be returned in `Terminal`:
+
+```shell
+duplicates.txt
+first-named-pipe
+list-home-directory.txt
+names1.txt
+names2.txt
+tee.txt
+```
+
+The `stdout` of the `ls` command is `"piped"` into the `tee` command via `|` as
+`stdin`, and then is both `displayed` as `stdout` in `Terminal` and `written` in
+`tee.txt` as `stdout`.
+
+And if I ran the following command:
+
+```shell
+history | tee history.txt
+```
+
+Something like the following is `output` in `Terminal`:
+
+```shell
+  1 cd ..
+  2 cd Desktop
+  3 ls
+  4 touch file1.txt
+  5 vim file1.txt
+  6 sudo apt install vim
+  7 vim file1.txt
+  8 expand file1.txt
+  9 expand file1.txt > file2.txt
+ 10 cat file2.txt
+ 11 unexpand -a file2.txt
+ 12 mv file1.txt names1.txt
+
+...
+
+372 ls | tee -a names1.txt names2.txt tee.txt
+373 cat tee.txt
+374 ls | tee tee.txt
+375 ls
+376 cat tee.txt
+377 history | tee history.txt
+```
+
+And the `same content` as `output` to `Terminal` is `saved` to a newly created
+`file` called `history.txt`, thanks to the `tee` command.
+
+And if I run `cat history.txt | tee history.txt history2.txt` in `Terminal`, the
+exact same content as `stdout` to `Terminal` and `history.txt` is saved to a
+newly created `history2.txt` file which did not previously exist, thanks to the
+`tee` command.
+
+```shell
+  1 cd ..
+  2 cd Desktop
+  3 ls
+  4 touch file1.txt
+  5 vim file1.txt
+  6 sudo apt install vim
+  7 vim file1.txt
+  8 expand file1.txt
+  9 expand file1.txt > file2.txt
+ 10 cat file2.txt
+ 11 unexpand -a file2.txt
+ 12 mv file1.txt names1.txt
+
+...
+
+372 ls | tee -a names1.txt names2.txt tee.txt
+373 cat tee.txt
+374 ls | tee tee.txt
+375 ls
+376 cat tee.txt
+377 history | tee history.txt
+```
+
+Let's say I ran more commands, and then wanted to append these new commands
+added to `Terminal history` to the bottom of the `history.txt` file. Running
+`history | tee history.txt` would erase all previous content and replace it with
+the new history. In order to make sure that the new commands are appended to the
+end of the file and don't overwrite its previous contents, I run the following
+in `Terminal`:
+
+```shell
+history | tee -a history.txt
+```
+
+This results in the following in `Terminal`:
+
+```shell
+...
+
+378 ls
+379 cat history.txt
+380 cat history.txt
+381 cat history.txt
+382 history | tee history.txt
+```
+
+And inside `history.txt`:
+
+```shell
+...
+
+378 ls
+379 cat history.txt
+380 cat history.txt
+381 cat history.txt
+382 history | tee history.txt
+```
+
+The `-a` flag, aka `--append`, is analogous to the
+[`output redirector append operator` (`>>`)](/blog/redirect-operators-in-linux-and-unix-macos).
+It `appends` new `data` to the `end` of a `file`, thereby `not overwriting` what
+is `already there`.
+
+Let's say I run the following command in `Terminal`:
+
+```shell
+cat history.txt | tee history.txt history2.txt
+```
+
+This `command` returns the `complete contents` of `history.txt` in `Terminal`
+and `copies` its `content` into a newly created `history2.txt`. And if I run
+this command `again` after a bit of time and a few more commands, and add the
+`-a` or `--append` flag:
+
+```shell
+cat history.txt | tee -a history.txt history2.txt
+```
+
+And then I run the following command:
+
+```shell
+wc -l history2.txt
+```
+
+it returns the following in `Terminal`:
+
+```shell
+804 history2.txt
+```
+
+And when I ran:
+
+```shell
+wc -l history.txt
+```
+
+The `wc` command finds the `number` of `lines`, `words`, `characters`, `bytes`,
+and `maximum line length` of `files`, in that order.
+
+the following is returned in `Terminal`:
+
+```shell
+804 history.txt
+```
+
+When I ran the `cat` command again, the contents of `history.txt` were appended
+to its previous content, thereby doubling the number of lines in the file. The
+same went for `history2.txt`. its number of files doubled as well.
+
+If I run the following command:
+
+```shell
+wc history.txt
+```
+
+the following is returned:
+
+```shell
+804 2094 21800 history.txt
+```
+
+`804` represents the `number` of (new) `lines`, `2094` represents the `number`
+of `words`, adn `21800` the `number` of `bytes`. And if I ran the following in
+`Terminal`:
+
+```shell
+wc -L history.txt
+```
+
+it returns the following:
+
+```shell
+67 history.txt
+```
+
+`67` represents the `max length` or `"width"` of a line. In other words,
+`67 characters` (including spaces).
+
+There are other other options to choose from for `wc` and `tee`, and you can
+learn more about them by running `man wc` and `man tee` in `Terminal`.
+
+## Related Resources
+
+-   [How to Save Terminal Output to a File for Future Reference](/blog/how-to-save-terminal-output-to-a-file-for-future-reference):
+    **_mariadcampbell.com_**
+
+-   [Count Lines in a File in Bash](https://www.baeldung.com/linux/bash-count-lines-in-file):
+    **_baeldung.com_**
+
+-   [tee command in Linux with examples](https://www.geeksforgeeks.org/tee-command-linux-example/):
+    **_Geeks for Geeks_**
