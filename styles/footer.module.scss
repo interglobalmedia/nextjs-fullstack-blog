@@ -2,8 +2,6 @@
 $peppermint-blush-white: #f2ebe3;
 $tailwind-peppermint-green: #14b8a6;
 
-/* stylelint-disable declaration-block-no-redundant-longhand-properties */
-
 .footer {
 	width: 100%;
 	background: $peppermint-blush-white;
@@ -23,6 +21,8 @@ $tailwind-peppermint-green: #14b8a6;
 .svg-wrapper {
 	display: flex;
 	flex-direction: row;
+	/* stylelint-disable declaration-block-no-redundant-longhand-properties */
+
 	flex-wrap: wrap;
 	gap: 1.5rem;
 	justify-content: center;
