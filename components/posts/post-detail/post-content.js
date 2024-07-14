@@ -62,13 +62,11 @@ function PostContent(props) {
 		post.lastModified,
 	).toLocaleDateString('en-US', options)
 
-	const text = {
-		twitterText: `I just read about "${post.title}" by @${siteMetadata.twitterHandle} on "{siteMetadata.domain}" ${siteMetadata.siteUrl}/blog/${post.slug}`,
-		combinatorText: `I just read an article about "${post.title}" by ${siteMetadata.combinatorHandle} on ${siteMetadata.domain}`,
-		redditText: `I just read an article about "${post.title}" by ${siteMetadata.redditHandle} on ${siteMetadata.domain}`,
-		linkedinText: `I just read an article about "${post.title}" by "${siteMetadata.linkedinHandle}" on ${siteMetadata.domain}`,
-		tumblrText: `I just read about "${post.title}" by @${siteMetadata.tumblrHandle} on "${siteMetadata.domain}" ${siteMetadata.siteUrl}/blog/${post.slug}`,
-	}
+	const twitterIntentUrl = `https://twitter.com/intent/tweet?url=${`https://www.mariadcampbell.com/blog/${post.slug}`}&text=I just read about "${
+		post.title
+	}" by @${siteMetadata.twitterHandle} on ${siteMetadata.domain}`
+
+	const combinatorIntent = `${`https://www.mariadcampbell.com/blog/${post.slug}`}`
 
 	const customRenderers = {
 		p(paragraph) {
@@ -135,7 +133,7 @@ function PostContent(props) {
 						<DynamicSocialShareIcon
 							name="social-hacker-news"
 							href={`https://news.ycombinator.com/submitlink?u=
-                                ${url}&t=${post.title}`}
+                                ${combinatorIntent}&t=${post.title}`}
 							size="6"
 						/>
 					</div>
@@ -144,23 +142,7 @@ function PostContent(props) {
 					>
 						<DynamicSocialShareIcon
 							name="twitter"
-							href={`https://twitter.com/intent/tweet?url=${text.twitterText}`}
-							size="6"
-						/>
-					</div>
-					<div
-						className={`share-linkedin ${classes['share-linkedin']}`}
-					>
-						<DynamicSocialShareIcon
-							name="linkedin"
-							href={`https://www.linkedin.com/share?mini=true&url=${url}&text=${text.linkedinText}`}
-							size="6"
-						/>
-					</div>
-					<div className={`share-tumblr ${classes['share-tumblr']}`}>
-						<DynamicSocialShareIcon
-							name="tumblr"
-							href={`https://www.tumblr.com/share/link?url=${url}`}
+							href={twitterIntentUrl}
 							size="6"
 						/>
 					</div>
