@@ -1,0 +1,356 @@
+---
+slug: the-script-command-in-linux-and-unix-macos
+date: '2024-07-14T23:18:11.584Z'
+lastModified: '2024-07-14T23:18:11.584Z'
+title: The script command in Linux and Unix (macOS)
+author: Maria D. Campbell
+excerpt: The script command in Linux and Unix (macOS).
+image: pexels-pixabay-51159.jpg
+tags:
+    [
+        'command line',
+        'customized scripts',
+        'linux',
+        'macOS',
+        'local npm scripts',
+        'script command',
+        'stdin',
+        'stdout',
+        'stderr',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Script](pexels-pixabay-51159.jpg)
+
+**_Photo by_** [Pixabay](https://www.pexels.com/@pixabay/) **_on_**
+[pexels.com](https://www.pexels.com/photo/white-paper-51159/)
+
+In my article
+[The pipe (|) and tee commands in Linux and Unix (macOS)](/blog/the-pipe-and-tee-commands-in-linux-and-unix-macos),
+I talk about how one can save the `stdout` resulting from a command using `pipe`
+(`|`) and `tee`. In this article, I discuss the `Linux` `script` command. The
+`script` command `records` all `Terminal` activity.
+
+## Running the (default) script command in Linux and Unix (macOS)
+
+When I `run` the `script` command by typing `"script"` in `Terminal` followed by
+the `Return` (`Enter`) key, the following is returned in `Terminal` in both
+`Linux` and `Unix` (`macOS`):
+
+```shell
+Script started, output log file is 'typescript'
+```
+
+And if I run `ls` on the home directory (`~`), the `typescript` file appears in
+my `current working directory`. When I `run` the `script` command `without` any
+`args`, a `file` called `typescript` is `automatically created` by `default`.
+This file `saves` all `Terminal` related `activity` information in the
+**_current_** `Terminal` session.
+
+For example, if I open up the `typescript` file with the `vim` command in
+`Linux`, it looks something like the following:
+
+```shell
+Script started on 2024-07-14 19:29:11-04:00 {TERM="xterm-256color" TTY="dev/pts/2" COLUMNS="80" LINES="24"]
+^[[?2004h^[]0;maria@maria-VirtualBox: ~^G^[01;32mmaria@maria-VirtualBox^[[00m:^[[01;34m~^[[00m$ ls^M
+^[[?2004l^M^[[0m^[[01;34mDesktop^[[00m  ^[[01;34mDownloads^[[00m  ^[[01;34mPictures^[[00m ^[[01;34mTemplates^[[00m  ^[[01;34mVideos^]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]...
+[[5;3H^[[30m^[[47m| Please select the mail server configuration type that best meets your   ^[[97m^[[40m ^[[6;3H^[[30m^[[47m| needs.[[97m^[[40m ^[[7;3H^[[30m^[[47m|
+                                              ^[[97m
+                                        1872,643-553  Bot
+```
+
+It is a long file, and I was not able to export the `typescript` file from
+`Linux Mint` in `VirtualBox` into `Windows 11`. If anyone knows of a way of
+doing that, let me know! I tried to `install` a an `email server package`, but
+couldn't get beyond the `configuration` step. I couldn't `configure` it in
+`Terminal` and couldn't `exit` the `package configuration` either.
+
+It is basically the `same process` to `start` the `script` command in `Unix`
+(`macOS`),
+
+Let's say I just run the `script` command without any `args` from inside
+`mariadcampbell.com`'s `local repository` directory:
+
+```shell
+script
+```
+
+This resulted in the following:
+
+```shell
+mariacam@Marias-MBP  ~/Development/nextjs-and-react-complete-guide/fullstack-blog   main  script
+
+Script started, output file is typescript
+```
+
+And a `file` called `"typescript"` was `created` inside this `directory`:
+
+```shell
+ls
+
+# the following was returned:
+
+?[38                                    jest.config.js
+?[?1049l?[?25h?[                        jest.setup.js
+?[?2004l??                              lib
+4                                       list-directory.txt?[39m?[36D?[39m
+LICENSE                                 list-directory.txt?[39m?[36D?[39m-?[39m
+README.md                               list-directory.txt?[39m?[36D?[39m=?[39m
+__mocks__                               next.config.js
+__tests__                               node_modules
+c?[38                                   package-lock.json
+c?]10                                   package.json
+certificates                            pages
+components                              postcss.config.js
+coverage                                public
+data                                    scripts
+demo.txt                                started
+done,                                   started,
+exit                                    styles
+fullstack-blog-script                   tailwind.config.js
+helpers                                 typescript
+hooks
+```
+
+The `stdout` of `typescript` looked like the following:
+
+```shell
+Script started on Mon Jul 15 12:25:21 2024
+[1G[0K[1G[0K/Users/mariacam/.zshrc:110: command not found: pyenv
+]1337;RemoteHost=mariacam@Marias-MBP]1337;CurrentDir=/Users/mariacam/Development/nextjs-and-react-complete-guide/fullstack-blog]1337;ShellIntegrationVersion=11;shell=zsh/Users/mariacam/.zshrc:114: command not found: pyenv
+[1m[7m%[27m[1m[0m
+
+]2;mariacam@Marias-MBP: ~/Development/nextjs-and-react-complete-guide/fullstack-blog]1;..ullstack-blog]133;D;0]1337;RemoteHost=mariacam@Marias-MBP]1337;CurrentDir=/Users/mariacam/Development/nextjs-and-react-complete-guide/fullstack-blog
+[0m[27m[24m[J]133;A[39m[0m[49m[40m[39m mariacam@Marias-MBP [44m[30m[30m ~/Development/nextjs-and-react-complete-guide/fullstack-blog [43m[34m[30m  main [49m[33m[39m ]133;B[K[?1h=[?2004hll[90ms[39ml[39ms[?1l>[?2004l
+
+]2;ls -G]1;ls]133;C;?[38                                    jest.config.js
+?[?1049l?[?25h?[                        jest.setup.js
+?[?2004l??                              [1m[36mlib[39;49m[0m
+4                                       list-directory.txt?[39m?[36D?[39m
+LICENSE                                 list-directory.txt?[39m?[36D?[39m-?[39m
+README.md                               list-directory.txt?[39m?[36D?[39m=?[39m
+[1m[36m__mocks__[39;49m[0m                               next.config.js
+[1m[36m__tests__[39;49m[0m                               [1m[36mnode_modules[39;49m[0m
+c?[38                                   package-lock.json
+c?]10                                   package.json
+[1m[36mcertificates[39;49m[0m                            [1m[36mpages[39;49m[0m
+[1m[36mcomponents[39;49m[0m                              postcss.config.js
+[1m[36mcoverage[39;49m[0m                                [1m[36mpublic[39;49m[0m
+[1m[36mdata[39;49m[0m                                    [1m[36mscripts[39;49m[0m
+demo.txt                                started
+done,                                   started,
+exit                                    [1m[36mstyles[39;49m[0m
+[31mfullstack-blog-script[39;49m[0m                   tailwind.config.js
+[1m[36mhelpers[39;49m[0m                                 typescript
+[1m[36mhooks[39;49m[0m
+[1m[7m%[27m[1m[0m
+
+]2;mariacam@Marias-MBP: ~/Development/nextjs-and-react-complete-guide/fullstack-blog]1;..ullstack-blog]133;D;0]1337;RemoteHost=mariacam@Marias-MBP]1337;CurrentDir=/Users/mariacam/Development/nextjs-and-react-complete-guide/fullstack-blog
+[0m[27m[24m[J]133;A[39m[0m[49m[40m[39m mariacam@Marias-MBP [44m[30m[30m ~/Development/nextjs-and-react-complete-guide/fullstack-blog [43m[34m[30m  main [49m[33m[39m ]133;B[K[?1h=[?2004h 90mc -l fullstack-blog-scr[90mi[90mpt[39m[K[A[93Cw[39mc[39m [39m-[39ml[39m [39mt[K[1B
+[K[A[102Cypescript[?1l>[?2004l[1B
+```
+
+If I wanted to find out `how many` **_lines_** `typescript` contains, I ran the
+following command:
+
+```shell
+wc -l typescript
+```
+
+which returns:
+
+```shell
+24 typescript
+```
+
+This means that the `file` contains `24 lines`. And if I run the `exit` command,
+the following is returned:
+
+```shell
+Script done, output file is typescript
+```
+
+And if I then run `wc -l typescript` again, it returns the following:
+
+```shell
+28 typescript
+```
+
+That is because the `exit` command is `appended` to the `end` of the
+`typescript` file.
+
+```shell
+]2;wc -l typescript]1;wc]133;C;      24 typescript
+[1m[7m%[27m[1m[0m
+
+]2;mariacam@Marias-MBP: ~/Development/nextjs-and-react-complete-guide/fullstack-blog]1;..ullstack-blog]133;D;0]1337;RemoteHost=mariacam@Marias-MBP]1337;CurrentDir=/Users/mariacam/Development/nextjs-and-react-complete-guide/fullstack-blog
+[0m[27m[24m[J]133;A[39m[0m[49m[40m[39m mariacam@Marias-MBP [44m[30m[30m ~/Development/nextjs-and-react-complete-guide/fullstack-blog [43m[34m[30m  main [49m[33m[39m ]133;B[K[?1h=[?2004hee[90mxit[39me[39mx[39mi[39mt[?1l>[?2004l
+
+]2;exit]1;exit]133;C;
+Script done on Mon Jul 15 12:29:28 2024
+```
+
+Now let's say I want to do things a bit differently, follow a `different script`
+(other than `script` itself) inside my `fullstack-blog` directory which houses
+the `local repo` for `mariadcampbell.com`:
+
+```shell
+npm run dev 2>&1 | tee ~/desktop/full-stack-blog.txt
+```
+
+`Instead` of `using` the `script` command, I am using a `"custom script"`. In
+fact, it is an `npm local script` **_located_** in my `package.json` file for
+`mariadcampbell.com`. The `following` then is `returned` in `Terminal`:
+
+```shell
+ fullstack-blog@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.4
+  - Local:        http://localhost:3000
+  - Environments: .env.development.local, .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1241ms
+```
+
+The `custom script` resulted in **_first running_** the `npm run dev` command
+and `starting up` the `development server` for `fullstack-blog` in the
+`browser`, and the `stdout` to `Terminal` is the following above. But since I
+**_also use_** pipe `|` and `tee`, it `resulted` in the `creation` of a `file`
+called `fullstack-blog.txt` on the `desktop`, and it `contained` the
+`following`:
+
+```shell
+
+> fullstack-blog@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.4
+  - Local:        http://localhost:3000
+  - Environments: .env.development.local, .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1241ms
+
+```
+
+which is the `same` as `stdout` to `Terminal`!
+
+In addition, I am `redirecting` any `errors` that may occur to
+`fullstack-blog.txt` as well. `2` points to `stderr`. `1` points to `stdout`.
+And `2>&1` redirects `npm run dev` `stdout` and `stderr` to
+`fullstack-blog.txt`. **_Specifically_**, `2>&1` means `redirect` `stderr` to
+`stdout`, and `both` are `stdin` for the `tee` command, which basically `copies`
+and `pastes` `stdout` to a `specified file`. In this case, `fullstack-blog.txt`.
+
+Let's say I wanted to **_stop_** `npm run dev`, thereby `stop redirecting` it to
+the `fullstack-blog.txt` file. I simply press the `Control key` + `C key` like I
+would `normally` when I want to `stop running` the `development server`. But if
+I simply ran `npm run dev` afterwards, the `stdout` to `Terminal` would no
+longer be `redirected` to `fullstack-blog.txt`. I would `have` to **re-run**
+`npm run dev 2>&1 | tee ~/desktop/full-stack-blog.txt`. And if I want to
+`append` new `stdout` to the `end` of the `file` instead of `overwriting` it,
+the `default behavior` of the `tee` command, I would `run` the `following`
+**_instead_**:
+
+```shell
+npm run dev 2>&1 | tee -a ~/desktop/full-stack-blog.txt
+```
+
+And now the `stdout` of `fullstack-blog.txt` is the following:
+
+```shell
+> fullstack-blog@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.4
+  - Local:        http://localhost:3000
+  - Environments: .env.development.local, .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1241ms
+
+> fullstack-blog@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.4
+  - Local:        http://localhost:3000
+  - Environments: .env.development.local, .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1154ms
+```
+
+The `same` can be `done` with any `script` that you want to `save` to a `file`.
+**_This way_**, if you want to be able to refer back to the
+`logging information` and find out `what` went `wrong`, **_for example_**, or
+perhaps `what` went `right`, you could `refer` to the `.txt` file that the
+`stdout` was `redirected` to, `written` to, and `saved`. For
+`nextjs developers`, **_for example_**, or `developers` in `general`, doing this
+with the `build script`, the `production server` **_post-build_**, the
+`test script`, any `linting scripts`, etc., is very useful.
+
+If I `make` my `way around` my `nextjs application` in the `browser`, this is
+`logged` as well. I visited a couple of pages and posts, and since I was using
+the `-a` or `--append` flag, the `new stdout` was `added` to the `end` of the
+`fullstack-blog.txt` file:
+
+```shell
+> fullstack-blog@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.4
+  - Local:        http://localhost:3000
+  - Environments: .env.development.local, .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1241ms
+
+> fullstack-blog@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.4
+  - Local:        http://localhost:3000
+  - Environments: .env.development.local, .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1154ms
+ ○ Compiling / ...
+ ✓ Compiled / in 618ms (816 modules)
+Warning: data for page "/" is 132 kB which exceeds the threshold of 128 kB, this amount of data can reduce performance.
+See more info here: https://nextjs.org/docs/messages/large-page-data
+ GET / 200 in 926ms
+ ✓ Compiled /about in 185ms (823 modules)
+ ✓ Compiled /blog in 163ms (839 modules)
+Warning: data for page "/blog" is 1.28 MB which exceeds the threshold of 128 kB, this amount of data can reduce performance.
+See more info here: https://nextjs.org/docs/messages/large-page-data
+ GET /_next/data/development/blog.json 200 in 104ms
+ ✓ Compiled /_error in 71ms (841 modules)
+ GET /images/blog/the-script-command-in-linux-and-unix-macos/undefined 404 in 103ms
+ ⨯ The requested resource isn't a valid image for /images/blog/the-script-command-in-linux-and-unix-macos/undefined received text/html; charset=utf-8
+Warning: data for page "/" is 132 kB which exceeds the threshold of 128 kB, this amount of data can reduce performance.
+See more info here: https://nextjs.org/docs/messages/large-page-data
+ GET /_next/data/development/index.json 200 in 51ms
+ ○ Compiling /blog/[slug] ...
+ ✓ Compiled /blog/[slug] in 644ms (1644 modules)
+ GET /_next/data/development/blog/using-pipe-and-grep-in-linux-and-unix-macos.json?slug=using-pipe-and-grep-in-linux-and-unix-macos 200 in 1036ms
+Warning: data for page "/blog" is 1.28 MB which exceeds the threshold of 128 kB, this amount of data can reduce performance.
+See more info here: https://nextjs.org/docs/messages/large-page-data
+ GET /_next/data/development/blog.json 200 in 143ms
+ GET /images/blog/the-script-command-in-linux-and-unix-macos/undefined 404 in 7ms
+ ⨯ The requested resource isn't a valid image for /images/blog/the-script-command-in-linux-and-unix-macos/undefined received text/html; charset=utf-8
+ GET /_next/data/development/blog/the-script-command-in-linux-and-unix-macos.json?slug=the-script-command-in-linux-and-unix-macos 200 in 16ms
+```
+
+This is `much longer` than the `previous stdout` I shared here!
+
+## Related Resources
+
+-   [How to Save Terminal Output to a File for Future Reference](/blog/how-to-save-terminal-output-to-a-file-for-future-reference):
+    **_mariadcampbell.com_**
+
+-   [script command in Linux with Examples](https://www.geeksforgeeks.org/script-command-in-linux-with-examples/):
+    **_Geeks for Geeks_**
