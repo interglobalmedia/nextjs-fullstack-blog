@@ -1,0 +1,441 @@
+---
+slug: changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos
+date: '2024-07-17T11:38:10.459Z'
+lastModified: '2024-07-17T11:38:10.459Z'
+title:
+    Changing permissions using symbolic mode and numeric mode in Linux and Unix
+    (macOS)
+author: Maria D. Campbell
+excerpt:
+    Changing permissions using symbolic mode and numeric mode in Linux and Unix
+    (macOS).
+image: danielle-rice-7GfRwb78YWs-unsplash.jpg
+tags: ['linux', 'macOS', 'permissions', 'numeric mode', 'symbolic mode']
+isPublished: true
+isFeatured: false
+---
+
+![Changing access permission using an access code](danielle-rice-7GfRwb78YWs-unsplash.jpg)
+
+**_Photo by_** [Danielle Rice](https://unsplash.com/@drice22) **_on_**
+[unsplash.com](https://unsplash.com/photos/person-holding-black-and-white-card-7GfRwb78YWs)
+
+In `Linux` and `Unix` (`macOS`), there are `two ways` of
+`setting or changing file` and `folder permissions`. `One` is in
+`symbolic mode`, and `the other` is in `numeric mode`.
+
+## Revisiting the `ls -l` command to view current file or folder permissions
+
+In order to `set` or `change file` or `folder permissions` in `Linux` or `Unix`
+(`macOS`), we first have to know what are the `current permissions` of those
+`files` or `folders`. We can find that out with the `ls -l` or `ls -la` command.
+The difference between the two is that `ls -l` will list all `visible files` or
+`folders`, but `ls -la` will **_include_** `hidden files` or `folders`.
+
+So let's say I want to `list` the `files` and/or `folders` in a `directory`
+called `"text-files"` on my `Linux Mint OS` in `VirtualBox` on `Windows 11`. I
+would `run` the `following`:
+
+```shell
+maria@maria-VirtualBox:~/Desktop/text-files$ ls -l text-files
+```
+
+And `this` would `return` the `following` in `Terminal`:
+
+```shell
+total 72
+-rw-rw-r--  1 maria maria     47  Jul 12 21:28 duplicates.txt
+prw-rw-r--  1 maria maria      0  Jul 14 07:28 first-named-pipe
+-rw-rw-r--  1 maria maria  21800  Jul 14 18:22 history2.txt
+-rw-rw-r--  1 maria maria  21800  Jul 14 18:22 history.txt
+-rw-rw-r--  1 maria maria   1477  Jul 13 12:23 list-home-directory.txt
+-rw-rw-r--  1 maria maria    258  Jul 14 10:05 names1.txt
+-rw-rw-r--  1 maria maria    186  Jul 14 14:56 names2.txt
+-rw-rw-r--  1 maria maria     38  Jul 14 19:52 regex.txt
+-rw-rw-r--  1 maria maria     86  Jul 14 13:49 tee.txt
+```
+
+And if I ran:
+
+```shell
+maria@maria-VirtualBox:~/Desktop/text-files$ ls -lah text-files
+```
+
+the `following` would be `returned` in `Terminal`:
+
+```shell
+total 80K
+drwx------  2 maria maria   4.0K  Jul 17 08:03 .
+drwxr-xr-x  4 maria maria   4.0K  Jul 15 10:38 ..
+-rw-rw-r--  1 maria maria     47  Jul 12 21:28 duplicates.txt
+prw-rw-r--  1 maria maria      0  Jul 14 07:28 first-named-pipe
+-rw-rw-r--  1 maria maria  21800  Jul 14 18:22 history2.txt
+-rw-rw-r--  1 maria maria  21800  Jul 14 18:22 history.txt
+-rw-rw-r--  1 maria maria   1477  Jul 13 12:23 list-home-directory.txt
+-rw-rw-r--  1 maria maria    258  Jul 14 10:05 names1.txt
+-rw-rw-r--  1 maria maria    186  Jul 14 14:56 names2.txt
+-rw-rw-r--  1 maria maria     38  Jul 14 19:52 regex.txt
+-rw-rw-r--  1 maria maria     86  Jul 14 13:49 tee.txt
+```
+
+You will `notice` that there is a `difference` in `stdout` between `ls -l` and
+`ls -lah`. Why? Because the `first iteration` of `ls` only includes
+`visible files` and or `folders`, therefore `not including` any `dots` (`.`),
+`represented by` the `-a` flag.
+
+`ls -lah` **_includes_** `dots`, which here `represents` either the
+`current directory` (`.`) or the `parent directory` (`..`), and the `stdout` is
+`human readable`, `represented by` the `-h` flag. This means that the
+`actual size` is `indicated`, instead of simply a number. Here it is `total 80K`
+instead of simply `total 80`.
+
+`-l` means `long list`, which `most importantly` **_includes_** `file` or
+`folder permissions`. `-l`, or `long list format`, **_includes_** `file` (or
+`folder`) `permissions`, the `number` of `links`, `owner name`, `owner group`,
+`file size`, `time` of `last modification`, and the `file` or `directory name`.
+This `option` is `used` **_along with_** many `other options`, **_including_**
+`here`: `ls -lah`, **_for example_**.
+
+## Hard Link (column 2 from the left) stdout of the `ls -l` command
+
+Why does the `current directory`, `"text-files"`, contain `two links` (`2`) in
+the `second column` **_from the_** `left`? It is `2` because the `"text-files"`
+directory can be `either` referred to `by name` in the `parent directory`
+(`Desktop`) or in `itself`. And `column two` from the left `represents` the
+`number` of `hard links` that the `directory` **_contains_**.
+
+`What` exactly is a `hard link` in `Linux`? A `hard link` is a `link`
+**_between_** the `filename` (or `directory`) and the `actual data` **_stored_**
+on the `filesystem`. The `hard link` here is `"."` and the `actual data`
+**_stored_** on the `filesystem` is the `contents` of `"."` This `hard link` is
+also `represented by` the **_directory name_** `text-files`, and `"clicking"` on
+the `"text-files"` **_file icon_**, for example, would `take you` to the
+`actual data` **_stored inside_** the `"text-files"` folder.
+
+## What do file permissions (`r`, `w`, `x`) actually permit us to do?
+
+The `read` `permission` (`r`) `allows us` to `access` the `file's contents`. We
+can use `commands` such as `cat`, `tee`, or `less` to `stdout` the
+`file's contents`. We can also use `text editors` like `Vim` to `read` the
+`file contents`. The `read permission` (`r`) is `required` in `order` to
+`make copies` of a `file`.
+
+The `write permission` (`w`) `allows us` to `change` the `contents` of a `file`.
+For example, we can `use` the `redirect operator` (`>`) or the
+`redirect append operator` (`>>`) to `change` a `file's contents`. **_Without_**
+`write permissions`, we `cannot change` a `file's contents`.
+
+The `execute permission` (`x`) `permits us` to `execute` the `contents` of a
+`file`. **_Typically_**, the `execute permission` is `required` for
+`executables` such as `bash` or `zsh shell scripts`, and `Python programs`, for
+example.
+
+## Setting or changing file permissions in symbolic mode
+
+As I `discuss` in my `article` entitled
+[Shell script for turning your macOS laptop's WiFi off and on](/blog/shell-script-for-turning-your-macos-laptops-wifi-off-and-on)
+or my `article` entitled
+[How to show hidden files or folders on macOS](/blog/how-to-show-hidden-files-or-folders-on-macos),
+you can `set` or `change` file or folder `permissions` using the `chmod`
+command.
+
+Here, I will first discuss using the `chmod` command to `set` or `change`
+`permissions` in `symbolic mode`. But what does `symbolic mode` mean? And
+**_why_** `permissions` to begin with?
+
+`File permissions` in `Linux` (or `Unix` for that matter) `determine` who can
+`access files` and `directories` on the `system` and `how`.
+
+The `chmod` command, or `change mode`,is `used` to `change permissions` for a
+`file` or `directory` on `Linux` or `Unix`.
+
+### chmod syntax
+
+`chmod syntax` is the `following`:
+
+```shell
+chmod [options] [mode] [File_name]
+```
+
+`options` refers to the `flags` that `change` the `behavior` of `chmod`.
+
+`mode` **_refers_** to the `permissions` to be `set`, `represented` by `either`
+a `3 digit`
+[octal number](https://www.splashlearn.com/math-vocabulary/octal-number-system)
+or
+[symbolic notation](https://www.computernetworkingnotes.com/linux-tutorials/how-to-use-chmod-command-in-linux-explained-with-examples.html).
+[ComputerNetworkingNotes](https://www.computernetworkingnotes.com/linux-tutorials/how-to-use-chmod-command-in-linux-explained-with-examples.html)
+describes the
+[chmod command symbolic notation](https://www.computernetworkingnotes.com/linux-tutorials/how-to-use-chmod-command-in-linux-explained-with-examples.html)
+beautifully:
+
+```shell
+# symbolic notation syntax
+
+chmod [permission level] [+/-] [permission type] object
+```
+
+`chmod` is the command.
+
+`permission level` refers to `user`, `group`, or `other`, which we want to
+`update`.
+
+`+/-`. `+` is `used` to `add permissions` and `-` is `used` to `remove them`.
+
+`permission type` `refers` to `read` (`r`), `write` (`w`), and `execute` (`x`)
+which we want to `execute`.
+
+Let's `refer back` to the `stdout` of `ls -lah text-files` example
+`for reference`:
+
+```shell
+total 80K
+drwx------  2 maria maria   4.0K  Jul 17 08:03 .
+drwxr-xr-x  4 maria maria   4.0K  Jul 15 10:38 ..
+-rw-rw-r--  1 maria maria     47  Jul 12 21:28 duplicates.txt
+prw-rw-r--  1 maria maria      0  Jul 14 07:28 first-named-pipe
+-rw-rw-r--  1 maria maria  21800  Jul 14 18:22 history2.txt
+-rw-rw-r--  1 maria maria  21800  Jul 14 18:22 history.txt
+-rw-rw-r--  1 maria maria   1477  Jul 13 12:23 list-home-directory.txt
+-rw-rw-r--  1 maria maria    258  Jul 14 10:05 names1.txt
+-rw-rw-r--  1 maria maria    186  Jul 14 14:56 names2.txt
+-rw-rw-r--  1 maria maria     38  Jul 14 19:52 regex.txt
+-rw-rw-r--  1 maria maria     86  Jul 14 13:49 tee.txt
+```
+
+Now let's `change` the `permissions` for the `duplicates.txt` file. The
+`permissions` for `duplicates.txt` are its `default permissions` that were
+`assigned` to it `when` I `created` the `file`. Whenever you create a file in
+`Linux`, `-rw-rw-r--` are the `permissions assigned` to the `file` upon
+`creation`.
+
+**Note**: the `default permissions` in `macOS` are `slightly different`. A bit
+`more strict`. If I `create` a `file` called `test.txt` and then `run` the
+`ls -l test.txt` command to `check` its `default permissions`, the `following`
+is `returned` as `stdout` in `Terminal`:
+
+```shell
+-rw-r--r--  1 mariacam  staff  0 Jul 17 17:42 test.txt
+```
+
+This is `also` the `case` when you `create` a `shell script` with the `.sh`
+extension, for example, so you `cannot execute` the `script`. The `user` who
+`creates` the `file` **_does_** not **_have_** `x` (`execute`) `permissions`
+**_by default_**. In `order` to `give` user `execute permissions` to
+`duplicates.txt` for `demonstration purposes` only (I would `not` usually `need`
+to give a `.txt` file `execute permissions`) in `symbolic mode`, I `would do`
+the `following`:
+
+```shell
+chmod u+x duplicates.txt
+```
+
+**_Then_** I **_could run_** `ls -l duplicates.txt1`, and the `following` would
+be `returned` in `Terminal` as `stdout`:
+
+```shell
+-rwxrw-r-- 1 maria maria 47 Jul 12 21:28 duplicates.txt
+```
+
+The first `"-"` **_identifies_** the `file` as a `file`. `rwx` **_represents_**
+`user permissions`, **_and now_** `includes execute` (`x`) permissions. `groups`
+**_still only_** has `read` and `write` (`rw`) `permissions`, and `other`
+**_only contains_** `read` (`r--`) `permissions`.
+
+If I `want` to `remove execute` (`x`) `permissions` from `duplicates.txt`, I
+`would do` the `following`:
+
+```shell
+chmod u-x duplicates.txt
+```
+
+`and` then `ran` `ls -l duplicates.txt`, the `following` would be `returned` in
+`Terminal` as `stdout`:
+
+```shell
+-rw-rw-r-- 1 maria maria 47 Jul 12 21:28 duplicates.txt
+```
+
+`Now` the `user` only has `read` and `write` (`rw`) `permissions` again.
+
+Let's say I wanted to `change` the `permissions` of `duplicates.txt` for
+`other`. Let's say I wanted to `add write` (`w`) and `execute` (`x`)
+`permissions`. I `would do` the `following`:
+
+```shell
+chmod o+wx duplicates.txt
+```
+
+And **_when_** I **_run_** `ls -l duplicates.txt`, the `following` would be
+`returned` in `Terminal`:
+
+```shell
+-rw-rw-rwx 1 maria maria 47 Jul 12 21:28 duplicates.txt
+```
+
+I can `also add` or `remove permissions` for `two` or `three types` of `users`
+(`u`, `g`, `o`) at once. For instance:
+
+```shell
+chmod ug+x duplicates.txt
+```
+
+And **_when_** I **_run_** `ls -l duplicates.txt`, the `following` is `returned`
+in `Terminal`:
+
+```shell
+-rwxrwxrwx 1 maria maria 47 Jul 12 21;28 duplicates.txt
+```
+
+Now let's say I `want` to `remove execute` (`x`) `permissions` from `user`
+(u`), `group` (`g`), and `other` (`o`) all at once:
+
+```shell
+chmod ugo-x duplicates.txt
+```
+
+It `returns` the `following` in `Terminal` **_when_** I **_run_**
+`ls -l duplicates.txt`:
+
+```shell
+-rw-rw-rw- 1 maria maria 47 Jul 12 21:28 duplicates.txt
+```
+
+I can **_also use_** `a`, which **_stands for_** `"all"`, **_instead of_**
+`ugo`:
+
+```shell
+chmod a-x duplicates.txt
+```
+
+And if I `want` to **_change back_** `permissions` to its `default` for
+`duplicates.txt1, I `would do`the`following`:
+
+```shell
+chmod o-w duplicates.txt
+```
+
+The `following` would be `returned` in `Terminal` as the `stdout` of
+`ls -l duplicates.txt`:
+
+```shell
+-rw-rw-r-- 1 maria maria 47 Jul 12 21:28 duplicates.txt
+```
+
+## Setting or changing file permissions in numeric mode
+
+`Changing` file `permissions` in `symbolic mode` is `quick` and `efficient`, but
+`changing permissions` in `numeric mode` is `more descriptive`.
+
+Let's `refer back` to the `stdout` of `ls -lah text-files` example again.
+
+```shell
+total 80K
+drwx------  2 maria maria   4.0K  Jul 17 08:03 .
+drwxr-xr-x  4 maria maria   4.0K  Jul 15 10:38 ..
+-rw-rw-r--  1 maria maria     47  Jul 12 21:28 duplicates.txt
+prw-rw-r--  1 maria maria      0  Jul 14 07:28 first-named-pipe
+-rw-rw-r--  1 maria maria  21800  Jul 14 18:22 history2.txt
+-rw-rw-r--  1 maria maria  21800  Jul 14 18:22 history.txt
+-rw-rw-r--  1 maria maria   1477  Jul 13 12:23 list-home-directory.txt
+-rw-rw-r--  1 maria maria    258  Jul 14 10:05 names1.txt
+-rw-rw-r--  1 maria maria    186  Jul 14 14:56 names2.txt
+-rw-rw-r--  1 maria maria     38  Jul 14 19:52 regex.txt
+-rw-rw-r--  1 maria maria     86  Jul 14 13:49 tee.txt
+```
+
+This time, I am going to `change permissions` in `numeric mode`. I am going to
+`change` the `permissions` for `duplicates text` in `numeric mode`:
+
+```shell
+chmod 764 duplicates.txt
+```
+
+This `results` in the following `stdout` in `Terminal` **_when_** I **_run_**
+`ls -l duplicates.txt`:
+
+```shell
+-rwxrw-r-- 1 maria maria 47 Jul 12 21:28 duplicates.txt
+```
+
+So `how` did I `come up` with `764` **_to represent_** `users`, `groups`, and
+`others permissions` respectively? `Numeric permissions` **_works_** in the
+`following way`:
+
+```shell
+                                  Octal notation      Symbolic notation
+No permissions:                     0                   ---
+Execute permissions:                1                   --x
+Write permissions:                  2                   -w-
+Write and execute permissions:      3                   -wx
+Read permissions:                   4                   r--
+Read and execute permissions:       5                   r-x
+Read and write permissions:         6                   rw-
+Read write and execute permissions: 7                   rwx
+```
+
+## Setting or changing directory permissions
+
+Since `everything` is `considered` a `file` in `Linux` and `Unix` (`macOS`),
+**_changing_** `directory permissions` are `basically` the `same` in
+`symbolic mode`. **_HOWEVER_**, `directory permissions` do `affect` the
+`accessibility` of its `contents` and therefore **_should be_** `addressed`
+here.
+
+## What do directory permissions (`r`, `w`, `x`) actually permit us to do?
+
+The `directory read permission` (`r`) `permits us` to `read` the `contents` of a
+`directory`. This `means` that we can `view` the `list` of `files` within that
+`directory`. The `directory read permission` is `required` to `be able` to `use`
+the `ls` command, for example. This `does` **_not_** `mean` that `one` can
+`view` the `actual contents` of a `file` **_inside the_** `directory`. That
+`depends` on the `permissions` for the `particular file`.
+
+The `directory read permission` (`w`) `permits us` to `change` the `contents` of
+a `directory`. And `since` we `can change` the `contents` of a `directory`, this
+`means` that we can `add` or `remove files` **_from that_** `directory`.
+`Directory write permissions` are `needed` to `be able` to `use` the `mv`
+(`move` or `rename`) or `rm` (`remove`) `commands` **_within the_** `directory`.
+We **_also need_** `directory write permissions` in `order` to `use` the `touch`
+command or `redirect operators` to `create` new `files`, or the `cp` command to
+`copy files` **_within the_** `directory`.
+
+The `directory execute permission` is `different` **_from the_**
+`file execute permission`. The `directory execute permission` provides us
+`access` to the `directory`. `directory execute permission` `lets us` view
+`extended file information` in the `directory` (`ls -l`), lets `cd` into the
+`directory`, or `cd` into the `directory` and then `cd` into a `subdirectory`.
+
+If we **_don't have_** `directory execute permission` for a `directory`, it can
+`result` in `limits` on `other permissions`. **_For example_**, we `can't add` a
+`new file` to a `directory` (via the `write permission`) if we `can't access`
+the `directory's metadata` to `store information` for a `new file`. **_We
+cannot_**. **_That_** is **_why_** `"directory-type files"` **_are provided_**
+`execute permissions` by `default`. For example, if I were to `create` a
+`subdirectory` `within` the `Desktop` directory in `Linux` called
+`script-files`, its `default permissions` would be `drwxrwxr-x`. **_By
+default_**, the `user` and `group` would have `rwx` permissions, and `other`
+would have `r-x` permissions. In `macOS`, **_however_**, when I `create` a new
+`directory`, the `default permissions` are `drwxr-xr-x`. **_Again_**, the
+`default permissions` are a **_bit more_** `strict`. **_But all_** `user types`,
+`users`, `groups`, and `others`, **_all have_** `directory execute permissions`.
+
+## Related Resources
+
+-   [Hard links and soft links in Linux explained](https://www.redhat.com/sysadmin/linking-linux-explained):
+    **_by by Tyler Carrigan, RedHat_**
+
+-   [What is the meaning of those numbers in the second column after typing "ls -l"? [duplicate]](https://superuser.com/questions/443778/what-is-the-meaning-of-those-numbers-in-the-second-column-after-typing-ls-l):
+    **_stackoverflow_**
+
+-   [Understanding Linux Links](https://www.linux.com/topic/desktop/understanding-linux-links/):
+    **_linux.com_**
+
+-   [Linux file permissions explained ](https://www.redhat.com/sysadmin/linux-file-permissions-explained):
+    **_by by Scott McBrien, RedHat_**
+
+-   [How to Set File Permissions on a Mac](https://www.macinstruct.com/tutorials/how-to-set-file-permissions-on-a-mac/#google_vignette):
+    **_by Matt Cone, macinstruct_**
+
+-   [How do permissions on a directory affect files in it?](https://unix.stackexchange.com/questions/267457/how-do-permissions-on-a-directory-affect-files-in-it):
+    **_stackoverflow_**
