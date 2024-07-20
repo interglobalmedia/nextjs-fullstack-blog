@@ -8,58 +8,90 @@ excerpt: Linux/Unix Command Line commands applicable to Cybersecurity.
 image: pexels-pew-nguyen-241028.jpg
 tags: ['command line', 'cybersecurity', 'linux', 'macOS', 'unix']
 isPublished: true
-isFeatured: true
+isFeatured: false
 ---
 
 ![Security](pexels-pew-nguyen-241028.jpg)
 
-***Photo by*** [Pew Nguyen](https://www.pexels.com/@nguyendesigner/) ***on*** [pexels.com](https://www.pexels.com/photo/signage-241028/)
+**_Photo by_** [Pew Nguyen](https://www.pexels.com/@nguyendesigner/) **_on_**
+[pexels.com](https://www.pexels.com/photo/signage-241028/)
 
 ## Linux Terminal commands applicable to Cybersecurity
 
 ### sudo
 
-`sudo` is crucial to security professionals. Most who work in cybersecurity will not have administrative privileges when working with the Command Line/Terminal in the Linux operating system, so they have to use the `sudo` command before commands which require running the command as administrator. The same goes for the Unix operating system. 
+`sudo` is crucial to security professionals. Most who work in cybersecurity will
+not have administrative privileges when working with the Command Line/Terminal
+in the Linux operating system, so they have to use the `sudo` command before
+commands which require running the command as administrator. The same goes for
+the Unix operating system.
 
-For example, let's say I had to install the [Wireshark network protocol analyzer](/blog/wireshark-vs-tcpdump-macos) in my virtual instance of Kali Linux, and I logged in as a standard user without administrative privileges. I would run the following command in the Kali Linux Terminal window:
+For example, let's say I had to install the
+[Wireshark network protocol analyzer](/blog/wireshark-vs-tcpdump-macos) in my
+virtual instance of Kali Linux, and I logged in as a standard user without
+administrative privileges. I would run the following command in the Kali Linux
+Terminal window:
 
 ```shell
 sudo apt install wireshark
 ```
 
-I would be prompted for my user password, and if correctly inputted, the command line command would be executed and Wireshark would be installed.
- 
+I would be prompted for my user password, and if correctly inputted, the command
+line command would be executed and Wireshark would be installed.
+
 ### chmod
 
-The `chmod` command allows an administrator or user with superuser (sudo) privileges to set or modify a file's or folder's permissions of any user on the system. This command is ciritcal to controlling who can read, write, and execute files and folders. This plays a critical role in the cybersecruity concepts of least privilege. Using chmod allows security professionals to change user permissions and ensure the permissions are aligned with the principle of least privilege.
+The `chmod` command allows an administrator or user with superuser (sudo)
+privileges to set or modify a file's or folder's permissions of any user on the
+system. This command is ciritcal to controlling who can read, write, and execute
+files and folders. This plays a critical role in the cybersecruity concepts of
+least privilege. Using chmod allows security professionals to change user
+permissions and ensure the permissions are aligned with the principle of least
+privilege.
 
-A standard user can also use `chmod` on files and folders that they own as well without the use of `sudo`.
+A standard user can also use `chmod` on files and folders that they own as well
+without the use of `sudo`.
 
-For examole, if I were a standard user on a system, and I wanted to change the permissions of a file I owned called `login_sessions.txt` and set it specifically to read permissions for users, groups, and other (everyone else), I would do the following:
+For examole, if I were a standard user on a system, and I wanted to change the
+permissions of a file I owned called `login_sessions.txt` and set it
+specifically to read permissions for users, groups, and other (everyone else), I
+would do the following:
 
 ```shell
 chmod u=r,g=r,o=r login_sessions.txt
 ```
 
-Here, by using the `=` sign to set read permissions for users (u), groups (g) and other (o) with `chmod` sets or assigns the permissions exactly as specified. And it overwrites existing permissions. For example, if a user, group, or other, previously had write or execute permissions, they are removed after I specify only read permissions with `=`.
+Here, by using the `=` sign to set read permissions for users (u), groups (g)
+and other (o) with `chmod` sets or assigns the permissions exactly as specified.
+And it overwrites existing permissions. For example, if a user, group, or other,
+previously had write or execute permissions, they are removed after I specify
+only read permissions with `=`.
 
 ### chown
 
-The `chown` command changes ownershio of a file or directory. `chown` can be used to change user or group ownership. Only the root user or standard user with superuser (sudo) privileges can use the `chown` command.
+The `chown` command changes ownershio of a file or directory. `chown` can be
+used to change user or group ownership. Only the root user or standard user with
+superuser (sudo) privileges can use the `chown` command.
 
-Let's say I was a standard user, and I wanted to change the ownership of a file called `access.txt` to the user `rreynolds`. I would run the following command i n Terminal:
+Let's say I was a standard user, and I wanted to change the ownership of a file
+called `access.txt` to the user `rreynolds`. I would run the following command i
+n Terminal:
 
 ```shell
 sudo chown rreynolds access.txt
 ```
 
-If I wanted to change the group owner of `access.txt` to `security`, I would run the following command in Terminal:
+If I wanted to change the group owner of `access.txt` to `security`, I would run
+the following command in Terminal:
 
 ```shell
 sudo chown :security access.txt
 ```
 
-I have to enter a colon (`:`) before the name of the group (`security`) to designate it as a group name. And then if I wanted to check if user and group ownserhip of the file had been successfully changed, I would run the following command in Terminal:
+I have to enter a colon (`:`) before the name of the group (`security`) to
+designate it as a group name. And then if I wanted to check if user and group
+ownserhip of the file had been successfully changed, I would run the following
+command in Terminal:
 
 ```shell
 ls -l access.txt
@@ -73,20 +105,26 @@ And it would return something like the following:
 
 `rreynolds` is the new user owner, and `security` the new group owner.
 
-I could have also changed the user owner and group owner with one command instead of two. I could have done the follwoing in Terminal instead:
+I could have also changed the user owner and group owner with one command
+instead of two. I could have done the follwoing in Terminal instead:
 
 ```shell
 sudo chown rreynolds:security access.txt
 ```
 
-Here, the user owner follows the chown command, the `:` (`colon`) follows the user owner, and the group owner follows the `:` (`colon`).
-
+Here, the user owner follows the chown command, the `:` (`colon`) follows the
+user owner, and the group owner follows the `:` (`colon`).
 
 ### passwd
 
-The `passwd` command changes the password for a user. A standard user can only change their own password, but a root user or standard user with superuser privileges can change the password for any account. That's why it is so important to be careful about whom to give access to superuser privileges via the `sudo` command.
+The `passwd` command changes the password for a user. A standard user can only
+change their own password, but a root user or standard user with superuser
+privileges can change the password for any account. That's why it is so
+important to be careful about whom to give access to superuser privileges via
+the `sudo` command.
 
-To change your own password, all you need to do is type `passwd` in the Terminal window, and something like the following will be initially returned:
+To change your own password, all you need to do is type `passwd` in the Terminal
+window, and something like the following will be initially returned:
 
 ```shell
 passwd
@@ -94,47 +132,90 @@ Changing password for maria.
 Current password:
 ```
 
-If you successfully input your current passward, then you will be prompted to input your new password. And then you will be prompted to enter the new password a second time to make sure that they match. If they don't match, you will be prompted to enter a replacement password.
+If you successfully input your current passward, then you will be prompted to
+input your new password. And then you will be prompted to enter the new password
+a second time to make sure that they match. If they don't match, you will be
+prompted to enter a replacement password.
 
 ### iptables
 
-`iptables` is a firewall program for Linux. It monitors traffic to and from your server using tables. These tables contain sets of rules called chains that filter incoming and outgoing data packets.
+`iptables` is a firewall program for Linux. It monitors traffic to and from your
+server using tables. These tables contain sets of rules called chains that
+filter incoming and outgoing data packets.
 
-`iptables` play a crucial role in securing computer networks from unauthorized access and potential threats.
+`iptables` play a crucial role in securing computer networks from unauthorized
+access and potential threats.
 
-According to [IPtables explained](https://infosec-jobs.com/insights/iptables-explained/),
+According to
+[IPtables explained](https://infosec-jobs.com/insights/iptables-explained/),
 
->IPtables is a user-space utility program that allows administrators to configure and manage firewall rules within the Linux kernel. It acts as a packet filter and network address translator (NAT), controlling the flow of network traffic based on predefined rulesets. IPtables operates at the network layer (Layer 3) of the OSI model, examining packets and making decisions on whether to allow or deny them based on specified criteria.
+> IPtables is a user-space utility program that allows administrators to
+> configure and manage firewall rules within the Linux kernel. It acts as a
+> packet filter and network address translator (NAT), controlling the flow of
+> network traffic based on predefined rulesets. IPtables operates at the network
+> layer (Layer 3) of the OSI model, examining packets and making decisions on
+> whether to allow or deny them based on specified criteria.
 
-To learn more about `iptables`, please visit the post entitled [IPtables explained](https://infosec-jobs.com/insights/iptables-explained/) on `infosec-jobs.com`.
+To learn more about `iptables`, please visit the post entitled
+[IPtables explained](https://infosec-jobs.com/insights/iptables-explained/) on
+`infosec-jobs.com`.
 
 ### netstat
 
-The `netstat` command provides information about network connections, ports in use, and the processes using them. `netstat` can be used for troubleshooting network issues, monitoring network performance, and investigating security incidents. Information provided by `netstat` can be crucial for detecting malicious activity on the network.
+The `netstat` command provides information about network connections, ports in
+use, and the processes using them. `netstat` can be used for troubleshooting
+network issues, monitoring network performance, and investigating security
+incidents. Information provided by `netstat` can be crucial for detecting
+malicious activity on the network.
 
-`netstat` can be used to [identify open ports on a system](https://medium.com/@aa.adnane/using-netstat-for-network-security-identifying-potential-threats-and-improving-protection-65e93eda7b68). That way, administrators can determine which ports are being used by legitimate applications and which might be used by attackers to gain access to the system. To learn more about how netstat can be used for network security, please visit the post entitled [Using Netstat for Network Security: Identifying Potential Threats and Improving Protection](https://medium.com/@aa.adnane/using-netstat-for-network-security-identifying-potential-threats-and-improving-protection-65e93eda7b68) by Adnane Arharbi, Eng on `medium.com`.
+`netstat` can be used to
+[identify open ports on a system](https://medium.com/@aa.adnane/using-netstat-for-network-security-identifying-potential-threats-and-improving-protection-65e93eda7b68).
+That way, administrators can determine which ports are being used by legitimate
+applications and which might be used by attackers to gain access to the system.
+To learn more about how netstat can be used for network security, please visit
+the post entitled
+[Using Netstat for Network Security: Identifying Potential Threats and Improving Protection](https://medium.com/@aa.adnane/using-netstat-for-network-security-identifying-potential-threats-and-improving-protection-65e93eda7b68)
+by Adnane Arharbi, Eng on `medium.com`.
 
 `netstat` is also available on Windows and macOS.
 
 ### ss
 
-The `ss` command, which stands for `socket statistics`, is a powerful tool for inspecting and displaying detailed information about sockets on Linux. It offers insights into network connections, routing tables, and more. `ss` is a modern replacement for `netstat`, and it is faster and provides more information. It displays more TCP and state information than other tools.
+The `ss` command, which stands for `socket statistics`, is a powerful tool for
+inspecting and displaying detailed information about sockets on Linux. It offers
+insights into network connections, routing tables, and more. `ss` is a modern
+replacement for `netstat`, and it is faster and provides more information. It
+displays more TCP and state information than other tools.
 
-The output of the `ss` command returns a list of open non-listening sockets with established connections.
+The output of the `ss` command returns a list of open non-listening sockets with
+established connections.
 
-To learn more about the `ss` command, please visit the post entitled [How To Use Linux SS Command](https://phoenixnap.com/kb/ss-command) on `phoenixnap.com`.
+To learn more about the `ss` command, please visit the post entitled
+[How To Use Linux SS Command](https://phoenixnap.com/kb/ss-command) on
+`phoenixnap.com`.
 
 ### fail2ban
 
-`fail2ban` is technically not a Linux command but a service that can be installed on the Linux operating system. It is an essential tool that protects your system from brute force attacks. It monitors log files for too many failed login attempts and bans the offending IP addresses for a certain period of time.
+`fail2ban` is technically not a Linux command but a service that can be
+installed on the Linux operating system. It is an essential tool that protects
+your system from brute force attacks. It monitors log files for too many failed
+login attempts and bans the offending IP addresses for a certain period of time.
 
-`fail2ban` works hand in hand with a firewall, so it is recommended to install and enable them as separate security layers. `fail2ban` does not come built-in to Kali Linux by default, but it is Kali Linux compatible and can be installed using `apt`.
+`fail2ban` works hand in hand with a firewall, so it is recommended to install
+and enable them as separate security layers. `fail2ban` does not come built-in
+to Kali Linux by default, but it is Kali Linux compatible and can be installed
+using `apt`.
 
 ### ps
 
-The `ps` command stands for `process status`, and it is used to view active processes on a system. The command is the same on both Linux and Unix (macOS). The command monitors what is running on your system and can be used in combination with other commands to kill unresponsive or malicious processes.
+The `ps` command stands for `process status`, and it is used to view active
+processes on a system. The command is the same on both Linux and Unix (macOS).
+The command monitors what is running on your system and can be used in
+combination with other commands to kill unresponsive or malicious processes.
 
-The `ps` command lists the currently running processes and their PIDs along with some other information. When I now ran the `ps` command in my Terminal, the following was returned:
+The `ps` command lists the currently running processes and their PIDs along with
+some other information. When I now ran the `ps` command in my Terminal, the
+following was returned:
 
 ```shell
 ESCOC
@@ -165,35 +246,84 @@ Not too much going on at the moment, but you get the idea!
 
 ### usermod
 
-The `usermod` command allows an administrator to modify a user account. You either have to be the root user or user with superuser rights (sudo) to be able to use the `usermod` command.
+The `usermod` command allows an administrator to modify a user account. You
+either have to be the root user or user with superuser rights (sudo) to be able
+to use the `usermod` command.
 
-The `usermod` command allows the administrator to add or remove users from groups, but it also does much more. 
+The `usermod` command allows the administrator to add or remove users from
+groups, but it also does much more.
 
-You can use the `usermod` command to add a user to a single group or to multiple groups at the same time. You can use `usermod` to lock a user's account  by disabling their password. By the same token, you can unlock a user's account as well. You can use `usermod` to set the user's account to expire on a certain day. You can also disable the expiration date for a user account. You can use `usermod` to change the username of a user account. You can use `usermod` to change the the name of the user's home directory, especially if you have changed the user's username, so you probably would want to match the name of their home direcotry to that of their username. You can also use `usermod` to specify the default shell for a user. This is the shell they are presented with whenever they log in to their computer. Let's say, for example, that we want to change the Linux user's default shell from bash to zsh. We could do this using `usermod`. You can also use `usermod` to change the actual name of the user as opposed to the username. You can also use `usermod` to change the user's unique ID which was allocated tp them when the user account was initially created. To learn more about such use cases for the `usermod` command, please visit the post entitled [usermod command in Linux with examples](https://linuxconfig.org/usermod) by Luke Reynolds on `linuxconfig.org`.
+You can use the `usermod` command to add a user to a single group or to multiple
+groups at the same time. You can use `usermod` to lock a user's account by
+disabling their password. By the same token, you can unlock a user's account as
+well. You can use `usermod` to set the user's account to expire on a certain
+day. You can also disable the expiration date for a user account. You can use
+`usermod` to change the username of a user account. You can use `usermod` to
+change the the name of the user's home directory, especially if you have changed
+the user's username, so you probably would want to match the name of their home
+direcotry to that of their username. You can also use `usermod` to specify the
+default shell for a user. This is the shell they are presented with whenever
+they log in to their computer. Let's say, for example, that we want to change
+the Linux user's default shell from bash to zsh. We could do this using
+`usermod`. You can also use `usermod` to change the actual name of the user as
+opposed to the username. You can also use `usermod` to change the user's unique
+ID which was allocated tp them when the user account was initially created. To
+learn more about such use cases for the `usermod` command, please visit the post
+entitled
+[usermod command in Linux with examples](https://linuxconfig.org/usermod) by
+Luke Reynolds on `linuxconfig.org`.
 
 ### find
 
 According to [RedHat](https://www.redhat.com/sysadmin/linux-find-command),
 
->The find command is one of the most useful Linux commands, especially when you're faced with the hundreds and thousands of files and folders on a modern computer. As its name implies, find helps you find things, and not just by filename.
+> The find command is one of the most useful Linux commands, especially when
+> you're faced with the hundreds and thousands of files and folders on a modern
+> computer. As its name implies, find helps you find things, and not just by
+> filename.
 
-There are many ways you can use the find command, among them being finding a file by name, find a file by approximate name, find the contents of a directory, find a file by content instead of by name, find files by type, find directories, find files by age, find a path, and more. To learn more about such types of searches using the find command, please visit the post entitled [10 ways to use the Linux find command](https://www.redhat.com/sysadmin/linux-find-command) by Seth Kenlon on `redhat.com`. You can also read my post on the find command entitled [How to find a folder on your computer](/blog/how-to-find-a-folder-on-your-computer).
+There are many ways you can use the find command, among them being finding a
+file by name, find a file by approximate name, find the contents of a directory,
+find a file by content instead of by name, find files by type, find directories,
+find files by age, find a path, and more. To learn more about such types of
+searches using the find command, please visit the post entitled
+[10 ways to use the Linux find command](https://www.redhat.com/sysadmin/linux-find-command)
+by Seth Kenlon on `redhat.com`. You can also read my post on the find command
+entitled
+[How to find a folder on your computer](/blog/how-to-find-a-folder-on-your-computer).
 
 ### history
 
-The `history` command is not specific to cybersecirty related tasks, but it is still quite helpful and efficient! The `history` command displays the complete list of commands executed in Terminal by the current user, and not just for the specific current session. At least that is the case for me on macOS. What is so great about the history command is that if I forget a command or don't remember a command completely, I can refer to it within `history`. 
+The `history` command is not specific to cybersecirty related tasks, but it is
+still quite helpful and efficient! The `history` command displays the complete
+list of commands executed in Terminal by the current user, and not just for the
+specific current session. At least that is the case for me on macOS. What is so
+great about the history command is that if I forget a command or don't remember
+a command completely, I can refer to it within `history`.
 
-However, it is important to note that if the list of commands resulting from the execution of the `history` command is very long, I am not able to see the complete list in the Terminal window. In that case, I can run the following command in Terminal to print the list of commands to a file other than the original `.zsh_history` file located in my home directory containing the commands in question:
+However, it is important to note that if the list of commands resulting from the
+execution of the `history` command is very long, I am not able to see the
+complete list in the Terminal window. In that case, I can run the following
+command in Terminal to print the list of commands to a file other than the
+original `.zsh_history` file located in my home directory containing the
+commands in question:
 
 ```shell
 history > ~/desktop/history_for_print.txt
 ```
 
-This would print out the output of the `history` command in a new file called `history_for_print.txt` located on my computer's `desktop`. This way I would be able to easily refer to and find the command I am looking for from the complete list of commands saved to `history`.
+This would print out the output of the `history` command in a new file called
+`history_for_print.txt` located on my computer's `desktop`. This way I would be
+able to easily refer to and find the command I am looking for from the complete
+list of commands saved to `history`.
 
 ### last
 
-The `last` command can be very useful to security professionals, because it provides information about the last logged in user(s). It allows me to track user login activities as well as to investigate a possible security breach. The command is the same for Unix (macOS). In my case, I am the only user on my system, so the output of the `last` command is usually not very exiciting:
+The `last` command can be very useful to security professionals, because it
+provides information about the last logged in user(s). It allows me to track
+user login activities as well as to investigate a possible security breach. The
+command is the same for Unix (macOS). In my case, I am the only user on my
+system, so the output of the `last` command is usually not very exiciting:
 
 ```shell
 mariacam   ttys007                         Thu Jan  4 15:43   still logged in
@@ -204,31 +334,51 @@ mariacam   ttys004                         Thu Jan  4 13:50   still logged in
 mariacam   ttys000                         Sun Dec 31 07:19   still logged in
 ```
 
-As for the meaning of `ttys`, it stands for `teletypes`. `tty` stands for `teletype`. Every time we open up a new Terminal window, it is allocated a ["pseudo teletype"](https://superuser.com/questions/812086/ttysxxx-in-who-command) aka `ptty`. So why this `ptty`? When the operating system needs to send information to one of the active Terminal windows, it specifies the `ptty` the information is going to get sent to.
+As for the meaning of `ttys`, it stands for `teletypes`. `tty` stands for
+`teletype`. Every time we open up a new Terminal window, it is allocated a
+["pseudo teletype"](https://superuser.com/questions/812086/ttysxxx-in-who-command)
+aka `ptty`. So why this `ptty`? When the operating system needs to send
+information to one of the active Terminal windows, it specifies the `ptty` the
+information is going to get sent to.
 
 ### lastb
 
-The `lastb` command is specific to Linux. There is no such command in Unix (macOS). However, I do have Kali Linux installed on my machine via the `UTM VM`. So I ran the command there:
+The `lastb` command is specific to Linux. There is no such command in Unix
+(macOS). However, I do have Kali Linux installed on my machine via the `UTM VM`.
+So I ran the command there:
 
 ```shell
 sudo lastb
 ```
 
-I had to use `sudo` because standard users don't have read permissions on the `/var/log/btmp` file.
+I had to use `sudo` because standard users don't have read permissions on the
+`/var/log/btmp` file.
 
-The `lastb` command requires administrative privileges, and since I logged in as a standard user, I had to add `sudo` before the `lastb` command. The `lastb` command returned the following:
+The `lastb` command requires administrative privileges, and since I logged in as
+a standard user, I had to add `sudo` before the `lastb` command. The `lastb`
+command returned the following:
 
 ```shell
 btmp begins Thu Jan  4 16:11:03 2024
 ```
 
-This means that there were no failed login attempts recorded yet for users, and the `/var/log/btmp` file was just created for future recording of bad login attempts for users on the system.
+This means that there were no failed login attempts recorded yet for users, and
+the `/var/log/btmp` file was just created for future recording of bad login
+attempts for users on the system.
 
 ### lsof
 
-The `lsof` command stands for `"list open files"`. It shows which files are open and which `processes` are using them. Linux sees every object on the system as a file, such as devices, directories, etc., so unidentified open files prevent users from modifying them. And since there are so many files on a system, this can make it difficult to pinpoint malicious `processes`. The `lsof` command helps identify these `processes`.
+The `lsof` command stands for `"list open files"`. It shows which files are open
+and which `processes` are using them. Linux sees every object on the system as a
+file, such as devices, directories, etc., so unidentified open files prevent
+users from modifying them. And since there are so many files on a system, this
+can make it difficult to pinpoint malicious `processes`. The `lsof` command
+helps identify these `processes`.
 
-Since everything on the Linux operating system is treated as a `"file"`, the `lsof` command is not limited to the `local filesystem`. It can also be used for `network debugging`. Let's say that I want to know which `process` is using `port 8080`. I would run the following command in Terminal:
+Since everything on the Linux operating system is treated as a `"file"`, the
+`lsof` command is not limited to the `local filesystem`. It can also be used for
+`network debugging`. Let's say that I want to know which `process` is using
+`port 8080`. I would run the following command in Terminal:
 
 ```shell
 lsof -i :8080
@@ -241,13 +391,26 @@ COMMAND   PID     USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
 node    44782 mariacam   22u  IPv6 0xd377de18813aeb07      0t0  TCP *:http-alt (LISTEN)
 ```
 
-I actually `ran` this command within `macOS itself` and `not` in `Kali Linux`, but the `behavior` for this command in both Linux and macOS is the same. 
+I actually `ran` this command within `macOS itself` and `not` in `Kali Linux`,
+but the `behavior` for this command in both Linux and macOS is the same.
 
-The `process` running on `port 8080` is `node`. The `user` is `mariacam`, the `IP version` is `IPv6`, and `TCP *:http-alt`  refers to a [wildcard DNS record](https://www.cloudns.net/wiki/article/190/). It is used to match requests for ***non-existent*** `domain names`. Like in the case here. 
+The `process` running on `port 8080` is `node`. The `user` is `mariacam`, the
+`IP version` is `IPv6`, and `TCP *:http-alt` refers to a
+[wildcard DNS record](https://www.cloudns.net/wiki/article/190/). It is used to
+match requests for **_non-existent_** `domain names`. Like in the case here.
 
-The `process` is running on `localhost` and therefore a `domain name` does not exist. `http-alt` stands for ["http alternative (service)"](https://www.mnot.net/blog/2016/03/09/alt-svc), and it allows a web server (technically an `Origin`, which here is the `localhost`) to say that another server is `"authoritative"` for its resources. `Clients` that `support services` can `open` a `connection` and `treat` the `alternative service` as if it were the `origin`.
+The `process` is running on `localhost` and therefore a `domain name` does not
+exist. `http-alt` stands for
+["http alternative (service)"](https://www.mnot.net/blog/2016/03/09/alt-svc),
+and it allows a web server (technically an `Origin`, which here is the
+`localhost`) to say that another server is `"authoritative"` for its resources.
+`Clients` that `support services` can `open` a `connection` and `treat` the
+`alternative service` as if it were the `origin`.
 
-However, running `lsof -i :8080` does `not` return all the `possible information` regarding the `particular process` running on `port 8080` with the `PID` of `44782`. To `get` that `additional information`, I `run` the `following command`:
+However, running `lsof -i :8080` does `not` return all the
+`possible information` regarding the `particular process` running on `port 8080`
+with the `PID` of `44782`. To `get` that `additional information`, I `run` the
+`following command`:
 
 ```shell
 ps -f 44782
@@ -260,13 +423,28 @@ Which returns:
   502 44782 44748   0  8:12PM ttys011    0:02.20 node /Users/mariacam/Development/google-it-suppport-certificate/the-bits-and-bytes-of-computer-networking/node_modules/.bin/marp -s content/
 ```
 
-Using the `ps` command followed by the `-f` option results in `more detailed information` regarding the `process`. As mentioned earlier in this post, `ps` stands for "`process status`". Now I am provided with the `UID` of the `user` as well as the `PPID`. `PPID` stands for the `"process ID of the parent process"`, and `UID` stands for the `"user who owns the process"`. I also am `provided` with the `path` to the `actual location` of the `process` running on `port 8080` with the `PID` of `44782`. 
+Using the `ps` command followed by the `-f` option results in
+`more detailed information` regarding the `process`. As mentioned earlier in
+this post, `ps` stands for "`process status`". Now I am provided with the `UID`
+of the `user` as well as the `PPID`. `PPID` stands for the
+`"process ID of the parent process"`, and `UID` stands for the
+`"user who owns the process"`. I also am `provided` with the `path` to the
+`actual location` of the `process` running on `port 8080` with the `PID` of
+`44782`.
 
-**Lastly**, `node /Users/mariacam/Development/google-it-suppport-certificate/the-bits-and-bytes-of-computer-networking/node_modules/.bin/marp -s content/` is the absolute path  to the `node script` as opposed to the `"npm run serve"` local script (`"serve": "npx @marp-team/marp-cli@latest -s content/"` **located** in the `package.json` file) I actually used to run my `slide deck` **created with** the `marp-cli` npm package.
+**Lastly**,
+`node /Users/mariacam/Development/google-it-suppport-certificate/the-bits-and-bytes-of-computer-networking/node_modules/.bin/marp -s content/`
+is the absolute path to the `node script` as opposed to the `"npm run serve"`
+local script (`"serve": "npx @marp-team/marp-cli@latest -s content/"`
+**located** in the `package.json` file) I actually used to run my `slide deck`
+**created with** the `marp-cli` npm package.
 
 ### file
 
-The `file` command followed by the `path` to a `file` will return basic information about the file. For exaample, if I wanted to find out information about an `image file`, I could run something like the following in Terminal (macOS):
+The `file` command followed by the `path` to a `file` will return basic
+information about the file. For exaample, if I wanted to find out information
+about an `image file`, I could run something like the following in Terminal
+(macOS):
 
 ```shell
 file pexels-pew-nguyen-241028.jpg
@@ -280,7 +458,8 @@ pexels-pew-nguyen-241028.jpg: JPEG image data, JFIF standard 1.01, resolution (D
 
 The `output` is `chock full` of `information` about the `file`!
 
-If I wanted to find out the `file type` for `pexels-pew-nguyen-241028.jpg`, I would run the following command (macOS):
+If I wanted to find out the `file type` for `pexels-pew-nguyen-241028.jpg`, I
+would run the following command (macOS):
 
 ```shell
 file -i pexels-pew-nguyen-241028.jpg
@@ -292,11 +471,20 @@ And it would return the following:
 pexels-pew-nguyen-241028.jpg: regular file
 ```
 
-Which is fine, but not the most informative information. Just that the image file is a `"regular file"`.
+Which is fine, but not the most informative information. Just that the image
+file is a `"regular file"`.
 
-A ["regular file"](https://www.computerhope.com/jargon/r/regular-file.htm) simply means that it is one type of file stored in a file system. it is called `"regular"` to distinguish it from other `"special types"` of files. [Executable files](https://www.computerhope.com/jargon/e/execfile.htm), [text files](https://www.computerhope.com/jargon/t/textfile.htm), and [image files](https://www.computerhope.com/jargon/i/image.htm) are `"regular files"`, for example.
+A ["regular file"](https://www.computerhope.com/jargon/r/regular-file.htm)
+simply means that it is one type of file stored in a file system. it is called
+`"regular"` to distinguish it from other `"special types"` of files.
+[Executable files](https://www.computerhope.com/jargon/e/execfile.htm),
+[text files](https://www.computerhope.com/jargon/t/textfile.htm), and
+[image files](https://www.computerhope.com/jargon/i/image.htm) are
+`"regular files"`, for example.
 
-On the other hand, if I ran the same two commands in `Kali Linux` (`Linux`), I might get something slightly different and more informative. If I ran the file command:
+On the other hand, if I ran the same two commands in `Kali Linux` (`Linux`), I
+might get something slightly different and more informative. If I ran the file
+command:
 
 ```shell
 file pexels-brian-machado-10626267.jpg
@@ -308,37 +496,58 @@ The following would be returned:
 pexels-brian-machado-10626267.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, progressive, precision 8, 640x425, components 3
 ```
 
-The `file` command followed by the `path` to the file returns the same kind of information as on `macOS`. So nothing new there. But when I run the `file` command followed by the `-i` option and then the `path` to the file, something like the following is returned:
+The `file` command followed by the `path` to the file returns the same kind of
+information as on `macOS`. So nothing new there. But when I run the `file`
+command followed by the `-i` option and then the `path` to the file, something
+like the following is returned:
 
 ```shell
 pexels-brian-machado-10626267.jpg: image/jpeg; charset=binary
 ```
 
-The `-i` option outputs the file's `MIME TYPE` (`--mime-type and --mime-encoding`). So `image/jpeg` is the `MIME TYPE` and `charset=binary` is the `MIME ENCODING`. The information returned in `Linux` is perhaps a bit more informative than the information returned in `macOS`. There are many other options available to use with the `file` command, which can all be found by running the `file --help` command.
+The `-i` option outputs the file's `MIME TYPE`
+(`--mime-type and --mime-encoding`). So `image/jpeg` is the `MIME TYPE` and
+`charset=binary` is the `MIME ENCODING`. The information returned in `Linux` is
+perhaps a bit more informative than the information returned in `macOS`. There
+are many other options available to use with the `file` command, which can all
+be found by running the `file --help` command.
 
-The `file` command followed by options such as `-i` is only only one use. There are many other ways one can use the `file` command. For example, I use it to change all `image` (`JPEG`) files in a folder to `WEBP` format. For example:
+The `file` command followed by options such as `-i` is only only one use. There
+are many other ways one can use the `file` command. For example, I use it to
+change all `image` (`JPEG`) files in a folder to `WEBP` format. For example:
 
 ```shell
 `for file in images/*; do cwebp -q 100 "$file" -o "${file%.*}.webp"; done`
 ```
 
-However, I did not quite remember what full command was for this function, so first I ran the following to find it in my CLI history:
+However, I did not quite remember what full command was for this function, so
+first I ran the following to find it in my CLI history:
 
 ```shell
 history | grep 'cwebp'
 ```
 
-This command returns all the commands in `CLI history` that contain the `'cwebp'` command. That way I was able to retrieve the whole for in loop containing the `file` command and the `cwebp` command. BTW, `cwebp` is a is a package available on both `macOS` and `Linux`. On `macOS`, I `installed` it via `Homebrew`. And on `Linux`, it is `installable` via the `apt-get` package management for `Ubuntu` and `Debian`. To learn mroe about `CWEBP`, please visit the [WEBP website](https://developers.google.com/speed/webp/docs/precompiled).
+This command returns all the commands in `CLI history` that contain the
+`'cwebp'` command. That way I was able to retrieve the whole for in loop
+containing the `file` command and the `cwebp` command. BTW, `cwebp` is a is a
+package available on both `macOS` and `Linux`. On `macOS`, I `installed` it via
+`Homebrew`. And on `Linux`, it is `installable` via the `apt-get` package
+management for `Ubuntu` and `Debian`. To learn mroe about `CWEBP`, please visit
+the [WEBP website](https://developers.google.com/speed/webp/docs/precompiled).
 
 ### | (pipe)
 
-The `pipe` (`|`) command is **essential** for command line users. It's **primary purpose** is to connect the output of one command (to the left of the pipe) directly into the input of another (to the right of the pipe). Going back to the `pipe` command used in the `file` command example:
+The `pipe` (`|`) command is **essential** for command line users. It's **primary
+purpose** is to connect the output of one command (to the left of the pipe)
+directly into the input of another (to the right of the pipe). Going back to the
+`pipe` command used in the `file` command example:
 
 ```shell
 history | grep 'cwebp'
 ```
 
-I am taking the `output` of the `history` command and `directing it` into the `input` of the `grep` command. This command returned the following (`macOS`):
+I am taking the `output` of the `history` command and `directing it` into the
+`input` of the `grep` command. This command returned the following (`macOS`):
 
 ```shell
 # snippet
@@ -372,36 +581,57 @@ This command returns the following in Linux:
 
 ### grep
 
-[grep](https://www.hostinger.com/tutorials/grep-command-in-linux-useful-examples/) stands for `"global regular expression print"`. It searches for text and strings defined by users in a given file. In my case, `history | grep 'file'`, I am searching for the command `file` within the history command. And previous to that example, I was searching for the `cwebp` command within the `history` command. There are very many uses for `grep`. It is a ***must useful*** and ***efficient*** command!
+[grep](https://www.hostinger.com/tutorials/grep-command-in-linux-useful-examples/)
+stands for `"global regular expression print"`. It searches for text and strings
+defined by users in a given file. In my case, `history | grep 'file'`, I am
+searching for the command `file` within the history command. And previous to
+that example, I was searching for the `cwebp` command within the `history`
+command. There are very many uses for `grep`. It is a **_must useful_** and
+**_efficient_** command!
 
 ## Related Resources
 
-- [How to use the history command in Linux](https://opensource.com/article/18/6/history-command): *by Steve Morris on opensource.com*
+-   [How to use the history command in Linux](https://opensource.com/article/18/6/history-command):
+    _by Steve Morris on opensource.com_
 
-- [Linux last Command](https://www.baeldung.com/linux/last-command): *by Kai Yuan on baeldung.com*
+-   [Linux last Command](https://www.baeldung.com/linux/last-command): _by Kai
+    Yuan on baeldung.com_
 
-- [How to Secure Your Linux Server with Fail2Ban Configuration](https://www.hostinger.com/tutorials/fail2ban-configuration): *by Noviantika G. on hostinger.com*
+-   [How to Secure Your Linux Server with Fail2Ban Configuration](https://www.hostinger.com/tutorials/fail2ban-configuration):
+    _by Noviantika G. on hostinger.com_
 
-- [How To Install fail2ban on Kali Linux](https://installati.one/install-fail2ban-kalilinux/): *Installati.one*
+-   [How To Install fail2ban on Kali Linux](https://installati.one/install-fail2ban-kalilinux/):
+    _Installati.one_
 
-- [How to install and configure Fail2ban on Linux](https://linuxconfig.org/how-to-install-and-configure-fail2ban-on-linux): *by Egidio Docile on linuxconfig.org*
+-   [How to install and configure Fail2ban on Linux](https://linuxconfig.org/how-to-install-and-configure-fail2ban-on-linux):
+    _by Egidio Docile on linuxconfig.org_
 
-- [The ps Command](https://eng.libretexts.org/Bookshelves/Computer_Science/Operating_Systems/Linux_-_The_Penguin_Marches_On_(McClanahan)/08%3A_How_to_Manage_System_Components/4.9%3A_Process_Troubleshooting/4.09.01%3A_Process_Troubleshooting_ps_command): *libretexts.org*
+-   [The ps Command](<https://eng.libretexts.org/Bookshelves/Computer_Science/Operating_Systems/Linux_-_The_Penguin_Marches_On_(McClanahan)/08%3A_How_to_Manage_System_Components/4.9%3A_Process_Troubleshooting/4.09.01%3A_Process_Troubleshooting_ps_command>):
+    _libretexts.org_
 
-- [How to Use the Netstat Command on Mac](https://www.lifewire.com/using-netstat-command-on-mac-4176069): *by Alexander Fox on Lifewire*
+-   [How to Use the Netstat Command on Mac](https://www.lifewire.com/using-netstat-command-on-mac-4176069):
+    _by Alexander Fox on Lifewire_
 
-- [netstat commands for Windows, Linux, and Mac at a glance](https://www.ionos.com/digitalguide/server/tools/netstat-commands/): *ionos.com*
+-   [netstat commands for Windows, Linux, and Mac at a glance](https://www.ionos.com/digitalguide/server/tools/netstat-commands/):
+    _ionos.com_
 
-- [How to Use netstat on Linux](https://www.howtogeek.com/513003/how-to-use-netstat-on-linux/): *by Dave McKay on howtogeek.com*
+-   [How to Use netstat on Linux](https://www.howtogeek.com/513003/how-to-use-netstat-on-linux/):
+    _by Dave McKay on howtogeek.com_
 
-- [Using Netstat for Network Security: Identifying Potential Threats and Improving Protection](https://medium.com/@aa.adnane/using-netstat-for-network-security-identifying-potential-threats-and-improving-protection-65e93eda7b68): *by Adnane Arharbi, Eng on medium.com*
+-   [Using Netstat for Network Security: Identifying Potential Threats and Improving Protection](https://medium.com/@aa.adnane/using-netstat-for-network-security-identifying-potential-threats-and-improving-protection-65e93eda7b68):
+    _by Adnane Arharbi, Eng on medium.com_
 
-- [IPtables explained](https://infosec-jobs.com/insights/iptables-explained/): *infosec-jobs.com*
+-   [IPtables explained](https://infosec-jobs.com/insights/iptables-explained/):
+    _infosec-jobs.com_
 
-- [10 ways to use the Linux find command](https://www.redhat.com/sysadmin/linux-find-command): *by Seth Kenlon on redhat.com*
+-   [10 ways to use the Linux find command](https://www.redhat.com/sysadmin/linux-find-command):
+    _by Seth Kenlon on redhat.com_
 
-- [usermod command in Linux with examples](https://linuxconfig.org/usermod): *by Luke Reynolds on linuxconfig.org*
+-   [usermod command in Linux with examples](https://linuxconfig.org/usermod):
+    _by Luke Reynolds on linuxconfig.org_
 
-- [Creating WebP Images with the Command Line](https://web.dev/articles/codelab-serve-images-webp): *by Katie Hempenius on web.dev*
+-   [Creating WebP Images with the Command Line](https://web.dev/articles/codelab-serve-images-webp):
+    _by Katie Hempenius on web.dev_
 
-- [The Linux File Command: How to Use It to Determine a File Type](https://www.hostinger.com/tutorials/linux-file-command/): *Edward S. & Noviantika G. on hostinger.com*
+-   [The Linux File Command: How to Use It to Determine a File Type](https://www.hostinger.com/tutorials/linux-file-command/):
+    _Edward S. & Noviantika G. on hostinger.com_
