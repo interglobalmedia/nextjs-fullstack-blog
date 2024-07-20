@@ -34,7 +34,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 				'NEXT_PUBLIC_GISCUS_CATEGORY',
 				'NEXT_PUBLIC_GISCUS_CATEGORY_ID',
 				'NEXT_PUBLIC_PLAUSIBLE_API_KEY',
-				'NEXT_PUBLIC_MEASUREMENT_ID',
 			),
 		)
 
