@@ -1,7 +1,7 @@
 ---
 slug: the-chown-command-in-linux-and-unix-macos
 date: '2024-07-20T14:33:25.527Z'
-lastModified: '2024-07-20T14:33:25.527Z'
+lastModified: '2024-07-20T03:56:25.527Z'
 title: The chown command in Linux and Unix (macOS)
 author: Maria D. Campbell
 excerpt: The chown command in Linux and Unix (macOS).
@@ -370,6 +370,92 @@ changed ownership of 'chown-file2.txt' from maria:maria to maria:magdala
 
 To `learn more` about the `chown` command, please run `man chown` in `Terminal`.
 
+## Using `chown` to change ownership of a directory
+
+Let's say I create a new directory called chown-directory, and then I ran
+`ls -ld chown-directory` in Terminal. It would return the following:
+
+```shell
+drwxrwxr-x  2 maria maria 4096 Jul 20 22:51 chown-directory
+```
+
+Now I want to `transfer ownership` of `this directory` to user `magdala`. I
+would `run` the `following` in `Terminal`:
+
+```shell
+# ~/Desktop is where I created chown-directory and from where I changed ownership as well
+sudo chown -v magdala chown-directory
+```
+
+This `returned` the `following` in `Terminal`:
+
+```shell
+changed ownership of 'chown-directory' from maria to magdala
+```
+
+And after running `ls -ld chown-directory`, it `returned` the `following` in
+`Terminal`:
+
+```shell
+drwxrwxr-x  magdala maria 4096 Jul 20 22:51 chown-directory
+```
+
+To `change only` the `group ownership`:
+
+```shell
+sudo chown -v :magdala chown-directory
+```
+
+To `check` this `change` of `ownership`, I run `ls -ld chown-directory` which
+`results` in the `following`:
+
+```shell
+drwxrwxr-x 2 magdala magdala 4096 Jul 20 22:51 chown-directory
+```
+
+Now let's say I `create` some `files` and `folders` inside `chown-directory`.
+And after that, I want to `change ownership` of the `directory` contents
+`recursively`:
+
+```shell
+sudo chown -v -R magdala:magdala chown-directory
+```
+
+the `following` is `returned` in `Terminal`:
+
+```shell
+changed ownership of 'chown-directory/chown-subdirectory' from maria:maria to magdala:magdala
+changed ownership of 'chown-directory/chown-file1.txt' from maria:maria to magdala:magdala
+changed ownership of 'chown-directory/chownfile2.txt' from maria:maria to magdala:magdala
+changed ownership of 'chown-directory' from maria:maria to magdala:magdala
+```
+
+Now I `cd` into `chown-directory`. Then, if I `try` to `create` a `file`, the
+`following happens`:
+
+```shell
+touch: cannot touch 'chown-file3.txt': Permission denied
+```
+
+Next, if I try to `delete` a `file`, the `following` is `returned`:
+
+```shell
+rm chown-file2.txt
+rm: remove write-protected regular empty file 'chown-file2.txt'? y
+rm: cannot remove 'chown-file2.txt: Permission denied
+```
+
+Now let's say I wanted to `open` one of the `files` inside `chown-directory` and
+add some content. I can't because I only have `read permissions`. And in order
+to get out of Vim, I have to press the `Esc` key followed by `colon` (`:`), the
+`Q` key and finally the `!` key.
+
+There is a way of `users` **_modifying_** `other users'` `files` and
+`directories` **_without_** `sudo` or being `root user`. There is `setuid` and
+`setgid`. And then there is the `opposite`, `sticky bit`. These topics are
+outside of the scope of this article, but I will discuss them in an upcoming
+one.
+
 ## Related Resources
 
 -   [Changing permissions using symbolic mode and numeric mode in Linux and Unix (macOS)](/blog/changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos):
@@ -383,3 +469,11 @@ To `learn more` about the `chown` command, please run `man chown` in `Terminal`.
 
 -   [Identity and Access Management (IAM) Definition](https://www.fortinet.com/resources/cyberglossary/identity-and-access-management):
     **_fortinet.com_**
+
+```
+
+```
+
+```
+
+```
