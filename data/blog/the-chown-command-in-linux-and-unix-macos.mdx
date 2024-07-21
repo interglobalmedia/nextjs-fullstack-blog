@@ -1,0 +1,385 @@
+---
+slug: the-chown-command-in-linux-and-unix-macos
+date: '2024-07-20T14:33:25.527Z'
+lastModified: '2024-07-20T14:33:25.527Z'
+title: The chown command in Linux and Unix (macOS)
+author: Maria D. Campbell
+excerpt: The chown command in Linux and Unix (macOS).
+image: pexels-rdne-8293700.jpg
+tags:
+    [
+        'linux',
+        'unix',
+        'macOS',
+        'chmod',
+        'chown',
+        'cybersecurity',
+        'identity and access management',
+        'user ownership',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Change ownership](pexels-rdne-8293700.jpg)
+
+**_Photo by_** [RDNE Stock project](https://www.pexels.com/@rdne/) **_on_**
+[pexels.com](https://www.pexels.com/photo/happy-couple-holding-and-showing-a-house-key-8293700/)
+
+In `Linux` and `Unix` (`macOS`), there are **_not only_** `permissions` for
+`files` and `directories`, which can be `modified` with the `chmod` command, but
+there are also `user ownership` that can be `modified` with the `chown` command.
+
+The `chown` command, or `change owner`, **_allows owners_** to `change` the
+`owner` of `files` and `directories`. This command is **_particularly useful_**
+when `administrators` **_need_** to **_either_** `permit` or `revoke access` to
+`resources`. **_In fact_**, `chmod` and `chown` would fall under the
+`identity and access management` CISSP (Certified Information Systems Security
+Professional) `security domain` on the `local network`.
+`identity and access management` is `focused` on `access` and `authorization` to
+`keep` data `secure`, by **_making sure_** `users` follow `established policies`
+to `control` and `manage assets`. It is `essential` to keep an `organization`'s
+`systems` and `data` as `secure` as` possible`, by **_ensuring_** `user access`
+is `limited` to **_what_** `employees` **_need_**.
+
+## Linux users and file permissions recap
+
+Different `users` in the `Linux` (and `Unix`) `OS` **_have both_** `ownership`
+and `permissions` to `ensure` that `files` are `secure` and `restrictions` are
+`made` on `who` can `modify` the `contents` of `files`.
+
+On `Linux` (and `Unix`), there is the `root user` and the `regular` or
+`standard user`.
+
+The `root user`, or `superuser`, `has access` to `all files` and `directories`
+on the `OS` and `can perform` **_any_** `operation`. And `only` the `root user`
+**_can change_** `rile permissions` or `ownership` **_that they_** `don't own`.
+
+The `standard user` has `limited access` to `files` and `directories` and can
+`only modify` the `files` they `own`.
+
+`Permissions` are `used` in the `OS` to `control` what a `user` **_can do_**
+`with` a `file` or `directory`. There are `three types` of `file` or
+`directory permissions`: `read` (`r`), `write` (`w`), or `execute` (`x`).
+However, `file permissions` **_differ somewhat_** from `directory permissions`.
+To **_learn more_**, please `read` my `article` entitled
+[Changing permissions using symbolic mode and numeric mode in Linux and Unix (macOS)](/blog/changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos).
+
+## Adding a new user
+
+On my `Linux Mint/VirtualBox` instance, I only had `1 user`. In `order` to
+`be able` to `change ownership` of a `file`, **_for example_**, I `needed` to
+have `another user` on the `system`. In `order` **_to add_** `another user`, I
+`ran` the `following` in `Terminal`:
+
+```shell
+sudo adduser magdala --home /home/magdala/
+```
+
+I **_had_** to **_use_** `sudo` because **_only_** `root` **_can_** `add`
+**_another_** `user` to the `system`. `After` the `user` **_has been_**
+`created`, `we` are `prompted` for a `new password` for the `new user`.
+
+```shell
+New password:
+Retype new password: password created successfully
+
+Changing the information for username
+Enter the new value, or press enter for the default
+Full name []: username goes here # I entered the username (first name) followed by a last name
+Room Number []: # left blank
+Work Phone []: # left blank
+Home Phone []: # left blank
+Other []: # left blank
+```
+
+And `if` I `want` to `use` a `quick way` of `checking` the `number` of `users`
+that I `now have` on `my system`, I can `run` the `following` in `Terminal`:
+
+```shell
+ls /home
+```
+
+And for me, it `returns` the `following` in `Terminal`:
+
+```shell
+magdala maria
+```
+
+`Another way` of `listing` all `users` on `Linux` is the `following`:
+
+```shell
+awk -F':' '{ print $1}' /etc/passwd
+```
+
+Which `returns` something like the `following` in `Terminal`:
+
+```shell
+root
+daemon
+bin
+sys
+sync
+games
+man
+lp
+mail
+news
+uucp
+proxy
+www-data
+backup
+list
+irc
+gnats
+nobody
+systemd-network
+systemd-resolve
+messagebus
+systemd-timesync
+syslog
+_apt
+tss
+rtkit
+systemd-coredump
+kernoops
+uuidd
+cups-pk-helper
+lightdm
+tcpdump
+speech-dispatcher
+avahi-autoipd
+usbmux
+nm-openvpn
+geoclue
+dnsmasq
+pulse
+_flatpak
+avahi
+saned
+colord
+fwupd-refresh
+hplip
+maria
+magdala
+```
+
+This `extracts` all the `"usernames"` including `system "usernames"` from the
+`/etc/passwd` file which are `located` in `field 1`.
+
+The `-F` flag refers to `field`, and the `field delimiter` here is `':'`, which
+means it is a `field separator` (`fs`) **_between_** `fields`, which `results`
+in `each field` **_taking up_** `a line`.
+
+`'{ print $1}'` means to `print` field 1 (`$1`), or the `beginning` of
+`each line` in `/etc/passwd` where the `username` is `located`. `/etc/passwd` is
+where the `data` is being `extracted`.
+
+`awk`, or `gawk` (which still uses `awk` as the `command name`) in `my case`, is
+a `powerful command` which is a `pattern scanning` and `processing language`.
+`And` as `I state` in my `article` entitled
+[Swapping columns of a text file and then joining its contents with another text file via Command Line](/blog/swapping-columns-of-a-text-file-and-then-joining-its-contents-with-another-text-file-via-command-line),
+
+> awk is a pattern-directed scanning and processing language. awk scans each
+> input file for lines that match any of a set of patterns specified literally
+> in prog or in one or more files specified as -f progfile. With each pattern
+> there can be an associated action that will be performed when a line of a file
+> matches the pattern. ... An input line is normally made up of fields separated
+> by white space, or by the regular expression FS. The fields are denoted $1,
+> $2, ..., while $0 refers to the entire line.
+
+Now I was `ready `to start using `chown`!
+
+## `chown` syntax
+
+```shell
+chown [OPTION] OWNER[:GROUP] FILE(s)
+```
+
+`option`: `represents` the `flags` one can `pass along` with `chown`. To learn
+more, run `man chown` in `Terminal`.
+
+`owner:group`: `permits` the `user` to `change ownership` for a `user` and
+`group` at the `same time`. `owner` is the `username` or `ID` of the
+`new owner`, and `:group` is the `new group`.
+
+`file(s)`: `represents` the `file`(s) the `owner` wants to `change ownership`
+for.
+
+## How to use the `chown` command
+
+Let's say I have a `file` called `chown-file.txt`, and currently the
+`file ownership` and `permissions` are the `following`:
+
+```shell
+# ls -lah chown-file.txt
+# returns the following in Terminal:
+
+-rw-rw-r-- 1 maria maria 0 Jul 20 17:27 chown-file.txt
+```
+
+`I am` the `owner` of the `file`. But let's say I want to `transfer ownership`
+to my `new user` with username `magdala`. I would do the following:
+
+```shell
+sudo chown -v magdala chown-file.txt
+```
+
+which `returns` the `following` in `Terminal`:
+
+```shell
+[sudo] password for maria:
+changed ownership pf 'chown-file.txt' from maria ro magdala
+```
+
+If I `did` **_not_** `use` the `-v` flag, or `--verbose`, I would not get back
+something like the above message describing in detail the `results` of using the
+`chown` command to `change ownership` of the `chown-file.txt` file.
+
+I `could have` also `used` the `c` flag, or `--changes`, which `outputs` the
+`same information` as the `-v` flag, but `outputs information` only `when` a
+`change` is `made`.
+
+I could also `change` the `group owner` of `chown-file.txt`:
+
+```shell
+sudo chown :magdala chown-file.txt
+```
+
+which `returns` the `following` in `Terminal`:
+
+```shell
+# returns nothing because I did not use either the -c or -v flag
+```
+
+But when I **_run_** `ls -l chown-file.txt`, the `following` is `returned` in
+`Terminal`:
+
+```shell
+-rw-rw-r-- 1 magdala magdala 0 Jul 20 17:27 chown-file.txt
+```
+
+`Now` the `file` is `owned` by `user magdala` and `group magdala`. I could have
+`changed` the `user` **_and_** `group` all at once by doing the following:
+
+```shell
+sudo chown magdala:magdala chown-file.txt
+```
+
+## Change ownership from one particular owner to another
+
+Another way of `changing ownership` from `one` particular `owner` to `another`
+is the `following`:
+
+```shell
+sudo chown -v --from=magdala maria chown-file.txt
+```
+
+The `following` would be `returned` in `Terminal`:
+
+```shell
+changed ownership of 'chown-file.txt' from magdala to maria
+```
+
+And if I run `ls -l chown-file.txt` the `following` would be `returned` in
+`Terminal`:
+
+```shell
+-rw-rw-r-- 1 maria magdala 0 Jul 20 17:27 chown-file.txt
+```
+
+## Change ownership from one particular group to another
+
+`Another way` of `changing ownership` from one `particular group` to `another`
+is the `following`:
+
+```shell
+sudo chown maria: chown-file.txt
+```
+
+And if I then run `ls -l chown-file.txt`, the `following` would be `returned` in
+`Terminal`:
+
+```shell
+-rw-rw-r-- 1 maria maria 0 jul 20 17:27 chown-file.txt
+```
+
+`sudo chown maria:` results in `changing` the `owner group` to the
+`default login group` for `user maria`, because I `omitted` a `group name`
+**_after the_** `colon` (`:`).
+
+If I wanted to switch back to the group `magdala`, I would `run` the `following`
+in `Terminal`:
+
+```shell
+sudo chown -v :magdala chown-file.txt
+```
+
+which would `return` the `following` in `Terminal`:
+
+```shell
+changed ownership of 'chown-file.txt' from maria:maria to :magdala
+```
+
+And if I ran `ls -l chown-file.txt`, the `following` would be `returned` in
+`Terminal`:
+
+```shell
+-rw-rw-r-- 1 maria magdala 0 Jul 20 17:27 chown-file.txt
+```
+
+But if I tried to **_change_** `group ownership` back to `:maria`, I had to do
+it in the `following way` as `shown previously`:
+
+```shell
+sudo chown -v maria: chown-file.txt
+```
+
+or:
+
+```shell
+sudo chown -v :maria chown-file.txt
+```
+
+which `return` the `following` in `Terminal`:
+
+```Shell
+changed ownership of 'chown-file.txt' from maria:magdala to :maria
+```
+
+And when I run `ls -l chown-file.txt`, the `following` is `returned`:
+
+```shell
+-rw-rw-r-- 1 maria maria 0 Jul 20 17:27 chown-file.txt
+```
+
+## Duplicating ownership of one file onto another
+
+We can also `duplicate` the `ownership` of one `file` onto `another` by
+`running` the `following` in `Terminal`:
+
+```shell
+sudo chown -v --reference=chown-file.txt chown-file2.txt
+```
+
+which `returns` the `following` in `Terminal`:
+
+```shell
+changed ownership of 'chown-file2.txt' from maria:maria to maria:magdala
+```
+
+To `learn more` about the `chown` command, please run `man chown` in `Terminal`.
+
+## Related Resources
+
+-   [Changing permissions using symbolic mode and numeric mode in Linux and Unix (macOS)](/blog/changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos):
+    **_mariadcampbell.com_**
+
+-   [How to show hidden files or folders on macOS](/blog/how-to-show-hidden-files-or-folders-on-macos):
+    **_mariadcampbell.com_**
+
+-   [Shell script for turning your macOS laptop's WiFi off and on](http://localhost:3000/blog/shell-script-for-turning-your-macos-laptops-wifi-off-and-on):
+    **_mariadcampbell.com_**
+
+-   [Identity and Access Management (IAM) Definition](https://www.fortinet.com/resources/cyberglossary/identity-and-access-management):
+    **_fortinet.com_**
