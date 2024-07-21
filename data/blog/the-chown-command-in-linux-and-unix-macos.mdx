@@ -1,7 +1,7 @@
 ---
 slug: the-chown-command-in-linux-and-unix-macos
 date: '2024-07-20T14:33:25.527Z'
-lastModified: '2024-07-20T03:56:25.527Z'
+lastModified: '2024-07-21T10:57:25.527Z'
 title: The chown command in Linux and Unix (macOS)
 author: Maria D. Campbell
 excerpt: The chown command in Linux and Unix (macOS).
@@ -352,6 +352,18 @@ And when I run `ls -l chown-file.txt`, the `following` is `returned`:
 ```shell
 -rw-rw-r-- 1 maria maria 0 Jul 20 17:27 chown-file.txt
 ```
+
+## Change `user` and `group` ownership all at once
+
+I **_can_** also **_change_** `user` and `group ownership` of a `file` all at
+once:
+
+```shell
+sudo chown -v magdala:magdala chown-file.txt
+```
+
+The `magdala` to the `left` of the `colon` (`:`) is the `user`, and the
+`magdala` to the `right` of the `colon` (`:`) is the `group`.
 
 ## Duplicating ownership of one file onto another
 
