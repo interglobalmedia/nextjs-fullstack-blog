@@ -1,7 +1,7 @@
 ---
 slug: the-chown-command-in-linux-and-unix-macos
 date: '2024-07-20T14:33:25.527Z'
-lastModified: '2024-07-22T12:33:25.527Z'
+lastModified: '2024-07-23T10:29:25.527Z'
 title: The chown command in Linux and Unix (macOS)
 author: Maria D. Campbell
 excerpt: The chown command in Linux and Unix (macOS).
@@ -64,6 +64,12 @@ The `standard user` has `limited access` to `files` and `directories` and can
 However, `file permissions` **_differ somewhat_** from `directory permissions`.
 To **_learn more_**, please `read` my `article` entitled
 [Changing permissions using symbolic mode and numeric mode in Linux and Unix (macOS)](/blog/changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos).
+
+**Note 7.23.24**: It is `important` to `note` **_that only_** `standard users`
+with `access` to `sudo` can `change ownership` of `files` and `directories`. Any
+`user` that a `standard user` with `sudo` privileges `creates` on the `system`
+does **_not_** `have access` to `sudo` by `default`. At least this is the case
+in the `Linux distribution` I am using: `Linux Mint`.
 
 ## Adding a new user
 
