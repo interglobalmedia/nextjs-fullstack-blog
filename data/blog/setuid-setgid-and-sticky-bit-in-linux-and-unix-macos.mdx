@@ -1,0 +1,594 @@
+---
+slug: setuid-setgid-and-sticky-bit-in-linux-and-unix-macos
+date: '2024-07-21T09:59:34.401Z'
+lastModified: '2024-07-22T17:50:34.401Z'
+title: setuid, setgid, and sticky bit in Linux and Unix (macOS)
+author: Maria D. Campbell
+excerpt: setuid, setgid, and sticky bit in Linux and Unix (macOS).
+image: pexels-joaojesusdesign-2480072.jpg
+tags:
+    [
+        'chmod',
+        'file permissions',
+        'linux',
+        'linux mint',
+        'unix',
+        'macOS',
+        'principle of least privilege',
+        'setuid',
+        'setgid',
+        'sticky bit',
+    ]
+isPublished: true
+isFeatured: true
+---
+
+![Unique magenta tulip](pexels-joaojesusdesign-2480072.jpg)
+
+**_Photo by_** [João Jesus](https://www.pexels.com/@joaojesusdesign/) **_on_**
+[pexels.com](https://www.pexels.com/photo/selective-focus-photo-of-a-red-tulip-flower-2480072/)
+
+In `previous articles` I **_discussed_** `changing file` and
+`directory permissions`. `In` this `article`, I `discuss elevating`
+**_current_** `user privileges` **_without_** the `use` of `sudo`, and
+`restricting privileges` to `root` or `current user` regarding `modifying` or
+`deleting files` at the `directory level`.
+
+## `setuid` and `sudo`
+
+The `setuid` (aka `suid`) file `permission` **_permits_** a `user` to `execute`
+a `file` or `program` with the `permission` of the `owner` of that `file`
+or` program`. In other words, `setuid` allows a `user` to `run` a `program` as
+the `owner` of the `program file` rather than as `themselves`.
+
+`One` **_of_** the most **_popular_** `setuid` permissions is `sudo`. if I run
+`which sudo` in `Terminal`, it `returns` the `following`:
+
+```shell
+/usr/bin/sudo
+```
+
+The `which` command `locates` the `paths` of `executable files` such as `sudo`.
+
+If I run `ls -l /usr/bin/sudo`, it returns:
+
+```shell
+-rwsr-xr-x 1 root root 232416  Apr 3 2023 /usr/bin/sudo
+```
+
+The `sudo` executable contains an `"s"` in its permissions instead of an `x`
+(`execute permission`). The `"s"` **_represents_** the `setuid` file permission.
+The `rest` of the `world` (`groups` and `other`) has `execute` (`x`) permissions
+for `sudo`. This means that `when` a `user` **_executes_** `sudo`, the `OS` will
+`not execute` the `file` as the `standard user` but as `root`. Therefore, `sudo`
+**_permits a_** `standard user` **_to perform_** `elevated system functions`
+**_without having_** to `log in` as the `root user`.
+
+It is `important` to `note`, **_however_**, **_that only_** `standard users`
+with `access` to `sudo` **_can change_** `ownership` of `files` and
+`directories`. `Any user` that a `standard user` with `sudo privileges`
+**_creates_** on the `system` **_does not_** `have access` to `sudo` by
+`default`. At least `this is` the `case` in the `Linux distribution` **_I am_**
+`using`: `Linux Mint`.
+
+## How set up `setuid` using `chmod`
+
+Let's `revisit` the `chown-directory` I `created` in my article entitled
+[The chown command in Linux and Unix (macOS)](/blog/the-chown-command-in-linux-and-unix-macos)
+and its `contents`. I `transferred ownership` from `user maria` to
+`user magdala` for `both` the `parent directory` `chown-directory` and `all` its
+`files` and `subdirectory`. `In order` to `be able` to `modify` a `file`, let's
+say `chown-file1.txt` **_without_** `root` privileges, I could `run` the
+`following` in `Terminal` using `chmod` in `symbolic mode`:
+
+```shell
+sudo chmod u+s chown-file1.txt
+```
+
+Here I am changing `file permissions` in `symbolic mode`. I can use `chmod` with
+`numeric notation` as well.
+
+And then to `check` the `result` of `running` the `above`, I run
+`ls -l inside `chown-directory`, and the `following`is`returned`:
+
+```shell
+total 4
+-rwSrw-r-- 1 magdala magdala    0 Jul 20 23:19 chown-file1.txt
+-rw-rw-r-- 1 magdala magdala    0 Jul 20 23:19 chown-file2.txt
+srwxrwxr-x 2 magdala magdala 4096 Jul 20 23:19 chown-subdirectory
+```
+
+`There` is `something` a `bit off` here with the `S` that `resulted` from
+`execution` of `sudo chmod u+s chown-file1.txt` setting `setuid` on
+`chown-file1.txt`. It is `uppercase` instead of `lowercase`. This `means` that a
+`standard user` does `not` have `execute permission` to **_modify_** or
+**_delete_** `chown-file1.txt`. If I try and `modify` the `file` in `Vim`, and
+then `save changes` made to it, I get the `following message` in `Vim`:
+
+```shell
+E45: 'readonly' option is set (add ! to override)
+```
+
+When I add `!` right after `:x` (`:x!`), I still `cannot save` the `changes` I
+`made` to the `file`. To get out of `Vim` I have to type `:q!`, which `quits` me
+`out` of `Vim`, and `modifications` are `not saved`.
+
+In order to be able to execute `chown-file1.txt`, I have to `add` execute
+`permissions` using `chmod`:
+
+```shell
+sudo chown -v u+x chown-file1.txt
+```
+
+which `results` in the `following` as `stdout` in `Terminal`:
+
+```shell
+[sudo] password for maria:
+mode of 'chown-file1.txt' changed from 4664 (rwSrw-r--) to 4764 (rwsrw-r--)
+```
+
+Now the `s` representing `setuid` is `lowercase`, just as with `setuid`
+permission for `sudo`. This means that now `standard user maria` has
+`execute permissions` for `chown-file1.txt`, owned by `standard user magdala`.
+
+**_Technically_**, **_however_**, `contrary` to `what` is `often shown` in
+`examples elsewhere`, `setuid` would **_not_** work on a regular `.txt` file. It
+`only works` on `executables`, `indicating` that when `running` the
+`executable`, `setuid` will `set` its (`execute`) `permission` to that of the
+`user` (`owner`) who `created it` and `not` the `user` who `executed it`. This
+would be the `root user` instead of the `standard user` executing it.
+
+```shell
+rm: remove write-protected regular file 'chown-file1.txt'? y # I typed y for yes
+rm: cannot remove 'chown-file1.txt': Permission denied
+```
+
+Now if I **_try_** and **_actually modify_** `chown-file1.txt`, I still can't.
+The `above examples` are for `demonstration only`. `Being able` to `modify` or
+`delete` **_another_** `user`'s file `would create` **_a grave_**
+`security vulnerability` to `say` the `least`. In my `Linux Mint` distribution,
+I can `find out` which `commands` have `setuid` set to them. This then would
+`indicate` whether `standard user`(s) I `create` with my `standard user account`
+with `access` to `sudo` have `access` to `those commands` (`executables`).
+
+For example, if I run `which su` (switch user), which returns:
+
+```shell
+/usr/bin/su
+```
+
+And then run `ls -l /usr/bin/su` to `find out` what its `permissions` are, the
+`following` is `returned`:
+
+```shell
+-rwsr-xr-x 1 root root 55672 Feb 29 2022 /usr/bin/su
+```
+
+There is a lowercase `s` representing `setuid` instead of an `x` representing
+`execute permission`. This `means` that `user magdala` **_without access_** to
+has `elevated access` to the `su` command.
+
+If I run `which ls` which returns:
+
+```shell
+/usr/bin/ls
+```
+
+And then run `ls -l /usr/bin/ls` to `find out` what its `permissions` are, the
+`following` is `returned`:
+
+```shell
+-rwxr-xr-x 1 root root 138208 Feb 7 2022 /usr/bin/ls
+```
+
+Here, `setuid` is `not set` to the `ls` command. **_Therefore_**, `user magdala`
+**_cannot use_** this `command` on `files` or `directories` that are `owned` by
+`other users`.
+
+If I run `which cat` which returns:
+
+```shell
+/usr/bin/cat
+```
+
+And then run `ls -l /usr/bin/cat` to `find out` what its `permissions` are, the
+`following` is `returned`:
+
+```shell
+-rwxr-xr-x  1 root root 35280 Feb 7 2022 /usr/bin/cat
+```
+
+And so on. So if you are logged in as a user with limited access (cannot access
+`sudo`) and don't have access to an executable because of a file's or
+directories ownership or permissions, you can take the following steps to find
+out what permissions have been set to that executable.
+
+`Another` **_popular_** `executable` is `passwd`. The following are its
+permissions:
+
+```shell
+-rwsr-xr-x 1 root root 59976 Nov 24 2022 /usr/bin/passwd
+```
+
+This is a good thing. This `means` that `standard users` **_cannot modify_** or
+**_delete_** `regular files` or `directories` of other `standard users`. That's
+why it is important to **_limit_** `user access` to `sudo` on a `local network`
+where there are a number of actual `standard users`, **_because otherwise_**
+`anyone` would `be able` to `tinker` with `anyone else`'s `files` on the
+`system`! In essence, the `setuid` bit has `no effect` on `non-executable` files
+of `standard users`, like `.txt`, for example.
+
+Now let's use an executable file as an example. Let's say I create an executable
+called `hello.sh`. It contains the following content:
+
+```shell
+#!/bin/bash
+hello_world="Hello world!"
+
+echo $hello_world
+```
+
+## `setuid` a `shell script`
+
+Even though I may `set` the `setuid` for a `shell script` **_owned by_**
+`another user`, i.e., `hello.sh`:
+
+```shell
+-rwsrw-r-- magdala magdala 118 Jul 22 06:40 hello.sh
+```
+
+I cannot execute this script, even though I have set `hello.sh` to user execute
+permissions for `setuid` as indicated by the lowercase `"s"`.
+
+```shell
+bash: ./hello.sh: Permission denied
+```
+
+I can't however, execute `hello_world.sh` using `sudo`:
+
+```shell
+sudo ./hello_world.sh
+# which returns:
+[sudo] password for maria:
+sudo: unable to execute ./hello_world.sh: No such file or directory
+```
+
+I **_can execute_** `hello.sh` **_without using_** `sudo` by `running` the
+`following` in `Terminal`:
+
+```shell
+bash ./hello.sh
+```
+
+I am able to `"execute"` `hello.sh` (have it `"interpreted"` by the
+`bash "interpreter"`) because I am passing `hello.sh` explicitly to the
+`interpreter` (`bash`). "Having hello.sh interpreted" is just **_another way_**
+of **_stating_** `"executed"`.
+
+## `setuid` a directory
+
+`setuid has no effect on directories.
+
+## `setgid` and `crontab`
+
+`setgid` (aka `sgid`) is similar to `setuid`. When a `process` is `executed`, it
+will `run` as the `group` that `owns` the `file`. An `example` of a `file`
+**_that uses_** `setgid` is `crontab`. I can `get` the `path` to `crontab` by
+`running` the `following command` in `Terminal`:
+
+```shell
+which crontab
+```
+
+which `returns` the `following`:
+
+```shell
+/usr/bin/crontab
+```
+
+And if I run `ls -l /usr/bin/crontab` in `Terminal`, the `following` is
+`returned`:
+
+```shell
+-rwxr-sr-x 1 root crontab 39568 Mar 23 2022 /usr/bin/crontab
+```
+
+Just as `setuid` is set to the `sudo` command by default, `setgid` is set to the
+`crontab` command by default as well. `crontab` (aka `CRON TABLE`) is a `file`
+which `contains` a `schedule` of `cron entries` that are `scheduled` to `run` at
+`specified times`. `cron` is a `Linux`, `Unix`, or `solaris utility` that allows
+`tasks` to be `automatically run` in the `background` at `regular intervals` by
+the `cron daemon`. `setgid` is set to `crontab` for security reasons. This is a
+popular use case for `setgid`.
+
+Group `crontab` has a very `special purpose`, and the `crontab binary` is
+`owned` by the `crontab` group and has a `setgid` bit as `indicated` in the
+`file permissions` above.
+
+`cron` and `crontab` are `beyond` the `scope` of this `article`, but I will
+`discuss` it in a `future article`.
+
+## How set up `setgid` using `chmod`
+
+In order to setup `setgid`, again we `use` the `chmod` command. This is
+`similar` to setting up `setuid`. For example:
+
+```shell
+# first I set setgid to the setgid-file.txt
+chmod g+s setgid-file.txt
+# Next I run `ls -l setgid-file.txt to check permissions
+ls -l setgid-file.txt
+## which returns:
+-rw-rwSr-- 1 maria maria 0 Jul 15:07 setgid-file.txt
+```
+
+Since an **_uppercase_** `S` is `returned`, I know that `setgid-file.txt` does
+not have execute permissions, which is necessary. So next, I run the following:
+
+```shell
+# First I set execute permissions on setgid for setgid-file.txt
+chmod g+x setgid-file.txt
+# Next I run `ls -l setgid-file.txt to check permissions
+ls -l setgid-file.txt
+# which returns:
+-rw-rwsr-- 1 maria maria 0 Jul 22 15:07 setgid-file.txt
+```
+
+## So why `setuid` or `setgid`?
+
+An `administrator` might want to use `setuid` or `setgid` if they want
+**_certain_** `users` or `groups` to `be able` to perform `specific tasks` that
+require `root` or `superuser privileges`, but `don't want` to actually `provide`
+them with `access` to `sudo`. This is `analogous` to the
+[principle of least privilege](https://www.cyberark.com/what-is/least-privilege/),
+where a `user` is given `minimum levels` of `access` or `permissions` needed to
+`perform` his/her `job`. It is `important` to `note` (`again`) that this
+`relates` to `executable script files` ending in `.sh`, for example.
+
+**_Again_**, the `setgid` example above is for `demonstration purposes` only.
+`Executables` are `set` to `setuid` and `setgid` **_by default_** in the
+`Linux OS`, `in` **_my_** `case`, `Linux Mint`.
+
+## `setgid` and `directories`
+
+Setting `setgid` on a `directory` **_results in_** `different behavior` **_than
+with_** `files`. When `setgid` is `set` to a `directory`, it `causes` all
+`files` that are `created` in that `directory` to be `owned` by the `group` of
+the `directory` and `not` the `owner` of the `group`.
+
+`Let's say` I `create` a `directory` called `setgid-directory`, and then I
+`change` the `group` of the `directory` using the `chgrp` command:
+
+```shell
+sudo chgrp magdala setgid-directory
+```
+
+which `returns` the `following` when I run `ls -ld setgid-directory`:
+
+```shell
+drwxrwxr-x  2 maria magdala 4096  Jul 22 16:54 setgid-directory
+```
+
+Then I set `setgid` to `setgid-directory`:
+
+```shell
+chmod g+s setgid-directory/
+```
+
+which `returns` the `following` in `Terminal` when I run
+`ls -ld getgid-directory/`:
+
+```shell
+drwxrwsr-x  2 maria magdala 4096  Jul 22 16:54 setgid-directory
+```
+
+**_Next_**, to `test` this `out`, I `create` a `file` **_inside the_**
+`setgid-directory` directory:
+
+```shell
+# create new file inside setgid-directory called setgid-file1.txt
+touch setgid-directory/setgid-file1.txt
+# check the group ownership of setgid-file1.txt
+ls -l setgid-directory
+# which returns the following:
+-rw-rw-r-- 1 maria magdala 0 Jul 22 16:54 setgid-file1.txt
+```
+
+The `file` I `create` inside `setgid-directory` **_inherits_** the `group` that
+`setgid-directory` belongs to.
+
+## So what is `sticky bit`?
+
+The **_special permission_** `sticky bit` makes sure that `only` the `owner` of
+a `file`(s) `inside` a `directory` can `delete` or modify that `file`. A
+`typical use` of this is the `/tmp/` directory. The `/tmp/` directory can be
+written (`w`) by `any user`, but `other users` **_can't delete_** `other users'`
+files.
+
+If I run `ls -ld /tmp`, the `following` is `returned` in `Terminal`:
+
+```shell
+drwxrwxrwt  16 root root 4096 Jul 22 16:35 /tmp
+```
+
+One can tell when `sticky bit` has been `set` on a `directory` when there is a
+`t` at the `end` of the `permissions`, `as above`.
+
+Now let's test this out.
+
+First I `create` a new `directory` called `stickybit-directory`.
+
+Then I `run` the following `command` in `Terminal`:
+
+```shell
+chmod +t stickybit-directory
+```
+
+**_Next_**, I run `ls -ld stickybit-directory` and the `following` is
+`returned`:
+
+```shell
+drwxrwxr-t maria maria 4096 Jul 22 19:33 stickybit-directory
+```
+
+Then I `create` a `file` inside `stickybit-directory` called
+`stickybit-file1.txt`.
+
+Then I `switch out` of `maria user` with the `su magdala` command (`su` stands
+for `switch user`) and try to **_delete_** `owner maria`'s
+`stickybit-directory/stickybit-file1.txt`:
+
+```shell
+su magdala
+Password:
+# maria user switches into magdala user
+magdala@maria-VirtualBox:/home/maria/Desktop$
+# delete maria user's stickybit-directory/stickybit-file1.txt as magdala user
+rm stickybit-directory/stickybit-file1.txt
+# which returns:
+rm: remove write-protected regular empty file 'stickybit-directory/stickybit-file1.txt'? y # I type the "y" for "yes"
+# which returns:
+rm: cannot remove 'stickybit-directory/stickybit-file1.txt': Permission denied
+```
+
+## Setting `special permissions` (`setuid`, `setgid`, and `sticky bit`) in `numeric mode`
+
+Not only can we set `special permissions` in
+[symbolic mode](/blog/changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos),
+but we can also set them in
+[numeric mode](/blog/changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos).
+
+`Let's say` I `create` a `file` called `setuid-numeric-mode-file.txt` and then
+`set` file `permissions` using `chmod`:
+
+```shell
+chmod 764 setuid-numeric-mode-file.txt
+```
+
+And running `ls -l setuid-numeric-mode-file.txt` **_returns the_** `following`
+in `Terminal`:
+
+```shell
+-rwxrw-r--  1 maria maria 0 Jul 22 20:33 setuid-numeric-mode-file.txt
+```
+
+`7` is `represented` by `rwx`, `6` is `represented` by `rw-`, and `4` is
+`represented` by `r--`. To set `setuid` to `setuid-numeric-mode-file.txt`, I run
+the `following` in `Terminal`:
+
+```shell
+chmod 4764 setuid-numeric-mode-file.txt
+```
+
+`4` represents `setuid` in `numeric mode`.
+
+Now `let's say` I `create` a `file` called `setgid-numeric-mode-file.txt` and
+then `set` file `permissions` using `chmod`:
+
+```shell
+chmod 2764 setgid-numeric-mode-file.txt
+```
+
+And running `ls -l setgid-numeric-mode-file.txt` **_returns the_** `following`
+in `Terminal`:
+
+```shell
+-rwxrwSr--  1 maria maria 0 Jul 22 20:44 setgid-numeric-mode-file.txt
+```
+
+And `since` the `S` is `uppercase`, `I know` that the `file` does `not` have
+`execute permissions`, so I also `have` to `run` the `following` to `make` that
+`happen`:
+
+```shell
+chmod g+x setgid-numeric-mode-file.txt
+```
+
+Then I run `ls -l setgid-numeric-mode-file.txt` again and the `following` is
+`returned` in `Terminal`:
+
+```shell
+-rwxrwsr--  1 maria maria 0 Jul 22 20:44 setgid-numeric-mode-file.txt
+```
+
+Now let's say I `create` a `file` called `stickybit-numeric-mode-file.txt` and
+then `set permissions` using `chmod`:
+
+```shell
+chmod 1764 stickybit-numeric-mode-directory
+```
+
+And when I run `ls -ld stickybit-numeric-mode-directory` in `Terminal`, the
+`following` is `returned`:
+
+```shell
+-rwxrw-r-T maria maria 0 Jul 22 20:54 stickybit-numeric-mode-directory
+```
+
+I `know `that `stickybit` does `not` have `execute permissions` because the `T`
+that `represents` it is `uppercase`. So I `run` the `following command` in
+`Terminal` to `fix that`:
+
+```shell
+chmod +x stickybit-numeric-mode-directory
+```
+
+This time when I run `ls -ld stickybit-numeric-mode-directory` the `following`
+is `returned` in `Terminal`:
+
+```shell
+drwxrwxr-t  2 maria maria 4096 Jul 22 21:01 stickybit-numeric-mode-directory
+```
+
+## Removing special permissions (`setuid`, `setgid`, and `sticky bit`) in numeric mode
+
+If I `want` to `remove` special `setuid` permissions in `numeric mode`, I would
+do the `following` in `Terminal`:
+
+```shell
+chmod u-s setuid-numeric-mode-file.txt
+```
+
+If I `want` to `remove` special `setgid` permissions in `numeric mode`, I would
+`do` the `following` in `Terminal`:
+
+```shell
+chmod g-s setgid-numeric-mode-file.txt
+```
+
+If I `want` to `remove` special `sticky bit` permissions in `numeric mode`, I
+would `do` the `following` in `Terminal`:
+
+```shell
+chmod -t stickybit-numeric-mode-directory
+```
+
+Now `let's try` to `delete` a `file` with `sticky bit` permissions:
+
+```shell
+# hello_world.sh file permissions
+-rwxrwxr-T magdala magdala 0 Jul 23 11:34 hello_world.sh
+# maria user tries to delete hello-world.sh
+rm hello_world.sh
+# which returns:
+rm: remove write-protected regular empty file 'hello_world.sh'? y # what I type for "yes"
+rm: cannot remove 'hello_world.sh': Permission denied
+whoami # I check to make sure who I am logged in as is as myself and not user magdala
+maria
+```
+
+It is `important` to `note` that I would `not` have `been able` to `delete` this
+`shell script` file `even` if I did `not` set `sticky bit` to `hello_world.sh`,
+because it is `owned` by `another user`. `Only` the actual `root user` would
+`be able` to `do that`.
+
+## Related Resources
+
+-   [The chown command in Linux and Unix (macOS)](/blog/the-chown-command-in-linux-and-unix-macos):
+    **_mariadcampbell.com_**
+
+-   [Changing permissions using symbolic mode and numeric mode in Linux and Unix (macOS)](/blog/changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos):
+    **_mariadcampbell.com_**
+
+-   [How Do I Set Up Setuid, Setgid, and Sticky Bits on Linux?](https://www.liquidweb.com/blog/how-do-i-set-up-setuid-setgid-and-sticky-bits-on-linux/):
+    **_by Matt Holtz, Liquid Web_**
