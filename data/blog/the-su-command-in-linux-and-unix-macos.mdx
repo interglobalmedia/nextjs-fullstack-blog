@@ -1,0 +1,141 @@
+---
+slug: the-su-command-in-linux-and-unix-macos
+date: '2024-07-23T21:03:08.161Z'
+lastModified: '2024-07-23T21:03:08.161Z'
+title: The su command in Linux and Unix (macOS)
+author: Maria D. Campbell
+excerpt: The su command in Linux and Unix (macOS) and how it works.
+image: pexels-pavel-danilyuk-8438955.jpg
+tags: ['linux', 'unix', 'su command', 'macOS']
+isPublished: true
+isFeatured: false
+---
+
+![Switching users](pexels-pavel-danilyuk-8438955.jpg)
+
+**_Photo by_** [Pavel Danilyuk](https://www.pexels.com/@pavel-danilyuk/)
+**_on_**
+[pexels.com](https://www.pexels.com/photo/a-red-switch-for-an-artificial-intelligence-system-8438955/)
+
+The `su` command in `Linux` and `Unix` stands for `switch user` or
+`substitute user`. I mention it in my article
+[setuid, setgid, and sticky bit in Linux and Unix (macOS)](http://localhost:3000/blog/setuid-setgid-and-sticky-bit-in-linux-and-unix-macos),
+but there is much more to it than what i discussed in passing.
+
+## Using `su` without any `arguments`
+
+If we run `su` without any arguments (alone), it `defaults` to `running` an
+`interactive shell` as the `root user`. If I run `su` alone in `Linux` (or
+`Unix`), `something like` the `following happens`:
+
+```shell
+Password:
+Authentication failure
+```
+
+Because I `never set` a `password` for `root` when I **_installed_**
+`Linux Mint` in `VirtualBox` on `Windows 11`. But it still `asks` for a
+`password`. According to a
+[Linux Mint forum](https://forums.linuxmint.com/viewtopic.php?t=370898#google_vignette),
+running `su` alone in order `to run` an `interactive shell` as `root` does `not`
+work in `Linux Mint`. **_However_**, I can run `sudo su` since I have access to
+`sudo`, and it achieves the same thing. When I run `sudo su`, the `following` is
+`returned` as `stdout` in `Terminal`:
+
+```shell
+root@maria-VirtualBox/home/maria#
+```
+
+In order to `logout` of the `interactive shell` as `root`, I run
+`su --login maria`. I am `not asked` for my `password` **_another time_** since
+I already gave it in order to `run` the `interactive shell` as `root` in the
+first place.
+
+In `Linux` (`Linux Mint`), `su` is `mostly designed` for `unprivileged users`.
+
+## su `username`
+
+When `su` is `followed by` a `username`, `additional arguments` can be
+`specified`. but `when` only `username` is `specified`, the `current user`
+**_does switch_** to `another user`, but the `environment` of the
+`previous user` remains the `same`. For example, if I `switch out` of
+`user maria` into `user magdala` by running `su magdala`, the `following` is
+`returned` in `Terminal`:
+
+```shell
+magdala@maria-VirtualBox:/home/maria
+```
+
+And when I `run` the `whoami` command, `magdala` is `returned` in `Terminal`.
+**_However_**, even though I have `switched users`, `user maria`'s
+`home directory` and c`ontents` remains the `same`. `User magdala` can't really
+do anything in this state. It is a good way of `checking` how well `permissions`
+and `ownership` are `working`. And only `user maria` logged in as `user maria`
+can `change` file `permissions` or `ownership`.
+
+## su `-`, su `-l`, and su `--login`
+
+If I run `su --login magdala` instead of simply `su magdala`, the `following`
+would be `returned` in `Terminal`:
+
+```shell
+magdala@maria-VirtualBox:~
+```
+
+Now `user magdala` has truly `logged into` her own `environment`. I can tell
+because `/home/maria` is `no longer` **_appended to_**
+`magdala@maria-VirtualBox:`. `user magdala` now `has` her own `home directory`,
+`/home/magdala`. I can `check` by `running` the `pwd` command, which returns
+`/home/magdala`. Now `user magdala` can `create` and `delete files` and
+`directories`, navigate from one directory to another with the `cd` command, and
+so on.
+
+`su - username` and `su -l username` **_login_** `users` into their
+`own environment` in the `same way` as `su --login username`. `Linux`
+(`Linux Mint`) `man su` recommends using `su --login username` "in order to
+avoid side effects caused by mixing environments". Running `su username` also
+`mixes environments`.
+
+According to `man su`,
+
+> `su` defaults to not change the current directory and to only set environment
+> variables HOME and SHELL (plus USER and LOGNAME if the target user is not
+> root).
+
+The `--login` option `starts` the `shell` as a `login shell` with an
+`environment` **_similar_** to a `real login`:
+
+-   It `clears` the `environment variables` **_except_** `TERM` **[^1]**, and
+    `variables` specified by `--whitelist-environment` **[^2]**.
+
+-   It `initializes` the environment variables `HOME`, `SHELL`, `USER`,
+    `LOGNAME` **[^3]**, and `PATH` **[^4]**.
+
+-   It changes to the target user's home directory.
+
+-   It sets arv[0] of the shell to '-' in order to make the shell a login shell.
+
+There are other options available to `su` which can be found by running `man su`
+(the `su` manual), but the above are the most important to know.
+
+### Footnotes
+
+**[^1]**: The [TERM](https://www.baeldung.com/linux/term-environment-variable)
+environment variable is a variable that indicates the terminal type. A terminal
+type specifies the model of the terminal emulator. Some of the popular terminal
+types include xterm, [xterm-256color](https://robotmoon.com/256-colors/),
+[vt100](https://en.wikipedia.org/wiki/VT100),
+[gnome-terminal](https://help.gnome.org/users/gnome-terminal/stable/), and
+[rxvt-unicode](https://en.wikipedia.org/wiki/Rxvt). Each of these terminal types
+provides different capabilities.
+
+**[^2]**: The `--white-list-environment` option specifies environment variables
+list that should not be reset when switching users.
+
+**[^3]**: The LOGNAME environment variable is the same as the USER environment
+variable. It provides the name of the currently logged in user.
+
+**[^4]**:
+[Modern `su`](https://unix.stackexchange.com/questions/466373/setting-the-root-path-for-su)
+no longer resets PATH environment variable from the caller (`su`) when asked to
+preserve the environment. If this needs to happen, use `--login`.
