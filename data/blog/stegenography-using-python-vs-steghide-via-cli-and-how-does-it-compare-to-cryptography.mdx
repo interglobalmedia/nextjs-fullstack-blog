@@ -2,78 +2,143 @@
 slug: stegenography-using-python-vs-steghide-via-cli-and-how-does-it-compare-to-cryptography
 date: '2023-12-11T17:44:11.210Z'
 lastModified: '2023-12-11T17:44:11.210Z'
-title: Stegenography using Python vs Steghide via CLI (and how does it compare to Cryptography?)
+title:
+    Stegenography using Python vs Steghide via CLI (and how does it compare to
+    Cryptography?)
 author: Maria D. Campbell
-excerpt: Steganography is a method in which secret messages are hidden in cover media.
+excerpt:
+    Steganography is a method in which secret messages are hidden in cover
+    media.
 image: pexels-andrea-piacquadio-3768723.jpg
-tags: ['command line', 'cryptography', 'cybersecurity', 'macOS', 'python', 'steganography', 'steghide']
+tags:
+    [
+        'command line',
+        'cryptography',
+        'cybersecurity',
+        'macOS',
+        'python',
+        'steganography',
+        'steghide',
+    ]
 isPublished: true
-isFeatured: true
+isFeatured: false
 ---
 
 ![Keep it secret!](pexels-andrea-piacquadio-3768723.jpg)
 
-***Photo by*** [Andrea Piacquadio](https://www.pexels.com/@olly/) ***on*** [pexels.com](https://www.pexels.com/)
+**_Photo by_** [Andrea Piacquadio](https://www.pexels.com/@olly/) **_on_**
+[pexels.com](https://www.pexels.com/)
 
 ## What is Steganography and how does it compare to Cryptography?
 
-Steganography is a method in which secret messages are hidden in cover media. Cover media refers to any unsuspicious file, such as a nature photo, family photo, audio, video clip, etc. And steganography means "covered writing".
+Steganography is a method in which secret messages are hidden in cover media.
+Cover media refers to any unsuspicious file, such as a nature photo, family
+photo, audio, video clip, etc. And steganography means "covered writing".
 
->Content concealed through steganography is sometimes encrypted before being hidden within another file format. If it isn't encrypted, then it may be processed in some way to make it harder to detect. ⏤ <cite></cite>
+> Content concealed through steganography is sometimes encrypted before being
+> hidden within another file format. If it isn't encrypted, then it may be
+> processed in some way to make it harder to detect. ⏤ <cite></cite>
 
-Steganography is sometimes compared to cryptography, because both are a form of covert communication. However, the two are NOT the same. Steganography does not involve scrambling data upon sending or using a key to decode it upon receipt. As a result, steganography is less popular than cryptography, because the structure of data is not altered by default. Forms of steganography are:
+Steganography is sometimes compared to cryptography, because both are a form of
+covert communication. However, the two are NOT the same. Steganography does not
+involve scrambling data upon sending or using a key to decode it upon receipt.
+As a result, steganography is less popular than cryptography, because the
+structure of data is not altered by default. Forms of steganography are:
 
-- Text
-- Audio
-- Video
-- Images
-- Network or Protocol
+-   Text
+-   Audio
+-   Video
+-   Images
+-   Network or Protocol
 
 ## What is Cryptography and how does it compare to Steganography?
 
-Cryptography is the process of hiding or coding information so that only the person the message was intended for can read it. Modern cryptography techniques include algorithms and ciphers that enable the encryption and decryption of information, such as 128-bit and 256-bit encryption keys. Modern ciphers, such as the Advanced Encryption Standard (AES), are considered virtually unbreakable. To learn more about encrypting and decrypting files, please visit my post entitled [Encrypting/Decrypting Files and Strings](https://github.com/interglobalmedia/encrypt-decrypt-files-python) on Github.
+Cryptography is the process of hiding or coding information so that only the
+person the message was intended for can read it. Modern cryptography techniques
+include algorithms and ciphers that enable the encryption and decryption of
+information, such as 128-bit and 256-bit encryption keys. Modern ciphers, such
+as the Advanced Encryption Standard (AES), are considered virtually unbreakable.
+To learn more about encrypting and decrypting files, please visit my post
+entitled
+[Encrypting/Decrypting Files and Strings](https://github.com/interglobalmedia/encrypt-decrypt-files-python)
+on Github.
 
-According to [Fortnet](https://www.fortinet.com/resources/cyberglossary/what-is-cryptography),
+According to
+[Fortnet](https://www.fortinet.com/resources/cyberglossary/what-is-cryptography),
 
->Cryptography remains important to protecting data and users, ensuring confidentiality, and preventing cyber criminals from intercepting sensitive corporate information.
+> Cryptography remains important to protecting data and users, ensuring
+> confidentiality, and preventing cyber criminals from intercepting sensitive
+> corporate information.
 
 ## So what is Image Steganography in Cryptography?
 
-According to [Geeks For Geeks](https://www.geeksforgeeks.org/image-steganography-in-cryptography/),
+According to
+[Geeks For Geeks](https://www.geeksforgeeks.org/image-steganography-in-cryptography/),
 
->As the name suggests, Image Steganography refers to the process of hiding data within an image file. The image selected for this purpose is called the cover image and the image obtained after steganography is called the stego image.
+> As the name suggests, Image Steganography refers to the process of hiding data
+> within an image file. The image selected for this purpose is called the cover
+> image and the image obtained after steganography is called the stego image.
 
-Steganography in of itself is "security by obscurity". This means that the secret message embedded in the image could end up being "uncovered". But combining Cryptography and Steganography is a robust way to disguise a message from adversaries while still protecting it in case of detection.
+Steganography in of itself is "security by obscurity". This means that the
+secret message embedded in the image could end up being "uncovered". But
+combining Cryptography and Steganography is a robust way to disguise a message
+from adversaries while still protecting it in case of detection.
 
-One way of implementing a cryptographic algorithm approach is concealing a [large amount of data](https://www.geeksforgeeks.org/image-steganography-in-cryptography/) within a color bitmap (bmp) image. The image is filtered and segmented, with bits replacement applied to the appropriate pixels. These pixels are chosen at random.
+One way of implementing a cryptographic algorithm approach is concealing a
+[large amount of data](https://www.geeksforgeeks.org/image-steganography-in-cryptography/)
+within a color bitmap (bmp) image. The image is filtered and segmented, with
+bits replacement applied to the appropriate pixels. These pixels are chosen at
+random.
 
-Detection of the message within the cover image is done by the process of steganalysis. And what is steganalysis? According to Mayuri Bhamare in his Linkedin post entitled [What is Steganalysis?](https://www.linkedin.com/pulse/what-steganalysis-mayuri-bhamare/),
+Detection of the message within the cover image is done by the process of
+steganalysis. And what is steganalysis? According to Mayuri Bhamare in his
+Linkedin post entitled
+[What is Steganalysis?](https://www.linkedin.com/pulse/what-steganalysis-mayuri-bhamare/),
 
->Steganalysis is the study of detecting messages hidden using steganography; this is analogous to cryptanalysis applied to cryptography. Steganalysis refers to detection of the presence of hidden information in the stego-object.
+> Steganalysis is the study of detecting messages hidden using steganography;
+> this is analogous to cryptanalysis applied to cryptography. Steganalysis
+> refers to detection of the presence of hidden information in the stego-object.
 
-I actually built an image steganography project implementing the above described bitmap approach using PIL (Python Imaging Library). When I decrpyted the encrypted hidden text message inside an image, I got totally incomprehensible data output in Terminal. I also could not view the complete output, because it was too large for viewing in a Terminal window instance. I created a CLI command that would redirect the data into a text file that I could open and examine after running the command. The following is the command that I cerated to do this:
+I actually built an image steganography project implementing the above described
+bitmap approach using PIL (Python Imaging Library). When I decrpyted the
+encrypted hidden text message inside an image, I got totally incomprehensible
+data output in Terminal. I also could not view the complete output, because it
+was too large for viewing in a Terminal window instance. I created a CLI command
+that would redirect the data into a text file that I could open and examine
+after running the command. The following is the command that I cerated to do
+this:
 
 ```shell
 python3 cryptography-steganography.py >> output_text.txt
 ```
 
-This way, I could examine the complete output resulting from the executing of my `cryptography-steganography.py` file. Totally impossible to decipher. However, I found that using a jpg image is not good, because it is a lossy file format, which means that information is lost in processes.
+This way, I could examine the complete output resulting from the executing of my
+`cryptography-steganography.py` file. Totally impossible to decipher. However, I
+found that using a jpg image is not good, because it is a lossy file format,
+which means that information is lost in processes.
 
-Screenshot of executing `python 3 cryptography-steganography.py >> output_text.txt` before changing my jpg file to a png file:
+Screenshot of executing
+`python 3 cryptography-steganography.py >> output_text.txt` before changing my
+jpg file to a png file:
 
 ![jpg output text screenshot](output_text_jpg_screenshot.jpg)
 
-*Output text screenshot in jpg format*
+_Output text screenshot in jpg format_
 
-To change the file format of an image on macOS via the CLI, I ran the following command:
+To change the file format of an image on macOS via the CLI, I ran the following
+command:
 
 ```shell
 sips -s format png geranimo-bKhETeDV1WM-unsplash.jpg --output geranimo-bKhETeDV1WM-unsplash.png
 ```
 
-For those of you that may not know what the sips command, it comes built in with macOS. `sips` stands for `Scriptable image processing system`, and it is:
+For those of you that may not know what the sips command, it comes built in with
+macOS. `sips` stands for `Scriptable image processing system`, and it is:
 
->used to query or modify raster image files (JPG/GIF/PNG) and ColorSync ICC profiles. Image processing options include flip, rotate, change image format/width/height. Its functionality can also be used through the "Image Events" AppleScript suite.
+> used to query or modify raster image files (JPG/GIF/PNG) and ColorSync ICC
+> profiles. Image processing options include flip, rotate, change image
+> format/width/height. Its functionality can also be used through the "Image
+> Events" AppleScript suite.
 
 When I changed it to png format, and then ran the following command again:
 
@@ -81,19 +146,26 @@ When I changed it to png format, and then ran the following command again:
 python3 cryptography-steganography.py >> output_text.txt
 ```
 
-The hidden text does appear the top of the txt file, followed by the bitmap information of the image.
+The hidden text does appear the top of the txt file, followed by the bitmap
+information of the image.
 
 ![png output text screenshot](output_text_png_screenshot.jpg)
 
-*Output text screenhot in png format*
+_Output text screenhot in png format_
 
-To view this project, please visit the [image-steganography-project](https://github.com/interglobalmedia/image-steganography-project) repository on Github.
+To view this project, please visit the
+[image-steganography-project](https://github.com/interglobalmedia/image-steganography-project)
+repository on Github.
 
 ## Applying image steganography with the steghide via Kali Linux
 
-In order to use the `steghide package` which is a command line tool, I had to install and use it via `Kali Linux`. I am on macOS and therefore not a Linux computer, so installing `steghide` directly onto my `macOS` was not possible.
+In order to use the `steghide package` which is a command line tool, I had to
+install and use it via `Kali Linux`. I am on macOS and therefore not a Linux
+computer, so installing `steghide` directly onto my `macOS` was not possible.
 
-First, I created two folders for my project so that I could have everything well organized on my  `Kali Desktop`. One I called `file_embed`, and the other I called `file_extract`. So:
+First, I created two folders for my project so that I could have everything well
+organized on my `Kali Desktop`. One I called `file_embed`, and the other I
+called `file_extract`. So:
 
 ```shell
 mkdir file_embed file_extract
@@ -107,7 +179,8 @@ file_extract
 test.txt
 ```
 
-Next, I moved the `test.txt` file and the `jpg image` I had downloaded from `pexels.com` via `Firefox-ESR` in `Kali Linux` into the `file_embed` folder.
+Next, I moved the `test.txt` file and the `jpg image` I had downloaded from
+`pexels.com` via `Firefox-ESR` in `Kali Linux` into the `file_embed` folder.
 
 I looked for the image download via Terminal so that I could get the path to it:
 
@@ -127,7 +200,8 @@ I moved the image from the `Downloads folder` to the `Desktop folder`:
 mv ./Downloads/pexels-brian-machado-10626267.jpg ~/Desktop
 ```
 
-Next, I moved the image from the `Desktop` into the `file_embed` folder located on the `Desktop`. So:
+Next, I moved the image from the `Desktop` into the `file_embed` folder located
+on the `Desktop`. So:
 
 ```shell
 mv pexels-brian-machado-10626267.jpg file_embed
@@ -139,7 +213,8 @@ And then I moved the `test.txt` file into the `file_embed` folder as well:
 mv test.txt file_embed
 ```
 
-Then I checked to make sure that I had successfully moved the two files into `file_embed`:
+Then I checked to make sure that I had successfully moved the two files into
+`file_embed`:
 
 ```shell
 ls file_embed
@@ -153,60 +228,84 @@ pexels-brian-machado-10626267.jpg  test.txt
 
 Now I was ready to conduct some `steganography` with `steghide` in `Kali Linux`!
 
-To `embed` the `test.txt` file into the `jpg image`, I used the following command:
+To `embed` the `test.txt` file into the `jpg image`, I used the following
+command:
 
 ```shell
 steghide embed -ef file_embed/test.txt -cf file_embed/pexels-brian-machado-10626267.jpg
 ```
 
-The `-ef` option stands for `embed file`, and the `-cf` option stands for `copy file`. So the command states that the `test.txt` file was the file to be `embedded` by `copying` it `into` the `jpg image`.
+The `-ef` option stands for `embed file`, and the `-cf` option stands for
+`copy file`. So the command states that the `test.txt` file was the file to be
+`embedded` by `copying` it `into` the `jpg image`.
 
 And the following was initially returned:
 
 ```shell
-Enter passphrase: 
+Enter passphrase:
 Re-Enter passphrase:
 ```
 
-So I entered a passphrase of my choosing and hit return after inputting it the second time, and the following was returned in Terminal:
+So I entered a passphrase of my choosing and hit return after inputting it the
+second time, and the following was returned in Terminal:
 
 ```shell
 embedding "file_embed/test.txt" in "file_embed/pexels-brian-machadoembedding "file_embed/test.txt" in "file_embed/pexels-brian-machado-10626267.jpg"... done
 ```
 
-The result of executing this command wass the integration of the `test.txt` file into my `jpg image` I downloaded from `pexels.com`.
+The result of executing this command wass the integration of the `test.txt` file
+into my `jpg image` I downloaded from `pexels.com`.
 
-Next, I had to `extract` `test.txt` from the j`pg image`, but I wanted to extract the file into the `file_extract` folder. I `changed directories` (cd) into the empty `file_extract` folder from `Desktop`:
+Next, I had to `extract` `test.txt` from the j`pg image`, but I wanted to
+extract the file into the `file_extract` folder. I `changed directories` (cd)
+into the empty `file_extract` folder from `Desktop`:
 
 ```shell
 cd file_extract
 ```
 
-Then, from there, I ran the following command to `extract` the `test.txt` file from the `jpg image`:
+Then, from there, I ran the following command to `extract` the `test.txt` file
+from the `jpg image`:
 
 ```shell
 steghide extract -sf ../file_embed/pexels-brian-machado-10626267.jpg
 ```
 
-The `-sf` option followed by the (path to the) `filename` extracts in this case the `test.txt` file from the jpg image.
+The `-sf` option followed by the (path to the) `filename` extracts in this case
+the `test.txt` file from the jpg image.
 
-I had to add two dots before the slash in order to step out of the `file_extract` folder and into the `Desktop` in order to be able to access the `file_embed` folder there.
+I had to add two dots before the slash in order to step out of the
+`file_extract` folder and into the `Desktop` in order to be able to access the
+`file_embed` folder there.
 
-Next, I ran the `ls file_extract` command from `Desktop` and the following was returned:
+Next, I ran the `ls file_extract` command from `Desktop` and the following was
+returned:
 
 ```shell
 test.txt
 ```
 
-Success! I kept my original `test.txt` file inside the `file_embed` folder, and then extracted it from inside the `file_extract` folder. And THEN, I could compare the two files to make sure that they actually are the same using the `sha-256 standard`.
+Success! I kept my original `test.txt` file inside the `file_embed` folder, and
+then extracted it from inside the `file_extract` folder. And THEN, I could
+compare the two files to make sure that they actually are the same using the
+`sha-256 standard`.
 
 ## Checking for file integrity
 
-Let's say I wanted to check and make sure that no changes had been made to my "confidential" `test.txt` file in the `embed/extract` process. Or let's say that I had embedded the `test.txt` file in my `jpg image` and that hypothetically I had sent it to someone else to extract the `test.txt` file`, and they wanted to make sure that the file had not experienced any modifications or corruption in transit.
+Let's say I wanted to check and make sure that no changes had been made to my
+"confidential" `test.txt` file in the `embed/extract` process. Or let's say that
+I had embedded the `test.txt` file in my `jpg image` and that hypothetically I
+had sent it to someone else to extract the `test.txt` file`, and they wanted to
+make sure that the file had not experienced any modifications or corruption in
+transit.
 
-I  already had the [SHA-256 standard](https://en.wikipedia.org/wiki/SHA-2) installed in my `Kali Linux OS` on my `macOS` via the `UTM` virtual machine, so I was able do the following to `check` the `integrity` of both my `test.txt` files located in the `file_embed` and `file_extract` folders.
+I already had the [SHA-256 standard](https://en.wikipedia.org/wiki/SHA-2)
+installed in my `Kali Linux OS` on my `macOS` via the `UTM` virtual machine, so
+I was able do the following to `check` the `integrity` of both my `test.txt`
+files located in the `file_embed` and `file_extract` folders.
 
-First, I created a `sha-256 hash digest` (`hash value`) for the `test.txt` file inside `file_embed` using the following command:
+First, I created a `sha-256 hash digest` (`hash value`) for the `test.txt` file
+inside `file_embed` using the following command:
 
 ```shell
 sha256sum file_embed/test.txt
@@ -218,13 +317,17 @@ And the following was returned:
 6f6739d1e1439a493c82c506e4175739ac47a32418a122cf141fda7fe740ca17  file_embed/test.txt
 ```
 
-I could also `redirect` the `hash digest` to a file, and then do the same for the `test.txt` file inside the `file_extract` folder. So first:
+I could also `redirect` the `hash digest` to a file, and then do the same for
+the `test.txt` file inside the `file_extract` folder. So first:
 
 ```shell
 sha256sum file_embed/test.txt > checksum
 ```
 
-Above, the single `>` greater than angle bracket which is a `redirect operator` in Command Line, `redirects` the `output` of a `command`. Here, it `redirects` the `output` of the `sha256sum` command to a file called `checksum`  which it also creates, because one did not previously exist.
+Above, the single `>` greater than angle bracket which is a `redirect operator`
+in Command Line, `redirects` the `output` of a `command`. Here, it `redirects`
+the `output` of the `sha256sum` command to a file called `checksum` which it
+also creates, because one did not previously exist.
 
 And when I run the `cat checksum` command:
 
@@ -238,15 +341,20 @@ The following was returned:
 6f6739d1e1439a493c82c506e4175739ac47a32418a122cf141fda7fe740ca17  file_embed/test.txt
 ```
 
-Next, I did the same for the `test.txt` file inside the `file_extract` folder. So first:
+Next, I did the same for the `test.txt` file inside the `file_extract` folder.
+So first:
 
 ```shell
 sha256sum file_extract/test.txt >> checksum
 ```
 
-This time, I used the double `>>` greater than angle bracket to append the output of the `sha256sum` command to the contents of the checksum file. If I had used the single angle bracket, the existing contents of the file would have been overwritten by the `current output redirection`.
+This time, I used the double `>>` greater than angle bracket to append the
+output of the `sha256sum` command to the contents of the checksum file. If I had
+used the single angle bracket, the existing contents of the file would have been
+overwritten by the `current output redirection`.
 
-Next, I ran the `cat` command on `checksum` again to view what has been added to the `checksum` file:
+Next, I ran the `cat` command on `checksum` again to view what has been added to
+the `checksum` file:
 
 ```shell
 cat checksum
@@ -259,9 +367,11 @@ And the following was returned:
 6f6739d1e1439a493c82c506e4175739ac47a32418a122cf141fda7fe740ca17  file_extract/test.txt
 ```
 
-The output of the second `sha256sum` command was `redirected` to the `checksum` file and appended to existing contents of the file.
+The output of the second `sha256sum` command was `redirected` to the `checksum`
+file and appended to existing contents of the file.
 
-Next, I wanted to make sure that both files were the same, so I ran the following command on `checksum`:
+Next, I wanted to make sure that both files were the same, so I ran the
+following command on `checksum`:
 
 ```shell
 sha256sum --check checksum
@@ -276,58 +386,91 @@ file_extract/test.txt: OK
 
 Both files `passed` the `integrity test`.
 
-If I had subsequently made a change to one of the files, "FAILED" would have appeared instead of "OK".
+If I had subsequently made a change to one of the files, "FAILED" would have
+appeared instead of "OK".
 
-So this is how we can conduct `integrity checks` on `files` in (`Kali`) `Linux` that have undergone some sort of process or transmission, or simply have been in storage for a long time, to make sure that they had not been corrupted or modified.
+So this is how we can conduct `integrity checks` on `files` in (`Kali`) `Linux`
+that have undergone some sort of process or transmission, or simply have been in
+storage for a long time, to make sure that they had not been corrupted or
+modified.
 
 ## Conclusion
 
-So why would one choose steganography over cryptography, or vice versa? Steganography conceals data within data, and
+So why would one choose steganography over cryptography, or vice versa?
+Steganography conceals data within data, and
 
->in a manner that it will make no meaning to anyone else except the intended recipient － *from* <cite>[Combination of Steganography and Cryptography: A short Survey](https://iopscience.iop.org/article/10.1088/1757-899X/518/5/052003/meta)</cite>
+> in a manner that it will make no meaning to anyone else except the intended
+> recipient － _from_
+>
+> <cite>
+> 	[Combination of Steganography and Cryptography: A short
+> 	Survey](https://iopscience.iop.org/article/10.1088/1757-899X/518/5/052003/meta)
+> </cite>
 
-Cryptography, on the other hand, changes data to ciphertext which can only be "deciphered" or understood with a decryption key. And it is popular because it scrambles the data. Steganography, on the other hand, by default, does not. And it does not require a key. A passphrase is commonly used, like with `steghide`.
+Cryptography, on the other hand, changes data to ciphertext which can only be
+"deciphered" or understood with a decryption key. And it is popular because it
+scrambles the data. Steganography, on the other hand, by default, does not. And
+it does not require a key. A passphrase is commonly used, like with `steghide`.
 
-The main difference between Cryptography and Steganography is that Cryptography protects the contents of data or messages, and Steganography hides the contents. Even though both can be used for good, Steganography is easier and commonly used by cyber threat actors.
+The main difference between Cryptography and Steganography is that Cryptography
+protects the contents of data or messages, and Steganography hides the contents.
+Even though both can be used for good, Steganography is easier and commonly used
+by cyber threat actors.
 
-According to the article entitled [Steganography explained and how to protect against it](https://www.csoonline.com/article/571265/steganography-explained-and-how-to-protect-against-it.html) by Andrada Fiscutean on CSO Online,
+According to the article entitled
+[Steganography explained and how to protect against it](https://www.csoonline.com/article/571265/steganography-explained-and-how-to-protect-against-it.html)
+by Andrada Fiscutean on CSO Online,
 
->Steganography has a critical advantage over cryptography: In cryptography, you know the secret message is there, only its content is concealed; in steganography, the existence of the secret message is often difficult to notice. Threat actors sometimes use the two techniques together, encrypting a message before sneaking it inside a file.
+> Steganography has a critical advantage over cryptography: In cryptography, you
+> know the secret message is there, only its content is concealed; in
+> steganography, the existence of the secret message is often difficult to
+> notice. Threat actors sometimes use the two techniques together, encrypting a
+> message before sneaking it inside a file.
 
-Cryptography can ensure the confidentiality, and integrity of data, but Steganography violates the integrity of the host file in which the data is hiddeen. It also violates [Kerchkoff's (2nd) principle of Cryptography](https://en.wikipedia.org/wiki/Kerckhoffs%27s_principle#Explanation_of_the_principle), which states,
+Cryptography can ensure the confidentiality, and integrity of data, but
+Steganography violates the integrity of the host file in which the data is
+hiddeen. It also violates
+[Kerchkoff's (2nd) principle of Cryptography](https://en.wikipedia.org/wiki/Kerckhoffs%27s_principle#Explanation_of_the_principle),
+which states,
 
->It should not require secrecy, and it should not be a problem if it falls into enemy hands;
+> It should not require secrecy, and it should not be a problem if it falls into
+> enemy hands;
 
-Some of his original principles are no longer relevant, but this second one is still extremely important.
+Some of his original principles are no longer relevant, but this second one is
+still extremely important.
 
-Bottom line? `Cryptography` over `Steganography`. And watch out for combinations of `Cryptography` AND `Steganography`.
+Bottom line? `Cryptography` over `Steganography`. And watch out for combinations
+of `Cryptography` AND `Steganography`.
 
-I will be following up this post with another which will focus on how one CAN detect **stego-images**. I recently was apprised of a tool that does just that. Stay tuned!
+I will be following up this post with another which will focus on how one CAN
+detect **stego-images**. I recently was apprised of a tool that does just that.
+Stay tuned!
 
-**This post was originally published on Github under the repository named** [image-steganography-steghide](https://github.com/interglobalmedia/image-steganography-steghide).
+**This post was originally published on Github under the repository named**
+[image-steganography-steghide](https://github.com/interglobalmedia/image-steganography-steghide).
+
 ## Related Resources
 
-- [Combination of Steganography and Cryptography: A short Survey](https://iopscience.iop.org/article/10.1088/1757-899X/518/5/052003/meta)
+-   [Combination of Steganography and Cryptography: A short Survey](https://iopscience.iop.org/article/10.1088/1757-899X/518/5/052003/meta)
 
-- [Check for the integrity of your Kali Linux download macOS](https://github.com/interglobalmedia/checksum-kali-linux-download)
+-   [Check for the integrity of your Kali Linux download macOS](https://github.com/interglobalmedia/checksum-kali-linux-download)
 
-- [What is steganography? Definition and explanation](https://www.kaspersky.com/resource-center/definitions/what-is-steganography)
+-   [What is steganography? Definition and explanation](https://www.kaspersky.com/resource-center/definitions/what-is-steganography)
 
-- [Difference between Steganography and Cryptography](https://www.geeksforgeeks.org/difference-between-steganography-and-cryptography/)
+-   [Difference between Steganography and Cryptography](https://www.geeksforgeeks.org/difference-between-steganography-and-cryptography/)
 
-- [What is Cryptography?](https://www.fortinet.com/resources/cyberglossary/what-is-cryptography)
+-   [What is Cryptography?](https://www.fortinet.com/resources/cyberglossary/what-is-cryptography)
 
-- [Image Steganography in Cryptography](https://www.geeksforgeeks.org/image-steganography-in-cryptography/)
+-   [Image Steganography in Cryptography](https://www.geeksforgeeks.org/image-steganography-in-cryptography/)
 
-- [What is Steganalysis?](https://www.linkedin.com/pulse/what-steganalysis-mayuri-bhamare/)
+-   [What is Steganalysis?](https://www.linkedin.com/pulse/what-steganalysis-mayuri-bhamare/)
 
-- [sips macOS utility](https://ss64.com/osx/sips.html)
+-   [sips macOS utility](https://ss64.com/osx/sips.html)
 
-- [Generating an SHA-256 Hash From the Command Line](https://www.baeldung.com/linux/sha-256-from-command-line)
+-   [Generating an SHA-256 Hash From the Command Line](https://www.baeldung.com/linux/sha-256-from-command-line)
 
-- [10 Linux Command-Line Operators and What They Do](https://www.makeuseof.com/linux-command-line-chaining-operators/)
+-   [10 Linux Command-Line Operators and What They Do](https://www.makeuseof.com/linux-command-line-chaining-operators/)
 
-- [Steganography explained and how to protect against it](https://www.csoonline.com/article/571265/steganography-explained-and-how-to-protect-against-it.html)
+-   [Steganography explained and how to protect against it](https://www.csoonline.com/article/571265/steganography-explained-and-how-to-protect-against-it.html)
 
-- [*What is steganography? Definition and explanation*](https://www.kaspersky.com/resource-center/definitions/what-is-steganography)
-
+-   [_What is steganography? Definition and explanation_](https://www.kaspersky.com/resource-center/definitions/what-is-steganography)
