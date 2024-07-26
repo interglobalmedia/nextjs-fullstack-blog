@@ -1,0 +1,153 @@
+---
+slug: how-to-sendreceive-local-emails-in-linux-mintvirtualbox
+date: '2024-07-25T19:36:27.998Z'
+lastModified: '2024-07-25T19:36:27.998Z'
+title: How to send/receive local emails in Linux Mint/VirtualBox
+author: Maria D. Campbell
+excerpt: How to send/receive local emails in Linux Mint/virtualBox.
+image: pexels-edotommo99-1467217.jpg
+tags:
+    [
+        'command line',
+        'linux',
+        'linux mint',
+        'local mail',
+        'postfix',
+        'mail command',
+        'mailx command',
+        'mailutils',
+        'terminal',
+        'virtualbox',
+    ]
+isPublished: true
+isFeatured: true
+---
+
+![Mail flying through the air](pexels-edotommo99-1467217.jpg)
+
+**_Photo by_** [Edoardo Tommasini](https://www.pexels.com/@edotommo99/) **_on_**
+[pexels.com](https://www.pexels.com/photo/selective-focus-photo-of-hanging-papers-on-clothes-line-1467217/)
+
+I have begun acquainting myself with `cron jobs` in `Linux`, and I want to be
+able to `send` myself `local emails` inside `Linux Mint/VirtualBox` if the
+`cron job` was successful or not. It is actually `quite easy`, but not so easy
+to find all the correct information! But I finally did!
+
+At first I thought that I should send an email from Linux Mint Terminal to my
+actual `Gmail email`. I installed `postfix` and then `mailutils` because I was
+trying out the `mail` command and needed to install `mailutils` if I wanted to
+use it.
+
+After some investigation, I found it to be too complicated and not even
+necessary. There is a simple **_built-in_** `Linux` (`Mint`)
+`mail user agent program` called `mailx`. According to
+[Geeks for Geeks](https://www.geeksforgeeks.org/mailx-in-linux/),
+
+> The `mailx `utility is an enhanced version of the `mail` command. Along with
+> the functionality provided by the original `mail` command, it provides extra
+> features like the ability to send attachments by using the -a (-A actually)
+> flag. The mailx command is available from a variety of different packages:
+> bsd-mailx, heirloom-mailx, and mailutils.
+
+I ended up using the `mail` command, but `mailx` is used in the same way. They
+are both available with the mailutils package, which is what I installed in
+order to be able to use the `mail` command. What is interesting is that mail and
+mailx are two separate commands, and they have their own `bin`. But according to
+[Geeks for Geeks](https://www.geeksforgeeks.org/mailx-in-linux/),
+
+> Even though the mailx command is a newer version of the original mail utility,
+> it can still be referenced with the ‘mail’ keyword.
+
+In other words, they can be interchangeable. When I did try to `send` an `email`
+to my `Gmail account`, of course it did `not` work. I don't think I could
+accomplish that these days from a `local email address` inside my
+`Linux Mint/VirtualBox` instance. So that's why I decided to stick with this
+approach since I am `working inside` of a `virtual machine` anyway. It will be
+interesting to find out if I can send an email to Gmail in macOS when I set up
+cron jobs there. That's for another time!
+
+I used the following `command` to `send myself` a `local email` with the `mail`
+(and/or `mailx`) command from `Terminal`:
+
+```shell
+echo "My first test message" | mail -s "My first test message subject line" maria@maria-VirtualBox
+# or
+echo "My first test message" | mailx -s "My first test message subject line" maria@maria-VirtualBox
+```
+
+And then to `view` my local `mail/mailx` inbox, I `run` the `following` in
+`Terminal`:
+
+```shell
+mail
+# or
+mailx
+```
+
+And when I `hit` the `Enter` key, the `following` is `output` to `Terminal`:
+
+```shell
+"/var/mail/maria": 1 message 1 unread
+>U 1 Maria            Thu Jul 25 16:53  17/601  My first test message sub...
+?
+```
+
+And if I want to `delete` the `message`, I `type` the `following` after the `?`
+prompt:
+
+```shell
+? d 1
+```
+
+And then `hit` the `Enter` key followed by `Control key` + `D key`, which
+`exits` me `out` of the `shell`. But `before` I actually `exit out`, the
+`following` is `output`:
+
+```shell
+Held 0 messages in /var/mail/maria
+```
+
+The `-s` flag stands for `subject`. There are other options to choose from with
+`mailx`. In order to learn more, check out `man mailx` in `Terminal`.
+
+It is also `possible` to send emails to `other users` on the `system.` For
+example, I could `send` an `email` to `user magdala`. Then I could take
+advantage of things like `attaching` a `file` to the `email`. Let's say I `run`
+the `following` in `Terminal`:
+
+```shell
+cat /home/maria/Desktop/history.txt | mail -s "Hi Magdala, just checking in!" magdala@maria-VirtualBox
+```
+
+Since I am `sending` the `email` via `Terminal`, and it is being `received` by
+`user magdala` also via `Terminal`, I have to `stick` to `what` the `CLI`
+(`Command Line Interface` or `Terminal`) understands. So for the `Terminal`
+(`bash` specifically) to `interpret` the `contents` of my `history.txt` file
+`properly`, I `use` the `cat` command which then becomes the `stdout` of the
+`mailx` command, thereby `redirecting` the `stdin`
+`cat /home/maria/Desktop/history.txt` of `mailx` as `stdout` of `mailx` to
+`magdala@maria-VirtualBox`.
+
+If I wanted to `send` a `copy` of the `email` to `myself` I `could do` the
+`following`:
+
+```shell
+cat /home/maria/Desktop/history.txt | mail -s "Hi Magdala, just checking in!" magdala@maria-VirtualBox maria@maria-VirtualBox
+```
+
+And if the `user magdala` wants to `save` the `contents` to a `file`, she can
+`copy` it `from` the `email body` and `paste it` into a new `.txt` file. It is
+`not perfect` on the `receiving end`, but for `cron job` notification purposes,
+for example, it would work just fine. As well as `.txt` files containing
+`log information`, for example, that are not too lengthy.
+
+If I did not do it as above using the `cat` command, the `contents` of the file
+would be `unintelligible`.
+
+## Related Resources
+
+-   [mailx in Linux](https://www.geeksforgeeks.org/mailx-in-linux/): **_Geeks
+    for Geeks_**
+
+-   [How to send attachments using mailx command](https://www.linuxquestions.org/questions/linux-newbie-8/how-to-send-attachments-using-mailx-command-4175669007/):
+    **_LinuxQuestiona.org_**
