@@ -1,0 +1,182 @@
+---
+slug: the-cron-daemon-in-linux-and-how-to-create-a-cron-job
+date: '2024-07-25T12:58:32.680Z'
+lastModified: '2024-07-26T04:33:32.680Z'
+title: The Cron daemon in Linux and how to create a cron job
+author: Maria D. Campbell
+excerpt:
+    The Cron daemon in Linux and how to create a cron job and cron daemon
+    alternative(s) that run even when the OS is asleep or shut down.
+image: pexels-ono-kosuki-5974031.jpg
+tags:
+    [
+        'linux',
+        'linux mint',
+        'cron daemon',
+        'linux cron alternatives',
+        'anacron',
+        'anacron cron service',
+        'crontab',
+        'automation',
+        'task automation',
+    ]
+isPublished: true
+isFeatured: true
+---
+
+![Task automation: Boring machine drilling hole in wooden plank](pexels-ono-kosuki-5974031.jpg)
+
+**_Photo by_** [Ono Kosuki](https://www.pexels.com/@ono-kosuki/) **_on_**
+[pexels.com](https://www.pexels.com/photo/boring-machine-drilling-hole-in-wooden-plank-5974031/)
+
+The `cron daemon` is a built-in `Linux utility` that `reads` a `crontab`
+(`cron table`) `file` and `executes commands` and `scripts` listed there at
+`pre-defined times` and `intervals`.
+
+The `cron daemon` used to also be a `built-in utility` in `macOS`, but has now
+been `deprecated` in `favor` of `launchd`. It is `still supported`,
+**_however_**. To `learn more` about `cron` vs `launchd`, you can `read` the
+`article` entitled
+[Scheduling Timed Jobs](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html#//apple_ref/doc/uid/10000172i-CH1-SW2)
+on `apple.developer.com`.
+
+We set up `cron jobs` in the `crontab` file to `automate` routine
+`maintenance activities`, such as `updating software`, `creating backups`, or
+`clearing caches`.
+
+## Crontab Syntax
+
+`MIN HOUR DOM MON DOW Command`
+
+`MIN`: stands for minute.
+
+`HOUR`: stands for hours.
+
+`DOM`: stands for day of the month.
+
+`MON`: stands for month.
+
+`DOW`: stands for day of the week.
+
+These `fields` determine when the `cron job` takes place.
+
+`CMD`: stands for command.
+
+`One thing` to `note` about `cron jobs` in `Linux` and other `OS` such as
+`macOS` (Unix). Scheduled `cron jobs` **_don't run_** when the `cron daemon` is
+`not running`. **_However_**, there are **_"vanilla"_** `cron daemon`
+**_alternatives_** that `do run` when the `OS` **_is either_** `asleep` or
+`shut down`. For example, one `cron daemon` alternative that `does run` when the
+`OS` **_is either_** `asleep` **_or_** `shut down` is called `anacron`, and it
+is `available` in `Linux Mint` by `default`. `anacron` is `available` in
+`Ubuntu` and `Ubuntu derivatives`. `Linux Mint` is an `Ubuntu derivative`. I
+will discuss `anacron` in a future post.
+
+## Creating a simple `script` for `cron` automation
+
+Let's create a simple `script` to `add` to the `crontab` for `automation` to
+`make sure` that `everything works`.
+
+**_First_**, I `create` a new `folder` in `/home/maria` (my `Linux` home
+directory) called `cron-job-scripts`:
+
+```shell
+mkdir cron-job-scripts
+# psth to cron-job-scripts in Terminal
+maria@maria-VirtualBox:~/cron-job-scripts$
+```
+
+And `inside` the `cron-job-scripts` directory, I `create` a `file` called
+`current_date_time.sh`:
+
+```shell
+# psth to cron-job-scripts in Terminal
+maria@maria-VirtualBox:~/cron-job-scripts$ touch current_date_time.sh
+```
+
+## Creating a `new` or `editing` an existing `crontab file`
+
+Next, I `run` the following `command` that either `creates` a new `crontab` file
+for me or `edits` an `existing one`:
+
+```shell
+crontab -e
+# which returns in my case:
+no crontab for maria - creating an empty one
+# If you have not already selected a default text editor to use in Terminal, something like the following may appear
+Select an editor.   To change later, run 'select editor'.
+1.  /bin/nano       <---- easiest
+2.  /usr/bin/vim.tiny
+3. /bin/ed
+
+Choose 1-3 [1]: 1
+```
+
+## Creating the `cron job` itself
+
+Next, after I have gone into the `crontab` file in Vim (my editor of choice), I
+`add` the `following line` at the `bottom` of the `file` (`below all` the
+`commented lines`):
+
+```shell
+45 22 * * * /home/maria/cron-job-scripts/current_date_time.sh
+```
+
+Then I `save` my `changes` and `exit` out of `Vim`. I already have everything
+set up as far as `email notification` when the `cron job` is `executed`, so no
+problem there. At `10:45pm` (represented by `45 22`), I `checked` my
+`local mbox`, which is `located` in my `home` directory (`/home/maria`) by
+`running` the `mailx` command:
+
+```shell
+mailx
+```
+
+Then the **_new_** `email` **_appears_**, indicated by `"N"`, and the `?` prompt
+`appears` at the `end`. I `type` the `number` of the `email` after the `?` and
+`hit` the `Enter` key. And then the `contents` of the `email` appears:
+
+```shell
+mailx
+# returns:
+"/home/maria/mbox": 3 messages 1 new
+     1 Maria              Thu Jul 25 19:09  48/1795  Another attachment for yo
+     2 Maria              Thu Jul 25 20:13 684/18504 Sendiing history log file
+>N   3 Cron Daemon        Thu Jul 25 22:45  21/854   Cron <maria@maria-Virtual
+? 3
+Return-Path: <maria@maria-VirtualBox.mynetworksettings.com>
+X-Original-To: maria
+Delivered-To: maria@maria-VirtualBox.mynetworksettings.com
+Received: by maria-VirtualBox.mynetworksettings.com (Postfix, from userid 1000)
+	id 405E52EA36A; Thu, 25 Jul 2024 22:45:01 -0400 (EDT)
+From: root@maria-VirtualBox.mynetworksettings.com (Cron Daemon)
+To: maria@maria-VirtualBox.mynetworksettings.com
+Subject: Cron <maria@maria-VirtualBox> /home/maria/cron-job-scripts/current_date_time.sh
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Cron-Env: <SHELL=/bin/sh>
+X-Cron-Env: <HOME=/home/maria>
+X-Cron-Env: <LOGNAME=maria>
+Message-Id: <20240726024501.405E52EA36A@maria-VirtualBox.mynetworksettings.com>
+Date: Thu, 25 Jul 2024 22:45:01 -0400 (EDT)
+Status: R
+X-UID: 4
+
+Current Date and Time: Thu Jul 25 10:45:01 PM EDT 2024
+
+?
+```
+
+The `result` of the `cron job` is at the `bottom`, `right above` the `?` prompt.
+`Each time` I `run` this `cron job` every day at 10:45pm IF the computer is
+powered on, meaning `Linux Mint` in `VirtualBox` is `running`, I will `receive`
+a `local email` stating the `Current Date` and `Time`. Cool, right?
+
+## Related Resources
+
+-   [How to Create and Set Up a Cron Job in Linux](https://phoenixnap.com/kb/set-up-cron-job-linux):
+    **_phoenixNAP_**
+
+-   [How to send/receive local emails in Linux Mint/VirtualBox](/blog/how-to-sendreceive-local-emails-in-linux-mintvirtualbox):
+    **_mariadcampbell.com_**
