@@ -1,0 +1,58 @@
+---
+slug: bash-auto-completion-in-linux
+date: '2024-07-27T00:03:01.585Z'
+lastModified: '2024-07-27T00:03:01.585Z'
+title: Bash auto-completion in Linux
+author: Maria D. Campbell
+excerpt: Bash auto-completion in Linux.
+image: pexels-robertkso-24182219.jpg
+tags:
+    [
+        'command line',
+        'terminal',
+        'linux',
+        'ubuntu',
+        'linux mint',
+        'bash auto-completion',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Auto parts](pexels-robertkso-24182219.jpg)
+
+**_Photo by_** [Robert So Robert So](https://www.pexels.com/@robertkso/)
+**_on_**
+[pexels.com](https://www.pexels.com/photo/engine-and-car-parts-24182219/)
+
+Since I have been working much more using `bash` in `Linux`, I miss the
+`zsh auto-completion` feature, and wanted to `implement` it in `Linux bash` as
+well. It is very easy to do.
+
+I found that I just had to `install` an `Ubuntu` package called
+`bash-completion`. `Linux Mint` is a `derivative` of `Ubuntu`, so no problem
+there!
+
+I `ran` the `following` in `Terminal`:
+
+```shell
+# to update current packages. updates the list of available packages and their versions, but it does not install or upgrade any packages.
+sudo apt update
+# actually installs newer versions of the packages you have. After updating the lists, the package manager knows about available updates for the software you have installed. This is why you first want to update.
+sudo apt upgrade
+# install bash-completion
+sudo apt install bash-completion
+```
+
+When the `installation` was `complete`, I `exited out` of `Terminal` and then
+opened it up again to `make sure` that it `recognized` the
+`package installation`. Then I `tested` to `see` if it was `working properly`:
+
+```shell
+maria@maria-VirtualBox:~/Desktop$ cd ..
+cd Desktop
+cd ..
+cd Des # followed by pressing the tab key to see if Des would auto-complete to "Desktop", and it did!
+```
+
+And that was it! This makes `typing` in `Linux Terminal` so much easier!
