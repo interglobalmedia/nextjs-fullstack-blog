@@ -1,0 +1,414 @@
+---
+slug: some-important-terms-to-know-in-linux
+date: '2024-07-27T13:58:45.351Z'
+lastModified: '2024-07-27T13:58:45.351Z'
+title: Some Important Terms to Know in Linux
+author: Maria D. Campbell
+excerpt: Some important terms to know in Linux.
+image: pexels-karolina-grabowska-4021878.jpg
+tags:
+    [
+        'linux',
+        'linux mint',
+        'command line',
+        'linux kernel',
+        'gnu',
+        'linux distribution',
+        'linux package managers',
+        'source packages',
+        'binary packages',
+        'linux repositories',
+        'linux boot loader',
+        'linux services',
+        'linux filesystem',
+        'linux desktop environment',
+        'linux shells',
+        'linux shell scripting',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Refreshing lemon mint drink](pexels-karolina-grabowska-4021878.jpg)
+
+**_Photo by_**
+[Karolina Kaboompics](https://www.pexels.com/@karolina-grabowska/) **_on_**
+[pexels.com](https://www.pexels.com/photo/glass-of-cocktail-with-lemon-and-peppermint-4021878/)
+
+In order to be able to understand what `Linux` is all about, there are certain
+`Linux terms` you should become familiar with from the get go.
+
+## The Linux kernel
+
+**_First_** an **_foremost_**, you should know what is meant by the
+`Linux Kernel`.
+
+> The `Linux® kernel` is the main component of a `Linux operating system` (`OS`)
+> and is the `core interface` between a **_computer’s_** `hardware` and its
+> `processes`. It communicates between the 2, managing resources as efficiently
+> as possible.
+>
+> The `kernel` is `so named` because—like a seed inside a hard shell—it exists
+> within the OS and controls all the major functions of the hardware, whether
+> it’s a phone, laptop, server, or any other kind of computer. -- **_What is the
+> Linux kernel?_**,
+> [RedHat](https://www.redhat.com/en/topics/linux/what-is-the-linux-kernel)
+
+The `Linux kernel` **_accomplishes_** `4 tasks`:
+
+-   `Memory management`: keeps track of how much memory is used to store what
+    and where
+-   `Process management`: determines which processes can use the central
+    processing unit (CPU), and for how long.
+-   `Device drivers`: acts as a mediator/interpreter between the hardware and
+    the processes.
+-   `System calls and security`: receives requests for service from processes.
+
+The `kernel` works `invisibly` in the `kernel space`, where it
+`allocates memory` and `keeps track` of where `everything` is `stored`. The
+`user sees` things like `web browsers` and `files`, and `these live` in the
+`user space`. These `applications` **_interact_** with the `kernel` via a
+`system call interface` (`SCI`).
+
+## GNU
+
+`GNU`, or `"GNU's Not Unix"`, is a `collection` of `open source` tools that
+anyone can `use` for `free` to `develop` their own `apps` and
+`operating systems`.
+
+The `GNU Project`, **_founded by_** `Richard Stallman`, `develops` and
+`distributes software` for `free` and `provides` every `developer` with
+`open-source` tools to do the same.
+
+The `Linux kernel` is `licensed` under `GNU`'s `GPL` (`General Public License`)
+and is known as `GNU/Linux`. Any operating system developed using
+`open-source GNU tools` and the `Linux kernel` **_falls under_** the `category`
+of `Linux distributions`.
+
+## Linux distribution
+
+A `Linux distribution` (or `distro`) is an `operating system` (`OS`) compiled
+from components developed by open source projects/programmers.
+
+Each distribution includes:
+
+-   the Linux kernel (the core of the OS),
+-   GNU (GNU's Not Unix) shell utilities (terminal interface and commands),
+-   the X server (a graphical desktop),
+-   the desktop environment,
+-   package management system,
+-   an installer,
+-   other services
+
+`Distributions` also `include` an `internet browser`, `management tools`, and
+`other software` such as the `KVM` (`Kernel-based Virtual Machine`) `hypervisor`
+**[^1]**. A single `Linux distribution` **_may contain_** `thousands` of
+`software packages`, `utilities`, and `applications`.
+
+## Linux package managers
+
+`Package managers` are `programs` that `manage packages` on a `Linux system`. It
+allows us to `add` or `delete packages` from sources such as our distribution's
+repositories or third party repositories.
+
+`APT`, `RPM`, and `pacman` are the three **_most popular_** `package managers`
+**_used by_** `Linux distributions`. `Debian` and `Ubuntu-based` distributions
+use the `APT` package manager. `Fedora`, `CentOS`, and `RHEL` have the `RPM`
+package manager. `Arch Linux` and its derivatives ship with `pacman`.
+
+## Source and binary packages
+
+A `Linux package` is a `compressed software archive` file `containing` all the
+`files` comprising a `software application` that `provides` a
+`particular functionality`.
+
+`Linux software` ere usually `distributed` as `packages`, and there are
+`two types` of `packages` available: `source` and `binary`.
+
+`Source packages` contain program source code that a user has to manually
+compile and install in order to run the software.
+
+`Binary packages` contain pre-built and pre-compiled executables for the
+software.
+
+## Linux repositories
+
+`Software repositories` are `remote servers` that `store` a `collection` of
+`packages` along with `related metadata` **[^3]**. **_Every_**
+`Linux distribution` **_either has_** its own `repositories` **_or uses_**
+`repositories` of its `parent distribution` **_to provide_** `software` to the
+`users`.
+
+## Linux Boot loader
+
+A `boot loader` is is `program` which `loads` the `OS` into `RAM` during the
+`boot process` **[^2]**. The `boot loader` **_helps_** `load` **_the correct_**
+`operating system` during `boot time` **_and adds_** `initial processes` into
+`memory` (`RAM`).
+
+## Linux services
+
+A Linux service
+([cron daemon](/blog/the-cron-daemon-in-linux-and-how-to-create-a-cron-job) is a
+service) is a `process` or `application` that `runs` in the `background`, either
+doing some `predefined task` or `waiting` for `some event`. `systemd`, which is
+a `system` and `service manager` for `Linux`, is the `first process` to `run` in
+the `system`.
+
+## Linux filesystem
+
+`At` a `high level`, the `Linux filesystem` follows the
+`Filesystem Hierarchy Standard` (`FHS`). This `standard` describes the
+`common layout conventions` used by most `UNIX` and `UNIX-like` systems. It
+`consists` of a `single primary` or `root directory` with `multiple` branching
+`sub-directories`.
+
+`/` represents the `root` of the `Linux filesystem`. It is `under` this
+`root directory` that `all` other `files` and `directories` reside. The
+[Filesystem Hierarchy Standard](https://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html)
+(`FHS`) `describes` the `different directories` and `what files` are `located`
+in `which directories`.
+
+If you have `Ubuntu` or a `Ubuntu derivative` installed (like `Linux Mint` for
+example), you can `install` a `package` called `tree` by `running` the
+`following command` in `Terminal`:
+
+```shell
+# to update current packages. updates the list of available packages and their versions, but it does not install or upgrade any packages.
+sudo apt update
+# actually installs newer versions of the packages you have. After updating the lists, the package manager knows about available updates for the software you have installed. This is why you first want to update.
+sudo apt upgrade
+# now you are ready to install tree
+sudo apt install tree
+```
+
+Now you can run a command like the following:
+
+```shell
+tree /
+```
+
+The `tree` command `lists contents` of `directories` in a `tree-like` format in
+`Linux`. `With` **_no_** `args`, it `lists` the `files` and `sub-directories` in
+the `current directory`. With `directory args` (such as `/` or `~`), `tree`
+**_lists_** all the `files` and/or `directories` found in the
+`given directories`. When `completing` the `list` of all `files` and
+`directories` found, `tree` returns the `total number` of `files` and/or
+`directories` listed.
+
+If you want a `short list` of `files` and `directories` in `root` (`/`), for
+example, you can `run` something like the `following` instead:
+
+```shell
+# run from root directory `/`
+tree -L 1 /
+```
+
+What this `command` essentially is `doing` is it `shows only` the `first level`
+of the `directory tree` **_starting at_** `root` (`/`). The `-L` option tells
+`tree` how many `levels down` we `want` to `see`. Here, **_we indicate_**
+`1 level`.
+
+### Types of files in Linux
+
+In `Linux` and `Unix` systems, `everything` is `considered` a `file`. If it
+isn't, it's a `running process`. Basically, `files` fall under `three` different
+`categories` in `Linux`:
+
+-   `Regular files`: these include text files, photos, videos, programs, and
+    executable files.
+-   `Directories`: in `Linux`, directories are also considered files since they
+    provide storage for other files and sub-directories.
+-   `Special files`: device files that are made up of symbolic links, block
+    files, socket files, and named pipe files.
+
+I will discuss the Linux Filesystem Tree in greater detail in an upcoming
+article. It's too lengthy to include here.
+
+## root directory vs root user
+
+The `root` (`/`) `directory`, mentioned previously, `represents` the `root` of
+the `Linux filesystem`. It is `under` this `root directory` that `all` other
+`files` and `directories` reside.
+
+The `root user`, or `superuser`, or just `root`, is the `user` that has `all`
+administrative `privileges`. The `root user` can `read`, `write/edit`, and
+`delete` any `file`, `make changes` to the `system` or `other users`, and even
+`delete` the whole `directory tree`. `root` is the `Linux user` with the
+`highest level` of `control`. To `learn` a bit `more` about `root` and related
+`sudo`, `sudo su`, and `su` commands, `please visit` my `article`
+[The su command in Linux and Unix (macOS)](/blog/the-su-command-in-linux-and-unix-macos).
+
+## X Window System
+
+The [X Window System](http://www.opengroup.org/tech/desktop/x-window-system/)
+`provides` the `base technology` for developing `graphical user interfaces`.
+
+## Linux desktop environment
+
+A `Linux desktop environment` bundles together various components to provide
+common `graphical user interface elements` such as `icons`, `toolbars`,
+`wallpapers`, and `desktop widgets`. And most `desktop environments` include a
+`set` of `integrated applications` and `utilities`. It is the
+`desktop environment` that `permits us` to use `Linux graphically` using a
+`mouse` and `keyboard` like we do in `other OS` like `Windows` or `macOS`.
+
+## Linux Command Line Interface
+
+The `Linux Command Line Interface` (also available in `other OS` like `Windows`
+and `macOS`) is `what` we `use` to `interact with` a computer's `OS` using the
+`computer keyboard`. We can `enter` text `commands` to `navigate`,
+`run programs`, or `configure` our `computer system`. `All` operating systems
+(`OS`), including `Windows`, `Linux` and `macOS`, `provide` a `CLI` in
+`addition` to a `graphical user interface` (`GUI`).
+
+Oftentimes `Terminal`, `Command Line`, `Console`, or `Shell` are used
+`interchangeably`. However, they are `not` all exactly the `same`.
+
+A `"Terminal"` is a text input/output (I/O) environment.
+
+A `Terminal window`, aka `Terminal emulator`, is a text only window that
+emulates a user's `Console` in a `Graphical User Interface` (`GUI`).
+
+A `Terminal` is a `program` that `allows us` to `run` a `shell`. It is a
+`device` with a `human readable display` that `accepts` a `stream` of
+`characters` and `displays them`. They are `used frequently` in `networking` and
+`device debugging interfaces`.
+
+A `Console` is a `physical Terminal`. It is an `instrument panel` with
+`computer controls`. It is a `type` of `terminal`, and is a `window` which
+contains `active text-mode programs`. The `Console` **_recognizes_**
+`key presses` (`stdin`) and is `aware` of its `width` and `height`.
+`Full screen mode` is `available`.
+
+A `Shell` is a `command line interpreter`. It `processes commands` (`stdin`) and
+`outputs` the `results` (`stdout`). A `Shell` is a `layer` that `sits` on `top`
+of the `kernel`:
+
+-   It `interprets` and `processes` the `commands` entered by the user. Users
+    don't have access to the `kernel`, but the `shell` does. Users can only gain
+    access to the `kernel` by using a `shell` and entering `commands` or
+    `running programs`.
+-   `System calls` are `used` by `programs` to `gain access` to the `kernel`'s
+    `functionality`.
+
+The `Command Line` is an `area` to the `right` of the `command prompt` in the
+`Terminal window` where a `user` **_enters_** `commands` and `data`. `This is`
+the `line` where we `type` our `commands`.
+
+## Linux Shells
+
+`Linux shells` can be `either be` a `command line interpreter` like `Terminal`
+or a `graphical interpreter` like `GNOME Shell`. We can also `install`
+**_different_** `shells` in `Linux`. `Examples` **_include_** `Bash`, `Zsh`,
+`Fish`, `sh`, and `Ksh`.
+
+The `following` are `two ways` one can `list` the `shells` currently `available`
+in one's `Linux distribution`:
+
+`Using` the `cat` command:
+
+```shell
+cat /etc/shells
+# which returns:
+# /etc/shells: valid login shells
+/bin/sh
+/bin/Bash
+/usr/bin/bash
+/bin/rbash
+/usr/bin/rbash
+/usr/bin/sh
+/bin/dash
+/usr/bin/dash
+```
+
+Using `grep`:
+
+```shell
+grep -v '^#' /etc/shells
+# which returns the same as with cat command except for the message:
+/bin/sh
+/bin/Bash
+/usr/bin/bash
+/bin/rbash
+/usr/bin/rbash
+/usr/bin/sh
+/bin/dash
+/usr/bin/dash
+```
+
+`cat /etc/shells` displays the contents of `/etx/shells`.
+
+`grep -v '^#' /etc/shells` allows to `filter` and `display` only the `lines`
+that contain `valid shell entries`. The `regular expression` `^` `character`
+means `beginning` of the `line`, and `#` **_means to_** `search` for `lines`
+that `begin` with `#`. But the `-v` flag, or --invert-match, `means` to `select`
+**_non-matching_** `lines`, so `lines` that `don't begin` with `#`, `which`
+would `represent` a `comment`. `That` is `why` the comment
+`# /etc/shells: valid login shells` **_does_** `not` **_appear_** here.
+
+## Linux shell scripting
+
+`Shell scripting` (`not` **_just in_** `Linux`) `refers` to the `process` of
+`writing scripts` **_using_** (`Linux`) `commands`, which are then `interpreted`
+by the `shell` **_installed in_** `Linux`. `Batch scripts` in `Windows` are the
+`equivalent` to `shell scripts` in `Linux`.
+
+The `most popular` form of `shell scripting` in `Linux` is `Bash scripting`,
+which means `writing` and `executing scripts` using the `Bash shell`.
+`Shell scripts` are `used` to `automate tasks` and are `added` to
+`crontab files` as `cron jobs`. To `learn` how to `set up` a basic `cron job`
+using the `Cron daemon`, `please visit` my `article` entitled
+[The Cron daemon in Linux and how to create a cron job](/blog/the-cron-daemon-in-linux-and-how-to-create-a-cron-job).
+I will be `adding` more `articles` regarding `creating` different `cron jobs` in
+the `near future`.
+
+## Footnotes
+
+**[^1]**: a
+[hypervisor](https://www.suse.com/suse-defines/definition/hypervisor/of) is a
+program that separates a computer's OS and applications from the underlying
+physical hardware. This is what enables virtualization and cloud computing
+solutions for modern IT infrastructures.
+
+A `hypervisor` allows the physical host machine to operate multiple virtual
+machines (VMs like VirtualBox, for example) as guests. This increases the
+effectiveness of computing resources such as memory, network bandwidth, disk
+space and CPU cycles.
+
+VMs can run on the same physical hardware, but they are logically separated from
+each other, preventing a failure in one VM from affecting other VMs on the same
+physical machine.
+
+A `hypervisor` creates, runs, and manages virtual machines.
+
+**[^2]**: The `boot process` is the process of loading an OS. It starts when we
+turn on a computer and ends when the OS is loaded into memory.
+
+**[^3]**: `Linux package metadata` describes a package for its consumers: who
+wrote it, where its repository is, and what versions of it have been published.
+It also contains a description of each version of a package present in the
+registry, listing its dependencies, giving the url of its tarball, etc.
+
+## Related resources
+
+-   [How to Install and Use Popular Linux Bootloaders](https://www.baeldung.com/linux/popular-bootloaders):
+    **_baeldung.com_**
+
+-   [Computer Boot Process Explained](https://www.baeldung.com/cs/computer-boot-process):
+    **_baeldung.com_**
+
+-   [The Linux Filesystem](https://medium.com/@jasurbek.go.dev/the-linux-filesystem-95673f4e3bd5):
+    **_by perfectogo, medium.com_**
+
+-   [Classic SysAdmin: The Linux Filesystem Explained](https://www.linuxfoundation.org/blog/blog/classic-sysadmin-the-linux-filesystem-explained):
+    **_The Linux Foundation_**
+
+-   [Linux command line for you and me!¶](https://lym.readthedocs.io/en/latest/index.html):
+    **_LYM_**
+
+-   [Difference between Terminal, Console, Shell, and Command Line](https://www.geeksforgeeks.org/difference-between-terminal-console-shell-and-command-line/):
+    **_Geeks for Geeks_**
+
+-   [15 Linux Terms, Jargons, and Lingo You Should Know About](https://www.makeuseof.com/tag/linux-confusing-key-terms-definitions/):**_
+    makeuseof_**
