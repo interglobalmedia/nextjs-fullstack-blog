@@ -16,23 +16,23 @@ inquirer.prompt([
 		name: 'slug',
 		default: (answers) => slugify(answers.title.toLowerCase()),
 		message: 'Enter Slug',
-    },
-    {
-        type: 'input',
-        name: 'author',
-        message: 'Enter Author',
-    },
+	},
+	{
+		type: 'input',
+		name: 'author',
+		message: 'Enter Author',
+	},
 	{
 		type: 'input',
 		name: 'excerpt',
 		message: 'Enter Excerpt',
 	},
-    {
-      type: 'confirm',
-      name: 'isPublished',
-      default: false,
-      message: 'Is Published?'
-    },
+	{
+		type: 'confirm',
+		name: 'isPublished',
+		default: false,
+		message: 'Is Published?'
+	},
 	{
 		type: 'confirm',
 		name: 'isFeatured',
@@ -52,6 +52,12 @@ inquirer.prompt([
 			},
 			{
 				name: 'macOS',
+			},
+			{
+				name: 'linux',
+			},
+			{
+				name: 'linux mint',
 			},
 			{
 				name: 'command line',
@@ -79,17 +85,17 @@ inquirer.prompt([
 		format: ['dd', '-', 'mm', '-', 'yyyy', ' ', 'hh', ':', 'MM', ' ', 'TT'],
 	},
 ])
-.then(answers => {
-    const { slug, date, lastModified, title, author, excerpt, tags,  isPublished, isFeatured } = answers;
-	date.getHours() + ' ' + date.getMinutes()
-	lastModified.getHours() + ' ' + lastModified.getMinutes()
-    const fileName = `data/blog/${slug}.mdx`
-    if (fs.existsSync(fileName)) {
-      throw 'That post already exists!';
-    }
-    fs.writeFileSync(
-    `data/blog/${ slug }.mdx`,
-`---
+	.then(answers => {
+		const { slug, date, lastModified, title, author, excerpt, tags, isPublished, isFeatured } = answers;
+		date.getHours() + ' ' + date.getMinutes()
+		lastModified.getHours() + ' ' + lastModified.getMinutes()
+		const fileName = `data/blog/${slug}.mdx`
+		if (fs.existsSync(fileName)) {
+			throw 'That post already exists!';
+		}
+		fs.writeFileSync(
+			`data/blog/${slug}.mdx`,
+			`---
 slug: '${slug}'
 date: '${date.toISOString()}'
 lastModified: '${date.toISOString()}'
@@ -104,7 +110,7 @@ isFeatured: ${isFeatured}
 `);
 
 
-    fs.mkdirSync(`public/images/blog/${slug}`, { recursive: true })
-    console.log(`\n${slug} was created!`)
-    open(`http://localhost:3000/posts/${slug}`)
-  });
+		fs.mkdirSync(`public/images/blog/${slug}`, { recursive: true })
+		console.log(`\n${slug} was created!`)
+		open(`http://localhost:3000/posts/${slug}`)
+	});
