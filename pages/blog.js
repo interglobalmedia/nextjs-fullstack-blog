@@ -28,13 +28,9 @@ export default function Blog({ posts, initialDisplayPosts, pagination }) {
 				<title>Maria D. Campbell's Next Blog Blog Page</title>
 				<meta
 					name="description"
-					content="Welcome to my Blog page, which contains which contains all my blog posts. I blog about cybersecurity, fullstack development as well as
+					content="Welcome to my Blog page, which contains all my blog posts. I blog about cybersecurity, fullstack development as well as
 				macOS, Command Line, Linux, shell scripting, Windows, Git, and ethics
 				in technology"
-				/>
-				<meta
-					name="keywords"
-					content="applescript, awk, chflags, schg, chmod, command line, command prompt, cryptography, css, cybersecurity, django 4, encryption, environment variables, file conversion, file permissions, git, git hooks, github, branch protection, grep, husky, jira, javascript, html, lint-staged, linux, kali linux, keyboard shortcuts, macos, mysql, next.js, node.js, npm, pipe, python, react, react portal, redirect operators, shell scripting, software updates, sql, ssh, stdin, stdout, stderr, unix, virtualbox, windows, windows 11, write protect files, zsh"
 				/>
 			</Head>
 			<DynamicAllPosts
