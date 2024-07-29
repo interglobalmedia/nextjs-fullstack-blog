@@ -1,11 +1,19 @@
+html {
+	scroll-behavior: smooth;
+}
+
 /* dark theme styling for post-content */
 ul {
 	margin-bottom: 1rem;
 }
 
 li {
-	margin-left: 1rem;
 	list-style-type: square;
+	margin-left: 1rem;
+
+	& ul > li {
+		list-style-type: circle;
+	}
 }
 
 a {
@@ -21,7 +29,7 @@ a:hover {
 /* dark theme styling for global anchor element and global .tag class selector  */
 .dark a,
 .dark .tag {
-    /* stylelint-disable scss/no-global-function-names */
+	/* stylelint-disable scss/no-global-function-names */
 	color: darken($tailwind-lightest-orange, 2.5%);
 }
 
@@ -85,10 +93,12 @@ blockquote {
 /* styling for copy code button */
 
 .blog-pre {
-    margin-bottom: 0.5em !important;
+	margin-bottom: 0.5em !important;
 	/* stylelint-disable property-no-vendor-prefix */
 	/* stylelint-disable color-function-notation */
-    -webkit-box-shadow: -10px 0 13px -7px #000, 10px 0 13px -7px #000, 35px -23px 2px -16px rgba(0 0 0 / 0%);
-    box-shadow: -10px 0 13px -7px #000, 10px 0 13px -7px #000, 35px -23px 2px -16px rgba(0 0 0 / 0%);
-    position: relative;
+	-webkit-box-shadow: -10px 0 13px -7px #000, 10px 0 13px -7px #000,
+		35px -23px 2px -16px rgba(0 0 0 / 0%);
+	box-shadow: -10px 0 13px -7px #000, 10px 0 13px -7px #000,
+		35px -23px 2px -16px rgba(0 0 0 / 0%);
+	position: relative;
 }
