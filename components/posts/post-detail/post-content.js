@@ -13,10 +13,10 @@ import Image from 'next/legacy/image'
 import { getTagLink } from '../get-tag-link'
 import classes from '../../../styles/post-content.module.scss'
 import getReadTime from '../../../lib/utils/read-time'
-import siteMetadata from '../../../data/siteMetadata'
 import Share from '../../share/share'
 import CodeCopyBtn from './code-copy-btn'
 import Giscus from '../../comments/giscus'
+import { generateSlug } from '../../../lib/utils/generate-slug'
 
 SyntaxHighlighter.registerLanguage('js', js)
 SyntaxHighlighter.registerLanguage('css', css)
@@ -84,6 +84,14 @@ function PostContent(props) {
 				)
 			}
 			return <p>{paragraph.children}</p>
+		},
+
+		h2({ node, ...props }) {
+			return <h2 id={generateSlug(props.children[0])} {...props}></h2>
+		},
+
+		h3({ node, ...props }) {
+			return <h3 id={generateSlug(props.children[0])} {...props}></h3>
 		},
 
 		pre({ node, children, ...props }) {
