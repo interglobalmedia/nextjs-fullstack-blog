@@ -3,6 +3,8 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import Hero from '../components/home-page/hero'
 import { getFeaturedPosts } from '../lib/posts-util'
+import ScrollStep from '../components/buttons/scroll-step'
+import ScrollTop from '../components/buttons/scroll-top'
 
 const DynamicFeaturedPosts = dynamic(() =>
 	import('../components/home-page/featured-posts'),
@@ -22,6 +24,8 @@ function HomePage(props) {
 			</Head>
 			<Hero />
 			<DynamicFeaturedPosts posts={props.posts} />
+			<ScrollStep />
+			<ScrollTop />
 		</Fragment>
 	)
 }
