@@ -29,6 +29,17 @@ isFeatured: true
 **_Photo by_** [Ono Kosuki](https://www.pexels.com/@ono-kosuki/) **_on_**
 [pexels.com](https://www.pexels.com/photo/boring-machine-drilling-hole-in-wooden-plank-5974031/)
 
+## Table of Contents
+
+-   [The Cron daemon](#the-cron-daemon)
+-   [Crontab Syntax](#crontab-syntax)
+-   [Creating a simple script for cron automation](#creating-a-simple-script-for-cron-automation)
+-   [Creating a new or editing an existing crontab file](#creating-a-new-or-editing-an-existing-crontab-file)
+-   [Creating the cron job itself](#creating-the-cron-job-itself)
+-   [Related Resources](#related-resources)
+
+## The Cron daemon
+
 The `cron daemon` is a built-in `Linux utility` that `reads` a `crontab`
 (`cron table`) `file` and `executes commands` and `scripts` listed there at
 `pre-defined times` and `intervals`.
@@ -72,7 +83,7 @@ is `available` in `Linux Mint` by `default`. `anacron` is `available` in
 `Ubuntu` and `Ubuntu derivatives`. `Linux Mint` is an `Ubuntu derivative`. I
 will discuss `anacron` in a future post.
 
-## Creating a simple `script` for `cron` automation
+## Creating a simple script for cron automation
 
 Let's create a simple `script` to `add` to the `crontab` for `automation` to
 `make sure` that `everything works`.
@@ -94,7 +105,7 @@ And `inside` the `cron-job-scripts` directory, I `create` a `file` called
 maria@maria-VirtualBox:~/cron-job-scripts$ touch current_date_time.sh
 ```
 
-## Creating a `new` or `editing` an existing `crontab file`
+## Creating a new or editing an existing crontab file
 
 Next, I `run` the following `command` that either `creates` a new `crontab` file
 for me or `edits` an `existing one`:
@@ -112,7 +123,7 @@ Select an editor.   To change later, run 'select editor'.
 Choose 1-3 [1]: 1
 ```
 
-## Creating the `cron job` itself
+## Creating the cron job itself
 
 Next, after I have gone into the `crontab` file in Vim (my editor of choice), I
 `add` the `following line` at the `bottom` of the `file` (`below all` the

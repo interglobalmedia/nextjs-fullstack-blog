@@ -17,12 +17,22 @@ isFeatured: false
 **_on_**
 [pexels.com](https://www.pexels.com/photo/a-red-switch-for-an-artificial-intelligence-system-8438955/)
 
+## Table of Contents
+
+-   [The su command](#the-su-command)
+-   [Using su without any arguments](#using-su-without-any-arguments)
+-   [su username](#su-username)
+-   [su -, su -l, and su --login](#su-su-l-and-su-login)
+-   [Footnotes](#footnotes)
+
+## The su command
+
 The `su` command in `Linux` and `Unix` stands for `switch user` or
 `substitute user`. I mention it in my article
 [setuid, setgid, and sticky bit in Linux and Unix (macOS)](http://localhost:3000/blog/setuid-setgid-and-sticky-bit-in-linux-and-unix-macos),
 but there is much more to it than what i discussed in passing.
 
-## Using `su` without any `arguments`
+## Using su without any arguments
 
 If we run `su` without any arguments (alone), it `defaults` to `running` an
 `interactive shell` as the `root user`. If I run `su` alone in `Linux` (or
@@ -53,7 +63,7 @@ first place.
 
 In `Linux` (`Linux Mint`), `su` is `mostly designed` for `unprivileged users`.
 
-## su `username`
+## su username
 
 When `su` is `followed by` a `username`, `additional arguments` can be
 `specified`. but `when` only `username` is `specified`, the `current user`
@@ -73,7 +83,7 @@ do anything in this state. It is a good way of `checking` how well `permissions`
 and `ownership` are `working`. And only `user maria` logged in as `user maria`
 can `change` file `permissions` or `ownership`.
 
-## su `-`, su `-l`, and su `--login`
+## su -, su -l, and su --login
 
 If I run `su --login magdala` instead of simply `su magdala`, the `following`
 would be `returned` in `Terminal`:
