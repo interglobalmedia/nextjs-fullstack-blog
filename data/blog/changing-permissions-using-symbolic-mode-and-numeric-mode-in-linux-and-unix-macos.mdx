@@ -28,11 +28,23 @@ isFeatured: false
 **_Photo by_** [Danielle Rice](https://unsplash.com/@drice22) **_on_**
 [unsplash.com](https://unsplash.com/photos/person-holding-black-and-white-card-7GfRwb78YWs)
 
+## Table of Contents
+
+-   [Revisiting the ls -l command to view current file or folder permissions](#revisiting-the-ls-l-command-to-view-current-file-or-folder-permissions)
+-   [Hard Link (column 2 from the left) stdout of the ls -l command](#hard-link-column-2-from-the-left-stdout-of-the-ls-l-command)
+-   [What do file permissions (r, w, x) actually permit us to do?](#what-do-file-permissions-r-w-x-actually-permit-us-to-do)
+-   [Setting or changing file permissions in symbolic mode](#setting-or-changing-file-permissions-in-symbolic-mode)
+    -   [chmod syntax](#chmod-syntax)
+-   [Setting or changing file permissions in numeric mode](#setting-or-changing-file-permissions-in-numeric-mode)
+-   [Setting or changing directory permissions](#setting-or-changing-directory-permissions)
+-   [What do directory permissions (r, w, x) actually permit us to do?](#what-do-directory-permissions-r-w-x-actually-permit-us-to-do)
+-   [Related Resources](#related-resources)
+
 In `Linux` and `Unix` (`macOS`), there are `two ways` of
 `setting or changing file` and `folder permissions`. `One` is in
 `symbolic mode`, and `the other` is in `numeric mode`.
 
-## Revisiting the `ls -l` command to view current file or folder permissions
+## Revisiting the ls -l command to view current file or folder permissions
 
 In order to `set` or `change file` or `folder permissions` in `Linux` or `Unix`
 (`macOS`), we first have to know what are the `current permissions` of those
@@ -104,7 +116,7 @@ instead of simply `total 80`.
 This `option` is `used` **_along with_** many `other options`, **_including_**
 `here`: `ls -lah`, **_for example_**.
 
-## Hard Link (column 2 from the left) stdout of the `ls -l` command
+## Hard Link (column 2 from the left) stdout of the ls -l command
 
 Why does the `current directory`, `"text-files"`, contain `two links` (`2`) in
 the `second column` **_from the_** `left`? It is `2` because the `"text-files"`
@@ -120,7 +132,7 @@ also `represented by` the **_directory name_** `text-files`, and `"clicking"` on
 the `"text-files"` **_file icon_**, for example, would `take you` to the
 `actual data` **_stored inside_** the `"text-files"` folder.
 
-## What do file permissions (`r`, `w`, `x`) actually permit us to do?
+## What do file permissions (r, w, x) actually permit us to do?
 
 The `read` `permission` (`r`) `allows us` to `access` the `file's contents`. We
 can use `commands` such as `cat`, `tee`, or `less` to `stdout` the
@@ -390,7 +402,7 @@ Since `everything` is `considered` a `file` in `Linux` and `Unix` (`macOS`),
 `accessibility` of its `contents` and therefore **_should be_** `addressed`
 here.
 
-## What do directory permissions (`r`, `w`, `x`) actually permit us to do?
+## What do directory permissions (r, w, x) actually permit us to do?
 
 The `directory read permission` (`r`) `permits us` to `read` the `contents` of a
 `directory`. This `means` that we can `view` the `list` of `files` within that
