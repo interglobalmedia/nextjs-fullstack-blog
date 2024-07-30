@@ -1,0 +1,131 @@
+---
+slug: how-to-check-package-versions-in-debian-based-linux-distributions-such-as-ubuntu-and-linux-mint
+date: '2024-07-30T16:52:17.190Z'
+lastModified: '2024-07-30T16:52:17.190Z'
+title:
+    How to check package versions in Debian based Linux distributions such as
+    Ubuntu and Linux Mint
+author: Maria D. Campbell
+excerpt:
+    How to check package versions in Debian based Linux distributions such as
+    Ubuntu and Linux Mint.
+image: pexels-liza-summer-6347527(1).jpg
+tags:
+    [
+        'dpkg',
+        'linux',
+        'linux mint',
+        'debian',
+        'ubuntu',
+        'lsblk',
+        'lsmem',
+        'version',
+    ]
+isPublished: true
+isFeatured: true
+---
+
+![Woman comparing information in notebook and carton box](<pexels-liza-summer-6347527(1).jpg>)
+
+**_Photo b_**y [Liza Summer](https://www.pexels.com/@liza-summer/) **_on_**
+[pexels.com](https://www.pexels.com/photo/woman-comparing-information-in-notebook-and-carton-box-6347527/)
+
+## Table of Contents
+
+-   [Checking for package versions in Debian based Linux distribution](#checking-for-package-versions-in-debian-based-linux-distribution)
+-   [Checking for the version of the util-linux package using the lsblk command](#checking-for-the-version-of-the-util-linux-package-using-the-lsblk-command)
+-   [Checking for the version of the util-linux package using the lsmem command](#checking-for-the-version-of-the-util-linux-package-using-the-lsmem-command)
+-   [Related Resources](#related-resources)
+
+## Checking for package versions in Debian based Linux distribution
+
+In order to `check` for `package versions` in `Debian` based
+`Linux distributions` such as `Ubuntu` and `Linux Mint`, etc., we can `run` the
+`following commands` in `Terminal`:
+
+```shell
+dpkg -l packagename
+```
+
+Earlier today I wanted to `find out` what `version` of the `util-linux` package
+I had in my `Linux Mint OS`, and I `found` the `following` on
+[stackoverflow](https://unix.stackexchange.com/questions/713304/how-to-check-linux-util-package-version/781085?noredirect=1#comment1495057_781085):
+
+```shell
+dpkg -l util-linux
+```
+
+And it `returned` the `following` in `Terminal`:
+
+```shell
+ii  util-linux     2.37.2-4ubuntu3.4 amd64        miscellaneous system utilities
+maria@maria-VirtualBox:~/Desktop/simple-http-server$ which chsh
+/usr/bin/chsh
+maria@maria-VirtualBox:~/Desktop/simple-http-server$ dpkg -l util-linux
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version           Architecture Description
++++-==============-=================-============-=================================
+ii  util-linux     2.37.2-4ubuntu3.4 amd64        miscellaneous system utilities
+```
+
+I found this `stdout` a bit `messy`, so I `found` a `short` alternative `stdout`
+of this `command`:
+
+```shell
+dpkg -l | grep util-linux
+# or
+dpkg-query -l | grep util-linux
+```
+
+This `returned` the `following`:
+
+```shell
+ii  util-linux                                 2.37.2-4ubuntu3.4                          amd64        miscellaneous system utilities
+```
+
+`dpkg -l | grep util-linux` is my `personal preference`, but to each his/her
+own!
+
+## Checking for the version of the util-linux package using the lsblk command
+
+If I want to `find out` what the `package version` of `util-linux` is, of which
+the `lsblk` command is a `part`, I could `find` it by `using` the `lsblk`
+command `along with` the following `flag`:
+
+```shell
+lsblk --version
+```
+
+Which `returns` something like the `following`:
+
+```shell
+lsblk from util-linux 2.37.32
+```
+
+To `view` the `stackoverflow thread` where this `command` was `shared`, please
+visit
+[How to upgrade util-linux from 2.32.1 to 2.34 in Redhat](https://stackoverflow.com/questions/72252837/how-to-upgrade-util-linux-from-2-32-1-to-2-34-in-redhat).
+
+To `learn more` about the `lsblk` command, please visit my article entitled
+[The lsblk command in Linux and what it does](/blog/the-lsblk-command-in-linux-and-what-it-does).
+
+## Checking for the version of the util-linux package using the lsmem command
+
+I also `came across` the `following command` on `another thread` on
+[stackoverflow](https://unix.stackexchange.com/questions/713304/how-to-check-linux-util-package-version/781085?noredirect=1#comment1495057_781085)
+`which` is `perhaps` a bit `too succinct` for me:
+
+```shell
+lsmem -V
+# which returned:
+lsmem from util-linux 2.37.2
+```
+
+To `learn more` about the `lsmem` command, run `man lsmem` in `Terminal`.
+
+## Related Resources
+
+-   [The lsblk command in Linux and what it does](/blog/the-lsblk-command-in-linux-and-what-it-does):
+    **_mariadcampbell.com_**
