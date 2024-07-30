@@ -26,9 +26,25 @@ isFeatured: false
 **_Photo by_** [RDNE Stock project](https://www.pexels.com/@rdne/) **_on_**
 [pexels.com](https://www.pexels.com/photo/happy-couple-holding-and-showing-a-house-key-8293700/)
 
+## Table of Contents
+
+-   [The chown command](#the-chown-command)
+-   [Linux users and file permissions recap](#linux-users-and-file-permissions-recap)
+-   [Adding a new user](#adding-a-new-user)
+-   [chown syntax](#chown-syntax)
+-   [How to use the chown command](#how-to-use-the-chown-command)
+-   [Change ownership from one particular owner to another](#change-ownership-from-one-particular-owner-to-another)
+-   [Change ownership from one particular group to another](#change-ownership-from-one-particular-group-to-another)
+-   [Change user and group ownership all at once](#change-user-and-group-ownership-all-at-once)
+-   [Duplicating ownership of one file onto another](#duplicating-ownership-of-one-file-onto-another)
+-   [Using chown to change ownership of a directory](#using-chown-to-change-ownership-of-a-directory)
+-   [Related Resources](#related-resources)
+
 In `Linux` and `Unix` (`macOS`), there are **_not only_** `permissions` for
 `files` and `directories`, which can be `modified` with the `chmod` command, but
 there are also `user ownership` that can be `modified` with the `chown` command.
+
+## The chown command
 
 The `chown` command, or `change owner`, **_allows owners_** to `change` the
 `owner` of `files` and `directories`. This command is **_particularly useful_**
@@ -196,7 +212,7 @@ a `powerful command` which is a `pattern scanning` and `processing language`.
 
 Now I was `ready `to start using `chown`!
 
-## `chown` syntax
+## chown syntax
 
 ```shell
 chown [OPTION] OWNER[:GROUP] FILE(s)
@@ -212,7 +228,7 @@ more, run `man chown` in `Terminal`.
 `file(s)`: `represents` the `file`(s) the `owner` wants to `change ownership`
 for.
 
-## How to use the `chown` command
+## How to use the chown command
 
 Let's say I have a `file` called `chown-file.txt`, and currently the
 `file ownership` and `permissions` are the `following`:
@@ -359,7 +375,7 @@ And when I run `ls -l chown-file.txt`, the `following` is `returned`:
 -rw-rw-r-- 1 maria maria 0 Jul 20 17:27 chown-file.txt
 ```
 
-## Change `user` and `group` ownership all at once
+## Change user and group ownership all at once
 
 I **_can_** also **_change_** `user` and `group ownership` of a `file` all at
 once:
@@ -388,7 +404,7 @@ changed ownership of 'chown-file2.txt' from maria:maria to maria:magdala
 
 To `learn more` about the `chown` command, please run `man chown` in `Terminal`.
 
-## Using `chown` to change ownership of a directory
+## Using chown to change ownership of a directory
 
 Let's say I create a new directory called chown-directory, and then I ran
 `ls -ld chown-directory` in `Terminal`. It would return the following:

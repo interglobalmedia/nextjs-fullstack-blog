@@ -18,6 +18,13 @@ isFeatured: true
 **_on_**
 [pexels.com](https://www.pexels.com/photo/code-projected-over-woman-3861969/)
 
+## Table of Contents
+
+-   [The stdin, stdout, and stderr data streams in Linux](#the-stdin-stdout-and-stderr-data-streams-in-linux)
+-   [Streams are treated like files in Linux](#streams-are-treated-like-files-in-linux)
+-   [stderr data stream](#stderr-data-stream)
+-   [Related Resources](#related-resources)
+
 I just published a post entitled
 [Redirect operators in Linux and Unix (macOS)](/blog/redirect-operators-in-linux-and-unix-macos),
 in which I discussed how to redirect `stdin` (`standard input`) and `stdout`
@@ -31,7 +38,7 @@ I discussed default `stdin` and `stdout` and their associated
 `>` representing the `stdout redirector operator`. There is a third
 `data stream` called `stderr`.
 
-## 3 data streams in Linux: `stdin`, `stdout`, and `stderr`
+## The stdin, stdout, and stderr data streams in Linux
 
 There are 3 `data streams` in `Linux` that can be used to transport data related
 to a command. As discussed in my article entitled
@@ -71,7 +78,7 @@ So why `File handle 0`, `file handle 1`, and `File handle 2`, when dealing with
 `stdin`, `stdout`, and `stderr`? Because in `Linux`, `streams` are treated like
 `files`. We can `read` a `file` or `write data` into a `file`.
 
-## `stderr` data stream
+## stderr data stream
 
 When a `stdout` is `redirected` to a `file` instead of `Terminal`, and the
 s`tdout` is `not displayed` in the `Terminal` window because of an `error` in

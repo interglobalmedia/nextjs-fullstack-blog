@@ -29,13 +29,28 @@ isFeatured: true
 **_Photo by_** [João Jesus](https://www.pexels.com/@joaojesusdesign/) **_on_**
 [pexels.com](https://www.pexels.com/photo/selective-focus-photo-of-a-red-tulip-flower-2480072/)
 
+## Table of Contents
+
+-   [setuid and sudo](#setuid-and-sudo)
+-   [How to set up setuid using chmod](#how-to-set-up-setuid-using-chmod)
+-   [setuid a shell script](#setuid-a-shell-script)
+-   [setuid a directory](#setuid-a-directory)
+-   [setgid and crontab](#setgid-and-crontab)
+-   [How to set up setgid using chmod](#how-to-set-up-setgid-using-chmod)
+-   [So why setuid or setgid?](#so-why-setuid-or-setgid)
+-   [setgid and directories](#setgid-and-directories)
+-   [So what is sticky bit?](#so-what-is-sticky-bit)
+-   [Setting special permissions (setuid, setgid, and sticky bit) in numeric mode](#setting-special-permissions-setuid-setgid-and-sticky-bit-in-numeric-mode)
+-   [Removing special permissions (setuid, setgid, and sticky bit) in numeric mode](#removing-special-permissions-setuid-setgid-and-sticky-bit-in-numeric-mode)
+-   [Related Resources](#related-resources)
+
 In `previous articles` I **_discussed_** `changing file` and
 `directory permissions`. `In` this `article`, I `discuss elevating`
 **_current_** `user privileges` **_without_** the `use` of `sudo`, and
 `restricting privileges` to `root` or `current user` regarding `modifying` or
 `deleting files` at the `directory level`.
 
-## `setuid` and `sudo`
+## setuid and sudo
 
 The `setuid` (aka `suid`) file `permission` **_permits_** a `user` to `execute`
 a `file` or `program` with the `permission` of the `owner` of that `file`
@@ -72,7 +87,7 @@ with `access` to `sudo` **_can change_** `ownership` of `files` and
 `default`. At least `this is` the `case` in the `Linux distribution` **_I am_**
 `using`: `Linux Mint`.
 
-## How set up `setuid` using `chmod`
+## How to set up setuid using chmod
 
 Let's `revisit` the `chown-directory` I `created` in my article entitled
 [The chown command in Linux and Unix (macOS)](/blog/the-chown-command-in-linux-and-unix-macos)
@@ -229,7 +244,7 @@ hello_world="Hello world!"
 echo $hello_world
 ```
 
-## `setuid` a `shell script`
+## setuid a shell script
 
 Even though I may `set` the `setuid` for a `shell script` **_owned by_**
 `another user`, i.e., `hello.sh`:
@@ -266,11 +281,11 @@ I am able to `"execute"` `hello.sh` (have it `"interpreted"` by the
 `interpreter` (`bash`). "Having hello.sh interpreted" is just **_another way_**
 of **_stating_** `"executed"`.
 
-## `setuid` a directory
+## setuid a directory
 
 `setuid has no effect on directories.
 
-## `setgid` and `crontab`
+## setgid and crontab
 
 `setgid` (aka `sgid`) is similar to `setuid`. When a `process` is `executed`, it
 will `run` as the `group` that `owns` the `file`. An `example` of a `file`
@@ -309,7 +324,7 @@ Group `crontab` has a very `special purpose`, and the `crontab binary` is
 `cron` and `crontab` are `beyond` the `scope` of this `article`, but I will
 `discuss` it in a `future article`.
 
-## How set up `setgid` using `chmod`
+## How to set up setgid using chmod
 
 In order to setup `setgid`, again we `use` the `chmod` command. This is
 `similar` to setting up `setuid`. For example:
@@ -335,7 +350,7 @@ ls -l setgid-file.txt
 -rw-rwsr-- 1 maria maria 0 Jul 22 15:07 setgid-file.txt
 ```
 
-## So why `setuid` or `setgid`?
+## So why setuid or setgid?
 
 An `administrator` might want to use `setuid` or `setgid` if they want
 **_certain_** `users` or `groups` to `be able` to perform `specific tasks` that
@@ -350,7 +365,7 @@ where a `user` is given `minimum levels` of `access` or `permissions` needed to
 `Executables` are `set` to `setuid` and `setgid` **_by default_** in the
 `Linux OS`, `in` **_my_** `case`, `Linux Mint`.
 
-## `setgid` and `directories`
+## setgid and directories
 
 Setting `setgid` on a `directory` **_results in_** `different behavior` **_than
 with_** `files`. When `setgid` is `set` to a `directory`, it `causes` all
@@ -398,7 +413,7 @@ ls -l setgid-directory
 The `file` I `create` inside `setgid-directory` **_inherits_** the `group` that
 `setgid-directory` belongs to.
 
-## So what is `sticky bit`?
+## So what is sticky bit?
 
 The **_special permission_** `sticky bit` makes sure that `only` the `owner` of
 a `file`(s) `inside` a `directory` can `delete` or modify that `file`. A
@@ -452,7 +467,7 @@ rm: remove write-protected regular empty file 'stickybit-directory/stickybit-fil
 rm: cannot remove 'stickybit-directory/stickybit-file1.txt': Permission denied
 ```
 
-## Setting `special permissions` (`setuid`, `setgid`, and `sticky bit`) in `numeric mode`
+## Setting special permissions (setuid, setgid, and sticky bit) in numeric mode
 
 Not only can we set `special permissions` in
 [symbolic mode](/blog/changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos),
@@ -541,7 +556,7 @@ is `returned` in `Terminal`:
 drwxrwxr-t  2 maria maria 4096 Jul 22 21:01 stickybit-numeric-mode-directory
 ```
 
-## Removing special permissions (`setuid`, `setgid`, and `sticky bit`) in numeric mode
+## Removing special permissions (setuid, setgid, and sticky bit) in numeric mode
 
 If I `want` to `remove` special `setuid` permissions in `numeric mode`, I would
 do the `following` in `Terminal`:
