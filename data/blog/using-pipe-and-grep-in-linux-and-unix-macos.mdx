@@ -17,6 +17,17 @@ isFeatured: true
 **_Photo by_** [CHUTTERSNAP](https://unsplash.com/@chuttersnap) **_on_**
 [unsplash.com](https://unsplash.com/photos/black-and-brown-ceramic-mug-on-brown-wooden-table-6Qdeoaql5GA)
 
+## Table of Contents
+
+-   [The pipe (|) command](#the-pipe-command)
+-   [The un-named pipe (|) command in Linux](#the-un-named-pipe-command-in-linux)
+-   [The grep command](#the-grep-command)
+-   [Combining pipe (|) with grep](#combining-pipe-with-grep)
+-   [So what is a named pipe anyway?](#so-what-is-a-named-pipe-anyway)
+-   [Related Resources](#related-resources)
+
+## The pipe (|) command
+
 The `pipe` command, `|`, aka `un-named pipe`, transmits the output of one
 command to another command. It can redirect `stdout`, `stdin`, or `stderr` of
 `one process` to `another` for `further processing`.
@@ -24,7 +35,7 @@ command to another command. It can redirect `stdout`, `stdin`, or `stderr` of
 The `grep` command, short for `global regular expression print`, is used for
 `searching` and `manipulating` **_text patterns_** in `files`.
 
-## The un-named pipe (`|`) command in Linux
+## The un-named pipe (|) command in Linux
 
 A basic use of the `un-named pipe` (`|`) is the following:
 
@@ -163,7 +174,7 @@ search through all the files in the `current working directory`.
 There is much more to `grep`, and you can learn more by running `man grep` in
 `Terminal` to access the `grep manual`.
 
-## Combining `pipe` (`|`) with `grep`
+## Combining pipe (|) with grep
 
 `pipe` (`|`) and
 `grep are frequently used together. Let's say I run the following command in `Terminal`using both`|`and`grep`:
@@ -245,7 +256,7 @@ than are contained in `list-home-directory.txt`. This was a quick way of going
 through a `long list` of `lines` to find out which directories in `/home/maria`
 for which I have `rwx` permissions.
 
-## So what is a `named pipe` anyway?
+## So what is a named pipe anyway?
 
 An `un-named pipe` (`|`) in `Terminal` is `not persistent` by default. The `|`
 command `cannot` be `accessed` by another `Terminal` window session. Only within
