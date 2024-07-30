@@ -16,6 +16,16 @@ isFeatured: true
 **_Photo by_** [Isaque Pereira](https://www.pexels.com/@isaquepereira/) **_on_**
 [pexels.com](https://www.pexels.com/photo/yellow-arrow-led-signage-394377/)
 
+## Table of contents
+
+-   [stdin and stdout explained](#stdin-and-stdout-explained)
+-   [The output redirector operator (>)](#the-output-redirector-operator-)
+-   [The input redirector operator (<)](#the-input-redirector-operator-)
+-   [The output redirector append operator (>>)](#the-output-redirector-append-operator-)
+-   [Related Resources](#related-resources)
+
+## stdin and stdout explained
+
 In order to understand what `redirect operators` do in `Linux` or `Unix`
 (`macOS`), one first has to understand what `stdin` and `stdout` mean.
 
@@ -30,7 +40,7 @@ the OS to obtain information from somewhere other than the `stdin` or send
 results to somewhere other than the `stdout`. This functionality is known as
 `redirection`.
 
-## The output redirector operator (`>`)
+## The output redirector operator (>)
 
 The default `output redirector operator` is the most popular and well known of
 `redirectors`. As previously mentioned, by default, when not using
@@ -93,7 +103,7 @@ The `printenv` command prints the value of an `environment variable`, and
 to the beginning of `HOME`, it is not being treated as a `variable` containing a
 `value` (HOME=/home/maria), but simply as the `value` of `$HOME`.
 
-## The input redirector operator (`<`)
+## The input redirector operator (<)
 
 The `default input redirector` (`<`) redirects `stdin` somewhere else. For
 example, if I type the following in `Terminal` followed by the `Return`
@@ -160,7 +170,7 @@ However, because I am using the (single) `regular output operator` (`>`), it
 `/home/maria`. What if I `didn't want` to `overwrite` the contents of
 `home2.txt`?
 
-## The output redirector append operator (`>>`)
+## The output redirector append operator (>>)
 
 If I just want to `append` the `contents` of `stdin` (i.e., `home.txt`) to
 `stdout` (i.e., `home2.txt`), I would run the following in `Terminal`:
