@@ -52,6 +52,9 @@ const Skills = () => {
 				<li className={classes['ability-npm']} title="npm">
 					NPM
 				</li>
+				<li className={classes['ability-python']} title="python">
+					Python
+				</li>
 				<li className={classes['ability-react']} title="react">
 					React
 				</li>
