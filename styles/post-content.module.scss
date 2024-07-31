@@ -5,6 +5,8 @@ $min-768: '(min-width: 768px)';
 $aussie-blue: #80d0ff;
 $asian-green: #96aa9a;
 
+/* stylelint-disable scss/no-global-function-names */
+
 .content {
 	background-color: var(--color-grey-200);
 	background-color: lighten($asian-green, 7.5%);
