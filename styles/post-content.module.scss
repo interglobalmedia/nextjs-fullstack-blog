@@ -20,6 +20,11 @@ $asian-green: #96aa9a;
 	}
 }
 
+.content .heading-two,
+.content .heading-three {
+	color: var(--color-grey-800);
+}
+
 .content p {
 	color: var(--color-grey-800);
 }
