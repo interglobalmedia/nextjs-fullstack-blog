@@ -29,6 +29,23 @@ isFeatured: false
 **_Photo by_** [George Desipris](https://www.pexels.com/@george-desipris/)
 **_on_** [pexels.com](https://www.pexels.com/)
 
+## Table of contents
+
+-   [So why use Wireshark or tcpdump?](#so-why-use-wireshark-or-tcpdump)
+-   [Installing Wireshark and tcpdump on macOS](#installing-wireshark-and-tcpdump-on-macos)
+-   [Main differences between Wireshark and tcpdump](#main-differences-between-wireshark-and-tcpdump)
+-   [Main similarities between Wireshark and tcpdump](#main-similarities-between-wireshark-and-tcpdump)
+-   [Installing the Wireshark CLI](#installing-the-wireshark-cli)
+-   [Update 10-23-23](#update-10-23-23)
+-   [Why use Wireshark and tcpdump together?](#why-use-wireshark-and-tcpdump-together)
+-   [Conclusion](#conclusion)
+    -   [tcpdump advantages](#tcpdump-advantages)
+    -   [tcpdump disadvantages](#tcpdump-disadvantages)
+    -   [Wireshark advantages](#wireshark-advantages)
+    -   [Wireshark disadvantages](#wireshark-disadvantages)
+    -   [Similarities between tcpdump and Wireshark](#similarities-between-tcpdump-and-wireshark)
+-   [Related Resources](#related-resources)
+
 ## So why use Wireshark or tcpdump?
 
 **Wireshark** is popular among IT professionals and cybersecurity professionals
@@ -215,7 +232,7 @@ binary plugins supported.
 
 I have not tried `tshark` out yet, but I will leave that for another time!
 
-## Update 10.23.23
+## Update 10-23-23
 
 I removed `Wireshark` from **macOS**, and re-installed it via my **_virtual_**
 `Kali Linux` **_install_**, since the only place where I would want to use it
@@ -254,7 +271,7 @@ Wireshark and tcpdump are both powerful network protocol analyzers that capture
 network traffic for analysis. However, they both have their advantages and
 disadvantages as well as differences.
 
-**tcpdump advantages**:
+### tcpdump advantages
 
 -   `tcpdump` comes pre-installed on macOS. Wireshark does not.
 -   `tcpdump` is lightweight and can be used on servers without a graphical user
@@ -269,7 +286,7 @@ disadvantages as well as differences.
     On the other hand, because Wireshark is a GUI with more complex features, it
     consumes more system resources.
 
-**tcpdump disadvantages**:
+### tcpdump disadvantages
 
 -   `tcpdump` has a greater learning curve because it requires a solid
     understanding of syntax and commands, which can be intimidating to
@@ -285,7 +302,7 @@ disadvantages as well as differences.
 -   `tcpdump` has problems with some commands working with IPv6 packets. As a
     result, IPv6 users should use `Wireshark`.
 
-**Wireshark advantages**:
+### Wireshark advantages
 
 -   `Wireshark`'s graphical user interface provides a user friendly experience,
     and it has advanced features such as real-time analysis and filtering.
@@ -308,7 +325,7 @@ disadvantages as well as differences.
     show different protocols. `tcpdump` can only show the information of TCP/IP
     based packets.
 
-**Wireshark disadvantages**:
+### Wireshark disadvantages
 
 -   `Wireshark` does not come pre-installed on macOS.
 -   `Wireshark` cannot be used to run on remote servers where a GUI is not
@@ -316,7 +333,7 @@ disadvantages as well as differences.
 -   Because Wireshark is a GUI with more complex features, it consumes more
     system resources.
 
-**Similarities between tcpdump and Wireshark**:
+### Similarities between tcpdump and Wireshark
 
 -   Both Wireshark and tcpdump are open source software projects, and therefore
     free.
