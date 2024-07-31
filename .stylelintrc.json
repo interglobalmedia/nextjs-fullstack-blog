@@ -3,5 +3,8 @@
 		"stylelint-config-standard-scss",
 		"stylelint-config-prettier-scss"
 	],
-	"enableFix": true
+	"enableFix": true,
+	"rules": {
+		"scss/no-global-function-names": null
+	}
 }
