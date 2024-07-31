@@ -87,11 +87,51 @@ function PostContent(props) {
 		},
 
 		h2({ node, ...props }) {
-			return <h2 id={generateSlug(props.children[0])} {...props}></h2>
+			const children = Array.isArray(props.children)
+				? props.children
+				: [props.children]
+			const heading = children
+				.flatMap((element) =>
+					typeof element === 'string'
+						? element
+						: element?.type !== undefined &&
+						  typeof element.props.children === 'string'
+						? element.props.children
+						: [],
+				)
+				.join('')
+
+			const slug = generateSlug(heading)
+
+			return (
+				<h2 id={slug}>
+					<a href={`#${slug}`} {...props}></a>
+				</h2>
+			)
 		},
 
 		h3({ node, ...props }) {
-			return <h3 id={generateSlug(props.children[0])} {...props}></h3>
+			const children = Array.isArray(props.children)
+				? props.children
+				: [props.children]
+			const heading = children
+				.flatMap((element) =>
+					typeof element === 'string'
+						? element
+						: element?.type !== undefined &&
+						  typeof element.props.children === 'string'
+						? element.props.children
+						: [],
+				)
+				.join('')
+
+			const slug = generateSlug(heading)
+
+			return (
+				<h3 id={slug}>
+					<a href={`#${slug}`} {...props}></a>
+				</h3>
+			)
 		},
 
 		pre({ node, children, ...props }) {
