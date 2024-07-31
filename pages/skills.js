@@ -15,7 +15,7 @@ function SkillsPage() {
 				/>
 				<meta
 					name="keywords"
-					content="cli, css3, ejs, express, git, html5, jira, javascript, linux, macos, markdown, mongodb, next.js, node.js, npm, react, sass, sql, vscode, windows"
+					content="cli, css3, ejs, express, git, html5, jira, javascript, linux, macos, markdown, mongodb, next.js, node.js, npm, python, react, sass, sql, vscode, windows"
 				/>
 			</Head>
 			<section className={`skills-section ${classes['skills-section']}`}>
