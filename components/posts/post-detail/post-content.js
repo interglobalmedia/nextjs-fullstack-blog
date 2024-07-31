@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown'
+import { Fragment } from 'react'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import atomDark from 'react-syntax-highlighter/dist/cjs/styles/prism/atom-dark'
 import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript'
@@ -17,6 +18,8 @@ import Share from '../../share/share'
 import CodeCopyBtn from './code-copy-btn'
 import Giscus from '../../comments/giscus'
 import { generateSlug } from '../../../lib/utils/generate-slug'
+import ScrollStep from '../../buttons/scroll-step'
+import ScrollTop from '../../buttons/scroll-top'
 
 SyntaxHighlighter.registerLanguage('js', js)
 SyntaxHighlighter.registerLanguage('css', css)
@@ -105,7 +108,11 @@ function PostContent(props) {
 
 			return (
 				<h2 id={slug}>
-					<a href={`#${slug}`} {...props}></a>
+					<a
+						className={classes['heading-two']}
+						href={`#${slug}`}
+						{...props}
+					></a>
 				</h2>
 			)
 		},
@@ -129,7 +136,11 @@ function PostContent(props) {
 
 			return (
 				<h3 id={slug}>
-					<a href={`#${slug}`} {...props}></a>
+					<a
+						className={classes['heading-three']}
+						href={`#${slug}`}
+						{...props}
+					></a>
 				</h3>
 			)
 		},
@@ -164,47 +175,51 @@ function PostContent(props) {
 		},
 	}
 	return (
-		<article className={`content ${classes.content}`}>
-			<DynamicPostHeader title={post.title} image={imagePath} />
-			<div className={`${classes['share-icons-wrapper']}`}>
-				<h1 className={`${classes['social-share-heading']}`}>
-					Social Share:
-				</h1>
-				<div className={classes['svg-wrapper']}>
-					<div
-						className={`share-hacker-news ${classes['share-hacker-news']}`}
-					>
-						<DynamicSocialShareIcon
-							name="social-hacker-news"
-							href={`https://news.ycombinator.com/submitlink?u=
+		<Fragment>
+			<article className={`content ${classes.content}`}>
+				<DynamicPostHeader title={post.title} image={imagePath} />
+				<div className={`${classes['share-icons-wrapper']}`}>
+					<h1 className={`${classes['social-share-heading']}`}>
+						Social Share:
+					</h1>
+					<div className={classes['svg-wrapper']}>
+						<div
+							className={`share-hacker-news ${classes['share-hacker-news']}`}
+						>
+							<DynamicSocialShareIcon
+								name="social-hacker-news"
+								href={`https://news.ycombinator.com/submitlink?u=
                                 ${combinatorIntent}&t=${post.title}`}
-							size="6"
+								size="6"
+							/>
+						</div>
+						<div
+							className={`share-twitter ${classes['share-twitter']}`}
+						></div>
+						<Share
+							title={post.title}
+							url={url}
+							onClick={handleSocialShare}
 						/>
 					</div>
-					<div
-						className={`share-twitter ${classes['share-twitter']}`}
-					></div>
-					<Share
-						title={post.title}
-						url={url}
-						onClick={handleSocialShare}
-					/>
 				</div>
-			</div>
-			<p>{`${formattedDate} | ${readTime} min read`}</p>
-			<p>Last modified on {lastModifiedFormattedDate}</p>
-			{
-				<p>
-					{post.tags
-						.map((tag) => getTagLink(tag))
-						.reduce((prev, curr) => [prev, ', ', curr])}
-				</p>
-			}
-			<ReactMarkdown components={customRenderers}>
-				{post.content}
-			</ReactMarkdown>
-			<Giscus />
-		</article>
+				<p>{`${formattedDate} | ${readTime} min read`}</p>
+				<p>Last modified on {lastModifiedFormattedDate}</p>
+				{
+					<p>
+						{post.tags
+							.map((tag) => getTagLink(tag))
+							.reduce((prev, curr) => [prev, ', ', curr])}
+					</p>
+				}
+				<ReactMarkdown components={customRenderers}>
+					{post.content}
+				</ReactMarkdown>
+				<Giscus />
+			</article>
+			<ScrollStep />
+			<ScrollTop />
+		</Fragment>
 	)
 }
 
