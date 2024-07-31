@@ -16,9 +16,29 @@ isFeatured: false
 **_Photo by_** [Pew Nguyen](https://www.pexels.com/@nguyendesigner/) **_on_**
 [pexels.com](https://www.pexels.com/photo/signage-241028/)
 
-## Linux Terminal commands applicable to Cybersecurity
+## Table of contents
 
-### sudo
+-   [sudo](#sudo)
+-   [chmod](#chmod)
+-   [chown](#chown)
+-   [passwd](#passwd)
+-   [iptables](#iptables)
+-   [netstat](#netstat)
+-   [ss](#ss)
+-   [fail2ban](#fail2ban)
+-   [ps](#ps)
+-   [usermod](#usermod)
+-   [find](#find)
+-   [history](#history)
+-   [last](#last)
+-   [lastb](#lastb)
+-   [lsof](#lsof)
+-   [file](#file)
+-   [| (pipe)](#-pipe)
+-   [grep](#grep)
+-   [Related Resources](#related-resources)
+
+## sudo
 
 `sudo` is crucial to security professionals. Most who work in cybersecurity will
 not have administrative privileges when working with the Command Line/Terminal
@@ -39,7 +59,7 @@ sudo apt install wireshark
 I would be prompted for my user password, and if correctly inputted, the command
 line command would be executed and Wireshark would be installed.
 
-### chmod
+## chmod
 
 The `chmod` command allows an administrator or user with superuser (sudo)
 privileges to set or modify a file's or folder's permissions of any user on the
@@ -67,7 +87,7 @@ And it overwrites existing permissions. For example, if a user, group, or other,
 previously had write or execute permissions, they are removed after I specify
 only read permissions with `=`.
 
-### chown
+## chown
 
 The `chown` command changes ownershio of a file or directory. `chown` can be
 used to change user or group ownership. Only the root user or standard user with
@@ -115,7 +135,7 @@ sudo chown rreynolds:security access.txt
 Here, the user owner follows the chown command, the `:` (`colon`) follows the
 user owner, and the group owner follows the `:` (`colon`).
 
-### passwd
+## passwd
 
 The `passwd` command changes the password for a user. A standard user can only
 change their own password, but a root user or standard user with superuser
@@ -137,7 +157,7 @@ input your new password. And then you will be prompted to enter the new password
 a second time to make sure that they match. If they don't match, you will be
 prompted to enter a replacement password.
 
-### iptables
+## iptables
 
 `iptables` is a firewall program for Linux. It monitors traffic to and from your
 server using tables. These tables contain sets of rules called chains that
@@ -160,7 +180,7 @@ To learn more about `iptables`, please visit the post entitled
 [IPtables explained](https://infosec-jobs.com/insights/iptables-explained/) on
 `infosec-jobs.com`.
 
-### netstat
+## netstat
 
 The `netstat` command provides information about network connections, ports in
 use, and the processes using them. `netstat` can be used for troubleshooting
@@ -179,7 +199,7 @@ by Adnane Arharbi, Eng on `medium.com`.
 
 `netstat` is also available on Windows and macOS.
 
-### ss
+## ss
 
 The `ss` command, which stands for `socket statistics`, is a powerful tool for
 inspecting and displaying detailed information about sockets on Linux. It offers
@@ -194,7 +214,7 @@ To learn more about the `ss` command, please visit the post entitled
 [How To Use Linux SS Command](https://phoenixnap.com/kb/ss-command) on
 `phoenixnap.com`.
 
-### fail2ban
+## fail2ban
 
 `fail2ban` is technically not a Linux command but a service that can be
 installed on the Linux operating system. It is an essential tool that protects
@@ -206,7 +226,7 @@ and enable them as separate security layers. `fail2ban` does not come built-in
 to Kali Linux by default, but it is Kali Linux compatible and can be installed
 using `apt`.
 
-### ps
+## ps
 
 The `ps` command stands for `process status`, and it is used to view active
 processes on a system. The command is the same on both Linux and Unix (macOS).
@@ -244,7 +264,7 @@ ESCOC
 
 Not too much going on at the moment, but you get the idea!
 
-### usermod
+## usermod
 
 The `usermod` command allows an administrator to modify a user account. You
 either have to be the root user or user with superuser rights (sudo) to be able
@@ -273,7 +293,7 @@ entitled
 [usermod command in Linux with examples](https://linuxconfig.org/usermod) by
 Luke Reynolds on `linuxconfig.org`.
 
-### find
+## find
 
 According to [RedHat](https://www.redhat.com/sysadmin/linux-find-command),
 
@@ -292,7 +312,7 @@ by Seth Kenlon on `redhat.com`. You can also read my post on the find command
 entitled
 [How to find a folder on your computer](/blog/how-to-find-a-folder-on-your-computer).
 
-### history
+## history
 
 The `history` command is not specific to cybersecirty related tasks, but it is
 still quite helpful and efficient! The `history` command displays the complete
@@ -317,7 +337,7 @@ This would print out the output of the `history` command in a new file called
 able to easily refer to and find the command I am looking for from the complete
 list of commands saved to `history`.
 
-### last
+## last
 
 The `last` command can be very useful to security professionals, because it
 provides information about the last logged in user(s). It allows me to track
@@ -341,7 +361,7 @@ aka `ptty`. So why this `ptty`? When the operating system needs to send
 information to one of the active Terminal windows, it specifies the `ptty` the
 information is going to get sent to.
 
-### lastb
+## lastb
 
 The `lastb` command is specific to Linux. There is no such command in Unix
 (macOS). However, I do have Kali Linux installed on my machine via the `UTM VM`.
@@ -366,7 +386,7 @@ This means that there were no failed login attempts recorded yet for users, and
 the `/var/log/btmp` file was just created for future recording of bad login
 attempts for users on the system.
 
-### lsof
+## lsof
 
 The `lsof` command stands for `"list open files"`. It shows which files are open
 and which `processes` are using them. Linux sees every object on the system as a
@@ -439,7 +459,7 @@ local script (`"serve": "npx @marp-team/marp-cli@latest -s content/"`
 **located** in the `package.json` file) I actually used to run my `slide deck`
 **created with** the `marp-cli` npm package.
 
-### file
+## file
 
 The `file` command followed by the `path` to a `file` will return basic
 information about the file. For exaample, if I wanted to find out information
@@ -535,7 +555,7 @@ package available on both `macOS` and `Linux`. On `macOS`, I `installed` it via
 management for `Ubuntu` and `Debian`. To learn mroe about `CWEBP`, please visit
 the [WEBP website](https://developers.google.com/speed/webp/docs/precompiled).
 
-### | (pipe)
+## | (pipe)
 
 The `pipe` (`|`) command is **essential** for command line users. It's **primary
 purpose** is to connect the output of one command (to the left of the pipe)
@@ -579,7 +599,7 @@ This command returns the following in Linux:
   143  file --apple pexels-brian-machado-10626267.jpg
 ```
 
-### grep
+## grep
 
 [grep](https://www.hostinger.com/tutorials/grep-command-in-linux-useful-examples/)
 stands for `"global regular expression print"`. It searches for text and strings
