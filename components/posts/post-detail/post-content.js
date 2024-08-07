@@ -1,3 +1,4 @@
+'use client'
 import ReactMarkdown from 'react-markdown'
 import { Fragment } from 'react'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
