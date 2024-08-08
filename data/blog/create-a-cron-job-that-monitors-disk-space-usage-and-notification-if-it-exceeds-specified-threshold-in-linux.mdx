@@ -1,0 +1,156 @@
+---
+slug: create-a-cron-job-that-monitors-disk-space-usage-and-notification-if-it-exceeds-specified-threshold-in-linux
+date: '2024-08-08T04:46:21.147Z'
+lastModified: '2024-08-08T04:46:21.147Z'
+title:
+    Create a cron job that monitors disk space usage and notification if it
+    exceeds specified threshold in Linux
+author: Maria D. Campbell
+excerpt:
+    Create a cron job that monitors disk space usage and sends a notification if
+    it exceeds a specified threshold in Linux.
+image: pexels-kseniachernaya-5691680.jpg
+tags: ['cron daemon', 'crontab', 'linux', 'automation', 'task automation']
+isPublished: true
+isFeatured: true
+---
+
+![Overflowing metal paint bin](pexels-kseniachernaya-5691680.jpg)
+
+**_Photo by_** [Ksenia Chernaya](https://www.pexels.com/@kseniachernaya/)
+**_on_**
+[pexels.com](https://www.pexels.com/photo/dirty-metal-bucket-against-white-background-5691680/)
+
+## Table of Contents
+
+-   [Creating the disk_space_alert.sh file](#creating-the-disk-space-alertsh-file)
+-   [Adding the shell script to disk-space_alert.sh](#adding-the-shell-script-to-disk-space-alertsh)
+-   [The df command](#the-df-command)
+-   [The awk command](#the-awk-command)
+-   [The tr command](#the-tr-command)
+-   [if/else statement](#if-else-statement)
+-   [Adding the disk_space_alert.sh shell script to crontab](#adding-the-disk-space-alertsh-shell-script-to-crontab)
+-   [Related Resources](#related-resources)
+
+I `run` my `Linux Mint` distribution in `VirtualBox`, so the
+`virtual disk space` I have `allocated` to `it` is `not` as much `as` I
+`would like`. i `want` to be `able` to have `hard disk space` allocated to my
+`Windows 11 partition` as well. So that `means` that I `should` be `monitoring`
+the `disk space` that `Linux Mint` in `VirtualBox` is `eating up`. So I
+`created` a `cron job` to `do `just `that`.
+
+## Creating the disk_space_alert.sh file
+
+`First`, I `created` an `executable` file called `disk-space_alert.sh` and set
+`executable permissions` on `it`:
+
+```shell
+chmod +x disk-space_alert.sh
+```
+
+`chmod` stands for `change mode`.
+
+Then I `check` to `make sure` that `execute permissions` were `added` to
+`disk-space_alert.sh` by `running` the `ls -l` command in `Terminal`, and the
+`following` is `returned` as a `result`:
+
+```shell
+-rwxrwxr-x 2 maria maria 206 Aug 8 09:12 disk_space_alert.sh
+```
+
+## Adding the shell script to disk-space_alert.sh
+
+`Then` I `add` the `following script` to `disk-space_alert.sh`:
+
+```shell
+#!/bin/bash
+
+threshold=90
+current_usage=$(df -h / | awk 'NR==2 {print $5}' | tr -d '%')
+
+if [ "$current_usage" -ge "$threshold" ]
+then
+    echo "Disk space is running low!"
+else
+    echo "Disk space is okay."
+fi
+```
+
+## The df command
+
+`df` refers to the `disk free` command. The `-h` flag means `human readable`,
+and `/` refers to the `root` directory of the `filesystem hierarchy` which the
+`df` command `searches through` and returns the percentage of disk used. To
+`learn more` about the `filesystem hierarchy`, please `read` my `article`
+entitled
+[The Linux Filesystem Hierarchy](http://localhost:3000/blog/the-linux-filesystem-hierarchy).
+
+`current_usage=$(df -h /` is `piped` into the `awk` command as `stdin`.
+
+To `learn more` about the `df` command, run `man df` in `Terminal`.
+
+## The awk command
+
+`awk`, or `mawk`, is a `pattern scanning` and `text processing` language. `awk`
+is an `interpreter` for the `AWK` programming language. `AWK` stands for
+`Aho, Weinberger, and Kernighan`, who were the `designers` of the
+`AWK language`, and it `originated` at `AT&T Bell Laboratories` in `1977`.
+
+`NR` stands for `Number Records`, and it is a built-in `awk` variable. It means
+`"number of line"` or `"number of current line"`. `NR` keeps a current count of
+the number of input records. Records in AWK are usually lines. The 1 command
+`performs` the `pattern/action` statements `once` for `each record` in a `file`.
+
+`awk 'NR==2 {print $5}'` means if `NR` is `equal` to `2`, print `field` (or
+`column`) `$5`.
+
+Then `awk 'NR==2 {print $5}'` is redirected as stdin to `tr -d '%'`.
+
+## The tr command
+
+The `tr` command `translates`, `squeezes`, and/or `deletes` characters from
+`stdin`, `writing` to `stdout`. `STRING1` and `STRING2` specify `arrays` of
+`characters`, and `ARRAY1` and `ARRAY2` control the `action`.
+
+tr -d '%' deletes the '%' symbol so that the `value` of `current_usage` is an
+`integer`.
+
+## if/else statement
+
+The `meaning` of the `if/else` statement is if `"$current_usage"` is
+`greater than or equal to` (`-ge`) "$threshold", `which` is `90`, then
+`echo "Disk space is running low!"`, else `echo "Disk space is okay."`
+
+## Adding the disk_space_alert.sh shell script to crontab
+
+Lastly, I add this shell script to the bottom of my crontab file:
+
+```shell
+# first I have to run crontab -e in Terminal to open up disk_space_alert.sh
+crontab -e
+# then I add the following to the bottom of the crontab file
+30 06 * * * /home/maria/Desktop/cron-job-scripts/disk_space_alert.sh
+```
+
+`After` the `cron job` is `executed`, I will `receive` a `local email` via
+`mailx` telling me either `"Disk space is running low!"` or
+`"Disk space is okay."`.
+
+To `learn` how to `create` a `cron job` in `Linux`, please `visit` my `article`
+entitled
+[The Cron daemon in Linux and how to create a cron job](/blog/the-cron-daemon-in-linux-and-how-to-create-a-cron-job).
+
+To `learn about` the `mailx` command and `local emails` in `Linux`, please
+`visit` my `article` entitled
+[How to send/receive local emails in Linux Mint/VirtualBox](http://localhost:3000/blog/how-to-sendreceive-local-emails-in-linux-mintvirtualbox).
+
+## Related Resources
+
+-   [AWK command in Unix/Linux with examples](https://www.geeksforgeeks.org/awk-command-unixlinux-examples/):
+    **_Geeks for Geeks_**
+-   [What is awk?](https://opensource.com/resources/what-awk):
+    **_opensource.com_**
+-   [Tr Command In Linux Explained With Examples](https://ostechnix.com/tr-command-linux/):
+    **ostechnix.com**
+-   [Tr Command In Linux Explained With Examples For Beginners](https://www.linuxtoday.com/developer/tr-command-in-linux-explained-with-examples-for-beginners/):
+    **_Linux Today_**
