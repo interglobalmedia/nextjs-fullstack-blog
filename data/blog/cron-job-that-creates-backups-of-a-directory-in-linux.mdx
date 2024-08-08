@@ -1,0 +1,134 @@
+---
+slug: cron-job-that-creates-backups-of-a-directory-in-linux
+date: '2024-08-07T18:50:40.355Z'
+lastModified: '2024-08-08T02:59:40.355Z'
+title: Cron job that creates backups of a directory in Linux
+author: Maria D. Campbell
+excerpt: Cron job that creates backups of a directory in Linux.
+image: pexels-mikhail-nilov-8297240.jpg
+tags: ['cron daemon', 'crontab', 'linux', 'automation', 'task automation']
+isPublished: true
+isFeatured: false
+---
+
+![Woman going over documents in preparation for creating digital backups](pexels-mikhail-nilov-8297240.jpg)
+
+**_Photo by_** [Mikhail Nilov](https://www.pexels.com/@mikhail-nilov/) **_on_**
+[pexels.com](https://www.pexels.com/photo/an-exhausted-woman-reading-documents-8297240/)
+
+I `just` finished `creating` a `cron job` that `backs up` my `Desktop` directory
+`daily` in my `Linux Mint OS`. The `name` of the `backup` includes the `date`
+and `time` of the backup.
+
+## Table of Contents
+
+-   [Creating the desktop-backup directory and the desktop_backup.sh shell script](#creating-the-desktop-backup-directory-and-the-desktop-backupsh-shell-script)
+-   [Creating the delete_backups.sh shell script](#creating-the-delete-backupssh-shell-script)
+-   [Adding the shell scripts to the crontab file](#adding-the-shell-scripts-to-the-crontab-file)
+-   [Related Resources](#related-resources)
+
+## Creating the desktop-backup directory and the desktop_backup.sh shell script
+
+`First`, I `created` a `backup directory` called `desktop-backups` in my
+`home directory` (`/home/maria`), and then I `created` a `shell script` called
+`desktop_backup.sh` located in `/home/maria/Desktop/cron-job-scripts/`. And then
+I added the following:
+
+```shell
+#!/bin/bash
+
+source_dir="/home/maria/Desktop"
+backup_dir="/home/maria/desktop-backup"
+timestamp=$(date +%Y%m%d%H%M%S)
+backup_file="backup_$timestamp.tar.gz"
+tar -czvf "$backup_dir/$backup_file" "$source_dir"
+```
+
+The `first line` in the `script` is `very important`. `#!` is referred to as
+`shebang`, and it `tells` the `system` which `interpreter/command` to `use` to
+`execute` the `commands` written `inside` the `scripts`. The `interpreter` here
+is `bash`, and the `path` to it is `/bin/bash`, which follows `#!`. `#!` is
+`interpreted` by the [execve(2)](https://linux.die.net/man/2/execve) system call
+(which `executes` programs).
+
+If I run `date +%Y%m%d%H%M%S` in `Terminal`, `something like` the `following` is
+`returned`:
+
+```shell
+202400807161028
+```
+
+`202400807` is the `year`, `month` and `day`. `161028` is the `hour`, `minutes`,
+and `seconds` in `24 hour format`. `After` I `run` the `shell script`,
+`something like` the `following` appears in the `desktop-backup` directory:
+
+```shell
+backup_202400807161028.tar.gz
+```
+
+If I am `inside` the `cron-job-scripts` directory where `desktop_backup.sh`
+resides, I `run` the `following` in `Terminal`:
+
+```Shell
+./desktop_backup.sh
+```
+
+Which is `how` a `shell script` is `run` in `Terminal`. If I am `not inside` the
+`directory` which `contains` the `shell script`, then I have to `add` the `path`
+to it. `./` means `that` it `is` in the `current directory`.
+
+## Creating the delete_backups.sh shell script
+
+But `after` a `while`, `a lot` of `backups` will `take up` the `desktop-backup`
+directory, and I probably would `want` to remove `older backups`. I can `create`
+a `separate script` for `that`.
+
+I could `create` another `shell script` to `remove` older `backups`:
+
+```shell
+#!/bin/bash
+
+find /home/maria/desktop-backup/* -type f -mtime +1 -delete
+```
+
+The `find` command `looks` for `files` in a `directory hierarchy`. In the
+`script` above, it is `searching` for the `files` located in
+`/home/maria/desktop-backup/`, and the wildcard `*` means `anything`
+(`any file`) inside `/home/maria/desktop-backup/`. `-type f` means of
+`type file`. `-mtime` is `interpreted` as the `number` of `whole days` in the
+`age` of a `file`. And `-mtime +n` (in `this` case `+1`) means `greater than n`
+(`whole`) days. `-delete` deletes what is `inside` the
+`/home/maria/desktop-backup/` directory.
+
+## Adding the shell scripts to the crontab file
+
+After I `created` these `two` shell `scripts`, I `added` them to my `crontab`
+file.
+
+`First`, I ran `crontab -e` in 1. It `took` me `into` the `crontab` file, where
+I `added` my `cron jobs`. Then I `added` the `following` to the `bottom` of the
+`file` below all the `commented lines`:
+
+```shell
+00 06 * * * /home/maria/Desktop/cron-job-scripts/desktop_backup.sh
+05 06 * * * /home/maria/Desktop/cron-job-scripts/delete_backups.sh
+```
+
+The `meaning` of the `first line` is that the `cron job` will `take place` at
+`6am` every `day`. The `meaning` of the `second` cron job is that it will
+`take place` at `6:05am` every `day`. The `*` in the `day position` which
+`follows` the `hour position`, `means` every `day`. The next `*` to the `right`
+is in the `month position` and `means` every `month`. And the last `*` (`to` the
+`right`) which `represents` the `day` of the `week`, means `every day `of the
+`week`.
+
+`Since` I `just` set `up` this `cron job` today, I will probably `not reap` its
+`benefits` until the `day` after `tomorrow`. I will `update` this `post` with
+the `results` when the `contents` of the `desktop-backup` is `deleted`!
+
+## Related Resources
+
+-   [The Cron daemon in Linux and how to create a cron job](/blog/the-cron-daemon-in-linux-and-how-to-create-a-cron-job):
+    **_mariadcampbell.com_**
+-   [How to Create and Set Up a Cron Job in Linux](https://phoenixnap.com/kb/set-up-cron-job-linux):
+    **_phoenixNap_**
