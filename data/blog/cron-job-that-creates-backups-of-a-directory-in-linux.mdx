@@ -59,15 +59,18 @@ is `bash`, and the `path` to it is `/bin/bash`, which follows `#!`. `#!` is
 `interpreted` by the [execve(2)](https://linux.die.net/man/2/execve) system call
 (which `executes` programs).
 
-Next, and most important, is to change file permissions for the
-`desktop_backup.sh` file. By default, a newly created file does not contain
-execute permissions, which is necessary for shell script files. So next, I have
-to run the following in Terminal to add execute permissions to
-`desktop_backup.sh` from inside the directory where it resides:
+`Next`, and `most important`, is to `change` file `permissions` for the
+`desktop_backup.sh` file. `By default`, a `newly` created `file` does` not`
+contain `execute permissions`, which is `necessary` for `executing` shell script
+`files`. So next, I have to `run` the `following` in `Terminal` to add
+`execute permissions` to `desktop_backup.sh` from `inside` the `directory` where
+it `resides`:
 
 ````shell
 chmod +x desktop_backup.sh
 ```
+
+`chmod` stands for `change mode`.
 
 Then I `check` to `make sure` that `execute permissions` were `added` to `desktop_backup.sh` by running the `ls -l` command in `Terminal`, and the `following` is `returned` as a `result`:
 
