@@ -66,26 +66,29 @@ contain `execute permissions`, which is `necessary` for `executing` shell script
 `execute permissions` to `desktop_backup.sh` from `inside` the `directory` where
 it `resides`:
 
-````shell
+```shell
 chmod +x desktop_backup.sh
 ```
 
 `chmod` stands for `change mode`.
 
-Then I `check` to `make sure` that `execute permissions` were `added` to `desktop_backup.sh` by running the `ls -l` command in `Terminal`, and the `following` is `returned` as a `result`:
+Then I `check` to `make sure` that `execute permissions` were `added` to
+`desktop_backup.sh` by running the `ls -l` command in `Terminal`, and the
+`following` is `returned` as a `result`:
 
 ```shell
 -rwxrwxr-x 1 maria maria 208 Aug 7 13:10 desktop_backup.sh
 ```
 
-When I `create` the `delete_backups.sh` file (coming up), I will have to `change permissions` in the `same way` as well.
+When I `create` the `delete_backups.sh` file (coming up), I will have to
+`change permissions` in the `same way` as well.
 
 If I run `date +%Y%m%d%H%M%S` in `Terminal`, `something like` the `following` is
 `returned`:
 
 ```shell
 202400807161028
-````
+```
 
 `202400807` is the `year`, `month` and `day`. `161028` is the `hour`, `minutes`,
 and `seconds` in `24 hour format`. `After` I `run` the `shell script`,
@@ -98,7 +101,7 @@ backup_202400807161028.tar.gz
 If I am `inside` the `cron-job-scripts` directory where `desktop_backup.sh`
 resides, I `run` the `following` in `Terminal`:
 
-```Shell
+```shell
 ./desktop_backup.sh
 ```
 
