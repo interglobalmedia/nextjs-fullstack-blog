@@ -6,7 +6,15 @@ title: Cron job that creates backups of a directory in Linux
 author: Maria D. Campbell
 excerpt: Cron job that creates backups of a directory in Linux.
 image: pexels-mikhail-nilov-8297240.jpg
-tags: ['cron daemon', 'crontab', 'linux', 'automation', 'task automation']
+tags:
+    [
+        'chmod',
+        'cron daemon',
+        'crontab',
+        'linux',
+        'automation',
+        'task automation',
+    ]
 isPublished: true
 isFeatured: false
 ---
@@ -51,12 +59,30 @@ is `bash`, and the `path` to it is `/bin/bash`, which follows `#!`. `#!` is
 `interpreted` by the [execve(2)](https://linux.die.net/man/2/execve) system call
 (which `executes` programs).
 
+Next, and most important, is to change file permissions for the
+`desktop_backup.sh` file. By default, a newly created file does not contain
+execute permissions, which is necessary for shell script files. So next, I have
+to run the following in Terminal to add execute permissions to
+`desktop_backup.sh` from inside the directory where it resides:
+
+````shell
+chmod +x desktop_backup.sh
+```
+
+Then I `check` to `make sure` that `execute permissions` were `added` to `desktop_backup.sh` by running the `ls -l` command in `Terminal`, and the `following` is `returned` as a `result`:
+
+```shell
+-rwxrwxr-x 1 maria maria 208 Aug 7 13:10 desktop_backup.sh
+```
+
+When I `create` the `delete_backups.sh` file (coming up), I will have to `change permissions` in the `same way` as well.
+
 If I run `date +%Y%m%d%H%M%S` in `Terminal`, `something like` the `following` is
 `returned`:
 
 ```shell
 202400807161028
-```
+````
 
 `202400807` is the `year`, `month` and `day`. `161028` is the `hour`, `minutes`,
 and `seconds` in `24 hour format`. `After` I `run` the `shell script`,
