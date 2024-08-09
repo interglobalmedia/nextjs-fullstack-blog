@@ -1,7 +1,7 @@
 ---
 slug: encrypting-and-decrypting-a-file-with-gpg-in-linux
 date: '2024-08-09T11:46:40.335Z'
-lastModified: '2024-08-09T11:46:40.335Z'
+lastModified: '2024-08-09T17:26:40.335Z'
 title: Encrypting and decrypting a file with GPG in Linux
 author: Maria D. Campbell
 excerpt: Encrypting and decrypting a file with GPG in Linux.
@@ -24,6 +24,9 @@ isFeatured: false
 -   [Encrypting the original_file.txt file](#encrypting-the-original-filetxt-file)
 -   [Decrypting the original_file.txt file with the -d flag](#decrypting-the-original-filetxt-file-with-the-d-flag)
 -   [Decrypting and extracting the original_file.txt file without any option](#decrypting-and-extracting-the-original-filetxt-file-without-any-option)
+-   [Decrypting a file using the -d flag vs without any option](#decrypting-a-file-using-the-d-flag-vs-without-any-option)
+-   [Further Reading](#further-reading)
+-   [Related Resources](#related-resources)
 
 ## What is GPG?
 
@@ -140,7 +143,17 @@ cron-job-scripts linux-shell-scripts original_file.txt.gpg
 history.txt   original_file.txt   test-file.txt
 ```
 
-I did `not need` to `provide` my `passphrase`.
+## Decrypting a file using the -d flag vs without any option
+
+When we decrypt a file using the -d flag, we need access to the passphrase
+created when the file was encrypted. When we decrypt a file without any options,
+we `not need` to `provide` the `passphrase`. This of course would bypass the
+need to send the passphrase to the recipient of the encrypted file.
+
+The `downside` of `decrypting` a `file` without any `options`? We `don't` have
+to `provide` the `passphrase`, and therefore `this method` is `not` as `secure`.
+
+## Further Reading
 
 `I` also `wrote` an `article` entitled
 [Encrypting and Decrypting Files and Strings](/blog/encrypting-and-decrypting-files-and-strings),
