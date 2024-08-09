@@ -1,0 +1,157 @@
+---
+slug: encrypting-and-decrypting-a-file-with-gpg-in-linux
+date: '2024-08-09T11:46:40.335Z'
+lastModified: '2024-08-09T11:46:40.335Z'
+title: Encrypting and decrypting a file with GPG in Linux
+author: Maria D. Campbell
+excerpt: Encrypting and decrypting a file with GPG in Linux.
+image: pexels-cottonbro-7319080.jpg
+tags: ['encryption', 'decryption', 'gpg', 'linux']
+isPublished: true
+isFeatured: false
+---
+
+![Encrypting and decrypting](pexels-cottonbro-7319080.jpg)
+
+**_Photo by_** [cottonbro studio](https://www.pexels.com/@cottonbro/) **_on_**
+[pexels.com](https://www.pexels.com/photo/photo-of-detective-decoding-characters-7319080/)
+
+## Table of Contents
+
+-   [What is GPG?](#what-is-gpg)
+-   [Main GPG options need-to-knows](#main-gpg-options-need-to-knows)
+-   [Creating a file for encryption](#creating-a-file-for-encryption)
+-   [Encrypting the original_file.txt file](#encrypting-the-original-filetxt-file)
+-   [Decrypting the original_file.txt file with the -d flag](#decrypting-the-original-filetxt-file-with-the-d-flag)
+-   [Decrypting and extracting the original_file.txt file without any option](#decrypting-and-extracting-the-original-filetxt-file-without-any-option)
+
+## What is GPG?
+
+`According` to `man gpg` in `Linux`,
+
+> `GPG` is an` OpenPGP encryption` and `signing` tool `native` to `Linux`. The
+> `gpg` command is the `OpenPGP` part of the `GNU Privacy Guard` (`GnuPG`). It
+> is a tool that `provides` digital `encryption` and `signing services` using
+> the `OpenPGP` standard. `gpg` features complete key `management` and `all` the
+> `bells` and `whistles` you would `expect` from a full
+> `OpenPGP implementation`.
+>
+> There are `two` main `versions` of `GnuPG`: `GnuPG 1.x` and `GnuPG 2.x`.
+> `GnuPG 2.x` supports `modern` encryption `algorithms` and thus `should` be
+> `preferred` over `GnuPG 1.x`. You `only need` to use `GnuPG 1.x` if your
+> `platform` doesn't `support` GnuPG 2.x, or you need support for some features
+> that GnuPG 2.x has deprecated, e.g., decrypting data created with PGP-2 keys.
+>
+> If you are looking for version 1 of GnuPG, you may find that version installed
+> under the name gpg1...
+
+## Main GPG options need-to-knows
+
+`There` are `a lot` of `GPG` options, `in order` to `be able` to `encrypt` and
+`decrypt` data, `for starters`, `we` only `need` to `know` the `following` three
+`options`:
+
+-   `Create` or `encrypt` (`-c`)
+-   `Decrypt` (`-d`)
+-   `Extract` and `decrypt` (`no option`)
+
+## Creating a file for encryption
+
+`First`, I `create` a `new file` for `encryption` called `original_file.txt` and
+`add` some `text` to `it` at the `same time` using the
+`stdout redirect operator`:
+
+```shell
+echo This is an encryption test > original_file.txt
+```
+
+And `when` I` open` the `new file` with the command `open original_file.txt`, it
+`contains` the `following contents`:
+
+```shell
+This is an encryption test
+```
+
+## Encrypting the original_file.txt file
+
+`Next`, I `run` the `following command` in `Terminal`:
+
+```shell
+gpg -c original_file.txt
+```
+
+As `mentioned previously`, the `-c` flag `encrypts` a `file`.
+
+The `following` is `returned` as a `result` of the `command`:
+
+```shell
+# in my Linux Mint OS, a window prompt appears in which I have to enter a password, and after I enter it twice and it matches, I am taken back to the Terminal prompt.
+maria@maria-VirtualBox:~/Desktop$
+# next, when I run `ls` against ~/Desktop, the following is returned:
+cron-job-scripts linux-shell-scripts original_file.txt.gpg
+history.txt   original_file.txt   test-file.txt
+```
+
+`According` to the `article` entitled
+[File encryption and decryption made easy with GPG](https://www.redhat.com/sysadmin/encryption-decryption-gpg)
+on the `Red Hat blog`,
+
+> The `.gpg` extension isn't required, but it does let the user know which
+> decryption tool to use to read the file. You can rename the file to anything
+> you want.
+
+## Decrypting the original_file.txt file with the -d flag
+
+Next, `first` I remove `original_file.txt` so that the `encrypted file` is the
+`sole source` of the `information` contained in `it`. I do this with the
+`rm original_file.txt` command.
+
+Then, to **_decrypt_** `original_file.txt.gpg`, I run
+`gpg original_file.txt.gpg` and the `following` is `returned`:
+
+```shell
+# first I am provided with a prompt to type in my password and then am returned to the Terminal prompt and the following is stdout there:
+gpg: AWS256.CFB encrypted data
+gpg: encrypted with 1 passphrase
+This is an encryption test # which is the original content of the file
+```
+
+## Decrypting and extracting the original_file.txt file without any option
+
+If I want to **_decrypt_** `original_file.txt.gpg` and **_extract_** the
+`original_file.txt` file at the `same time`, I simply `run` the
+`gpg original_file.txt.gpg` command, `without` any `options`. The `following` is
+`returned` as a `result`:
+
+```shell
+gpg: zWARNING: no command supplied. Trying tio guess what you mean ...
+gpg: AES256.CFB encrypted data
+gpg: encrypted with 1 passphrase
+```
+
+This `time` the `contents` of the `file` is `not output` to `Terminal`. The
+`original_file.txt`, however, `reappears`:
+
+```shell
+# I run the `ls` command to see if original_file.txt has been successfully extracted:
+ls
+# which returns:
+cron-job-scripts linux-shell-scripts original_file.txt.gpg
+history.txt   original_file.txt   test-file.txt
+```
+
+I did `not need` to `provide` my `passphrase`.
+
+`I` also `wrote` an `article` entitled
+[Encrypting and Decrypting Files and Strings](/blog/encrypting-and-decrypting-files-and-strings),
+in which I `compare` using `Python` to `encrypt` and `decrypt` strings `vs`
+using `GnuPG` to `encrypt` and `decrypt` strings and `files` via
+the` Command Line` on `macOS`. The `process`(`es`) differ somewhat `from what`
+has been `described here`, and `GnuPG` is `not native` to `macOS`.
+
+## Related Resources
+
+-   [Encrypting and Decrypting Files and Strings](/blog/encrypting-and-decrypting-files-and-strings):
+    **_mariadcampbell.com_**
+-   [File encryption and decryption made easy with GPG](https://www.redhat.com/sysadmin/encryption-decryption-gpg):
+    **_by Ken hess, redhat.com_**
