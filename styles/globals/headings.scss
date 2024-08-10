@@ -8,6 +8,7 @@ h3 {
 h2 {
 	font-size: 1.75rem;
 	margin-bottom: 1rem;
+	margin-top: 1rem;
 	@media #{$min-768} {
 		font-size: 2rem;
 	}
@@ -16,6 +17,7 @@ h2 {
 h3 {
 	font-size: 1.5rem;
 	margin-bottom: 1rem;
+	margin-top: 1rem;
 	@media #{$min-768} {
 		font-size: 1.75rem;
 	}
@@ -24,6 +26,6 @@ h3 {
 .dark h1,
 .dark h2,
 .dark h3 {
-    /* stylelint-disable scss/no-global-function-names */
+	/* stylelint-disable scss/no-global-function-names */
 	color: lighten($tailwind-dark-orange, 5%);
 }
