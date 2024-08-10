@@ -1,0 +1,136 @@
+---
+slug: making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux
+date: '2024-08-10T19:10:14.043Z'
+lastModified: '2024-08-10T19:10:14.043Z'
+title: Making and verifying a detached signature using a PGP key pair in Linux
+author: Maria D. Campbell
+excerpt:
+    Making and verifying a detached signature using a PGP key pair in Linux.
+image: signature-pro-zMuQApZjwxY-unsplash.jpg
+tags:
+    [
+        'asymmetric encryption',
+        'detached signature',
+        'gpg',
+        'linux',
+        'pgp',
+        'security',
+        'verification',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Man holding a signature on a card](signature-pro-zMuQApZjwxY-unsplash.jpg)
+
+**_Photo by_** [Signature Pro](https://unsplash.com/@signaturepro) **_on_**
+[unsplash.com](https://unsplash.com/photos/man-in-black-suit-jacket-holding-white-card-zMuQApZjwxY)
+
+## Table of Contents
+
+-   [Making and verifying digital signatures using GPG in Linux recap](#making-and-verifying-digital-signatures-using-gpg-in-linux-recap)
+-   [What is a detached signature?](#what-is-a-detached-signature)
+-   [Creating a detached signature using --detach-sign](#creating-a-detached-signature-using-detach-sign)
+-   [Verifying the detached signature](#verifying-the-detached-signature)
+-   [Complete signature vs detached signature](#complete-signature-vs-detached-signature)
+-   [Asymmetric encryption and decryption series](#asymmetric-encryption-and-decryption-series)
+
+## Making and verifying digital signatures using GPG in Linux recap
+
+In the first article of this series entitled
+[Making and verifying a detached signature using a PGP key pair in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux),
+I discussed how to make and verify a (regular) signature using a PGP key pair. I
+went over:
+
+-   what a digital signature is, why use them,
+-   the digital signature process,
+-   why they should be used with PGP (or PKI, but that is outside the scope of
+    this article),
+-   how to create a digital signature using a PGP key pair (a form of asymmetric
+    encryption),
+-   why asymmetric encryption is more secure than symmetric encryption,
+-   how to edit a public PGP key, how to list the public PGP keys,
+-   how to delete a PGP public key uid,
+-   how to create a revocation certificate for a PGP key pair and why you should
+    have one,
+-   how to make a signature, and how to verify it.
+
+`In` this `article`, I `discuss` what a `detached signature` is, `how` it
+`compares` to a `complete signature`, and `how` to `make` one `using` a
+`PGP key pair`, and `how` to `verify` it.
+
+## What is a detached signature?
+
+A `detached signature` means that it is `separate` from the `file` or `data`
+being `signed`. As `opposed` to a `complete signature` which contains `both` the
+`original information` and the `signature`.
+
+## Creating a detached signature using --detach-sign
+
+If I `want` to `create` a `detached signature` for my `make_signature.txt` file,
+I would `run` the `following` in `Terminal`:
+
+```shell
+# I could also use the `-b` flag instead, which is the shorthand for `--detach-sign`
+gpg --detach-sign make_signature.txt
+# when I hit return, the passphrase prompt appears
+# after I have entered the passphrase for my PGP key pair I am using and hit "OK", I am returned to the Terminal command prompt
+```
+
+If I run the `ls` command on the `current working directory`, I will `see` that
+a `new file` called `make_signature.txt.sig` has been `created`:
+
+```shell
+make_signature.txt  make_signature.txt.sig
+```
+
+## Verifying the detached signature
+
+To `verify` the `detached signature`, I `run` the `following` in `Terminal`:
+
+```shell
+gpg --verify make_signature.txt.sig make_signature.txt
+# the following is returned when I hit the `Return` key:
+gpg: Signature made Sat 10 Aug 2024 04:04:06 PM EDT
+gpg:                using RSA key xxxxxxxxxxxxxxxx
+gpg: Good signature from "Maria (GPG key pair for local tesing with correct email) <amria#maria-VirtualBox>" [ultimate]
+```
+
+If the `same` file `name` as the `original` is being `used` in
+`signature verification`, then I can `do` the `following` instead:
+
+```shell
+gpg --verify make_signature.txt.sig
+# and the following is returned:
+gpg: assuming signed data in "make_signature.txt"
+gpg: Signature made Sat 10 Aug 2024 04:04:06 PM EDT
+gpg;                using RSA key xxxxxxxxxxxxxxxx
+gpg: Good signature from "Maria (GPG key pair for local tesing with correct email) <amria#maria-VirtualBox>" [ultimate]
+```
+
+## Complete signature vs detached signature
+
+When we `create` a `"complete"` signature as we `did` with the `gpg` extension
+by `executing` the command `gpg -s make_signature.txt`,
+
+-   the make_signature.txt.gpg file is complete because we could send it to
+    someone and it would be readable using GPG and our public key.
+-   --sign compresses, signs and outputs the signed text in a binary format.
+-   Another user has to recover the original file from the signed version. The
+    resulting .gpg file contains the signed file.
+
+When we `create` a `detached signature`,
+
+-   both the file and detached signature are needed to verify the signature.
+-   the resulting .sig won't contain the signed file only the signature.
+-   The recipient would need both the original file and the signature file in
+    order to both read the data and verify it.
+
+Basically, the `question` here `is`, "Is it more important to make the data
+unreadable in transit? (complete signature)" _or_ "Is it more important that the
+data just be verified? (detached signature)".
+
+## Asymmetric encryption and decryption series
+
+1. [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux)
+2. [Making and verifying a detached signature using a PGP key pair in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
