@@ -1,0 +1,505 @@
+---
+slug: making-and-verifying-digital-signatures-using-gpg-in-linux
+date: '2024-08-09T16:02:09.360Z'
+lastModified: '2024-08-09T16:02:09.360Z'
+title: Making and verifying digital signatures using GPG in Linux
+author: Maria D. Campbell
+excerpt: Making and verifying digital signatures using GPG in Linux.
+image: pexels-pixabay-326616.jpg
+tags:
+    [
+        'asymmetric encryption',
+        'symmetric encryption',
+        'encryption',
+        'decryption',
+        'pgp key pair',
+        'digital signature',
+        'verification',
+        'gpg',
+        'linux',
+        'pgp',
+        'security',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Key hole and chain](pexels-pixabay-326616.jpg)
+
+**_Photo by_** [Pixabay](https://www.pexels.com/@pixabay/) **_on_**
+[pexels.com](https://www.pexels.com/photo/close-up-of-figurine-326616/)
+
+`In` this `article`, I `discuss` how to `make` and `verify` digital `signatures`
+using `GPG` in Linux, and `I` also `discuss` WHY we would `want` to `use` a
+`digital signature` in the `first place`.
+
+## Table of Contents
+
+-   [So what is a digital signature?](#so-what-is-a-digital-signaturet)
+-   [Why digital signatures?](#why-digital-signatures)
+-   [The digital signature process](#the-digital-signature-process)
+-   [Why digital signatures should be used with PGP (or PKI)](#why-digital-signatures-should-be-used-with-pgp-or-pki)
+-   [Creating a digital signature using PGP](#creating-a-digital-signature-using-pgp)
+    -   [Creating the PGP key pair](#creating-the-pgp-key-pair)
+    -   [Editing the PGP public key](#editing-the-PGP-public-key)
+    -   [Listing the PGP public keys](#listing-the-pgp-public-keys)
+    -   [Deleting a PGP public key uid](#deleting-a-pgp-public-key-uid)
+    -   [Creating a revocation certificate for PGP key pair](#creating-a-revocation-certificate-for-pgp-key-pair)
+    -   [Making a signature](#making-a-signature)
+        -   [Verifying the signature](#verifying-the-signature)
+-   [Conclusion](#conclusion)
+-   [Footnotes](#footnotes)
+-   [Related Resources](#related-resources)
+
+## So what is a digital signature?
+
+A `digital signature`, which is a `type` of `electronic signature`, is a
+`mathematical algorithm` used to `validate` the `authenticity` and `integrity`
+of a `message` (i.e., `email`, `credit card` transaction, or
+`digital document`).
+
+According to
+[CISA](https://www.cisa.gov/news-events/news/understanding-digital-signatures)
+**[^1]**,
+
+> `Digital signatures` create a `virtual fingerprint` that is `unique` to a
+> `person` or `entity` and are `used` to `identify users` and
+> `protect information` in `digital messages` or `documents`. In `emails`, the
+> `email content` itself `becomes part` of the `digital signature`.
+> `Digital signatures` are `significantly` more `secure` than `other forms` of
+> `electronic signatures`.
+
+## Why digital signatures?
+
+`Digital signatures` **_prove_** that a `digital message` or `document` was
+`not` modified (`intentionally` or `unintentionally`) `from when` it was
+`signed`.
+
+`Digital signatures` **_verify_** the `integrity` of `data` by `generating` a
+`unique hash` of the `message` or `document` in `question` and `encrypting` it
+`using` the `sender`'s `private key` **[^2]**. The `hash generated` is `unique`
+to the `message` or `document`, and `changing` any `part` of it `will`
+completely `change` the `hash`.
+
+## The digital signature process
+
+When we have `finished creating` our `message` or `document` that we `want` to
+`secure`, we `digitally sign` it and `send` it to the `recipient`. The
+`recipient` then `generates` their own `hash` of the `message` or
+`digital document` and `decrypts` the `sender`'s hash (`included` in the
+`original message`) `using` the `sender`'s `public key` **[^2]**.
+
+The `recipient` **_compares_** the `hash` they `generate` against the `sender`'s
+`decrypted hash`. `If` they `match`, the `integrity` of the `message` or
+`digital document` has been `verified` and the `sender` is `authenticated`.
+
+According to
+[CISA](https://www.cisa.gov/news-events/news/understanding-digital-signatures),
+
+> he security of a digital signature is almost entirely dependent on how well
+> the private key is protected. Without PGP or PKI, proving someone's identity
+> or revoking a compromised key is impossible; this could allow malicious actors
+> to impersonate someone without any method of confirmation.
+>
+> Through the use of a trusted third party, digital signatures can be used to
+> identify and verify individuals and ensure the integrity of the message.
+>
+> As paperless, online interactions are used more widely, digital signatures can
+> help you secure and safeguard the integrity of your data. By understanding and
+> using digital signatures, you can better protect your information, documents,
+> and transactions.
+
+## Why digital signatures should be used with PGP (or PKI)
+
+Using `digital signatures` with
+[PGP](https://www.encryptionconsulting.com/how-to-generate-pgp-key-pair/) or
+[PKI (public key infrastructure)](<https://www.keyfactor.com/education-center/what-is-pki/#:~:text=Public%20key%20infrastructure%20(PKI)%20governs,end%2Dto%2Dend%20communications.>)
+`key pairs` strengthens the `digital signatures` and `reduces` possible
+`security issues` **_related_** to **_transmitting_** `public keys` by
+`validating` that the `key` **_belongs_** to the `sender` and `verifying` the
+`identity` of the `sender`. The `security` of a `digital signature`
+**_depends_** on `how strong` the `protection` of the `private key` is.
+**_Without_** `PGP` (or `PKI`), `verifying` someone's `identity` or `revoking` a
+`compromised key` is `impossible`. This **_means_** `malicious actors` could
+`impersonate someone` without any `means` of `confirmation`.
+
+`Understanding` and `using` digital `signatures` permits us to `better protect`
+our `information`, `documents`, and `transactions` in the `digital age`.
+
+## Creating a digital signature using PGP
+
+`Since` I `already` have written `articles` touching upon `PGP`,
+[Encrypting and decrypting a file with GPG in Linux](http://localhost:3000/blog/encrypting-and-decrypting-a-file-with-gpg-in-linux)
+and
+[Encrypting and Decrypting Files and Strings](http://localhost:3000/blog/encrypting-and-decrypting-files-and-strings),
+`in` this `article` I will `show how` to `create` a `digital signature` using
+`PGP`.
+
+### Creating the PGP key pair
+
+A `PGP key pair` is an `example` of `asymmetric encryption`.
+`Asymmetric encryption` is the `process` of `using` a `public key` from a
+`public/private` key `pair` to `encrypt` plaintext, and then` using` the
+corresponding `private key` to `decrypt` the ciphertext. `In` other `words`,
+`asymmetric encryption` uses `two` different `keys` to `encrypt` and `decrypt`
+each `file`, then `two` more `keys` to `sign` and `verify` each `file`. Both
+parties – `sender` and `recipient` – `need` to `exchange` their `public keys`
+before `any transfer` can `take place`.
+
+The `sender encrypts` the `file` using the `recipient`’s `public key`. The
+`recipient decrypts` the `file` using their `private key`.
+
+`Asymmetric encryption` is `considered` more `secure` due to the `use` of `two`
+separate `keys`, `making` it `harder` for `attackers` to `compromise` the
+`system`. And we are `dealing` with `asymmetric encryption` here.
+
+`PGP` itself provides `end-to-end encryption`, `integrity checking` and
+`authentication`. It is `commonly used` for `encrypting` and `decrypting` texts,
+files, directories and whole disk partitions.
+
+I `also wrote` an `article` a `while back` regarding `symmetric encryption`
+entitled
+[Encrypting and Decrypting Files and Strings](http://localhost:3000/blog/encrypting-and-decrypting-files-and-strings)
+where I discuss `symmetric encryption`. `Symmetric encryption` is `not` as
+`secure` by the `nature` of `how` it `works`, and also `more limiting`.
+`Symmetric encryption` is also known as a `private-key encryption`. It is called
+`symmetric` because, it `makes use` of the `same key` for both `encryption` of
+`plain text` (`sending message`) and `decryption` of `cipher text`
+(`received message`).
+
+`In order` to `be able` to `sign` a `message` or `document`, for example, one
+`first` has to `create` a `PGP private` and `public` key pair`:
+
+```shell
+gpg --full-generate-key
+```
+
+The `--full-generate-key` flag as `opposed` to `gpg --gen-key`, `provides` a
+`full featured` key generation `dislog`. It `returns` something like the
+`following`:
+
+```shell
+gpg (GnuPG) 2.4.4: Copyright (C) 2024 g10 Code GmbH
+this is a free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Please select what kind of key you want:
+  (1) RSA and RSA
+  (2) RSA and Elgamal
+  (3) DSA (sign only)
+  (4) RSA (sign only)
+  (9) ECC (sign and encrypt)  <default>
+ (10) ECC (sign only)
+ (14) Existing key from card
+Your selection: 1
+RSA keys may be between 1024 and 4096 bits long.
+What keysize do you want? (3072)
+Requested keysize is 3072 bits
+Please specifiy how long the key should be valid.
+        0 = key does not expire
+    <n>   = key expires in n days
+    <n>w  = key expires in n weeks
+    <n>m  = key expires in n months
+    <n>y  = key expires in n years
+Key is valid for? (0) 0
+Is this correct? (y/N) y
+
+GnuPG needs to construct a user ID to identify your key.
+
+Real name: Maria
+Email address: maria@maria-Virtual-Box
+Comment: GPG key pair for local testing purposes
+You selected this USER-ID:
+  "Maria (GPG key pair for local testing purposes) <maria@aria-Virtual-Box"
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? o
+We need to generate a lot of random bytes. It is a good idea to perform some other action (type on keyboard, move the mouse, utilize the disks) during the prime generation; this gives the random number generator a better change to gain enough entropy. We need to generate a lot of random bytes. it isd a good idea to perform some other action (type on the keyboard, move the mouse, utilize the disks) during the prime generation; this gives the random number generator a better change to gain enough entropy.
+gpg; revocation certificate stored as '/home/maria/.gnupg/openpgp-revocs.d/
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.rev'
+public and secret key created and signed.
+```
+
+## Editing the PGP public key
+
+I had `created` a `revocation certificate` previously. Ideally, you `create` it
+`right after` creating your` PGP key pair`. `However`, I `noticed` that I
+`entered` the `wrong` local `email address`. So I `did` the `following` to
+`change` my `local email address` to the `correct one`:
+
+`First` I ran `gpg --edit Maria` (the `name` of my `key pair` is the `real name`
+I `provided` at the `beginning`), and the `following appeared`:
+
+```shell
+gpg (GnuPG) 2.4.4; Copyright (C) 2024 g10 Code GmbH
+This is free software; you are free to change and redistribute it.
+There is NO WARRANTY, to the extent of the law.
+
+Secret key is available.
+
+sec   rsa3072/xxxxxxxxxxxxxxxxx
+      created: 2024-08-09   expires: never    usage: SC
+      trust: ultimate   validity: ultimate
+ssb   rsa3072/xxxxxxxxxxxxxxxxx
+      created: 2024-08-09   expires: never    usage: E
+[ultimate] (1). Maria (GPG key pair for local testing purposes) <maria@maria-Virtual-Box>
+
+gpg> uuid
+```
+
+It is `not` noted `anywhere`, `but` I `had` to `type` `"uuid"` in the `gpg>`
+prompt. Then the `following appeared` after I `hit` the `Return` key:
+
+```shell
+Real name: Maria
+Email address: maria@maria-VirtualBox # here is where I provide my correct local email
+Comment: GPG key pair for local testing with correct email # I indicate that I have provided the correct email now
+You selected this USER-ID:
+  "maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>"
+
+gpg> # here i hit Control + D key to exit
+Save changes? (y/N) y
+```
+
+`During` this `process` I am `also prompted` for `my passphrase` I `had created`
+when I `originally created` the `PGP key pair`.
+
+## Listing the PGP public keys
+
+Next, I can `check` to `make sure` that `everything` was `successfully updated`
+by running `gpg --list-keys`, and `something like` the `following` is
+`returned`:
+
+```shell
+/home/maria/.gnupg/pubring.kbx
+------------------------------
+
+pub   rsa3072 2024-08-09 [SC]
+      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+uid           [ultimate] Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>
+uid           [ultimate] Maria (GPG key pair for local testing purposes) <maria@maria-Virtual-Box>
+sub   rsa3072 2024-08-09 [E]
+```
+
+## Deleting a PGP public key uid
+
+`As` you `can see`, I have `two uids`. I `want` to `get rid` of `the one` that
+is `not` correct (the `second one`). So I `run` the `following`:
+
+```shell
+gpg --edit-key Maria
+```
+
+`And` it `returns` the `following`:
+
+```shell
+gpg --edit-key Maria
+gpg (GnuPG) 2.4.4; Copyright (C) 2024 g10 Code GmbH
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Secret key is available.
+
+sec  rsa3072/xxxxxxxxxxxxxxxx
+     created: 2024-08-09  expires: never       usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa3072/xxxxxxxxxxxxxxxx
+     created: 2024-08-09  expires: never       usage: E
+[ultimate] (1). Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>
+[ultimate] (2)  Maria (GPG key pair for local testing purposes) <maria@maria-Virtual-Box>
+
+gpg> uid 2
+
+sec  rsa3072/xxxxxxxxxxxxxxxx
+     created: 2024-08-09  expires: never       usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa3072/xxxxxxxxxxxxxxxx
+     created: 2024-08-09  expires: never       usage: E
+[ultimate] (1). Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>
+[ultimate] (2)* Maria (GPG key pair for local testing purposes) <maria@maria-Virtual-Box>
+
+gpg> deluid
+Really remove this user ID? (y/N) y
+
+sec  rsa3072/xxxxxxxxxxxxxxxx
+     created: 2024-08-09  expires: never       usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa3072/xxxxxxxxxxxxxxxx
+     created: 2024-08-09  expires: never       usage: E
+[ultimate] (1). Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>
+
+gpg>
+Save changes? (y/N) y
+```
+
+`When` I `get` the first `gpg>` prompt, I type `uid 2` because `that` is the
+`uuid` I `want` to `delete` and `that` has the `incorrect` local
+`email address`. Then, `with` the second `gpg>` prompt I `get`, I type `deluid`,
+because I want to delete `uid 2`. Then it `prompts me` if I
+`Really remove this user ID? (y/N)` and I type `y`. And `finally`, with the last
+`gpg>` prompt, I `indicate` I `want` to `save` my `changes` by typing `y`.
+
+Now I can `check` to `make sure` the `edit` was `successful` by running
+`gpg --list-keys` again. And if `uid 1` is `no longer` listed `there`, I `know`
+that my `edit` was `successful`!
+
+## Creating a revocation certificate for PGP key pair
+
+Next, I `want` to `make sure` that I `create` a `revocation certificate` for my
+`PHP key pair` in `case` if I `lose` my `keys` or if they have been
+`compromised`. One `should` do `this` before `actually starting` to `use` the
+`PGP keys`.
+
+In `order` to `create` a `revocation certificate` associate with my `Maria` PGP
+key pair, I `do` the `following`:
+
+```shell
+# command to create a revocation certificate
+gpg --output revocation.crt --gen-revoke maria@maria-VirtualBox
+
+sec  rsa3072/xxxxxxxxxxxxxxxx 2024-08-09 Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>
+
+Create a revocation certificate for this key? (y/N) y
+Please select the reason for the revocation:
+  0 = No reason specified
+  1 = Key has been compromised
+  2 = Key is superseded
+  3 = Key is no longer used
+  Q = Cancel
+(Probably you want to select 1 here)
+Your decision? 0
+Enter an optional description; end it with an empty line:
+> revocation certificate for local purposes
+>
+Reason for revocation: No reason specified
+revocation certificate for local purposes
+Is this okay? (y/N) y
+ASCII armored output forced.
+Revocation certificate created.
+
+Please move it to a medium which you can hide away; if Mallory gets
+access to this certificate he can use it to make your key unusable.
+It is smart to print this certificate and store it away, just in case
+your media become unreadable.  But have some caution:  The print system of
+your machine might store the data and make it available to others!
+```
+
+## Making a signature
+
+There are several ways of signing a file: sign, check, encrypt, decrypt.
+
+-   The `--sign` or -s flag is used to sign a message/make a signature.
+-   The `--clear-sign`flag is used to make a clear text signature.
+-   The `--detach-sign` or `-b` flag is used to make a detached signature.
+-   The `--verify` flag is used to verify a signature.
+
+`In` this `article`, I `focus` on a (regular) `signature` created `with` the
+`--sign` or `-s` option.
+
+`When` we `use` the `--sign` or `s` flag on a `file`, the `file` is effectively
+`encrypted` with the `private key`. The `signature` is `created` using the
+`private key` of the `signer`, and the `signature` is `verified` using the
+corresponding `public key`. `As` mentioned `earlier`, the `public key` is
+`required` to `view` the `contents` of the `file`. This `forces` the `recipient`
+to `verify` the `origin` and `removes` any `clear text` content **[^4]** from
+transit. It is `not` private since `anyone` with the `public key` can `decrypt`
+the `file`.
+
+To `make` a `signature` on a `file` called `make_signature.txt` that `contains`
+the `following text`:
+
+```shell
+# command I used to both create the file and the file content:
+echo This is a file I am using for demonstration purposes regarding digital signing. > make_signature.txt`
+# command I used to sign the file
+gpg -s make_signature.txt
+# which returned the following:
+# first I get a passphrase prompt and have to enter my password associated with the PGP key pair
+# then I am returned to the Terminal command prompt
+# the signature command results in a file called make_signature.txt.gpg
+```
+
+### Verifying the signature
+
+To `verify only` the `signature`, I `run` the `following command`:
+
+```shell
+gpg --verify make_signature.txt.gpg
+```
+
+Which `returns` the `following` in `Terminal`:
+
+```shell
+gpg: Signature made Sat 10 Aug 2024 12:21:35 PM EDT
+gpg:                using RSA key .......
+gpg: Good signature from "Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>" [ultimate]
+```
+
+To `view` the `contents` AND `show` the `signature verification`, I `use` the
+`--decrypt` option:
+
+```shell
+gpg --decrypt make_signature.txt.gpg
+# which returns the following:
+This is a file I am using for demonstration purposes regarding digital signing.
+gpg: signature made Sat 10 Aug 2024 12:3524 PM EDT
+gpg:                using RSA key ...
+gpg: Good signature from "Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>" [ultimate]
+```
+
+## Conclusion
+
+`In` this `article`, we `went over`:
+
+-   what a digital signature is, why use them,
+-   the digital signature process,
+-   why they should be used with PGP (or PKI, but that is outside the scope of
+    this article),
+-   how to create a digital signature using a PGP key pair (a form of asymmetric
+    encryption),
+-   why asymmetric encryption is more secure than symmetric encryption,
+-   how to edit a public PGP key, how to list the public PGP keys,
+-   how to delete a PGP public key uid,
+-   how to create a revocation certificate for a PGP key pair and why you should
+    have one,
+-   how to make a signature, and how to verify it.
+
+In my `next post` regarding `digital signatures`, I will `discuss` how to `make`
+a `detached signature` using a `PGP key pair` and `how` it differs from a
+regular `digital signature` using a `PGP key pair`. Stay tuned!
+
+## Footnotes
+
+**[^1]**: `CISA` stands for `Cybersecurity and Infrastructure Security Agency`.
+
+**[^2]**: When we create a `PGP` key, a `key pair` containing a `public key` and
+`private key` is `generated`. `We` can `share` the `public key` with `anyone`
+who `wishes` to `send` us `encrypted messages` or `files`, but the `private key`
+must be `known only` to `us` and is `used` to `decrypt` received `messages`.
+
+**[^3]**: According to
+[Wikipedia](https://en.wikipedia.org/wiki/Public_key_infrastructure),
+
+> `PKI`, or `Public Key Infrastructure`, is a set of roles, policies, hardware,
+> software and procedures needed to create, manage, distribute, use, store and
+> revoke digital certificates and manage public-key encryption.
+>
+> The `purpose` of a `PKI` is to facilitate the secure electronic transfer of
+> information for a range of network activities such as e-commerce, internet
+> banking and confidential email. It is required for activities where simple
+> passwords are an inadequate authentication method and more rigorous proof is
+> required to confirm the identity of the parties involved in the communication
+> and to validate the information being transferred.
+
+**[^4]**: `Clear text` content means information or data that is transmitted or
+stored without any encryption or obfuscation.
+
+## Related Resources
+
+-   [Public-key (asymmetric) Cryptography using GPG](https://medium.com/@GalarnykMichael/public-key-asymmetric-cryptography-using-gpg-5a8d914c9bca):
+    **_by Michael Galarnyk, medium.com_**
+-   [How To Use GPG to Encrypt and Sign Messages](https://www.digitalocean.com/community/tutorials/how-to-use-gpg-to-encrypt-and-sign-messages):
+    **_by Justin Ellingwood, Digital Ocean_**
+-   [Pretty Good Privacy (PGP) and Digital Signatures](https://www.linuxjournal.com/content/pretty-good-privacy-pgp-and-digital-signatures):
+    **_by Ankur Kothiwalm Linux Journal_**
+-   [Making and verifying signatures](https://www.gnupg.org/gph/en/manual/x135.html):
+    **_The GNU Privacy Handbook_**
