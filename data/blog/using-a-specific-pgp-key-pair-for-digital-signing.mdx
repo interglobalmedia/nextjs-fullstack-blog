@@ -1,0 +1,58 @@
+---
+slug: using-a-specific-pgp-key-pair-for-digital-signing
+date: '2024-08-12T18:30:36.792Z'
+lastModified: '2024-08-12T18:30:36.792Z'
+title: Using a specific PGP key pair for digital signing
+author: Maria D. Campbell
+excerpt: Using a specific PGP key pair for digital signing.
+image: pexels-wdnet-101808.jpg
+tags:
+    [
+        'asymmetric encryption',
+        'complete signature',
+        'gpg',
+        'linux',
+        'pgp',
+        'pgp key pair',
+        'security',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Key in lock, key pair hanging from chain](pexels-wdnet-101808.jpg)
+
+**_Photo by_** [PhotoMIX Company](https://www.pexels.com/@wdnet/) **_on_**
+[pexels.com](https://www.pexels.com/photo/black-handled-key-on-key-hole-101808/)
+
+## Table of Contents
+
+-   [Digital signing a file using a specific key](#digital-signing-a-file-using-a-specific-key-from-a-keyring)
+-   [Asymmetric encryption and decryption series](#asymmetric-encryption-and-decryption-series)
+
+## Digital signing a file using a specific key
+
+Since I want to `digitally "sign"` a `file` using a `specific key`, I will `run`
+the `following command` using the `PGP key pair` called `"Maria"` which I have
+been using for `digital signing` and `local testing`:
+
+```shell
+gpg --local-user "Maria" -s inline_signature.txt
+```
+
+And this `creates` a `file` called `inline_signature.txt.gpg`, `indicating` it
+is an `inline` or `complete signature`.
+
+The` --local-user` option `specifies` a` user id` (or `name`) to `use` for
+`signing`. `In` my `case`, it is `"Maria"`. And that is `how` I `set up` the
+`PGP key pair` in the `article` entitled
+[Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux).
+
+`That` is `what` is `meant` by `"Digital signing a file using a specific key"`.
+
+## Asymmetric encryption and decryption series
+
+-   [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux)
+-   [Making and verifying a detached signature using a PGP key pair in Linux](http://localhost:3000/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
+-   [Making and verifying a clear text signature using a PGP key pair in Linux](/blog/making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux)
+-   [Using a specific PGP key pair for digital signing](http://localhost:3000/blog/using-a-specific-pgp-key-pair-for-digital-signing)
