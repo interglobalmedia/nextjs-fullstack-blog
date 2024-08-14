@@ -1,0 +1,348 @@
+---
+slug: exchanging-keys-using-a-pgp-key-pair
+date: '2024-08-13T11:03:21.670Z'
+lastModified: '2024-08-13T11:03:21.670Z'
+title: Exchanging public keys using a PGP key pair
+author: Maria D. Campbell
+excerpt: Exchanging public keys using a PGP key pair.
+image: pexels-pavel-danilyuk-8112169.jpg
+tags:
+    [
+        'exchanging public keys',
+        'linux',
+        'mutt email client',
+        'asymmetric encryption',
+        'pgp key pair',
+        'gpg',
+        'pgp',
+        'revocation certificate',
+        'security',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Exchanging keys](pexels-pavel-danilyuk-8112169.jpg)
+
+**_Photo by_**
+[Pavel Danilyuk Pavel Danilyuk](https://www.pexels.com/@pavel-danilyuk/)
+**_on_**
+[pexels.com](https://www.pexels.com/photo/a-close-up-shot-of-a-person-holding-keys-8112169/)
+
+## Table of Contents
+
+-   [Exporting the PGP public key](#exporting-the-pgp-public-key)
+-   [Sending maria_publickey.asc to another local user via email](#sending-maria-publickeyasc-to-another-local-user-via-email)
+-   [Email recipient user magdala imports the maria_publickey.asc](#email-recipient-user-magdala-imports-the-maria-publickeyasc)
+-   [Signing the imported public key maria_publickey.asc](#signing-the-imported-public-key-maria-publickeyasc)
+-   [Exporting magdala_publickey.asc](#exporting-magdala-publickeyasc)
+-   [Creating the revocation certificate for magdala PGP key pair](#creating-the-revocation-certificate-for-magdala-pgp-key-pair)
+-   [Immediately changing permissions for revocation.crt](#immediately-changing-permissions-for-revocationcrt)
+-   [Emailing magdala_publickey.asc to user Maria](#emailing-magdala-publickeyasc-to-user-maria)
+-   [User Maria imports magdala_publickey.asc](#user-maria-imports-magdala-publickeyasc)
+-   [Asymmetric encryption and decryption series](#asymmetric-encryption-and-decryption-series)
+
+This article `assumes` that you have `already created` a `PGP key pair`. If not,
+`please visit` my `article` entitled
+[Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux).
+
+## Exporting the PGP public key
+
+In `order` to `share` our `public key` with `others`, we can:
+
+1. Hand it to them.
+2. Email it to them.
+3. Place it online (your website or blog, for example).
+4. Store our key on a keyserver for others to fetch.
+
+For options `1`, `2`, or `3`, we have to `export` our `public key` using the
+`--export` option. However, we `need` to `transform` it `into` a
+`manageable format`. We `shouldn't use` the `raw binary data` which can `cause`
+all `sorts` of `issues` including `not` being `transmittable` via `email`. In
+`order` to `achieve` this, `gpg` can generate `ASCII armored output` for `us`
+when we `use` the `--armor` (or `-a`) option.
+
+In `order` to `export` my `public key`, I `run` the `following command` in
+`Terminal`:
+
+```shell
+gpg --armor --export Maria > maria_publickey.asc
+```
+
+The `--export` option `either` exports `all keys` from `all keyrings`
+(`default keyring` and 1 via option `--keyring`), or if `at least` one `name` is
+`given`, `those` of the `given name`. The `exported keys` are `written` to
+`stdout` or `to` the `file given` with the option `--output`. `Use together`
+with `--armor` to `email` those `keys`.
+
+The `--armor` option creates `ASCII` armored `output`. The `default` is to
+`create` the `binary` OpenPGP `format`. `By default`, a `key` is `exported` in
+`binary format`. `As` mentioned `earlier`, `this` is `not transmittable` via
+`email`.
+
+`After exporting` my `key` as above, I now `have` a `copy` of my `public key`.
+And if I `ls` the `current working directory`, a `new file` called
+`maria_publickey.asc` appears.
+
+## Sending maria_publickey.asc to another local user via email
+
+Next, I can `send` my `maria_publickey.asc` file to `another user` on the
+`local network` via `email` in the `following way` via `Terminal`:
+
+```shell
+mutt -s "Sending Maria public key file" -a maria_publickey.asc -- magdala@maria-VirtualBox
+# I'm taken into nano text editor in mutt where at the bottom of the window is the following:
+To: magdala@maria-VirtualBox # then I hit return and the following appears:
+Subject: Sending Maria public key file # then I hit return and am taken into another window in nano where I type the body of the email where the white cursor is at the top of the window
+Hi Magdala,
+
+I am attaching my public key file called maria_publickey.asc for you to use. Thanks!
+
+Best regards,
+
+Maria
+# then I hit Control + O key followed by the Return key
+# then I hit Control + X key and this takes me to my mutt mailbox where I select the email I want to send by using either the up or down arrow
+# after I have selected the email I just wrote and want to send, I press the y key. This results in "mail sent" appearing at the bottom of the window, and then I am taken back to the Terminal command prompt.
+```
+
+I `will` be `writing` a `separate article` about `how` to `set up` the `mutt`
+email client, `write emails` to `other users` locally, and `attach files` which
+can then be `saved locally` by the `recipient`(`s`).
+
+## Email recipient user magdala imports the maria_publickey.asc
+
+Next, `user magdala` has to `open` the `email` that `she has` just `received`.
+
+For `user magdala` to `be able` to `use` my `public key`, she `has` to `run` the
+`following` in `Terminal`:
+
+```shell
+gpg --import maria_publickey.asc
+```
+
+And the `following` is then `stdout` in `Terminal`:
+
+```shell
+gpg: key xxxxxxxxxxxxxxxx public key "Maria (GPG key pair for local testing with correct email) <maria#maria-VirtualBox>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+```
+
+I would `do` the `same thing` when `importing` magdala's public key:
+
+```shell
+gpg --import magdala_publickey.asc
+```
+
+`Once` a `public key` has been `imported`, we should `sign it`.
+
+## Signing the imported public key maria_publickey.asc
+
+`Now` that `user magdala` has `imported` my `public key`, she can `run` the
+`following command` in `Terminal`:
+
+```shell
+gpg --edit-key Maria
+```
+
+Which `returns` the `following`:
+
+```shell
+gpg (GnuPG) 2.4.4: Copyright (C) 2024 g10 Code GmbH
+This is a free software; you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+pub  rsa3072/xxxxxxxxxxxxxxxx
+     created: 2024-08-09      expires: never      usage: SC
+     trust: unknown           validity: unknown
+sub  rsa3072/xxxxxxxxxxxxxxxx
+     created; 2024-08-09      expires: never      usage; E
+[ unknown ] (1). Maria (GPG key pair for local testing with correct email) <maria2@maria-VirtualBox>
+
+gpg> fpr
+# which returns:
+pub  rsa3072/xxxxxxxxxxxxxxxx Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>
+ Primary key fingerprint: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+# once fingerprint has been verified with the owner, the key is ready for signing
+gpg> sign
+# and the following is returned:
+gpg: no default secret key No secret key
+# then to double check that the public key has been signed:
+gpg> check
+
+gpg>
+```
+
+The `reason` that `this` has `happened` is because `user magdala` has
+`not created` her `PGP key pair`. She `has` to `do` that `now` after
+`exiting out` of `editing` key `Maria`).
+
+`When` the `PGP key pair` has been `successfully created` (`check out` my
+`article`
+[Making and verifying digital signatures using GPG in Linux](http://localhost:3000/blog/making-and-verifying-digital-signatures-using-gpg-in-linux)
+for a refresher), `user magdala` can now `edit` the `Maria key pair`:
+
+```shell
+gpg --edit-key Maria
+gpg (GnuPG) 2.4.4; Copyright (C) 2024 g10 Code GmbH
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+pub  xxxxxxxxxxxxxxxx
+     created: 2024-08-09 expires: never      usage: SC
+     trust: unknown validity: unknown
+sub  rsa3072/xxxxxxxxxxxxxxxx
+     created: 2024-0809  expires: never      usage: E
+[ unknown ] (1). Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>
+
+gpg> fpr
+pub  xxxxxxxxxxxxxxxx 2024-08-09 Maria (GPG key pair for local testing with correct email) <maria@maria-Virtualbox>
+  Primary key fingerprint: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+
+gpg> sign
+
+pub  xxxxxxxxxxxxxxxx
+     created: 2024-08-09 expires: never      usage: SC
+     trust: unknown      validity: unknown
+ Primary key fingerprint: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+
+     Maria (GPG key pair for local testing witb correct email) <maria@maria-VirtualBox>
+
+Are you sure that you want to sign this key with your key "magdala (This is the second PGP key pair I am creating for local testing because I lost the passphrase for the first one) <magdala@maria-VirtualBox>" (xxxxxxxxxxxxxxxx)
+
+Really sign? (y/N) y # then user prompted for their passphrase
+
+gpg> check
+
+gpg>
+Save changes? (y/N) y # then hit Control + D key to exit out of gpg command prompt
+```
+
+## Exporting magdala_publickey.asc
+
+To `export` the magdala `public key`, first `user magdala` runs the
+`following command` in `Terminal`:
+
+```shell
+gpg --armor --export magdala > magdala_publickey.asc
+```
+
+Which `results` in the `creation` of the file `magdala_publickey.asc`.
+
+`Before sending` her `public key` to `user Maria`, `user magdala` should
+`create` a `revocation certificate` in `case` if the `key pair` is `lost` or
+`compromised`.
+
+## Creating the revocation certificate for magdala PGP key pair
+
+`In order` to `create` a `revocation certificate` for `user magdala`'s
+`PGP key pair`, she `has` to `run` the `following command` in `Terminal`:
+
+```shell
+gpg --output ~/revocation.crt --gen-revoke magdala@maria-VirtualBox
+
+sec rsa3072/xxxxxxxxxxxxxxxx  2024-08-14 magdala (This is tjhe second PGP key pair I am creating for local testing because I lost the passphrase for the first one) <magdala@maria-VirtualBox>
+
+Create a revocation certificate for this key? (y/N) y
+Pleas select the reason for the revocation:
+     0 = No reason specified
+     1 = Key has been compromised
+     2 = Key is superseded
+     3 = Key is no longer used
+     Q = Cancel
+(Probably you want to select 1 here)
+Your decision? 0
+Enter an optional description; end it with an empty line:
+>
+Reason for revocation: No reason specified
+(No description given)
+Is this okay? (y/N) youASCII armored output forced.
+Revocation certificate created
+
+Please move it to a medium which you can hide away; if Mallory gets access ton this certificate he can use it to make your key unusable. It is smart to print this certificate and store it away, just in case your media become unreadable. But have some caution: The print system or your machine might store the data and make ot available to others!
+magdala@maria-VirtualBox:~$
+```
+
+User magdala is also prompted for the magdala PGP key pair passphrase during the
+process as well.
+
+The reason why it is a good idea to immediately create a revocation certificate
+after generating a PGP key pair is because a revocation certificate CANNOT be
+created for a PGP key pair AFTER it has been lost compromised.
+
+## Immediately changing permissions for revocation.crt
+
+Once user magdala has generated her revocation certificate, she should
+immediately change the permissions for her revocation.crt file using the chmod
+command:
+
+```shell
+chmod 600 ~/revocation.crt
+```
+
+Then, to confirm her change in permissions, she can run
+`ls -l ~/revocation.crt`, and the following is returned:
+
+```shell
+-rw------ 1 magdala magdala 719 Aug 14 08:13 /home/magdala/revocation.crt
+magdala@maria-VirtualBox:~$
+```
+
+## Emailing magdala_publickey.asc to user Maria
+
+Now `user magdala` has to `send` her `public key` file to `user Maria`, so she
+`runs` the following in `Terminal`:
+
+```shell
+mutt -s "Sending magdala public key file" -a magdala_publickey.asc -- maria@maria-VirtualBox
+```
+
+And the `following appears` when she `hits` the `Return` key:
+
+```shell
+mutt -s "Sending magdala public key file" -a magdala_publickey.asc -- maria@maria-VirtualBox
+# user magdala is taken into nano text editor in mutt where at the bottom of the window is the following:
+To: maria@maria-VirtualBox # then she hits return and the following appears:
+Subject: Sending magdala public key file # then she hits return and is taken into another window in nano where she types the body of the email where the white cursor is at the top of the window
+Hi Maria,
+
+I am attaching my public key file called magdala_publickey.asc for you to use. Thanks!
+
+Best regards,
+
+Magdala
+# then she hits Control + O key followed by the Return key
+# then she hits Control + X key and this takes her to her mutt mailbox where she selects the email she wants to send by using either the up or down arrow
+# after she has selected the email she just wrote and wants to send, she presses the y key. This results in "mail sent" appearing at the bottom of the window, and then she is taken back to the Terminal command prompt.
+```
+
+Now user Maria and user magdala have swapped public keys via the mutt email
+client in Linux! Next will be to send files to each other, use their public keys
+to encrypt, and their secret keys to decrypt. This will be the next article in
+the series after the article on the mutt email client in Linux. Stay tuned for
+both!
+
+## User Maria imports magdala_publickey.asc
+
+Now user Maria has to import `magdala_publickey.asc` by `running`
+the` following command` in `Terminal`:
+
+```shell
+gpg --import magdala_publickey.asc
+# which returned:
+gpg: key xxxxxxxxxxxxxxxx: public key "magdala (This is the second GPG key pair I am creating for local testing because I lost the passphrase for the first one) <magdala@maria-VirtualBox>" imported
+gpg:      Total number processed: 1
+gpg:                    imported: 1
+maria@maria-VirtualBox:~$
+```
+
+Now both users are ready to share data using each others' public keys!
+
+## Asymmetric encryption and decryption series
+
+-   [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux)
+-   [Making and verifying a detached signature using a PGP key pair in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
+-   [Making and verifying a clear text signature using a PGP key pair in Linux](/blog/making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux)
+-   [Using a specific PGP key pair for digital signing](/blog/using-a-specific-pgp-key-pair-for-digital-signing)
+-   [Exchanging public keys using a PGP key pair](/blog/exchanging-keys-using-a-pgp-key-pair)
