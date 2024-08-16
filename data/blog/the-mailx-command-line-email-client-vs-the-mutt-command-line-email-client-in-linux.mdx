@@ -1,0 +1,251 @@
+---
+slug: the-mailx-command-line-email-client-vs-the-mutt-command-line-email-client-in-linux
+date: '2024-08-15T12:19:35.182Z'
+lastModified: '2024-08-15T12:19:35.182Z'
+title:
+    The mailx Command Line email client vs the mutt Command Line email client in
+    Linux
+author: 'Maria D. Campbell'
+excerpt:
+    The mailx Command Line email client vs the mutt Command line email client in
+    Linux.
+image: pexels-pixabay-207580.jpg
+tags: ['command line', 'linux', 'mutt email client', 'mailx email client']
+isPublished: true
+isFeatured: false
+---
+
+![Terminal Program](pexels-pixabay-207580.jpg)
+
+**_Photo By_** [Pixabay](https://www.pexels.com/@pixabay/) **_on_**
+[pexels.com](https://www.pexels.com/photo/computer-codes-207580/)
+
+## Table of Contents
+
+-   [What is mailx?](#what-is-mailx)
+-   [mutt history](#mutt-history)
+-   [What is mutt?](#what-is-mutt)
+-   [The mutt -a and -s options](#the-mutt-a-and-s-options)
+-   [mutt features](#mutt-features)
+-   [Footnotes](#footnotes)
+-   [Related Resources](#related-resources)
+
+I have both `mailx` and `mutt` installed on my `Linux Mint OS`. And I just
+recently found out that `emails` that were `going` to `mailx` when I `only` had
+`mailx` installed are also `now going` to `mutt`.
+
+An `important thing` to `note` about this `article`. I `discuss` using `mailx`
+or `mutt` to `send messages` to `other users` on the **_local_** `Linux Mint 22`
+system, which is `installed` via `VirtualBox`.
+
+## What is mailx?
+
+The `mailx` utility `processes` mail `messages`. Its `options` are `limited`,
+and `attachments` are basically `provided` as the `body` of the `email`.
+`In order` to `"save"` an `attachment`, you would `have` to literally `copy` the
+`contents` of the `attachment` and `save` it to a `file` which you would `have`
+to `create` and then `open` so you could `paste` the `contents` inside the
+`file`. That approach is `not ideal`, is `cumbersome`, and the `process` wastes
+time.
+
+`mailx` was `good` for `email notifications` regarding `cron jobs`, but `that`
+is `about it`. When I `started` deep `diving` into `GPG` (aka
+`GNU Privacy Guard`) and `PGP` (aka `Pretty Good Privacy`) and
+`asymmetric encryption`, `email clients` and `email attachments` became
+`important`. And `that's when` I `came` across `mutt`.
+
+`mailx` did `not` come with my `Linux Mint OS`. I `had` to `install` the
+`mailutils` package to `access` the `mail` or `mailx` command.
+
+## mutt history
+
+`mutt` was `originally written` by `Michael Elkins` in `1995` and `released`
+under the
+[GNU General Public License](https://en.wikipedia.org/wiki/GNU_General_Public_License)
+version 2 or any later version. mutt was `initially designed` as a
+[Mail User Agent](https://en.wikipedia.org/wiki/Email_client), and `depended` on
+a `locally` accessible `mailbox` and
+[sendmail](https://en.wikipedia.org/wiki/Sendmail) infrastructure.
+
+## What is mutt?
+
+`mutt` is a `mail user agent`.
+
+A `mail user agent` is a `program` or `interface module` that allows users to
+compose, read, and manage their email. It can be a software running on a
+computer, a dedicated mail client like Outlook or Thunderbird, or a web client
+accessed through a browser.
+
+According to `man mutt`,
+
+> mutt is a small but very powerful text based program for reading and sending
+> electronic mail under unix operating systems. It includes support for color
+> terminals, MIME, OpenPGP, and threaded sorting mode.
+
+## The mutt -a and -s options
+
+The `most` important `option` to `me` was the `ability` to attach `files` as
+`email attachments` and `send` them to `others`, `and` the `ability` to
+`receive` email `attachments` and actually `save them` to my `local machine`.
+
+The `-a` option `allows` me to `attach` a `file` using `MIME` (aka
+`Multi-purpose Internet Mail Extensions`) **[^1]**. And `separating` "file" and
+"to-addr" `arguments` with `--` is `mandatory`. For example:
+
+```shell
+mutt -s "Sending Magdala the email_attachment.txt" -a email_attachment.txt -- magdala@maria-VirtualBox
+```
+
+The `-s` option `stands` for `Subject line`, the `-a` option `stands` for
+`attachment`, and the `two hyphens`, `--`, between `email_attachment.txt` and
+`magdala@maria-VirtualBox` is `mandatory` in `order` for the (above) `command`
+to `work`.
+
+## mutt features
+
+`mutt` does `not` only `work` with `local email`. I can `configure` it to `work`
+with `Gmail`, for example, and `actually` did `manage` to `authenticate` it. The
+`only problem` in my `case` was that the `Gmail` I `tried` to `hook up` to
+`mutt` has `thousands` of (read) `emails` in its `inbox`, so it `took forever`
+for the `message headers` to `upload`. `mutt` even `crashed` a `couple` of
+`times` in the process. `For` the `purposes` of my `Linux Mint OS` installed in
+`VirtualBox`, `sticking` with `local` mutt `emails` works `fine` for me.
+
+1. supports `color support`
+1. supports `single` or `multiple` email attachments.
+1. supports `CC` (`Carbon Copy`) **[^2]** and `BCC` (`Blind Carbon Copy`)
+   **[^3]** fields.
+1. supports `message threading` **[^4]**.
+1. supports various to support `mailing lists` **[^5]**, including `list-reply`.
+1. supports different `mailbox formats` like `mbox` [^6], `maildir` [^7], `MMDF`
+   [^8], and `MH` [^9].
+1. supports an `active development community`.
+1. supports `Delivery Status Notification` (`DSN`) [^10] support.
+1. supports `postponing` message `composition` indefinitely for `later recall`.
+1. supports easily including `attachments` when `composing`, even `from` the
+   `command line`.
+1. supports `multiple` message `tagging` **[^11]**.
+1. supports `replying` to or `forwarding` multiple `messages` at once.
+1. supports `translation` into at least `20` languages.
+1. is highly `customizable`, including `keybindings` and `macros`.
+1. supports changing configuration automatically based on recipients, current
+   folder, etc.
+1. provides `MIME` support (including `RFC2047` support for `encoded headers`).
+1. supports `PGP/MIME` (`RFC2015`) **[^12]**.
+1. provides `POP3` [^13] support.
+1. provides `IMAP` support **[^14]**.
+1. supports `.mailrc` style `configuration` files.
+
+To `learn more` about `how` to `send` and `receive` messages and `save` email
+`attachments` to your `local machine`, please `visit` my `article` entitled
+[Setting up and using the mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux).
+
+## Footnotes
+
+**[^1]**: `MIME` (`Multipurpose Internet Mail Extensions`) is an `extension` of
+the original `Simple Mail Transport Protocol` (`SMTP`) email `protocol`. It
+`lets` users `exchange` different kinds of `data files`, including `audio`,
+`video`, `images` and `application programs`, over `email`.
+
+**[^2]**: `CC` (`Carbon Copy`) allows someone outside of the primary recipient
+to receive a copy of the email. In addition, the recipients in both the To field
+(primary recipient) and the CC field are able to see each others' email address.
+
+**[^3]**: Just like how `CC` works in an email, `BCC` (`Blind Carbon Copy`)
+sends a carbon copy of the email to someone. However, in this case, BCC keeps
+the carbon copy recipients private.
+
+**[^4]**: A `message thread` is a collection of messages. The messages are
+displayed in "flat" chronological order by post date or in "question-answer"
+order. "question-answer" is a thread of one question followed by all answers in
+in the same hierarchy.
+
+**[^5]**: `mutt` has a few `nice features` for `handling`
+[mailing lists](http://www.rdrop.com/docs/mutt/manual60.html#using_lists). In
+order to take advantage of them, you must specify which addresses belong to
+mailing lists, and which mailing lists you are subscribed to. Once you have done
+this, the
+[list-reply function](http://www.rdrop.com/docs/mutt/manual15.html#list-reply)
+will work for all known lists. Additionally, when you send a message to a
+subscribed list, mutt will add a Mail-Followup-To header to tell other users'
+mail user agents not to send copies of replies to your personal address. Note
+that the Mail-Followup-To header is a non-standard extension which is not
+supported by all mail user agents. Adding it is not bullet-proof against
+receiving personal CCs of list messages. Also note that the generation of the
+Mail-Followup-To header is controlled by the
+[$followup_to](http://www.rdrop.com/docs/mutt/manual145.html#followup_to)
+configuration variable. Mutt maintains lists of known and subscribed mailing
+lists. Every subscribed mailing list is known. To mark a mailing list as known,
+use the `lists` command. To mark it as subscribed, use `subscribe`.
+
+**[^6]**: `mbox` is a generic term for a family of related file formats used for
+holding collections of email messages. It was first implemented in Fifth Edition
+of Unix. All messages in an mbox mailbox are concatenated and stored as plain
+text in a single file. Each message starts with the four characters "From"
+followed by a space (the so-called "From\_ line") and the sender's email
+address. RFC 4155 defines that a UTC timestamp follows after another separating
+space character. Both mutt and mailx support mbox, and is why when I either use
+mailx or mutt to send an email, both mutt and mailx record the emails.
+
+**[^7]**: The `maildir` e-mail format is a common way of storing email messages
+on a file system, rather than in a database. Each message is assigned a file
+with a unique name, and each mail folder is a file system directory containing
+these files.
+
+**[^8]**: `MMDF` (`Multichannel Memorandum Distribution Facility`) is a
+`message transfer agent` (`MTA`), a `computer program` designed to
+`transmit email`.
+
+**[^9]**: `MH` (`Message Handling`) System is a free, open source e-mail client.
+It is different from almost all other mail reading systems in that, instead of a
+single program, it is made from several different programs which are designed to
+work from the command line on Unix-like operating systems. Another difference is
+that instead of storing multiple messages in a single file, messages each have
+their own file in a special directory. These design choices mean that it is very
+easy to script actions on mail messages using shell scripting tools.
+
+**[^10]**: `Delivery Status Notification` (`DSN`) or simply a bounce, is an
+automated electronic mail message from a mail system informing the sender of
+another message about a delivery problem. The original message is said to have
+bounced.
+
+**[^11]**: `mutt message tagging` refers to the command line equivalent of
+multiselect (ctrl+click or shift+click). To tag a message, move the cursor (or
+the Up or Down arrow key) to it and hit the t key. To tag a group of emails
+based on a pattern, for example "Change Requests", hit capital T. You will see
+at the bottom of your mutt window Tag messages matching:. Type your tag term,
+hit enter, and you should see several highlighted messages now.
+
+**[^12]**: `PGP`, or `Pretty Good Privacy`, is an encryption/decryption system
+used for both sending encrypted emails, encrypting sensitive files and then
+decrypting them. Since its invention back in 1991, PGP has become the de facto
+standard for email security. `S/MIME`
+(`Secure/Multipurpose internet Mail Extensions`) is a widely accepted protocol
+for sending digitally signed and encrypted messages.
+
+**[^13]**: `POP3` stands for `Post Office Protocol Version 3`. The `POP3`
+protocol is used to provide access to the mail inbox that is stored in the email
+server. `POP3` can download and delete messages. Once the `POP3 client` has
+established a connection with the mail server, it can easily retrieve all
+messages from the server.
+
+**[^14]**: `IMAP` (`Internet Mail Access Protocol`) allows users to access and
+maintain hierarchical collections of e-mail folders on a remote server over the
+Internet.
+
+## Related Resources
+
+-   [Setting up and using the mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux):
+    **_mariadcampbell.com_**
+-   [Mastering Mutt: How to Install Mutt Command in Linux](https://ioflood.com/blog/install-mutt-command-linux/):
+    **_I/O FLOOD_**
+-   [Mutt: ArchWiki](https://wiki.archlinux.org/title/Mutt): **_ArchWiki,
+    ArchLinux_**
+-   [How to Install and Configure Mutt With Gmail on Linux](https://www.makeuseof.com/install-configure-mutt-with-gmail-on-linux/):
+    **_MAKEUSEOF_**
+-   [Mutt, SMTP and automated email sending with new Gmail regulations](https://superuser.com/questions/1727429/mutt-smtp-and-automated-email-sending-with-new-gmail-regulations/1727430#1727430):
+    **_superuser_**
+-   [message thread](https://www.pcmag.com/encyclopedia/term/message-thread):
+    **_PCMag_**
+-   [ MuttGuide](https://gitlab.com/muttmua/mutt/-/wikis/MuttGuide):
+    **_MuttGuide, GitLab_**
