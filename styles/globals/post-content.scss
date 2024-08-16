@@ -5,14 +5,22 @@ html {
 /* dark theme styling for post-content */
 ul {
 	margin-bottom: 1rem;
+
+	& li {
+		list-style-type: square;
+		margin-left: 1rem;
+
+		& ul > li {
+			list-style-type: circle;
+		}
+	}
 }
 
-li {
-	list-style-type: square;
-	margin-left: 1rem;
-
-	& ul > li {
-		list-style-type: circle;
+ol {
+	/* stylelint-disable-next-line no-descending-specificity */
+	& li {
+		list-style: decimal;
+		margin-left: 2rem;
 	}
 }
 
