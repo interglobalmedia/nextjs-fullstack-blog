@@ -290,8 +290,10 @@ echo $?
 The `cmp` command `compares` two `files` byte by byte. The `-s` option, or
 `--quiet` or `--silent`, `suppresses` all `output`. And since `-s` suppresses
 `all output`, I ran `echo $?` afterwards, which `printed out` the `exit code`.
-An `exit code` of `0`, `as` shown `here`, `means` the `contents` of `both files`
-are `the same`. `1` would `mean` that `they` are `different`.
+Specifically, `$?` is a `special variable` which means
+`execution status of the last command`. An `exit code` of `0`, `as` shown
+`here`, `means` the `contents` of `both files` are `the same`. `1` would `mean`
+that `they` are `different`.
 
 And that was it!
 
