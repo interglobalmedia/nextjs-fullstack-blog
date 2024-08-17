@@ -1,0 +1,249 @@
+---
+slug: clearing-terminal-history-in-linux-and-why-it-is-important-to-do-on-occasion
+date: 2024-08-17T13:44:24.622Z'
+lastModified: '2024-08-17T13:44:24.622Z'
+title:
+    Clearing Terminal history in Linux and why it is important to do on occasion
+author: Maria D. Campbell
+excerpt:
+    Clearing Terminal history in Linux and why it is important to do from time
+    to time.
+image: pexels-galleryofmyeye-13169888.jpg
+tags: ['command line', 'linux', 'history', 'terminal history', 'vim']
+isPublished: true
+isFeatured: true
+---
+
+![](pexels-galleryofmyeye-13169888.jpg)
+
+**_Photo by_** [Enes Bayraktar](https://www.pexels.com/@galleryofmyeye/)
+**_on_**
+[pexels.com](https://www.pexels.com/photo/time-lapse-photo-of-train-on-subway-13169888/)
+
+## Table of Contents
+
+-   [What is the history command?](#what-is-the-history-command)
+-   [history is not actually a command](#history-is-not-actually-a-command)
+-   [history](#history)
+-   [Removing history](#removing-history)
+    -   [Deleting a command by line number](#deleting-a-command-by-line-number)
+    -   [history -c](#history-c)
+    -   [Manually removing the contents of .bash_history](#manually-removing-the-contents-of-bash-history)
+    -   [Clearing .bash_history using the echo command](#clearing-bash-history-using-the-echo-command)
+-   [bash history, privacy and security](#bash-history-privacy-and-security)
+-   [Related Resources](#related-resources)
+
+## What is the history command?
+
+The `history` command in `Linux` (and `macOS`) stores a `list` of `commands`
+that have been `used` in `Terminal` sessions, `and` it `permits` us to `reuse`
+them `instead` of `retyping` them.
+
+## history is not actually a command
+
+If I run `which history` in `Terminal`, `nothing` is `stdout`. This `confirms`
+that `history` is `not` actually a `command`. `history` is a `built-in` keyword
+of our `shell` (Another example is the `cd` command. It `also` is a `builtin`
+keyword and `not` a `command`). And because `history` is `written` into the
+`particular shell` we are `using` at `any` given `time`, there can be a
+`difference` in its `behavior` across `shells`. But since I use `bash` in
+`Linux`, I will be discussing `bash-specific` history `behavior` in my
+`particular` Linux `distro` (`Linux Mint`).
+
+## history
+
+If I run `history` in `Terminal`, I get back `428` lines, `each line` containing
+a `command` I have `run` in `Terminal`. The `following` is a `sneak peak` at
+`history` stdout:'
+
+```shell
+  1 ls
+  2 cd Desktop
+  3 ls
+  4 cd cron-job-scripts/
+  5 ls
+  6 mailx
+  7 sudo apt update
+  8 sudo apt upgrade
+  9 sudo apt install mailx
+  ...
+428 history
+```
+
+If I `wanted` to `run` a `specific command` using its `line number`, I would
+`run` the `following`:
+
+```shell
+!84
+```
+
+Which would `return` the `following`:
+
+```shell
+cd desktop-backup/
+```
+
+This is the `command` at `line 84` in (`Terminal`) `history`. I `could` also
+`access` and `run` this `command` by `running` the `following`:
+
+```shell
+!cd desktop-backup/
+```
+
+`Sometimes`, `as` in `this case`, we `get` back `something like` the
+`following`:
+
+```shell
+cd desktop-backup/ desktop-backup/
+bash cd: too many arguments
+```
+
+So I `tried` another `one` that does `not` result in any `ambiguity`:
+
+```shell
+!clear
+```
+
+It `runs` the `clear command`, `clearing` the `Terminal` window. Using `!`
+before the `command itself` prompts `history` to `search` for the `last command`
+that `matches` the `pattern` I `provided`. `In` this `case`, it is `clear`.
+
+But I digress. Let's get to the task at hand.
+
+## Removing history
+
+There are `several ways` to `remove` some or all `commands` saved to `history`.
+
+### Deleting a command by line number
+
+If I `want` to `delete` a `command` saved to `history` by `line number`, I would
+`run` the `following command`:
+
+```shell
+history -d 423
+```
+
+This `removes` the `command` at line `423`. This is a `great command` to `know`
+in `case` if you have `mistyped` a `command`, for example, and `want` to
+`remove` it from `history` because it is essentially `useless`. But it can
+`also` be `used` to `remove` specific `commands` containing
+`sensitive information`. Why? `What` if` you` had to use `history` or
+`some other` related `tool` or `command` in a `presentation`, and you `wanted`
+to `make sure` that `nothing sensitive` would `appear` on the `screen`, and you
+`didn't want` to `completely remove` your `history`. This `would` be `one way`
+to `do that`.
+
+### history -c
+
+The `history -c` command `removes` the `contents` of a specific `Terminal`
+session's `history`. If I run `history -c` and then `check` to `see` if the
+`contents` of my `Terminal` session's `history` was `indeed` completely
+`removed`, I would run `history` again, and `something like` the `following`
+would be `returned`:
+
+```shell
+1 history
+```
+
+### Manually removing the contents of .bash_history
+
+`history` stores the `commands` run in `Terminal` in a `file` called
+`.bash_history`, which is `located` in a `user`'s home `directory`. If, after
+running `history -c`, I `want` to `double check` if `all` my `history` has
+actually `been removed`, I can run `vim .bash_history` to `open up` the `file`
+in `Vim`. And `something like` the `following` would `appear`:
+
+```shell
+# The contents of .bash_history contained 426 lines. I am truncating it.
+...
+which diff
+diff -s secret_message.txt decrypted_super_secret.txt
+sha512sum secret_message.txt
+```
+
+`history -c` only `clears` the `history` of a `specific` Terminal `session`, but
+`not` the `entire contents` of `.bash_history` itself. Some articles state that
+it `completely removes` all your `history`, but `it` does `not`. After running
+`history -c`, your `.bash_history` still `contains` the `history` of the
+`commands` you `have run` in `Terminal`.
+
+If I `wanted` to `manually remove` the `contents` of `.bash_history`, I would
+`have` to `open` the `file` and `manually delete` the `contents` of the `file`.
+I could `open` the `file` using `open .bash_history` inside my `home directory`
+where the `file resides`, `Control + A` the `file contents`, and then `hit` the
+`delete` key and `remove` the `file contents`.
+
+I could `also` run `vim .bash_history` and be `taken` into the `Vim interface`.
+There, I would `do` the `following`:
+
+```shell
+# First I go into Vim normal mode by hitting the `esc` key
+# Next, I enter command mode by hitting Shift key + : (colon)
+# To Select All, I hit the Shift Key + % (5 key) after the colon (:)
+# to delete everything, I then hit the D key after %
+# To save my changes, I hit the esc key followed by Shift key + : (colon) and then the X key. This saves my changes and takes me out of Vim.
+```
+
+`If`, `after deleting` the `entire contents` of `.bash_history`,
+`subsequent commands` are `not saved` to `.bash_history` (it remains empty),
+`run` the `following command`:
+
+```shell
+history > .bash_history
+```
+
+Then `open` up `.bash_history`, and you `should see` your stored `Terminal`
+history `reappear`. That is `because` you `have` redirected `history` as
+`stdout` to the `.bash_history` file.
+
+`Next`, to doubly `make sure` that `everything` is `working` as it `should`,
+`run` a `few commands` in `Terminal`, and `then` re-open `.bash_history` to
+`see` if those `commands` are `being saved` to `.bash_history`. `When` I
+`did this` and re-opened `.bash_history`, I `saw` that `new commands` were `not`
+being `added` to `.bash_history`. `Even when` I quit `Terminal` and `started` a
+`new session`. So I `had` to `do` the `following` to `do` a `history` "reset":
+
+```shell
+# I ran this inside my home directory /home/maria where my .bash_history resides
+rm .bash_history
+touch .bash_history
+```
+
+`Once` I re-created the `.bash_history` file, I `saw` that `Terminal history`
+was `saved` to `.bash_history`, but `commands` from a `Terminal` session would
+`save` to the `.bash_history` file `when` I would `exit` out of a `Terminal`
+session and `start` a `new one`. `But` it `worked` just `fine` and as
+`expected`!
+
+### Clearing .bash_history using the echo command
+
+`In order` to `remove` to `complete contents` of the `~/.bash_history` file, I
+`ran` the `following command`:
+
+```shell
+# I did not have to add ~/ in front of .bash_history because I ran the command inside my home directory
+echo > .bash_history
+```
+
+And `when` I `opened` up `.bash_history` using `open .bash_history`, the `file`
+was `completely empty`. This is the `ONLY command` that `successfully removed`
+the `contents` of my `.bash_history` file!
+
+## bash history, privacy and security
+
+`Clearing` one's `bash history` is not `just about` keeping things `"clean"`.
+it's `also` about `safeguarding` one's `privacy` and `security`. By `clearing`
+our `bash history` on a `regular basis`, we can `help` protect
+`sensitive information` that `we` may have `used` in a `command`, `such` as
+`passwords` or other `confidential data`.
+
+## Related Resources
+
+-   [How to use the history command in Linux](https://opensource.com/article/18/6/history-command):
+    **_by Steve Morris, opensource.com_**
+-   [Select all in Vim / Vi](https://www.warp.dev/terminus/select-all-in-vim-vi):
+    **_warp.dev_**
+-   [Clear Bash History: Bash Shell and Command Line Guide](https://ioflood.com/blog/clear-bash-history/):
+    **_I/O Flood_**
+-   [How to Clear the Terminal History in Linux](https://www.geeksforgeeks.org/how-to-clear-the-terminal-history-in-linux/):
+    **_Geeks for Geeks_**
