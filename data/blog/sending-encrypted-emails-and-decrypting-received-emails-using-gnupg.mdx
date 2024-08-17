@@ -1,0 +1,294 @@
+---
+slug: sending-encrypted-emails-and-decrypting-received-emails-using-gnupg
+date: '2024-08-16T16:21:57.289Z'
+lastModified: '2024-08-16T16:21:57.289Z'
+title: Sending encrypted emails and decrypting received emails using GnuPG
+author: Maria D. Campbell
+excerpt:
+    Sending encrypted emails and decrypting received emails using GnuPG (Gnu
+    Privacy Guard) via Command Line.
+image: mauro-sbicego-4hfpVsi-gSg-unsplash.jpg
+tags: ['linux']
+isPublished: true
+isFeatured: true
+---
+
+![Cryptography machine](mauro-sbicego-4hfpVsi-gSg-unsplash.jpg)
+
+**_Photo by_** [Mauro Sbicego](https://unsplash.com/@maurosbicego) **_on_**
+[unsplash.com](https://unsplash.com/photos/black-audio-mixer-4hfpVsi-gSg)
+
+## Table of Contents
+
+-   [Exchanging PHP key pairs recap](#exchanging-pgp-key-pairs-recap)
+-   [Sending and receiving encrypted emails from another local user in Linux with whom you have exchanged public PGP keys (Maria sends and Magdala receives)](#sending-and-receiving-encrypted-emails-from-another-local-user-in-linux-with-whom-you-have-exchanged-public-pgp-keys-maria-sends-and-magdala-receives)
+-   [Sending and receiving encrypted emails from another local user in Linux with whom you have exchanged public PGP keys (Magdala sends and Maria receives)](#sending-and-receiving-encrypted-emails-from-another-local-user-in-linux-with-whom-you-have-exchanged-public-pgp-keys-magdala-sends-and-maria-receives)
+-   [Running the diff -s command to check if the contents of two files are identical](#running-the-diff-s-command-to-check-if-the-contents-of-two-files-are-identical)
+-   [Generating sha512sum checksum hashes to check if the contents of two files are identical](#generating-sha512sum-checksum-hashes-to-check-if-the-contents-of-two-files-are-identical)
+-   [Using the cmp command to compare the contents of two files](#using-the-cmp-command-to-compare-the-contents-of-two-files)
+-   [Asymmetric encryption and decryption series](#asymmetric-encryption-and-decryption-series)
+
+## Exchanging PHP key pairs recap
+
+`In` my `article` entitled
+[Exchanging public keys using a PGP key pair](/blog/exchanging-keys-using-a-pgp-key-pair),
+I `discussed`:
+
+1. Exporting the PGP public key
+1. Sending maria_publickey.asc to another local user via email
+1. Email recipient user magdala imports the maria_publickey.asc
+1. Signing the imported public key maria_publickey.asc
+1. Exporting magdala_publickey.asc
+1. Creating the revocation certificate for magdala PGP key pair
+1. Immediately changing permissions for revocation.crt
+1. Emailing magdala_publickey.asc to user Maria
+1. User Maria imports magdala_publickey.asc
+1. Asymmetric encryption and decryption series
+
+Basically, the `exchange` of `public keys` with a `trusted person` makes it
+`possible` to then `send` and `receive` encrypted `emails` (or
+`email attachments`) `to` and `from` that `person`, and `decrypt` those `emails`
+(or `email attachments`) as well. If you `have not` already `generated` a
+`PGP key` using `GnuPG` (`GNU Privacy Guard`), please `visit` my `article`
+entitled
+[Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux).
+And `make sure` to `check out` my entire
+`Asymmetric encryption and decryption series`.
+
+## Sending and receiving encrypted emails from another local user in Linux with whom you have exchanged public PGP keys (Maria sends and Magdala receives)
+
+`Since` user `magdala` and I have `exchanged` PGP `public keys`, `we` are
+`ready` to `send` each other `encrypted content` via `email` and `decrypt` the
+`content` we `receive` from `each other`.
+
+`First`, I `created` a `file` called `encrypted_message.txt` and `added` some
+`plaintext` to `it`:
+
+```shell
+echo This is some dummy text that I am going to encrypt for my email encryption demo. > encrypted_message.txt
+```
+
+`Next`, I `ran` the `following command` in `Terminal` to `encrypt` the
+`encrypted_message.txt` file which I then `sent` to `user magdala`:
+
+```shell
+gpg --encrypt --recipient magdala@maria-VirtualBox --output confidential.txt.enc encrypted_message.txt
+```
+
+`And` it `returned` the `following`:
+
+```shell
+gpg: xxxxxxxxxxxxxxxx: There is no assurance this key belongs to the named user
+
+sub rsa/3072/xxxxxxxxxxxxxxxx 2024-08-14 magdala (This is the second PGP key pair I am creating for local testing because I lost the passphrase for the first one) <magdala@maria-VirtualBox>
+  Primary key fingerprint: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+       Subkey fingerprint: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx
+
+It is NOT certain that the key belongs to the person named in the user ID. If you "really" know what you are doing, you may answer the next question with yes.
+
+use this key anyway? (y/N) y
+```
+
+And `when` I `hit` the `Return` key and then ran `ls` on the `current directory`
+I was `in` (`Desktop` in this `case`), `the` following `new file` appeared:
+
+```shell
+confidential.txt.enc
+```
+
+`Next`, I could `send` this `encrypted file` to `magdala`. The `reason` for
+`magdala`'s `email` in the `command` is `that` it identifies `magdala`'s
+`public key` for `me` when `encrypting` the `encrypted_message.txt` file.
+
+I then `ran` the `following command` in `Terminal` which would send
+`confidential.txt.enc` as an `email attachment` to `user magdala`:
+
+```shell
+mutt -s 'Sending encrypted file confidential.txt.enc' -a confidential.txt.enc -- magdala@maria-VirtualBox
+```
+
+I was then `taken` into the `mutt` interface where I `completed` the `email` and
+`sent` it. If you `need` a `refresher` on the `process`, please `visit` my
+`article` entitled
+[Setting up and using the mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux).
+
+`Next`, `user` magdala `opened up` the `email` and `saved` the
+`email attachment` to her `local machine`. `After` she `did that`, `she` was
+`ready` to `decrypt` the `file`:
+
+```shell
+gpg --decrypt --output decrypted_message.txt confidential.txt.enc
+```
+
+When `user` magdala `hit` the `Return` key, `she` wass `prompted` for her
+`PGP key pair` passphrase.
+
+`After` she `successfully input` her `passphrase` and `hit` the `"Ok"` button,
+the `following` was `stdout` to `Terminal`:
+
+```shell
+gpg: encrypted with rsa3072 key, ID xxxxxxxxxxxxxxxx, created 2024-08-14
+    "magdala (This is the second PGP key pair I am creating for local testing because I lost the passphrase for the first one) <magdala@maria-VirtualBox>"
+```
+
+`Using` magdala's `public key`, I successfully `encrypted` the file
+`encrypted_message.txt` and `stdout` the `encrypted contents` into a `new file`
+called `confidential.txt.enc` (`.enc` stands for `"encrypted"`), and then `sent`
+the `confidential.txt.enc` as an `email attachment` to `user magdala`.
+
+`User magdala` then `opened up` the `email` and `saved` the email attachment
+`confidential.txt.enc` to her `local machine`. She then `successfully` decrypted
+`confidential.txt.enc` using her `private key`.
+
+And that was it!
+
+## Sending and receiving encrypted emails from another local user in Linux with whom you have exchanged public PGP keys (Magdala sends and Maria receives)
+
+Now `user` magdala `created` a `file` called `secret_message.txt` containing
+`plaintext` using the `following command`:
+
+```shell
+gpg --encrypt --recipient mariaa@maria-VirtualBox --output super-secret.txt.enc secret_message.txt
+```
+
+And `when` she `hit` the `Return` key and ran `ls` on her
+`current working directory` (her `/home/magdala` directory in `this case`), a
+`new file` called `super_secret.txt.enc` appeared.
+
+`Next`, she `sent` a `message` to `me`, `user Maria`, `attaching` the
+`super-secret.txt.enc` file as an `email attachment` using the `mutt` Command
+Line `email client`:
+
+```shell
+mutt -s 'Sending encrypted file super_secret.txt.enc' -a super_secret.txt.enc -- maria@maria-VirtualBox
+```
+
+`When` she `hit` the `Return` key, she was `taken` into the `mutt interface`,
+`completed` her `email`, and `sent` it to `me`.
+
+`Next`, I `opened up` the `mutt interface` by running the `mutt` command, hit
+the `V` key to `view` my `email`, then `selected` the `attachment` by using the
+`Up` or `Down` arrow `key`, then `hit` the `S` key to `save` the `attachment` to
+my `local machine`, and then `hit` the `Q` key to `quit mutt`.
+
+`Next`, I `ran` the `following command` to `decrypt` the `super_secret.txt.enc`
+file:
+
+```shell
+gpg --decrypt --output decrypted_super_secret.txt super_secret.txt.enc
+```
+
+`When` I `hit` the `Return` key, I was `prompted` to `enter` my `PGP key pair`
+passphrase. When I `successfully` provided it, the `following` was `returned` as
+`stdout` to `Terminal`:
+
+```shell
+gpg: encrypted with rsa3072 key, ID xxxxxxxxxxxxxxxx, created 2024-08-09
+    "Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>"
+```
+
+Then `when` I `ran` the `ls` command on the `current working directory`, the
+`new` file `decrypted_super_secret.txt` appeared. And `when` I ran
+`cat decrypted_super_secret.txt`, the `following` was `stdout` to `Terminal`:
+
+```shell
+This is some super secret text I am creating so I can send an encrypted version of it to my friend Maria so that no one else knows what I am sending her!
+```
+
+## Running the diff -s command to check if the contents of two files are identical
+
+If `user magdala` and `I` wanted to be `extra certain` that the `content` of the
+`encrypted` email `attachment` was `not modified` during `transmission` of the
+`email`, either of us `could` have `run` the `diff -s` command `between` her
+`plaintext file` and `mine`. `One` of `us` just `had` to `send` our
+`plaintext file` to the `other` so that `either` of `us` had both `files` to
+`compare` to `each other`.
+
+So `user` magdala `sent me` her `original` plaintext `file` via `mutt`, I
+`saved` it to my `local machine`, and `then` I `ran` the `following command`:
+
+```shell
+diff -s secret_message.txt decrypted_super_secret.txt
+```
+
+Which `returned` the `following` in `Terminal`:
+
+```shell
+Files secret message.txt and decrypted_super_secret.txt are identical
+```
+
+## Generating sha512sum checksum hashes to check if the contents of two files are identical
+
+I `could` also `generate` a `sha512sum checksum` on both `secret message.txt`
+and `decrypted_super_secret.txt`, and `if` the `hashes` matched, `user magdala`
+and `I` would `know` that there were `no` modifications `made` to the
+`original plaintext` or the `decrypted plaintext`, which would also `mean` that
+`both matched`.
+
+`First` I `ran` the `following command` on the `secret message.txt` file:
+
+```shell
+sha512sum secret message.txt
+```
+
+And the `following` was `returned` in `Terminal`:
+
+```shell
+b5ab6a7aa7250c2687cc058c6dd01ce88dc99d79804ab63903b99756d19f88b9b33f375731979dd44eb1c2f155681fbbb7a1ba57d0ea2f905b1af2a94edf2cbd  secret_message.txt
+```
+
+`Then` I `ran` the `following command` on the `decrypted_super_secret.txt` file:
+
+```shell
+sha512sum decrypted_super_secret.txt
+```
+
+And the `following` was `returned` in `Terminal`:
+
+```shell
+b5ab6a7aa7250c2687cc058c6dd01ce88dc99d79804ab63903b99756d19f88b9b33f375731979dd44eb1c2f155681fbbb7a1ba57d0ea2f905b1af2a94edf2cbd  decrypted_super_secret.txt
+```
+
+`Then` I `redirected` the `stdout` of `sha512sum secret message.txt` to a
+`new file` called `sha512sum_secret_message.txt`:
+
+```shell
+sha512sum secret message.txt > sha512sum_secret_message.txt
+```
+
+And `then` I `redirected` the `stdout` of `sha512sum decrypted_super_secret.txt`
+to a `new file` called `sha512sum_decrypted_super_secret.txt`:
+
+```shell
+sha512sum decrypted_super_secret.txt > sha512sum_decrypted_super_secret.txt
+```
+
+## Using the cmp command to compare the contents of two files
+
+`Next`, I `compared` the `two` newly created `files` containing the
+`file hashes` with the `following commands` to `see` if they were `identical`:
+
+```shell
+cmp -s sha512sum_secret_message.txt sha512sum_decrypted_super_secret.txt
+echo $?
+# which returns:
+0
+```
+
+The `cmp` command `compares` two `files` byte by byte. The `-s` option, or
+`--quiet` or `--silent`, `suppresses` all `output`. And since `-s` suppresses
+`all output`, I ran `echo $?` afterwards, which `printed out` the `exit code`.
+An `exit code` of `0`, `as` shown `here`, `means` the `contents` of `both files`
+are `the same`. `1` would `mean` that `they` are `different`.
+
+And that was it!
+
+## Asymmetric encryption and decryption series
+
+-   [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux)
+-   [Making and verifying a detached signature using a PGP key pair in Linux](http://localhost:3000/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
+-   [Making and verifying a clear text signature using a PGP key pair in Linux](/blog/making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux)
+-   [Using a specific PGP key pair for digital signing](/blog/using-a-specific-pgp-key-pair-for-digital-signing)
+-   [Exchanging public keys using a PGP key pair](/blog/exchanging-keys-using-a-pgp-key-pair)
+-   [Setting up and using the mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux)
+-   [Sending encrypted emails and decrypting received emails using GnuPG](/blog/sending-encrypted-emails-and-decrypting-received-emails-using-gnupg)
