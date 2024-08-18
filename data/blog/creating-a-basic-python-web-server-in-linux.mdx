@@ -1,0 +1,203 @@
+---
+slug: creating-a-basic-python-web-server-in-linux
+date: '2024-08-17T11:53:51.789Z'
+lastModified: '2024-08-17T11:53:51.789Z'
+title: Creating a basic Python web server in Linux
+author: Maria D. Campbell
+excerpt: Creating a basic Python web server in Linux.
+image: nicolas-picard--lp8sTmF9HA-unsplash.jpg
+tags: ['linux', 'python3', 'http server', 'web server']
+isPublished: true
+isFeatured: true
+---
+
+![Spider's web](nicolas-picard--lp8sTmF9HA-unsplash.jpg)
+
+**_Photo by_** [Nicolas Picard](https://unsplash.com/@artnok) **_on_**
+[unsplash.com](https://unsplash.com/photos/selective-focus-photography-of-spiderweb--lp8sTmF9HA)
+
+## Table of Contents
+
+-   [Setting up the project structure](#setting-up-the-project-structure)
+-   [Breaking down the code](#breaking-down-the-code)
+    -   [The SimpleHTTPServer in Python2](#the-simplehttpserver-in-python2)
+    -   [The http.server in Python3](#the-httpserver-in-python3)
+    -   [The socketserver module in Python3](#the-socketserver-module-in-python3)
+        -   [socketsever server types](#socketsever-server-types)
+        -   [httpd.serve_forever() in Python3](#httpdserve-forever-in-python3)
+-   [Related Resources](#related-resources)
+
+## Setting up the project structure
+
+In my `Linux Mint OS`, and `probably` many other `Linux` distros, `Python`(`3`)
+comes `pre-installed`, so there is `nothing extra` to `install` for this
+`particular project`.
+
+`First`, I `created` a `folder` called `python_development` where I would `keep`
+my `Python` development-related `projects`. Then, `inside` of that
+`root folder`, I `created` a `folder` called `basic_python_web_server`, and
+`that` is `where` my `project files` were to `reside`.
+
+`Next`, I `created` an `index.html` file in `which` I `added` the
+`following content`:
+
+```html
+<html>
+	Hello, Linux Mint Developers from Python3!
+</html>
+```
+
+`Next`, I `created` a `file` called `web.py` and `added` the `following code`:
+
+```python
+#
+# A very simple Python HTTP server
+#
+
+import http.server
+import socketserver
+
+PORT = 8000
+
+Handler = http.server.SimpleHTTPRequestHandler
+
+httpd = socketserver.TCPServer(('', PORT), Handler)
+
+print('serving at port', PORT)
+httpd.serve_forever()
+```
+
+`Next`, I `ran` the `following command` to `start up` the `server` from
+`Terminal`:
+
+```shell
+python3 -u web.py
+```
+
+And the `following` was `returned`:
+
+```shell
+serving at port 8000
+```
+
+`Next`, I `opened` up my `Firefox browser` and `typed` in the `following` in the
+`address bar`:
+
+```shell
+# url I typed into the browser address bar
+http://localhost:8000/
+```
+
+And `then` the `following text` appeared in the `browser window`:
+
+```shell
+Hello, Linux Mint Developers from Python3!
+```
+
+And that was it! I `successfully created` a `basic web` (`http`) `server` from
+`Terminal` using `Python3`.
+
+## Breaking down the code
+
+### The SimpleHTTPServer in Python2
+
+The `SimpleHTTPServer` module that `came` with `Python 2` was a `simple` HTTP
+`server` that `provided` standard `GET` and `POST` request `handlers`. You could
+easily `set up` a `server` on `localhost` to serve `files`. You could `also`
+write `HTML files` and `create` a working `web application` on `localhost`.
+
+An `advantage` of the built-in `SimpleHTTPServer` is that you `didn't` have to
+`install` and `configure` anything. The `only thing` that you `needed`, was to
+have `Python` installed. It was `perfect` to `use` when you `needed` a quick
+`web server` running and you `didn't want` to `deal` with `setting` up `Apache`
+or `Nginx-like` servers.
+
+`SimpleHTTPServer` was a `simple` and `efficient` tool to `learn how` a `server`
+or a `web app` works using `GET` and `POST` requests. You could `use` this to
+`turn` any `directory` in your `system` into a `web server` directory.
+
+`Previously`, we were `able` to run `something like` the `following` from
+`Terminal` using the `SimpleHTTPServer` module:
+
+```shell
+python -m SimpleHTTPServer 8000
+```
+
+`However`, now it `no` longer `works` that `way` with `Python3`. For me, the
+`following` was `returned`:
+
+```shell
+/usr/bin/python3: No module named SimpleHTTPServer
+```
+
+### The http.server in Python3
+
+My `Basic Python Web Server` project is `using` a `Python3` module called
+`http.server`. `Similar` to `SimpleHTTPServer`, tt `allows` me to `turn` my
+`project directory` into a simple `HTTP` web server.
+
+In `Python3`, `SimpleHTTPServer` was `merged` into the `http.server` module. So
+if I `wanted` to `start up` the `http.server` from `Terminal`, I would `run` the
+`following command` instead:
+
+```shell
+python3 -m http.server 8000
+```
+
+To `stop` the `server`, I simply `hit` the `Control key` + `C key`.
+
+The `http.server` module is `not recommended` for `production`. But it can
+`come` in `handy` when you `want` to quickly `share files` with `students` in a
+`classroom` or `others` who are `connected` to the `same network`. Or `perhaps`
+you `need` to host `static resources` downloaded from the `Internet` for
+`offline development`.
+
+### The socketserver module in Python3
+
+The `socketsever` module is a `framework` for creating `network servers`.
+
+The `socketsever` module defines `classes` for handling
+`synchronous network requests` (the `server request handler` blocks until the
+`request` is `completed`) over `TCP`, `UDP`, `Unix` streams, and `Unix`
+datagrams.
+
+`Responsibility` for `processing` a `request` is `split between` a
+`server class` and a `request handler class`. The `server` deals with
+`communication issues` (`listing` on a `socket`, `accepting connections`, etc.)
+and the `request handler` deals with `“protocol” issues` (`interpreting`
+incoming `data`, `processing` it, `sending data` back to the `client`). This
+`division` of `responsibility` means `that` typically you can just `use` an
+existing `server class` without any `modification`, and `provide` a
+`request handler class` for it to `work` with your `protocol`.
+
+In our code,
+`Responsibility for processing a request is split between a server class and a request handler class`
+refers to the `following`:
+
+```shell
+# request handler class
+Handler = http.server.SimpleHTTPRequestHandler
+# server class
+httpd = socketserver.TCPServer(('', PORT), Handler)
+```
+
+### socketsever server types
+
+`socketserver` contains `five` different `server classes`. `BaseServer` defines
+the `API`, and is `not` really `intended` to be `instantiated` and
+`used directly`. `TCPServer` (which is what we are using here) uses
+`TCP/IP sockets` to `communicate`. `UDPServer` uses `datagram sockets`.
+`UnixStreamServer` and `UnixDatagramServer` use `Unix-domain sockets` and are
+`only available` on `Unix platforms` (such as `Linux` or `macOS`).
+
+### httpd.serve_forever() in Python3
+
+`httpd.serve_forever()` is a `method` on the `TCPServer` instance that `starts`
+the `server` and `begins listening` and `responding` to `incoming requests`.
+
+## Related Resources
+
+-   [Python SimpleHTTPServer - Python HTTP Server](https://www.digitalocean.com/community/tutorials/python-simplehttpserver-http-server):
+    **_By Pankaj, Digital Ocean_**
+-   [Python: Let’s Create a Simple HTTP Server](https://www.afternerd.com/blog/python-http-server/):
+    **_afternerd_**
