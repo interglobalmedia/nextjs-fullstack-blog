@@ -1,0 +1,762 @@
+---
+slug: vim-essentials-in-linux
+date: '2024-08-17T19:38:46.108Z'
+lastModified: '2024-08-17T19:38:46.108Z'
+title: Vim essentials in Linux
+author: Maria D. Campbell
+excerpt: Vim essentials to navigate the Vim text editor in Linux.
+image: Screen-Recording-2024-08-19-at-9.20.56-PM.gif
+tags: ['linux', 'macos', 'vim', 'warp terminal']
+isPublished: true
+isFeatured: true
+---
+
+![Vim in action](Screen-Recording-2024-08-19-at-9.20.56-PM.gif)
+
+_Vim in action_
+
+## Table of Contents
+
+-   [So why this article?](#so-why-this-article)
+-   [What does Vim stand for?](#what-does-vim-stand-for)
+-   [Configuring Vim](#configuring-vim)
+-   [The vim command](#the-vim-command)
+-   [Vim modes](#vim-modes)
+    -   [Normal mode](#normal-mode)
+        -   [The (lowercase) gg shortcut](#the-lowercase-gg-shortcut)
+        -   [The (uppercase) G shortcut](#the-uppercase-g-shortcut)
+        -   [The # (number) G shortcut](#the-number-g-shortcut)
+        -   [The (lowercase) h shortcut](#the-lowercase-h-shortcut)
+        -   [The (lowercase) j shortcut](#the-lowercase-j-shortcut)
+        -   [The (lowercase) k shortcut](#the-lowercase-k-shortcut)
+        -   [The (lowercase) l shortcut](#the-lowercase-l-shortcut)
+        -   [The # (number) j shortcut](#the-number-j-shortcut)
+        -   [The # (number) k shortcut](#the-number-k-shortcut)
+        -   [The (lowercase) w shortcut](#the-lowercase-w-shortcut)
+        -   [The (lowercase) b shortcut](#the-lowercase-b-shortcut)
+        -   [The (lowercase) e shortcut](#the-lowercase-e-shortcut)
+        -   [The (uppercase) W shortcut](#the-uppercase-w-shortcut)
+        -   [The (uppercase) B shortcut](#the-uppercase-b-shortcut)
+        -   [The (uppercase) E shortcut](#the-uppercase-e-shortcut)
+        -   [The 0 (zero) shortcut](#the-0-zero-shortcut)
+        -   [The ^ (caret) shortcut](#the-caret-shortcut)
+        -   [The (dollar sign) $ shortcut](#the-dollar-sign-shortcut)
+        -   [The (lowercase) r shortcut](#the-lowercase-r-shortcut)
+        -   [The (lowercase) x shortcut](#the-lowercase-x-shortcut)
+        -   [The (uppercase) X shortcut](#the-uppercase-x-shortcut)
+        -   [The (lowercase) dw shortcut](#the-lowercase-dw-shortcut)
+        -   [The (lowercase) cw shortcut](#the-lowercase-cw-shortcut)
+        -   [The (lowercase) s shortcut](#the-lowercase-s-shortcut)
+        -   [The (uppercase) S shortcut](#the-uppercase-s-shortcut)
+        -   [The (uppercase) D shortcut](#the-uppercase-d-shortcut)
+        -   [The (lowercase) dd shortcut](#the-lowercase-dd-shortcut)
+        -   [The (uppercase) C shortcut](#the-uppercase-c-shortcut)
+        -   [The (lowercase) yy shortcut](#the-lowercase-yy-shortcut)
+        -   [The (lowercase) p shortcut](#the-lowercase-p-shortcut)
+        -   [The (uppercase) P shortcut](#the-uppercase-p-shortcut)
+        -   [The (lowercase) u shortcut](#the-lowercase-u-shortcut)
+        -   [The Ctrl + r shortcut](#the-ctrl-r-shortcut)
+        -   [Repeating commands](#repeating-commands)
+            -   [Repeating a command using a count](#repeating-a-command-using-a-count)
+    -   [Insert mode](#insert-mode)
+        -   [Entering Insert mode](#entering-insert-mode)
+            -   [The (lowercase) i shortcut](#the-lowercase-i-shortcut)
+            -   [The (uppercase) I shortcut](#the-uppercase-i-shortcut)
+            -   [The (lowercase) a shortcut](#the-lowercase-a-shortcut)
+            -   [The (uppercase) A shortcut](#the-uppercase-a-shortcut)
+            -   [The (lowercase) o shortcut](#the-lowercase-o-shortcut)
+            -   [The (uppercase) O shortcut](#the-uppercase-o-shortcut)
+            -   [Switching from Insert mode into Normal mode](#switching-from-insert-mode-into-normal-mode)
+    -   [Visual mode](#visual-mode)
+        -   [Entering Visual mode](#entering-visual-mode)
+            -   [The (lowercase) v shortcut](#the-lowercase-v-shortcut)
+            -   [The (uppercase) V shortcut](#the-uppercase-v-shortcut)
+            -   [The Control + v shortcut](#the-control-v-shortcut)
+    -   [Command mode](#command-mode)
+        -   [Asking Vim for help](#asking-vim-for-help)
+        -   [Other Command mode commands](#other-command-mode-commands)
+-   [The vimtutor](The vimtutor)
+-   [Related Resources](#related-resources)
+
+## So why this article?
+
+Good question! I have been using `Vim` in `macOS` for a very long time, but
+`primarily` to write `Git` commit messages. `Most` of my `file editing` has
+`taken place` inside `Visual Studio Code`.
+
+`Then` I `started working` in `Linux`, `but` in a `virtual environment`
+(`VirtualBox`) `installed` on `Windows 11`. The `memory` and `disk space` I
+`allocated` to it was `much smaller` than `what` I have `available` on `macOS`,
+and `Visual Studio Code` is `known` for being memory greedy. I did install it in
+Linux Mint, but it severely slowed down the `OS` and even `crashed` from to
+`time` to `time`. `That` is `when` I `decided` to `use` the `Vim` text editor
+`instead`.
+
+`By default`, `Vim` did `not` cut it `for what` I `wanted` to `accomplish`, `so`
+I did `some research` to `learn more` about it, `how` I could `configure` it to
+`help` me `accomplish` what I `wanted` to `accomplish`, and `better` navigate
+`Vim` in `general`.
+
+`Well`, I `found out` that I `can` basically `use` it `like` any other `editor`,
+including `Visual Studio Code`. It `was` a `matter` of `mastering` it. `But`
+there is `another aspect` to `this`.
+
+In `Linux Mint` inside `VirtualBox`, for me, the default `Terminal` is on the
+`small side`. My `laptop screen` is `not` the `largest` and the `Linux Mint`
+window in `VirtualBox` is `not` the `largest` either. The `key input` using the
+`laptop keypad` is `not` the most `fantastic experience` in `Windows`. So `what`
+did I `do` about `that`?
+
+`It` was `serendipitous`. In my research, I `accidentally` came `across` a new
+`terminal program` called `Warp`. `Currently`, it `works` in the `Linux` and
+`macOS` Unix `operating systems`. `Warp` for `Windows` is `also` coming out
+`soon`, but has `not` been `released` yet.
+
+`Basically`, `Warp` is a `modern`, Rust-based `terminal` with `AI` built in so
+`you` and `your` team can `build` great `software` faster.
+
+`All` the `Terminal` screenshots and Gifs I `use` here were `taken` in `Warp`.
+
+i love it. `Despite` having `AI` builtin, there `still` is a `significant`
+learning `curve`. It does `detect` and therefore the `tools` we `use` in our
+`native OS`, such as `shell`. I use `ZSH` in `macOS`, so `Warp` uses `ZSH`. In
+`Linux`, I use `Bash`, so `Warp` uses `Bash` there. I am `never` going `back` to
+`iTerm2` in `macOS` or `Linux Mint`'s default `Terminal` program. `Warp` all the
+`way`!
+
+## What does Vim stand for?
+
+`Vim` stands for `Vi iMproved`. `Vi` is `frequently` a `symbolic link` to `Vim`,
+the `enhanced version` of `Vi`. `If` you have `vim` installed and `access` to
+the `vim` command, you `also` have `access` to the `vi` command. `When` I
+installed `Vim` in `Linux Mint`, I `gained access` to `both` the `vim` and `vi`
+command.
+
+## Configuring Vim
+
+To `make` my `life` much `easier` when `working` with `Vim`, I `configured` it
+`using` a file I `created` (which was `not included` by `default`) called
+`.vimrc` inside my `home directory` (`/home/maria` in `Linux` and
+`/Users/mariacam` in `macOS`). I `added` the `following` to the `.vimrc` file:
+
+```shell
+# Disable compatibility with vim which can cause unexpected issues.
+set nocompatible
+set autoindent
+# Set tab width to 4 columns.
+set tabstop=4
+# Use space characters instead of tabs.
+set expandtab
+# Set shift width to 4 spaces.
+set shiftwidth=4
+# Add numbers to each line on the left-hand side.
+set number
+# Highlight cursor line underneath the cursor horizontally.
+set cursorline
+# Highlight cursor line underneath the cursor vertically.
+set cursorcolumn
+# Do not save backup files.
+set nobackup
+# While searching though a file incrementally highlight matching characters as you type.
+set incsearch
+# Do not wrap lines. Allow long lines to extend as far as the line goes.
+set nowrap
+# Ignore capital letters during search.
+set ignorecase
+# Override the ignorecase option if searching for capital letters.
+# This will allow you to search specifically for capital letters.
+set smartcase
+# Show partial command you type in the last line of the screen.
+set showcmd
+# Show the mode you are on the last line.
+set showmode
+# Show matching words during a search.
+set showmatch
+# Use highlighting when doing a search.
+set hlsearch
+# Set the commands to save in history default number is 20.
+set history=1000
+# Enable auto completion menu after pressing TAB.
+set wildmenu
+# Make wildmenu behave like similar to Bash completion.
+set wildmode=list:longest
+# Wildmenu will ignore files with these extensions.
+set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
+# Enable type file detection. Vim will be able to try to detect the type of file in use.
+filetype on
+# Enable plugins and load plugin for the detected file type.
+filetype plugin on
+# Load an indent file for the detected file type.
+filetype indent on
+# Turn syntax highlighting on.
+syntax on
+```
+
+This `immediately` made `navigating` files in `Normal mode` and
+`creating content` in `Insert mode` so much `easier`!
+
+`If` I `open` my `.vimrc` file `using` the `vim .vimrc` command in `macOS`
+iTerm2, it now `looks like` the `following`:
+
+![Screenshot of .vimrc file after configuring vim iTerm2](Screenshot-2024-08-19-at-7.31.40-AM.jpg)
+
+_Screenshot of `.vimrc` file after vim configuration_
+
+If I `open` my `.vimrc` file using the `vim .vimrc` command in `macOS` Warp
+`Terminal`, it now `looks like` the `following`:
+
+![Screenshot of .vimrc file after configuring vim Warp](Screenshot-2024-08-19-at-7.46.02-AM.jpg)
+
+_Screenshot of `.vimrc` file after configuring vim Warp_
+
+`Highlighting colors` and a `few` other `details` may `differ slightly` when
+using `Warp` Terminal. `However`, as `shown above`, these `configurations` still
+`work well` with `Warp` and `do not` cause any `conflicts` since `Warp` works
+with `Vim`.
+
+## The vim command
+
+The `first command` to `learn` regarding `Vim` is the `vim` command. `In order`
+to `open` a `file` in `Vim`, I `run` the `following` in `Terminal`:
+
+```shell
+# this command opens up a file called history.txt in Vim
+vim history.txt
+```
+
+## Vim modes
+
+The are `4` main `modes` in vim. `Normal mode`, `Insert mode`, `Visual mode`,
+and `Command` mode. `According` to `Warp` documentation, there is also
+`Replace mode` (which actually is `part` of `Normal mode`; `Replace mode` is
+`redundant`), `Binary mode`, and `Org mode`. `Binary` and `Org mode` fall
+`under` more `advanced` Vim `features` and will `not` be `covered` here.
+However, `information` related to `both` is `available` in the
+`Related Resources` located at the `bottom` of this `article`.
+
+## Normal mode
+
+`Normal mode` is the `default mode` when `we` enter `Vim`. It is the `mode` that
+`allows` us to `move around` a `file`. `Normal mode` can be `accessed` from
+`other modes` by `pressing` the `esc` key.
+
+### The (lowercase) gg shortcut
+
+`When` I `press` the `g` key `twice`, `gg`, I am `taken` to the `beginning` of a
+`file`.
+
+### The (uppercase) G shortcut
+
+`When` I `press` the `G` key (`Shift key` + `G` key), I am `taken` to the `end`
+of a `file`.
+
+### The # (number) G shortcut
+
+I `love` this `one`. `#` is a `placeholder` for the `line number` that you
+`want` to `go to`. Let's say I `want` to `go` to line `15` of a `file` in `Vim`,
+I would `go` into `Normal mode` by `pressing` the `esc` key, `then` would type
+`15G` (`1` key + `5` key + `Shift key` + `G key`), and I would be `taken` to the
+`beginning` of line `15` of a `file` in `Vim`.
+
+### The (lowercase) h shortcut
+
+`When` I `press` the `h` key, the `cursor` moves `one character` to the `left`.
+
+### The (lowercase) j shortcut
+
+`When` I `press` the `j` key, the `cursor` moves `one` line `down`.
+
+### The (lowercase) k shortcut
+
+`When` I `press` the `k` key, the `cursor` moves `one` line `up`.
+
+### The (lowercase) l shortcut
+
+`When` I `press` the `l` key, the `cursor` moves `one` character `to` the
+`right`.
+
+### The # (number) j shortcut
+
+`This` is `similar` to [the # (number) G shortcut](#the-number-g-shortcut).
+`When` I `press` the Shift key + `6` key + `j` key, for example, the `cursor`
+moves `6` lines `down`.
+
+### The # (number) k shortcut
+
+`This` is `similar` to [the # (number) G shortcut](#the-number-g-shortcut).
+`When` I `press` the `8` key + (lowercase) `k` key, for example, the `cursor`
+moves `8` lines `up`.
+
+### The (lowercase) w shortcut
+
+`When` I `press` the `w` key, the `cursor` moves to the `beginning` of the
+`next word`.
+
+### The (lowercase) b shortcut
+
+`When` I `press` the `b` key, the `cursor` moves to the `beginning` of the
+`previous word`.
+
+### The (lowercase) e shortcut
+
+`When` I `press` the `e` key, the `cursor` moves to the `end` of a `word`.
+
+### The (uppercase) W shortcut
+
+`When` I `press` the `Shift` key + `w` key, the `cursor` moves to the
+`beginning` of the `next word` after a `whitespace`. This is `basically` the
+`same` as [the (lowercase) w shortcut](#the-lowercase-w-shortcut).
+
+### The (uppercase) B shortcut
+
+`When` I `press` the `Shift` key + `b` key, the `cursor` moves to the
+`beginning` of the `previous word` before a `whitespace`. This is `basically`
+the `same` as [the (lowercase) b shortcut](#the-lowercase-b-shortcut).
+
+### The (uppercase) E shortcut
+
+`When` I `press` the `Shift` key + `e` key, the `cursor` moves to the `end` of a
+`word` before a `whitespace`. This is `basically` the `same` as
+[the (lowercase) e shortcut](#the-lowercase-e-shortcut).
+
+### The 0 (zero) shortcut
+
+`When` I `press` the `0` key, the `cursor` moves to the `beginning` of a `line`.
+
+### The ^ (caret) shortcut
+
+The `^` (`caret`) `shortcut` is the `same` as
+[the 0 (zero) shortcut](#the-0-zero-shortcut). `When` I `press` the `Shift`
+key + `6` key, the `cursor` moves to the `beginning` of a `line`.
+
+### The (dollar sign) $ shortcut
+
+`When` I `press` the `Shift` key + `4` key, the `cursor` moves to the `end` of a
+line.
+
+### The (lowercase) r shortcut
+
+`When` I `move` the `cursor` over a `particular character` I `want` to
+`replace`, I `press` the `r` key, and `then` I `press` the `key` of the
+`character` I `want` to `replace` it `with`.
+
+The `way` this `shortcut` works is `when` I` move` the `cursor` over the
+`character` I `want` to `replace`, and then `press` the `r` key, the `character`
+I `want` to `replace` is `first replaced` by an `r` character, and `then` when I
+`press` the `character` (`key`) I `want` to `replace` it `with`, it `replaces`
+the `r` that `appeared` when I `executed`
+[the (lowercase) r shortcut](#the-lowercase-r-shortcut).
+
+### The (lowercase) x shortcut
+
+This `shortcut` is `similar` to
+[the (lowercase) r shortcut](#the-lowercase-r-shortcut). `When` I `move` the
+`cursor` over the `character` I `want` to `delete`, I then `press` the `x` key,
+and the `character` is `deleted`. This `shortcut` is also `referred` to `as` the
+"Delete button".
+
+The `way` this `shortcut` works is `when` I `move` the `cursor` over the
+`character` I `want` to `delete`, and then `press` the `x` key, the `character`
+I `wanted` to `delete` is `deleted`. `But` if I `want` to `bring back` the
+`character` I have `deleted`, I `press` the (`lowercase`) `u` key which
+`executes` [the (lowercase) u shortcut](#the-lowercase-u-shortcut).
+
+### The (uppercase) X shortcut
+
+This `shortcut` (aka the `"Backspace button"`) deletes `characters` to the
+`left` of the `cursor`, but `not` the `character` it is `highlighting` (`if` it
+is `highlighting` one). `So` if you `delete` an `entire line` using
+[the (uppercase) X shortcut](#the-uppercase-x-shortcut), `except` for the
+`character` the `cursor` is `highlighting`, you can `press` the (`lowercase`)
+`x` key, and the `character` will be `removed`.
+
+### The (lowercase) dw shortcut
+
+`When` I `highlight` a `word`, and then `press` the `d` followed by the `w` key,
+the `word` is `deleted`. And `if` I `want` to `bring back` that `word`, I would
+`press` the (`lowercase`) `u` key to `undo` that `edit`. `If`, `however`, I
+`wanted` to `replace` the `word` I `deleted`, I would `want` to `use`
+[the (lowercase) cw shortcut](#the-lowercase-cw-shortcut).
+
+`In order` to `highlight` a `complete word`, I `have` to enter `Visual mode`. To
+`switch` from `Normal Mode` to `Visual mode`, I `first` press the `esc` key and
+then the (`lowercase`) `v` key. The `esc` key `takes` me `out` of `Normal mode`,
+and the (`lowercase`) `v` key `takes` me into `Visual mode`. `Then`, I `use`
+either the `forward arrow` key to `highlight` the `word` to the `right` of the
+`cursor`, making sure to `end` highlighting `after` the `last character` of the
+`word`, or the `left arrow` key to `do` the `same` in the `opposite direction`.
+
+### The (lowercase) cw shortcut
+
+`When` I `highlight` a `word`, and then `press` the `c` key `followed` by the
+`w` key, the `word` is `deleted`, and I then `replace` it with `another one`.
+
+`In order` to `highlight` a `complete word`, I `have` to enter `Visual mode`. To
+`switch` from `Normal Mode` to `Visual mode`, I first `press` the `esc` key and
+`then` the (`lowercase`) `v` key. The `esc` key `takes` me `out` of
+`Normal mode`, and the `v` key `takes` me into `Visual mode`. `Then`, I use
+`either` the `forward arrow` key to `highlight` the `word` to the `right` of the
+`cursor`, making sure to `end` highlighting `after` the `last character` of the
+`word`, or the `left arrow` key to `do` the `same` in the `opposite direction`.
+
+### The (lowercase) s shortcut
+
+`When` I `highlight` a `character` with the `cursor` and then `press` the `s`
+key, I then `press` the `key` of the `character` I `want` to `replace` it
+`with`.
+
+### The (uppercase) S shortcut
+
+`When` I `highlight` the `location` in a `line` where I `want` to `start` the
+`edit` of my `line`, `and` then `press` the `Shift` key + `s` key, it `removes`
+that `content`, and `then` I can `type` in `what` I `want` to `replace` it
+`with`.
+
+### The (uppercase) D shortcut
+
+`When` I `place` my `cursor` where I `want` to `start deleting` a `line`, `and`
+then `press` the `Shift` + `d` key, it `deletes` the `line` from `that point` to
+the `end` of the `line`.
+
+### The (lowercase) dd shortcut
+
+`When` I `select` the `point` from `which` I `want` to `delete` a `line` using
+the `cursor`, I then `press` the `d` key `followed` by `pressing` the `d` key
+`again`, `and` the `line` from the `location` of the `cursor` on, is `deleted`.
+`If` I `place` the `cursor` at the `beginning` of the `line`, the `entire line`
+is `deleted`.
+
+### The (uppercase) C shortcut
+
+`This` is `similar` to [the (uppercase) D shortcut](#the-uppercase-d-shortcut),
+but `when` I `press` the `Shift` key + `c` key, `after` the (`part of`) the
+`line` has been `deleted`, I can `replace` it with `new content`.
+
+### The (lowercase) yy shortcut
+
+`This` works `similarly` to
+[the (lowercase) dd shortcut](#the-lowercase-dd-shortcut), `except` that
+`instead` of the `line` being `deleted`, `it` is `copied`. I `first` place the
+`cursor` where I `want` to start `copying` the `line`, and `then` I `press` the
+(`lowercase`) `y` key `followed` by `pressing` the (`lowercase`) `y` key
+`again`, `and` the `part` of the `line` I `selected` (or the `complete line` if
+I `placed` the `cursor` at the `beginning` of the `line`) is `copied` to the
+`clipboard`.
+
+### The (lowercase) p shortcut
+
+`After` I have `copied` a `line` (or `part` of `it`) `as per`
+[the (lowercase) yy shortcut](#the-lowercase-yy-shortcut), I `press` the `p`
+key, and the `line` is `pasted` below the `line` I `copied`.
+
+### The (uppercase) P shortcut
+
+`After` I have `copied` a `line` (or `part` of `it`) `as per`
+[the (lowercase) yy shortcut](#the-lowercase-yy-shortcut), I `press` the `Shift`
+key + the `p` key, `and` the `line` is `pasted above` the `line` I `copied`.
+
+### The (lowercase) u shortcut
+
+`When` I `press` the `u` key, it `undoes` the `last change` I `made`. I `can`
+also `keep` on `pressing` the `u` key in `order` to `keep` on `undoing` previous
+`changes`. `Once` I am `happy` with the `current state` of my `file`, I `can`
+type `:w` so `that` I `save` this `acceptable state`. `If` I `want` to exit
+`Vim` after `saving` the `acceptable state`, I `would` simply `press` the `esc`
+key `followed` by the `:` (`Shift key` + (`;`) `semi-colon` key), `and` I
+`would` be `taken back` to my `Terminal` prompt.
+
+### The Control + r shortcut
+
+The `Control key` + `r` key `undoes` my `undo` I `executed` with
+[the (lowercase) u shortcut](#the-lowercase-u-shortcut). And `if` I `want` to
+`revert` to my `latest undo`, I just `press` the (`lowercase`) `u` key
+`executing` [the (lowercase) u shortcut](#the-lowercase-u-shortcut).
+
+### Repeating commands
+
+### Repeating a command using a count
+
+`Vim` supports `shortcut repetition` in `Normal mode`. `Instead` of `entering`
+the same `shortcut` multiple `times` to `repeat` the `desired action`, I can
+`prefix` the `same shortcut` with the `number` of `repetitions`. To `delete` 6
+`lines`, I would `highlight` the `beginning` of the `line` I `wanted` to `start`
+my `deletion` with the `cursor`, and `then` I would `press` the `6` key
+`followed` by the `d` key `and` the `d` key `again` (`6dd`). `This` would
+`delete` the `line` where the `cursor` is `located` and `5` lines `after` that.
+
+To `repeat` [the (lowercase) yy shortcut](#the-lowercase-yy-shortcut), I would
+`highlight` the `beginning` of the `line` I `wanted` to `start` my `copying`
+with the `cursor`, and `then` I would `press` the `6` key (`again`,
+`for example`) `followed` by the `y` key and the `y` key `again` (`6yy`).
+`Next`, I would `move` the `cursor` below the `current line` and then `move` it
+5 `times` more, for a `total` of `6` lines, `stopping` at the `last line` I
+`want` to `copy` (the `cursor` should `appear` to `"underline"` that `line`).
+`This` would `copy` the `line` where the `cursor` `began` and `5` lines `after`
+that. `Lastly`, I would `press` the (`lowercase`) `p` key, `not` moving the
+`cursor`, and `this` would `paste` the `6` lines I `copied`.
+
+The `screenshot` below `shows` the `first line` which I `wanted` to
+`start copying` from and `where` I `placed` the `cursor` at the `beginning` of
+that `line`, and `then` I pressed `6yy` (`6` key + `y` key + `y` key) at the
+`beginning` of the `line` where the `cursor` is `located`:
+
+![Screenshot of cursor at beginning line of block for copying](Screenshot-from-2024-08-19-12-54-54.png)
+
+_Screenshot of cursor at beginning line of block for copying_
+
+The `screenshot` below `shows` the `end line` of the `line block` I `want` to
+`copy`. I `moved` to this `line` after I `had` pressed `6yy` (as `described`
+above the `first screenshot`). I `had` to `take` the `cursor` to the `line`
+where I `wanted` to `end` the `copying process`.
+
+![Screenshot of cursor at end line of block for copying](Screenshot-from-2024-08-19-12-37-54.png)
+
+_Screenshot of cursor at end line of block for copying_
+
+`Then` I `pressed` the `p` key, and the `6` lines I `copied` are `pasted` below
+the `lines` I `copied`:
+
+![Screenshot of the result of the paste process](Screenshot-from-2024-08-19-12-38-39.png)
+
+_Screenshot of the result of the paste process_
+
+### Insert mode
+
+`Insert mode` allows `me` to `type/insert` characters `just like` a `regular`
+text `editor`. I `can` enter `Insert mode` by `using` an `insert shortcut` from
+`Normal mode`.
+
+### Entering Insert mode
+
+`There` are `several ways` of entering `Insert mode`.
+
+### The (lowercase) i shortcut
+
+`When` I `press` the `i` key, I am `switched` into `Insert mode`. I `know` I am
+in `Insert mode` because `-- Insert ---` appears at the `bottom` of the
+`window`.
+
+![Screenshot of the (lowercase) i shortcut](Screen-Recording-2024-08-19-at-10.22.20-PM.gif)
+
+_Screenshot of the (lowercase) i shortcut_
+
+### The (uppercase) I shortcut
+
+`When` I `press` the `Shift` key + `i` key, I `switch` into `Insert mode`, `and`
+the `cursor` moves to the `beginning` of the `line` (if it is `not` already
+`there`).
+
+![Screen recording of the (uppercase) I shortcut](Screen-Recording-2024-08-19-at-10.30.38-PM.gif)
+
+_Screen recording of the (uppercase) I shortcut_
+
+### The (lowercase) a shortcut
+
+[The (lowercase) a shortcut] `behavior` is `almost` the `same` as [the
+(lowercase) i shortcut](the (lowercase) i shortcut). The `only difference` is
+`that` when I `press` the `a` key, and when `-- Insert ---` appears at the
+`bottom` of the `window`, the `cursor` moves `from` the `beginning` of the
+`line` to the `next character` to the `right`.
+
+![Screen recording of the (lowercase) a shortcut](Screen-Recording-2024-08-19-at-10.35.56-PM.gif)
+
+_Screen recording of the (lowercase) a shortcut_
+
+### The (uppercase) A shortcut
+
+`When` I `press` the `Shift` key + the `a` key, I `switch` into `Insert mode`,
+and the `cursor` moves `to` the `end` of the `line`.
+
+![Screen recording of (uppercase) A shortcut](Screen-Recording-2024-08-19-at-10.47.33-PM.gif)
+
+_Screen recording of (uppercase) A shortcut_
+
+### The (lowercase) o shortcut
+
+`After` I `press` the `o` key, I `switch` into `Insert mode`, and the `cursor`
+moves `down` to the `second line`, `creating` a new `line space`. The `contents`
+of the `second line` is moved `down` to the `third line`.
+
+![Screen recording of the (lowercase) o shortcut](Screen-Recording-2024-08-19-at-10.51.51-PM.gif)
+
+_Screen recording of the (lowercase) o shortcut_
+
+### The (uppercase) O shortcut
+
+`When` I `press` the `Shift` + `o` key, I `switch` into `Insert mode`, `and` the
+`first line` moves `down` to the `second line`, `leaving` a `line space` on the
+first line.
+
+### Switching from Insert mode into Normal mode
+
+`In order` to `switch` from `Insert mode` into `Normal mode`, I `press` the
+`esc` key. And `if` I am ever `unsure` whether I `am` in `Normal mode` or `not`,
+I `press` the `esc` key to `make sure`.
+
+### Visual mode
+
+`I` use `Visual mode` to select `text`, `similar` to `clicking` and `dragging`
+with a `mouse`. `Selecting text` allows `shortcuts` to `apply` only to the
+`selection`, such as `copying`, `deleting`, `replacing`, etc.
+
+### Entering Visual mode
+
+To `make` a `text selection`, `first` I `press` the (`lowercase`) `v` key, `and`
+this `will` also `mark` the `starting` selection `point`. `Then` I `move` the
+`cursor` to the `end selection point`, and `Vim` provides a `visual highlight`
+of the `text selection`.
+
+### The (lowercase) v shortcut
+
+This `shortcut` is also `known` as the `Visual mode visual subtype`.
+
+`When` I `want` to enter `Visual mode visual subtype`, I `first` press the `esc`
+key to `exit` whatever `mode` I was `in`, and `then` I `press` the `v` key, this
+`switches` me into `Visual mode`, and `will` also `mark` the
+`start selection point`. `When` I `move` the `cursor` across the the
+`first line`, the `cursor` moves `character` by `character`.
+
+`Next`, I can `use` the `Up arrow` or the (`lowercase`) `k` key to
+`select lines` going `up`. `As` mentioned `previously`, `no` matter `what` the
+`difference` in `line lengths`, the `lines` are `completely selected`. `Same`
+with `when` I `use` the `Down arrow` key or (`lowercase`) `j` key to
+`select lines` going `down`.
+
+![Screen recording of the (lowercase) v shortcut](Screen-Recording-2024-08-19-at-9.20.56-PM.gif)
+
+_Screen recording of the (lowercase) v shortcut_
+
+### The (uppercase) V shortcut
+
+This `shortcut` is also `known` as the `Visual mode line-wise visual subtype`.
+It `always` selects `full lines`.
+
+`When` I `press` the `Shift` key + `v` key, I `switch` into `Visual mode`, and
+this `makes` text `selections` line `by` line. This is `great` for `when` I
+`want` to `select` a `block` of `text` in `which` the `lines` are
+`different lengths`. `After` I `select` the `first line`, and then `move` the
+`cursor` down (or the `Up arrow` key to `move` the `cursor` up), it will
+`select` the `whole line` no `matter` the `difference` in `line length`.
+
+![Screenshot of the (uppercase) V shortcut](Screen-Recording-2024-08-19-at-9.41.31-PM.gif)
+
+_Screenshot of the (uppercase) V shortcut_
+
+### The Control + v shortcut
+
+This `shortcut` is also `known` as the `Visual mode block-wise subtype`. it
+`selects` any `rectangular selection`.
+
+`When` I press `Control` key + (`lowercase`) `v` key, I am `switched` to the
+`Visual mode block-wise subtype`. `So far`, I have `not` had
+`appropriate opportunity` to `use` this `subtype`. `So far`, `contrary` to
+`popular opinion`, I `find` it `somewhat limiting`.
+
+As `opposed` to the `Visual mode visual subtype` or the
+`Visual mode line-wise visual subtype`, the `shortest line` is `selected` and
+`kept` when either `selecting` lines `down` or `up`. `This` is because `lines`
+and `columns` are `being selected` at the `same time`, and the `columns` consist
+of` lines` of `equal width`.
+
+![Screen recording of the Control + v shortcut](Screen-Recording-2024-08-19-at-10.14.35-PM.gif)
+
+_Screen recording of the Control + v shortcut_
+
+### Command mode
+
+### Asking Vim for help
+
+`If` I `need` to `find` out `how` to do `something` in `Vim`, I can access `Vim`
+help by `running` the `:help` command. I first `make sure` I `am` in
+`Normal mode` by `pressing` the `esc` key, and `then` I `press` the `Shift`
+key + (`;`) `semi-colon` key, and `then` I type `"help"`. `And` the `following`
+appears:
+
+![Screenshot of the Vim :help command](Screenshot-2024-08-20-at-6.56.35-AM.jpg)
+
+_Screenshot of the Vim :help command_
+
+`Then` I `press` the `Return` key and the `following` appears:
+
+![Screenshot of :help command result](Screenshot-2024-08-20-at-7.01.34-AM.jpg)
+
+_Screenshot of :help command result_
+
+I `could` also `search` for `specific help` with the `:help` command.
+`For example`, I could type `:help visual.txt`:
+
+![Screenshot of the :help visual.txt result](Screenshot-2024-08-20-at-7.08.13-AM.jpg)
+
+_Screenshot of the :help visual.txt result_
+
+`When` I `want` to `exit` the `:help` or `:help visual.txt` command, I `first`
+press the `esc` key `followed` by `:q!` and `then` the `Return` key, which
+`takes` me `out` of the `:help visual.txt` command. `However`, I am `still` in
+`Command mode`. `If` I `want` to `quit` completely `out` of `Vim`, `I` simply
+`hit` the `Return` key `again`, `and` am `taken back` to the `Terminal` prompt.
+
+`If` I `want` to `remain` in `Vim`, but `want` to `exit` out of `Command mode`,
+`instead` of `pressing` the `Return` key a `second time`, I `press` the
+(`lowercase`) `i` key `and` am `taken` into `Insert mode`. `If` I `want` to
+`switch` into `another mode` like `Normal mode`, for example, I `press` the
+`esc` key. `This way`, I `stay` in `Vim`.
+
+### Other Command mode commands
+
+`Other` Command mode `commands` (`some` of `which` have `already` been
+`covered`):
+
+```shell
+# Quit file
+:q
+# write changes to file
+:w
+# Save and quit
+:wq
+# Save and quit
+:x
+# Quit forcefully
+:q!
+# Save and exit forcefully
+:wq!
+# Go to first line of file
+:1
+# Set numbers to lines
+:set nu
+# Remove numbers from lines
+:set nanu
+# Specified line number, Same as :1 command, just a different number.
+:<Specific line number>
+# The command output will paste in current cursor position.
+:r !date
+# Executes shell command "ls" of current working directory in Terminal
+:!ls
+```
+
+`There is` a lot `more` to `Command mode`, but `this` is a `good start`!
+
+You can `dig deeper` in `Vim` by `checking out` the various `Related Resources`.
+
+## The vimtutor
+
+`By default`, the `Vim` install `includes` a `tutorial` called `vimtutor`. It is
+`meant` to `help` us `learn` the `Vim` basics `hands-on`. We can `start` the
+`vimtutor` by `running` the `following command` in `Terminal`:
+
+```shell
+vimtutor
+```
+
+## Related Resources
+
+-   [An introduction to the vi editor](https://www.redhat.com/sysadmin/introduction-vi-editor):
+    **_RedHat_**
+-   [vim](https://www.warp.dev/topic/vim): **_warp_**
+-   [Vim Essentials: Tips and Tricks for Boosting Productivity](https://upspir.com/vim-essentials-tips-and-tricks-for-boosting-productivity/):
+    **_upspir_**
+-   [Vimrc Configuration Guide - How to Customize Your Vim Code Editor with Mappings, Vimscript, Status Line, and More](https://www.freecodecamp.org/news/vimrc-configuration-guide-customize-your-vim-editor/):
+    **_by Brandon Wallace, freecodecamp_**
+-   [Vim Editor Modes Explained](https://www.freecodecamp.org/news/vim-editor-modes-explained/):
+    **_freecodecamp_**
+-   [A Guide to Vim Visual Mode](https://builtin.com/articles/vim-visual-mode):
+    **_builtin_**
