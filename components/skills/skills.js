@@ -40,6 +40,9 @@ const Skills = () => {
 				<li className={classes['ability-markdown']} title="markdown">
 					MD
 				</li>
+				<li className={classes['ability-marp-cli']} title="marp-cli">
+					Marp CLI
+				</li>
 				<li className={classes['ability-mongodb']} title="mongodb">
 					MongoDB
 				</li>
@@ -58,11 +61,20 @@ const Skills = () => {
 				<li className={classes['ability-react']} title="react">
 					React
 				</li>
+				<li
+					className={classes['ability-react-markdown']}
+					title="react-markdown"
+				>
+					ReactMD
+				</li>
 				<li className={classes['ability-sass']} title="sass">
 					Sass
 				</li>
 				<li className={classes['ability-sql']} title="sql">
 					SQL
+				</li>
+				<li className={classes['ability-vim']} title="vim">
+					Vim
 				</li>
 				<li className={classes['ability-vscode']} title="vscode">
 					VSCode
