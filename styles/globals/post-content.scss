@@ -15,6 +15,10 @@ ul {
 
 			& ul > li {
 				list-style-type: square;
+
+				& ul > li {
+					list-style-type: circle;
+				}
 			}
 		}
 	}
