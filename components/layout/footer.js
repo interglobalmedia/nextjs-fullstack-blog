@@ -69,6 +69,13 @@ function Footer() {
 							size="6"
 						/>
 					</div>
+					<div className={`footer-dev ${classes['footer-dev']}`}>
+						<DynamicSocialIcon
+							name="dev"
+							href={`${siteMetadata.dev}`}
+							size="6"
+						/>
+					</div>
 				</div>
 				<p>
 					{`© ${new Date().getFullYear()}`} {` • `}{' '}
