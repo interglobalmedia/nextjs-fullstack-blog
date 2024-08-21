@@ -23,53 +23,53 @@ _Vim in action_
 -   [The vim command](#the-vim-command)
 -   [Vim modes](#vim-modes)
     -   [Normal mode](#normal-mode)
-        -   [The (lowercase) gg shortcut](#the-lowercase-gg-shortcut)
+        -   [The gg shortcut](#the-gg-shortcut)
         -   [The (uppercase) G shortcut](#the-uppercase-g-shortcut)
-        -   [The # (number) G shortcut](#the-number-g-shortcut)
-        -   [The (lowercase) h shortcut](#the-lowercase-h-shortcut)
+        -   [The #G shortcut](#the-g-shortcut)
+        -   [The h shortcut](#the-h-shortcut)
         -   [The (lowercase) j shortcut](#the-lowercase-j-shortcut)
         -   [The (lowercase) k shortcut](#the-lowercase-k-shortcut)
-        -   [The (lowercase) l shortcut](#the-lowercase-l-shortcut)
-        -   [The # (number) j shortcut](#the-number-j-shortcut)
-        -   [The # (number) k shortcut](#the-number-k-shortcut)
-        -   [The (lowercase) w shortcut](#the-lowercase-w-shortcut)
-        -   [The (lowercase) b shortcut](#the-lowercase-b-shortcut)
-        -   [The (lowercase) e shortcut](#the-lowercase-e-shortcut)
+        -   [The l shortcut](#the-l-shortcut)
+        -   [The #j shortcut](#the-j-shortcut)
+        -   [The #k shortcut](#the-k-shortcut)
+        -   [The w shortcut](#the-lowercase-w-shortcut)
+        -   [The b shortcut](#the-b-shortcut)
+        -   [The e shortcut](#the-e-shortcut)
         -   [The (uppercase) W shortcut](#the-uppercase-w-shortcut)
         -   [The (uppercase) B shortcut](#the-uppercase-b-shortcut)
         -   [The (uppercase) E shortcut](#the-uppercase-e-shortcut)
         -   [The 0 (zero) shortcut](#the-0-zero-shortcut)
         -   [The ^ (caret) shortcut](#the-caret-shortcut)
         -   [The (dollar sign) $ shortcut](#the-dollar-sign-shortcut)
-        -   [The (lowercase) r shortcut](#the-lowercase-r-shortcut)
-        -   [The (lowercase) x shortcut](#the-lowercase-x-shortcut)
+        -   [The r shortcut](#the-r-shortcut)
+        -   [The x shortcut](#the-x-shortcut)
         -   [The (uppercase) X shortcut](#the-uppercase-x-shortcut)
-        -   [The (lowercase) dw shortcut](#the-lowercase-dw-shortcut)
-        -   [The (lowercase) cw shortcut](#the-lowercase-cw-shortcut)
-        -   [The (lowercase) s shortcut](#the-lowercase-s-shortcut)
+        -   [The dw shortcut](#the-dw-shortcut)
+        -   [The cw shortcut](#the-cw-shortcut)
+        -   [The s shortcut](#the-s-shortcut)
         -   [The (uppercase) S shortcut](#the-uppercase-s-shortcut)
         -   [The (uppercase) D shortcut](#the-uppercase-d-shortcut)
-        -   [The (lowercase) dd shortcut](#the-lowercase-dd-shortcut)
+        -   [The dd shortcut](#the-dd-shortcut)
         -   [The (uppercase) C shortcut](#the-uppercase-c-shortcut)
-        -   [The (lowercase) yy shortcut](#the-lowercase-yy-shortcut)
-        -   [The (lowercase) p shortcut](#the-lowercase-p-shortcut)
+        -   [The yy shortcut](#the-yy-shortcut)
+        -   [The p shortcut](#the-p-shortcut)
         -   [The (uppercase) P shortcut](#the-uppercase-p-shortcut)
-        -   [The (lowercase) u shortcut](#the-lowercase-u-shortcut)
+        -   [The u shortcut](#the-u-shortcut)
         -   [The Ctrl + r shortcut](#the-ctrl-r-shortcut)
         -   [Repeating commands](#repeating-commands)
             -   [Repeating a command using a count](#repeating-a-command-using-a-count)
     -   [Insert mode](#insert-mode)
         -   [Entering Insert mode](#entering-insert-mode)
-            -   [The (lowercase) i shortcut](#the-lowercase-i-shortcut)
+            -   [The i shortcut](#the-i-shortcut)
             -   [The (uppercase) I shortcut](#the-uppercase-i-shortcut)
-            -   [The (lowercase) a shortcut](#the-lowercase-a-shortcut)
+            -   [The a shortcut](#the-a-shortcut)
             -   [The (uppercase) A shortcut](#the-uppercase-a-shortcut)
-            -   [The (lowercase) o shortcut](#the-lowercase-o-shortcut)
+            -   [The o shortcut](#the-o-shortcut)
             -   [The (uppercase) O shortcut](#the-uppercase-o-shortcut)
             -   [Switching from Insert mode into Normal mode](#switching-from-insert-mode-into-normal-mode)
     -   [Visual mode](#visual-mode)
         -   [Entering Visual mode](#entering-visual-mode)
-            -   [The (lowercase) v shortcut](#the-lowercase-v-shortcut)
+            -   [The v shortcut](#the-v-shortcut)
             -   [The (uppercase) V shortcut](#the-uppercase-v-shortcut)
             -   [The Control + v shortcut](#the-control-v-shortcut)
     -   [Command mode](#command-mode)
@@ -240,7 +240,7 @@ However, `information` related to `both` is `available` in the
 `allows` us to `move around` a `file`. `Normal mode` can be `accessed` from
 `other modes` by `pressing` the `esc` key.
 
-### The (lowercase) gg shortcut
+### The gg shortcut
 
 `When` I `press` the `g` key `twice`, `gg`, I am `taken` to the `beginning` of a
 `file`.
@@ -250,7 +250,7 @@ However, `information` related to `both` is `available` in the
 `When` I `press` the `G` key (`Shift key` + `G` key), I am `taken` to the `end`
 of a `file`.
 
-### The # (number) G shortcut
+### The #G shortcut
 
 I `love` this `one`. `#` is a `placeholder` for the `line number` that you
 `want` to `go to`. Let's say I `want` to `go` to line `15` of a `file` in `Vim`,
@@ -258,7 +258,7 @@ I would `go` into `Normal mode` by `pressing` the `esc` key, `then` would type
 `15G` (`1` key + `5` key + `Shift key` + `G key`), and I would be `taken` to the
 `beginning` of line `15` of a `file` in `Vim`.
 
-### The (lowercase) h shortcut
+### The h shortcut
 
 `When` I `press` the `h` key, the `cursor` moves `one character` to the `left`.
 
@@ -270,34 +270,33 @@ I would `go` into `Normal mode` by `pressing` the `esc` key, `then` would type
 
 `When` I `press` the `k` key, the `cursor` moves `one` line `up`.
 
-### The (lowercase) l shortcut
+### The l shortcut
 
 `When` I `press` the `l` key, the `cursor` moves `one` character `to` the
 `right`.
 
-### The # (number) j shortcut
+### The #j shortcut
 
-`This` is `similar` to [the # (number) G shortcut](#the-number-g-shortcut).
-`When` I `press` the Shift key + `6` key + `j` key, for example, the `cursor`
-moves `6` lines `down`.
+`This` is `similar` to [the #G shortcut](#the-g-shortcut). `When` I `press` the
+Shift key + `6` key + (lowercase) `j` key, for example, the `cursor` moves `6`
+lines `down`.
 
-### The # (number) k shortcut
+### The #k shortcut
 
-`This` is `similar` to [the # (number) G shortcut](#the-number-g-shortcut).
-`When` I `press` the `8` key + (lowercase) `k` key, for example, the `cursor`
-moves `8` lines `up`.
+`This` is `similar` to [the #G shortcut](#the-g-shortcut). `When` I `press` the
+`8` key + (lowercase) `k` key, for example, the `cursor` moves `8` lines `up`.
 
-### The (lowercase) w shortcut
+### The w shortcut
 
 `When` I `press` the `w` key, the `cursor` moves to the `beginning` of the
 `next word`.
 
-### The (lowercase) b shortcut
+### The b shortcut
 
 `When` I `press` the `b` key, the `cursor` moves to the `beginning` of the
 `previous word`.
 
-### The (lowercase) e shortcut
+### The e shortcut
 
 `When` I `press` the `e` key, the `cursor` moves to the `end` of a `word`.
 
@@ -305,19 +304,19 @@ moves `8` lines `up`.
 
 `When` I `press` the `Shift` key + `w` key, the `cursor` moves to the
 `beginning` of the `next word` after a `whitespace`. This is `basically` the
-`same` as [the (lowercase) w shortcut](#the-lowercase-w-shortcut).
+`same` as [the w shortcut](#the-w-shortcut).
 
 ### The (uppercase) B shortcut
 
 `When` I `press` the `Shift` key + `b` key, the `cursor` moves to the
 `beginning` of the `previous word` before a `whitespace`. This is `basically`
-the `same` as [the (lowercase) b shortcut](#the-lowercase-b-shortcut).
+the `same` as [the b shortcut](#the-b-shortcut).
 
 ### The (uppercase) E shortcut
 
 `When` I `press` the `Shift` key + `e` key, the `cursor` moves to the `end` of a
 `word` before a `whitespace`. This is `basically` the `same` as
-[the (lowercase) e shortcut](#the-lowercase-e-shortcut).
+[the e shortcut](#the-e-shortcut).
 
 ### The 0 (zero) shortcut
 
@@ -334,7 +333,7 @@ key + `6` key, the `cursor` moves to the `beginning` of a `line`.
 `When` I `press` the `Shift` key + `4` key, the `cursor` moves to the `end` of a
 line.
 
-### The (lowercase) r shortcut
+### The r shortcut
 
 `When` I `move` the `cursor` over a `particular character` I `want` to
 `replace`, I `press` the `r` key, and `then` I `press` the `key` of the
@@ -344,22 +343,20 @@ The `way` this `shortcut` works is `when` I` move` the `cursor` over the
 `character` I `want` to `replace`, and then `press` the `r` key, the `character`
 I `want` to `replace` is `first replaced` by an `r` character, and `then` when I
 `press` the `character` (`key`) I `want` to `replace` it `with`, it `replaces`
-the `r` that `appeared` when I `executed`
-[the (lowercase) r shortcut](#the-lowercase-r-shortcut).
+the `r` that `appeared` when I `executed` [the r shortcut](#the-r-shortcut).
 
-### The (lowercase) x shortcut
+### The x shortcut
 
-This `shortcut` is `similar` to
-[the (lowercase) r shortcut](#the-lowercase-r-shortcut). `When` I `move` the
-`cursor` over the `character` I `want` to `delete`, I then `press` the `x` key,
-and the `character` is `deleted`. This `shortcut` is also `referred` to `as` the
-"Delete button".
+This `shortcut` is `similar` to [the r shortcut](#the-r-shortcut). `When` I
+`move` the `cursor` over the `character` I `want` to `delete`, I then `press`
+the `x` key, and the `character` is `deleted`. This `shortcut` is also
+`referred` to `as` the "Delete button".
 
 The `way` this `shortcut` works is `when` I `move` the `cursor` over the
 `character` I `want` to `delete`, and then `press` the `x` key, the `character`
 I `wanted` to `delete` is `deleted`. `But` if I `want` to `bring back` the
 `character` I have `deleted`, I `press` the (`lowercase`) `u` key which
-`executes` [the (lowercase) u shortcut](#the-lowercase-u-shortcut).
+`executes` [the u shortcut](#the-u-shortcut).
 
 ### The (uppercase) X shortcut
 
@@ -370,13 +367,13 @@ is `highlighting` one). `So` if you `delete` an `entire line` using
 `character` the `cursor` is `highlighting`, you can `press` the (`lowercase`)
 `x` key, and the `character` will be `removed`.
 
-### The (lowercase) dw shortcut
+### The dw shortcut
 
 `When` I `highlight` a `word`, and then `press` the `d` followed by the `w` key,
 the `word` is `deleted`. And `if` I `want` to `bring back` that `word`, I would
 `press` the (`lowercase`) `u` key to `undo` that `edit`. `If`, `however`, I
 `wanted` to `replace` the `word` I `deleted`, I would `want` to `use`
-[the (lowercase) cw shortcut](#the-lowercase-cw-shortcut).
+[the cw shortcut](#the-cw-shortcut).
 
 `In order` to `highlight` a `complete word`, I `have` to enter `Visual mode`. To
 `switch` from `Normal Mode` to `Visual mode`, I `first` press the `esc` key and
@@ -386,7 +383,7 @@ either the `forward arrow` key to `highlight` the `word` to the `right` of the
 `cursor`, making sure to `end` highlighting `after` the `last character` of the
 `word`, or the `left arrow` key to `do` the `same` in the `opposite direction`.
 
-### The (lowercase) cw shortcut
+### The cw shortcut
 
 `When` I `highlight` a `word`, and then `press` the `c` key `followed` by the
 `w` key, the `word` is `deleted`, and I then `replace` it with `another one`.
@@ -399,7 +396,7 @@ either the `forward arrow` key to `highlight` the `word` to the `right` of the
 `cursor`, making sure to `end` highlighting `after` the `last character` of the
 `word`, or the `left arrow` key to `do` the `same` in the `opposite direction`.
 
-### The (lowercase) s shortcut
+### The s shortcut
 
 `When` I `highlight` a `character` with the `cursor` and then `press` the `s`
 key, I then `press` the `key` of the `character` I `want` to `replace` it
@@ -418,7 +415,7 @@ that `content`, and `then` I can `type` in `what` I `want` to `replace` it
 then `press` the `Shift` + `d` key, it `deletes` the `line` from `that point` to
 the `end` of the `line`.
 
-### The (lowercase) dd shortcut
+### The dd shortcut
 
 `When` I `select` the `point` from `which` I `want` to `delete` a `line` using
 the `cursor`, I then `press` the `d` key `followed` by `pressing` the `d` key
@@ -432,30 +429,29 @@ is `deleted`.
 but `when` I `press` the `Shift` key + `c` key, `after` the (`part of`) the
 `line` has been `deleted`, I can `replace` it with `new content`.
 
-### The (lowercase) yy shortcut
+### The yy shortcut
 
-`This` works `similarly` to
-[the (lowercase) dd shortcut](#the-lowercase-dd-shortcut), `except` that
-`instead` of the `line` being `deleted`, `it` is `copied`. I `first` place the
-`cursor` where I `want` to start `copying` the `line`, and `then` I `press` the
-(`lowercase`) `y` key `followed` by `pressing` the (`lowercase`) `y` key
-`again`, `and` the `part` of the `line` I `selected` (or the `complete line` if
-I `placed` the `cursor` at the `beginning` of the `line`) is `copied` to the
-`clipboard`.
+`This` works `similarly` to [the (lowercase) dd shortcut](#the-dd-shortcut),
+`except` that `instead` of the `line` being `deleted`, `it` is `copied`. I
+`first` place the `cursor` where I `want` to start `copying` the `line`, and
+`then` I `press` the (`lowercase`) `y` key `followed` by `pressing` the
+(`lowercase`) `y` key `again`, `and` the `part` of the `line` I `selected` (or
+the `complete line` if I `placed` the `cursor` at the `beginning` of the `line`)
+is `copied` to the `clipboard`.
 
-### The (lowercase) p shortcut
+### The p shortcut
 
 `After` I have `copied` a `line` (or `part` of `it`) `as per`
-[the (lowercase) yy shortcut](#the-lowercase-yy-shortcut), I `press` the `p`
-key, and the `line` is `pasted` below the `line` I `copied`.
+[the yy shortcut](#the-yy-shortcut), I `press` the `p` key, and the `line` is
+`pasted` below the `line` I `copied`.
 
 ### The (uppercase) P shortcut
 
 `After` I have `copied` a `line` (or `part` of `it`) `as per`
-[the (lowercase) yy shortcut](#the-lowercase-yy-shortcut), I `press` the `Shift`
-key + the `p` key, `and` the `line` is `pasted above` the `line` I `copied`.
+[the yy shortcut](#the-yy-shortcut), I `press` the `Shift` key + the `p` key,
+`and` the `line` is `pasted above` the `line` I `copied`.
 
-### The (lowercase) u shortcut
+### The u shortcut
 
 `When` I `press` the `u` key, it `undoes` the `last change` I `made`. I `can`
 also `keep` on `pressing` the `u` key in `order` to `keep` on `undoing` previous
@@ -468,9 +464,9 @@ key `followed` by the `:` (`Shift key` + (`;`) `semi-colon` key), `and` I
 ### The Control + r shortcut
 
 The `Control key` + `r` key `undoes` my `undo` I `executed` with
-[the (lowercase) u shortcut](#the-lowercase-u-shortcut). And `if` I `want` to
-`revert` to my `latest undo`, I just `press` the (`lowercase`) `u` key
-`executing` [the (lowercase) u shortcut](#the-lowercase-u-shortcut).
+[the u shortcut](#the-u-shortcut). And `if` I `want` to `revert` to my
+`latest undo`, I just `press` the (`lowercase`) `u` key `executing`
+[the u shortcut](#the-u-shortcut).
 
 ### Repeating commands
 
@@ -484,16 +480,16 @@ my `deletion` with the `cursor`, and `then` I would `press` the `6` key
 `followed` by the `d` key `and` the `d` key `again` (`6dd`). `This` would
 `delete` the `line` where the `cursor` is `located` and `5` lines `after` that.
 
-To `repeat` [the (lowercase) yy shortcut](#the-lowercase-yy-shortcut), I would
-`highlight` the `beginning` of the `line` I `wanted` to `start` my `copying`
-with the `cursor`, and `then` I would `press` the `6` key (`again`,
-`for example`) `followed` by the `y` key and the `y` key `again` (`6yy`).
-`Next`, I would `move` the `cursor` below the `current line` and then `move` it
-5 `times` more, for a `total` of `6` lines, `stopping` at the `last line` I
-`want` to `copy` (the `cursor` should `appear` to `"underline"` that `line`).
-`This` would `copy` the `line` where the `cursor` `began` and `5` lines `after`
-that. `Lastly`, I would `press` the (`lowercase`) `p` key, `not` moving the
-`cursor`, and `this` would `paste` the `6` lines I `copied`.
+To `repeat` [the yy shortcut](#the-yy-shortcut), I would `highlight` the
+`beginning` of the `line` I `wanted` to `start` my `copying` with the `cursor`,
+and `then` I would `press` the `6` key (`again`, `for example`) `followed` by
+the (lowercase) `y` key and the (lowercase) `y` key `again` (`6yy`). `Next`, I
+would `move` the `cursor` below the `current line` and then `move` it 5 `times`
+more, for a `total` of `6` lines, `stopping` at the `last line` I `want` to
+`copy` (the `cursor` should `appear` to `"underline"` that `line`). `This` would
+`copy` the `line` where the `cursor` `began` and `5` lines `after` that.
+`Lastly`, I would `press` the (`lowercase`) `p` key, `not` moving the `cursor`,
+and `this` would `paste` the `6` lines I `copied`.
 
 The `screenshot` below `shows` the `first line` which I `wanted` to
 `start copying` from and `where` I `placed` the `cursor` at the `beginning` of
@@ -530,15 +526,15 @@ text `editor`. I `can` enter `Insert mode` by `using` an `insert shortcut` from
 
 `There` are `several ways` of entering `Insert mode`.
 
-### The (lowercase) i shortcut
+### The i shortcut
 
-`When` I `press` the `i` key, I am `switched` into `Insert mode`. I `know` I am
-in `Insert mode` because `-- Insert ---` appears at the `bottom` of the
-`window`.
+`When` I `press` the (lowercase) `i` key, I am `switched` into `Insert mode`. I
+`know` I am in `Insert mode` because `-- Insert ---` appears at the `bottom` of
+the `window`.
 
-![Screenshot of the (lowercase) i shortcut](Screen-Recording-2024-08-19-at-10.22.20-PM.gif)
+![Screenshot of the i shortcut](Screen-Recording-2024-08-19-at-10.22.20-PM.gif)
 
-_Screen recording of the (lowercase) i shortcut_
+_Screen recording of the i shortcut_
 
 ### The (uppercase) I shortcut
 
@@ -550,11 +546,11 @@ the `cursor` moves to the `beginning` of the `line` (if it is `not` already
 
 _Screen recording of the (uppercase) I shortcut_
 
-### The (lowercase) a shortcut
+### The a shortcut
 
-[The (lowercase) a shortcut] `behavior` is `almost` the `same` as [the
-(lowercase) i shortcut](the (lowercase) i shortcut). The `only difference` is
-`that` when I `press` the `a` key, and when `-- Insert ---` appears at the
+[The a shortcut] `behavior` is `almost` the `same` as
+[the i shortcut](3the-i-shortcut). The `only difference` is `that` when I
+`press` the (lowercase) `a` key, and when `-- Insert ---` appears at the
 `bottom` of the `window`, the `cursor` moves `from` the `beginning` of the
 `line` to the `next character` to the `right`.
 
@@ -571,11 +567,11 @@ and the `cursor` moves `to` the `end` of the `line`.
 
 _Screen recording of (uppercase) A shortcut_
 
-### The (lowercase) o shortcut
+### The o shortcut
 
-`After` I `press` the `o` key, I `switch` into `Insert mode`, and the `cursor`
-moves `down` to the `second line`, `creating` a new `line space`. The `contents`
-of the `second line` is moved `down` to the `third line`.
+`After` I `press` the (lowercase) `o` key, I `switch` into `Insert mode`, and
+the `cursor` moves `down` to the `second line`, `creating` a new `line space`.
+The `contents` of the `second line` is moved `down` to the `third line`.
 
 ![Screen recording of the (lowercase) o shortcut](Screen-Recording-2024-08-19-at-10.51.51-PM.gif)
 
@@ -606,13 +602,13 @@ this `will` also `mark` the `starting` selection `point`. `Then` I `move` the
 `cursor` to the `end selection point`, and `Vim` provides a `visual highlight`
 of the `text selection`.
 
-### The (lowercase) v shortcut
+### The v shortcut
 
 This `shortcut` is also `known` as the `Visual mode visual subtype`.
 
 `When` I `want` to enter `Visual mode visual subtype`, I `first` press the `esc`
-key to `exit` whatever `mode` I was `in`, and `then` I `press` the `v` key, this
-`switches` me into `Visual mode`, and `will` also `mark` the
+key to `exit` whatever `mode` I was `in`, and `then` I `press` the (lowercase)
+`v` key, this `switches` me into `Visual mode`, and `will` also `mark` the
 `start selection point`. `When` I `move` the `cursor` across the the
 `first line`, the `cursor` moves `character` by `character`.
 
