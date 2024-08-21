@@ -8,6 +8,7 @@ const SocialIcon = ({ name, href, size = 8 }) => {
 		email: SvgIconsComponent.Email,
 		sitemap: SvgIconsComponent.Sitemap,
 		tumblr: SvgIconsComponent.Tumblr,
+		dev: SvgIconsComponent.Dev,
 	}
 
 	if (name in ComponentsMap) {
