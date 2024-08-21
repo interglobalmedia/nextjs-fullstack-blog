@@ -2,7 +2,7 @@
 
 /* dark footer anchor styling */
 .dark footer a {
-    /* stylelint-disable scss/no-global-function-names */
+	/* stylelint-disable scss/no-global-function-names */
 	color: lighten($tailwind-lighter-orange, 7.5%);
 }
 
@@ -13,7 +13,8 @@
 .dark div > div.footer-twitter,
 .dark div > div.footer-linkedin,
 .dark div > div.footer-sitemap,
-.dark div > div.footer-tumblr {
+.dark div > div.footer-tumblr,
+.dark div > div.footer-dev {
 	fill: darken($aussie-blue, 12.5%);
 
 	&:hover {
