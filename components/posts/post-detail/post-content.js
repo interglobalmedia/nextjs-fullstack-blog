@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import { Fragment } from 'react'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import atomDark from 'react-syntax-highlighter/dist/cjs/styles/prism/atom-dark'
+import python from 'react-syntax-highlighter/dist/cjs/languages/prism/python'
 import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript'
 import css from 'react-syntax-highlighter/dist/cjs/languages/prism/css'
 import sh from 'react-syntax-highlighter/dist/cjs/languages/prism/bash'
@@ -23,6 +24,7 @@ import ScrollStep from '../../buttons/scroll-step'
 import ScrollTop from '../../buttons/scroll-top'
 
 SyntaxHighlighter.registerLanguage('js', js)
+SyntaxHighlighter.registerLanguage('python', python)
 SyntaxHighlighter.registerLanguage('css', css)
 SyntaxHighlighter.registerLanguage('shell', sh)
 SyntaxHighlighter.registerLanguage('json', json)
