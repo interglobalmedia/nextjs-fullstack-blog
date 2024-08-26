@@ -1,0 +1,95 @@
+---
+slug: how-to-find-an-unclosed-quote-in-your-zshrc-file-in-macos
+date: '2024-08-25T20:14:31.650Z'
+lastModified: '2024-08-25T20:14:31.650Z'
+title: How to find an unclosed quote in your .zshrc file in macOS
+author: Maria D. Campbell
+excerpt: How to find an unclosed quote in your .zshrc file in macOS.
+image: mick-haupt-eQ2Z9ay9Wws-unsplash.jpg
+tags: ['macOS', 'warp terminal', 'agent mode', 'grep', 'regex']
+isPublished: true
+isFeatured: true
+---
+
+![Man searching through foreign text with a magnifying glass](mick-haupt-eQ2Z9ay9Wws-unsplash.jpg)
+
+**_Photo by_** [Mick Haupt](https://unsplash.com/@rocinante_11) **_on_**
+[unsplash.com](https://unsplash.com/photos/person-holding-magnifying-glass-eQ2Z9ay9Wws)
+
+## Table of Contents
+
+-   [Using the grep command to find where an unclosed quote is located in your .zshrc file](#using-the-grep-command-to-find-where-an-unclosed-quote-is-located-in-your-zshrc-file)
+-   [Breaking down the grep command](#breaking-down-the-grep-command)
+-   [The regex meaning](#the-regex-meaning)
+-   [Related Resources](#related-resources)
+
+## Using the grep command to find where an unclosed quote is located in your .zshrc file
+
+I was `fixing` my `pyenv` installation in `macOS Sonoma` v14.6.1, and I `added`
+some `pyenv` related `configurations` to my `.zshrc` file. `As` a `result`, I
+`inadvertently removed` a `closing` double `quote` somewhere. When I `ran` the
+`exec $SHELL` command to `restart` my `shell`, I `got back` the `following` in
+`Terminal`:
+
+```shell
+/Users/mariacam/.zshrc:132: unmatched "
+```
+
+I `tried` to `manually` skim `through` the `file` to` find` the `mismatch`, but
+it was `impossible`. I `searched` for a `solution`, and `found` it on
+[Unix & Linux stack exchange](https://unix.stackexchange.com/questions/631633/zsh-when-running-source-i-get-zshrc116-unmatched):
+
+```shell
+# ran the command from ~ (/Users/mariacam)
+grep -E -n  '^[^"]*"[^"]*$' .zshrc
+```
+
+The `following` was `returned` in `Terminal`:
+
+```shell
+125:export PATH="$PATH:/Users/mariacam/.local/bin
+```
+
+`All` I `had` to `do` was `go` to line `125` in my `.zshrc` file and `add` a
+closing `"` double quote.
+
+## Breaking down the grep command
+
+The `grep` command is `for` searching `text` using `patterns`. In the `grep`
+command,
+
+> The `-E` option enables extended regular expressions, allowing you to use more
+> complex patterns in your search.
+>
+> The `-n` option includes the line numbers in the output, so you can see which
+> lines the pattern matched.
+
+I `got` the `answer` quickly `from` the [Warp Terminal](https://docs.warp.dev/)
+`when` I `turned on`
+[Agent Mode](https://docs.warp.dev/features/warp-ai/agent-modea).
+
+Basically, `grep -E -n '^[^"]*"[^"]*$' .zshrc` means that I am `looking` for a
+`double quote` mismatch (a `missing` double `quote`) in my `.zshrc` file.
+
+## The regex meaning
+
+But `what` does the `'^[^"]*"[^"]*$'` regex `exactly` mean?
+
+-   `^`: Indicates the position is at the start of the line.
+-   `[^"]*`: Matches zero or more characters that are not double quotes (`"`).
+-   `"`: Matches a single double quote.
+-   `[^"]*`: Matches zero or more characters that are not double quotes (`"`).
+-   `$`: Indicates the position is at the end of the line.
+
+We have `export PATH=` containing `characters` which are `not` double `quotes`,
+`followed` by a `single` double `quote`, then `$PATH:/Users/mariacam/.local/bin`
+containing `characters` which are `also` not `double quotes`, and `then` no
+closing `double quote`!
+
+This `grep` command can be `used` in any `file` that `depends` on `matching`
+double `quotes`, not just a `.zshrc` file.
+
+## Related Resources
+
+-   [zsh: When running source I get zshrc:116: unmatched](https://unix.stackexchange.com/questions/631633/zsh-when-running-source-i-get-zshrc116-unmatched):
+    **_Unix & Linux stack exchange_**
