@@ -1,0 +1,94 @@
+---
+slug: how-to-determine-whether-your-xcode-installupgrade-has-been-successful-or-not
+date: '2024-08-26T13:31:07.380Z'
+lastModified: '2024-08-26T13:31:07.380Z'
+title:
+    How to determine whether your xCode install/upgrade has been successful or
+    not
+author: Maria D. Campbell
+excerpt:
+    How to determine whether your xCode install or upgrade has been successful
+    or not.
+image: xcode.svg
+tags: ['macOS', 'echo', '$?', 'xcodebuild -version', 'xCode', 'command line']
+isPublished: true
+isFeatured: false
+---
+
+![macOS xCode](xcode.svg)
+
+**_macOS xCode_**
+
+## Table of Contents
+
+-   [The xcodebuild -version command](#the-xcodebuild-version-command)
+-   [The echo command and what it does](#the-echo-command-and-what-it-does)
+-   [The $? special variable and what it means](#the-special-variable-and-what-it-means)
+
+## The xcodebuild -version command
+
+Recently I `had` to `update` xCode, because the `version` I was `using` was too
+old. I had `version` 15.1 beta, but the `latest` is now `version` 16.0 beta.
+
+When I ran the `xcodebuild -version` command `before` I `upgraded` xCode, the
+`following` was `returned`:
+
+```shell
+xcode-select: error: tool 'xcodebuild' requires Xcode, but active developer directory'/Library/Developer/CommandLineTools' is a command line tools instance
+```
+
+I `checked` the `current version` of `xCode`, and it was `16.0`. It was `time`
+to `upgrade`.
+
+I `downloaded` the `latest version`, `moved` the `current version` which
+`resided` in `Applications` to the `trash`, and `moved` the `new version` into
+`Applications`.
+
+## The echo command and the special `$?` variable
+
+`In order` to doubly `make sure` that I had `successfully` installed `xCode`
+version `16.0 beta`, I `ran` the `following command`:
+
+```shell
+xcodebuild -version; echo "# exit code: $?"
+```
+
+And the `following` was `returned` in Terminal:
+
+```shell
+Xcode 16.0
+Build version 16A5230g
+# exit code: 0
+```
+
+The `first` two `lines` are the `result` of `xcodebuild -version`. The `;`
+(`semi-colon`) `separates` the `xcodebuild -version` command `from` the
+`echo "# exit code: $?"` command.
+
+`# exit code: 0` is the `result` of the `echo "# exit code: $?"` command.
+
+### The echo command and what it does
+
+The `echo `command is `used` to `display` a `line` of `text` or `string` that is
+`passed` as an `argument` to `echo`. It is `used` in `scripts` and `Terminal`
+commands to `output` text as `stdout` in `Terminal`. Here, `"# exit code: $?"`
+is the `string` argument `passed` to `echo`.
+
+### The $? special variable and what it means
+
+`$?` is a `special variable` in the (current) shell (`zsh`, for example) that
+`stores` the `exit status` of the `last command` that was `executed`. The
+`exit status` is a `numerical value` returned by the `command` to `indicate`
+whether it `succeeded` or `failed`. If a `0` is `returned`, the `command` was
+`successful`. If a `1` is `returned`, the command `failed`.
+
+`xcodebuild -version;` is the `last command` before the `echo` command that was
+`executed`. Therefore, the `exit code` stored in `$?` is `that` of the
+`xcodebuild -version;` command. And since `0` is `returned`, it `means` that
+`installation` of xCode `16.0 beta` was `successful`.
+
+I `also` could have `run` this `command` before I `installed` the
+`latest version` of `xCode`, and `in` that `case`, an `exit code` of `1` would
+`have` been `returned`, which would `mean` that `CommandLineTools` was
+`configured` instead of `xCode`, as `indicated` in the `stdout` of the initial
+`xcodebuild -version;` command to `Terminal`.
