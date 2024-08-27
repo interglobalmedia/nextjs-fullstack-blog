@@ -1313,6 +1313,18 @@ Which in my case returns:
 3.12.5 3.8.2  3.8.3
 ```
 
+Each Python version that is installed with pyenv is located nicely in the
+`.pyenv` root `directory` (`~/.pyenv/versions/`). And pyenv builds Python from
+source. For example, if I run the command `cd .pyenv/versions/` from my home
+directory, the following is returned:
+
+```shell
+~/.pyenv/versions git: (master)
+```
+
+`pyenv` builds `Python` from its `remote` Git `repository` as `indicated` by
+`git: (master)`.
+
 This `was` very `helpful` in `figuring out` how I had `installed` Python `3.8.3`
 so that I would `know how` to `update` Python from `3.8.3` to `3.12.5`.
 
