@@ -43,6 +43,7 @@ isFeatured: false
     -   [The directory structure](#the-directory-structure)
 -   [Installing pyenv with Homebrew](#installing-pyenv-with-homebrew)
     -   [Fixing the pyenv install](#fixing-the-pyenv-install)
+    -   [Selecting a Python interpreter inside your Favorite IDE](#selecting-a-python-interpreter-inside-your-favorite-ide)
     -   [Determining which versions of Python have been installed with pyenv](#determining-which-versions-of-python-have-been-installed-with-pyenv)
     -   [The pyenv local command](#the-pyenv-local-command)
 -   [Installing virtualenv](#installing-virtualenv)
@@ -1340,6 +1341,19 @@ I ran `pyenv local 3.12.5` in `/Users/mariacam`, my `home` directory. I `did`
 this `so` that `all` other `directories` and `subdirectories` within the `home`
 directory would `all inherit` this `command`. `And` they `did`.
 
+## Selecting a Python interpreter inside your Favorite IDE
+
+`Before` installing `virtualenv`, I `select` a `Python` interpreter in
+`Visual Studio Code`. There are `many interpreters` to `choose from`:
+
+![Screenshot of Python interpreters available in Visual Studio Code](Screenshot-2024-08-27-at-7.25.19-AM.jpg)
+
+_Screenshot of Python interpreters available in Visual Studio Code_
+
+`Since` I am `using` Python `3.12.5` installed with `pyenv`, I `selected` the
+Python `3.12.5` interpreter `installed` with `pyenv`
+(`~/.pyenv/versions/3.12.5/bin/python`).
+
 ## Installing virtualenv
 
 `Next`, I used `pip` to install `virtualenv`.
@@ -1478,3 +1492,8 @@ Successfully installed asgiref-3.8.1 django-5.1 sqlparse-0.5.1
 ```
 
 `Now` I am `ready` to continue `developing` my `Django` application!
+
+## Related Resources
+
+-   [Create a project environment for the Django tutorial](https://code.visualstudio.com/docs/python/tutorial-django):
+    **_Visual Studio Code docs_**
