@@ -43,6 +43,7 @@ isFeatured: false
     -   [The directory structure](#the-directory-structure)
 -   [Installing pyenv with Homebrew](#installing-pyenv-with-homebrew)
     -   [Fixing the pyenv install](#fixing-the-pyenv-install)
+    -   [Determining which versions of Python have been installed with pyenv](#determining-which-versions-of-python-have-been-installed-with-pyenv)
     -   [The pyenv local command](#the-pyenv-local-command)
 -   [Installing virtualenv](#installing-virtualenv)
     -   [What is virtualenv?](#what-is-virtualenv)
@@ -1296,6 +1297,24 @@ with an `alpha character`.
 
 7. I `ran` the `pyenv local 3.12.5` command, and then ran `python3 --version`.
    This time `Python 3.12.5` was returned!
+
+### Determining which versions of Python have been installed with pyenv
+
+If I wanted to figure out which versions of Python I had installed with pyenv, I
+could run the following command in Terminal:
+
+```shell
+ls ~/.pyenv/versions/
+```
+
+Which in my case returns:
+
+```shell
+3.12.5 3.8.2  3.8.3
+```
+
+This `was` very `helpful` in `figuring out` how I had `installed` Python `3.8.3`
+so that I would `know how` to `update` Python from `3.8.3` to `3.12.5`.
 
 ### The pyenv local command
 
