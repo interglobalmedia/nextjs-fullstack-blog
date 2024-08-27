@@ -1,0 +1,157 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-2
+date: '2024-08-27T09:41:33.119Z'
+lastModified: '2024-08-27T09:41:33.119Z'
+title: How to create a fullstack application using Django and Python Part 2
+author: Maria D. Campbell
+excerpt:
+    How to create a fullstack application using Django and Python Part 2. I
+    create a Django project inside the Django Boards application, break down the
+    project structure and what each component means and does, and after creating
+    the Django project, I start up the development server.
+image: david-clode-PAnoF8sIZTo-unsplash.jpg
+tags: ['macOS']
+isPublished: true
+isFeatured: false
+---
+
+![Python resting on a rock](david-clode-PAnoF8sIZTo-unsplash.jpg)
+
+**_Photo by_** [David Clode](https://unsplash.com/@davidclode) **_on_**
+[unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-PAnoF8sIZTo)
+
+## Table of Contents
+
+-   [Creating a project in the Django application](#creating-a-project-in-the-django-application)
+-   [The new Django Boards structure including the django_boards project](#the-new-django-boards-structure-including-the-django-boards-project)
+-   [Starting up the Django development server](#starting-up-the-django-development-server)
+-   [Footnotes](#footnotes)
+-   [Related Posts](#related-posts)
+-   [Related Resources](#related-resources)
+
+## Creating a project in the Django web application
+
+To `create` (`start`) a `new project` in my `Django` application, I `run` the
+`following command` at the `root` of the `Django` application (`/django-boards`)
+`where` the `venv` folder `resides`:
+
+```shell
+django-admin startproject django_boards
+```
+
+The `Command Line` utility `django-admin` comes `with` a `Django` install.
+`Specifically`, `django-admin` is `Django`'s `command-line utility` for
+`administrative tasks`. It `performs` administrative `tasks` related to
+`Django`, `such` as `starting` a `Django` project or `creating` a new `Django`
+app.
+
+The `django-admin script` should be `on` your `system path` if you `installed`
+Django `via` pip3 **[^1**]. If it’s `not` in your `path`, `make sure` you `have`
+your `virtual` environment `activated`.
+
+`Django` must be `installed globally` for `django-admin` to be `accessible` from
+`anywhere` on your `system`. I `did` install `Django` with `Homebrew` as `well`,
+so I `do` have `access` to `django-admin` outside the `Django` application
+`itself`.
+
+## The new Django Boards structure including the django_boards project
+
+`With` the `addition` of the `django_boards` project `inside` the
+`django-boards` directory, the `django-boards` root `directory` now `contains`
+the `following`:
+
+```shell
+/django-boards # high level Django application folder for Django project(s) and app(s)
+  - /django_boards # root folder of the django_boards project
+    - /django_boards # folder of the django_boards project/package
+      - __init__.py # file
+      - asgi.py # file
+      - settings.py # file
+      - urls.py # file
+      - wsgi.py # file
+    - manage.py # file
+  - /venv # folder
+```
+
+-   `manage.py` is `automatically created` in each` Django` project, and it
+    `does` the `same thing` as `django-admin`. However, it `also sets` the
+    `DJANGO_SETTINGS_MODULE` environment `variable` so that it `points` to your
+    project’s `settings.py` file. I will be using manage.py to run the
+    development server, tests, create migrations, and more.
+-   `__init__.py` initializes the project_boards package. It si an empty file
+    and tells Python that the folder it resides in is a package.
+-   `asgi.py` **[^2]** is `created` with the `startproject` command. The
+    `startproject` command `creates` the `asgi.py` file. It is `not used` by the
+    `development server` (`runserver`), but `can` be `used` by any `ASGI server`
+    either in `development` or in `production`.
+-   `settings.py`contains all the project's configurations.
+-   `urls.py` is responsible for mapping the routes and paths in our project. If
+    we want to display something in a particular URL, we first have to map it
+    here.
+-   `wsgi.py` **[^3]** is a simple gateway interface used for deployment.
+
+## Starting up the Django development server
+
+`Django` comes `with` a `simple` development `server`. To `start up` this
+`development server`, I `run` the `following command` in `Terminal`:
+
+```shell
+python3 manage.py runserver
+```
+
+The `first time` that `python3 manage.py runserver` is `run`, the `following` is
+`returned` in `Terminal`:
+
+```shell
+You have unapplied migrations; your app may not work properly until they are applied.
+Run 'python manage.py migrate' to apply them.
+
+August 22, 2024 - 15:50:53
+Django version 5.1, using settings 'django_boards.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+```
+
+`Ignore` the `warning` about `unapplied` database `migrations` for `now`. It
+`will` be `dealt` with `shortly`.
+
+`Now` I `can` check `out` my `Django` application in the `browser` at
+`http://127.0.0.1:8000/`. It `should` look `something` like the `following`:
+
+![Running the Django  development server](runserver.png)
+
+_Running the Django development server_
+
+`In` the `next section`, I will be `creating` a `Django` app, and will `discuss`
+the `two` central `Django` concepts, `project` and `app`, `in` further `detail`.
+
+## Footnotes
+
+**[^1]**: I refer to `pip3` here because I am working with `Python 3.x`. If I
+had been `working` with a `version` of `Python` < `3.x` (`2.x`), then I would
+simply refer to `pip`.
+
+**[^2]**: `asgi` stands for `Asynchronous Server Gateway Interface`. It was
+`introduced` in `Python 3/Django 3`, but had `limited support`. `Full support`
+was `introduced` in `Django 4` and `later`.` Python 3` has `native syntax` for
+`handling` asynchronous `operations` like `network calls`. `WSGI` and `other`
+synchronous `standards` can’t take `advantage` of the `enhanced performance` and
+`efficiency` of `async`. That `also` means `WSGI` can’t handle
+`advanced protocols` like `WebSocket`.
+
+**[^3]**: `wsgi` stands for `Web Server Gateway Interface`. `WSGI` is
+a` mediator` responsible for `conveying communication` between a `web server`
+and a `Python web application`. It `explains` how the `web server` communicates
+`with` the `app` and `how` the `app` can be `chained` for `processing` a
+`request`. It’s `vital` for `deploying` a `Django` or `Flask` app.
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Part 1](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-1)
+
+## Related Resources
+
+-   [django-admin and manage.py](https://docs.djangoproject.com/en/5.1/ref/django-admin/):
+    **_Django docs_**
+-   [How to deploy with ASGI](https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/):
+    **_Django docs_**
