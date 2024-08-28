@@ -1,0 +1,392 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-3
+date: '2024-08-27T21:02:57.925Z'
+lastModified: '2024-08-27T21:02:57.925Z'
+title: How to create a fullstack application using Django and Python Part 3
+author: Maria D. Campbell
+excerpt:
+    How to create a fullstack application using Django and Python Part 3. In
+    this section, I compare Django projects vs apps, create my first app in the
+    Django project, configure the boards app in the django_boards project,
+image: david-clode-I0gToqo_T80-unsplash.jpg
+tags:
+    [
+        'macOS',
+        'fullstack development',
+        'admin site',
+        'migrations',
+        'models',
+        'views',
+        'python3',
+        'django project',
+        'django app',
+        'urlpatterns',
+        'series',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Man kissing python](david-clode-I0gToqo_T80-unsplash.jpg)
+
+**_Photo by_** [David Clode](https://unsplash.com/@davidclode) **_on_**
+[unsplash.com](https://unsplash.com/photos/a-man-holding-a-large-snake-in-his-arms-I0gToqo_T80)
+
+## Table of Contents
+
+-   [Projects vs apps in Django](#projects-vs-apps-in-django)
+-   [Creating an app in the Django project (django_boards)](#creating-an-app-in-the-django-project-django-boards)
+    -   [Django migrations (migrations directory)](#django-migrations-migrations-directory)
+    -   [⎼⎼init⎼⎼.py](#initpy)
+    -   [The Django admin site (admin.py)](#the-django-admin-site-adminpy)
+    -   [apps.py](#appspy)
+    -   [models.py](#modelspy)
+    -   [tests.py](#testspy)
+    -   [views.py](#viewspy)
+-   [Configuring the boards app in the django_boards project (settings.py)](#configuring-the-boards-app-in-the-django-boards-project-settingspy)
+-   [Writing the first boards app view (views.py)](#writing-the-first-board-app-view-viewspy)
+    -   [Telling the Django project (django_boards) when to serve the view (urls.py)](#telling-the-django-project-django_boards-when-to-serve-the-view-urlspy)
+        -   [Breaking down the (new) code in urls.py](#breaking-down-the-new-code-in-urlspy)
+        -   [Running the development server to view the results of the changes made to views.py and urls.py](#running-the-development-server-to-view-the-results-of-the-changes-made-to-viewspy-and-urlspy)
+-   [Footnotes](#footnotes)
+-   [Other related terms](#other-related-terms)
+
+## Projects vs apps in Django
+
+`Projects` and `apps` are `equally` important `concepts` in `Django`, but they
+`serve` different `purposes`.
+
+A `Django` project `contains` a `high` level `directory` and a `sub-directory`
+by the `same name`, and the `high` level `directory` contains `one` or `more`
+Django `apps`, `settings`, and `configurations` for those `apps`. It `contains`
+all the `files` and `directories` needed for the (`high-level`) Django `project`
+to `run`. It's also `where` we `define` database `settings`, `URL routing`, and
+other `global configurations` for the `apps` it `contains`.
+
+A `Django` app `is` a self-contained `module` that `can` be `plugged` into any
+`Django` project. A `Django` app `serves` a `specific purpose` or `feature` in a
+`Django` project, and `includes`, `models`, `views`, `templates`, and `static`
+files.
+
+However, we `can’t run` a `Django` app `without` a `project`.
+
+`One example` of a `Django` app is a `web blog`, which can be `all inclusive`
+inside a `Django` app.
+
+## Creating an app in the Django project (django_boards)
+
+The `next step` in the `creation` of a `Django` (`web`) `application` is to
+`create` a `Django` app `inside` the `Django` project. I will be `creating` an
+`app` called `boards`.
+
+`In order` to `create` my `app`, I `have` to `go` into the `directory` that
+`contains` the `manage.py` file. `In` my `case`, that is the `top level`
+django_boards `project` directory. For a `project` structure `refresher`, please
+visit
+[How to create a fullstack application using Django and Python Part 2](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-2).
+
+`Next`, I `run` the `following command` in `Terminal`:
+
+```shell
+django-admin startapp boards
+```
+
+This `results` in the `following additions` to the `top-level` django_boards
+`directory`:
+
+```shell
+/django-boards # high level Django application folder for Django project(s) and app(s)
+  - /django_boards # root folder of the django_boards project
+    - /boards # app folder
+      - __init__.py # file
+      - admin.py # file
+      - apps.py # file
+      - /migrations # folder
+        - __init__.py # file
+      - models.py # file
+      - tests.py # file
+      - views.py # file
+    - /django_boards # folder of the django_boards project/package
+      - __init__.py # file
+      - asgi.py # file
+      - settings.py # file
+      - urls.py # file
+      - wsgi.py # file
+    - manage.py # file
+  - /venv # folder
+```
+
+### Django migrations (migrations directory)
+
+The `migrations directory` is `where` the `migration` files for the `boards` app
+`reside`. They should be `committed` to, and `distributed` as `part` of the
+`codebase`.
+
+The `files` inside the `migrations` directory `keep track` of the `changes` made
+in the `models.py` file in the `Django` app, `where` the `models` themselves
+reside. This `keeps` the `database` and `models` in `sync`.
+
+`Migrations` pass on `changes` I `make` to my `models`, `such` as `adding` a
+`field`, `deleting` a `model`, etc., `into` my `database schema` **[^1]**.
+
+`When` the `Django` application `runs`, `Django` translates the `Python` models
+into `database schemas`, `mapping` each `model` to a `corresponding` database
+`table` and `each field` to a `corresponding column` in the `table`.
+
+`Even though` the `migration process` is `automated`, we `need` to `know` when
+to `make` migrations, `when` to `run` them, and the `issues` we might `face`.
+
+### ⎼⎼init⎼⎼.py
+
+`Just` as `with` the `⎼⎼init⎼⎼.py` file in the `django_boards` project,
+`⎼⎼init⎼⎼.py` in the `boards` app is a `special file` used to `initialize` the
+`boards'` app's `namespaces` **[^3]**. It is `executed` when a `package` is
+`imported`. `Without` this `file`, `Python` won’t `recognize` a `directory` as a
+`package`.
+
+`⎼⎼init⎼⎼.py` recognizes a `directory` as a `Python` package so the `Python`
+interpreter can `detect` the `modules` inside.
+
+`⎼⎼init⎼⎼.py` can contain `initialization code` for the `package`, `such` as
+`importing` submodules, `defining` variables, or `executing` other `code`.
+
+### The Django admin site (admin.py)
+
+The `Django` admin `site` is an `"automatic"` admin `interface` which reads
+`metadata` from our `models` to `provide` a model-centric `interface` where
+`trusted users` can manage `content` on the `site`. It's `recommended` to `use`
+it as an `internal` management `tool` and `not` for `building` a `site`'s
+`front end`.
+
+The `admin.py` file is `where` the
+[ModelAdmin class](https://docs.djangoproject.com/en/5.1/ref/contrib/admin/)
+`resides`. It is `also where` we `register` our `models` which we `create` in
+`models.py`.
+
+### apps.py
+
+The `apps.py` file is `located` in the `boards` app, and it is the
+`configuration` file for the `django_boards` project's `boards` app. This is
+`where` the `BoardsConfig` class is `located` and `which` is `used` in
+`INSTALLED_APPS` setting in `settings.py`. See
+[Configuring the boards app in the django_boards project (settings.py)](#configuring-the-boards-app-in-the-django-boards-project-settingspy)
+`for` more `information`.
+
+### models.py
+
+`models.py` defines the `structure` of a `Django` app's `database`. `In` this
+`case`, `it is` the `boards` app.
+
+### tests.py
+
+The `tests.py` file is `where` we `create` automated `tests` for the `Django`
+app. The `Django` testing `system` automatically `detects` tests in any `file`
+whose `name` begins with `"test"`.
+
+### views.py
+
+The `views.py` file `contains` the `views` of a `Django` app. `Django` views are
+`functions` that take `http requests` and return `http responses`. `Each` view
+`performs` a `different task`.
+
+## Configuring the boards app in the django_boards project (settings.py)
+
+`In order` to `configure` the `django_boards` project to `use` the `newly`
+created `boards` app, I `have` to `add` a `reference` to its `configuration`
+class, `located` in the `boards` app's `apps.py` file, in the `INSTALLED_APPS`
+setting in `settings.py`. `After` I `add` it to the I`NSTALLED_APPS` setting, it
+`should` look `like` the `following`:
+
+```shell
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'boards.apps.BoardsConfig', # boards app configuration
+]
+```
+
+## Writing the first boards app view (views.py)
+
+`Now` that I `have` a [views.py](#viewspy) `file` for my `boards` app `views`, I
+`create` my first `view` inside:
+
+```shell
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse('Hello, World!')
+```
+
+I `created` a simple `function` called `index`, which `refers` to the
+`Django Boards` application `home page`, `sends` an `Http` request for the
+`index` page, and `receives` an `HttpResponse` with the `text` string
+`'Hello, World!'`. `As` mentioned `earlier`, `Django` views are `Python`
+functions which `receive` an `HttpRequest` object (`request`) and `return` an
+`HttpResponse` object.
+
+## Telling the Django project (django_boards) when to serve the view (urls.py)
+
+The `django_boards` project `urls.py` file `contains` the `URL declarations` for
+the `django_boards` project. It `represents` a `table` of `contents` of the
+`Django` site.
+
+`Initially` I `added` the `following` to `urls.py` located `inside` the
+`django_boards` project:
+
+```python
+"""
+URL configuration for django_boards project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+
+from boards import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('admin/', admin.site.urls),
+]
+```
+
+The `comment` (in `green`) was `already present` in `urls.py`. It `tells` me
+`how` to `use` the `urls.py` file. `Same` with
+`from django.contrib import admin`, `from django.urls import path`, and:
+
+```python
+urlpatterns = [
+    path('admin/', admin.site.urls),
+]
+```
+
+In `older versions` of `Django`, you `might` see `re_path` imported `and` used
+`instead`:
+
+```python
+from django.urls import path, re_path
+
+urlpatterns = [
+    re_path(r'^$', views.index, name='index'),
+    path('admin/', admin.site.urls),
+]
+```
+
+`re_path` stands for `regular` expression `path`. `However`, `this` is the
+[old way of handling urls](https://stackoverflow.com/questions/55285814/when-should-i-use-path-over-re-path),
+and it's `NOT` recommended to `use` it. The `path` module `should` be `used`
+instead. It `makes` things `simpler` and `more readable`.
+
+```python
+from django.contrib import admin
+from django.urls import path
+
+from boards import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('admin/', admin.site.urls),
+]
+```
+
+### Breaking down the (new) code in urls.py
+
+`First`, I `had` to `import` the `views.py` file `from` the `boards` app:
+
+```python
+from boards import views
+```
+
+`Then` I `had` to add `path('', views.index, name='index'),` to the `top` of the
+`urlpatterns` array:
+
+```python
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('admin/', admin.site.urls),
+]
+```
+
+The `empty string` (`''`) `passed` to `path` represents the `path` to the `home`
+or `index` page (`'/'`). `This` path `url` is `used` to `call` the `index`
+function from `views.py`. It `also means` that I `am able` to `see` the `index`
+view `when` using `either` the `http://localhost:8000` or the
+`http://localhost:8000/` url. `Both urls` will `match` the `index` view.
+
+`views.index` represents the `index` function in `views.py`.
+
+The `name attribute` and its `value` is `referred` to as `url pattern naming`.
+[Naming url patterns](https://docs.djangoproject.com/en/5.1/topics/http/urls/#naming-url-patterns)
+in `Django` is `required` if we `want` to perform `URL reversing` **[^4]**. `I`
+am `not` doing `it` for `that reason` here. `However`, it `helps` better
+`identify` the `purpose` of the `url`.
+
+When `naming` url `patterns`, it is `very important` to choose `names` that
+`will` not `clash` with `other names` in the `global namespace`. `For example`,
+if I` name` a `url` pattern `"index"`, and `another app` uses the `same name`,
+the `url` that the `reverse()` method `finds` depends on `whichever pattern` is
+`last` in the `project`'s `url` patterns `list`. `Putting` a `prefix` on our
+`URL` names, `perhaps taken` from the `app name`, like `boards-index` instead of
+`index`, for example, `decreases` the `chances` of `name collision`.
+
+## Running the development server to view the results of the changes made to views.py and urls.py
+
+`Now`, `when` I `run` the `python3 manage.py runserver` command, `and` then
+`add` the `http://127.0.0.1:8000/` url to the `address bar` in the `browser`,
+the `following appears`:
+
+```shell
+Hello, World!
+```
+
+This `means` I `have` successfully `created` my `first view`!
+
+## Footnotes
+
+**[^1]**: A database schema refers to the logical and visual configuration of an
+entire relational database **[^2]**. The database objects are often grouped and
+displayed as tables, functions, and relations. A schema describes the
+organization and storage of data in a database and defines the relationship
+between various tables. -- **_from_**
+[Database Schema Definition](https://www.solarwinds.com/resources/it-glossary/database-schema),
+**_Solar Winds_**
+
+**[^2]**: A relational database (RDB) is a collection of information that
+organizes data in predefined relationships where data is stored in one or more
+tables (or "relations") of columns and rows, making it easy to see and
+understand how different data structures relate to each other. -- **_from_**
+[What is a relational database?](https://cloud.google.com/learn/what-is-a-relational-database#),
+**_Google Cloud_**
+
+**[^3]**: In general, a namespace is the name of a directory. So the
+"namespaces" referred to here are the directories located within the Django
+boards app.
+
+## Other related terms
+
+-   `Django ORM` is a built-in module in Django. It is a high-level abstraction
+    layer that allows developers to define complex application data models
+    easily. Traditional ORM frameworks rely on tables and foreign keys, but
+    Django models are defined using Python objects and relationships. --
+    **_from_**
+    [Quickly visualize your Django schemas with DjangoViz](https://atlasgo.io/blog/2023/05/17/djangoviz),
+    **_Shani Cohen, AtlasGo_**
+-   `ORM` (`Object Relational Mapping`) is the layer that connects object
+    oriented programming (OOP) to relational databases. -- **_from_**
+    [What is an ORM – The Meaning of Object Relational Mapping Database Tools](https://www.freecodecamp.org/news/what-is-an-orm-the-meaning-of-object-relational-mapping-database-tools/),
+    **_by Ihechikara Abba, freecodecamp_**
