@@ -1,0 +1,183 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-4
+date: '2024-08-28T17:41:19.571Z'
+lastModified: '2024-08-28T17:41:19.571Z'
+title: How to create a fullstack application using Django and Python Part 4
+author: Maria D. Campbell
+excerpt: How to create a fullstack application using Django and Python Part 4.
+image: silas-kohler-C1P4wHhQbjM-unsplash.jpg
+tags:
+    [
+        'macOS',
+        'environment variables',
+        '.env',
+        'fullstack development',
+        'git',
+        'gitignore',
+        'python3',
+        'django',
+        'python-dotenv',
+        'security',
+        'series',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Keys hanging from a keychain](silas-kohler-C1P4wHhQbjM-unsplash.jpg)
+
+**_Photo by_**
+[Silas Köhler](https://unsplash.com/photos/black-skeleton-keys-C1P4wHhQbjM)
+**_on_**
+[unsplash.com](https://unsplash.com/photos/black-skeleton-keys-C1P4wHhQbjM)
+
+**Note**: This article `assumes` that the `reader` already `has` a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Why this section?](#why-this-section)
+-   [Adding a .gitignore file to the root directory of the Django site](#adding-a-gitignore-file-to-the-root-directory-of-the-django-site)
+-   [Making sure the virtual environment is (still) activated](#making-sure-the-virtual-environment-is-still-activated)
+-   [Installing python-dotenv](#installing-python-dotenv)
+-   [Importing dotenv into settings.py and configuring it](#importing-dotenv-into-settingspy-and-configuring-it)
+-   [Adding dotenv to INSTALLED_APPS](#adding-dotenv-to-installed-apps)
+
+## Why this section?
+
+`One thing` that many `fail` to `mention` in `Django Tutorials`,
+`development courses`, or `just` in `general`, is the `importance` of
+`safeguarding` sensitive `information` that a `site` or `application` depends
+`on`. `What` do I `mean` by `that`? Well, most developers `use` the `Git`
+version control `system` to track `changes` in the `development` of their
+`applications`, and `that` includes `pushing` those `changes` to `potentially`
+public `remote repositories` on `Git` hosting `services` such as `Github`.
+
+`Out` of the `box`, `Django` does `include` one `piece` of
+`sensitive information` that is `located` in the `Django` project's
+`settings.py` file. `And` that `is` the `SECRET_KEY`. `There` is `even` a
+`comment` above the `variable` that `states` the `following`:
+
+```python
+# SECURITY WARNING: keep the secret key used in production secret!
+```
+
+`Very true`, `but` it `should` be `kept secret` period! The `minute` after I
+have `created` a `Django` project for a `Django` site, the `settings.py` file is
+`created`. That `means` I `have` to `find` a `way` of `safeguarding` the `value`
+of the `SECRET_KEY` variable. That's `where` the `python-dotenv` package `comes`
+in.
+
+## Adding a .gitignore file to the root directory of the Django site
+
+`After` I `run` the `git init` command to `initialize` a local `Git` repository
+`inside` the `root` directory (`/django-boards`) of my `Django` site, I
+immediately `create` a file called `.gitignore` inside the `same` root
+`directory`, and `add` the `following content`:
+
+```shell
+*.log
+*.pot
+*.pyc
+__pycache__ # I actually added this later once this was created
+django_boards/__pycache__/ # I actually added this later once this was created
+django_boards/boards/__pycache__/ # I actually added this later once this was created
+db.sqlite3
+.env # relevant to this project security
+venv/ # The venv directory should be .gitignored
+.venv # The .venv directory should be .gitignored
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.vscode/ # the .vscode directory, if you have one, should be ignored
+```
+
+## Making sure the virtual environment is (still) activated
+
+`Next`, I `make sure` that I have `activated` the `virtual environment` from
+`inside` the `directory` where the `venv` folder `resides` with the
+`following command`:
+
+```shell
+source venv/bin/activate
+```
+
+I `know` that I `have` successfully `activated` my `virtual environment` if my
+`Terminal` command `prompt` looks `something like` the `following`:
+
+```shell
+(venv)  mariacam@Marias-MBP  ~/Python-Development/django-boards   main ●
+```
+
+## Installing python-dotenv
+
+I `run` the `following command` to install `python-dotenv` from the
+`same directory`:
+
+```shell
+pip3 install python-dotenv
+```
+
+## Importing dotenv into settings.py and configuring it
+
+`In order` for `Django` to `persistently recognize` the `python-dotenv` package,
+I `have` to `import` it into `settings.py`, `load it`, `create` a `path` to the
+`.env` file `where` the `SECRET_KEY` variable `resides`, `and` then `replace`
+the `actual value` of the `SECRET_KEY` with the `SECRET_KEY` variable from the
+`.env` file.
+
+`Below` is `how` I import `dotenv` (`that` is the `name` of the `module`),
+`take` the `environment variable` from `.env`, `create` a `path` to `it`, and
+then `load` it into `settings.py`:
+
+```python
+from dotenv import load_dotenv
+load_dotenv() # take environment variables from .env
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+```
+
+Then I `replace` the `actual value` of `SECRET_KEY` with the `following`:
+
+```python
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = str(os.getenv('SECRET_KEY'))
+```
+
+The `str()` method `transforms` the `value` of the `'SECRET_KEY'` variable to a
+`string`.
+
+Inside of the `.env` file, I `add` something `like` the `following`:
+
+```shell
+SECRET_KEY=valueoftheSECRET_KEYvariableinsidesettings.py
+```
+
+There `should` be `no` space `between` the `=` sign and the `value` of
+`SECRET_KEY`, and `no` quotes `added`.
+
+## Adding dotenv to INSTALLED_APPS
+
+The `last step` in the `process` is to `add` the `dotenv` to the
+`INSTALLED_APPS` array:
+
+```shell
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'boards.apps.BoardsConfig',
+    'dotenv',
+]
+```
+
+`Now` I am `ready` to `initialize` a local `Git` repository `inside` my
+`django-boards` directory, `commit` my `changes`, and `push` them `to` my remote
+`Git` repository on `Github` without `fear` of `exposing` sensitive
+`information` there. It is `safely` stored `solely` on my `local machine` inside
+an `ignored` .env `file`.
