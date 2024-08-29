@@ -24,12 +24,20 @@ ul {
 	}
 }
 
+.content .image + p {
+	text-align: center;
+}
+
 ol {
 	/* stylelint-disable-next-line no-descending-specificity */
 	& li {
 		list-style: decimal;
 		margin-left: 2rem;
 	}
+}
+
+.dark ol {
+	color: $white;
 }
 
 a {
