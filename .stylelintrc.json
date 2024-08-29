@@ -5,6 +5,7 @@
 	],
 	"enableFix": true,
 	"rules": {
-		"scss/no-global-function-names": null
+		"scss/no-global-function-names": null,
+		"no-descending-specificity": null
 	}
 }
