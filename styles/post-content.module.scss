@@ -35,12 +35,14 @@ $asian-green: #96aa9a;
 	margin-top: 0.5rem;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .content .image {
 	margin: var(--size-4) auto;
 	margin-bottom: -1rem;
 	width: 100%;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .content .image + p {
 	text-align: center;
 }
