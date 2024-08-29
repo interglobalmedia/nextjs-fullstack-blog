@@ -32,3 +32,8 @@ h3 {
 	/* stylelint-disable scss/no-global-function-names */
 	color: lighten($tailwind-dark-orange, 5%);
 }
+
+.dark h2 a,
+.dark h3 a {
+	color: lighten($tailwind-dark-orange, 5%) !important;
+}
