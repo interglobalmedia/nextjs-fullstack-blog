@@ -85,6 +85,7 @@ function PostContent(props) {
 							width={600}
 							height={400}
 							layout="responsive"
+							objectFit="contain"
 						/>
 					</div>
 				)
