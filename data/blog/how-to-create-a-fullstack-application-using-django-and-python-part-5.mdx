@@ -1,0 +1,165 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-5
+date: '2024-08-28T20:45:47.915Z'
+lastModified: '2024-08-28T20:45:47.915Z'
+title: How to create a fullstack application using Django and Python Part 5
+author: Maria D. Campbell
+excerpt:
+    How to create a fullstack application using Django and Python Part 5. In
+    this section, I discuss and show how one can change a project name after it
+    has already been created and migrated. It's really not as difficult as it
+    sounds!
+image: chuttersnap-JChRnikx0tM-unsplash.jpg
+tags:
+    [
+        'macOS',
+        'django',
+        'env',
+        'fullstack development',
+        'grep',
+        'pipe',
+        'python3',
+        'series',
+        'virtualenv',
+        'vscode',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Collage of different names and colors](chuttersnap-JChRnikx0tM-unsplash.jpg)
+
+**_Photo by_** [CHUTTERSNAP](https://unsplash.com/@chuttersnap) **_on_**
+[unsplash.com](https://unsplash.com/photos/assorted-color-of-name-cards-JChRnikx0tM)
+
+## Table of Contents
+
+-   [Changing a Django project name after it has already been migrated](#changing-a-django-project-name-after-it-has-already-been-migrated)
+-   [Researching the name changing issue](#researching-the-name-changing-issue)
+-   [Changing old project name to new project name throughout the Django site](#changing-old-project-name-to-new-project-name-throughout-the-django-site)
+-   [Running the env | grep django command](#running-the-env-grep-django-command)
+    -   [Breaking down the env | grep django command](#breaking-down-the-env-grep-django-command)
+-   [Related Posts](#related-posts)
+-   [Related Resources](#related-resources)
+
+## Changing a Django project name after it has already been migrated
+
+`When` I first `created` the `project` for this `Django` site, I `did` not
+`think` much `about` the `project name`, and `named` it `basic_django_web_page`.
+I `named` the `root directory` of the site `basic-django-web-page.` `But` after
+`already` having made `migrations` (`makemigrations`) and then `migrated` the
+`site` (`migrate`), I `wanted` to `change` the root directory of the `Django`
+site to `django-boards`, and the `project name` to `django_boards`. It `made`
+more `sense` and `was` more `consistent` with the `rest` of the
+`site namespaces`. I `had` to `change` both `high level` project `directory` to
+`django_boards` and the porject `subdirectory` to `django_boards` as well.
+
+But `how` was I `going` to do `this`?
+
+## Researching the name changing issue
+
+I `had` never `changed` a `project name` after making `model migrations`, `but`
+I was `determined` to `make` the `name change` so `that` I `would` not `have` to
+`re-create` the `site`. `That` simply `would` have `been` a `waste` of `time`.
+
+I `came across` all `sorts` of `solutions` which `just` didn't `work`, so I
+`won't` even `bother` mentioning `them`. `Then` I `came across` a `thread` on
+`stackoverflow` that `gave me` the `answer`(`s`) I was `looking` for!
+
+## Changing old project name to new project name throughout the Django site
+
+I `typed` in the `old` project `name` in the `Search` (`eyeglass icon`) `field`
+in `Visual Studio Code` to quickly `find` out `where` it `came up` in the
+`project` code `base`:
+
+1. It appeared in `.gitignore`.
+2. It appeared in `manage.py`.
+3. It appeared in `asgi.py`.
+4. It appeared in `settings.py`.
+5. it appeared in `urls.py`.
+
+I `removed` all `instances` of `basic_django_web_page` and `replaced` it with
+`django_boards`. This `included` any `reference` to the `project name` in
+`string comments`! `Those` references `count` too.
+
+`After` I `did` all `that`, `committed` the `changes`, `pushed` them to
+`Github`, and then `tried` to `run` the `development server`, it `worked`.
+
+But... `when` I `went` back `later` to the `same thread` where I `found` my
+`solutions`, I `learned` that `there` was `still` more `checking` I `should do`.
+
+## Running the env | grep django command
+
+I `also learned` in the `stackoverflow` thread (listed in `Related Resources`)
+that I should `run` the `env | grep django` command to `see` if the `old`
+project `name` was `lingering` anywhere in the `virtual environment` (`venv`).
+The `following` was `returned` in `Terminal`:
+
+```shell
+PATH=/Users/mariacam/Python-Development/basic-django-web-page/venv/bin:/Users/mariacam/.pyenv/shims:/Users/mariacam/.pyenv/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/mariacam/mongodb/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:/Library/PostgreSQL/10/bin:/Users/mariacam/.rbenv/bin:/Users/mariacam/.yarn/bin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/Users/mariacam/.nvm/versions/node/v20.15.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/mariacam/.rvm/bin
+PWD=/Users/mariacam/Python-Development/django-boards/django_boards
+OLDPWD=/Users/mariacam/Python-Development/django-boards
+VIRTUAL_ENV=/Users/mariacam/Python-Development/basic-django-web-page/venv
+```
+
+The `new` project `name` was `recognized`, and `was` also `set` in `all` the
+right `places` in the `code base`, i.e., including `DJANGO_SETTINGS_MODULE` in
+`settings.py`,but the `original` root `directory name` did `appear` in the
+`VIRTUAL_ENV` variable.
+
+### Breaking down the env | grep django command
+
+The `env | grep django` command is used to filter environment variables related
+to Django.
+
+-   The `env` command lists all the environment variables in the current shell
+    session.
+-   `|` (pipe) operator pipes the output of the `env` command to the grep
+    command.
+-   `grep django` searches through the output for lines that contain the string
+    `"django"`.
+
+The `env | grep django` command `displays` all `environment variables` that
+include `"django"` in their `names` or `values`. This is `useful` when we `want`
+to `check` any `environment settings` related to `Django`.
+
+`All` I `had` to `do` to `fix` the `value` of `VIRTUAL_ENV` was the `following`:
+
+1. I `opened` up `venv/bin/activate` in `vim` with the `following command`:
+
+```shell
+vim venv/bin/activate
+```
+
+2. `Then` I `added` the `following` at the `bottom` of the `file`:
+
+```shell
+export VIRTUAL_ENV=/Users/mariacam/Python-Development/django-boards/venv
+```
+
+3. `Then` I `ran` the `env | grep django` command `again`, and the `following`
+   was `returned`:
+
+```shell
+PATH=/Users/mariacam/Python-Development/basic-django-web-page/venv/bin:/Users/mariacam/.pyenv/shims:/Users/mariacam/.pyenv/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/mariacam/mongodb/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:/Library/PostgreSQL/10/bin:/Users/mariacam/.rbenv/bin:/Users/mariacam/.yarn/bin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/Users/mariacam/.nvm/versions/node/v20.15.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/mariacam/.rvm/bin
+PWD=/Users/mariacam/Python-Development/django-boards
+OLDPWD=/Users/mariacam/Python-Development/django-boards/django_boards
+VIRTUAL_ENV=/Users/mariacam/Python-Development/django-boards/venv
+```
+
+Success! My `VIRTUAL_ENV` variable `value` was `updated` to the `correct path`!
+
+And `that` is `how` I `changed` the `name` of my `Django` project from
+`basic_django_web_page` to `django_boards`.
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Part 1](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-1)
+-   [How to create a fullstack application using Django and Python Part 2](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-2)
+-   [How to create a fullstack application using Django and Python Part 3](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-3)
+-   [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+
+## Related Resources
+
+-   [Is there an easy way to rename a Django project?](https://stackoverflow.com/questions/18293875/is-there-an-easy-way-to-rename-a-django-project/63303738#63303738):
+    **_stackoverflow_**
