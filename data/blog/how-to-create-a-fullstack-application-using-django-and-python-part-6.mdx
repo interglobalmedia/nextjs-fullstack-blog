@@ -1,0 +1,355 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-6
+date: '2024-08-29T11:28:58.280Z'
+lastModified: '2024-09-01T14:36:58.280Z'
+title:
+    How to create a fullstack application using Django and Python Part 6. In
+    this section, I go over aspects of designing Django Boards. I discuss the
+    basic functionalities and structure of Django Boards, the difference between
+    a standard and admin user, use case diagrams, UML class diagrams, Class
+    diagram relationships, and wireframes.
+author: Maria D. Campbell
+excerpt: How to create a fullstack application using Django and Python Part 6.
+image: class_diagram_relationships.drawio.svg
+tags: ['macOS']
+isPublished: true
+isFeatured: false
+---
+
+![UML Class Diagram Relationships](class_diagram_relationships.drawio.svg)
+
+_UML Class Diagram Relationships_
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Designing the Django Boards application](#designing-the-django-boards-application)
+    -   [What is the purpose of Django Boards?](#what-is-the-purpose-of-django-boards?)
+    -   [What are the basic functionalities and structure of Django Boards?](#what-are-the-basic-functionalities-and-structure-of-django-boards)
+    -   [Differentiating between a standard user and the admin user](#differentiating-between-a-standard-user-and-the-admin-user)
+    -   [Use Case Diagram](#use-case-diagram)
+    -   [Basic Class Diagram](#basic-class-diagram)
+    -   [Class Diagram visualizes how the classes (models) relate to each other](#class-diagram-that-visualizes-how-the-classes-models-relate-to-each-other)
+    -   [UML Class Diagram (Unified Modeling Language)](#uml-class-diagram-unified-modeling-language))
+        -   [UML class notation](#uml-class-notation)
+        -   [Class Diagram relationships](#class-diagram-relationships)
+    -   [Analyzing the UML Class Diagram](#analyzing-the-UML-class-diagram)
+        -   [Multiplicity and what it means in the UML Class Diagram](#multiplicity-and-what-it-means-in-the-uml-class-diagram)
+    -   [UML Class Diagram which visualizes fields (and not relationships)](#uml-class-diagram-which-visualizes-fields-and-not-relationships)
+    -   [Creating Wireframes to provide representations of what the Django Boards site will look like](#creating-wireframes-to-provide-representations-of-what-the-django-boards-site-will-look-like)
+-   [Footnotes](#footnotes)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Designing the Django Boards application
+
+### What is the purpose of Django Boards?
+
+`Django Boards` is a `forum` where `people` come to `discuss` everything
+`Django`. It's `design` and `functionality` is loosely `based` on the `official`
+[Django Forum](https://www.djangoproject.com).
+
+### What are the basic functionalities and structure of Django Boards?
+
+`There` will `be` a `number` of `boards` (the `boards` app), and they will be
+`analogous` to `categories`.
+
+`Inside` the `boards` will be `topics` (`topic`), and they will be `analogous`
+to `tags`. Users `start` a (`new`) `discussion` by `creating` a `new topic`.
+`Inside` the `topic`, other `users` can `take part` in the `discussion` by
+posting `replies` (`reply`).
+
+### Differentiating between a standard user and the admin user
+
+`Only` the `admin` user `will` be `able` to create `boards`, but `both` the
+`standard` user and the `admin` user `will` be `able` to create `new topics` and
+post `replies`.
+
+### Use Case Diagram
+
+`In` software `development`, a `use case` is a `concept` used to `describe` how
+a `system` (or `app`, `in` this `case`) can be `used` to `achieve` specific
+`goals` or `tasks`. It `outlines` the `interactions` between `users` and the
+`system` (app) to `achieve` a `specific outcome`.
+
+A `use case` diagram is a `visualization` of `those goals` or `tasks`. `Below`
+is a simple `use case` diagram of the `boards` app:
+
+![boards use case Diagram](Screenshot-2024-08-29-at-12.07.09-PM.jpg)
+
+### Basic Class Diagram
+
+`Class diagrams` are `used` in `software development` to `visually represent`
+the `structure` and `relationships` of `classes` in a `system` (`boards` app),
+i.e. `construct` and `visualize` object-oriented `systems`.
+
+In `class diagrams`, `classes` are `depicted` as `boxes`, each `containing`
+three `compartments` for the `class name`, `attributes`, and `methods`. `Lines`
+connecting `classes` illustrate `associations`, showing `relationships` such as
+`one-to-one` or `one-to-many`.
+
+`In order` to `be able` to `implement` the `use cases` described, `we` will
+`have` to at least `create` a `Board`, `Topic`, `Post`, and `User` model:
+
+![Basic Class Diagram](basic_class_diagram.drawio.svg)
+
+_Basic Class Diagram_
+
+### Class Diagram visualizes how the classes (models) relate to each other
+
+Before `going` any `further` with `developing` the `code base`, we `have` to
+`think` about `how` we `want` the `classes` (`models`) to `relate` to
+`each other`.
+
+-   As `indicated` by the `solid lines` in the `diagram`, in `Topic`, we `need`
+    to `have` a `field` which `represents` which `Board` the `Topic` belongs
+    `to`.
+-   The `Post` needs to `have` a `field` to `represent` which `Topic` it
+    `belongs` to. This is so `that` we could `filter` only `Posts` created
+    `within` a specific `Topic` in `discussions` (replies).
+-   We `need` a `field` in `Topic` representing who `started` a `discussion`.
+-   We `need` a `field` in `Post` identifying who is `posting` a `reply`.
+
+### UML Class Diagram (Unified Modeling Language)
+
+Now I am `going` to `use` a `UML Class Diagram` to `visually represent` the
+`structure` and `relationships` of our `Django Board` classes (`models`).
+
+The `UML Class diagram` provides a `high-level` overview of the `Django Boards`
+design, `helping` to `communicate` and `document` the `structure` of the
+`software`. It is a `fundamental tool` in `object-oriented` design and `plays` a
+crucial `role` in the `software` development `lifecycle`. `Below` is a
+`UML Class diagram` of the `Django Boards` site:
+
+![UML Class Diagram](uml_class_diagram.drawio.svg)
+
+_UML Class Diagram_
+
+The `lines` and `arrows` in the `diagram` will `eventually` be `translated` into
+`fields` a bit `later` on.
+
+### UML class notation
+
+`UML class notation` is a `graphical representation` used to `depict classes`
+and their `relationships` in `object-oriented` modeling.
+
+1.  The `Class name` is `written` in the `top compartment` of the `Class box`
+    and is `centered` and `bold`.
+2.  The `Class attributes`, or `fields`, are `located` in the
+    `second compartment` of the `Class box`, and they `represent` the
+    `data members` (`data variables`) of the `Class`. They `include` the
+    `visibility` (`public` or `private`) and the `data type` of each
+    `attribute`.
+3.  `Visibility notations` indicate the `access level` of `attributes` and
+    `methods`. `Common` visibility `notations` include:
+    -   `+` stands for public (visible to all classes)
+    -   `-` stands for private (visible only within the class)
+    -   `#` stands for private (visible only within the class)
+    -   `~` stands for default visibility (visible to classes in the same
+        package)
+
+### Class Diagram relationships
+
+![Class Diagram Relationships](class_diagram_relationships.drawio.svg)
+
+_Class Diagram Relationships_
+
+1. `Association`: An `association` represents a `bi-directional` relationship
+   between `two classes`. It `indicates` that `instances` of `one class` are
+   `connected` to `instances` of another `class`. `Associations` are typically
+   `depicted` as a `solid line` connecting the `classes`, with `optional arrows`
+   indicating the `direction` of the `relationship`. we have `association lines`
+   in our `UML Class diagram`. It is the `solid line` connecting `Board` with
+   `Topic`, `Topic` with `Post`, `Post` with `User`, and `Topic` with `User`.
+2. `Directed Association`: A `directed association` represents a `relationship`
+   between `two classes` where the `association` has a `direction`, `indicating`
+   that `one class` is `associated` with `another` in a `specific way`. An
+   `arrowhead` is `added` to the `association line` to `indicate` the
+   `direction` of the `relationship`. The arrow `points` from the `class` that
+   `initiates` the `association` to the `class` that is being `targeted` or
+   `affected` by the `association`.
+
+    - `Directed associations` are `used` when the `association` has a
+      `specific flow` or `directionality`, such as `indicating` which `class` is
+      `responsible` for `initiating` the `association` or which `class` has a
+      `dependency` on `another`.
+
+There are `other relationships` as `indicated` in the `diagram`, but `these are`
+the `two` that `appear` in our `diagram`.
+
+## Analyzing the UML Class Diagram
+
+### Multiplicity and what it means in the UML Class Diagram
+
+In `UML`, `multiplicity` (`represented` by `numbers`, `dots`, and `*`
+(`wildcards`) in the `UML Class Diagram`) describes `how` many `instances` of
+`one class` can be `connected` to an `instance` of `another class` through a
+`given association`. This `relation` is often `expressed` as a `string` showing
+the `lower` and `upper bounds` at the `endpoints` of a `connection`.
+
+`As` already `mentioned`, there is a `bidirectional relationship` between the
+`Board` class and the `Topic` class, the `Topic` class and the `Post`
+(`Post reply`) `class`, and the `Post` (`Post reply`) `class` and the `User`
+class. There is `no relationship` between the `Board` class and the `User`
+class, `because` it is the `admin` user and `not` the `standard` user that can
+`create` a `Board`.
+
+-   A `Board` can have `0` ore more Topics (`0..*`), `meaning` a `Board` can
+    exist `without` a `Topic`, and each `Topic` must be `associated` with a
+    specific `Board` (`1`), `meaning` it `cannot` be `null`.
+
+-   A `Topic` must be `associated` with at least `1` (the `starter Post`
+    (`reply`)) or more `Posts` (`1..*`), and a `Post` (`reply`) must be
+    `associated` with a `specific`, `only` one `Topic` (`1`).
+
+-   A `Post` (reply) is `associated` with a `specific User` (the `creator` of
+    the `Post reply`) (`1`), and a `User` can create `0` or more `Posts`
+    (`0..*`). `That` same `Post` (reply) can be `updated` by the `same User` who
+    `created` the `Post` (`reply`) or `not` updated `at all` (`0..1`).
+
+    -   `There` is `not only` a `bidirectional association` between a `Post` and
+        a `User`. There is `also` a `directed association` between `Post` and
+        `User` as `indicated` by the `arrow` pointing to the `User` and
+        `appended` to the `association line` between the `Post` and `User`. A
+        `directed association` is only `interested` in `one side` of a
+        `relationship`, the one `which` it `points` to. `In` this `case`, `it`
+        is the `User` who has `edited` a `Post` (`updated_by`).
+
+-   A `Topic` must be `started` (`created`) by a `specific User` and therefore
+    `associated` with `only` that `one` specific `User`. A `User` can create `0`
+    or more `Topics` (`0..*`).
+
+## UML Class Diagram which visualizes fields (and not relationships)
+
+`We` can `also create` a `UML Class Diagram` which `puts` an `emphasis` on
+`Class fields` (a*ka* `attributes`) `instead` of `relationships`:
+
+![UML Class Diagram Fields](uml_class_diagram_fields.drawio.svg)
+
+_UML Class Diagram Fields_
+
+This `Class Diagram` field `representation` is `equivalent` to the
+`Class Diagram` relationships `representation`. `Both` have their `advantages`,
+and I think `using` both `diagrams` is `helpful` in `gaining` a
+`full understanding` the classes' `structure`.
+
+`In` this `fields approach`, `it` is `clearer` that the `associations topic`,
+`created_by`, and `updated_by` are actually `model fields` in `Post`.
+
+In `Topic`, now `there` is a `class method` called `posts()`. `posts()` will
+`implement` a `reverse relationship` **[^1]**, where `Django` will automatically
+`execute` a `query` in the `database` to `return` a `list` of `all` the `Posts`
+that `belong` to a `specific Topic`.
+
+I `used` a `tool` called [draw.io](https://app.diagrams.net) (`free`) to
+`create` my `UML Class Diagrams`. I `like` it `a lot`, and it is `easy` to
+`use`. I `came across` another `tool` for creating `UML Class Diagrams` called
+[UML Board](https://www.umlboard.com/) ($4.99 in macOS App Store). `It` is a
+`lightweight` graphical `UML class designer` which `gives` your `diagrams` a
+nice `hand-drawn` look. It `provides` a `minimalistic` and `easy-to-use` user
+`interface` with powerful `inline-editing` capabilities. `UMLBoard` is
+`available` for `Windows`, `macOS` and `Linux` (via `unlock.sh`). I haven't
+`checked` this `out` yet, but I am `looking forward` to `do so`. It also has
+`extensive documentation`.
+
+## Creating Wireframes to provide representations of what the Django Boards site will look like
+
+A `wireframe` is a `rough diagram` created in the `early stages` of a
+`site design` to `visualize` and `communicate` the `structure` of a `site`.
+
+According to
+[balsamiq](https://balsamiq.com/learn/articles/what-are-wireframes/),
+
+> The purpose of a wireframe is to define a skeletal layout that is easy to
+> understand, and encourages iteration and feedback. Getting to agreement on a
+> good interface structure is a critical part of the software design process.
+
+It is `important` to create `wireframes` early on, as they `make` it `easy` to
+`visualize` our `ideas`, but it is `also important` to `create` the
+`UML Class Diagrams` in `conjunction`. If `designers` create `wireframes`
+completely `independent` of the `knowledge` of the `actual functionality` (`how`
+the `code` works) `of` the `site`, `problems` can `arise`. `Ideally`, either
+`designers` also `have` a `working knowledge` of the `programming language`(`s`)
+being `used`, or the `developers` themselves `create` the `wireframes`. `This`
+is `not` necessarily a `popular opinion` or `approach`. `It` is simply `mine`.
+
+![Boards project wireframe of the homepage listing all available boards](boards_project_homepage_wireframe.drawio.svg)
+
+_Boards project wireframe of the homepage listing all available boards_
+
+`If` a user `clicks` on the `Django Board` link, it should `take` the `user` to
+a `list` of `all` the `topics`:
+
+![Boards project wireframe listing all topics in the Django board](boards_project_wireframe_django_board_topics.drawio.svg)
+
+_Boards project wireframe listing all topics in the Django board_
+
+The `new topic` view:
+
+![The new topic view](boards_project_wireframe_django_board_new_topic.drawio.svg)
+
+_The new topic view_
+
+The `topic view` displaying `posts` and `replies`:
+
+![The topic view displaying posts and replies](boards_project_wireframe_django_board_new_topic_posts_and_replies.drawio.svg)
+
+_The topic view displaying posts and replies_
+
+The `topic view` displaying the `posting` of a `new reply`:
+
+![The topic view displaying the posting of a new reply](boards_project_wireframe_django_board_topic_replies.drawio.svg)
+
+_The topic reply view_
+
+I also `used` [draw.io](https://app.diagrams.net) to `create` my `wireframes`.
+It's `free` and `very easy` to `use`!
+
+## Footnotes
+
+**[^1]**: A `reverse relationship` in `Django` is `when` we `add` an
+`extra field` called `related_name` in the `referenced` model. In our `boards`
+app `models.py` file, we will `have` a `Topic` class and a `Post` class, `and`
+in `order` to reference `Topic` in the `Post` class, for example, we will `add`
+the `related_name` attribute (aka `reverse relationship`) in the `Post` class.
+
+`According` to an `answer` in
+the[ Django What is reverse relationship?](https://stackoverflow.com/questions/17328910/django-what-is-reverse-relationship)
+`thread` on `stackoverflow`,
+
+> Django, by defaults gives you a default `related_name` which is the ModelName
+> (in lowercase) followed by `_set` - In this case, It would be `profile_set`
+> (`post_set`), so `group.profile_set` (`topic.post_set`).
+>
+> However, you can override it by specifying a related_name in the ForeignKey
+> field.
+
+`In` our `case`, an `example` would be `something like` the `following`:
+
+```python
+# from the Post model in models.py in the board app
+topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='posts')
+```
+
+## Related Resources
+
+-   [Class Diagram | Unified Modeling Language (UML)](https://www.geeksforgeeks.org/unified-modeling-language-uml-class-diagrams/):
+    **_Geeks for Geeks_**
+-   [UMLBoard Multiplicity](https://www.umlboard.com/docs/relations/multiplicity/):
+    **_UMLBoard_**
+-   [What are wireframes and why are they used?](https://balsamiq.com/learn/articles/what-are-wireframes/):
+    **_balsamiq_**
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Part 1](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-1)
+-   [How to create a fullstack application using Django and Python Part 2](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-2)
+-   [How to create a fullstack application using Django and Python Part 3](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-3)
+-   [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+-   [How to create a fullstack application using Django and Python Part 5](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-5)
