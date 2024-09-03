@@ -1,0 +1,673 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-7
+date: '2024-09-01T17:19:28.248Z'
+lastModified: '2024-09-03T01:01:28.248Z'
+title: How to create a fullstack application using Django and Python Part 7
+author: Maria D. Campbell
+excerpt:
+    How to create a fullstack application using Django and Python Part 7. In
+    this section, I discuss the Django model basics, I compare the UML Class
+    Fields Diagram to the models.py source code, I migrate the models with the
+    makemigrations command, apply the model migrations with the migrate command,
+    play with the Models API, and discuss the Django Model manager.
+image: uml_class_diagram.drawio.svg
+tags:
+    [
+        'macOS',
+        'django',
+        'fullstack development',
+        'makemigrations',
+        'migrate',
+        'model operations',
+        'model manager',
+        'python shell',
+        'queryset',
+        'series',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![UML Class Diagram](uml_class_diagram.drawio.svg)
+
+_UML Class Diagram_
+
+## Table of Contents
+
+-   [Building the Django Boards models](#building-the-django-boards-models)
+    -   [Model basics](#model-basics)
+        -   [boards/models.py](#boards-modelspy)
+            -   [The Board class model](#the-board-class-model)
+            -   [The Topic class model](#the-topic-class-model)
+            -   [The Post class model](#the-post-class-model)
+-   [Comparing the UML Class Fields Diagram to the models.py source code](#comparing-the-uml-class-fields-diagram-to-the-modelspy-source-code)
+-   [Migrating the models with the makemigrations command](#migrating-the-models-with-the-makemigrations-command)
+-   [Applying the migration we generated to the database with the migrate command](#applying-the-migration-we-generated-to-the-database-with-the-migrate-command)
+-   [Tinkering with the Models API](#tinkering-with-the-models-api)
+-   [The Django Model Manager](#the-django-model-manager)
+    -   [Treating the QuerySet like a list](#treating-the-queryset-like-a-list)
+    -   [Summary of Model operations in the Python3 shell](#summary-of-model-operations-in-the-python3-shell)
+-   [Footnotes](#footnotes)
+-   [Related Posts](#related-posts)
+
+## Building the Django Boards models
+
+Now it is `time` to `build` the _Django Boards_ `Board`, `Topic`, and `Post`
+models. The `User` model is already `included` in the built-in
+`django.contrib.auth.models`, which `appears` in `INSTALLED_APPS` in
+`settings.py` as `'django.contrib.auth'`.
+
+### Model basics
+
+A `Django` model is the `single source` of `information` about the `data` we are
+`working with`. It `contains` the `necessary fields` and `functionalities` of
+the `data` we are `storing`. `Each model` maps to a `single` database `table`.
+
+-   `Each model` is a `Python` class that `subclasses` **[^1]**
+    `django.db.models.Model`.
+-   `Each attribute` of a `model` represents a `database field`.
+-   Once we have `created` our `Django` models, `Django` automatically
+    `provides` us `with` a `database-abstraction API` that `lets` us `create`,
+    `get` (`read`), `update`, and `delete` objects (`CRUD` operations).
+
+### boards/models.py
+
+We will be `adding` the `models-related` code `inside` the `boards` app
+`models.py` file:
+
+```python
+# in boards/models.py
+from django.db import models
+from django.contrib.auth.models import User
+
+# Create your models here.
+
+class Board(models.Model):
+  name = models.CharField(max_length=30, unique=True)
+  description = models.CharField(max_length=100)
+
+  def __str__(self):
+    return self.name
+
+class Topic(models.Model):
+  subject = models.CharField(max_length=255)
+  last_updated = models.DateTimeField(auto_now_add=True)
+  board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name='topics')
+  starter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='topics')
+
+class Post(models.Model):
+  message = models.TextField(max_length=4000)
+  topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='posts')
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(null=True)
+  created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+  updated_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='+')
+```
+
+### The Board class model
+
+In the `Board` class model, the `"name"` field (`class attribute`) `contains`
+the `"unique"` built-in `field validation` property which is `set` to` true`.
+`If` using Django's `default authentication` backend, we `can't` use a
+`non-unique` username. The `name` of a `user` has `to` be `unique`.
+
+The `description` field is simply `made up` of `alpha characters` describing the
+`board`, and therefore does `not` have to be `unique`. However, one `has` to
+`set` a `max_length` property. The `CharField()` method has a `max_length` of
+`255` characters, but we `set` it to `100`. We `set` the `max_length` of the
+`name` field to `30` characters.
+
+We use the `__str__()` function in `Board` class to `convert` the `name object`
+into its `string representation`. `def __str__(self): return self.name`
+dynamically `sets` the `name` of a `board`. `When` we `write` the `code`, we
+`don't` know `yet` what the `admin user` is `going` to `call` any particular
+`board`. We also `have` to `return` the `name object` inside the `__str__()`
+method to `make` it `available elsewhere`, `especially` in `django.contrib.auth`
+where the `User` model `resides`.
+
+### The Topic class model
+
+In the `Topic` class `model`, we `set` the `subject` field `value` to
+`models.CharField()` with a `max_length` of `255`, which is the "max"
+`max_length` we can `set` to the `models.CharField()` method. There is `no need`
+for `more` anyway, since the `subject line` does `not` have to `be` too `long`!
+
+For the `last_updated` field, we `set` its `value` to
+`models.DateTimeField(auto_now_add=True)`. `Passing` the `auto_now_add=True`
+option to `models.DateTimeField()` method `sets` the `current date` and `time`
+`only` when the `model` (`topic`) `instance` is `created`. This is `good` for
+when we `want` the `time` the `instance` was `created` to be `displayed`, like a
+`"date_created"` timestamp. As `opposed` to the `auto_now` option, which would
+`set` the `value` of the `last_updated` field `every time` the `model instance`
+is `saved`, `regardless` of `whether` it is `being created` or `updated/saved`.
+
+We `set` the `board` field to
+`models.ForeignKey(Board, on_delete=models.CASCADE, related_name='topics')`. We
+`use` the `models.ForeignKey()` method to `define` the `many-to one`
+relationship `between` the `Topic` class and the `Board` class. As `shown` in
+our
+[UML Class Diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
+there can be `0` to many (`..*`) `topics` to exactly `1` board, and a `topic`
+can `only` have `exactly` one `board`. The `first option` we `pass` to the
+`models.ForeignKey()` method, and `that` is a `reference` to the `Board` class.
+`Why` do we just `pass` a `reference` to the `class`? Because it is `easier` to
+just `reference` the class `inside` another `class`, and then just
+`make changes` to the `class` being `referenced` inside the `class` itself.
+`Otherwise`, if we `added` the `whole class` inside `another class`, there would
+be `a lot` of `duplication` and it would be `hard` to `keep track` of and
+`sync changes`.
+
+We are `required` to `pass` the `delete_on=CASCADE` option (or `argument`) to
+`models.ForeignKey()` so that `if` the `referenced object` (`model class`) is
+`deleted`, then `all` the other `objects` that have a `ForeignKey` to that
+`object` will `also` be `deleted`. This `makes sure` that the `child objects`
+are `deleted` when the `parent object` is `deleted`.
+
+The `related_name` option is `passed` to `models.ForeignKey()` because we are
+_linking_ `Board` to `Topic` using `models.ForeignKey()`, and we `want` to
+`give` a `name` to the `related_name` attribute that we `use` for the `relation`
+([reverse relationship](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-which-visualizes-fields-and-not-relationships))
+`from` _the related_ `Board object` back to `Topic`. `After` defining
+`related_name`, we can `retrieve` the `topics` of a `board` with the
+`following`:
+
+```python
+board.topics.all()
+```
+
+The `starter` field which `represents` the `user` who `starts` a `topic`, is
+`structured` in the `same way` as the `board` field. It is `set` to the `value`
+of
+`starter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='topics')`.
+We `use` the `models.ForeignKey()` method to `define` the `many-to one`
+relationship `between` the `Topic` class and the `User` class. As `shown` in our
+[UML Class Diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
+the `user` can create `0` to `many topics` (`..*`), but a `topic` can `only` be
+`associated` with exactly `1` user. `Instead` of passing `Board` as the
+`first argument` (option) to `models.ForeignKey()`, we are _passing_ `User`. The
+`second` and `third arguments` (`options`), `on_delete` and `related_name` are
+the `same`.
+
+### The Post class model
+
+In the `Post` class `model`, we `use` the `models.TextField()` method as the
+`value` of the `message` field, and `set` the `max_length` to `4000`. `However`,
+we do `not` have to `set` a `max_length` on a `TextField`, because
+[Django does not enforce any size limit on a TextField in the database](https://forum.djangoproject.com/t/textfield-maximum-number-of-characters/15677).
+it's `really` a `matter` of `preference`, and `whether` we `want` a `user` to be
+`able` to `ramble` on and on in a `Post`.
+
+We `set` the `value` of the `topic field` to
+`models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='posts')`. We
+`use` the `models.ForeignKey()` method to `define` the `many-to one`
+relationship `between` the `Post` class and the `Topic` class. As `shown` in our
+[UML Class Diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
+there has to be at least `1` to many (`..*`) `posts` to exactly `1` topic, and
+one `post` can `only` have `exactly` one `topic`. The `first option` we `pass`
+to the `models.ForeignKey()` method, and `that` is a `reference` to the `Topic`
+class. `Why` do we just `pass` a `reference` to the `class`? Because it is
+`easier` to just `reference` the class `inside` another `class`, and then just
+`make changes` to the `class` being `referenced` inside the `class` itself.
+`Otherwise`, if we `added` the `whole class` inside `another class`, there would
+be `a lot` of `duplication` and it would be `hard` to `keep track` of and
+`sync changes`.
+
+We are `required` to `pass` the `delete_on=CASCADE` option (or `argument`) to
+`models.ForeignKey()` so that `if` the `referenced object` (`model class`) is
+`deleted`, then `all` the other `objects` that have a `ForeignKey` to that
+`object` will `also` be `deleted`. This `makes sure` that the `child objects`
+are `deleted` when the `parent object` is `deleted`.
+
+The `related_name` option is `passed` to `models.ForeignKey()` because we are
+_linking_ `Topic` to `Post` using `models.ForeignKey()`, and we `want` to `give`
+a `name` to the `related_name` attribute that we `use` for the `relation`
+([reverse relationship](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-which-visualizes-fields-and-not-relationships))
+`from` _the related_ `Topic object` back to `Post`. `After` defining
+`related_name`, we can `retrieve` the `posts` of a `topic` with the `following`:
+
+```python
+topic.posts.all()
+```
+
+The `created_at` field is `set` to `models.DateTimeField(auto_now_add=True)`.
+Passing the `auto_now_add=True` option to `models.DateTimeField()` method `sets`
+the `current date` and `time` only when the `model` (`post`) `instance` is
+`created`. This is `good` for when we `want` the `time` the `instance` was
+`created` to be `displayed`, like a `"date_created"` timestamp. As `opposed` to
+the `auto_now` option, which would `set` the `value` of the `created_at` field
+`every time` the `model instance` is `saved`, `regardless` of `whether` it is
+`being created` or `updated/saved`.
+
+We set the `updated_at` field to `models.DateTimeField(null=True)`. Passing
+`null=True` to `models.DateTimeField()` means that a value does not have to
+initially be set to the `updated_at` field when first created. In fact, a value
+never has to be set to it. A user might never update their post.
+
+The `created_by` field is `set` to
+`models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')`. This
+`means` that a `post` is `created` by a `user`, and if the `user` is ever
+`deleted`, the `parent post` and `all` its `children` will `also` be `deleted`.
+`As` already `mentioned`, `on_delete=models.CASCADE` must be `passed` to
+`models.ForeignKey()`. The `related_name` option is `passed` to
+`models.ForeignKey()` because we are _linking_ `User` to `Post` using
+`models.ForeignKey()`, and we `want` to `give` a `name` to the `related_name`
+attribute that we `use` for the `relation`
+([reverse relationship](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-which-visualizes-fields-and-not-relationships))
+`from` _the related_ `User object` back to `Post`. `After` defining
+`related_name`, we can `retrieve` the `posts` of a `topic` with the `following`:
+
+```python
+created_by.posts.all()
+```
+
+The `updated_by` field is `set` to
+`models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='+')`.
+The `first argument` passed to `models.ForeignKey()` is a `reference` to the
+`User` object. It is the `user` who `created` the `post` that `will` be `able`
+to `update` it. However, `just like` with the `updated_at` field, `perhaps` the
+`user` will `never` want to `edit/update` their `post`, so `null=True` `must` be
+`passed` as the `second argument` to `models.ForeignKey()`. The
+`fourth argument`, related_name='+', is new. `What` this `does` is `prevent` a
+`reverse relationship` from `being created`. We `prevent` it from
+`being created` for the `second reference` to the `User` object `passed` to
+`updated_by` (the `first` is `referenced` in the `created_by` field), `because`
+we `would` have to `give` a `related_name` of `"posts"` here as well, and a
+`naming conflict` would `result`.
+
+## Comparing the UML Class Fields Diagram to the models.py source code
+
+`Below` is an `image` of the `UML Class Fields Diagram` vs the `models.py`
+source code:
+
+![UML Class Fields Diagram vs the models.py source code](uml_class_diagram_fields_code.drawio.png)
+
+_UML Class Fields Diagram vs the models.py source code_
+
+You might `notice` that there are _no_ `primary keys/IDs` referenced in the
+`diagram`. `That` is `okay`, `because` if we `don't specify` a `primary key` for
+a `model`, `Django` will `automatically generate` one `for us`.
+
+## Migrating the models with the makemigrations command
+
+The `next step` is to tell `Django` to `create` the `database` for `us` so we
+can `start using` it.
+
+The `makemigrations` command is `responsible` for `creating` new `migrations`
+based on the `changes` we make `made` to our `models`.
+
+The `migrate` command `applies` and `un-applies` migrations.
+
+In `order` to `makemigrations`, I `run` the `following code` in `Terminal`
+inside the `directory` that `contains` the `manage.py` file:
+
+```shell
+python3 manage.py makemigrations
+```
+
+Which `returns` something `like` the `following`:
+
+```shell
+Migrations for 'boards':
+  boards/migrations/0001_initial.py
+    - Create model Board
+    - Create model Post
+    - Create model Topic
+    - Add field topic to post
+    - Add field updated_by to post
+```
+
+`Since` this is our `first migration`, `Django` has `created` a `file` called
+`0001_initial.py` inside the `boards/migrations/` directory, and it `represents`
+the `current state` of our `boards` app's `models`. In the `next step`
+(`migrate`), `Django` will `use` this `file` to create `tables` and `columns`.
+The `migrations` files are `translated` into `SQL statements`. If we `want` to
+`inspect` the `SQL instructions` that will be `executed` in the `database`, we
+can `run` the `following` `command`:
+
+```shell
+python3 manage.py sqlmigrate boards 0001
+```
+
+## Applying the migration we generated to the database with the migrate command
+
+`Next`, we `run` the `following command` to `apply` the `migration` we
+`generated` to the `database` with the `makemigrations` command from `inside`
+the `directory` that `houses` the `manage.py` file:
+
+```shell
+python3 manage.py migrate
+```
+
+Which `returns` something `like` the `following` in `Terminal`:
+
+```shell
+Operations to perform:
+  Apply all migrations: admin, auth, boards, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying boards.0001_initial... OK
+  Applying sessions.0001_initial... OK
+```
+
+`Because` this is the `first time` we are `migrating` the `database`, the
+`migrate` command also `applied` the existing `migration` files from the
+`django.contrib` apps in `INSTALLED_APPS` in `settings.py`.
+
+`Applying sessions.0001_initial... OK` is the `migration` we `generated` in the
+`previous step`. `Now` our `database` is `ready` to be `used`.
+
+**Note about SQLLite**: `SQLite` IS a `production` quality `database`, but
+`just` for `small sites`. `PostgreSQL` or `Oracle`, `High-volume websites`,
+`write-intensive applications`, very `large datasets`, `high concurrency`, all
+`should` not `use` SQLite. `While` we are `developing` the `site` locally,
+`using` the `SQLLite` database that `comes` with `Django` is `perfectly fine`.
+`But` when we `deploy` our `site` to `production`, we will `switch` to
+`PostgreSQL`. For `simple websites` like the `one` we are `building`, it is
+`okay` to `switch` from `SQLite` to another `database`, but `with` more
+`complex sites`, `one` should `use` the `same database` in `development` and
+`production`.
+
+## Tinkering with the Models API
+
+`Python3` has an `interactive shell` we can `use` during `Python` development.
+It's a `great way` to `try` new `things` and `experiment` with
+`Python libraries` and `APIs`.
+
+The `following` command `starts up` the `Python3 shell` in `Terminal`:
+
+```shell
+python3 manage.py shell
+```
+
+The command `returns` the `following`:
+
+```shell
+Python 3.12.5 (main, Aug 26 2024, 07:35:37) [Clang 15.0.0 (clang-1500.3.9.4)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>>
+```
+
+This is `similar` to `simply` running `python3`, which `returns`:
+
+```shell
+Python 3.12.5 (main, Aug 26 2024, 07:35:37) [Clang 15.0.0 (clang-1500.3.9.4)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+```
+
+`When` I run `python3`, it `starts` the
+[Python interpreter](https://stackoverflow.com/questions/37003872/in-django-what-is-the-difference-between-running-python-manage-py-shell-or-ju).
+Running `python3 manage.py shell` within a `Django` project `sets` the
+`DJANGO_SETTINGS_MODULE` environment variable, `which` provides `Django` with
+the `Python` import `path` to my `django_boards/settings.py` file. This `means`
+I can `do` the `following` within the `Python3 shell` instead of in `models.py`:
+
+```shell
+(InteractiveConsole)
+>>>from boards.models import Board
+```
+
+Then I can `create` a `new` board `object`:
+
+```shell
+>>>board = Board(name="Django Models", description="This board is all about Django Models.")
+```
+
+To `persist` this `object` in the `database`, I `run` the `following command`:
+
+```shell
+board.save()
+```
+
+The `save()` method both `creates` and `updates` objects. `Here`, it `created` a
+new `board`, and `once` the `object` is `saved` to the `database`, `Django`
+automatically `gives` it an `id`. So `when` I `run`:
+
+```shell
+board.id
+```
+
+`Something like` the `following` is `returned`:
+
+```shell
+4
+```
+
+`In` my `case`, I `already created` 3 `boards`, so this is `board` number `4`. I
+can `also` access `all` the other `board` attributes. The `board` name for
+`example`:
+
+```shell
+board.name
+```
+
+Which `returns`:
+
+```shell
+'Django Models'
+```
+
+And the `board` description:
+
+```shell
+board.description
+```
+
+Which `returns`:
+
+```shell
+'This board is all about Django Models.'
+```
+
+I can also `modify` (`update`) the `board` description:
+
+```shell
+board.description = "This board covers Django Models."
+```
+
+when I run `board.description` again, the `following` is `returned`:
+
+```shell
+'This board covers Django Models.'
+```
+
+And then, if I `want` to `save` these `changes`, I `have` to run `board.save()`
+again.
+
+## The Django Model Manager
+
+According to the `Django` documentation,
+
+> A Manager is a Django class that provides the interface between database query
+> operations and a Django model.
+
+The `Manager` interacts with the `database`. When we `want` to retrieve
+`objects` from the `database`, we `need` to `construct` a `QuerySet` via the
+`Manager` on our `model class`. `By default`, the `Manager` is `available`
+through the `Model.objects` property. This `Manager` is the
+`django.db.models.Manager`.
+
+We can use `django.db.models.Manager` directly to `create` a `new` Board
+`object` via the `Python3 shell`:
+
+```shell
+board = Board.objects.create(name="Python Objects", description="Where we discuss everything about Python objects.")
+```
+
+`Then` I run `board.save()` to `save` this new `board instance` to the
+`database`. `After that`, when I run `board.id`, the `following` is `returned`:
+
+```shell
+5
+```
+
+Now I `have` 5 `boards`. If you `want` to `catch up` with `me` and `create` more
+`boards`, it `would` be `great practice`!
+
+`Next`, if I run `Board.objects.all()`, the `following` is `returned` in the
+`shell`:
+
+```shell
+<QuerySet [<Board: Python>, <Board: Django>, <Board: Random>, <Board: Django Models>, <Board: Python Objects>]>
+```
+
+The `above` is a `QuerySet`. A `QuerySet` is a `collection` of `data` from a
+`database`. A `QuerySet` is `basically` a `list` of `objects` from the
+`database`. `Here`, we are `able` to `read` the `actual names` of the `Boards`.
+`That` is `because` of the `__str__()` method `inside` the `Board` model in
+`models.py`:
+
+```python
+class Board(models.Model):
+  name = models.CharField(max_length=30, unique=True)
+  description = models.CharField(max_length=100)
+
+  def __str__(self):
+    return self.name
+```
+
+As mentioned in [the Board class model](#the-board-class-model) section, we use
+the `__str__()` function in `Board` class to `convert` the `name object` into
+its `string representation`. `def __str__(self): return self.name` dynamically
+`sets` the `name` of a `board`. `When` we `write` the `code`, we `don't` know
+`yet` what the `admin user` is `going` to `call` any particular `board`. We also
+`have` to `return` the `name object` inside the `__str__()` method to `make` it
+`available elsewhere`, `especially` in `django.contrib.auth` where the `User`
+model `resides`. If we hadn't yet added the `__str__()` function, the following
+would be returned in the QuerySet:
+
+```shell
+<QuerySet [<Board: Board object>, <Board: Board object>, <Board: Board object>, <Board: Board object>, <Board: Board object>]>
+```
+
+### Treating the QuerySet like a list
+
+We can _treat_ `QuerySets` like `lists`. If we `want` to `iterate over` all our
+`Board.objects`, we can `run` the `following` in the `Python3 shell`:
+
+```shell
+>>>boards_list = Board.objects.all()
+>>>for board in boards_list:
+...    print(board.description)
+...
+Everything related to Python
+This is a board about Django.
+Discuss anything.
+This board covers Django Models.
+Where we discuss everything about Python objects.
+>>>
+```
+
+We can `also use` the `Model manager` to `return` a `single object`. For that we
+`use` the `get()` method:
+
+```shell
+django_board = Board.objects.get(id=3)
+```
+
+`Then` I run `django_board.name`, and it `returns` the `following`:
+
+```shell
+'Random'
+```
+
+`Which` is the `name` of the `board` with the `id` of `'3'`.
+
+`On` the `other hand`, if we `try` to `get` an `object` with a `non-existent id`
+in the `shell`, an `exception` will be `thrown`. For example, `if` I `try` to
+`get` a `board` with an `id` of `6` (`no` such `id` in `my case`),
+`something like` the following `happens`:
+
+```shell
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages/django/db/models/query.py", line 649, in get
+    raise self.model.DoesNotExist(
+boards.models.Board.DoesNotExist: Board matching query does not exist.
+```
+
+We can `use` the `get()` method with any `model` field, but it is `better` to
+get the `model instance` with a `field` that can `uniquely identify` the
+`object`, like an `id` or a `unique name`. `Otherwise`, the `query` might return
+`more` than `one object`, which `would` also `cause` an `exception`.
+
+`get()` queries are also `case sensitive`. If a `board` name is `'Random'`, for
+example, `but` I `run` the `following`:
+
+```shell
+Board.objects.get(name="random")
+```
+
+`Something like` the `following` is `returned`:
+
+```shell
+ File "<console>", line 1, in <module>
+  File "/Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages/django/db/models/query.py", line 649, in get
+    raise self.model.DoesNotExist(
+boards.models.Board.DoesNotExist: Board matching query does not exist.
+```
+
+`But` if I `run`:
+
+```shell
+Board.objects.get(name="Random")
+```
+
+The `following` is `returned`:
+
+```shell
+<Board: Random>
+```
+
+### Summary of Model operations in the Python3 shell
+
+| Operation                                  | Code Sample                                         |
+| ------------------------------------------ | --------------------------------------------------- |
+| Create an object without saving            | board = Board()                                     |
+| Save an object (create or update)          | board.save()                                        |
+| Create and save an object in the database  | Board.objects.create(name='...', description='...') |
+| List all objects                           | Board.objects.all()                                 |
+| Get a single object, identified by a field | Board.objects.get(id=1)                             |
+
+## Footnotes
+
+**[^1]**: An `example` of sub-classing `django.db.models.Model` in the `Board`,
+`Topic`, and `Post` classes in the `boards` app `code` is:
+
+```python
+# in models.py
+from django.db import models
+
+class Board(models.Model):
+  ...
+class Topic(models.Model):
+  ...
+class Post(models.Model):
+```
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Part 1](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-1)
+-   [How to create a fullstack application using Django and Python Part 2](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-2)
+-   [How to create a fullstack application using Django and Python Part 3](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-3)
+-   [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+-   [How to create a fullstack application using Django and Python Part 5](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-5)
+-   [How to create a fullstack application using Django and Python Part 6](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6)
