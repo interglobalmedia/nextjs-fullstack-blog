@@ -126,3 +126,27 @@ blockquote {
 		35px -23px 2px -16px rgba(0 0 0 / 0%);
 	position: relative;
 }
+
+/* Markdown table styling */
+.content table {
+	border-spacing: 0 !important;
+	border-collapse: collapse !important;
+	border-color: inherit !important;
+	display: block !important;
+	margin: 0 auto !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	overflow: auto !important;
+}
+
+.content tbody,
+.content td,
+.content tfoot,
+.content th,
+.content thead,
+.content tr {
+	border-color: inherit !important;
+	border-style: solid !important;
+	border-width: 2px !important;
+	padding: 0.5rem;
+}
