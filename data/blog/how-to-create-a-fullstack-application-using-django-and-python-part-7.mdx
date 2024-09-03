@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-7
 date: '2024-09-01T17:19:28.248Z'
-lastModified: '2024-09-03T01:01:28.248Z'
+lastModified: '2024-09-03T02:12:28.248Z'
 title: How to create a fullstack application using Django and Python Part 7
 author: Maria D. Campbell
 excerpt:
@@ -166,10 +166,9 @@ are `deleted` when the `parent object` is `deleted`.
 The `related_name` option is `passed` to `models.ForeignKey()` because we are
 _linking_ `Board` to `Topic` using `models.ForeignKey()`, and we `want` to
 `give` a `name` to the `related_name` attribute that we `use` for the `relation`
-([reverse relationship](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-which-visualizes-fields-and-not-relationships))
-`from` _the related_ `Board object` back to `Topic`. `After` defining
-`related_name`, we can `retrieve` the `topics` of a `board` with the
-`following`:
+(`reverse relationship` **[^1]**) `from` _the related_ `Board object` back to
+`Topic`. `After` defining `related_name`, we can `retrieve` the `topics` of a
+`board` with the `following`:
 
 ```python
 board.topics.all()
@@ -221,9 +220,9 @@ are `deleted` when the `parent object` is `deleted`.
 The `related_name` option is `passed` to `models.ForeignKey()` because we are
 _linking_ `Topic` to `Post` using `models.ForeignKey()`, and we `want` to `give`
 a `name` to the `related_name` attribute that we `use` for the `relation`
-([reverse relationship](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-which-visualizes-fields-and-not-relationships))
-`from` _the related_ `Topic object` back to `Post`. `After` defining
-`related_name`, we can `retrieve` the `posts` of a `topic` with the `following`:
+(`reverse relationship` **[^1]**) `from` _the related_ `Topic object` back to
+`Post`. `After` defining `related_name`, we can `retrieve` the `posts` of a
+`topic` with the `following`:
 
 ```python
 topic.posts.all()
@@ -251,8 +250,7 @@ The `created_by` field is `set` to
 `models.ForeignKey()`. The `related_name` option is `passed` to
 `models.ForeignKey()` because we are _linking_ `User` to `Post` using
 `models.ForeignKey()`, and we `want` to `give` a `name` to the `related_name`
-attribute that we `use` for the `relation`
-([reverse relationship](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-which-visualizes-fields-and-not-relationships))
+attribute that we `use` for the `relation` (`reverse relationship` **[^1]**)
 `from` _the related_ `User object` back to `Post`. `After` defining
 `related_name`, we can `retrieve` the `posts` of a `topic` with the `following`:
 
@@ -268,7 +266,7 @@ to `update` it. However, `just like` with the `updated_at` field, `perhaps` the
 `user` will `never` want to `edit/update` their `post`, so `null=True` `must` be
 `passed` as the `second argument` to `models.ForeignKey()`. The
 `fourth argument`, related_name='+', is new. `What` this `does` is `prevent` a
-`reverse relationship` from `being created`. We `prevent` it from
+`reverse relationship` **[^1]** from `being created`. We `prevent` it from
 `being created` for the `second reference` to the `User` object `passed` to
 `updated_by` (the `first` is `referenced` in the `created_by` field), `because`
 we `would` have to `give` a `related_name` of `"posts"` here as well, and a
@@ -662,6 +660,12 @@ class Topic(models.Model):
   ...
 class Post(models.Model):
 ```
+
+## Footnotes
+
+**[^1]**: For a `reverse relationship` refresher, please `visit` the
+[UML Class Diagram which visualizes fields (and not relationships)](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-which-visualizes-fields-and-not-relationships)
+`section` in `part 6` of this `series`.
 
 ## Related Posts
 
