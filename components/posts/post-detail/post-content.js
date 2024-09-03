@@ -12,6 +12,8 @@ import md from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown'
 import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx'
 import scss from 'react-syntax-highlighter/dist/cjs/languages/prism/scss'
 import dynamic from 'next/dynamic'
+import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 import Image from 'next/legacy/image'
 import { getTagLink } from '../get-tag-link'
 import classes from '../../../styles/post-content.module.scss'
@@ -216,7 +218,12 @@ function PostContent(props) {
 							.reduce((prev, curr) => [prev, ', ', curr])}
 					</p>
 				}
-				<ReactMarkdown components={customRenderers}>
+				<ReactMarkdown
+					components={customRenderers}
+					rehypePlugins={[rehypeRaw]}
+					remarkPlugins={[remarkGfm]}
+					remarkRehypeOptions={{ passThrough: ['link'] }}
+				>
 					{post.content}
 				</ReactMarkdown>
 				<Giscus />
