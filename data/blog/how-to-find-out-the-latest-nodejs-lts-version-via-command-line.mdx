@@ -1400,12 +1400,13 @@ Which `returns`:
 The `best` I `can` do `here` (s*o far*) to `reduce` the `length` of the `list`,
 is to `exclude` any `versions` with '(Latest LTS:' or 'LTS' or '^\d\*[02468]$'.
 
-The regex `'^\d\*[02468]$'` means all versions ending in an even number. But we
-are excluding them since we are running `grep -v '^\d*[02468]$'`. grep -v
-followed by a regex pattern or string pattern means to exclude anything that
-matches that pattern in the search results. As you will see in the below output,
-the first, second, or last number (v`x`.`x`.`x`) in the versions returned from
-the command end in odd numbers.
+The regex `'^\d\*[02468]$'` means `all` versions `ending` in an `even number`.
+But we are `excluding` them `since` we are running `grep -v '^\d*[02468]$'`.
+grep -v followed by a `regex pattern` or `string pattern` means to
+`exclude anything` that `matches` that `pattern` in the `search results`. As you
+will `see` in the `below output`, the `first`, `second`, or `last number`
+(v`x`.`x`.`x`) in the `versions` returned `from` the `command` end in
+`odd numbers`.
 
 ```shell
 nvm ls-remote | grep -v '(Latest LTS:' | grep -v  'LTS' | grep -v '^\d*[02468]$'
@@ -2035,13 +2036,13 @@ v22.8.0
 
 ### The tail -n 1 command
 
-The `tail -n 1` command displays the last line of the matches returned by nvm
-ls-remote. The nvm ls-remote command is piped to the `tail -n 1` command, which
-means that only the last Node.js Current (version) returned from the
-`nvm ls-remote` command is displayed.
+The `tail -n 1` command `displays` the `last line` of the `matches returned` by
+`nvm ls-remote`. The `nvm ls-remote` command is `piped` to the `tail -n 1`
+command, which `means` that `only` the `last` Node.js `Current` (`version`)
+`returned` from the `nvm ls-remote` command is `displayed`.
 
-`Since` I was `able` to use tail -n 1 with `nvm ls-remote`, I should be able to
-use it with `nvm ls-remote --lts`:
+`Since` I was `able` to use tail -n 1 with `nvm ls-remote`, I `should` be `able`
+to `use` it with `nvm ls-remote --lts`:
 
 ```shell
 nvm ls-remote --lts | grep '(Latest LTS:' | tail -n 1
