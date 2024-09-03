@@ -1,0 +1,2078 @@
+---
+slug: how-to-find-out-the-latest-nodejs-lts-version-via-command-line
+date: '2024-09-03T05:26:40.014Z'
+lastModified: '2024-09-03T05:26:40.014Z'
+title: How to find out the latest Node.js LTS version via Command Line
+author: Maria D. Campbell
+excerpt:
+    How to find out the latest Node.js LTS version via Command Line. As a bonus,
+    I also show how to find the latest Node.js Current (version), both result in
+    only returning the absolute latest versions of both Node.js LTS and Node.js
+    Current. No need to leave the Command Line or scroll through hundreds of
+    versions before getting to the version I want!
+image: pexels-aleksei-mzhachev-737732322-18557456.jpg
+tags:
+    [
+        'macOS',
+        'command line',
+        'grep',
+        'pipe',
+        'tail',
+        'nodejs',
+        'lts',
+        'current',
+        'nvm',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![](pexels-aleksei-mzhachev-737732322-18557456.jpg)
+
+**_Photo by_**
+[Aleksei Mzhachev](https://www.pexels.com/@aleksei-mzhachev-737732322/) **_on_**
+[pexels.com](https://www.pexels.com/photo/floating-clouds-18557456/)
+
+## Table of Contents
+
+-   [Finding out the latest LTS version of Node.js via Command Line](#finding-out-the-latest-lts-version-of-nodejs-via-command-line)
+
+-   [Using the nvm command](#using-the-nvm-command)
+
+    -   [Using nvm ls-remote --lts](#using-nvm-ls-remote-lts)
+    -   [Piping nvm ls-remote to the grep command version 1](#piping-nvm-ls-remote-to-the-grep-command-version-1)
+    -   [Piping nvm ls-remote to the grep command version 2](#piping-nvm-ls-remote-to-the-grep-command-version-2)
+
+-   [Bonus: finding the current version of Node.js](#bonus-finding-the-current-version-of-nodejs)
+
+    -   [Using nvm ls-remote](#using-nvm-ls-remote)
+    -   [Piping nvm ls-remote to grep -v](#piping-nvm-ls-remote-to-grep-v)
+
+    -   [Returning only the latest (last) Node.js Current version returned from nvm ls-remote](#returning-only-the-latest-last-nodejs-current-version-returned-from-nvm-ls-remote)
+
+        -   [Piping nvm ls-remote to grep and tail](#piping-nvm-ls-remote-to-grep-and-tail)
+        -   [Piping nvm ls-remote to tail only](#piping-nvm-ls-remote-to-tail-only)
+        -   [The tail -n 1 command](#the-tail-n-1-command)
+
+    -   [Should I use Node.js LTS or Current?](#should-i-use-nodejs-lts-or-current)
+
+-   [Conclusion](#conclusion)
+
+## Finding out the latest LTS version of Node.js via Command Line
+
+I don't know about you, but I am `finding` the `new layout` on the `Node.js`
+website a bit `confusing`. It is `virtually impossible` to `find out` what the
+`latest Node.js LTS` (`Long Term Support`) `version` is `these days`. So I
+`decided` to `find` it `out` via `Command Line` using
+[NVM](https://github.com/nvm-sh/nvm) (`Node Version Manager`).
+
+### Using the nvm command
+
+### Using nvm ls-remote --lts
+
+NVM (`Node Version Manager`) has a `command` that `checks` for all the remote
+`LTS` and `Latest: LTS` versions of `Node.js` available for `install`. It is the
+`following`:
+
+```shell
+nvm ls-remote --lts
+```
+
+And it `returns` the `following` in `Terminal`:
+
+```shell
+v4.2.0   (LTS: Argon)
+         v4.2.1   (LTS: Argon)
+         v4.2.2   (LTS: Argon)
+         v4.2.3   (LTS: Argon)
+         v4.2.4   (LTS: Argon)
+         v4.2.5   (LTS: Argon)
+         v4.2.6   (LTS: Argon)
+         v4.3.0   (LTS: Argon)
+         v4.3.1   (LTS: Argon)
+         v4.3.2   (LTS: Argon)
+         v4.4.0   (LTS: Argon)
+         v4.4.1   (LTS: Argon)
+         v4.4.2   (LTS: Argon)
+         v4.4.3   (LTS: Argon)
+         v4.4.4   (LTS: Argon)
+         v4.4.5   (LTS: Argon)
+         v4.4.6   (LTS: Argon)
+         v4.4.7   (LTS: Argon)
+         v4.5.0   (LTS: Argon)
+         v4.6.0   (LTS: Argon)
+         v4.6.1   (LTS: Argon)
+         v4.6.2   (LTS: Argon)
+         v4.7.0   (LTS: Argon)
+         v4.7.1   (LTS: Argon)
+         v4.7.2   (LTS: Argon)
+         v4.7.3   (LTS: Argon)
+         v4.8.0   (LTS: Argon)
+         v4.8.1   (LTS: Argon)
+         v4.8.2   (LTS: Argon)
+         v4.8.3   (LTS: Argon)
+         v4.8.4   (LTS: Argon)
+         v4.8.5   (LTS: Argon)
+         v4.8.6   (LTS: Argon)
+         v4.8.7   (LTS: Argon)
+         v4.9.0   (LTS: Argon)
+         v4.9.1   (Latest LTS: Argon)
+         v6.9.0   (LTS: Boron)
+         v6.9.1   (LTS: Boron)
+         v6.9.2   (LTS: Boron)
+         v6.9.3   (LTS: Boron)
+         v6.9.4   (LTS: Boron)
+         v6.9.5   (LTS: Boron)
+        v6.10.0   (LTS: Boron)
+        v6.10.1   (LTS: Boron)
+        v6.10.2   (LTS: Boron)
+        v6.10.3   (LTS: Boron)
+        v6.11.0   (LTS: Boron)
+        v6.11.1   (LTS: Boron)
+        v6.11.2   (LTS: Boron)
+        v6.11.3   (LTS: Boron)
+        v6.11.4   (LTS: Boron)
+        v6.11.5   (LTS: Boron)
+        v6.12.0   (LTS: Boron)
+        v6.12.1   (LTS: Boron)
+        v6.12.2   (LTS: Boron)
+        v6.12.3   (LTS: Boron)
+        v6.13.0   (LTS: Boron)
+        v6.13.1   (LTS: Boron)
+        v6.14.0   (LTS: Boron)
+        v6.14.1   (LTS: Boron)
+        v6.14.2   (LTS: Boron)
+        v6.14.3   (LTS: Boron)
+        v6.14.4   (LTS: Boron)
+        v6.15.0   (LTS: Boron)
+        v6.15.1   (LTS: Boron)
+        v6.16.0   (LTS: Boron)
+        v6.17.0   (LTS: Boron)
+        v6.17.1   (Latest LTS: Boron)
+         v8.9.0   (LTS: Carbon)
+         v8.9.1   (LTS: Carbon)
+         v8.9.2   (LTS: Carbon)
+         v8.9.3   (LTS: Carbon)
+         v8.9.4   (LTS: Carbon)
+        v8.10.0   (LTS: Carbon)
+        v8.11.0   (LTS: Carbon)
+        v8.11.1   (LTS: Carbon)
+        v8.11.2   (LTS: Carbon)
+        v8.11.3   (LTS: Carbon)
+        v8.11.4   (LTS: Carbon)
+        v8.12.0   (LTS: Carbon)
+        v8.13.0   (LTS: Carbon)
+        v8.14.0   (LTS: Carbon)
+        v8.14.1   (LTS: Carbon)
+        v8.15.0   (LTS: Carbon)
+        v8.15.1   (LTS: Carbon)
+        v8.16.0   (LTS: Carbon)
+        v8.16.1   (LTS: Carbon)
+        v8.16.2   (LTS: Carbon)
+        v8.17.0   (Latest LTS: Carbon)
+       v10.13.0   (LTS: Dubnium)
+       v10.14.0   (LTS: Dubnium)
+       v10.14.1   (LTS: Dubnium)
+       v10.14.2   (LTS: Dubnium)
+       v10.15.0   (LTS: Dubnium)
+       v10.15.1   (LTS: Dubnium)
+       v10.15.2   (LTS: Dubnium)
+       v10.15.3   (LTS: Dubnium)
+       v10.16.0   (LTS: Dubnium)
+       v10.16.1   (LTS: Dubnium)
+       v10.16.2   (LTS: Dubnium)
+       v10.16.3   (LTS: Dubnium)
+       v10.17.0   (LTS: Dubnium)
+       v10.18.0   (LTS: Dubnium)
+       v10.18.1   (LTS: Dubnium)
+       v10.19.0   (LTS: Dubnium)
+       v10.20.0   (LTS: Dubnium)
+       v10.20.1   (LTS: Dubnium)
+       v10.21.0   (LTS: Dubnium)
+       v10.22.0   (LTS: Dubnium)
+       v10.22.1   (LTS: Dubnium)
+       v10.23.0   (LTS: Dubnium)
+       v10.23.1   (LTS: Dubnium)
+       v10.23.2   (LTS: Dubnium)
+       v10.23.3   (LTS: Dubnium)
+       v10.24.0   (LTS: Dubnium)
+       v10.24.1   (Latest LTS: Dubnium)
+       v12.13.0   (LTS: Erbium)
+       v12.13.1   (LTS: Erbium)
+       v12.14.0   (LTS: Erbium)
+       v12.14.1   (LTS: Erbium)
+       v12.15.0   (LTS: Erbium)
+       v12.16.0   (LTS: Erbium)
+       v12.16.1   (LTS: Erbium)
+       v12.16.2   (LTS: Erbium)
+       v12.16.3   (LTS: Erbium)
+       v12.17.0   (LTS: Erbium)
+       v12.18.0   (LTS: Erbium)
+       v12.18.1   (LTS: Erbium)
+       v12.18.2   (LTS: Erbium)
+       v12.18.3   (LTS: Erbium)
+       v12.18.4   (LTS: Erbium)
+       v12.19.0   (LTS: Erbium)
+       v12.19.1   (LTS: Erbium)
+       v12.20.0   (LTS: Erbium)
+       v12.20.1   (LTS: Erbium)
+       v12.20.2   (LTS: Erbium)
+       v12.21.0   (LTS: Erbium)
+       v12.22.0   (LTS: Erbium)
+       v12.22.1   (LTS: Erbium)
+       v12.22.2   (LTS: Erbium)
+       v12.22.3   (LTS: Erbium)
+       v12.22.4   (LTS: Erbium)
+       v12.22.5   (LTS: Erbium)
+       v12.22.6   (LTS: Erbium)
+       v12.22.7   (LTS: Erbium)
+       v12.22.8   (LTS: Erbium)
+       v12.22.9   (LTS: Erbium)
+      v12.22.10   (LTS: Erbium)
+      v12.22.11   (LTS: Erbium)
+      v12.22.12   (Latest LTS: Erbium)
+       v14.15.0   (LTS: Fermium)
+       v14.15.1   (LTS: Fermium)
+       v14.15.2   (LTS: Fermium)
+       v14.15.3   (LTS: Fermium)
+       v14.15.4   (LTS: Fermium)
+       v14.15.5   (LTS: Fermium)
+       v14.16.0   (LTS: Fermium)
+       v14.16.1   (LTS: Fermium)
+       v14.17.0   (LTS: Fermium)
+       v14.17.1   (LTS: Fermium)
+       v14.17.2   (LTS: Fermium)
+       v14.17.3   (LTS: Fermium)
+       v14.17.4   (LTS: Fermium)
+       v14.17.5   (LTS: Fermium)
+       v14.17.6   (LTS: Fermium)
+       v14.18.0   (LTS: Fermium)
+       v14.18.1   (LTS: Fermium)
+       v14.18.2   (LTS: Fermium)
+       v14.18.3   (LTS: Fermium)
+       v14.19.0   (LTS: Fermium)
+       v14.19.1   (LTS: Fermium)
+       v14.19.2   (LTS: Fermium)
+       v14.19.3   (LTS: Fermium)
+       v14.20.0   (LTS: Fermium)
+       v14.20.1   (LTS: Fermium)
+       v14.21.0   (LTS: Fermium)
+       v14.21.1   (LTS: Fermium)
+       v14.21.2   (LTS: Fermium)
+       v14.21.3   (Latest LTS: Fermium)
+       v16.13.0   (LTS: Gallium)
+       v16.13.1   (LTS: Gallium)
+       v16.13.2   (LTS: Gallium)
+       v16.14.0   (LTS: Gallium)
+       v16.14.1   (LTS: Gallium)
+       v16.14.2   (LTS: Gallium)
+       v16.15.0   (LTS: Gallium)
+       v16.15.1   (LTS: Gallium)
+       v16.16.0   (LTS: Gallium)
+       v16.17.0   (LTS: Gallium)
+       v16.17.1   (LTS: Gallium)
+       v16.18.0   (LTS: Gallium)
+       v16.18.1   (LTS: Gallium)
+       v16.19.0   (LTS: Gallium)
+       v16.19.1   (LTS: Gallium)
+       v16.20.0   (LTS: Gallium)
+       v16.20.1   (LTS: Gallium)
+       v16.20.2   (Latest LTS: Gallium)
+       v18.12.0   (LTS: Hydrogen)
+       v18.12.1   (LTS: Hydrogen)
+       v18.13.0   (LTS: Hydrogen)
+       v18.14.0   (LTS: Hydrogen)
+       v18.14.1   (LTS: Hydrogen)
+       v18.14.2   (LTS: Hydrogen)
+       v18.15.0   (LTS: Hydrogen)
+       v18.16.0   (LTS: Hydrogen)
+       v18.16.1   (LTS: Hydrogen)
+       v18.17.0   (LTS: Hydrogen)
+       v18.17.1   (LTS: Hydrogen)
+       v18.18.0   (LTS: Hydrogen)
+       v18.18.1   (LTS: Hydrogen)
+       v18.18.2   (LTS: Hydrogen)
+       v18.19.0   (LTS: Hydrogen)
+       v18.19.1   (LTS: Hydrogen)
+       v18.20.0   (LTS: Hydrogen)
+       v18.20.1   (LTS: Hydrogen)
+       v18.20.2   (LTS: Hydrogen)
+       v18.20.3   (LTS: Hydrogen)
+       v18.20.4   (Latest LTS: Hydrogen)
+        v20.9.0   (LTS: Iron)
+       v20.10.0   (LTS: Iron)
+       v20.11.0   (LTS: Iron)
+       v20.11.1   (LTS: Iron)
+       v20.12.0   (LTS: Iron)
+       v20.12.1   (LTS: Iron)
+       v20.12.2   (LTS: Iron)
+       v20.13.0   (LTS: Iron)
+       v20.13.1   (LTS: Iron)
+       v20.14.0   (LTS: Iron)
+       v20.15.0   (LTS: Iron)
+       v20.15.1   (LTS: Iron)
+       v20.16.0   (LTS: Iron)
+       v20.17.0   (Latest LTS: Iron)
+```
+
+### Piping nvm ls-remote to the grep command version 1
+
+`In order` to `only return` the `latest LTS versions` of `Node.js` that contain
+`'(Latest LTS:'`, I `run` the `following`:
+
+```shell
+nvm ls-remote --lts | grep '(Latest LTS:'
+```
+
+Which `returns`:
+
+```shell
+v4.9.1   (Latest LTS: Argon)
+        v6.17.1   (Latest LTS: Boron)
+        v8.17.0   (Latest LTS: Carbon)
+       v10.24.1   (Latest LTS: Dubnium)
+      v12.22.12   (Latest LTS: Erbium)
+       v14.21.3   (Latest LTS: Fermium)
+       v16.20.2   (Latest LTS: Gallium)
+       v18.20.4   (Latest LTS: Hydrogen)
+       v20.17.0   (Latest LTS: Iron)
+```
+
+`Much better`, right? We `see` more `quickly` that the `latest LTS version` of
+`Node.js` is `v20.17.0`!
+
+### Piping nvm ls-remote to the grep command version 2
+
+`Conversely`, if I only `wanted` to `return` all `"LTS"` versions of `Node.js`,
+excluding `"latest LTS versions"`, I could `run` the `following`:
+
+```shell
+nvm ls-remote --lts | grep '(LTS:'
+```
+
+Which `returns`:
+
+```shell
+v4.2.0   (LTS: Argon)
+         v4.2.1   (LTS: Argon)
+         v4.2.2   (LTS: Argon)
+         v4.2.3   (LTS: Argon)
+         v4.2.4   (LTS: Argon)
+         v4.2.5   (LTS: Argon)
+         v4.2.6   (LTS: Argon)
+         v4.3.0   (LTS: Argon)
+         v4.3.1   (LTS: Argon)
+         v4.3.2   (LTS: Argon)
+         v4.4.0   (LTS: Argon)
+         v4.4.1   (LTS: Argon)
+         v4.4.2   (LTS: Argon)
+         v4.4.3   (LTS: Argon)
+         v4.4.4   (LTS: Argon)
+         v4.4.5   (LTS: Argon)
+         v4.4.6   (LTS: Argon)
+         v4.4.7   (LTS: Argon)
+         v4.5.0   (LTS: Argon)
+         v4.6.0   (LTS: Argon)
+         v4.6.1   (LTS: Argon)
+         v4.6.2   (LTS: Argon)
+         v4.7.0   (LTS: Argon)
+         v4.7.1   (LTS: Argon)
+         v4.7.2   (LTS: Argon)
+         v4.7.3   (LTS: Argon)
+         v4.8.0   (LTS: Argon)
+         v4.8.1   (LTS: Argon)
+         v4.8.2   (LTS: Argon)
+         v4.8.3   (LTS: Argon)
+         v4.8.4   (LTS: Argon)
+         v4.8.5   (LTS: Argon)
+         v4.8.6   (LTS: Argon)
+         v4.8.7   (LTS: Argon)
+         v4.9.0   (LTS: Argon)
+         v6.9.0   (LTS: Boron)
+         v6.9.1   (LTS: Boron)
+         v6.9.2   (LTS: Boron)
+         v6.9.3   (LTS: Boron)
+         v6.9.4   (LTS: Boron)
+         v6.9.5   (LTS: Boron)
+        v6.10.0   (LTS: Boron)
+        v6.10.1   (LTS: Boron)
+        v6.10.2   (LTS: Boron)
+        v6.10.3   (LTS: Boron)
+        v6.11.0   (LTS: Boron)
+        v6.11.1   (LTS: Boron)
+        v6.11.2   (LTS: Boron)
+        v6.11.3   (LTS: Boron)
+        v6.11.4   (LTS: Boron)
+        v6.11.5   (LTS: Boron)
+        v6.12.0   (LTS: Boron)
+        v6.12.1   (LTS: Boron)
+        v6.12.2   (LTS: Boron)
+        v6.12.3   (LTS: Boron)
+        v6.13.0   (LTS: Boron)
+        v6.13.1   (LTS: Boron)
+        v6.14.0   (LTS: Boron)
+        v6.14.1   (LTS: Boron)
+        v6.14.2   (LTS: Boron)
+        v6.14.3   (LTS: Boron)
+        v6.14.4   (LTS: Boron)
+        v6.15.0   (LTS: Boron)
+        v6.15.1   (LTS: Boron)
+        v6.16.0   (LTS: Boron)
+        v6.17.0   (LTS: Boron)
+         v8.9.0   (LTS: Carbon)
+         v8.9.1   (LTS: Carbon)
+         v8.9.2   (LTS: Carbon)
+         v8.9.3   (LTS: Carbon)
+         v8.9.4   (LTS: Carbon)
+        v8.10.0   (LTS: Carbon)
+        v8.11.0   (LTS: Carbon)
+        v8.11.1   (LTS: Carbon)
+        v8.11.2   (LTS: Carbon)
+        v8.11.3   (LTS: Carbon)
+        v8.11.4   (LTS: Carbon)
+        v8.12.0   (LTS: Carbon)
+        v8.13.0   (LTS: Carbon)
+        v8.14.0   (LTS: Carbon)
+        v8.14.1   (LTS: Carbon)
+        v8.15.0   (LTS: Carbon)
+        v8.15.1   (LTS: Carbon)
+        v8.16.0   (LTS: Carbon)
+        v8.16.1   (LTS: Carbon)
+        v8.16.2   (LTS: Carbon)
+       v10.13.0   (LTS: Dubnium)
+       v10.14.0   (LTS: Dubnium)
+       v10.14.1   (LTS: Dubnium)
+       v10.14.2   (LTS: Dubnium)
+       v10.15.0   (LTS: Dubnium)
+       v10.15.1   (LTS: Dubnium)
+       v10.15.2   (LTS: Dubnium)
+       v10.15.3   (LTS: Dubnium)
+       v10.16.0   (LTS: Dubnium)
+       v10.16.1   (LTS: Dubnium)
+       v10.16.2   (LTS: Dubnium)
+       v10.16.3   (LTS: Dubnium)
+       v10.17.0   (LTS: Dubnium)
+       v10.18.0   (LTS: Dubnium)
+       v10.18.1   (LTS: Dubnium)
+       v10.19.0   (LTS: Dubnium)
+       v10.20.0   (LTS: Dubnium)
+       v10.20.1   (LTS: Dubnium)
+       v10.21.0   (LTS: Dubnium)
+       v10.22.0   (LTS: Dubnium)
+       v10.22.1   (LTS: Dubnium)
+       v10.23.0   (LTS: Dubnium)
+       v10.23.1   (LTS: Dubnium)
+       v10.23.2   (LTS: Dubnium)
+       v10.23.3   (LTS: Dubnium)
+       v10.24.0   (LTS: Dubnium)
+       v12.13.0   (LTS: Erbium)
+       v12.13.1   (LTS: Erbium)
+       v12.14.0   (LTS: Erbium)
+       v12.14.1   (LTS: Erbium)
+       v12.15.0   (LTS: Erbium)
+       v12.16.0   (LTS: Erbium)
+       v12.16.1   (LTS: Erbium)
+       v12.16.2   (LTS: Erbium)
+       v12.16.3   (LTS: Erbium)
+       v12.17.0   (LTS: Erbium)
+       v12.18.0   (LTS: Erbium)
+       v12.18.1   (LTS: Erbium)
+       v12.18.2   (LTS: Erbium)
+       v12.18.3   (LTS: Erbium)
+       v12.18.4   (LTS: Erbium)
+       v12.19.0   (LTS: Erbium)
+       v12.19.1   (LTS: Erbium)
+       v12.20.0   (LTS: Erbium)
+       v12.20.1   (LTS: Erbium)
+       v12.20.2   (LTS: Erbium)
+       v12.21.0   (LTS: Erbium)
+       v12.22.0   (LTS: Erbium)
+       v12.22.1   (LTS: Erbium)
+       v12.22.2   (LTS: Erbium)
+       v12.22.3   (LTS: Erbium)
+       v12.22.4   (LTS: Erbium)
+       v12.22.5   (LTS: Erbium)
+       v12.22.6   (LTS: Erbium)
+       v12.22.7   (LTS: Erbium)
+       v12.22.8   (LTS: Erbium)
+       v12.22.9   (LTS: Erbium)
+      v12.22.10   (LTS: Erbium)
+      v12.22.11   (LTS: Erbium)
+       v14.15.0   (LTS: Fermium)
+       v14.15.1   (LTS: Fermium)
+       v14.15.2   (LTS: Fermium)
+       v14.15.3   (LTS: Fermium)
+       v14.15.4   (LTS: Fermium)
+       v14.15.5   (LTS: Fermium)
+       v14.16.0   (LTS: Fermium)
+       v14.16.1   (LTS: Fermium)
+       v14.17.0   (LTS: Fermium)
+       v14.17.1   (LTS: Fermium)
+       v14.17.2   (LTS: Fermium)
+       v14.17.3   (LTS: Fermium)
+       v14.17.4   (LTS: Fermium)
+       v14.17.5   (LTS: Fermium)
+       v14.17.6   (LTS: Fermium)
+       v14.18.0   (LTS: Fermium)
+       v14.18.1   (LTS: Fermium)
+       v14.18.2   (LTS: Fermium)
+       v14.18.3   (LTS: Fermium)
+       v14.19.0   (LTS: Fermium)
+       v14.19.1   (LTS: Fermium)
+       v14.19.2   (LTS: Fermium)
+       v14.19.3   (LTS: Fermium)
+       v14.20.0   (LTS: Fermium)
+       v14.20.1   (LTS: Fermium)
+       v14.21.0   (LTS: Fermium)
+       v14.21.1   (LTS: Fermium)
+       v14.21.2   (LTS: Fermium)
+       v16.13.0   (LTS: Gallium)
+       v16.13.1   (LTS: Gallium)
+       v16.13.2   (LTS: Gallium)
+       v16.14.0   (LTS: Gallium)
+       v16.14.1   (LTS: Gallium)
+       v16.14.2   (LTS: Gallium)
+       v16.15.0   (LTS: Gallium)
+       v16.15.1   (LTS: Gallium)
+       v16.16.0   (LTS: Gallium)
+       v16.17.0   (LTS: Gallium)
+       v16.17.1   (LTS: Gallium)
+       v16.18.0   (LTS: Gallium)
+       v16.18.1   (LTS: Gallium)
+       v16.19.0   (LTS: Gallium)
+       v16.19.1   (LTS: Gallium)
+       v16.20.0   (LTS: Gallium)
+       v16.20.1   (LTS: Gallium)
+       v18.12.0   (LTS: Hydrogen)
+       v18.12.1   (LTS: Hydrogen)
+       v18.13.0   (LTS: Hydrogen)
+       v18.14.0   (LTS: Hydrogen)
+       v18.14.1   (LTS: Hydrogen)
+       v18.14.2   (LTS: Hydrogen)
+       v18.15.0   (LTS: Hydrogen)
+       v18.16.0   (LTS: Hydrogen)
+       v18.16.1   (LTS: Hydrogen)
+       v18.17.0   (LTS: Hydrogen)
+       v18.17.1   (LTS: Hydrogen)
+       v18.18.0   (LTS: Hydrogen)
+       v18.18.1   (LTS: Hydrogen)
+       v18.18.2   (LTS: Hydrogen)
+       v18.19.0   (LTS: Hydrogen)
+       v18.19.1   (LTS: Hydrogen)
+       v18.20.0   (LTS: Hydrogen)
+       v18.20.1   (LTS: Hydrogen)
+       v18.20.2   (LTS: Hydrogen)
+       v18.20.3   (LTS: Hydrogen)
+        v20.9.0   (LTS: Iron)
+       v20.10.0   (LTS: Iron)
+       v20.11.0   (LTS: Iron)
+       v20.11.1   (LTS: Iron)
+       v20.12.0   (LTS: Iron)
+       v20.12.1   (LTS: Iron)
+       v20.12.2   (LTS: Iron)
+       v20.13.0   (LTS: Iron)
+       v20.13.1   (LTS: Iron)
+       v20.14.0   (LTS: Iron)
+       v20.15.0   (LTS: Iron)
+       v20.15.1   (LTS: Iron)
+       v20.16.0   (LTS: Iron)
+```
+
+If you `want` to `list only` the `"latest" LTS versions` that are the `"latest"`
+latest `LTS versions` of `Node.js`, `filtering out` the `versions` that are only
+`"LTS"`, you can `use `the `nvm ls-remote --lts | grep '(Latest LTS:'` command
+`instead` of just `nvm ls-remote --lts`.
+
+## Bonus: finding the current version of Node.js
+
+### Using nvm ls-remote
+
+_If instead_, I `want` to `find` the `latest` (`Current`) `version` of
+`Node,js`, I `run` the `following command` in `Terminal`:
+
+```shell
+nvm ls-remote
+```
+
+Which `returns`:
+
+```shell
+ v0.1.14
+        v0.1.15
+        v0.1.16
+        v0.1.17
+        v0.1.18
+        v0.1.19
+        v0.1.20
+        v0.1.21
+        v0.1.22
+        v0.1.23
+        v0.1.24
+        v0.1.25
+        v0.1.26
+        v0.1.27
+        v0.1.28
+        v0.1.29
+        v0.1.30
+        v0.1.31
+        v0.1.32
+        v0.1.33
+        v0.1.90
+        v0.1.91
+        v0.1.92
+        v0.1.93
+        v0.1.94
+        v0.1.95
+        v0.1.96
+        v0.1.97
+        v0.1.98
+        v0.1.99
+       v0.1.100
+       v0.1.101
+       v0.1.102
+       v0.1.103
+       v0.1.104
+         v0.2.0
+         v0.2.1
+         v0.2.2
+         v0.2.3
+         v0.2.4
+         v0.2.5
+         v0.2.6
+         v0.3.0
+         v0.3.1
+         v0.3.2
+         v0.3.3
+         v0.3.4
+         v0.3.5
+         v0.3.6
+         v0.3.7
+         v0.3.8
+         v0.4.0
+         v0.4.1
+         v0.4.2
+         v0.4.3
+         v0.4.4
+         v0.4.5
+         v0.4.6
+         v0.4.7
+         v0.4.8
+         v0.4.9
+        v0.4.10
+        v0.4.11
+        v0.4.12
+         v0.5.0
+         v0.5.1
+         v0.5.2
+         v0.5.3
+         v0.5.4
+         v0.5.5
+         v0.5.6
+         v0.5.7
+         v0.5.8
+         v0.5.9
+        v0.5.10
+         v0.6.0
+         v0.6.1
+         v0.6.2
+         v0.6.3
+         v0.6.4
+         v0.6.5
+         v0.6.6
+         v0.6.7
+         v0.6.8
+         v0.6.9
+        v0.6.10
+        v0.6.11
+        v0.6.12
+        v0.6.13
+        v0.6.14
+        v0.6.15
+        v0.6.16
+        v0.6.17
+        v0.6.18
+        v0.6.19
+        v0.6.20
+        v0.6.21
+         v0.7.0
+         v0.7.1
+         v0.7.2
+         v0.7.3
+         v0.7.4
+         v0.7.5
+         v0.7.6
+         v0.7.7
+         v0.7.8
+         v0.7.9
+        v0.7.10
+        v0.7.11
+        v0.7.12
+         v0.8.0
+         v0.8.1
+         v0.8.2
+         v0.8.3
+         v0.8.4
+         v0.8.5
+         v0.8.6
+         v0.8.7
+         v0.8.8
+         v0.8.9
+        v0.8.10
+        v0.8.11
+        v0.8.12
+        v0.8.13
+        v0.8.14
+        v0.8.15
+        v0.8.16
+        v0.8.17
+        v0.8.18
+        v0.8.19
+        v0.8.20
+        v0.8.21
+        v0.8.22
+        v0.8.23
+        v0.8.24
+        v0.8.25
+        v0.8.26
+        v0.8.27
+        v0.8.28
+         v0.9.0
+         v0.9.1
+         v0.9.2
+         v0.9.3
+         v0.9.4
+         v0.9.5
+         v0.9.6
+         v0.9.7
+         v0.9.8
+         v0.9.9
+        v0.9.10
+        v0.9.11
+        v0.9.12
+        v0.10.0
+        v0.10.1
+        v0.10.2
+        v0.10.3
+        v0.10.4
+        v0.10.5
+        v0.10.6
+        v0.10.7
+        v0.10.8
+        v0.10.9
+       v0.10.10
+       v0.10.11
+       v0.10.12
+       v0.10.13
+       v0.10.14
+       v0.10.15
+       v0.10.16
+       v0.10.17
+       v0.10.18
+       v0.10.19
+       v0.10.20
+       v0.10.21
+       v0.10.22
+       v0.10.23
+       v0.10.24
+       v0.10.25
+       v0.10.26
+       v0.10.27
+       v0.10.28
+       v0.10.29
+       v0.10.30
+       v0.10.31
+       v0.10.32
+       v0.10.33
+       v0.10.34
+       v0.10.35
+       v0.10.36
+       v0.10.37
+       v0.10.38
+       v0.10.39
+       v0.10.40
+       v0.10.41
+       v0.10.42
+       v0.10.43
+       v0.10.44
+       v0.10.45
+       v0.10.46
+       v0.10.47
+       v0.10.48
+        v0.11.0
+        v0.11.1
+        v0.11.2
+        v0.11.3
+        v0.11.4
+        v0.11.5
+        v0.11.6
+        v0.11.7
+        v0.11.8
+        v0.11.9
+       v0.11.10
+       v0.11.11
+       v0.11.12
+       v0.11.13
+       v0.11.14
+       v0.11.15
+       v0.11.16
+        v0.12.0
+        v0.12.1
+        v0.12.2
+        v0.12.3
+        v0.12.4
+        v0.12.5
+        v0.12.6
+        v0.12.7
+        v0.12.8
+        v0.12.9
+       v0.12.10
+       v0.12.11
+       v0.12.12
+       v0.12.13
+       v0.12.14
+       v0.12.15
+       v0.12.16
+       v0.12.17
+       v0.12.18
+    iojs-v1.0.0
+    iojs-v1.0.1
+    iojs-v1.0.2
+    iojs-v1.0.3
+    iojs-v1.0.4
+    iojs-v1.1.0
+    iojs-v1.2.0
+    iojs-v1.3.0
+    iojs-v1.4.1
+    iojs-v1.4.2
+    iojs-v1.4.3
+    iojs-v1.5.0
+    iojs-v1.5.1
+    iojs-v1.6.0
+    iojs-v1.6.1
+    iojs-v1.6.2
+    iojs-v1.6.3
+    iojs-v1.6.4
+    iojs-v1.7.1
+    iojs-v1.8.1
+    iojs-v1.8.2
+    iojs-v1.8.3
+    iojs-v1.8.4
+    iojs-v2.0.0
+    iojs-v2.0.1
+    iojs-v2.0.2
+    iojs-v2.1.0
+    iojs-v2.2.0
+    iojs-v2.2.1
+    iojs-v2.3.0
+    iojs-v2.3.1
+    iojs-v2.3.2
+    iojs-v2.3.3
+    iojs-v2.3.4
+    iojs-v2.4.0
+    iojs-v2.5.0
+    iojs-v3.0.0
+    iojs-v3.1.0
+    iojs-v3.2.0
+    iojs-v3.3.0
+    iojs-v3.3.1
+         v4.0.0
+         v4.1.0
+         v4.1.1
+         v4.1.2
+         v4.2.0   (LTS: Argon)
+         v4.2.1   (LTS: Argon)
+         v4.2.2   (LTS: Argon)
+         v4.2.3   (LTS: Argon)
+         v4.2.4   (LTS: Argon)
+         v4.2.5   (LTS: Argon)
+         v4.2.6   (LTS: Argon)
+         v4.3.0   (LTS: Argon)
+         v4.3.1   (LTS: Argon)
+         v4.3.2   (LTS: Argon)
+         v4.4.0   (LTS: Argon)
+         v4.4.1   (LTS: Argon)
+         v4.4.2   (LTS: Argon)
+         v4.4.3   (LTS: Argon)
+         v4.4.4   (LTS: Argon)
+         v4.4.5   (LTS: Argon)
+         v4.4.6   (LTS: Argon)
+         v4.4.7   (LTS: Argon)
+         v4.5.0   (LTS: Argon)
+         v4.6.0   (LTS: Argon)
+         v4.6.1   (LTS: Argon)
+         v4.6.2   (LTS: Argon)
+         v4.7.0   (LTS: Argon)
+         v4.7.1   (LTS: Argon)
+         v4.7.2   (LTS: Argon)
+         v4.7.3   (LTS: Argon)
+         v4.8.0   (LTS: Argon)
+         v4.8.1   (LTS: Argon)
+         v4.8.2   (LTS: Argon)
+         v4.8.3   (LTS: Argon)
+         v4.8.4   (LTS: Argon)
+         v4.8.5   (LTS: Argon)
+         v4.8.6   (LTS: Argon)
+         v4.8.7   (LTS: Argon)
+         v4.9.0   (LTS: Argon)
+         v4.9.1   (Latest LTS: Argon)
+         v5.0.0
+         v5.1.0
+         v5.1.1
+         v5.2.0
+         v5.3.0
+         v5.4.0
+         v5.4.1
+         v5.5.0
+         v5.6.0
+         v5.7.0
+         v5.7.1
+         v5.8.0
+         v5.9.0
+         v5.9.1
+        v5.10.0
+        v5.10.1
+        v5.11.0
+        v5.11.1
+        v5.12.0
+         v6.0.0
+         v6.1.0
+         v6.2.0
+         v6.2.1
+         v6.2.2
+         v6.3.0
+         v6.3.1
+         v6.4.0
+         v6.5.0
+         v6.6.0
+         v6.7.0
+         v6.8.0
+         v6.8.1
+         v6.9.0   (LTS: Boron)
+         v6.9.1   (LTS: Boron)
+         v6.9.2   (LTS: Boron)
+         v6.9.3   (LTS: Boron)
+         v6.9.4   (LTS: Boron)
+         v6.9.5   (LTS: Boron)
+        v6.10.0   (LTS: Boron)
+        v6.10.1   (LTS: Boron)
+        v6.10.2   (LTS: Boron)
+        v6.10.3   (LTS: Boron)
+        v6.11.0   (LTS: Boron)
+        v6.11.1   (LTS: Boron)
+        v6.11.2   (LTS: Boron)
+        v6.11.3   (LTS: Boron)
+        v6.11.4   (LTS: Boron)
+        v6.11.5   (LTS: Boron)
+        v6.12.0   (LTS: Boron)
+        v6.12.1   (LTS: Boron)
+        v6.12.2   (LTS: Boron)
+        v6.12.3   (LTS: Boron)
+        v6.13.0   (LTS: Boron)
+        v6.13.1   (LTS: Boron)
+        v6.14.0   (LTS: Boron)
+        v6.14.1   (LTS: Boron)
+        v6.14.2   (LTS: Boron)
+        v6.14.3   (LTS: Boron)
+        v6.14.4   (LTS: Boron)
+        v6.15.0   (LTS: Boron)
+        v6.15.1   (LTS: Boron)
+        v6.16.0   (LTS: Boron)
+        v6.17.0   (LTS: Boron)
+        v6.17.1   (Latest LTS: Boron)
+         v7.0.0
+         v7.1.0
+         v7.2.0
+         v7.2.1
+         v7.3.0
+         v7.4.0
+         v7.5.0
+         v7.6.0
+         v7.7.0
+         v7.7.1
+         v7.7.2
+         v7.7.3
+         v7.7.4
+         v7.8.0
+         v7.9.0
+        v7.10.0
+        v7.10.1
+         v8.0.0
+         v8.1.0
+         v8.1.1
+         v8.1.2
+         v8.1.3
+         v8.1.4
+         v8.2.0
+         v8.2.1
+         v8.3.0
+         v8.4.0
+         v8.5.0
+         v8.6.0
+         v8.7.0
+         v8.8.0
+         v8.8.1
+         v8.9.0   (LTS: Carbon)
+         v8.9.1   (LTS: Carbon)
+         v8.9.2   (LTS: Carbon)
+         v8.9.3   (LTS: Carbon)
+         v8.9.4   (LTS: Carbon)
+        v8.10.0   (LTS: Carbon)
+        v8.11.0   (LTS: Carbon)
+        v8.11.1   (LTS: Carbon)
+        v8.11.2   (LTS: Carbon)
+        v8.11.3   (LTS: Carbon)
+        v8.11.4   (LTS: Carbon)
+        v8.12.0   (LTS: Carbon)
+        v8.13.0   (LTS: Carbon)
+        v8.14.0   (LTS: Carbon)
+        v8.14.1   (LTS: Carbon)
+        v8.15.0   (LTS: Carbon)
+        v8.15.1   (LTS: Carbon)
+        v8.16.0   (LTS: Carbon)
+        v8.16.1   (LTS: Carbon)
+        v8.16.2   (LTS: Carbon)
+        v8.17.0   (Latest LTS: Carbon)
+         v9.0.0
+         v9.1.0
+         v9.2.0
+         v9.2.1
+         v9.3.0
+         v9.4.0
+         v9.5.0
+         v9.6.0
+         v9.6.1
+         v9.7.0
+         v9.7.1
+         v9.8.0
+         v9.9.0
+        v9.10.0
+        v9.10.1
+        v9.11.0
+        v9.11.1
+        v9.11.2
+        v10.0.0
+        v10.1.0
+        v10.2.0
+        v10.2.1
+        v10.3.0
+        v10.4.0
+        v10.4.1
+        v10.5.0
+        v10.6.0
+        v10.7.0
+        v10.8.0
+        v10.9.0
+       v10.10.0
+       v10.11.0
+       v10.12.0
+       v10.13.0   (LTS: Dubnium)
+       v10.14.0   (LTS: Dubnium)
+       v10.14.1   (LTS: Dubnium)
+       v10.14.2   (LTS: Dubnium)
+       v10.15.0   (LTS: Dubnium)
+       v10.15.1   (LTS: Dubnium)
+       v10.15.2   (LTS: Dubnium)
+       v10.15.3   (LTS: Dubnium)
+       v10.16.0   (LTS: Dubnium)
+       v10.16.1   (LTS: Dubnium)
+       v10.16.2   (LTS: Dubnium)
+       v10.16.3   (LTS: Dubnium)
+       v10.17.0   (LTS: Dubnium)
+       v10.18.0   (LTS: Dubnium)
+       v10.18.1   (LTS: Dubnium)
+       v10.19.0   (LTS: Dubnium)
+       v10.20.0   (LTS: Dubnium)
+       v10.20.1   (LTS: Dubnium)
+       v10.21.0   (LTS: Dubnium)
+       v10.22.0   (LTS: Dubnium)
+       v10.22.1   (LTS: Dubnium)
+       v10.23.0   (LTS: Dubnium)
+       v10.23.1   (LTS: Dubnium)
+       v10.23.2   (LTS: Dubnium)
+       v10.23.3   (LTS: Dubnium)
+       v10.24.0   (LTS: Dubnium)
+       v10.24.1   (Latest LTS: Dubnium)
+        v11.0.0
+        v11.1.0
+        v11.2.0
+        v11.3.0
+        v11.4.0
+        v11.5.0
+        v11.6.0
+        v11.7.0
+        v11.8.0
+        v11.9.0
+       v11.10.0
+       v11.10.1
+       v11.11.0
+       v11.12.0
+       v11.13.0
+       v11.14.0
+       v11.15.0
+        v12.0.0
+        v12.1.0
+        v12.2.0
+        v12.3.0
+        v12.3.1
+        v12.4.0
+        v12.5.0
+        v12.6.0
+        v12.7.0
+        v12.8.0
+        v12.8.1
+        v12.9.0
+        v12.9.1
+       v12.10.0
+       v12.11.0
+       v12.11.1
+       v12.12.0
+       v12.13.0   (LTS: Erbium)
+       v12.13.1   (LTS: Erbium)
+       v12.14.0   (LTS: Erbium)
+       v12.14.1   (LTS: Erbium)
+       v12.15.0   (LTS: Erbium)
+       v12.16.0   (LTS: Erbium)
+       v12.16.1   (LTS: Erbium)
+       v12.16.2   (LTS: Erbium)
+       v12.16.3   (LTS: Erbium)
+       v12.17.0   (LTS: Erbium)
+       v12.18.0   (LTS: Erbium)
+       v12.18.1   (LTS: Erbium)
+       v12.18.2   (LTS: Erbium)
+       v12.18.3   (LTS: Erbium)
+       v12.18.4   (LTS: Erbium)
+       v12.19.0   (LTS: Erbium)
+       v12.19.1   (LTS: Erbium)
+       v12.20.0   (LTS: Erbium)
+       v12.20.1   (LTS: Erbium)
+       v12.20.2   (LTS: Erbium)
+       v12.21.0   (LTS: Erbium)
+       v12.22.0   (LTS: Erbium)
+       v12.22.1   (LTS: Erbium)
+       v12.22.2   (LTS: Erbium)
+       v12.22.3   (LTS: Erbium)
+       v12.22.4   (LTS: Erbium)
+       v12.22.5   (LTS: Erbium)
+       v12.22.6   (LTS: Erbium)
+       v12.22.7   (LTS: Erbium)
+       v12.22.8   (LTS: Erbium)
+       v12.22.9   (LTS: Erbium)
+      v12.22.10   (LTS: Erbium)
+      v12.22.11   (LTS: Erbium)
+      v12.22.12   (Latest LTS: Erbium)
+        v13.0.0
+        v13.0.1
+        v13.1.0
+        v13.2.0
+        v13.3.0
+        v13.4.0
+        v13.5.0
+        v13.6.0
+        v13.7.0
+        v13.8.0
+        v13.9.0
+       v13.10.0
+       v13.10.1
+       v13.11.0
+       v13.12.0
+       v13.13.0
+       v13.14.0
+        v14.0.0
+        v14.1.0
+        v14.2.0
+        v14.3.0
+        v14.4.0
+        v14.5.0
+        v14.6.0
+        v14.7.0
+        v14.8.0
+        v14.9.0
+       v14.10.0
+       v14.10.1
+       v14.11.0
+       v14.12.0
+       v14.13.0
+       v14.13.1
+       v14.14.0
+       v14.15.0   (LTS: Fermium)
+       v14.15.1   (LTS: Fermium)
+       v14.15.2   (LTS: Fermium)
+       v14.15.3   (LTS: Fermium)
+       v14.15.4   (LTS: Fermium)
+       v14.15.5   (LTS: Fermium)
+       v14.16.0   (LTS: Fermium)
+       v14.16.1   (LTS: Fermium)
+       v14.17.0   (LTS: Fermium)
+       v14.17.1   (LTS: Fermium)
+       v14.17.2   (LTS: Fermium)
+       v14.17.3   (LTS: Fermium)
+       v14.17.4   (LTS: Fermium)
+       v14.17.5   (LTS: Fermium)
+       v14.17.6   (LTS: Fermium)
+       v14.18.0   (LTS: Fermium)
+       v14.18.1   (LTS: Fermium)
+       v14.18.2   (LTS: Fermium)
+       v14.18.3   (LTS: Fermium)
+       v14.19.0   (LTS: Fermium)
+       v14.19.1   (LTS: Fermium)
+       v14.19.2   (LTS: Fermium)
+       v14.19.3   (LTS: Fermium)
+       v14.20.0   (LTS: Fermium)
+       v14.20.1   (LTS: Fermium)
+       v14.21.0   (LTS: Fermium)
+       v14.21.1   (LTS: Fermium)
+       v14.21.2   (LTS: Fermium)
+       v14.21.3   (Latest LTS: Fermium)
+        v15.0.0
+        v15.0.1
+        v15.1.0
+        v15.2.0
+        v15.2.1
+        v15.3.0
+        v15.4.0
+        v15.5.0
+        v15.5.1
+        v15.6.0
+        v15.7.0
+        v15.8.0
+        v15.9.0
+       v15.10.0
+       v15.11.0
+       v15.12.0
+       v15.13.0
+       v15.14.0
+        v16.0.0
+        v16.1.0
+        v16.2.0
+        v16.3.0
+        v16.4.0
+        v16.4.1
+        v16.4.2
+        v16.5.0
+        v16.6.0
+        v16.6.1
+        v16.6.2
+        v16.7.0
+        v16.8.0
+        v16.9.0
+        v16.9.1
+       v16.10.0
+       v16.11.0
+       v16.11.1
+       v16.12.0
+       v16.13.0   (LTS: Gallium)
+       v16.13.1   (LTS: Gallium)
+       v16.13.2   (LTS: Gallium)
+       v16.14.0   (LTS: Gallium)
+       v16.14.1   (LTS: Gallium)
+       v16.14.2   (LTS: Gallium)
+       v16.15.0   (LTS: Gallium)
+       v16.15.1   (LTS: Gallium)
+       v16.16.0   (LTS: Gallium)
+       v16.17.0   (LTS: Gallium)
+       v16.17.1   (LTS: Gallium)
+       v16.18.0   (LTS: Gallium)
+       v16.18.1   (LTS: Gallium)
+       v16.19.0   (LTS: Gallium)
+       v16.19.1   (LTS: Gallium)
+       v16.20.0   (LTS: Gallium)
+       v16.20.1   (LTS: Gallium)
+       v16.20.2   (Latest LTS: Gallium)
+        v17.0.0
+        v17.0.1
+        v17.1.0
+        v17.2.0
+        v17.3.0
+        v17.3.1
+        v17.4.0
+        v17.5.0
+        v17.6.0
+        v17.7.0
+        v17.7.1
+        v17.7.2
+        v17.8.0
+        v17.9.0
+        v17.9.1
+        v18.0.0
+        v18.1.0
+        v18.2.0
+        v18.3.0
+        v18.4.0
+        v18.5.0
+        v18.6.0
+        v18.7.0
+        v18.8.0
+        v18.9.0
+        v18.9.1
+       v18.10.0
+       v18.11.0
+       v18.12.0   (LTS: Hydrogen)
+       v18.12.1   (LTS: Hydrogen)
+       v18.13.0   (LTS: Hydrogen)
+       v18.14.0   (LTS: Hydrogen)
+       v18.14.1   (LTS: Hydrogen)
+       v18.14.2   (LTS: Hydrogen)
+       v18.15.0   (LTS: Hydrogen)
+       v18.16.0   (LTS: Hydrogen)
+       v18.16.1   (LTS: Hydrogen)
+       v18.17.0   (LTS: Hydrogen)
+       v18.17.1   (LTS: Hydrogen)
+       v18.18.0   (LTS: Hydrogen)
+       v18.18.1   (LTS: Hydrogen)
+       v18.18.2   (LTS: Hydrogen)
+       v18.19.0   (LTS: Hydrogen)
+       v18.19.1   (LTS: Hydrogen)
+       v18.20.0   (LTS: Hydrogen)
+       v18.20.1   (LTS: Hydrogen)
+       v18.20.2   (LTS: Hydrogen)
+       v18.20.3   (LTS: Hydrogen)
+       v18.20.4   (Latest LTS: Hydrogen)
+        v19.0.0
+        v19.0.1
+        v19.1.0
+        v19.2.0
+        v19.3.0
+        v19.4.0
+        v19.5.0
+        v19.6.0
+        v19.6.1
+        v19.7.0
+        v19.8.0
+        v19.8.1
+        v19.9.0
+        v20.0.0
+        v20.1.0
+        v20.2.0
+        v20.3.0
+        v20.3.1
+        v20.4.0
+        v20.5.0
+        v20.5.1
+        v20.6.0
+        v20.6.1
+        v20.7.0
+        v20.8.0
+        v20.8.1
+        v20.9.0   (LTS: Iron)
+       v20.10.0   (LTS: Iron)
+       v20.11.0   (LTS: Iron)
+       v20.11.1   (LTS: Iron)
+       v20.12.0   (LTS: Iron)
+       v20.12.1   (LTS: Iron)
+       v20.12.2   (LTS: Iron)
+       v20.13.0   (LTS: Iron)
+       v20.13.1   (LTS: Iron)
+       v20.14.0   (LTS: Iron)
+       v20.15.0   (LTS: Iron)
+       v20.15.1   (LTS: Iron)
+       v20.16.0   (LTS: Iron)
+       v20.17.0   (Latest LTS: Iron)
+        v21.0.0
+        v21.1.0
+        v21.2.0
+        v21.3.0
+        v21.4.0
+        v21.5.0
+        v21.6.0
+        v21.6.1
+        v21.6.2
+        v21.7.0
+        v21.7.1
+        v21.7.2
+        v21.7.3
+        v22.0.0
+        v22.1.0
+        v22.2.0
+        v22.3.0
+        v22.4.0
+        v22.4.1
+        v22.5.0
+        v22.5.1
+        v22.6.0
+        v22.7.0
+```
+
+`nvm ls-remote` lists `all` remote `versions` available for `install`: `'LTS'`,
+`'Latest: LTS'`, and `'Current'`.
+
+### Piping nvm ls-remote to grep -v
+
+The `best` I `can` do `here` (s*o far*) to `reduce` the `length` of the `list`,
+is to `exclude` any `versions` with '(Latest LTS:' or 'LTS' or '^\d\*[02468]$'.
+
+The regex `'^\d\*[02468]$'` means all versions ending in an even number. But we
+are excluding them since we are running `grep -v '^\d*[02468]$'`. grep -v
+followed by a regex pattern or string pattern means to exclude anything that
+matches that pattern in the search results. As you will see in the below output,
+the first, second, or last number (v`x`.`x`.`x`) in the versions returned from
+the command end in odd numbers.
+
+```shell
+nvm ls-remote | grep -v '(Latest LTS:' | grep -v  'LTS' | grep -v '^\d*[02468]$'
+```
+
+Returns`:
+
+```shell
+v0.1.14
+        v0.1.15
+        v0.1.16
+        v0.1.17
+        v0.1.18
+        v0.1.19
+        v0.1.20
+        v0.1.21
+        v0.1.22
+        v0.1.23
+        v0.1.24
+        v0.1.25
+        v0.1.26
+        v0.1.27
+        v0.1.28
+        v0.1.29
+        v0.1.30
+        v0.1.31
+        v0.1.32
+        v0.1.33
+        v0.1.90
+        v0.1.91
+        v0.1.92
+        v0.1.93
+        v0.1.94
+        v0.1.95
+        v0.1.96
+        v0.1.97
+        v0.1.98
+        v0.1.99
+       v0.1.100
+       v0.1.101
+       v0.1.102
+       v0.1.103
+       v0.1.104
+         v0.2.0
+         v0.2.1
+         v0.2.2
+         v0.2.3
+         v0.2.4
+         v0.2.5
+         v0.2.6
+         v0.3.0
+         v0.3.1
+         v0.3.2
+         v0.3.3
+         v0.3.4
+         v0.3.5
+         v0.3.6
+         v0.3.7
+         v0.3.8
+         v0.4.0
+         v0.4.1
+         v0.4.2
+         v0.4.3
+         v0.4.4
+         v0.4.5
+         v0.4.6
+         v0.4.7
+         v0.4.8
+         v0.4.9
+        v0.4.10
+        v0.4.11
+        v0.4.12
+         v0.5.0
+         v0.5.1
+         v0.5.2
+         v0.5.3
+         v0.5.4
+         v0.5.5
+         v0.5.6
+         v0.5.7
+         v0.5.8
+         v0.5.9
+        v0.5.10
+         v0.6.0
+         v0.6.1
+         v0.6.2
+         v0.6.3
+         v0.6.4
+         v0.6.5
+         v0.6.6
+         v0.6.7
+         v0.6.8
+         v0.6.9
+        v0.6.10
+        v0.6.11
+        v0.6.12
+        v0.6.13
+        v0.6.14
+        v0.6.15
+        v0.6.16
+        v0.6.17
+        v0.6.18
+        v0.6.19
+        v0.6.20
+        v0.6.21
+         v0.7.0
+         v0.7.1
+         v0.7.2
+         v0.7.3
+         v0.7.4
+         v0.7.5
+         v0.7.6
+         v0.7.7
+         v0.7.8
+         v0.7.9
+        v0.7.10
+        v0.7.11
+        v0.7.12
+         v0.8.0
+         v0.8.1
+         v0.8.2
+         v0.8.3
+         v0.8.4
+         v0.8.5
+         v0.8.6
+         v0.8.7
+         v0.8.8
+         v0.8.9
+        v0.8.10
+        v0.8.11
+        v0.8.12
+        v0.8.13
+        v0.8.14
+        v0.8.15
+        v0.8.16
+        v0.8.17
+        v0.8.18
+        v0.8.19
+        v0.8.20
+        v0.8.21
+        v0.8.22
+        v0.8.23
+        v0.8.24
+        v0.8.25
+        v0.8.26
+        v0.8.27
+        v0.8.28
+         v0.9.0
+         v0.9.1
+         v0.9.2
+         v0.9.3
+         v0.9.4
+         v0.9.5
+         v0.9.6
+         v0.9.7
+         v0.9.8
+         v0.9.9
+        v0.9.10
+        v0.9.11
+        v0.9.12
+        v0.10.0
+        v0.10.1
+        v0.10.2
+        v0.10.3
+        v0.10.4
+        v0.10.5
+        v0.10.6
+        v0.10.7
+        v0.10.8
+        v0.10.9
+       v0.10.10
+       v0.10.11
+       v0.10.12
+       v0.10.13
+       v0.10.14
+       v0.10.15
+       v0.10.16
+       v0.10.17
+       v0.10.18
+       v0.10.19
+       v0.10.20
+       v0.10.21
+       v0.10.22
+       v0.10.23
+       v0.10.24
+       v0.10.25
+       v0.10.26
+       v0.10.27
+       v0.10.28
+       v0.10.29
+       v0.10.30
+       v0.10.31
+       v0.10.32
+       v0.10.33
+       v0.10.34
+       v0.10.35
+       v0.10.36
+       v0.10.37
+       v0.10.38
+       v0.10.39
+       v0.10.40
+       v0.10.41
+       v0.10.42
+       v0.10.43
+       v0.10.44
+       v0.10.45
+       v0.10.46
+       v0.10.47
+       v0.10.48
+        v0.11.0
+        v0.11.1
+        v0.11.2
+        v0.11.3
+        v0.11.4
+        v0.11.5
+        v0.11.6
+        v0.11.7
+        v0.11.8
+        v0.11.9
+       v0.11.10
+       v0.11.11
+       v0.11.12
+       v0.11.13
+       v0.11.14
+       v0.11.15
+       v0.11.16
+        v0.12.0
+        v0.12.1
+        v0.12.2
+        v0.12.3
+        v0.12.4
+        v0.12.5
+        v0.12.6
+        v0.12.7
+        v0.12.8
+        v0.12.9
+       v0.12.10
+       v0.12.11
+       v0.12.12
+       v0.12.13
+       v0.12.14
+       v0.12.15
+       v0.12.16
+       v0.12.17
+       v0.12.18
+    iojs-v1.0.0
+    iojs-v1.0.1
+    iojs-v1.0.2
+    iojs-v1.0.3
+    iojs-v1.0.4
+    iojs-v1.1.0
+    iojs-v1.2.0
+    iojs-v1.3.0
+    iojs-v1.4.1
+    iojs-v1.4.2
+    iojs-v1.4.3
+    iojs-v1.5.0
+    iojs-v1.5.1
+    iojs-v1.6.0
+    iojs-v1.6.1
+    iojs-v1.6.2
+    iojs-v1.6.3
+    iojs-v1.6.4
+    iojs-v1.7.1
+    iojs-v1.8.1
+    iojs-v1.8.2
+    iojs-v1.8.3
+    iojs-v1.8.4
+    iojs-v2.0.0
+    iojs-v2.0.1
+    iojs-v2.0.2
+    iojs-v2.1.0
+    iojs-v2.2.0
+    iojs-v2.2.1
+    iojs-v2.3.0
+    iojs-v2.3.1
+    iojs-v2.3.2
+    iojs-v2.3.3
+    iojs-v2.3.4
+    iojs-v2.4.0
+    iojs-v2.5.0
+    iojs-v3.0.0
+    iojs-v3.1.0
+    iojs-v3.2.0
+    iojs-v3.3.0
+    iojs-v3.3.1
+         v4.0.0
+         v4.1.0
+         v4.1.1
+         v4.1.2
+         v5.0.0
+         v5.1.0
+         v5.1.1
+         v5.2.0
+         v5.3.0
+         v5.4.0
+         v5.4.1
+         v5.5.0
+         v5.6.0
+         v5.7.0
+         v5.7.1
+         v5.8.0
+         v5.9.0
+         v5.9.1
+        v5.10.0
+        v5.10.1
+        v5.11.0
+        v5.11.1
+        v5.12.0
+         v6.0.0
+         v6.1.0
+         v6.2.0
+         v6.2.1
+         v6.2.2
+         v6.3.0
+         v6.3.1
+         v6.4.0
+         v6.5.0
+         v6.6.0
+         v6.7.0
+         v6.8.0
+         v6.8.1
+         v7.0.0
+         v7.1.0
+         v7.2.0
+         v7.2.1
+         v7.3.0
+         v7.4.0
+         v7.5.0
+         v7.6.0
+         v7.7.0
+         v7.7.1
+         v7.7.2
+         v7.7.3
+         v7.7.4
+         v7.8.0
+         v7.9.0
+        v7.10.0
+        v7.10.1
+         v8.0.0
+         v8.1.0
+         v8.1.1
+         v8.1.2
+         v8.1.3
+         v8.1.4
+         v8.2.0
+         v8.2.1
+         v8.3.0
+         v8.4.0
+         v8.5.0
+         v8.6.0
+         v8.7.0
+         v8.8.0
+         v8.8.1
+         v9.0.0
+         v9.1.0
+         v9.2.0
+         v9.2.1
+         v9.3.0
+         v9.4.0
+         v9.5.0
+         v9.6.0
+         v9.6.1
+         v9.7.0
+         v9.7.1
+         v9.8.0
+         v9.9.0
+        v9.10.0
+        v9.10.1
+        v9.11.0
+        v9.11.1
+        v9.11.2
+        v10.0.0
+        v10.1.0
+        v10.2.0
+        v10.2.1
+        v10.3.0
+        v10.4.0
+        v10.4.1
+        v10.5.0
+        v10.6.0
+        v10.7.0
+        v10.8.0
+        v10.9.0
+       v10.10.0
+       v10.11.0
+       v10.12.0
+        v11.0.0
+        v11.1.0
+        v11.2.0
+        v11.3.0
+        v11.4.0
+        v11.5.0
+        v11.6.0
+        v11.7.0
+        v11.8.0
+        v11.9.0
+       v11.10.0
+       v11.10.1
+       v11.11.0
+       v11.12.0
+       v11.13.0
+       v11.14.0
+       v11.15.0
+        v12.0.0
+        v12.1.0
+        v12.2.0
+        v12.3.0
+        v12.3.1
+        v12.4.0
+        v12.5.0
+        v12.6.0
+        v12.7.0
+        v12.8.0
+        v12.8.1
+        v12.9.0
+        v12.9.1
+       v12.10.0
+       v12.11.0
+       v12.11.1
+       v12.12.0
+        v13.0.0
+        v13.0.1
+        v13.1.0
+        v13.2.0
+        v13.3.0
+        v13.4.0
+        v13.5.0
+        v13.6.0
+        v13.7.0
+        v13.8.0
+        v13.9.0
+       v13.10.0
+       v13.10.1
+       v13.11.0
+       v13.12.0
+       v13.13.0
+       v13.14.0
+        v14.0.0
+        v14.1.0
+        v14.2.0
+        v14.3.0
+        v14.4.0
+        v14.5.0
+        v14.6.0
+        v14.7.0
+        v14.8.0
+        v14.9.0
+       v14.10.0
+       v14.10.1
+       v14.11.0
+       v14.12.0
+       v14.13.0
+       v14.13.1
+       v14.14.0
+        v15.0.0
+        v15.0.1
+        v15.1.0
+        v15.2.0
+        v15.2.1
+        v15.3.0
+        v15.4.0
+        v15.5.0
+        v15.5.1
+        v15.6.0
+        v15.7.0
+        v15.8.0
+        v15.9.0
+       v15.10.0
+       v15.11.0
+       v15.12.0
+       v15.13.0
+       v15.14.0
+        v16.0.0
+        v16.1.0
+        v16.2.0
+        v16.3.0
+        v16.4.0
+        v16.4.1
+        v16.4.2
+        v16.5.0
+        v16.6.0
+        v16.6.1
+        v16.6.2
+        v16.7.0
+        v16.8.0
+        v16.9.0
+        v16.9.1
+       v16.10.0
+       v16.11.0
+       v16.11.1
+       v16.12.0
+        v17.0.0
+        v17.0.1
+        v17.1.0
+        v17.2.0
+        v17.3.0
+        v17.3.1
+        v17.4.0
+        v17.5.0
+        v17.6.0
+        v17.7.0
+        v17.7.1
+        v17.7.2
+        v17.8.0
+        v17.9.0
+        v17.9.1
+        v18.0.0
+        v18.1.0
+        v18.2.0
+        v18.3.0
+        v18.4.0
+        v18.5.0
+        v18.6.0
+        v18.7.0
+        v18.8.0
+        v18.9.0
+        v18.9.1
+       v18.10.0
+       v18.11.0
+        v19.0.0
+        v19.0.1
+        v19.1.0
+        v19.2.0
+        v19.3.0
+        v19.4.0
+        v19.5.0
+        v19.6.0
+        v19.6.1
+        v19.7.0
+        v19.8.0
+        v19.8.1
+        v19.9.0
+        v20.0.0
+        v20.1.0
+        v20.2.0
+        v20.3.0
+        v20.3.1
+        v20.4.0
+        v20.5.0
+        v20.5.1
+        v20.6.0
+        v20.6.1
+        v20.7.0
+        v20.8.0
+        v20.8.1
+        v21.0.0
+        v21.1.0
+        v21.2.0
+        v21.3.0
+        v21.4.0
+        v21.5.0
+        v21.6.0
+        v21.6.1
+        v21.6.2
+        v21.7.0
+        v21.7.1
+        v21.7.2
+        v21.7.3
+        v22.0.0
+        v22.1.0
+        v22.2.0
+        v22.3.0
+        v22.4.0
+        v22.4.1
+        v22.5.0
+        v22.5.1
+        v22.6.0
+        v22.7.0
+```
+
+And the `latest` Node.js `Current` is `v22.7.0`.
+
+With the `nvm ls-remote` command, `792 versions` (`793 -1` because the
+`last line` is an `empty` next line) are `returned`, the `last` one `being` the
+_latest_ `Current` version of `Node.js` (`22.7.0`), and `560` versions (`561-1`)
+are `returned` using the
+`nvm ls-remote | grep -v '(Latest LTS:' | grep -v 'LTS' | grep -v "^\d*[02468]$"`
+command, the `last` one `being` the latest `Current` version of `Node.js`
+(`22.7.0`) as well. How did I get those numbers? By appending `| wc -l` to
+either
+`nvm ls-remote | grep -v '(Latest LTS:' | grep -v 'LTS' | grep -v "^\d*[02468]$"`
+or `nvm ls-remote`. `Like` the `following`:
+
+```shell
+nvm ls-remote | grep -v '(Latest LTS:' | grep -v  'LTS' | grep -v "^\d*[02468]$" | wc -l # shorter version
+# or:
+nvm ls-remote | wc -l # long version
+```
+
+## Returning only the latest (last) Node.js Current version returned from nvm ls-remote
+
+### Piping nvm ls-remote to grep and tail
+
+**_However_**, I can `take` it `even` a `step further` and just `return` the
+`latest` (`last`) Node.js `Current` with the `following command`:
+
+```shell
+nvm ls-remote | grep -v '(Latest LTS:' | grep -v 'LTS' | grep -v '^\d*[02468]$' | tail -n 1
+```
+
+Which `returns`:
+
+```shell
+v22.8.0
+```
+
+I can `double check` to `make sure` this is `right` (`at first` I `thought` it
+`wasn't` because` earlier` the `latest` Node.js `Current` was `22.7.0`) by
+`running` the `nvm ls-remote` command `again`. This time, `v22.8.0` WAS the
+`latest` Node.js `Current`!
+
+### Piping nvm ls-remote to tail only
+
+I can also `make` the `above command` much `more succinct` by `running` the
+`following`:
+
+```shell
+nvm ls-remote | tail -n 1
+```
+
+`Which` ALSO `returns`:
+
+```shell
+v22.8.0
+```
+
+### The tail -n 1 command
+
+The `tail -n 1` command displays the last line of the matches returned by nvm
+ls-remote. The nvm ls-remote command is piped to the `tail -n 1` command, which
+means that only the last Node.js Current (version) returned from the
+`nvm ls-remote` command is displayed.
+
+`Since` I was `able` to use tail -n 1 with `nvm ls-remote`, I should be able to
+use it with `nvm ls-remote --lts`:
+
+```shell
+nvm ls-remote --lts | grep '(Latest LTS:' | tail -n 1
+```
+
+Which `returned` the `following`:
+
+```shell
+v20.17.0   (Latest LTS: Iron)
+```
+
+`Success`! I `was` also `able` to use `tail -n 1` with `nvm ls-remote --lts` to
+display only the latest 'Latest LTS:' version of Node.js.
+
+## Should I use Node.js LTS or Current?
+
+`Node.js LTS` contains `stable` and `safe features` for `long term support`
+(`LTS`). `Node.js Current` includes an `experimental phase` with a
+`high probability` of `bugs` and `errors`, so `should` only be `used` in
+`local development`. It is `always better` to `use` the (`latest`) `LTS`
+version, because `a lot` of `experimental features` in `Node.js Current` are
+`removed` in `LTS` versions.
+
+## Conclusion
+
+`In` this `article`, I `showed` the `steps` I `took` to `figure out` how to
+`return` only the _latest_ `'Latest: LTS'` version of `Node.js` and `only` the
+_latest_ `Node.js Current` (`version`) `using` the `nvm`, `grep`, and `tail`
+commands `in conjunction` with the `pipe` (`|`) `operator`. `By using` these
+`commands`, I `no longer` have to `depend` on `going` onto the `Node.js` website
+to `find out` the _latest_ `LTS: Latest` and _latest_ `Node Current` versions,
+`or` to `scroll` through `hundreds` of `versions` to `get` to the `bottom` of
+the `output` of `nvm ls-remote` or `nvm ls-remote --lts` to `find out` what
+those `versions` are!
