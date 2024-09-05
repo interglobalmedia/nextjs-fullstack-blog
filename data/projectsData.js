@@ -102,7 +102,7 @@ const projectsData = [
 			'A little text to speech app I created so that cat lovers could be inspired to write about their cats using the Speech Synthesis API while being inspired by the app’s cat image slideshow and background music.',
 		summaryLong:
 			'A little text to speech app I created so that cat lovers could be inspired to write about their cats using the Speech Synthesis API while being inspired by the app’s cat image slideshow and background music.',
-		imgSrc: '/images/blog/the-cat-whisperer/cat-whisperer.gif',
+		imgSrc: '/images/blog/the-cat-whisperer/cat-whisperer-smaller.gif',
 		href: '/blog/the-cat-whisperer',
 		tags: [
 			'text to speech',
@@ -320,7 +320,7 @@ const projectsData = [
 			'modern javascript',
 			'mousemove event',
 			'node sass',
-			'webpack 5',
+			'webpack',
 		],
 		more: 'https://interglobalmedia.github.io/2d-breakout-game-mdn/',
 	},
@@ -435,7 +435,7 @@ const projectsData = [
 			'An application I created at the height of the COVID-19 pandemic as part of the course content of a Dynamic Web 1 (JavaScript) course I was teaching.',
 		summaryLong:
 			'An application I created at the height of the COVID-19 pandemic as part of the course content of a Dynamic Web 1 (JavaScript) course I was (and still am) teaching. We had just migrated to online learning, and I wanted to create an application that visualized what we were all feeling. I selected images that expressed those feelings, and synched the animations with the beat of music I chose. It was a rough time, but my students for that class were really amazing. I was truly inspired by them.',
-		imgSrc: '/images/blog/audio-visual-slider/audio-visual-slider.gif',
+		imgSrc: '/images/blog/audio-visual-slider/audio-visual-slider-smaller.gif',
 		href: '/blog/audio-visual-slider',
 		tags: [
 			'appendChild',
@@ -509,7 +509,6 @@ const projectsData = [
 			'react 18',
 			'react hooks',
 			'lazy loading',
-			'project',
 		],
 		more: 'https://interglobalmedia.github.io/monsters-rolodex-2022/',
 	},
@@ -542,7 +541,6 @@ const projectsData = [
 			'responsive design',
 			'socketio',
 			'websockets',
-			'project',
 		],
 		more: 'https://socketio-realtime-node-chat.herokuapp.com/',
 	},
