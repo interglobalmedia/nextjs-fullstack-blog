@@ -102,7 +102,7 @@ const projectsData = [
 			'A little text to speech app I created so that cat lovers could be inspired to write about their cats using the Speech Synthesis API while being inspired by the app’s cat image slideshow and background music.',
 		summaryLong:
 			'A little text to speech app I created so that cat lovers could be inspired to write about their cats using the Speech Synthesis API while being inspired by the app’s cat image slideshow and background music.',
-		imgSrc: '/images/blog/the-cat-whisperer/cat-whisperer-smaller.gif',
+		imgSrc: '/images/blog/the-cat-whisperer/cat-whisperer-smallest.gif',
 		href: '/blog/the-cat-whisperer',
 		tags: [
 			'text to speech',
