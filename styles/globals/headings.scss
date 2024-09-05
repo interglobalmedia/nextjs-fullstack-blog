@@ -37,3 +37,7 @@ h3 {
 .dark h3 a {
 	color: lighten($tailwind-dark-orange, 5%) !important;
 }
+
+.dark .card a h2 a {
+	color: darken(#1c1c1c, 1.25%) !important;
+}
