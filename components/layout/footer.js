@@ -21,6 +21,7 @@ function Footer() {
 	if (typeof document === 'object') {
 		return createPortal(
 			<footer className={`footer ${classes.footer}`}>
+				<DynamicFooterNavigation />
 				<h2 className={`${classes.follow} ${oswald.variable}`}>
 					Follow
 				</h2>
