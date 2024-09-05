@@ -13,6 +13,7 @@ $min-768: '(min-width: 768px)';
 	color: darken(#1c1c1c, 1.25%);
 	font-family: var(--oswald-font);
 	font-size: var(--size-12);
+	padding-bottom: 1rem;
 	text-align: center;
 	@media #{$min-768} {
 		font-size: var(--size-16);
