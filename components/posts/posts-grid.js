@@ -22,7 +22,7 @@ function PostsGrid(props) {
 
 	return (
 		<>
-			<div className="relative">
+			<div className={`relative ${classes.relative}`}>
 				<input
 					aria-label="Search articles"
 					type="text"
