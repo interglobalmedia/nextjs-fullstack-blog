@@ -2,7 +2,6 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import projectsData from '../data/projectsData'
 import ScrollTop from '../components/buttons/scroll-top'
-import { getAllProjects } from '../lib/projects-util'
 import ScrollStep from '../components/buttons/scroll-step'
 import classes from '../styles/projects.module.scss'
 
