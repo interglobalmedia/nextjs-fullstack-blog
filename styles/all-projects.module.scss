@@ -1,36 +1,20 @@
-/* scss @media variables */
+/* scss variables */
 $min-768: '(min-width: 768px)';
 
-/* scss color variables */
-$aussie-blue: #80d0ff;
+/* stylelint-disable scss/no-global-function-names */
 
-.main {
-	list-style-type: none;
-	display: grid;
-	grid-template-columns: repeat(1, 1fr);
+.projects {
+	margin: var(--size-8) auto 0;
 	max-width: 60rem;
 	width: 90%;
-	margin: 0 auto;
 }
 
-.projects-wrapper > h1 {
+.projects > h1 {
 	color: darken(#1c1c1c, 1.25%);
 	font-family: var(--oswald-font);
 	font-size: var(--size-12);
-	margin: 2rem auto 0;
 	text-align: center;
 	@media #{$min-768} {
 		font-size: var(--size-16);
 	}
-}
-
-.projects-wrapper .search {
-	width: 100%;
-	margin-bottom: 1.25rem;
-}
-
-.search {
-	background: $aussie-blue;
-	height: 3.25rem;
-	font-size: 1.3rem;
 }
