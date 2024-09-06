@@ -2,6 +2,7 @@ import Image from '../image/image'
 import Link from 'next/link'
 import { Oswald } from 'next/font/google'
 import { getTagLink } from '../posts/get-tag-link'
+import projectsData from '../../data/projectsData'
 import classes from '../../styles/card.module.scss'
 
 const oswald = Oswald({
@@ -11,7 +12,7 @@ const oswald = Oswald({
 	variable: '--oswald-font',
 })
 
-const Card = ({ title, author, summary, date, imgSrc, href, tags }) => {
+const Card = ({ title, id, summary, imgSrc, href, tags }) => {
 	return (
 		<li className={`card ${classes.card}`}>
 			<Link href={href}>
