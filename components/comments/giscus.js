@@ -29,6 +29,7 @@ const Giscus = () => {
 			inputPosition = 'top',
 			theme = 'preferred_color_scheme',
 			lang = 'en',
+			dataLoading = 'lazy',
 		} = siteMetadata?.comment?.giscusConfig
 
 		const script = document.createElement('script')
@@ -43,6 +44,7 @@ const Giscus = () => {
 		script.setAttribute('data-input-position', inputPosition)
 		script.setAttribute('data-theme', theme)
 		script.setAttribute('data-lang', lang)
+		script.setAttribute('data-loading', dataLoading)
 		script.setAttribute('crossorigin', 'anonymous')
 		script.async = true
 
