@@ -5,10 +5,15 @@ lastModified: '2024-09-06T17:13:22.089Z'
 title: 'How to create a fullstack application using Django and Python Part 8'
 author: 'Maria D. Campbell'
 excerpt: 'How to create a fullstack application using Django and Python part 8.'
+image: board-app.jpg
 tags: ['fullstack development']
-isPublished: false
+isPublished: true
 isFeatured: false
 ---
+
+![Board app](board-app.jpg)
+
+_Board app_
 
 ## Table of Contents
 
@@ -17,12 +22,17 @@ isFeatured: false
 -   [Boards](#boards)
 -   [Testing the index (home) page](#testing-the-index-home-page)
 -   [Setting up the static files](#setting-up-the-static-files)
+-   [django.contrib.staticfiles](#django-contrib-staticfiles)
 -   [Creating the static directory](#creating-the-static-directory)
 -   [Creating the css directory](#creating-the-css-directory)
 -   [Downloading Bootstrap](#downloading-bootstrap)
 -   [Configuring the static directory in settings.py](#configuring-the-static-directory-in-settingspy)
+-   [The collectstatic command](#the-collectstatic-command)
 -   [Loading the static Bootstrap CSS file in the index.html template](#loading-the-static-bootstrap-css-file-in-the-indexhtml-template)
+-   [Editing the index.html template to include Bootstrap styling](#editing-the-indexhtml-template-to-include-Bootstrap-styling)
+-   [Footnotes](#footnotes)
 -   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
 
 ## Views, Templates, and Static files
 
@@ -557,6 +567,31 @@ STATICFILES_DIRS = [
 ]
 ```
 
+`STATIC_URL` tells Django to append `static` to the base url, which in
+development for us is `http://127.0.0.1:8000`, when searching for static files.
+
+The `STATICFILES_DIRS` tuple **[^1]** tells Django where to find static files
+that are not linked to a particular app. Here we are telling Django to look for
+static files in our root folder, not in any particular app (i.e., the board
+app).
+
+## The collectstatic command
+
+Among its [core components](https://testdriven.io/blog/django-static-files/),
+Django's django.contrib.staticfiles app provides management commands. One of
+them is the `collectstatic` command. This command collects static files from
+various locations like `/board/static/` or directories in `STATICFILES_DIRS
+setting in settings.py, and copies them to the STATIC_ROOT directory.
+
+The `STATIC_ROOT` directory is where the static files get copied to
+automatically after collectstatic is run.
+
+The collectstatic command is a built-in Django management command that collects
+all static files from a Django project, including files from each installed app,
+and places them in a single location, specified by the STATIC_ROOT setting in
+settings.py. This is the location where our web server will look for static
+files to serve to the end users in production.
+
 ## Loading the static Bootstrap CSS file in the index.html template
 
 Next, we have to load the Bootstrap CSS file inside our index.html template:
@@ -576,8 +611,87 @@ Next, we have to load the Bootstrap CSS file inside our index.html template:
 </html>
 ```
 
+The `{% load static %}` is Django's special template tag syntax telling the
+template engine to use the files in the static directory in the index.html
+template. Without this special tag, Django would not know to load the the static
+files like CSS, JS, and any images that might be stored there. The site would
+contain no styling, media assets, or JS functionality! That's why so many
+backend-centric developers like Bootstrap. It's an all inclusive CSS (with some
+JS) framework.
+
+`{% static 'css/bootstrap.min.css' %}` returns `/static/css/bootstrap.min.css`.`
+
+## Editing the index.html template to include Bootstrap styling
+
+```HTML
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boards</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  </head>
+
+  <body>
+  <div class="container">
+    <ol class="breadcrumb my-4">
+      <li class="breadcrumb-item active">
+      Boards
+      </li>
+    </ol>
+    <table class="table">
+      <thead class="thead-inverse">
+        <tr>
+          <th>Board</th>
+          <th>Posts</th>
+          <th>Topics</th>
+          <th>Last Post</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for board in boards %}
+        <tr>
+          <td>
+            {{ board.name }}<br>
+            <small class="text-muted d-block">{{ board.description }}</small>
+          </td>
+          <td class="align-middle">0</td>
+          <td class="align-middle">0</td>
+          <td></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+    </div>
+  </body>
+
+</html>
+```
+
+Which renders the following in the browser:
+
+![Board with Bootstrap CSS](board-with-bootstrap-css.jpg)
+
+_Board with Bootstrap CSS_
+
+## Footnotes
+
+**[^1]**: A Python tuple is a data structure similar to a list. The main
+difference between the two is that a tuple is immutable, meaning it cannot be
+changed once it is created. This makes it ideal for storing data that should not
+be modified, such as database records (aka rows).
+
 ## Related Resources
 
 -   [Working with Static and Media Files in Django](https://testdriven.io/blog/django-static-files/):
     **_by Amal Shaji, testdriven.io_**
 -   [getbootstrap](https://getbootstrap.com)
+-   [Everything About Django collectstatic Command](https://www.geeksforgeeks.org/everything-about-django-collectstatic-command/):
+    **_Geeks for Geeks_**
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
