@@ -1,0 +1,168 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-9
+date: '2024-09-07T11:08:41.791Z'
+lastModified: '2024-09-07T11:08:41.791Z'
+title: How to create a fullstack application using Django and Python Part 9
+author: Maria D. Campbell
+excerpt: 'How to create a fullstack application using Django and Python Part 9. In this section, I introduce the Django Admin, configure the Django Admin by
+creating a superuser, register the boards app in boards/admin.py, add a
+board in the Django Admin interface, and delete a board in the Django Admin
+interface.'
+image: list-of-boards-in-the-django-admin-dashboard.jpg
+tags: ['macOS', 'django', 'fullstack development', 'python3', 'django admin', 'superuser', 'register app', 'series']
+isPublished: true
+isFeatured: false
+---
+
+![List of boards in the Django Admin dashboard](list-of-boards-in-the-django-admin-dashboard.jpg)
+
+_List of boards in the Django Admin dashboard_
+
+## Table of Contents
+
+-   [Introducing the Django Admin](#introducing-the-django-admin)
+-   [Configuring the Django Admin](#configuring-the-django-admin)
+    -   [Creating the superuser](#creating-the-superuser)
+-   [Registering the boards app in boards/admin.py](#registering-the-boards-app-in-boards-adminpy)
+-   [Viewing available Boards in the Django Admin Interface](#viewing-available-boards-in-the-django-admin-interface)
+-   [Adding a board in the Django Admin interface](#adding-a-board-in-the-django-admin-interface)
+-   [Deleting a board in the Django Admin interface](#deleting-a-board-in-the-django-admin-interface)
+-   [Conclusion](#conclusion)
+-   [Related Posts](#related-posts)
+
+## Introducing the Django Admin
+
+When we create a new project, the root project directory automatically comes
+with a file called admin.py. That file includes the `django.contrib.admin` app,
+which is included in INSTALLED_APPS in settings.py.
+
+The Django Admin reads metadata from our models to provide a quick,
+model-centric interface where trusted users can manage content on our site. The
+Django Admin's use should be limited to being an internal management tool and
+not a means to styling the frontend of a site.
+
+We are going to use Django Admin to manage our board app boards.
+
+## Configuring the Django Admin
+
+### Creating the superuser
+
+In order to create an admin user, I run the following command in Terminal:
+
+```shell
+python3 manage.py createsuperuser
+```
+
+Which for me, returns the following:
+
+```shell
+Username (leave blank to use 'mariacam'): interglobalmedia
+# then:
+Email address: interglobalmedia@example.com # no need for a real email for the purposes of our site at this time
+# then:
+Password:
+Password (login):
+Superuser created successfully.
+```
+
+Next, we use our new superuser account to log into the Django Admin area. It
+looks like the following:
+
+![The Django Admin login](django-admin-login.jpg)
+
+_The Django Admin login_
+
+After I add my login credentials, I am taken to the following:
+
+![The Django Admin dashboard (interface)](django-admin-dashboard.jpg)
+
+_The Django Admin dashboard (interface)_
+
+This probably looks a bit different from yours. I already registered the Board,
+Post, Topic, and PostLike models to the board app's admin.py. The PostLike model
+is not included in Vitor Freitas'
+[A Complete Beginner's Guide to Django](https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/),
+which my series is based on. I updated the UML Class diagrams amd wireframes to
+include PostLike. I will discuss this in the next section (Part 10). Just make
+sure that your Boards that your Groups and Users under
+`Authentication and Authorization` appear here.
+
+## Registering the boards app in boards/admin.py
+
+We have to register the boards app in boards/admin/py in order for it to appear
+in the Django Admin interface so that we can interact with it and manage it
+there:
+
+```python
+# boards/admin.py
+from django.contrib import admin
+from .models import Board, Topic, Post, PostLike
+
+# Register your models here.
+admin.site.register(Board)
+```
+
+Now, when you go back to `http://127.0.0.1:8000/admin/`, Boards should appear
+under "Boards". Now we can access Boards.
+
+## Viewing available Boards in the Django Admin Interface
+
+To view which boards are available to us, we can go to
+`http://127.0.0.1:8000/admin/boards/board/` to view our list of all our boards:
+
+![List of boards in the Django Admin dashboard](list-of-boards-in-the-django-admin-dashboard.jpg)
+
+_List of boards in the Django Admin dashboard_
+
+As you can see below, we can add a board or delete one:
+
+![Add or delete a board in the Admin panel](add-delete-board-admin-panel.jpg)
+
+_Add or delete a board in the Admin panel_
+
+## Adding a board in the Django Admin interface
+
+If I want to add a board, after I click the Add Board + button, the following
+appears:
+
+![Add a board in the Django Admin panel](add-board-django-admin.jpg)
+
+_Add a board in the Django Admin panel_
+
+After I put in the board name and description, I am given three choices. I can
+press the save button and just save the new board and exit out of the Add Board
+interface. I can save the new board and add another one, or I can save the new
+board and continue editing it. I will go with the first choice. When I save the
+new board, I am taken back to the list of boards, and it looks something like
+the following:
+
+![New board added successfully](new-board-added-successfully.jpg)
+
+_New board added successfully_
+
+## Deleting a board in the Django Admin interface
+
+If I want to delete a board, i select the board I want to delete, and a result,
+it looks like the following:
+
+![Selecting board for deletion](select-board-for-deletion.jpg)
+
+_Selecting board for deletion_
+
+Then I run the selected action to delete the selected board by pressing the "Go"
+button:
+
+![Run selected action to delete board](run-selected-action-to-delete-board.jpg)
+
+_Run selected action to delete board_
+
+## Conclusion
+
+In this section, I introduced the Django Admin, configured the Django Admin by
+creating a superuser, registered the boards app in boards/admin.py, added a
+board in the Django Admin interface, and deleted a board in the Django Admin
+interface.
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
