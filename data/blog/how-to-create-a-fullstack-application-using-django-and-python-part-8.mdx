@@ -7,7 +7,7 @@ author: 'Maria D. Campbell'
 excerpt: 'How to create a fullstack application using Django and Python part 8.'
 image: board-app.jpg
 tags: ['fullstack development']
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
@@ -36,8 +36,9 @@ _Board app_
 
 ## Views, Templates, and Static files
 
-Right now I already have a home page I call "index" (index.html inside
-"templates" directory). Inside urls.py of inner django_boards project directory:
+Right now I already have a `home page` I call `"index"` (`index.html` inside
+`"templates"` directory). Inside `urls.py` of inner `django_boards` project
+`directory`:
 
 ```python
 from django.contrib import admin
@@ -64,7 +65,8 @@ def index(request):
   return render(request, 'index.html', {'boards': boards}) # renders all boards to the page
 ```
 
-This next thing to do is to make rendering the boards cleaner and more dynamic:
+This `next thing` to `do` is to render all the boards with a different approach
+as a comparison:
 
 ```python
 from django.shortcuts import render
@@ -85,26 +87,26 @@ def index(request):
   return HttpResponse(response_html)
 ```
 
-And this would result in the following in the browser:
+And this `results` in the `following` in the `browser`:
 
 ![Rendering board names in the browser](Screenshot-2024-09-06-at-2.11.07-PM.jpg)
 
-We changed the code from using the render method to render the index.html page
-with the list of boards (very simple and limited way of doing this) to returning
-an HttpResponse and passing the response_html object to it. This is okay, but it
-is the role of the templating engine to render the page(s).
+I `changed` the `code` from `using` the `render` method to `render` the
+`index.html` page with the `list` of `boards` to `returning` an `HttpResponse`
+and `passing` the `response_html` object to it. This is `okay`, but it is the
+`role` of the `templating engine` to `render` the `page`(s).
 
 ## Creating an index.html file inside the templates directory in the top django_boards directory
 
-Next, I created an index.html file inside the templates directory inside the
-parent django_boards project directory:
+Next, I `created` an `index.html` file inside the `templates` directory inside
+the `parent` django_boards `project` directory:
 
 ```shell
 - templates/
   - index.html
 ```
 
-Inside the index.html file, I add the following markup:
+`Inside` the `index.html` file, I `add` the `following` markup:
 
 ```html
 <html lang="en">
@@ -123,20 +125,20 @@ Inside the index.html file, I add the following markup:
 </html>
 ```
 
-The above contains `html markup` mixed with some special tags
-`{% for board in boards %}{% endfor %}` and a variable, `{{ board.name }}`.
-These tags and variable are part of the
+The above contains `html markup` mixed with some `special tags`
+`{% for board in boards %}{% endfor %}` and a `variable`, `{{ board.name }}`.
+These `tags` and `variable` are part of the
 [Django Templating Language](https://docs.djangoproject.com/en/5.1/topics/templates/).
 
-The `{% for board in boards %}{% endfor %}` represents a for in loop, which
-iterates over the keys of an object. `{{ board.name }}` renders the board name
-to the page, for example.
+The `{% for board in boards %}{% endfor %}` represents a `for in loop`, which
+iterates over the `keys` of an `object`. `{{ board.name }}` renders the
+`board name` to the `page`, for example.
 
-Before we can actually view our index.html page being rendered to the page, we
-have to tell Django where to find this template.
+`Before` we can actually `view` our `index.html` page being `rendered` to the
+page, we have to tell `Django` where to `find` this `template`.
 
-To do this, we have to go into settings.py located in the django_boards project
-subdirectory also called django_boards and add the following:
+To do this, we have to go into `settings.py` located in the `django_boards`
+project `subdirectory` also called `django_boards` and `add` the `following`:
 
 ```python
 TEMPLATES = [
@@ -158,7 +160,7 @@ TEMPLATES = [
 ]
 ```
 
-We needed to added:
+We `needed` to `added`:
 
 ```python
 'DIRS': [ # what needs to be added
@@ -166,18 +168,18 @@ We needed to added:
 ],
 ```
 
-What the value of the 'DIRS' array is doing is finding the full path of our
-projects directory (`BASE_DIR`) and appending `'templates'` using the
+`What` the `value` of the 'DIRS' array is `doing` is `finding` the full `path`
+of our `projects` directory (`BASE_DIR`) and appending `'templates'` using the
 `os.path.join()` method.
 
-We can debug this using the Python3 shell:
+We can `debug` this using the `Python3` shell:
 
 ```shell
 # first run python3 manage.py shell after stopping the development server
 python3 manage.py shell
 ```
 
-And then we type the following in the python3 shell:
+`Then` we `type` the `following` in the `python3` shell:
 
 ```shell
 from django.conf import settings
@@ -185,7 +187,7 @@ from django.conf import settings
 settings.BASE_DIR
 ```
 
-which for me, returns:
+`Which` for me, `returns`:
 
 ```shell
 PosixPath('/Users/mariacam/Python-Development/django-boards/django_boards')
@@ -199,16 +201,16 @@ import os
 os.path.join(settings.BASE_DIR, 'templates')
 ```
 
-Which for me, returns:
+`Which` for me, `returns`:
 
 ```shell
 '/Users/mariacam/Python-Development/django-boards/django_boards/templates'
 ```
 
-`os.path.join(settings.BASE_DIR, 'templates')` is pointing to the templates
-directory which we configured in settings.py.
+`os.path.join(settings.BASE_DIR, 'templates')` is `pointing` to the `templates`
+directory which we `configured` in `settings.py`.
 
-Now we can bring back the previous code to the index view:
+Now we can `bring back` the `previous code` to the `index view`:
 
 ```python
 from django.shortcuts import render
@@ -221,7 +223,7 @@ def index(request):
   return render(request, 'index.html', {'boards': boards}) # renders all boards to the page
 ```
 
-Now the index (home) page looks like the following:
+Now the `index` (home) page `looks like` the following:
 
 ```shell
 Boards
@@ -233,7 +235,8 @@ Django Models
 Python Objects
 ```
 
-However, we can make the page look better by adding a table to the html markup:
+However, we can `make` the page `look better` by `adding` a `table` to the
+`html markup`:
 
 ```html
 <!DOCTYPE html>
@@ -274,7 +277,7 @@ However, we can make the page look better by adding a table to the html markup:
 </html>
 ```
 
-Which looks something like the following:
+Which `looks` something `like` the `following`:
 
 ## Boards
 
@@ -293,8 +296,8 @@ Which looks something like the following:
 
 ## Testing the index (home) page
 
-Next, we are going to write our first test in the tests.py page inside the
-boards app:
+`Next`, we are `going` to `write` our `first test` in the `tests.py` page inside
+the `boards` app:
 
 ```python
 from django.urls import reverse
