@@ -48,6 +48,7 @@ _UML Class Diagram_
 -   [The Django Model Manager](#the-django-model-manager)
     -   [Treating the QuerySet like a list](#treating-the-queryset-like-a-list)
     -   [Summary of Model operations in the Python3 shell](#summary-of-model-operations-in-the-python3-shell)
+-   [Conclusion](#conclusion)
 -   [Footnotes](#footnotes)
 -   [Related Posts](#related-posts)
 
@@ -645,6 +646,13 @@ The `following` is `returned`:
 | Create and save an object in the database  | Board.objects.create(name='...', description='...') |
 | List all objects                           | Board.objects.all()                                 |
 | Get a single object, identified by a field | Board.objects.get(id=1)                             |
+
+## Conclusion
+
+In this section, I discussed the Django model basics, I compared the UML Class
+Fields Diagram to the models.py source code, I migrated the models with the
+makemigrations command, applied the model migrations with the migrate command,
+played with the Models API, and discussed the Django Model manager.
 
 ## Footnotes
 
