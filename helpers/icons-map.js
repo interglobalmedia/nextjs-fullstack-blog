@@ -9,6 +9,7 @@ const SocialIcon = ({ name, href, size = 8 }) => {
 		sitemap: SvgIconsComponent.Sitemap,
 		tumblr: SvgIconsComponent.Tumblr,
 		dev: SvgIconsComponent.Dev,
+		patreon: SvgIconsComponent.Patreon,
 	}
 
 	if (name in ComponentsMap) {

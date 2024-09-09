@@ -77,6 +77,15 @@ function Footer() {
 							size="6"
 						/>
 					</div>
+					<div
+						className={`footer-patreon ${classes['footer-patreon']}`}
+					>
+						<DynamicSocialIcon
+							name="patreon"
+							href={`${siteMetadata.patreon}`}
+							size="6"
+						/>
+					</div>
 				</div>
 				<p>
 					{`© ${new Date().getFullYear()}`} {` • `}{' '}

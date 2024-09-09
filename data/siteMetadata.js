@@ -15,6 +15,7 @@ const siteMetadata = {
 	reddit: `https://www.reddit.com/interglobalmedia1`,
 	tumblr: `https://www.tumblr.com/interglobalmedia`,
 	dev: `https://dev.to/letsbsocial1`,
+	patreon: `https://patreon.com/interglobalmedia`,
 	redditHandle: `interglobalmedia1`,
 	twitterHandle: `letsbsocial1`,
 	combinatorHandle: `mariador62`,
