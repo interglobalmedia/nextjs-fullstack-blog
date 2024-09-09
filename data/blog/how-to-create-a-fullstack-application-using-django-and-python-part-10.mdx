@@ -1,0 +1,97 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-10
+date: '2024-09-08T03:03:43.185Z'
+lastModified: '2024-09-09T02:46:43.185Z'
+title: How to create a fullstack application using Django and Python Part 10
+author: Maria D. Campbell
+excerpt: 'How to create a fullstack application using Django and Python Part 10. In this section, I update the UML Class Diagrams and wireframe(s) to include
+the PostLike Model, and I clarify the concepts of "topic" and "post".'
+image: pexels-picjumbo-com-55570-196644.jpg
+tags: ['macOS', 'django', 'fullstack development', 'python3', 'series', 'uml class diagram', 'uml', 'wireframe']
+isPublished: true
+isFeatured: false
+---
+
+![Wireframe](pexels-picjumbo-com-55570-196644.jpg)
+
+**_Photo by_** [picjumbo.com](https://www.pexels.com/@picjumbo-com-55570/)
+**_on_**
+[pexels.com](https://www.pexels.com/photo/notebook-beside-the-iphone-on-table-196644/)
+
+## Table of Contents
+
+-   [Updating the UML class diagrams](#updating-the-umlL-class-diagrams)
+-   [Updating the boards wireframe(s)](#updating-the-boards-wireframes)
+-   [Clarifying the concepts of "topic" and "post"](#clarifying-the-concepts-of-topic-and-post)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Updating the UML class diagrams
+
+I had mentioned that I `added` a `PostLike` class model to my `model schema`.
+Now I am going to `share` the `UML Class Diagrams` to `include` the `PostLike`
+model. This way, I can `determine` if `everything` truly is the `way` I `want`
+it, or if I `have` to make further `changes`. I am also including the
+`wireframe` reflecting the class diagram changes, which will even further
+solidify if I have built exactly what I wanted to build thus far!
+
+![UML class diagram including PostLike](uml_class_diagram_including_postlike.drawio.svg)
+
+_UML class diagram including PostLike_
+
+The `UML class diagram` including `PostLike` with a `focus` on `fields` now
+`looks like` the `following`:
+
+![UML class diagram fields including PostLike](uml_class_diagram_fields_including_postlike.drawio.svg)
+
+_UML class diagram fields including PostLike_
+
+To _re-review_ the `relations` between the `classes` (still the same here), you
+can `refer` to the UML `Class Fields Diagram` under the `section heading`
+[Comparing the UML Class Fields Diagram to the models.py source code](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-7#comparing-the-uml-class-fields-diagram-to-the-modelspy-source-code)
+in
+[How to create a fullstack application using Django and Python Part 7](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-7#comparing-the-uml-class-fields-diagram-to-the-modelspy-source-code).
+
+There is _no_ `direct relationship` between the `user` and the `PostLike`. There
+`isn't` even a `direct relationship` between the `Post` and `PostLike`, but the
+`User` object is `passed` as an `argument` to `ManyToManyField()`, `because` the
+`user` is the one to `"like"` the `topic post`. We will `go over` this in
+`detail later`. This `section` is about `updating` the `UML diagrams` and
+`wireframe`(`s`) to `include` the `PostLike` model.
+
+## Updating the boards wireframe(s)
+
+Below is the `updated wireframe` including the `"post" likes` as well as a
+`link button` to `copy` the `link` to the `post` so as to be able to `share` it
+elsewhere:
+
+![Django Board topic replies including post like button and link button wireframe](boards_project_wireframe_django_board_topic_replies_liked_link.drawio.svg)
+
+_Django Board topic replies including post like button and link button
+wireframe_
+
+## Clarifying the concepts of "topic" and "post"
+
+The `concepts` of `"topic"` and `"post"` here may `seem` a bit `confusing`. It
+was a bit `confusing` to `me` at `first`. Perhaps it was all in the naming. But
+then I `studied` the actual `Django Forum`, and it `became clearer` to me. A
+`topic` can be `regarded` as the `start` of a `board thread`, `like` on
+`stackoverflow`, for example. A person `starts` a `topic`, which is the `name`
+of the `thread`, and is `accompanied` by their _initial_ `"subject"` (post)
+`regarding` the `topic`, and then others `reply` to that `subject` with their
+own views on the `subject`. So the `posts` are really `replies` to the
+`topic subject`.
+
+## Conclusion
+
+In this section, I updated the UML Class Diagrams and wireframe(s) to include
+the PostLike Model, and I clarified the concepts of "topic" and "post".
+
+## Related Resources
+
+-   [Django Forum](https://forum.djangoproject.com)
+
+## Related Posts
+
+[How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
