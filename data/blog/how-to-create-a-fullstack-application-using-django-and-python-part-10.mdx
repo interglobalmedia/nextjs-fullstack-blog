@@ -55,10 +55,10 @@ in
 
 There is _no_ `direct relationship` between the `user` and the `PostLike`. There
 `isn't` even a `direct relationship` between the `Post` and `PostLike`, but the
-`User` object is `passed` as an `argument` to `ManyToManyField()`, `because` the
-`user` is the one to `"like"` the `topic post`. We will `go over` this in
-`detail later`. This `section` is about `updating` the `UML diagrams` and
-`wireframe`(`s`) to `include` the `PostLike` model.
+`User` object is `passed` as an `argument` to `ManyToManyField()` [^1],
+`because` the `user` is the one to `"like"` the `topic post`. We will `go over`
+this in `detail later`. This `section` is about `updating` the `UML diagrams`
+and `wireframe`(`s`) to `include` the `PostLike` model.
 
 ## Updating the boards wireframe(s)
 
@@ -87,6 +87,23 @@ own views on the `subject`. So the `posts` are really `replies` to the
 
 In this section, I updated the UML Class Diagrams and wireframe(s) to include
 the PostLike Model, and I clarified the concepts of "topic" and "post".
+
+#3 Footnotes
+
+**[^1]**: The `ManyToManyField` set to `post_liked_by` in the `Post` class model
+`describes` the `relationship` between the `User` and the `PostLike`, which is
+`ManyToMany`. One `user` can like many `posts`, and one `post` can be liked by
+many `users`.
+
+The `PostLike` class model also has a `ManyToMany` relationship with the `Post`.
+A `PostLike` instance `connects` a specific `user` to a specific `post` they
+`liked`. This is `reflected` by the `ForeignKey` on the `post field` in the
+`PostLike` model. Many thanks to @WarnerSmith on the
+[Django Forum](https://forum.djangoproject.com) for clarifying `ManyToMany` for
+me! To `view` his `response` there, please visit
+[Warner Smith reply to my post topic "Trying to figure out what the relationship between my post topic and post like would be"](https://forum.djangoproject.com/t/trying-to-figure-out-what-the-relationship-between-my-post-topic-and-post-like-would-be/34614/4).
+You do `have` to `join` the [Django Forum](https://forum.djangoproject.com) in
+`order` to `view` it!
 
 ## Related Resources
 
