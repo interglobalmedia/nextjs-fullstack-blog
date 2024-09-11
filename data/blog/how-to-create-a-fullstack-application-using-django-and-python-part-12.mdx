@@ -1,0 +1,387 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-12
+date: '2024-09-11T14:40:09.958Z'
+lastModified: '2024-09-11T19:43:09.958Z'
+title: How to create a fullstack application using Django and Python Part 12
+author: 'Maria D. Campbell'
+excerpt:
+    'How to create a fullstack application using Django and Python Part 12. In
+    this section, I add the IndexTests class to boards/tests.py, update
+    templates/index.html to make a failed test pass, write a test for linking
+    back to the index/home page from the single Board page, update
+    templates/topics.html to link back to the index/home page, and update
+    templates/topics.html so a failed test will pass.'
+image: pexels-realtoughcandy-11035474.jpg
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'django',
+        'dynamic urls',
+        'python3',
+        'series',
+        'tests',
+        'unittest',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Person Holding an Orange and Blue Python Sticker
+](pexels-realtoughcandy-11035474.jpg)
+
+**_Photo by_** [RealToughCandy.com](https://www.pexels.com/@realtoughcandy/)
+**_on_**
+[pexels.com](https://www.pexels.com/photo/person-holding-an-orange-and-blue-python-sticker-11035474/)
+
+## Table of Contents
+
+-   [Adding the IndexTests class to boards/tests.py](#adding-the-indexTests-class-to-boards-testspy)
+    -   [Updating templates/index.html to make the failed test pass](#updating-templates-indexhtml-to-make-the-failed-test-pass)
+    -   [Viewing the updated HTML templates in the browser](#viewing-the-updated-HTML-templates-in-the-browser)
+-   [Linking back to the index/home page from the single Board page](#linking-back-to-the-index-home-page-from-the-single-board-page)
+    -   [Writing the test for linking back to the index/home page from the single Board page](#writing-the-test-for-linking-back-to-the-index-home-page-from-the-single-board-page)
+    -   [Updating topics.html so test will pass](#updating-topicshtml-so-test-will-pass)
+    -   [Re-running python3 manage.py test](#re-running-python3-managepy-test)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Adding the IndexTests class to boards/tests.py
+
+In `Part 11`, we created `tests` for `BoardTopics` using
+`class BoardTopicsTests`. `Now` we are `going` to create `tests` for the `Index`
+(`Home`) page. Update `class IndexTests(TestCase)` to the `following` in
+`boards/tests.py`:
+
+```python
+from django.urls import reverse
+from django.test import TestCase
+from django.urls import resolve
+from .views import index, board_topics
+from .models import Board
+
+# Create your tests here.
+
+class IndexTests(TestCase):
+
+  def setUp(self):
+    self.board = Board.objects.create(name='Python', description='Everything related to Python')
+    url = reverse('index')
+    self.response = self.client.get(url)
+
+  def test_index_view_status_code(self):
+    self.assertEqual(self.response.status_code, 200)
+
+  def test_index_url_resolves_index_view(self):
+    view = resolve('/')
+    self.assertEqual(view.func, index)
+
+  def test_home_view_contains_link_to_topics_page(self):
+    board_topics_url = reverse('board_topics', kwargs={'id': self.board.id})
+    self.assertContains(self.response, 'href="{0}"'.format(board_topics_url))
+```
+
+We have `added` a `setUp(self)` method for IndexTests. That's `because` we are
+`also going` to `need` a `Board` instance for `IndexTests`. We moved `url` and
+`self.response` into `setUp(TestCase)` so we can `reuse` the `same response` in
+the new `test_home_view_contains_link_to_topics_page` test.
+
+In `test_home_view_contains_link_to_topics_page`, we `use` the
+`.assertContains()` method. `Django` adds `.assertContains()` to its
+`test suite`. It is `used` specifically for `responses`. `.assertContains()`
+asserts that the `response` (`index.html`) contains
+`'href="{0}"'.format(board_topics_url)`, which `transforms` to
+`'href="/boards/1/"'`. `However`, if I run `python3 manage.py test` as the
+`code` is `right now`, I `get back` the `following`:
+
+```shell
+Found 6 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+...F..
+======================================================================
+FAIL: test_home_view_contains_link_to_topics_page (boards.tests.IndexTests.test_home_view_contains_link_to_topics_page)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/django_boards/boards/tests.py", line 25, in test_home_view_contains_link_to_topics_page
+    self.assertContains(self.response, 'href="{0}"'.format(board_topics_url))
+  File "/Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages/django/test/testcases.py", line 623, in assertContains
+    self.assertTrue(
+AssertionError: False is not true : Couldn't find 'href="/boards/1/"' in the following response
+b'<!DOCTYPE html>\n<html lang="en">\n\n  <head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Boards</title>\n    <link rel="stylesheet" href="/static/css/bootstrap.min.css">\n  </head>\n\n  <body>\n  <div class="container">\n    <ol class="breadcrumb my-4">\n      <li class="breadcrumb-item active">\n      Boards\n      </li>\n    </ol>\n    <table class="table">\n      <thead class="thead-inverse">\n        <tr>\n          <th>Board</th>\n          <th>Posts</th>\n          <th>Topics</th>\n          <th>Last Post</th>\n        </tr>\n      </thead>\n      <tbody>\n\t\t\t\t\t\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td>\n            Python<br>\n            <small class="text-muted d-block">Everything related to Python</small>\n          </td>\n\t\t\t\t\t\t<td class="align-middle">0</td>\n\t\t\t\t\t\t<td class="align-middle">0</td>\n\t\t\t\t\t\t<td></td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t\n\t\t\t\t</tbody>\n\n    </table>\n    </div>\n  </body>\n\n</html>'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.014s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+```
+
+### Updating templates/index.html to make the failed test pass
+
+In order to `get` our `failed test` to `pass`, we `have` to update
+`templates/index.html`:
+
+```html
+<!-- start markup -->
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Boards</title>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+	</head>
+
+	<body>
+		<div class="container">
+			<ol class="breadcrumb my-4">
+				<li class="breadcrumb-item active">Boards</li>
+			</ol>
+			<table class="table">
+				<thead class="thead-inverse">
+					<tr>
+						<th>Board</th>
+						<th>Posts</th>
+						<th>Topics</th>
+						<th>Last Post</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for board in boards %}
+					<tr>
+						<td>
+							{{ board.name }}<br />
+							<small class="text-muted d-block"
+								>{{ board.description }}</small
+							>
+						</td>
+						<td class="align-middle">0</td>
+						<td class="align-middle">0</td>
+						<td></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
+
+<!-- New index.html markup -->
+
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Boards</title>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+	</head>
+
+	<body>
+		<div class="container">
+			<ol class="breadcrumb my-4">
+				<li class="breadcrumb-item active">Boards</li>
+			</ol>
+			<table class="table">
+				<thead class="thead-inverse">
+					<tr>
+						<th>Board</th>
+						<th>Posts</th>
+						<th>Topics</th>
+						<th>Last Post</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for board in boards %}
+					<tr>
+						<td>
+							<a href="{% url 'board_topics' board.id %}"
+								>{{ board.name }}</a
+							>
+							<small class="text-muted d-block"
+								>{{ board.description }}</small
+							>
+						</td>
+						<td class="align-middle">0</td>
+						<td class="align-middle">0</td>
+						<td></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
+```
+
+We changed `{{ board.name }}` to
+`<a href="{% url 'board_topics' board.id %}" >{{ board.name }}</a >`.
+
+Now when we `run` the `tests` again using the `python3 manage.py test` command,
+the `following` should be `returned`:
+
+```shell
+Found 6 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.014s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+We `should` always `use` the Django `{% url %}` template tag to `create`
+application `URLs`. The `first parameter` is the `name` of the `URL` defined in
+`URLconf/urls.py`, and the `second argument` is the `board.id`.
+
+### Viewing the updated HTML templates in the browser
+
+_Next_, we can `check` what our `changes` actually `look like` in the `browser`:
+
+![List of linked available Boards on the index/home page](Screenshot-2024-09-11-at-12.47.07-PM.jpg)
+
+_List of linked available Boards on the index/home page_
+
+When I `click` on a `linked` single `Board`, it `takes me` to the `following`:
+
+![Linked single Board page](Screenshot-2024-09-11-at-12.51.42-PM.jpg)
+
+_Linked single Board page_
+
+I am `taken` to `http://127.0.0.1:8000/boards/1/`, and that `URL` is why our
+`failed test` _no longer_ `fails`. The `path/url` to `the` single `Board` _now
+contains_ `/boards/1/`.
+
+## Linking back to the index/home page from the single Board page
+
+### Writing the test for linking back to the index/home page from the single Board page
+
+Let's `link back` to the `index/home` page from the `single` Board `page`.
+`First` we will `write` the `test` for `that` in `boards/tests.py`:
+
+```python
+# in boards/tests.py
+
+def test_board_topics_view_contains_link_back_to_homepage(self):
+  board_topics_url = reverse('board_topics', kwargs={'id': 1})
+  response = self.client.get(board_topics_url)
+  index_page_url = reverse('index')
+  self.assertContains(response, 'href="{0}"'.format(index_page_url))
+```
+
+We can `run` our `tests` again using `python3 manage.py test`, and
+`something like` the `following` should be `returned`:
+
+```shell
+Found 7 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+...F...
+======================================================================
+FAIL: test_board_topics_view_contains_link_back_to_homepage (boards.tests.IndexTests.test_board_topics_view_contains_link_back_to_homepage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/django_boards/boards/tests.py", line 31, in test_board_topics_view_contains_link_back_to_homepage
+    self.assertContains(response, 'href="{0}"'.format(index_page_url))
+  File "/Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages/django/test/testcases.py", line 623, in assertContains
+    self.assertTrue(
+AssertionError: False is not true : Couldn't find 'href="/"' in the following response
+b'<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<meta charset="utf-8" />\n\t\t<title>Python</title>\n\t\t<link rel="stylesheet" href="/static/css/bootstrap.min.css" />\n\t</head>\n\t<body>\n\t\t<div class="container">\n\t\t\t<ol class="breadcrumb my-4">\n\t\t\t\t<li class="breadcrumb-item">Boards</li>\n\t\t\t\t<li class="breadcrumb-item active">Python</li>\n\t\t\t</ol>\n\t\t</div>\n\t</body>\n</html>'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.026s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+```
+
+### Updating topics.html so test will pass
+
+We `couldn't` find `/` because we `have` to `update` our `topics.html` template:
+
+```html
+<!-- before: -->
+{% load static %}<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{{ board.name }}</title>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+	</head>
+	<body>
+		<div class="container">
+			<ol class="breadcrumb my-4">
+				<li class="breadcrumb-item">Boards</li>
+				<li class="breadcrumb-item active">{{ board.name }}</li>
+			</ol>
+		</div>
+	</body>
+</html>
+<!-- after: -->
+{% load static %}<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{{ board.name }}</title>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+	</head>
+	<body>
+		<div class="container">
+			<ol class="breadcrumb my-4">
+				<li class="breadcrumb-item">
+					<a href="{% url 'index' %}">Boards</a>
+				</li>
+				<li class="breadcrumb-item active">{{ board.name }}</li>
+			</ol>
+		</div>
+	</body>
+</html>
+```
+
+### Re-running python3 manage.py test
+
+Now let's _re-run_ `python3 manage.py test`, which `should` now `return` the
+`following`:
+
+```shell
+Found 7 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.015s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+The test `passes` because we `have` added
+`<a href="{% url 'index' %}">Boards</a>`. `'index'` translates to `/`. `index`
+is the `name` of the `path` of the `index` or `home` page `named` in
+`django_boards/urls.py`.
+
+Now the `single` Board `page` _links back_ to the `index/home` page:
+
+![Single Board page links back to index/home page](Screenshot-2024-09-1-at-1.57.35-PM.jpg)
+
+_Single Board page links back to index/home page_
+
+## Conclusion
+
+In this section, I added the `IndexTests` class to `boards/tests.py`, updated
+`templates/index.html` to make a failed test pass, wrote a test for linking back
+to the `index/home` page from the `single` Board `page`, updated
+`templates/topics.html` to link back to the `index/home` page, and updated
+`templates/topics.html` so a failed test would pass.
+
+## Related Resources
+
+-   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
