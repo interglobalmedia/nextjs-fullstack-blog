@@ -1,0 +1,295 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-13
+date: '2024-09-11T19:54:56.432Z'
+lastModified: '2024-09-12T02:14:56.432Z'
+title: How to create a fullstack application using Django and Python Part 13
+author: 'Maria D. Campbell'
+excerpt:
+    'How to create a fullstack application using Django and Python Part 13. In
+    this section, I created a reusable, base template called base.html,
+    integrated it into index.html, integrated it into topics.html, tested
+    django_boards after making those changes, added a navigation menu to
+    base.html, created an app.css file in the static/css directory, changed the
+    logo font with a Google font which I imported into app.css, and tweaked the
+    logo styling with CSS.'
+image: Screenshot-2024-09-11-at-9.20.45-PM.jpg
+tags:
+    [
+        'fullstack development',
+        'css',
+        'django',
+        'macOS',
+        'python3',
+        'reusable templates',
+        'series',
+        'template extending',
+        'template tags',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![The updated index/home page](Screenshot-2024-09-11-at-9.20.45-PM.jpg)
+
+_The updated index/home page_
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Adding reusable templates](#adding-reusable-templates)
+    -   [templates/base.html](#templates-basehtml)
+    -   [The {% block %} tag](#the-block-tag)
+    -   [The {% block %} tag syntax](#the-block-tag-syntax)
+    -   [The {% block %} tag parameters](#the-block-tag-parameters)
+    -   [The {% block title %} tag](#the-block-title-tag)
+-   [Integrating base.html into index.html](#integrating-basehtml-into-indexhtml)
+-   [Integrating base.html into topics.html](#integrating-basehtml-into-topicshtml)
+-   [Testing Django Boards to make sure there are no errors](#testing-django-boards-to-make-sure-there-are-no-errors)
+-   [Adding a navigation menu to templates/base.html](#adding-a-navigation-menu-to-templates-basehtml)
+-   [Changing the logo font](#changing-the-logo-font)
+-   [Conclusion](#conclusion)
+-   [Related Posts](#related-posts)
+
+## Adding reusable templates
+
+Our `HTML` has not been very `"dry"` (`"Don't Repeat Yourself"`). We definitely
+have been `repeating` ourselves. That's where `"reusable templates"` come in.
+
+## templates/base.html
+
+Now we are going to `create` a `reusable template` called `base.html`. This
+`base template` is what its `name` sounds `like`. It will `provide` the
+`common base` for `all` other `pages` of the `site`. Its `markup` will be
+`common` to other `templates` so that we `don't` have to `repeat` ourselves,
+thereby `potentially bloating` our `frontend code`:
+
+```django
+<!-- templates/base.html -->
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>{% block title %}Django Boards{% endblock title %}</title>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+	</head>
+	<body>
+		<div class="container">
+			<ol class="breadcrumb my-4">
+				{% block breadcrumb %} {% endblock %}
+			</ol>
+			{% block content %} {% endblock %}
+		</div>
+	</body>
+</html>
+```
+
+### The {% block %} tag
+
+In a `master template` such as `base.html`, the `{% block %}` tag is a
+`placeholder` that is `replaced` by a `block` in a `child template` (aka
+partial) with the `same name`.
+
+In ch`ild templates`, the `{% block %}` tag is `content` that will `replace` the
+`placeholder` in the `master template` with the `same name`.
+
+### The {% block %} tag syntax
+
+```django
+{% block name %} ... {% endblock %}
+```
+
+### The {% block %} tag parameters
+
+```markdown
+name: specifies that `name` of the `block`.
+```
+
+### The {% block title %} tag
+
+The `{% block title %}` tag is `used` to `set` the `title` of an `HTML` page
+(`template`). If we `just` do `something like`:
+
+```django
+<title>{% block title %}Django Boards{% endblock title %}</title>
+```
+
+The `title` of `all` the `site pages` will be `"Django Boards"`, so
+`"Django Boards"` would be our `default title` for `all` our `pages`.
+
+## Integrating base.html into index.html
+
+```django
+<!-- index.html -->
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active">Boards</li>
+{% endblock %} {% block content %}
+<table class="table">
+	<thead class="thead-inverse">
+		<tr>
+			<th>Board</th>
+			<th>Posts</th>
+			<th>Topics</th>
+			<th>Last Post</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for board in boards %}
+		<tr>
+			<td>
+				<a href="{% url 'board_topics' board.id %}">{{ board.name }}</a>
+				<small class="text-muted d-block"
+					>{{ board.description }}</small
+				>
+			</td>
+			<td class="align-middle">0</td>
+			<td class="align-middle">0</td>
+			<td></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}
+```
+
+The `{% extends 'base.html' %}` tag `means` that we `have` our `base.html` file
+at the `project` root `template` directory to `handle` core `markup`.
+
+## Integrating base.html into topics.html
+
+```django
+<!-- templates/topics.html -->
+{% extends "base.html" %} {% block title %} {{ board.name }} - {{ block.super }}
+{% endblock title %} {% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'index' %}">Django Boards</a></li>
+<li class="breadcrumb-item active">{{ board.name }}</li>
+{% endblock breadcrumb %} {% block content %}
+<!-- just leaving it empty for now. we will add core here soon. -->
+{% endblock content %}
+```
+
+In `topics.html`, we are `changing` the `default value` of `{% block title %}`.
+If we `need` to `get` the `content` of a `block` from the `parent template`,
+`{{ block.super }}` variable will `do` it `for us`. For example, `in` our
+`case`, the `title content` on the `index page` is "Django Boards". If we did
+`not` include `{{ block.super }` along with `{{ board.name }}`, then the
+`{{ board.name }}` would be the `title content`, `completely` overriding
+`"Django Boards"`. But because we ARE using `{{ block.super }}`, the
+`title includes` both the `topics.html` `dynamic content` AND the `default`
+title `content` in `base.html`.
+
+## Testing Django Boards to make sure there are no errors
+
+```shell
+python3 manage.py test
+```
+
+`Which` should `return`:
+
+```shell
+Found 7 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.014s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+Looking good!
+
+## Adding a navigation menu to templates/base.html
+
+```django
+<!-- templates/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="description"
+			content="A forum dedicated to all things Django"
+		/>
+		<meta name="keywords" content="django, python3" />
+		<title>{% block title %}Django Boards{% endblock title %}</title>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+	</head>
+
+	<body>
+		<!-- As a heading -->
+		<nav class="navbar bg-primary" data-bs-theme="dark">
+			<div class="container-fluid">
+				<a class="navbar-brand mb-0 h1" href="{% url 'index' %}"
+					>Django Boards</a
+				>
+			</div>
+		</nav>
+		<div class="container">
+			<ol class="breadcrumb my-4">
+				{% block breadcrumb %} {% endblock breadcrumb %}
+			</ol>
+			{% block content %} {% endblock content %}
+		</div>
+	</body>
+</html>
+```
+
+I `grabbed` the `navbar` html `markup` from the `Bootstrap navbar component`.
+The `current version` of `Bootstrap` is `5.3.3`.
+
+## Changing the logo font
+
+I `grabbed` a `Google font` from [Google Fonts](https://fonts.google.com/). I
+`didn't add` the `link` to `base.html`. It `did` not `work` for me. I `imported`
+it `into` the `app.css` file `which` I `added` to the `static/css` directory:
+
+```css
+/* static/css/app.css */
+@import url('https://fonts.googleapis.com/css2?family=Peralta&display=swap');
+```
+
+Then I `added` the `following` below:
+
+```css
+/* static/css/app.css */
+.navbar-brand {
+	font-family: 'Peralta', serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 1.75rem;
+}
+```
+
+With these changes, the `index.html` page `looks like` the `following`:
+
+![The updated index/home page](Screenshot-2024-09-11-at-9.20.45-PM.jpg)
+
+_The updated index/home page_
+
+The `topics.html` page `looks like` the `following`:
+
+![The updated topics.html page](Screenshot-2024-09-11-t-9.21.13-PM.jpg)
+
+_The updated topics.html page_
+
+## Conclusion
+
+In this section, I `created` a `reusable`, `base template` called `base.html`,
+i`ntegrated` it into `index.html`, `integrated` it into `topics.html`, `tested`
+django_boards `after` making those `changes`, `added` a `navigation menu` to
+`base.html`, `created` an `app.css` file in the `static/css` directory,
+`changed` the `logo font` with a `Google font` which I `imported` into
+`app.css`, and `tweaked` the `logo styling` with `CSS`.
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
