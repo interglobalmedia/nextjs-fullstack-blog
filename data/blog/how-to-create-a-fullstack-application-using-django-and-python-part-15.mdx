@@ -1,0 +1,1254 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-15
+date: '2024-09-14T07:36:23.164Z'
+lastModified: '2024-09-15T20:35:23.164Z'
+title: How to create a fullstack application using Django and Python Part 15
+author: Maria D. Campbell
+excerpt: 'How to create a fullstack application using Django and Python Part 15. In this section, we create an accounts app where everything related to
+user accounts resides.'
+image: mark-stuckey-Yu-W5f_ikts-unsplash.jpg
+tags: ['fullstack development', 'macOS', 'user authentication', 'django', 'tests', 'code modularization', 'unittest']
+isPublished: true
+isFeatured: false
+---
+
+![User](mark-stuckey-Yu-W5f_ikts-unsplash.jpg)
+
+**_Photo by_** [Mark Stuckey](https://unsplash.com/@m_stuckey) **_on_**
+[unsplash.com](https://unsplash.com/photos/a-close-up-of-the-word-user-on-a-wall-Yu-W5f_ikts)
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Updating the django_boards wireframes](#updating-the-django-boards-wireframes)
+-   [Creating the accounts app](#creating-the-accounts-app)
+    -   [Adding accounts to INSTALLED_APPS in django_boards/settings.py](#adding-accounts-to-installed-apps-in-django-boards-settingspy)
+-   [Creating the signup view](#creating-the-signup-view)
+    -   [Creating a new route in django_boards/urls.py](#creating-a-new-route-in-django-boards-urlspy)
+    -   [Creating the signup view inside accounts/views.py](#creating-the-signup-view-inside-accounts-viewspy)
+-   [Creating a new templates/signup.html file](#creating-a-new-templates-signuphtml-file)
+-   [Creating SignupTests in accounts/tests.py](#creating-signuptests-in-accounts-testspy)
+-   [Tweaking templates/base.html to account for authentication views](#tweaking-templates-basehtml-to-account-for-authentication-views)
+-   [Using {%block body%} instead of {%block content%}](#using-block-body-instead-of-block-content)
+-   [Creating the signup view in accounts/views.py](#creating-the-signup-view-in-accounts-viewspy)
+    -   [Updating signup view in accounts/views.py](#updating-signup-view-in-accounts-viewspy)
+    -   [Updating templates/signup.html to account for changes in signup view](#updating-templates-signuphtml-to-account-for-changes-in-signup-view)
+        -   [Updating templates/signup.html to make it prettier](#updating-templates-signuphtml-to-make-it-prettier)
+    -   [Implementing auth_login in signup view in accounts/views.py](#implementing-auth-login-in-signup-view-in-accounts-viewspy)
+    -   [Testing out the Signup form](#testing-out-the-signup-form)
+    -   [Referencing the authenticated user in templates/base.html](#referencing-the-authenticated-user-in-templates-basehtml)
+    -   [Updating the tests for the signup view](#updating-the-tests-for-the-signup-view)
+        -   [Testing for a successful signup with new SuccessfulSignUpTests class](#testing-for-a-successful-signup-with-new-successfulsignuptests-class)
+        -   [Testing for a signup when data is invalid with new InvalidSignUpTests class](#testing-for-a-signup-when-data-is-invalid-with-new-invalidigsnuptests-class)
+-   [Creating an accounts/forms.py file](#creating-an-accounts-formspy-file)
+-   [Adding email field to SuccessfulSignUpTests in accounts/tests.py](#adding-email-field-to-successfulsignuptests-in-accounts-testspy)
+-   [Creating a test to verify HTML inputs in templates/signup.html](#creating-a-test-to-verify-html-inputs-in-templates-signuphtml)
+-   [Improving the accounts tests structure](#improving-the-accounts-tests-structure)
+-   [Modularizing the tests in boards/tests.py](#modularizing-the-tests-in-boards-testspy)
+-   [Modularizing the tests in accounts/tests.py](#modularizing-the-tests-in-accounts-testspy)
+-   [Conclusion](#conclusion)
+-   [Footnotes](#footnotes)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Updating the django_boards wireframes
+
+![index/homepage view for non-authenticated users](boards_project_wireframe_django_board_login_signup_navigation.drawio.svg)
+
+_index/homepage view for non-authenticated users_
+
+If the `user` IS authenticated/logged in:
+
+![index/homepage for logged in user view](boards_project_wireframe_django_board_logged_in_user_navigation.drawio.svg)
+
+_index/homepage for logged in user view_
+
+The `login` page:
+
+![The login page](boards_project_wireframe_django_board_login_page.drawio.svg)
+
+_The login page_
+
+The `signup` page:
+
+![The signup page](boards_project_wireframe_django_board_signup_page.drawio.svg)
+
+_The signup page_
+
+The `password reset` page:
+
+![The password reset page](boards_project_wireframe_django_board_password_reset_page.drawio.svg)
+
+_The password reset page_
+
+`Change password` page:
+
+![Change password page](boards_project_wireframe_django_board_change_password_page.drawio.svg)
+
+_Change password page_
+
+## Creating the accounts app
+
+_Next_, we are going to `create` an `accounts` app where `everything related` to
+`user accounts` will `reside`. `Inside` the `django_boards` root `directory`,
+where the `manage.py` resides, we'll `create` a `new app` by `running` the
+`following command` in `Terminal`:
+
+```shell
+django-admin startapp accounts
+```
+
+Now the `project structure` should `look like` the `following`:
+
+```shell
+- django_boards/
+    - accounts/ # added
+    - boards/
+    - django_boards/
+    - static/
+    - templates/
+    - db.sqlite3
+    - manage.py
+    - venv/
+    - .env
+    - .gitignore
+```
+
+### Adding accounts to INSTALLED_APPS in django_boards/settings.py
+
+```python
+# in django_boards/settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'boards.apps.BoardsConfig',
+    'dotenv',
+    'pylint',
+    'graphviz',
+    'djlint',
+    'coverage',
+    'widget_tweaks',
+    'accounts', # added
+]
+```
+
+## Creating the signup view
+
+### Creating a new route in django_boards/urls.py
+
+```python
+# django_boards/urls.py
+from django.contrib import admin
+from django.urls import path
+
+from accounts import views as accounts_views # added
+from boards import views
+
+urlpatterns = [
+    path("", views.index, name="index"),
+    path("signup/", accounts_views.signup, name="signup"), # added
+    path("boards/<str:id>/", views.board_topics, name="board_topics"),
+    path("boards/<str:id>/new/", views.new_topic, name="new_topic"),
+    path("admin/", admin.site.urls),
+]
+```
+
+We are `importing` accounts `differently` from boards. We `give` an `alias`
+because `otherwise` it `could conflict` with the `boards' views`.
+
+## Creating the signup view inside accounts/views.py
+
+```python
+# in accounts/views.py
+from django.shortcuts import render
+
+# Create your views here.
+def signup(request):
+    return render(request, "signup.html")
+```
+
+### Creating a new templates/signup.html file
+
+```django
+<!-- templates/signup.html -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Sign up</h2>
+{% endblock content %}
+```
+
+When I `visit` the
+`http://127.0.0.1:8000/signup/ url in `browser`, the `signup`page`looks
+like`the`following`:
+
+![Rendering the signup page in the browser](Screenshot-2024-09-14-at-10.18.56-AM.jpg)
+
+_Rendering the signup page in the browser_
+
+## Creating SignupTests in accounts/tests.py
+
+```python
+from django.urls import reverse
+from django.test import TestCase
+from django.urls import resolve
+from .views import signup
+
+# Create your tests here.
+class SignUpTests(TestCase):
+
+    def test_signup_status_code(self):
+        url = reverse('signup')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_signup_url_resolves_signup_view(self):
+        view = resolve('/signup/')
+        self.assertEqual(view.func, signup)
+```
+
+When I _run_ `python3 manage.py test`, the `following` should be `returned`:
+
+```shell
+Found 19 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+...................
+----------------------------------------------------------------------
+Ran 19 tests in 1.930s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+## Tweaking templates/base.html to account for authentication views
+
+For the `authentication views` (`signup`, `login`, `password reset`,
+`password change`, etc.), we `won't use` the `navigation menu` or `breadcrumb`.
+We will `use` the `base.html` template. We will just `have` to `tweak` it a
+`bit`:
+
+```django
+<!-- templates/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="description"
+			content="A forum dedicated to all things Django"
+		/>
+		<meta name="keywords" content="django, python3" />
+		<title>{% block title %} Django Boards {% endblock title %}</title>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/app.css' %}" />
+		{% block stylesheet %}{% endblock stylesheet %}
+		<!-- ADDED HERE -->
+	</head>
+	<body>
+		{% block body %}
+		<!-- ADDED HERE -->
+		<nav class="navbar bg-primary" data-bs-theme="dark">
+			<div class="container-fluid">
+				<a class="navbar-brand mb-0 h1" href="{% url 'index' %}"
+					>Django Boards</a
+				>
+			</div>
+		</nav>
+		<div class="container">
+			<ol class="breadcrumb my-4">
+				{% block breadcrumb %} {% endblock breadcrumb %}
+			</ol>
+			{% block content %} {% endblock content %}
+		</div>
+		{% endblock body %}
+		<!-- AND ADDED HERE -->
+	</body>
+</html>
+```
+
+`{% block stylesheet %}{% endblock stylesheet %}` will be `used` to `add` extra
+`CSS`, `specific` to `certain pages`.
+
+`{% block body %}` is `wrapping around` the whole `HTML` page. We can `use` it
+for an `empty document`, `taking advantage` of the `head` of `base.html`.
+
+### Using {%block body%} instead of {%block content%}
+
+```html
+<!-- templates/signup.html -->
+{% extends "base.html" %} {% block body %}
+<h2>Sign up</h2>
+{% endblock body %}
+```
+
+## Creating the signup view in accounts/views.py
+
+```python
+# in accounts/views.py
+from django.shortcuts import render
+from django.contrib.auth.forms import UserCreationForm
+
+# Create your views here.
+def signup(request):
+    form = UserCreationForm
+    return render(request, "signup.html")
+```
+
+### Updating signup view in accounts/views.py
+
+```python
+# in accounts/views.py
+def signup(request):
+    form = UserCreationForm()
+    return render(request, "signup.html", {'form': form})
+```
+
+### Updating templates/signup.html to account for changes in signup view
+
+```django
+<!-- in templates/signup.html -->
+{% extends "base.html" %}
+
+{% block body %}
+  <div class="container">
+    <h2>Sign up</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Create an account</button>
+    </form>
+  </div>
+{% endblock body %}
+```
+
+`Now` our `signup` view `looks like` the `following`:
+
+![Result of adding UserCreationForm to signup view in accounts/views.py](Screenshot-2024-09-14-at-11.41.24-AM.jpg)
+
+_Result of adding UserCreationForm to signup view in accounts/views.py_
+
+`Looks` a bit `all over` the `place`, right? We can `fix` that by `adding`
+`{% include "includes/form.html" %}` to `templates/signup.html`.
+
+### Updating templates/signup.html to make it prettier
+
+```django
+<!-- templates/signup.html -->
+{% extends "base.html" %}
+
+{% block body %}
+  <div class="container">
+    <h2>Sign up</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include "includes/form.html" %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Create an account</button>
+    </form>
+  </div>
+{% endblock body %}
+```
+
+After adding `{% include "includes/form.html" %}`, the signup view looks much
+prettier:
+
+![Updating templates/signup.html to make it prettier](Screenshot-2024-09-14-at-11.50.22-AM.jpg)
+
+_Updating templates/signup.html to make it prettier_
+
+We're `almost there`. `Right now`, our `form` is `displaying` some `raw HTML`.
+It's a `security feature`. _By default_, Django `treats` all `strings` as
+`unsafe`, `escaping` all `special characters` that may `cause trouble` from a
+`security` standpoint. But `in` this `case`, we can `purportedly` _trust_ `it`.
+So:
+
+```django
+<!-- includes/form.html -->
+{% load widget_tweaks %}
+
+{% for field in form %}
+  <div class="form-group">
+    {{ field.label_tag }}
+
+    {% if form.is_bound %}
+      {% if field.errors %}
+        {% render_field field class="form-control is-invalid" %}
+        {% for error in field.errors %}
+          <div class="invalid-feedback">
+            {{ error }}
+          </div>
+        {% endfor %}
+      {% else %}
+        {% render_field field class="form-control is-valid" %}
+      {% endif %}
+    {% else %}
+      {% render_field field class="form-control" %}
+    {% endif %}
+
+    {% if field.help_text %}
+      <small class="form-text text-muted">
+        {{ field.help_text|safe }}  <!-- new code here -->
+      </small>
+    {% endif %}
+  </div>
+{% endfor %}
+```
+
+_Basically_, we `added` the `safe` option to `field.help_text`:
+`{{ field.help_text|safe }}`.
+
+_Now_ the `signup` view `looks like` the `following`:
+
+![Implementing the "safe" option in templates/includes/form.html](Screenshot-24-09-14-at-8.05.02-PM.jpg)
+
+_Implementing the "safe" option in templates/includes/form.html_
+
+## Implementing auth_login in signup view in accounts/views.py
+
+```python
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
+
+def signup(request):
+    if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect('index')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
+```
+
+Above, we have `basic` form `processing` implemented with a `small twist`: the
+`login` function (`renamed` to `auth_login` _to avoid_ `naming conflicts` with
+the _built-in_ `login` view). `Renaming` it to `auth_login` also `clarifies`
+what `it` is `for`.
+
+`If` the `form` is `valid`, a `User` instance (`user = form.save()`) is
+`created`. The `created user` is then `passed` as an `argument` to
+`auth_login()`, `manually authenticating` the `user`. _After that_, the `view`
+_redirects_ to the `index/home` view, `completing` the `registration process`.
+
+**Note**: `if` we are `using` a `ModelForm` (`which` we `are`), then `there` is
+`no need` to `play around` with `something like` a `cleaned_data` dictionary
+**[^1]**. `When` we `save` a `form` with `form.save()`, it will `already` be
+`automatically matched` and `cleaned_data` is `saved`.
+
+## Testing out the Signup form
+
+`If` I `try` to `submit` an `empty form` the `following` is `returned`:
+
+![Result of trying to submit an empty form](Screenshot-2024-09-14-at-8.19.12-PM.jpg)
+
+_Result of trying to submit an empty form_
+
+If I `try` to `submit` a `form` with the `name` of an `existing user`:
+
+![Trying to submit a form with the username of an existing user](Screenshot-2024-09-14-at-8.30.37-PM.jpg)
+
+_Trying to submit a form with the username of an existing user_
+
+## Referencing the authenticated user in templates/base.html
+
+```django
+<!-- templates/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="A forum dedicated to all things Django" />
+    <meta name="keywords" content="django, python3" />
+    <title>
+      {% block title %}
+        Django Boards
+      {% endblock title %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    {% block stylesheet %}
+    {% endblock stylesheet %}
+  </head>
+  <body>
+    {% block body %}
+      <nav class="navbar bg-primary" data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand mb-0 h1" href="{% url 'index' %}">Django Boards</a>
+          <button class="navbar-toggler"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#mainMenu"
+                  aria-controls="mainMenu"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mainMenu">
+            <ul class="navbar-nav ml-auto">
+              {% comment %} <li class="nav-item">
+                <a class="nav-link-user" href="#">{{ user.username }}</a>
+              </li> {% endcomment %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="container">
+      <!-- added below -->
+      <a class="nav-link-user" href="#">Welcome {{ user.username }}!</a>
+        <ol class="breadcrumb my-4">
+          {% block breadcrumb %}
+          {% endblock breadcrumb %}
+        </ol>
+        {% block content %}
+        {% endblock content %}
+      </div>
+    {% endblock body %}
+  </body>
+</html>
+```
+
+`Now` the `index/home` page `looks like` the `following`:
+
+![Index/home page includes logged in user](Screenshot-2024-09-14-at-3.23.05-PM.jpg)
+
+_Index/home page includes logged in user_
+
+## Updating the tests for the signup view
+
+```python
+# accounts/tests.py
+# before:
+from django.urls import reverse
+from django.test import TestCase
+from django.urls import resolve
+from .views import signup
+
+# Create your tests here.
+class SignUpTests(TestCase):
+
+    def test_signup_status_code(self):
+        url = reverse('signup')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_signup_url_resolves_signup_view(self):
+        view = resolve('/signup/')
+        self.assertEqual(view.func, signup)
+# after:
+from django.contrib.auth.forms import UserCreationForm
+from django.core.urlresolvers import reverse
+from django.urls import resolve
+from django.test import TestCase
+from .views import signup
+
+class SignUpTests(TestCase):
+
+    def setUp(self):
+        url = reverse('signup')
+        self.response = self.client.get(url)
+
+    def test_signup_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_signup_url_resolves_signup_view(self):
+        view = resolve('/signup/')
+        self.assertEqual(view.func, signup)
+
+    def test_csrf(self):
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_contains_form(self):
+        form = self.response.context.get('form')
+        self.assertIsInstNCE(form, UserCreationForm)
+```
+
+We `changed` the `SignUpTests` class a `bit`. We `created` a `setUp()` method,
+`moved` the `response` object `there`. We are `now` also `testing` if the
+`response` contains a `form` and `CSRF` token.
+
+## Testing for a successful signup with new SuccessfulSignUpTests class
+
+```python
+# in accounts/tests/py
+from django.contrib.auth.models import User # add to imports
+
+class SuccessfulSignupTests(TestCase):
+
+    def setUp(self):
+        url = reverse('signup')
+        data = {
+            'username': 'john',
+            'password1': 'abcdef123456',
+            'password2': 'abcdef123456'
+        }
+        self.response = self.client.post(url, data)
+        self.index_url = reverse('index')
+
+    def test_redirection(self):
+        '''
+        A valid form submission should redirect the user to the index/home page
+        '''
+        self.assertRedirects(self.response, self.index_url)
+
+    def test_user_creation(self):
+        self.assertTrue(User.objects.exists())
+
+    def test_user_authentication(self):
+        '''
+        Create a new request to an arbitrary page.
+        The resulting response should now have a 'user' to its context,
+        after a successful sign up.
+        '''
+        response = self.client.get(self.index_url)
+        user = response.context.get('user')
+        self.assertTrue(user.is_authenticated)
+```
+
+Now `when` I run `python3 manage.py test` in `Terminal`, the `following` should
+be `returned`:
+
+```shell
+Found 15 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+...............
+----------------------------------------------------------------------
+Ran 15 tests in 1.525s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+## Testing for a signup when data is invalid with new InvalidSignUpTests class
+
+```python
+# in accounts/tests.py
+class InvalidSignUpTests(TestCase):
+
+    def setUp(self):
+        url = reverse('signup')
+        self.response = self.client.post(url, {}) # submit an empty dictionary
+
+    def test_signup_status_code(self):
+        '''
+        An invalid form submission should return to the same page
+        '''
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_form_errors(self):
+        form = self.response.context.get('form')
+        self.assertTrue(form.errors)
+
+    def test_dont_create_user(self):
+        self.assertFalse(User.objects.exists())
+```
+
+Now `when` I run `python3 manage.py test` in Terminal, the `following` should be
+`returned`:
+
+```shell
+Found 18 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+..................
+----------------------------------------------------------------------
+Ran 18 tests in 1.539s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+`Everything` IS `working`, but the `email` address `field` is `missing`. That is
+`because` the `UserCreationForm` does `not` provide an `email field`. But we can
+`extend` it.
+
+## Creating an accounts/forms.py file
+
+```python
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+class SignUpForm(UserCreationForm):
+    email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+```
+
+## Adding email field to SuccessfulSignUpTests in accounts/tests.py
+
+```python
+class SuccessfulSignUpTests(TestCase):
+
+    def setUp(self):
+        url = reverse('signup')
+        data = {
+            'username': 'john',
+            'email': 'john@doe.com', # added
+            'password1': 'abcdef123456',
+            'password2': 'abcdef123456'
+        }
+        self.response = self.client.post(url, data)
+        self.index_url = reverse('index')
+```
+
+Now, `instead` of `using` the `UserCreationForm` in our `accounts/views.py`,
+we'll `import` the `new form` called `SignUpForm`, and `use` it `instead`:
+
+```python
+# in accounts/views.py
+from django.contrib.auth.models import User
+from .forms import SignUpForm # SignUpFrom import added replacing UserCreationForm
+from django.urls import reverse
+from django.urls import resolve
+from django.test import TestCase
+from .views import signup
+
+class SignUpTests(TestCase):
+    def setUp(self):
+        url = reverse('signup')
+        self.response = self.client.get(url)
+
+    def test_signup_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_signup_url_resolves_signup_view(self):
+        view = resolve('/signup/')
+        self.assertEqual(view.func, signup)
+
+    def test_csrf(self):
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_contains_form(self):
+        form = self.response.context.get('form')
+        self.assertIsInstance(form, SignUpForm) # SignUpForm replaces UserCreationForm
+```
+
+The _previous_ `UserCreationForm` test `case` would _still_ `pass`, because
+`SignUpForm` extends `UserCreationForm`. it is an `instance` of
+`UserCreationForm`.
+
+As for class `SuccessfulSignUpTests(TestCase)`, we `now` have `added` an
+`email field` to the `signup form` both in `accounts/forms.py` and in
+`accounts/tests.py`.
+
+```python
+# in accounts/forms.py
+fields = ('username', 'email', 'password1', 'password2')
+```
+
+The `above` is `automatically reflected` in the `HTML` template. _However_, this
+is `not necessarily` a `good thing`.` What` if `later on`, `developers` wanted
+to `re-use` the `SignUpForm` for `something else`, and `add` some
+`extra fields`. The `new fields` would `also` show `up` in `signup.html`. This
+would `not` necessarily be `what` was `wanted`. This change could go unnoticed,
+and we never want any surprises.
+
+## Creating a test to verify HTML inputs in templates/signup.html
+
+```python
+# in accounts/tests.py
+class SignUpTests(TestCase):
+...
+    def test_form_inputs(self):
+        '''
+        The view must contain five inputs: csrf, username, email, password1, password2
+        '''
+        self.assertContains(self.response, '<input', 7)
+        self.assertContains(self.response, '<input type="text" name="username" maxlength="150" autofocus class="form-control" required aria-describedby="id_username_helptext" id="id_username">', 1)
+        self.assertContains(self.response, '<input type="email" name="email" maxlength="254" class="form-control" required id="id_email">', 1)
+        self.assertContains(self.response, '<input type="password" name="password1" autocomplete="new-password" class="form-control" aria-describedby="id_password1_helptext" id="id_password1">', 1)
+        self.assertContains(self.response, '<input type="password" name="password2" autocomplete="new-password" class="form-control" aria-describedby="id_password2_helptext" id="id_password2">', 1)
+```
+
+We `have` to be `specific` about `what` is `inside` the `inputs`. `Generically`
+doing the `following`:
+
+```python
+# in accounts/tests.py
+class SignUpTests(TestCase):
+    # ...
+
+    def test_form_inputs(self):
+        '''
+        The view must contain five inputs: csrf, username, email,
+        password1, password2
+        '''
+        self.assertContains(self.response, '<input', 5)
+        self.assertContains(self.response, 'type="text"', 1)
+        self.assertContains(self.response, 'type="email"', 1)
+        self.assertContains(self.response, 'type="password"', 2)
+```
+
+`results` in a `failed test`. With `assertContains()` these days, we `have` to
+`add` the _complete_ `input field` with `all` its `attributes` in `order` for
+the `tests` to `pass`. So `what` I `did`, was _first_ `run` the `above` failing
+`test`, which then `returned` all the `information` I `needed` to `add` to my
+_refactored_ `test_form_inputs` test:
+
+```shell
+# what was returned from failed test_form_inputs test in Terminal:
+Found 23 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.....F.................
+======================================================================
+FAIL: test_form_inputs (accounts.tests.SignUpTests.test_form_inputs)
+The view must contain five inputs: csrf, username, email, password1, password2
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/django_boards/accounts/tests.py", line 32, in test_form_inputs
+    self.assertContains(self.response, '<input type="text" class="form-control" required  id="id_username"', 1)
+  File "/Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages/django/test/testcases.py", line 614, in assertContains
+    self.assertEqual(
+AssertionError: 0 != 1 : Found 0 instances of '<input type="text" class="form-control" required  id="id_username"' (expected 1) in the following response
+b'\n<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="utf-8">\n    <meta name="description" content="A forum dedicated to all things Django" />\n    <meta name="keywords" content="django, python3" />\n    <title>\n      \n        Django Boards\n      \n    </title>\n    <link rel="stylesheet" href="/static/css/bootstrap.min.css">\n    <link rel="stylesheet" href="/static/css/app.css">\n    \n    \n  </head>\n  <body>\n    \n  <div class="container">\n    <h2>Sign up</h2>\n    <form method="post" novalidate>\n      <input type="hidden" name="csrfmiddlewaretoken" value="PTngaYH2sjQHU31KOhs8V94bB5jam0Ju1JZUOhd5bHINwTXUAgjGm01K96wb24rL">\n      \n\n\n  <div class="form-group">\n    <label for="id_username">Username:</label>\n\n    \n      <input type="text" name="username" maxlength="150" autofocus class="form-control" required aria-describedby="id_username_helptext" id="id_username">\n    \n\n    \n      <small class="form-text text-muted">\n        Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.\n      </small>\n    \n  </div>\n\n  <div class="form-group">\n    <label for="id_email">Email:</label>\n\n    \n      <input type="email" name="email" maxlength="254" class="form-control" required id="id_email">\n    \n\n    \n  </div>\n\n  <div class="form-group">\n    <label for="id_password1">Password:</label>\n\n    \n      <input type="password" name="password1" autocomplete="new-password" class="form-control" aria-describedby="id_password1_helptext" id="id_password1">\n    \n\n    \n      <small class="form-text text-muted">\n        <ul><li>Your password can\xe2\x80\x99t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can\xe2\x80\x99t be a commonly used password.</li><li>Your password can\xe2\x80\x99t be entirely numeric.</li></ul>\n      </small>\n    \n  </div>\n\n  <div class="form-group">\n    <label for="id_password2">Password confirmation:</label>\n\n    \n      <input type="password" name="password2" autocomplete="new-password" class="form-control" aria-describedby="id_password2_helptext" id="id_password2">\n    \n\n    \n      <small class="form-text text-muted">\n        Enter the same password as before, for verification.\n      </small>\n    \n  </div>\n\n  <div class="form-group">\n    <label>Password-based authentication:</label>\n\n    \n      <div id="id_usable_password" class="form-control"><div>\n    <label for="id_usable_password_0"><input type="radio" name="usable_password" value="true" class="form-control" id="id_usable_password_0" checked>\n Enabled</label>\n\n</div><div>\n    <label for="id_usable_password_1"><input type="radio" name="usable_password" value="false" class="form-control" id="id_usable_password_1">\n Disabled</label>\n\n</div>\n</div>\n    \n\n    \n      <small class="form-text text-muted">\n        Whether the user will be able to authenticate using a password or not. If disabled, they may still be able to authenticate using other backends, such as Single Sign-On or LDAP.\n      </small>\n    \n  </div>\n\n      <button type="submit" class="btn btn-primary">Create an account</button>\n    </form>\n  </div>\n\n  </body>\n</html>\n'
+
+----------------------------------------------------------------------
+Ran 23 tests in 1.559s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+```
+
+_Then_ I `passed` those `complete` input `fields` to `assertContains()` as
+`shown` in the `passing test_form_inputs` test I `created`.
+
+We are `testing` for `specific inputs`, so this `does` make `sense`. If
+`future developers` _wanted_ to `change` the `inputs` in `some way` in the
+`Signup` form, they would be `alerted` to `need` for `changes` to the `test`
+when `running` it. _If_, _however_, we `wanted` to `create` a `test` that
+`would make` the `test` _"more"_ or _"all-inclusive"_ (if that's what we
+wanted), we could `use` something like
+[BeatifulSoup4](https://www.crummy.com/software/BeautifulSoup/) along with
+[Soup Sieve](https://github.com/facelessuser/soupsieve). I will `test` this
+`out` in `Part 16`.
+
+## Improving the accounts tests structure
+
+So `first` let's `deal` with `accounts/tests.py`. Inside `accounts/`, we'll
+`first create` a `new directory` called `tests`.
+
+_Next_, `inside` that `directory` we'll `add` a `new file` called
+`test_view_signup.py`. We `also` have to `make sure` to `create` an empty
+`__init__.py` file `inside` the new `tests` directory.
+
+Inside `test_view_signup.py`, we'll first `add` the `following` at the `top` of
+the `file`:
+
+```python
+# inside test_view_signup.py at top of file
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.urls import resolve
+from django.test import TestCase
+
+from ..views import signup
+from ..forms import SignUpForm
+```
+
+Next, we'll add the following:
+
+```python
+# inside test_view_signup.py below imports
+class SignUpFormTest(TestCase):
+    def test_form_has_fields(self):
+        form = SignUpForm()
+        expected = ['username', 'email', 'password1', 'password2',]
+        actual = list(form.fields)
+        self.assertSequenceEqual(expected, actual)
+```
+
+The _above_ `test` is `also` pretty `exact`. But `there` is `purpose` behind
+`it`. _If_, in the _future_, the `SignUpForm` has to be `changed`, to `include`
+the `user`'s `first` and `last name`, for example, we `would` probably `have` to
+`fix` a few `test cases`, `even` if we `didn't` _break_ `anything`. The `alerts`
+are `useful`, `because` they `create awareness` of `what` is `in` the `code`,
+_especially_ for developers `touching` the `code` for the `first time`.
+
+## Modularizing the tests in boards/tests.py
+
+_Next_, let's `modularize` the `tests` inside `boards/tests.py`. _Right now_,
+`both` the `boards/tests.py` and `accounts/tests.py` files are pretty `huge`. We
+`should` definitely `modularize` them!
+
+_First_, let's `create` a new `tests` directory inside `boards`, and `add` an
+empty `__init__.py` file.
+
+_Next_, let's `create` a `file` called `test_index_tests.py` and `place` the
+`following` inside:
+
+```python
+# inside boards/tests/test_index_tests.py
+from django.urls import reverse
+from django.test import TestCase
+from django.urls import resolve
+from django.contrib.auth.models import User
+from ..views import index, board_topics, new_topic
+from ..models import Board, Topic, Post
+from ..forms import NewTopicForm
+
+class IndexTests(TestCase):
+
+    def setUp(self):
+        self.board = Board.objects.create(
+            name="Python", description="Everything related to Python"
+        )
+        url = reverse("index")
+        self.response = self.client.get(url)
+
+    def test_index_view_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_index_url_resolves_index_view(self):
+        view = resolve("/")
+        self.assertEqual(view.func, index)
+
+    def test_index_view_contains_link_to_topics_page(self):
+        board_topics_url = reverse("board_topics", kwargs={"id": self.board.id})
+        self.assertContains(self.response, 'href="{0}"'.format(board_topics_url))
+
+    def test_board_topics_view_contains_link_back_to_index_page(self):
+        board_topics_url = reverse("board_topics", kwargs={"id": 1})
+        response = self.client.get(board_topics_url)
+        index_page_url = reverse("index")
+        self.assertContains(response, 'href="{0}"'.format(index_page_url))
+```
+
+_Next_, let's `create` another `file` called `test_board_topics_tests.py` inside
+`boards/tests/`, and `place` the `following` inside:
+
+```python
+# inside boards/tests/test_board_topics_tests.py
+from django.urls import reverse
+from django.test import TestCase
+from django.urls import resolve
+from django.contrib.auth.models import User
+from ..views import index, board_topics, new_topic
+from ..models import Board, Topic, Post
+from ..forms import NewTopicForm
+
+class BoardTopicsTests(TestCase):
+
+    def setUp(self):
+        Board.objects.create(name="Python", description="Everything related to Python")
+
+    def test_board_topics_view_success_status_code(self):
+        url = reverse("board_topics", kwargs={"id": 1})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_board_topics_view_not_found_status_code(self):
+        url = reverse("board_topics", kwargs={"id": 99})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_board_topics_url_resolves_board_topics_view(self):
+        view = resolve("/boards/1/")
+        self.assertEqual(view.func, board_topics)
+
+    def test_board_topics_view_contains_navigation_links(self):
+        board_topics_url = reverse('board_topics', kwargs={'id': 1})
+        homepage_url = reverse('index')
+        new_topic_url = reverse('new_topic', kwargs={'id': 1})
+
+        response = self.client.get(board_topics_url)
+
+        self.assertContains(response, 'href="{0}"'.format(homepage_url))
+        self.assertContains(response, 'href="{0}"'.format(new_topic_url))
+```
+
+_Lastly_, let's `create` a `file` called `test_new_topic_tests.py` inside
+`boards/tests/`, and `place` the `following` inside:
+
+```python
+from django.urls import reverse
+from django.test import TestCase
+from django.urls import resolve
+from django.contrib.auth.models import User
+from ..views import index, board_topics, new_topic
+from ..models import Board, Topic, Post
+from ..forms import NewTopicForm
+
+class NewTopicTests(TestCase):
+
+    def setUp(self):
+        Board.objects.create(name="Python", description="Everything related to Python")
+        User.objects.create_user(username='jane', email='jane@doe.com', password='123')
+
+    def test_csrf(self):
+        url = reverse('new_topic', kwargs={'id': 1})
+        response = self.client.get(url)
+        self.assertContains(response, 'csrfmiddlewaretoken')
+
+    def test_new_topic_valid_post_data(self):
+        url = reverse('new_topic', kwargs={'id': 1})
+        data = {
+            'subject': 'Test title',
+            'message': 'Lorem ipsum dolor sit amet'
+        }
+        response = self.client.post(url, data)
+        self.assertTrue(Topic.objects.exists())
+        self.assertTrue(Post.objects.exists())
+
+    def test_new_topic_invalid_post_data(self):
+        '''
+        Invalid post data should not redirect
+        The expected behavior is to show the form again with validation errors
+        '''
+        url = reverse('new_topic', kwargs={'id': 1})
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, 200)
+
+    def test_new_topic_invalid_post_data_empty_fields(self):
+        '''
+        Invalid post data should not redirect
+        The expected behavior is to show the form again with validation errors
+        '''
+        url = reverse('new_topic', kwargs={'id': 1})
+        data = {
+            'subject': '',
+            'message': ''
+        }
+```
+
+_Now_ we have `modularized` our `boards/tests.py` file! And the `structure` of
+`boards` should `look like` the `following`:
+
+```shell
+- boards/
+  - tests/
+    __pycache__
+    - migrations/
+    __init__.py
+    - test_board_topics_tests.py
+    - test_index_tests.py
+    - test_new_topic_tests.py
+  - __init__.py
+  - admin.py
+  - apps.py
+  - forms.py
+  - models.py
+  - views.py
+```
+
+`Make sure` to `delete` the original `boards/tests.py` file. _Otherwise_, the
+`new structure` will `not` work!
+
+## Modularizing the tests in accounts/tests.py
+
+We have `already added` one `test` file to the new `tests` directory in
+`accounts` (`accounts/tests/`). Now let's `modularize` the `tests` in
+`accounts/tests.py` just `like` we `did` for `boards`.
+
+_First_, let's `create` a `new file` called `test_signup_tests.py`, and `place`
+the `following` inside:
+
+```python
+# in accounts/tests/test_signup_tests.py
+from django.contrib.auth.models import User
+from ..forms import SignUpForm
+from django.urls import reverse
+from django.urls import resolve
+from django.test import TestCase
+from ..views import signup
+
+class SignUpTests(TestCase):
+    def setUp(self):
+        url = reverse('signup')
+        self.response = self.client.get(url)
+
+    def test_signup_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_signup_url_resolves_signup_view(self):
+        view = resolve('/signup/')
+        self.assertEqual(view.func, signup)
+
+    def test_csrf(self):
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_contains_form(self):
+        form = self.response.context.get('form')
+        self.assertIsInstance(form, SignUpForm)
+
+    def test_form_inputs(self):
+        '''
+        The view must contain five inputs: csrf, username, email, password1, password2
+        '''
+        self.assertContains(self.response, '<input', 7)
+        self.assertContains(self.response, '<input type="text" name="username" maxlength="150" autofocus class="form-control" required aria-describedby="id_username_helptext" id="id_username">', 1)
+        self.assertContains(self.response, '<input type="email" name="email" maxlength="254" class="form-control" required id="id_email">', 1)
+        self.assertContains(self.response, '<input type="password" name="password1" autocomplete="new-password" class="form-control" aria-describedby="id_password1_helptext" id="id_password1">', 1)
+        self.assertContains(self.response, '<input type="password" name="password2" autocomplete="new-password" class="form-control" aria-describedby="id_password2_helptext" id="id_password2">', 1)
+```
+
+_Next_, let's `create` a `file` called `test_successful_signup_tests.py`, and
+`place` the `following` inside:
+
+```python
+# in accounts/tests/test_successful_signup_tests.py
+from django.contrib.auth.models import User
+from ..forms import SignUpForm
+from django.urls import reverse
+from django.urls import resolve
+from django.test import TestCase
+from ..views import signup
+
+class SuccessfulSignUpTests(TestCase):
+
+    def setUp(self):
+        url = reverse('signup')
+        data = {
+            'username': 'john',
+            'email': 'john@doe.com',
+            'password1': 'abcdef123456',
+            'password2': 'abcdef123456'
+        }
+        self.response = self.client.post(url, data)
+        self.index_url = reverse('index')
+
+    def test_redirection(self):
+        '''
+        A valid form submission should redirect the user to the home page
+        '''
+        self.assertRedirects(self.response, self.index_url)
+
+    def test_user_creation(self):
+        self.assertTrue(User.objects.exists())
+
+    def test_user_authentication(self):
+        '''
+        Create a new request to an arbitrary page.
+        The resulting response should now have a `user` to its context,
+        after a successful sign up.
+        '''
+        response = self.client.get(self.index_url)
+        user = response.context.get('user')
+        self.assertTrue(user.is_authenticated)
+```
+
+_Lastly_, let's `create` a new `file` called `test_invalid_signup_tests.py`, and
+`place` the `following` inside:
+
+```python
+# in accounts/tests/test_invalid_signup_tests.py
+from django.contrib.auth.models import User
+from .forms import SignUpForm
+from django.urls import reverse
+from django.urls import resolve
+from django.test import TestCase
+from .views import signup
+
+class InvalidSignUpTests(TestCase):
+
+    def setUp(self):
+        url = reverse('signup')
+        self.response = self.client.post(url, {})  # submit an empty dictionary
+
+    def test_signup_status_code(self):
+        '''
+        An invalid form submission should return to the same page
+        '''
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_form_errors(self):
+        form = self.response.context.get('form')
+        self.assertTrue(form.errors)
+
+    def test_dont_create_user(self):
+        self.assertFalse(User.objects.exists())
+```
+
+_Now_ we have `modularized` our `accounts/tests.py` file! And the `structure` of
+`accounts` should `look like` the `following`:
+
+```shell
+- accounts/
+  - __pycache__
+  - migrations/
+  - tests/
+    - __pycache__
+    - __init__.py
+    - test_invalid_signup_tests.py
+    - test_signup_tests.py
+    - test_successful_signup_tests.py
+    - test_view_signup.py # from before
+  - __init__.py
+  - admin.py
+  - apps.py
+  - forms.py
+  - models.py
+  - views.py
+```
+
+We are ready to `test` out `both` our _new_ `board` and `accounts` setup.
+
+To `run` our `boards` tests, we `run` the `following command` in `Terminal`:
+
+```shell
+python3 manage.py test boards
+```
+
+Those `tests` should all `pass`.
+
+To `run` our `accounts` tests, we `run` the `following command` in `Terminal`:
+
+```shell
+python3 manage.py test accounts
+```
+
+`When` we `run` the `accounts` tests, `one test` should `fail`. The
+`SignUpFormTest` in `accounts/tests/test_view_signup.py`. If you `want` to
+`ignore` that `test` (but `also` _keep it_), you can just `comment out` the
+`code` in the `file`. That's `what` I `did`.
+
+## Conclusion
+
+In this section, we `created` an `accounts app` here `everything related` to
+`user accounts` would `reside`, created a signup view in accounts/views.py, a
+signup.html template, created a SignUpTests class in accounts/tests.py, tweaked
+templates/base.html to account for authentication, implemented auth_login in the
+signup view, referenced the authenticated user in templates/base.html, tested
+for a successful signup with a SuccessfulSignUpTests class, tested for signup
+invalid data with an InvalidSignUpTests class, created an accounts/forms.py
+file, created a test to verify HTML inputs in templates/signup.html, and
+modularized our boards and accounts tests so that we didn't have to deal with
+such large files.
+
+## Footnotes
+
+**[^1]**:
+[form.cleaned_data](<https://stackoverflow.com/questions/53594745/what-is-the-use-of-cleaned-data-in-django#:~:text=cleaned_data%20returns%20a%20dictionary%20of,format%20(i.e.%20not%20objects).>)
+returns a dictionary of validated form input fields and their values, where
+string primary keys are returned as objects. to view an example, please visit
+the thread entitled
+["What is the use of cleaned_data in Django?"](<https://stackoverflow.com/questions/53594745/what-is-the-use-of-cleaned-data-in-django#:~:text=cleaned_data%20returns%20a%20dictionary%20of,format%20(i.e.%20not%20objects).>)
+on `stackoverflow`.
+
+## Related Resources
+
+-   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+
+-   [Beautiful asserts with your Django Test Client](https://vicktor.nl/academy/beautiful-asserts-with-your-django-test-client/):
+    **_viktor.n_**
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
