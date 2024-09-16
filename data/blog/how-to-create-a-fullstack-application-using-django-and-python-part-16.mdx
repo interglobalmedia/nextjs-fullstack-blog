@@ -1,0 +1,188 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-16
+date: '2024-09-15T20:48:45.109Z'
+lastModified: '2024-09-16T00:30:45.109Z'
+title: How to create a fullstack application using Django and Python Part 16
+author: Maria D. Campbell
+excerpt:
+    'How to create a fullstack application using Django and Python Part 16. In
+    this section, I demonstrate an alternative to the original test_form_inputs
+    test in which we used the .assertContains() method to verify the existence
+    of specific inputs residing in the signup form. I install Beautiful Soup 4
+    and Soup Sieve along with the html5lib HTML parser, and then re-create the
+    test_form_inputs test using those packages. The test is much shorter, and my
+    approach to discovering the ids of the inputs I want to grab by inspecting
+    the signup form element in the browser is quicker and much easier to read!'
+image: ella-olsson-fxJTl_gDh28-unsplash.jpg
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'django',
+        'beautifulsoup4',
+        'soupsieve',
+        'html5lib',
+        'html parser',
+        'series',
+        'tests',
+        'unittest',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Beautiful Soup](ella-olsson-fxJTl_gDh28-unsplash.jpg)
+
+**_Photo by_** [Ella Olsson](https://unsplash.com/@ellaolsson) **_on_**
+[unsplash.com](https://unsplash.com/photos/soup-in-bowl-fxJTl_gDh28)
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Adding Test Client using Soup Sieve](#adding-test-client-using-soup-sieve)
+-   [Installing Beautiful Soup 4, Soup Sieve, and html5lib HTML parser](#installing-beautiful-soup-4-soup-sieve-and-html5lib-html-parser)
+-   [Creating our Test Client using Beautiful Soup 4 and Soup Sieve](#creating-our-test-client-using-beautiful-soup-4-and-soup-sieve)
+-   [Breaking down the test_form_inputs test](#breaking-down-the-test-form-inputs-test)
+-   [Running the accounts tests](#running-the-accounts-tests)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Adding Test Client using Soup Sieve
+
+As I `mentioned` in the `section 15`, there is a `way` of _more generically_
+`verifying` HTML `inputs` in `templates/signup.html`. We can `do` that `with` a
+`package` called `Soup Sieve`.
+
+`Soup Sieve` is a `powerful` selector `add-on` for _powerful_
+`Beautiful Soup 4`. It comes `pre-installed` with `BeautifulSoup4 4.7.0` and
+`above`, and `uses` the `CSS selector API` to `query` a `document`. `In` our
+`case`, `it` can be `used` to `find` the HTML `inputs` in our
+`templates/signup.html` and `verify` they `exist` there. _This time_ we won't
+`need` to `pass` in `complete inputs` to the `.assertContains()` method. That
+was a bit of an `inconvenient` and `long-winded` approach.
+
+## Installing Beautiful Soup 4, Soup Sieve, and html5lib HTML parser
+
+We `have` to _install_ `Beautiful Soup 4` before installing `Soup Sieve`. In
+fact, it's `meant` to be `used` alongside `Beautiful Soup 4`:
+
+```shell
+# first:
+python3 pip -m install beautifulsoup4
+# then:
+python3 -m pip install soupsieve
+# then (very important):
+python3 -m pip install html5lib # needed for parsing and has to be installed separately
+```
+
+We also `need` to _install_ `'html5lib'`. It `parses` the `HTML` that
+`Beautiful Soup/Soup Sieve` scrapes (that's what they do!).
+
+_Make sure_ to `install` all three `packages` at the `root directory` of the
+`project` (in my case `django-boards` directory) `where` the `venv` directory
+`resides`. Also `make sure` that your `virtual environment` has been `activated`
+_before_ `installing` the `packages`. Then _add_ `bs4`, `soupsieve`, and
+`html5lib` to `INSTALLED_APPS` in `settings.py`:
+
+```python
+INSTALLED_APPS = [
+    ...
+    'soupsieve',
+    'bs4',
+    'html5lib',
+]
+```
+
+## Creating our Test Client using Beautiful Soup 4 and Soup Sieve
+
+_First_, we will `comment out` our _existing_ `test_form_inputs` in
+`accounts/tests/test_signup_tests.py`. Instead of `relying` on the
+`generic test` we originally `had` (although you could go that way if you want),
+we could `inspect` our `signup.html` template in the `browser` when we _go to_
+the url `http://127.0.0.1:8000//signup/`. `All` input `attributes` are _in
+there_, and _much easier_ to `read`!
+
+`What` I `did` was `get` all the `input ids` and `pass` them `in` like the
+`following`:
+
+```python
+# add following imports first in accounts/tests/test_signup_tests.py:
+import bs4
+import soupsieve as sv
+
+# then add the refactored test_form_inputs test:
+def test_form_inputs(self):
+    self.response = self.client.get(reverse('signup'))
+    text = """
+    <form class="signup-form">
+    </form>
+    """
+    soup = bs4.BeautifulSoup(text, 'html5lib')
+    sv.select('input:is(#id_username, #id_email, #id_password1, #id_password2)', soup)
+```
+
+_Short_ and _sweet_! You `might` also `notice` that I did `not` have to `import`
+the `'html5lib'` library. I only `had` to `add` it to `INSTALLED_APPS` in
+`settings.py`.
+
+## Breaking down the test_form_inputs test
+
+1. `First` we do `as` we have `done` to `date`. We `get` the `'signup'` view
+   with `self.response = self.client.get(reverse('signup'))`.
+1. Then we `create` a `text` object which `contains` the `value` of the
+   `element` we `want` to `target` and the `class` it `contains`. I `added` the
+   `class` beforehand. `Soup Sieve/BeautifulSoup` needs `to` be `able` to `find`
+   a `class`, or an `element selector`, _etc._, `in order` to be `able` to
+   `parse` the correct `HTML`. I `wanted` to `be` and `needed` to `be` _more
+   specific_ than the `'form'` element `selector`, so I chose `'signup-form'` as
+   the `class selector`. It _clearly describes_ its `target element`. `All` I
+   `needed` to `add` was the `form element`, because it `contains` all the
+   `inputs` we `want` to `grab` and `verify` in the `test`.
+1. Then I `create` a `soup` object (`required`) and `set` it to
+   `bs4.BeautifulSoup(text, 'html5lib')` (also `required` in order to work),
+   _followed by_ `sv.select()` where I `select` the `ids` of the
+   `input elements` I want to `verify`. And that is it!
+
+## Running the accounts tests
+
+`After` we _complete creating_ the `test`, we can `run` the `accounts` tests:
+
+```shell
+python3 manage.py test accounts
+```
+
+`All` the `tests` should `pass` (_excluding_ the `one` that we `commented out`
+earlier). _Indeed_, there `actually` are more `input fields` than `5` in the
+`signup` form. There are `six` input `fields` and one `button` of
+`type="submit"`. It is also `considered` an `"input"` according to the
+`.assertContains()` method. That is `why` the `test` fails. It is a `good alert`
+to `keep` nonetheless.
+
+## Conclusion
+
+In this section, I `demonstrated` an `alternative` to the original
+`test_form_inputs` test in which we `used` the `.assertContains()` method to
+`verify` the `existence` of `specific inputs` residing in the `signup` form. I
+_installed_ `Beautiful Soup 4` and `Soup Sieve` along with the `html5lib` HTML
+`parser`, and then `re-created` the `test_form_inputs` test `using` those
+`packages`. The `test` is _much shorter_, and my `approach` to `discovering` the
+`ids` of the `inputs` I `wanted` to `grab` by `inspecting` the `signup` form
+`element` in the `browser` is _quicker_ and _much easier_ to read!
+
+## Related Resources
+
+-   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+-   [Beautiful asserts with your Django Test Client](https://vicktor.nl/academy/beautiful-asserts-with-your-django-test-client/):
+    **_victor.n_**
+-   [Soup Sieve Quick Start](https://facelessuser.github.io/soupsieve/)
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
