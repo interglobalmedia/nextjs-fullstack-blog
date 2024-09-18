@@ -1,0 +1,1031 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-17
+date: '2024-09-16T10:19:04.312Z'
+lastModified: '2024-09-18T11:45:04.312Z'
+title: How to create a fullstack application using Django and Python Part 17
+author: Maria D. Campbell
+excerpt:
+    'In this section, I improve signup.html template design, add a logout view
+    and route, create a dropdown menu for logged in users, create a login.html
+    template, url, and redirect, create a reusable template, add non-field
+    errors to login.html, create custom template tags to use in form.html, and
+    test the template tags.'
+image: Screenshot-2024-09-17-at-12.50.28-PM.jpg
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'django',
+        'bootstrap 5',
+        'custom template tags',
+        'series',
+        'tests',
+        'unittest',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Non-existent user and incorrect password](Screenshot-2024-09-17-at-12.50.28-PM.jpg)
+
+_Non-existent user and incorrect password_
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Improving the Sign Up Template Design](#improving-the-sign-up-template-design)
+-   [Checking out the signup view in the browser](#checking=out-the-signup-view-in-the=browser)
+-   [Adding the logout view](#adding-the-logout-view)
+    -   [Adding new route to django_boards/urls.py](#adding-new-route-to-django-boards-urlspy)
+-   [Creating a dropdown menu for logged in users](#creating-a-dropdown-menu-for-logged-in-users)
+    -   [Adding the Bootstrap 5 dropdown menu including the logout URL](#adding-the-bootstrap-5-dropdown-menu=-including-the-logout-URL)
+-   [Fixing Logout in the user dropdown menu](#fixing-logout-in-the-user-dropdown-menu)
+-   [Adding a Login URL to django_boards/urls.py](#adding=a=login-utl-to-django-boards-urlspy)
+    -   [Adding Login redirect in django_boards/settings.py](#adding-login-redirect-in-django-boards-settingspy)
+    -   [Adding the login URL to templates/base.html](#adding-the-login-url-to-templates-basehtml)
+-   [Creating templates/login.html](#creating-templates-loginhtml)
+-   [Reusing templates/base_accounts.html in signup.html and login.html](#reusing-templates-base-accountshtml-in-signuphtml-and-loginhtml)
+-   [Log in Non Field Errors in templates/login.html](#log-in-non-field-errors-in-templates-loginhtml)
+    -   [Refactoring templates/includes/form.html to show non-field errors](#refactoring-remplates-includes-formhtml-to-show-non-field-errors)
+-   [Creating custom template tags](#creating-custom-template-tags)
+    -   [Django template tags](#django-template-tags)
+    -   [Template tag syntax](#template-tag-syntax)
+    -   [The form_tags custom template tag](#the-form-tags-custom-template-tag)
+    -   [The input_class custom template tag](#the-input-class-custom-template-tag)
+    -   [Updating the templates/includes/form.html to use the new template tags](#updating-the-templates-includes-formhtml-to-use-the-new-template-tags)
+    -   [Testing the Template Tags](#testing-the-template-tags)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Improving the Sign Up Template Design
+
+We can go `two ways` with `improving` the `design` of the `signup` template. We
+could `either`:
+
+_Visit_ `Toptal` _patterns_ on their website to `pick` a `background` for our
+`accounts` pages:
+[Toptal patterns](https://www.toptal.com/designers/subtlepatterns/).
+
+1. Download a pattern of your choosing.
+1. Create a new directory inside the static directory called img.
+1. Place your background pattern inside.
+1. Create a file called accounts.css inside static/css.
+
+_OR_... we could `add` our own `background patterns`. For example, I am `adding`
+a `CSS gradient` to the `background` of my accounts pages by `adding` the CSS to
+the `static/css/accounts.css` file:
+
+```css
+/* inside static/css/accounts.css at the top of the file */
+body {
+	background: linear-gradient(60deg, #b4eeb4 25%, transparent 25.09%),
+		linear-gradient(120deg, #90be90 33%, transparent 33.09%),
+		linear-gradient(50deg, #7da67d 45%, transparent 45.09%), linear-gradient(
+			-50deg,
+			#b4eeb4 15%,
+			transparent 15.09%
+		), linear-gradient(-45deg, #90be90 33%, transparent 33.09%),
+		linear-gradient(95deg, #b4eeb4 58.5%, transparent 58.59%),
+		linear-gradient(95deg, #b4eeb4 100%, transparent 58.59%);
+	height: 100vh;
+	width: 100vw;
+	overflow-x: hidden;
+}
+```
+
+If you `want` to `go` the `way` of `Toptal` background images, `add` the
+`following` to `static/css/accounts.css`:
+
+```css
+body {
+	/* replace the image added here with your own */
+	background-image: url(../img/shattered.png);
+}
+
+.logo {
+	font-family: 'Peralta', cursive;
+}
+
+.logo a {
+	color: rgba(0, 0, 0, 0.9);
+}
+
+.logo a:hover,
+.logo a:active {
+	text-decoration: none;
+}
+```
+
+`Then` update `templates/signup.html` markup to `reflect` the `changes` to
+`static/css/accounts.css`:
+
+```django
+<!-- adding static/css/accounts.css -->
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock stylesheet %}
+
+{% block body %}
+  <div class="container">
+    <h1 class="text-center logo my-4">
+      <a href="{% url 'index' %}">Django Boards</a>
+    </h1>
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">Sign up</h3>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              {% include "includes/form.html" %}
+              <button type="submit" class="btn btn-primary btn-block">Create an account</button>
+            </form>
+          </div>
+          <div class="card-footer text-muted text-center">
+            Already have an account? <a href="#">Log in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+```
+
+_Above_, I have `applied` the `Bootstrap 5` card components `markup` to
+`improve` upon the `look` of our `signup.html` template. _Below_, is `all` the
+`CSS` I `added` thus far to `static/css/accounts.css`:
+
+```css
+/* static/css/accounts.css */
+@import url('https://fonts.googleapis.com/css2?family=Peralta&display=swap');
+
+body {
+	background: linear-gradient(60deg, #b4eeb4 25%, transparent 25.09%),
+		linear-gradient(120deg, #90be90 33%, transparent 33.09%),
+		linear-gradient(50deg, #7da67d 45%, transparent 45.09%), linear-gradient(
+			-50deg,
+			#b4eeb4 15%,
+			transparent 15.09%
+		), linear-gradient(-45deg, #90be90 33%, transparent 33.09%),
+		linear-gradient(95deg, #b4eeb4 58.5%, transparent 58.59%),
+		linear-gradient(95deg, #b4eeb4 100%, transparent 58.59%);
+	height: 100vh;
+	width: 100vw;
+	overflow-x: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.container {
+	margin-top: -2rem;
+}
+
+.container h1 {
+	font-family: 'Peralta', serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 2rem;
+}
+
+.container h1 a {
+	text-decoration: none;
+}
+
+/* Bootstrap card styling to change opacity of the card's background color. Could also change the opacity of a background image. instead of setting a color to the background property, you set an image. */
+
+.card {
+	position: relative;
+	background: transparent;
+}
+
+.card::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0.5;
+	background: #fff;
+	z-index: -1;
+}
+```
+
+`Whether` or `not` we `add` the `Toptal` background `image` or simply `use` a
+`CSS gradient`, we should _still update_ `templates/signup.html` markup to
+include `Bootstrap` card markup.
+
+## Checking out the signup view in the browser
+
+`With` the `most` recent `changes` to the `stylin`g of `templates/signup.html`,
+this is what mine `looks like` in the `browser`:
+
+![Result of improving the styling of the signup view](Screenshot-2024--9-16-at-1.20.51-PM.jpg)
+
+_Result of improving the styling of the signup view_
+
+## Adding the logout view
+
+### Adding new route to django_boards/urls.py
+
+```python
+# django_boards/urls.py
+from django.contrib import admin
+from django.urls import path
+
+from accounts import views as accounts_views
+from boards import views
+
+from django.contrib.auth import views as auth_views
+
+urlpatterns = [
+    path("", views.index, name="index"),
+    path("signup/", accounts_views.signup, name="signup"),
+    path("logout/", auth_views.LogoutView.as_view(), name='logout'), # addeds
+    path("boards/<str:id>/", views.board_topics, name="board_topics"),
+    path("boards/<str:id>/new/", views.new_topic, name="new_topic"),
+    path("admin/", admin.site.urls),
+]
+```
+
+We `imported` the `views` from the `Django`’s contrib `module`. We `renamed` it
+to `auth_views` to avoid `naming` conflicts with the `boards.views`. The
+`renaming` also `clarifies` what it is being `used` for. We also `treat` this
+`view` a bit `differently` (`auth_views.LogoutView.as_view()`). It is a `Django`
+_class-based_ `view`. _Until now_, we have `only` _created_ `views` as `Python`
+functions. `Class-based` views `provide` a more `flexible` way to `extend` and
+`re-use` views.
+
+_Next_, we add `LOGOUT_REDIRECT_URL = 'index'` to the `bottom` of the
+`django_boards/settings.py` file:
+
+```python
+# in django_boards/settings.py at the bottom of the file:
+LOGOUT_REDIRECT_URL = 'index'
+```
+
+We are `passing` the `name` of the `URL pattern` we `want` to `redirect` the
+`user` to `after` they `log out`.
+
+When we `access` the URL `127.0.0.1:8000/logout/`, we will be `logged out`. But
+`before` we `log out`, we `have` to `create` a `dropdown menu` for `logged` in
+`users`.
+
+## Creating a dropdown menu for logged in users
+
+The `Bootstrap 5` dropdown `component` needs `jQuery` to `work`. the
+`current version` of `jQuery` is `3.7.1`. We `don't` have to `download` it from
+`jquery.com`. We can `add` a `CDN` jQuery `link` instead:
+https://releases.jquery.com. `Select` the `"minified"` version, and just `copy`
+the `code` and `paste` it as I will `demonstrate` shortly.
+
+As for the `Bootstrap JS`, you can `grab` the `code` from `cdnjs` as well:
+[bootstrap dnjs](https://cdnjs.com/libraries/bootstrap). Just `click` on the
+`code` icon (`</>`), and that will `copy` the `code` for you. Then you just
+`have` to `paste` it `into` your `HTML` template.
+
+`Bootstrap JS` is `dependent` on `Popper`, and you can `grab` the `code` for
+`that` on `cdnjs` as well:
+[popper.js on cdnjs](https://cdnjs.com/libraries/popper.js/2.9.2).
+
+When you have `grabbed` the `three scripts` and `added` them to your
+`templates/base.html`, it should `look` something `like` the `following`:
+
+```django
+<!-- templates/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="A forum dedicated to all things Django" />
+    <meta name="keywords" content="django, python3" />
+    <title>
+      {% block title %}
+        Django Boards
+      {% endblock title %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    {% block stylesheet %}
+    {% endblock stylesheet %}
+  </head>
+  <body>
+    {% block body %}
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'index' %}">Django Boards</a>
+          <div class="dropdown">
+            <a class="btn btn-primary dropdown-toggle"
+               href="#"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">{{ user.username }}</a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="#">My account</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">change password</a>
+              </li>
+              <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+              </form>
+            </ul>
+          </div>
+          <button class="navbar-toggler"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#mainMenu"
+                  aria-controls="mainMenu"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+      <div class="container">
+        <ol class="breadcrumb my-4">
+          {% block breadcrumb %}
+          {% endblock breadcrumb %}
+        </ol>
+        {% block content %}
+        {% endblock content %}
+      </div>
+    {% endblock body %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
+            integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+            integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+  </body>
+</html>
+```
+
+My `index/home` page `view` now `looks like` the `following`:
+
+![Updated index/home view including logged in user dropdown menu](Screenshot-2024-09-16-at-4.26.29-PM.jpg)
+
+_Updated index/home view including logged in user dropdown menu_
+
+I `changed` the `background` of the `navigation menu`, because the `background`
+color `choices` for the Bootstrap `dropdown menu` were `limited`. I `wanted` to
+`have` a nice `contrast` between the `background color` of the `navigation menu`
+and the `logged in` user `dropdown menu`.
+
+**Note**: whatever `version` of `Bootstrap` you are `using` (and it `should`
+always be the `latest one`), `make sure` that you are `using` the _associated_
+HTML `markup` for that `version`. _Otherwise_, the `JavaScript` functionality
+`might` not `work`!
+
+### Adding the Bootstrap 5 dropdown menu including the logout URL
+
+We _did include_ the HTML `markup` for the `logged in` user `dropdown menu` in
+the `Django` _code snippet_ `above`. _Specifically_, it is the _following_:
+
+```django
+<div class="dropdown">
+  <a class="btn btn-primary dropdown-toggle"
+      href="#"
+      role="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false">{{ user.username }}</a>
+  <ul class="dropdown-menu">
+    <li>
+      <a class="dropdown-item" href="#">My account</a>
+    </li>
+    <li>
+      <a class="dropdown-item" href="#">change password</a>
+    </li>
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">Logout</button>
+    </form>
+  </ul>
+</div>
+```
+
+The `logout URL` is also `included`. It `works`, but `when` I `click` on
+`"Logout"`, the _username_ `disappears` and the `dropdown arrow` is all that
+`remains`.
+
+**Note**: `Inserting` a `form` inside of the `dropdown menu`, `which` is an
+`unordered list`, _may seem_ `funny`, _but since_ `Django 5`, `this` is the
+`way` that the `Logout` has to be `dealt with`. `Otherwise` it `won't work`! We
+`would` be `taken` to an `empty page`.
+
+## Fixing Logout in the user dropdown menu
+
+In order to `remove` the `logged in` user `dropdown menu` on `logout`, we `add`
+a `"Login"` button `along with` a `"Sign up"` button `instead`.
+`templates/base.html` should `look like` the `following`:
+
+```django
+<!-- templates/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="A forum dedicated to all things Django" />
+    <meta name="keywords" content="django, python3" />
+    <title>
+      {% block title %}
+        Django Boards
+      {% endblock title %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    {% block stylesheet %}
+    {% endblock stylesheet %}
+  </head>
+  <body>
+    {% block body %}
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'index' %}">Django Boards</a>
+          {% if user.is_authenticated %}
+          <div class="dropdown">
+            <a class="btn btn-primary dropdown-toggle"
+               href="#"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">{{ user.username }}</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="#">My account</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">change password</a>
+                </li>
+                <li>
+                  <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          <button class="navbar-toggler"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#mainMenu"
+                  aria-controls="mainMenu"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+           {% else %}
+            <form class="form-inline ml-auto">
+              <a href="#" class="btn btn-outline-secondary">Log in</a>
+              <a href="{% url 'signup' %}" class="btn btn-primary ml-2">Sign up</a>
+            </form>
+          {% endif %}
+        </div>
+      </nav>
+      <div class="container">
+        <ol class="breadcrumb my-4">
+          {% block breadcrumb %}
+          {% endblock breadcrumb %}
+        </ol>
+        {% block content %}
+        {% endblock content %}
+      </div>
+    {% endblock body %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
+            integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+            integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+  </body>
+</html>
+```
+
+Now my `index/home` page `looks like` the `following` when `logged out`:
+
+![Updated index/home page including only Login and Sign up buttons when user logs out](Screenshot-2024-09-16-at-5.01.46-PM.jpg)
+
+_index/home page including Login/Sign up buttons when user logs out_
+
+When the `logged` in `user` _logs out_, they are `taken back` to the
+`index/home` page, which `looks like` the `above` on `logout`.
+
+## Adding a Login URL to django_boards/urls.py
+
+```python
+# in django_boards/urls.py
+urlpatterns = [
+    path("", views.index, name="index"),
+    path("signup/", accounts_views.signup, name="signup"),
+    path("login/", auth_views.LoginView.as_view(template_name='login.html'),  name='login'), # added
+    path("logout/", auth_views.LogoutView.as_view(), name='logout'),
+    path("boards/<str:id>/", views.board_topics, name="board_topics"),
+    path("boards/<str:id>/new/", views.new_topic, name="new_topic"),
+    path("admin/", admin.site.urls),
+]
+```
+
+### Adding Login redirect in django_boards/settings.py
+
+```python
+# in django_baords/settings.py below LOGOUT_REDIRECT_URL:
+LOGIN_REDIRECT_URL = 'index'
+```
+
+The `configuration` is telling `Django` where to `redirect` after a
+`successful login`.
+
+### Adding the login URL to templates/base.html
+
+```django
+<!-- inside templates/base.html -->
+ {% else %}
+  <form class="form-inline ml-auto">
+    <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
+    <a href="{% url 'signup' %}" class="btn btn-primary ml-2">Sign up</a>
+  </form>
+{% endif %}
+```
+
+## Creating templates/login.html
+
+```django
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}" />
+{% endblock stylesheet %}
+
+{% block body %}
+<div class="container">
+	<h1 class="text-center logo my-4">
+		<a href="{% url 'index' %}">Django Boards</a>
+	</h1>
+	<div class="row justify-content-center">
+		<div class="col-lg-4 col-md-6 col-sm-8">
+			<div class="card">
+				<div class="card-body">
+					<h3 class="card-title">Log in</h3>
+					<form method="post" novalidate>
+						{% csrf_token %} {% include 'includes/form.html' %}
+						<button type="submit" class="btn btn-primary btn-block">
+							Log in
+						</button>
+					</form>
+				</div>
+				<div class="card-footer text-muted text-center">
+					New to Django Boards?
+					<a href="{% url 'signup' %}">Sign up</a>
+				</div>
+			</div>
+			<div class="text-center py-2">
+				<small>
+					<a href="#" class="text-muted">Forgot your password?</a>
+				</small>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock body %}
+```
+
+Now, when I `click` on the `login` button, I am `taken` to the `login` page:
+
+![The login page](Screenshot-2024-09-16-at-5.46.39-PM.jpg)
+
+_The login page_
+
+This is all `well` and `good`, but we are `repeating templates`. Let's `fix`
+that by `creating` another `reusable template` called `base_accounts.html` in
+the `templates` directory:
+
+```django
+<!-- inside templates/base_accounts.html -->
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1 class="text-center logo my-4">
+      <a href="{% url 'index' %}">Django Boards</a>
+    </h1>
+    {% block content %}
+    {% endblock content %}
+  </div>
+{% endblock body %}
+```
+
+## Reusing templates/base_accounts.html in signup.html and login.html
+
+**Reusing templates/base_accounts.html in signup.html**:
+
+```django
+<!-- place at the top of templates/signup.html -->
+{% extends 'base_accounts.html' %}
+```
+
+We also have to `add` a `Login URL` to `templates/signup.html`:
+
+```django
+<div class="card-footer text-muted text-center">
+  Already have an account? <a href="{% url 'login' %}">Log in</a>
+</div>
+```
+
+**Reusing templates/base_accounts.html in login.html**:
+
+```html
+<!-- place at the top of templates/login.html -->
+{% extends 'base_accounts.html' %}
+```
+
+## Log in Non Field Errors in templates/login.html
+
+If I `submit` an `empty` login `form`, `some` error `messages` are `rendered` to
+the `page`:
+
+![Submitting an empty login form](Screenshot-2024-09-16-at-6.22.19-PM.jpg)
+
+_Submitting an empty login form_
+
+But if I `start` to `type` a `non-existent` username in the `Username field`,
+the `following happens`:
+
+![Typing in non-existent username in login form](Screenshot-2024-09-16-at-6.29.57-PM.jpg)
+
+_Typing in non-existent username in login form_
+
+_Nothing_ happens. `No` error `messages`, and `no` red `borders`.
+
+`Why` is `nothing happening`? `Forms` in `Django` have a `special` type of
+`errors` called `non-field errors`. They are a `collection` of `errors` not
+`related` to any `specific field`.
+
+### Refactoring templates/includes/form.html to show non-field errors
+
+```django
+<!-- templates/includes/form.html -->
+{% load widget_tweaks %}
+{% if form.non_field_errors %}
+  <div class="alert alert-danger" role="alert">
+    {% for error in form.non_field_errors %}
+      <p {% if forloop.last %}class="mb-0"{% endif %}>{{ error }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+{% for field in form %}
+  <div class="form-group">
+    {{ field.label_tag }}
+    {% if form.is_bound %}
+      {% if field.errors or form.non_field_errors %}
+        {% render_field field class="form-control is-invalid" %}
+        {% for error in field.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      {% elif field.errors %}
+        {% render_field field class="form-control is-invalid" %}
+      {% else %}
+      {% render_field field class="form-control is-invalid" %}
+      {% endif %}
+    {% else %}
+      {% render_field field class="form-control" %}
+    {% endif %}
+    {% if field.help_text %}<small class="form-text text-muted">{{ field.help_text|safe }}</small>{% endif %}
+  </div>
+{% endfor %}
+```
+
+I `included` an `elif statement`. _Otherwise_, `field inputs` would `render` as
+`valid` even if they were `not valid` when there are `non_field_errors`. I also
+did _not include_ the `"is-valid"` class `anywhere`, because _invalid_
+`form data` inevitably would be _incorrectly_ `"validated"`. I `set` the
+`render_field` to `"invalid"` twice, _because otherwise_, when I would `type` an
+`incorrect username` followed by an _empty_ `password field`, the `"is_bound"`
+field with the `incorrect username` would `not` be `invalidated`, which is
+`misleading`.
+
+As for `{% if forloop.last %}`, we `add` this `because` of the `margin-bottom`
+of the `p element`. A `form` may have _several_ `non-field errors` and for
+_each_ `non-field error`, we `render` a `p tag` with the `error`. `Each time` we
+are `checking` if it is the `last p` to `render`. If it is, we `add` a
+`Bootstrap 5` CSS `class` called `"mb-0"` which `stands` for “margin bottom =
+0”. _This way_ the `alert styling` `doesn’t` look `strange`, with _too much_
+space `below` the `error message`(`s`).
+
+`Below` is a `rendering` of the `login view` _before_ the user `types` anything
+in the `form fields`:
+
+![Rendering of the login view before the user types anything](Screenshot-2024-09-17-at-8.07.12-AM.jpg)
+
+_Rendering of the login view before the user types anything_
+
+`Below` is a `rendering` of the `login view` when the user `types` a
+_non-existent_ `user` but _does not_ `type` in a `password` and then `submits`
+the `login form`:
+
+![Rendering of the login view when user types non-existent user and no password and then submits the form](Screenshot-2024-09-17-at-11.54.34-AM.jpg)
+
+_Non-existent user and no password_
+
+`Below` is a `rendering` of the `login view` when the user `types` a
+_non-existent_ `user` and an `incorrect password` and then `submits` the `form`:
+
+![Rendering of the login view when the user types non-existent user and incorrect password and then submits the form](Screenshot-2024-09-17-at-12.02-20-PM.jpg)
+
+_Non-existent user and incorrect password_
+
+`Below` is a `rendering` of the `login view` when the user `types` an
+`existing user` and `no password` and then `submits` the `form`:
+
+![Existing user and no password](Screenshot-2024-09-17-at-12.33.47-PM.jpg)
+
+_Existing user and no password_
+
+`Below` is a `rendering` of the `login view` when the user `types` an
+`existing user` and `incorrect password` and then `submits` the `form`:
+
+![Rendering of the login view when the user types an existing user and
+incorrect password and then submits the form](Screenshot-2024-09-17-at-12.40.34-PM.jpg)
+
+_Correct username and incorrect password_
+
+`Below` is a `rendering` of the `login view` when the user `types` an
+`existing user` and `correct password` after _having submitted_ `invalid` login
+`data`, _but before_ `re-submitting` the `login form`:
+
+![Rendering of the login view when the user types an existing user and
+correct password after having submitted invalid login data, but before
+re-submitting the login form](Screenshot-2024-09-17-at-12.50.28-PM.jpg)
+
+_Correct username and correct password before re-submission_
+
+`Below` is a `rendering` of the `redirect` after `submitting` the `login form`
+containing `correct username` and `password`:
+
+![Successful redirect after submitting valid data in the login form](Screenshot-2024-09-17-at-12.55.34-PM.jpg)
+
+_Successful redirect after submitting valid data_
+
+In the `original code` in `Viktor`'s `tutorial`, We would `still` have to `deal`
+with the `password field`, however. `Django` never `returns` the `data` of the
+`password fields` to the `client`, so we should just _conditionally ignore_
+`is-valid` and `is-invalid` CSS `classes` in `some cases`. That is `what` I
+`have done` in `templates/includes/form.html`. I _do take_ the `password field`
+_into account_.
+
+## Creating custom template tags
+
+_Next_, _inside_ `boards/`, we `create` a `new directory` called `templatetags`.
+it must be called `templatetags`, with no underscores. _Inside_ `templatetags`,
+we `create` _two_ `empty files`: _one called_ `__init__`.py, and _the other_
+`form_tags.py`.
+
+_Next_, in the `form_tags.py` file, we `add` the `following`:
+
+```python
+# inside boards/templatetags/form_tags.py:
+from django import template
+
+register = template.Library()
+
+@register.filter
+def field_type(bound_field):
+    return bound_field.field.widget.__class__.__name__
+
+@register.filter
+def input_class(bound_field):
+    css_class = ''
+    if bound_field.form.is_bound:
+        if bound_field.errors:
+            css_class = 'is-invalid'
+        elif field_type(bound_field) != 'UsernameInput':
+            css_class = 'is-invalid'
+        elif field_type(bound_field) != 'PasswordInput':
+            css_class = 'is-valid'
+    return 'form-control {}'.format(css_class)
+```
+
+We just created two template filters.
+
+### Django template tags
+
+`Django` _includes_ `dozens` of `tags` _used to_ `implement` arbitrary `logic`
+inside `templates`.
+
+`Tags` are `more complex` than `variables`. _Some_ `tags` create `text` in the
+`output`, _some control_ `flow` _by performing_ `loops` or `logic`, _and some_
+`load` external `information` into the `template` to be `used` by _other
+variables_. They `provide` arbitrary `logic` in the `rendering process`.
+
+_For example_, a `tag` _can output_ `content`, `serve` as a `control structure`,
+_such as_ an `“if” statement` or a `“for” loop`, `grab content` from a
+`database`, or even `enable access` _to other_ `template tags`.
+
+### Template tag syntax
+
+```django
+{% tag_name %}
+```
+
+We `have` already `used` some _built-in_ `template tags` in our `project`. `One`
+is the `{% extends %}` template tag. _But now_ we are `going` _to create_
+`custom` template `tags`.
+
+We are `going` to `load` our `template filters` just as we `did` with our
+`widget_tweaks` or `static` template `tags` in a `template`.
+
+_After creating_ our `form_tags.py` file, we will` have` to `stop` the
+`development server` and `start` it `again` so `Django` can `identify` _the new_
+`template tags`.
+
+### The form_tags custom template tag
+
+We can `load` _our new_ `form_tags` as `follows`:
+
+```django
+{% form_tags %}
+```
+
+`After` _loading_ `them`, we can `use` them in a `template` _like the_
+`following`:
+
+```django
+{{ form.username|field_type }}
+```
+
+`Which` would `return`:
+
+```shell
+'TextInput'
+```
+
+### The input_class custom template tag
+
+```html
+<!-- how to use the input_class custom template tag: -->
+{{ form.username|input_class }}
+
+<!-- if the form is not bound, it will simply return: -->
+'form-control '
+
+<!-- if the form is bound and valid: -->
+'form-control is-valid'
+
+<!-- if the form is bound and invalid: -->
+'form-control is-invalid'
+```
+
+### Updating the templates/includes/form.html to use the new template tags
+
+```django
+<!-- templates/includes/form.html -->
+{% load form_tags widget_tweaks %}
+
+{% if form.non_field_errors %}
+  <div class="alert alert-danger" role="alert">
+    {% for error in form.non_field_errors %}
+      <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% for field in form %}
+  <div class="form-group">
+    {{ field.label_tag }}
+    {% render_field field class=field|input_class %}
+    {% for error in field.errors %}
+      <div class="invalid-feedback">
+        {{ error }}
+      </div>
+    {% endfor %}
+    {% if field.help_text %}
+      <small class="form-text text-muted">
+        {{ field.help_text|safe }}
+      </small>
+    {% endif %}
+  </div>
+{% endfor %}
+```
+
+`With` the `addition` of our `custom` template `tags`, we have _somewhat
+reduced_ the `complexity` of our `template`. The `behavior` is _exactly_ the
+_same_ as my `previous implementation` of `templates/includes/form.html`. But
+the `code` in the `template` is _more readable_, because there is _less_
+`nested logic`. `Some` of the `logic` has been `transferred` to `form_tags`.
+
+### Testing the Template Tags
+
+Let's `create` a `test_templatetags.py` file `inside` our `boards/tests/`. Then
+let's `place` the `following` _inside_ `test_templatetags.py`:
+
+```python
+# boards/tests/test_templatetags.py
+from django import forms
+from django.test import TestCase
+from ..templatetags.form_tags import field_type, input_class
+
+class ExampleForm(forms.Form):
+    name = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput())
+    class Meta:
+        fields = ('name', 'password')
+
+class FieldTypeTests(TestCase):
+    def test_field_widget_type(self):
+        form = ExampleForm()
+        self.assertEqual('TextInput', field_type(form['name']))
+        self.assertEqual('PasswordInput', field_type(form['password']))
+
+class InputClassTests(TestCase):
+    def test_unbound_field_initial_state(self):
+        form = ExampleForm()  # unbound form
+        self.assertEqual('form-control ', input_class(form['name']))
+
+    def test_valid_bound_field(self):
+        form = ExampleForm({'name': 'john', 'password': '123'})  # bound form (field + data)
+        # this actually reflects logic in templatetags/form_tags.py to fix invalid data passing as valid
+        self.assertEqual('form-control is-invalid', input_class(form['name']))
+        self.assertEqual('form-control is-invalid', input_class(form['password']))
+
+    def test_invalid_bound_field(self):
+        form = ExampleForm({'name': '', 'password': '123'})  # bound form (field + data)
+        self.assertEqual('form-control is-invalid', input_class(form['name']))
+```
+
+_Next_, _to run_ `boards/tests/test_templatetags.py`, I _run_
+`python3 manage.py test boards`, _from_ `part 15`, remember? We are `running`
+_all our_ `boards tests` with this `command` _including_
+`test_templatetages.py`. BUT, `in order` to `run` _only the_
+`test_templatetags.py` file, we `run` the `following command` instead:
+
+```shell
+python3 manage.py test boards.tests.test_templatetags
+```
+
+We `run` this `command` from `inside` the `directory` where `manage.py` resides.
+
+`boards` is the `name` of the `app`, `.tests` _points_ to the `tests directory`
+_inside_ `boards`, and `.test_templatetags` _represents the_ `file` _containing
+the_ `tests` I _want to_ `run`.
+
+`When` I `run` this `test`, the `following` should be `returned`:
+
+```shell
+Found 4 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+## Conclusion
+
+In this section, I improved the `signup.html` template design, added a
+`logout view` and `route`, created a `dropdown menu` for `logged` in `users`,
+`created` a `login.html` template, url, and redirect, `created` a
+`reusable template`, added `non-field errors` to the `login.html` template,
+created `custom` template `tags` to `use` in the `form.html` includes, and
+created `tests` for the `template tags`.
+
+## Related Resources
+
+-   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+-   [Django Template Tags](https://www.geeksforgeeks.org/django-template-tags/):
+    **_Geeks for Geeks_**
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
