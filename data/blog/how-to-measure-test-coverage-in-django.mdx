@@ -1,0 +1,210 @@
+---
+slug: how-to-measure-test-coverage-in-django
+date: '2024-09-18T14:10:00.775Z'
+lastModified: '2024-09-18T21:14:00.775Z'
+title: How to measure test coverage in Django
+author: Maria D. Campbell
+excerpt:
+    'How to measure test coverage in Django. In this post, I go over the basics
+    of Coverage.py and how to determine how much of a Django application my
+    tests have covered using the coverage command. There is much more to
+    Coverage.py, and more Command Line usage available, but this is a great
+    start.'
+image: pexels-mjlo-2872418.jpg
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'django',
+        'python3',
+        'tests',
+        'coverage',
+        'coverage.py',
+    ]
+isPublished: true
+isFeatured: true
+---
+
+![Man Holding Microphone While Talking to Another Man
+and covering a story](pexels-mjlo-2872418.jpg)
+
+**_Photo by_** [Mido Makasardi](https://www.pexels.com/@mjlo/) **_on_**
+[pexels.com](https://www.pexels.com/photo/man-holding-microphone-while-talking-to-another-man-2872418/)
+
+## Table of Contents
+
+-   [What is test coverage in Django?](#what-is-test-coverage)
+-   [Tools for measuring coverage in Django](#tools-for-measuring-coverage-in-django)
+-   [Installing Coverage.py](#installing-coveragepy)
+-   [The C extension](#the-c-extension)
+-   [Checking for coverage's version](#checking-for-coverages-version)
+-   [Running the coverage command](#running-the-coverage-command)
+-   [Coverage report](#coverage-report)
+-   [Coverage html](#coverage-html)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## What is test coverage in Django?
+
+When we have `written` some `tests` for our `Django` applications, we
+`might wonder` whether or `not` we `wrote` enough `tests` and `for` the
+`right things`. `One way` we can `determine` this is by `measuring` the
+`coverage` of our `tests`. In other words, `how thoroughly` our `tests`
+encompass our `application`'s `code`.
+
+## Tools for measuring coverage in Django
+
+Probably the most `popular tool` _for measuring_ `coverage` in `Python` is the
+[Coverage.py](https://coverage.readthedocs.io/en/7.6.1/) tool. It _monitors_
+`Python` programming, noting `which parts` of the `code` have been `executed`,
+then `analyzes` the `source` _to identify_ `code` that `could have` been
+`executed` _but was_ `not`.
+
+## Installing Coverage.py
+
+To install `coverage.py`, `run` the `command` below in the `root directory` of
+your `project` (in my case, the `django-boards` directory (as opposed to
+`django_boards` directory)) where the `venv` directory `resides`. Also make sure
+that your `virtual environment` has been `activated` _before_ `installing` the
+`coverage` package.
+
+```shell
+python3 -m pip install coverage
+```
+
+## The C extension
+
+According to
+[Coverage.py](https://coverage.readthedocs.io/en/latest/install.html),
+
+> Coverage.py includes a C extension for speed. It is strongly recommended to
+> use this extension: it is much faster, and is needed to support a number of
+> coverage.py features. Most of the time, the C extension will be installed
+> without any special action on your part.
+
+## Checking for coverage's version
+
+In order to `find out` what `version` of `coverage` we have `installed`, we can
+`run` the `following command` in `Terminal` inside our `Django project` with
+`venv` _activated_:
+
+```shell
+coverage --version
+```
+
+When I ran `coverage --version` at the `django-boards` _root directory_, I
+`got back` the `following`:
+
+```shell
+Coverage.py, version 7.6.1 with C extension
+Full documentation is at https://coverage.readthedocs.io/en/7.6.1
+```
+
+My `coverage` _installation_ does `come` with the `C extension`.
+
+## Running the coverage command
+
+In order to _implement_ `Coverage.py`, we `run` the `following command` in the
+`directory` where our `manage.py` file `resides`:
+
+```shell
+coverage run manage.py test
+```
+
+This `command` _will include_ ALL our `project` tests: _both_ in `accounts` and
+`boards`.
+
+## Coverage report
+
+_After running_ `coverage run manage.py test`, we can `generate` a
+`coverage report` with the `following command` in the _same directory_:
+
+```shell
+coverage report
+```
+
+_For me_, the `following report` was _generated_:
+
+| Name                                                                           | Stmts   | Miss  | Cover   |
+| ------------------------------------------------------------------------------ | ------- | ----- | ------- |
+| `accounts/__init__.py`                                                         | 0       | 0     | 100%    |
+| accounts/admin.py                                                              | 1       | 0     | 100%    |
+| accounts/apps.py                                                               | 4       | 0     | 100%    |
+| accounts/forms.py                                                              | 8       | 0     | 100%    |
+| `accounts/migrations/__init__.py`                                              | 0       | 0     | 100%    |
+| accounts/models.py                                                             | 1       | 0     | 100%    |
+| `accounts/tests/__init__.py`                                                   | 0       | 0     | 100%    |
+| accounts/tests/test_invalid_signup_tests.py                                    | 17      | 0     | 100%    |
+| accounts/tests/test_signup_tests.py                                            | 27      | 0     | 100%    |
+| accounts/tests/test_successful_signup_tests.py                                 | 20      | 0     | 100%    |
+| accounts/tests/test_view_signup.py                                             | 0       | 0     | 100%    |
+| accounts/views.py                                                              | 12      | 0     | 100%    |
+| `boards/__init__.py`                                                           | 0       | 0     | 100%    |
+| boards/admin.py                                                                | 6       | 0     | 100%    |
+| boards/apps.py                                                                 | 4       | 0     | 100%    |
+| boards/forms.py                                                                | 7       | 0     | 100%    |
+| boards/migrations/0001_initial.py                                              | 7       | 0     | 100%    |
+| boards/migrations/0002_post_post_liked_topic_topic_liked_postlike_topiclike.py | 6       | 0     | 100%    |
+| boards/migrations/0003_remove_topic_topic_liked_delete_topiclike.py            | 4       | 0     | 100%    |
+| boards/migrations/0004_alter_postlike_post_like_value.py                       | 4       | 0     | 100%    |
+| boards/migrations/0005_alter_postlike_post_like_value.py                       | 5       | 0     | 100%    |
+| boards/migrations/0006_alter_postlike_post_like_value.py                       | 4       | 0     | 100%    |
+| boards/migrations/0007_remove_post_post_liked_post_post_liked_by.py            | 5       | 0     | 100%    |
+| boards/migrations/0008_alter_post_post_liked_by.py                             | 5       | 0     | 100%    |
+| boards/migrations/0009_alter_post_post_liked_by.py                             | 5       | 0     | 100%    |
+| `boards/migrations/__init__.py`                                                | 0       | 0     | 100%    |
+| boards/models.py                                                               | 34      | 5     | 85%     |
+| boards/templatetags/form_tags.py                                               | 16      | 2     | 88%     |
+| `boards/tests/__init__.py`                                                     | 0       | 0     | 100%    |
+| boards/tests/test_board_topics_tests.py                                        | 28      | 0     | 100%    |
+| boards/tests/test_index_tests.py                                               | 25      | 0     | 100%    |
+| boards/tests/test_new_topic_tests.py                                           | 28      | 0     | 100%    |
+| boards/tests/test_templatetags.py                                              | 24      | 0     | 100%    |
+| boards/views.py                                                                | 24 0    | 100%  |
+| `django_boards/__init__.py`                                                    | 0       | 0     | 100%    |
+| django_boards/settings.py                                                      | 26      | 0     | 100%    |
+| django_boards/urls.py                                                          | 6       | 0     | 100%    |
+| manage.py                                                                      | 11      | 2     | 82%     |
+| **TOTAL**                                                                      | **374** | **9** | **98%** |
+
+## Coverage html
+
+If I `want` to `generate` an `html document` of my `coverage report` (`produce`
+annotated `HTML` listings with `coverage` results), I _can run_ `coverage html`
+in `Terminal`, and the `following` is `returned`:
+
+```shell
+Wrote HTML report to htmlcov/index.html
+```
+
+I `add` the `htmlcov` directory to my `.gitignore` file, and I also `add` the
+`.coverage` file that was `created` when I ran `coverage run manage.py test`.
+
+## Conclusion
+
+In this post, I went over the `basics` of `Coverage.py` and `how` to `determine`
+the `percentage` of a `Django` application my `tests` have `covered` using the
+`coverage` command. There is _much more_ to `Coverage.py`, and more
+`Command Line` usage `available`, but _this_ is a _great start_.
+
+## Related Resources
+
+-   [Measuring Coverage](https://django-testing-docs.readthedocs.io/en/latest/coverage.html):
+    **_Django testing docs_**
+-   [Coverage.py installation](https://coverage.readthedocs.io/en/latest/install.html):
+    **_Coverage read the docs_**
+-   [Coverage.py command line usage](https://coverage.readthedocs.io/en/latest/cmd.html):
+    **_Coverage read the docs_**
+
+-   [Testing in Django](https://dev.to/ifihan/testing-in-django-26e5): **_by
+    Ifihan Olusheye, dev.to_**
+-   [A Beginners Guide to Unit Testing in Django](https://ctrlzblog.com/a-beginners-guide-to-unit-testing-in-django?x-host=ctrlzblog.com):
+    **_by Alice Ridgway_**
+
+-   [How to Test Django Models (with Examples)](https://ctrlzblog.com/how-to-test-django-models-with-examples?x-host=ctrlzblog.com):
+    **_by Alice Ridgway_**
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
