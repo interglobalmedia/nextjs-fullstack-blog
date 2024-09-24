@@ -64,6 +64,7 @@ site and `why` it is `crucial` to `do it`. This article `assumes` you have a
 -   [Updating templates/topics.html](#updating-templates-topicshtml)
 -   [Adding a new field to the Topic model](#adding-a-new-field-to-the-topic-model)
 -   [Running makemigrations and migrate](#running-makemigrations-and-migrate)
+-   [app.css](#appcss)
 -   [Conclusion](#conclusion)
 -   [Related Resources](#related-resources)
 -   [Related Posts](#related-posts)
@@ -1439,6 +1440,84 @@ _few times_, we should `see` if it’s `counting` the `page views`:
 ![Tracking the topics view views](Screenshot-2024-09-24-at-8.36.25 -M.jpg)
 
 _Tracking the topics view views_
+
+## app.css
+
+Below is the current app.css contents:
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Peralta&display=swap');
+
+.navbar-brand {
+	font-family: 'Peralta', serif;
+	font-size: 1.75rem;
+	font-style: normal;
+	font-weight: 400;
+}
+
+.nav-item .dropdown {
+	color: #666;
+	display: flex;
+	font-weight: 300;
+	justify-content: flex-end;
+	margin-top: 1.5rem;
+	text-decoration: none;
+}
+
+.breadcrumb-item a {
+	text-decoration: none !important;
+}
+
+.card-header {
+	margin-bottom: 1rem;
+	border: 0;
+	background-image: linear-gradient(to bottom, #b4eeb4, #aa85e5);
+}
+
+.card-header > h5 {
+	margin-bottom: 0.5rem;
+	margin-top: 0.5rem;
+}
+
+.card {
+	border: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.row.no-gutters:before {
+	background: url('/static/img/user_avatar.svg') center center;
+	border-radius: 50%;
+	content: '';
+	height: 4rem;
+	left: 1rem;
+	object-fit: cover;
+	position: absolute;
+	width: 4rem;
+}
+
+.card-body {
+	width: 100%;
+}
+
+.col {
+	display: flex;
+}
+
+.card-title {
+	margin-left: 5rem;
+	margin-right: 1.5rem;
+}
+
+.post-message {
+	text-align: left;
+}
+
+.like-count {
+	margin-top: 1.25rem;
+}
+```
 
 ## Conclusion
 
