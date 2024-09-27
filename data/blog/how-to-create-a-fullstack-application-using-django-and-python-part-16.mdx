@@ -123,7 +123,7 @@ def test_form_inputs(self):
     """
     The view must contain five inputs: csrf, username, email, password1, password2
     """
-    self.assertContains(self.response, "<input", 7
+    self.assertContains(self.response, "<input", 7)
 
     # add the refactored test_form_inputs test:
     self.response = self.client.get(reverse("signup"))
