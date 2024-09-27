@@ -268,14 +268,6 @@ The following is returned:
 
 ```shell
 ======================================================================
-FAIL: test_contains_form (accounts.tests.test_view_password_reset.PasswordResetConfirmTests.test_contains_form)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/Users/mariacam/Python-Development/django-boards/django_boards/accounts/tests/test_view_password_reset.py", line 114, in test_contains_form
-    self.assertIsInstance(form, PasswordResetForm)
-AssertionError: None is not an instance of <class 'django.contrib.auth.forms.PasswordResetForm'>
-
-======================================================================
 FAIL: test_csrf (accounts.tests.test_view_password_reset.PasswordResetConfirmTests.test_csrf)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
@@ -291,7 +283,7 @@ FAIL: test_form_inputs (accounts.tests.test_view_password_reset.PasswordResetCon
 The view must contain two inputs: csrf and two password fields
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/Users/mariacam/Python-Development/django-boards/django_boards/accounts/tests/test_view_password_reset.py", line 120, in test_form_inputs
+  File "/Users/mariacam/Python-Development/django-boards/django_boards/accounts/tests/test_view_password_reset.py", line 122, in test_form_inputs
     self.assertContains(self.response, '<input', 3)
   File "/Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages/django/test/testcases.py", line 614, in assertContains
     self.assertEqual(
@@ -299,9 +291,9 @@ AssertionError: 0 != 3 : Found 0 instances of '<input' (expected 3) in the follo
 b'\n<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="utf-8">\n    <meta name="description" content="A forum dedicated to all things Django" />\n    <meta name="keywords" content="django, python3" />\n    <title>\n      \n  \n    Reset your password\n  \n\n    </title>\n    <link rel="stylesheet" href="/static/css/bootstrap.min.css">\n    <link rel="stylesheet" href="/static/css/app.css">\n    \n  <link rel="stylesheet" href="/static/css/accounts.css">\n\n  </head>\n  <body>\n    \n  <div class="container">\n    <h1 class="text-center logo my-4">\n      <a href="/">Django Boards</a>\n    </h1>\n    \n  <div class="row justify-content-center">\n    <div class="col-lg-6 col-md-8 col-sm-10">\n      <div class="card">\n        <div class="card-body">\n          \n            <h3 class="card-title">Reset your password</h3>\n            <div class="alert alert-danger" role="alert">\n              It looks like you clicked on an invalid password reset link. Please try again.\n            </div>\n            <a href="/password-reset/" class="btn btn-secondary btn-block">Request a new password reset link</a>\n          \n        </div>\n      </div>\n    </div>\n  </div>\n\n  </div>\n\n    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"\n            integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="\n            crossorigin="anonymous"\n            referrerpolicy="no-referrer"></script>\n    <script src="https://code.jquery.com/jquery-3.7.1.min.js"\n            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="\n            crossorigin="anonymous"></script>\n    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"\n            integrity="512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="\n            crossorigin="anonymous"\n            referrerpolicy="no-referrer"></script>\n  </body>\n</html>\n'
 
 ----------------------------------------------------------------------
-Ran 46 tests in 10.044s
+Ran 46 tests in 10.107s
 
-FAILED (failures=3)
+FAILED (failures=2)
 Destroying test database for alias 'default'...
 ```
 
