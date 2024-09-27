@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-16
 date: '2024-09-15T20:48:45.109Z'
-lastModified: '2024-09-18T09:04:45.109Z'
+lastModified: '2024-09-27T15:47:45.109Z'
 title: How to create a fullstack application using Django and Python Part 16
 author: Maria D. Campbell
 excerpt:
@@ -120,13 +120,85 @@ import soupsieve as sv
 
 # then add the refactored test_form_inputs test:
 def test_form_inputs(self):
-    self.response = self.client.get(reverse('signup'))
+    """
+    The view must contain five inputs: csrf, username, email, password1, password2
+    """
+    self.assertContains(self.response, "<input", 7
+
+    # add the refactored test_form_inputs test:
+    self.response = self.client.get(reverse("signup"))
     text = """
-    <form class="signup-form">
+    <form method="post" novalidate="" class="signup-form">
+        <input type="hidden" name="csrfmiddlewaretoken" value="5bzfyc9iidGoyInd3IYNlTrBGVLNVo09hNqsSjydsbrvupjtRELqgD8siJf94pup">
+
+        <div class="form-group">
+            <label for="id_username">Username:</label>
+            <input type="text" name="username" maxlength="150" autofocus="" class="form-control " required="" aria-describedby="id_username_helptext" id="id_username" data-np-intersection-state="visible">
+
+            <small class="form-text text-muted">
+                Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="id_email">Email:</label>
+            <input type="email" name="email" maxlength="254" class="form-control " required="" id="id_email" data-np-intersection-state="visible">
+        </div>
+
+        <div class="form-group">
+            <label for="id_password1">Password:</label>
+            <input type="password" name="password1" autocomplete="new-password" class="form-control " aria-describedby="id_password1_helptext" id="id_password1" data-np-intersection-state="visible">
+
+
+            <small class="form-text text-muted">
+                <ul><li>Your password can’t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can’t be a commonly used password.</li><li>Your password can’t be entirely numeric.</li></ul>
+            </small>
+
+        </div>
+
+        <div class="form-group">
+            <label for="id_password2">Password confirmation:</label>
+            <input type="password" name="password2" autocomplete="new-password" class="form-control " aria-describedby="id_password2_helptext" id="id_password2" data-np-intersection-state="visible">
+
+
+            <small class="form-text text-muted">
+                Enter the same password as before, for verification.
+            </small>
+
+        </div>
+
+        <div class="form-group">
+            <label>Password-based authentication:</label>
+            <div id="id_usable_password" class="form-control "><div>
+            <label for="id_usable_password_0"><input type="radio" name="usable_password" value="true" class="form-control " id="id_usable_password_0" checked="">
+        Enabled</label>
+
+        </div>
+        <div>
+            <label for="id_usable_password_1"><input type="radio" name="usable_password" value="false" class="form-control " id="id_usable_password_1">
+        Disabled</label>
+
+        </div>
+        <div>
+            <small class="form-text text-muted">
+                Whether the user will be able to authenticate using a password or not. If disabled, they may still be able to authenticate using other backends, such as Single Sign-On or LDAP.
+            </small>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Create an account</button>
     </form>
     """
-    soup = bs4.BeautifulSoup(text, 'html5lib')
-    sv.select('input:is(#id_username, #id_email, #id_password1, #id_password2)', soup)
+    soup = bs4.BeautifulSoup(text, "html5lib")
+    sv.select(
+            "form:is(.signup-form)",
+            soup,
+    )
+    print(
+        sv.select(
+            "form:is(.signup-form)",
+            soup,
+        )
+    )
 ```
 
 _Short_ and _sweet_! You `might` also `notice` that I did `not` have to `import`
@@ -148,8 +220,15 @@ the `'html5lib'` library. I only `had` to `add` it to `INSTALLED_APPS` in
    `inputs` we `want` to `grab` and `verify` in the `test`.
 1. Then I `create` a `soup` object (`required`) and `set` it to
    `bs4.BeautifulSoup(text, 'html5lib')` (also `required` in order to work),
-   _followed by_ `sv.select()` where I `select` the `ids` of the
-   `input elements` I want to `verify`. And that is it!
+   _followed by_ `sv.select()` where I `select` the ~~`ids`~~ `.signup-form`
+   class of the signup form so that I can view the entire form when I run my
+   tests. The other thing I include is the line
+   `self.assertContains(self.response, "<input", 7)`. This `tells` me that I am
+   `looking` for `7` inputs. And since there _actually are_ `7` inputs in the
+   ` signup form` in _my case_, the entire `test_form_inputs` function `passes`.
+   I `print out` the `results` of `sv.select( "form:is(.signup-form)", soup, )`
+   to `see` what `actually returns` from
+   `sv.select("form:is(.signup-form)", soup,)`. And that is it!
 
 ## Running the accounts tests
 
