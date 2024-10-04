@@ -1,0 +1,1184 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-21
+date: '2024-10-02T21:28:03.262Z'
+lastModified: '2024-10-04T10:35:03.262Z'
+title: How to create a fullstack application using Django and Python Part 21
+author: Maria D. Campbell
+excerpt: 'In this section, I create a generic class-based (GCBV) PostUpdateView,
+PostDeleteView, and PostDetailView, create the associated urls and
+templates, create PostUpdateView, PostDeleteView, and PostDetailView
+tests, debug the code and tests, and check the test coverage of the
+django_boards project code.'
+image: lo-sarno-JrtFcxpTSss-unsplash.jpg
+tags: ['fullstack development', 'macOS']
+isPublished: true
+isFeatured: false
+---
+
+![A "generic" clouds view](lo-sarno-JrtFcxpTSss-unsplash.jpg)
+
+_Photo by_ [Lo Sarno](https://unsplash.com/@lo_sarno) _on_
+[unsplash.com](https://unsplash.com/photos/blue-sky-and-white-clouds-JrtFcxpTSss)
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Creating the Update View](#creating-the-update-view)
+    -   [Adding the edit url in django_boards/urls.py](#adding-the-edit-url-in-django-boards-urlspy)
+    -   [Adding the edit page link to templates/topic_posts.html](#adding-the-edit-page-link-to-templates-topic-postshtml)
+    -   [Creating templates/edit_post.html](#creating-templates-edit-posthtml)
+-   [Testing PostUpdateView](#testing-postupdateview)
+    -   [Creating boards/tests/test_view_edit_post.py](#creating-boards-tests-test-view-edit-postpy)
+    -   [python3 manage.py test boards.tests.test_view_edit_post](#python3-managepy-test-boardsteststest-view-edit-post)
+        -   [The dispatch method](#the-dispatch-method)
+        -   [Fixing test_status_code](#fixing-test-status-code)
+    -   [Running python3 manage.py test boards.tests.test_view_edit_post again](#running-python3-managepy-test-boardsteststest-view-edit-post-again)
+-   [Adding a PostDeleteView](#adding-a-postdeleteview)
+    -   [Adding the delete url in django_boards/urls.py](#adding-the-delete-url-in-django-boards-urlspy)
+    -   [Adding the delete (topic post) link to templates/topic_posts.html](#adding-the-delete-topic-post-link-to-templates-topic-postshtml)
+    -   [Creating templates/post_confirm_delete.html](#creating-templates-post-confirm-deletehtml)
+-   [Testing PostDeleteView](#testing-postdeleteview)
+    -   [Creating boards/tests/test_view_delete_post.py](#creating-boards-tests-test-view-delete-postpy)
+-   [Finishing the PostUpdateViewTests tests](#finishing-the-postupdateviewtests-tests)
+-   [Running coverage run test](#running-coverage-run-test)
+-   [Finishing the PostDeleteViewTests tests](#finishing-the-postdeleteviewtests-tests)
+-   [Running coverage run manage.py test and coverage report again](#running-coverage-run-managepy-test-and-coverage=report-again)
+-   [Creating the PostDetailView](#creating-the-postdetailview)
+    -   [Creating the post_detail url in urls.py](#creating-the-post-detail-url-in-urlspy)
+    -   [Creating the templates/post_detail.html](#creating-the-templates-post-detailhtml)
+-   [Creating the PostDetailView tests](#creating-the-postdetailview-tests)
+    -   [Running python3 manage.py test boards.tests.test_view_post_detail_tests](#running-python3-managepy-test-boardsteststest-view-post-detail-tests)
+    -   [Running coverage run manage.py test and coverage report to include PostDetailView tests](#running-coverage-run-managepy-test-and-coverage-report-to-include-postdetailview-tests)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Creating the Update View
+
+Now we are going to `create` an `edit post view` using a
+[Built-in class-based generic view](https://docs.djangoproject.com/en/5.1/topics/class-based-views/generic-display/).
+But `before` we `start creating` our `view`, we `have` to _make sure_ that _all
+instances_ of `"id"` are _replaced by_ `pk` (_if_ that is the _way_ you _went_).
+`When` _using_ `Generic Class-Based Views` (GCBVs), we `must` use `"object.pk"`
+only. I _found out_ the `hard way` _after_ I `created` my _first_ `GCBV` and was
+_using_ `"id"` instead of `"pk"`. It _would_ be `good practice` to simply
+`stick` with `"pk"` _instead of_ something else `"just to be smart"`, _like me_.
+`Changing` all `instances` of `"id"` with `"pk"` will `take` no `time`. If you
+_miss one_, you will _find out_ `where` in the `Terminal` console when `running`
+the `development server`.
+
+```python
+#boards/views.py
+# the imports which need to be added
+from django.views.generic.edit import UpdateView
+from django.utils import timezone
+
+class PostUpdateView(UpdateView):
+    model = Post
+    fields = ('message', )
+    template_name = 'edit_post.html'
+    pk_url_kwarg = 'post_pk'
+    context_object_name = 'post'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.updated_by = self.request.user
+        post.updated_at = timezone.now()
+        post.save()
+        return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
+```
+
+With the _generic_ `UpdateView` and the `CreateView`, we can _either_ `define` a
+`form_class` or the `fields` attribute _regarding_ `forms`. We are _going with_
+the `fields` attribute since `that` is `what` we `have` been `doing` all
+`along`. We are `using` the `fields` attribute to `create` a `model form`
+_on-the-fly_. `Django` uses a `model form factory` _internally_ to `compose` a
+`PostForm` model. It’s a `simple form` with `one` _message_ `field`, so it's
+`okay` to `go` this `route`. But for `more` _complex_ `forms`, it’s `better` to
+`define` a `model form` _externally_ and `refer` to it.
+
+The `pk_url_kwarg` is the `name` of the `URLConf` keyword `argument` that
+`contains` the `primary key`. _By default_, `pk_url_kwarg` is `'pk'`. It's the
+`"name"` we `define` in the `path` in `urls.py`.
+
+`context_object_name` _assigns the_ `name` of the `variable` to `use` in the
+`context`. _However_, if we `did` not `assign` a `context_object_name`, the
+`Post object` would be `available` as the _default_ `"object"` in the
+`template`.
+
+We also `override` the `form_valid()` method so `that` we can `add` some
+`more fields` such as `updated_by` and `updated_at`.
+
+### Adding the edit url in django_boards/urls.py
+
+```python
+path('boards/<pk>/topics/<topic_pk>/posts/<post_pk>/edit/', views.PostUpdateView.as_view(), name='edit_post'),
+```
+
+### Adding the edit page link to templates/topic_posts.html
+
+```django
+<!-- templates/topic_posts.html -->
+{% if post.created_by == user %}
+  <div class="mt-3">
+    <a href="{% url 'edit_post' post.topic.board.pk post.topic.pk post.pk %}"
+       class="btn btn-primary btn-sm"
+       role="button">Edit</a>
+  </div>
+{% endif %}
+```
+
+### Creating templates/edit_post.html
+
+```django
+<!-- templates/edit_post.html -->
+{% extends "base.html" %}
+{% block title %}
+  Edit post
+{% endblock title %}
+{% block breadcrumb %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'index' %}">Boards</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'board_topics' post.topic.board.pk %}">{{ post.topic.board.name }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'topic_posts' post.topic.board.pk post.topic.pk %}">{{ post.topic.subject }}</a>
+  </li>
+  <li class="breadcrumb-item active">Edit post</li>
+{% endblock breadcrumb %}
+{% block content %}
+  <form method="post" class="mb-4" novalidate>
+    {% csrf_token %}
+    {% include "includes/form.html" %}
+    <button type="submit" class="btn btn-success">Save changes</button>
+    <a href="{% url 'topic_posts' post.topic.board.pk post.topic.pk %}"
+       class="btn btn-outline-secondary"
+       role="button">Cancel</a>
+  </form>
+{% endblock content %}
+```
+
+## Testing PostUpdateView
+
+### Creating boards/tests/test_view_edit_post.py
+
+```python
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.urls import reverse
+from ..models import Board, Post, Topic
+from ..views import PostUpdateView
+
+class PostUpdateViewTestCase(TestCase):
+    '''
+    Base test case to be used in all `PostUpdateView` view tests
+    '''
+    def setUp(self):
+        self.board = Board.objects.create(name='Django', description='Django board.')
+        self.username = 'john'
+        self.password = '123'
+        user = User.objects.create_user(username=self.username, email='john@doe.com', password=self.password)
+        self.topic = Topic.objects.create(subject='Hello, world', board=self.board, starter=user)
+        self.post = Post.objects.create(message='Lorem ipsum dolor sit amet', topic=self.topic, created_by=user)
+        self.url = reverse('edit_post', kwargs={
+            'pk': self.board.pk,
+            'topic_pk': self.topic.pk,
+            'post_pk': self.post.pk
+        })
+
+class LoginRequiredPostUpdateViewTests(PostUpdateViewTestCase):
+    def test_redirection(self):
+        '''
+        Test if only logged in users can edit the posts
+        '''
+        login_url = reverse('login')
+        response = self.client.get(self.url)
+        self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=self.url))
+
+class UnauthorizedPostUpdateViewTests(PostUpdateViewTestCase):
+    def setUp(self):
+        '''
+        Create a new user different from the one who posted
+        '''
+        super().setUp()
+        username = 'jane'
+        password = '321'
+        user = User.objects.create_user(username=username, email='jane@doe.com', password=password)
+        self.client.login(username=username, password=password)
+        self.response = self.client.get(self.url)
+
+    def test_status_code(self):
+        '''
+        A topic should be edited only by the owner.
+        Unauthorized users should get a 404 response (Page Not Found)
+        '''
+        self.assertEquals(self.response.status_code, 404)
+
+class PostUpdateViewTests(PostUpdateViewTestCase):
+    # ...
+
+class SuccessfulPostUpdateViewTests(PostUpdateViewTestCase):
+    # ...
+
+class InvalidPostUpdateViewTests(PostUpdateViewTestCase):
+    # ...
+```
+
+The `LoginRequiredPostUpdateViewTests` class _tests_ if the `view` is
+`protected` with the `@login_required` decorator. That `means` _only_
+`authenticated users` can `access` the `edit_post` view.
+
+The `UnauthorizedPostUpdateViewTests` class _creates_ a `new user`, _different_
+from the `one` who created the post, and who `tries` to `access` the `edit_post`
+view. This `test` _makes sure_ only the `authorized owner` of the `post` is
+`able` to `edit` it.
+
+### python3 manage.py test boards.tests.test_view_edit_post
+
+When I run `python3 manage.py test boards.tests.test_view_edit_post`, the
+`following` is `returned`:
+
+```shell
+Found 2 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+FF
+======================================================================
+FAIL: test_redirection (boards.tests.test_view_edit_post.LoginRequiredPostUpdateViewTests.test_redirection)
+Test if only logged in users can edit the posts
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/django_boards/boards/tests/test_view_edit_post.py", line 31, in test_redirection
+    self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=self.url))
+  File "/Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages/django/test/testcases.py", line 471, in assertRedirects
+    self.assertEqual(
+AssertionError: 200 != 302 : Response didn't redirect as expected: Response code was 200 (expected 302)
+
+======================================================================
+FAIL: test_status_code (boards.tests.test_view_edit_post.UnauthorizedPostUpdateViewTests.test_status_code)
+A topic should be edited only by the owner.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/django_boards/boards/tests/test_view_edit_post.py", line 50, in test_status_code
+    self.assertEqual(self.response.status_code, 404)
+AssertionError: 200 != 404
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.864s
+
+FAILED (failures=2)
+Destroying test database for alias 'default'...
+```
+
+We can `fix` the `first failure` by `adding` the `following` to the
+`PostUpdateView` class:
+
+```python
+# boards/views.py
+@method_decorator(login_required, name='dispatch') # added
+class PostUpdateView(UpdateView):
+    model = Post
+    fields = ('message', )
+    template_name = 'edit_post.html'
+    pk_url_kwarg = 'post_pk'
+    context_object_name = 'post'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.updated_by = self.request.user
+        post.updated_at = timezone.now()
+        post.save()
+        return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
+```
+
+The `@login_required` decorator _does not_ `work directly` with the
+`class view`. We `have` to `use` _the utility_ `@method_decorator`, _passing in_
+`"login_required"`, and `pass` in the `name` of the `method` which `should` be
+`"decorated"`. This is the `"drier"` approach. To `learn more` about
+`decorating` classes, _please visit_
+[Introduction to class-based views](https://docs.djangoproject.com/en/5.1/topics/class-based-views/intro/)
+in the `Django` documentation.
+
+### The dispatch method
+
+The `dispatch` method `looks` at a `request` to `determine` whether it is a
+`GET`, `POST`, etc, and `relays` the `request` to a _matching method_ if `one`
+is `defined`, or _raises_ `HttpResponseNotAllowed` _if not_. It is `important`
+to `note` that `methods` _inside_ `class based views` return the `same` as
+`what` is `returned` from `function based views`. They `return` _some_ `form` of
+`HttpResponse`. This `means` that `django.shortcuts` (`http shortcuts`) or
+`TemplateResponse objects` are `valid` _inside_ `class-based views`.
+
+To `decorate` _every_ `instance` of a `class-based view`, we `need` to
+`decorate` the `class definition` itself. To do this we `apply` the `decorator`
+to the `dispatch()` method of the `class`.
+
+A `method` on a `class` _isn’t quite_ the `same` as a `standalone function`, so
+we `can’t` just `apply` a `function decorator` to the `method`. We `need` to
+`transform` it `into` a `method decorator` first. The `method_decorator`
+decorator `transforms` a `function decorator` into a `method decorator` so
+`that` it can be `used` on an `instance method`:
+
+```python
+@method_decorator(login_required, name='dispatch')
+```
+
+`All requests` _pass through_ the `dispatch` method, so it’s `safe` to decorate
+it.
+
+When I run `python3 manage.py test boards.tests.test_view_edit_post` again
+_after adding_ `@method_decorator(login_required, name='dispatch')`, the
+`following` is `returned`:
+
+```shell
+Found 2 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.F
+======================================================================
+FAIL: test_status_code (boards.tests.test_view_edit_post.UnauthorizedPostUpdateViewTests.test_status_code)
+A topic should be edited only by the owner.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/django_boards/boards/tests/test_view_edit_post.py", line 50, in test_status_code
+    self.assertEqual(self.response.status_code, 404)
+AssertionError: 200 != 404
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.867s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+```
+
+### Fixing test_status_code
+
+The `test_status_code` error _means_ that we `have` to `deal` with the `problem`
+of `preventing` other `users` _editing any_ `posts`.
+
+The `easiest way` to `fix` this `issue` is to `override` the `get_queryset`
+method of the `UpdateView`:
+
+```python
+@method_decorator(login_required, name='dispatch')
+class PostUpdateView(UpdateView):
+    model = Post
+    fields = ('message', )
+    template_name = 'edit_post.html'
+    pk_url_kwarg = 'post_pk'
+    context_object_name = 'post'
+
+    def get_queryset(self): # added
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.updated_by = self.request.user
+        post.updated_at = timezone.now()
+        post.save()
+        return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
+```
+
+`With` the line `queryset = super().get_queryset()` we are `reusing` the
+`get_queryset` method `from` the `parent class`, that is, the
+`UpdateView class`. Then, we are `adding` an `extra filter` to the `queryset`,
+which is `filtering` the `post` using the `logged` in `user`, _available inside_
+the `request` object. We can `override` a
+[Manager’s base QuerySet](https://docs.djangoproject.com/en/5.1/topics/db/managers/)
+by `overriding` the `Manager.get_queryset()` method. `get_queryset()` should
+`return` a `QuerySet` with the `properties` we require. Here, it is the `logged`
+in `user` who `created` _the original_ `Post`.
+
+### Running python3 manage.py test boards.tests.test_view_edit_post again
+
+When I run `python manage.py test boards.tests.test_view_edit_post` again, the
+`following` is `returned`:
+
+```shell
+Found 2 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.884s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+_Now_ the `test` _passes_!
+
+## Adding a PostDeleteView
+
+```python
+@method_decorator(login_required, name='dispatch')
+class PostDeleteView(DeleteView):
+
+    # just as for PostUpdateView, this makes sure the UnauthorizedPostDeleteViewTests status_code test passes, making sure that if the user trying to delete the post does not equal the owner of the post (set here via filter), then they cannot delete the post, and a status code of 404 is rendered instead of 200.
+    def get_queryset(self): # added
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
+
+    model = Post
+    template_name = "post_confirm_delete.html"
+    pk_url_kwarg = "post_pk"
+    # can specify success url
+    # url to redirect after successfully
+    # deleting object
+    success_url = "/"
+```
+
+### Adding the delete url in django_boards/urls.py
+
+```python
+# django_boards/urls.py
+path(
+    "boards/<pk>/topics/<topic_pk>/posts/<post_pk>/delete/",
+    views.PostDeleteView.as_view(),
+    name="delete_post",
+),
+```
+
+### Adding the delete (topic post) link to templates/topic_posts.html
+
+```django
+<!-- templates/topic_posts.html -->
+<div class="topic-posts-btn-delete mt-3">
+  <a href="{% url 'delete_post' post.topic.board.pk post.topic.pk post.pk %}"
+      class="btn btn-primary btn-sm"
+      role="button">Delete</a>
+</div>
+```
+
+I will `add` the _complete_ `templates/topic_posts.html` contents `after` we
+`complete` _the upcoming_ `PostDetailView`.
+
+### Creating templates/post_confirm_delete.html
+
+```django
+<!-- templates/post_confirm_delete.html -->
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  Post detail
+{% endblock title %}
+{% block breadcrumb %}
+  <div class="breadcrumbs mb-4 d-flex d-inline-flex">
+    <li class="breadcrumb-item">
+      <a href="{% url 'index' %}">Boards</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'board_topics' post.topic.board.pk %}">{{ post.topic.board.name }}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'topic_posts' post.topic.board.pk post.topic.pk %}">{{ post.topic.subject }}</a>
+    </li>
+    <li class="breadcrumb-item active">Topic post detail</li>
+  </div>
+{% endblock breadcrumb %}
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    {{ form }}
+    <input type="submit" value="Confirm" class="mt-4">
+    <!-- I have to define the url here as is even though it will redirect to home page as per success_url in views.py -->
+    <a href="{% url 'topic_posts' post.topic.board.pk post.topic.pk %}">
+      <input type="submit" value="Cancel" class="mt-4">
+    </a>
+  </form>
+{% endblock content %}
+```
+
+## Testing PostDeleteView
+
+### Creating boards/tests/test_view_delete_post.py
+
+```python
+# boards/tests/test_view_delete_post.py
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.urls import reverse
+from ..models import Board, Post, Topic
+from ..views import PostDeleteView
+
+class PostDeleteViewTestCase(TestCase):
+    '''
+    Base test case to be used in all `PostDeleteView` view tests
+    '''
+    def setUp(self):
+        self.board = Board.objects.create(name='Django', description='Django board.')
+        self.username = 'john'
+        self.password = '123'
+        user = User.objects.create_user(username=self.username, email='john@doe.com', password=self.password)
+        self.topic = Topic.objects.create(subject='Hello, world', board=self.board, starter=user)
+        self.post = Post.objects.create(message='Lorem ipsum dolor sit amet', topic=self.topic, created_by=user)
+        self.url = reverse('delete_post', kwargs={
+            'pk': self.board.pk,
+            'topic_pk': self.topic.pk,
+            'post_pk': self.post.pk
+        })
+
+class LoginRequiredPostDeleteViewTests(PostDeleteViewTestCase):
+  def test_redirection(self):
+      '''
+      Test if only logged in users can delete the posts
+      '''
+      login_url = reverse('login')
+      response = self.client.get(self.url)
+      self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=self.url))
+
+class UnauthorizedPostDeleteViewTests(PostDeleteViewTestCase):
+  def setUp(self):
+      '''
+      Create a new user different from the one who posted
+      '''
+      super().setUp()
+      username = 'jane'
+      password = '321'
+      user = User.objects.create_user(username=username, email='jane@doe.com', password=password)
+      self.client.login(username=username, password=password)
+      self.response = self.client.get(self.url)
+
+  def test_status_code(self):
+      '''
+      A topic should be deleted only by the owner.
+      Unauthorized users should get a 404 response (Page Not Found)
+      '''
+      self.response = self.client.get(self.url)
+      self.assertEqual(self.response.status_code, 404)
+```
+
+When I run `python3 manage.py test boards.tests.test_view_delete_post`, the
+`following` is `returned`:
+
+```shell
+Found 2 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.854s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+The `reason` this `test` _passes_ is `because` as `with` the `PostUpdateView`,
+if I `did` _not_ `add`:
+
+```python
+def get_queryset(self): # added
+    queryset = super().get_queryset()
+    return queryset.filter(created_by=self.request.user)
+```
+
+The `following` would `have` been `returned` _instead_:
+
+```shell
+Found 2 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.F
+======================================================================
+FAIL: test_status_code (boards.tests.test_view_delete_post.UnauthorizedPostDeleteViewTests.test_status_code)
+A topic should be deleted only by the owner.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/django_boards/boards/tests/test_view_delete_post.py", line 51, in test_status_code
+    self.assertEqual(self.response.status_code, 404)
+AssertionError: 200 != 404
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.886s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+```
+
+`get_queryset` _makes sure_ `that` a `post` _is only_ `deleted` by the `user`
+_stored_ in the `created_by` field:
+`return queryset.filter(created_by=self.request.user)`. _Without this_, `anyone`
+could POTENTIALLY `delete` the `post`, as `indicated` by the _failing_
+`status_code` test `without` the `get_queryset` function in the actual
+`PostDeleteView`.
+
+## Finishing the PostUpdateViewTests tests
+
+```python
+# boards/tests/test_view_edit_post.py (complete)
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.urls import reverse, resolve
+from django.forms import ModelForm
+from ..models import Board, Post, Topic
+from ..views import PostUpdateView
+
+class PostUpdateViewTestCase(TestCase):
+    '''
+    Base test case to be used in all `PostUpdateView` view tests
+    '''
+    def setUp(self):
+        self.board = Board.objects.create(name='Django', description='Django board.')
+        self.username = 'john'
+        self.password = '123'
+        user = User.objects.create_user(username=self.username, email='john@doe.com', password=self.password)
+        self.topic = Topic.objects.create(subject='Hello, world', board=self.board, starter=user)
+        self.post = Post.objects.create(message='Lorem ipsum dolor sit amet', topic=self.topic, created_by=user)
+        self.url = reverse('edit_post', kwargs={
+            'pk': self.board.pk,
+            'topic_pk': self.topic.pk,
+            'post_pk': self.post.pk
+        })
+
+class LoginRequiredPostUpdateViewTests(PostUpdateViewTestCase):
+    def test_redirection(self):
+        '''
+        Test if only logged in users can edit the posts
+        '''
+        login_url = reverse('login')
+        response = self.client.get(self.url)
+        self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=self.url))
+
+class UnauthorizedPostUpdateViewTests(PostUpdateViewTestCase):
+    def setUp(self):
+        '''
+        Create a new user different from the one who posted
+        '''
+        super().setUp()
+        username = 'jane'
+        password = '321'
+        user = User.objects.create_user(username=username, email='jane@doe.com', password=password)
+        self.client.login(username=username, password=password)
+        self.response = self.client.get(self.url)
+
+    def test_status_code(self):
+        '''
+        A topic should be edited only by the owner.
+        Unauthorized users should get a 404 response (Page Not Found)
+        '''
+        self.assertEqual(self.response.status_code, 404)
+
+class PostUpdateViewTests(PostUpdateViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.get(self.url)
+
+    def test_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_view_class(self):
+        view = resolve('/boards/1/topics/1/posts/1/edit/')
+        self.assertEqual(view.func.view_class, PostUpdateView)
+
+    def test_csrf(self):
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_contains_form(self):
+        form = self.response.context.get('form')
+        self.assertIsInstance(form, ModelForm)
+
+    def test_form_inputs(self):
+        '''
+        The view must contain two inputs: csrf, message textarea
+        '''
+        self.assertContains(self.response, '<input', 2)
+        self.assertContains(self.response, '<textarea', 1)
+
+
+class SuccessfulPostUpdateViewTests(PostUpdateViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.post(self.url, {'message': 'edited message'})
+
+    def test_redirection(self):
+        '''
+        A valid form submission should redirect the user
+        '''
+        topic_posts_url = reverse('topic_posts', kwargs={'pk': self.board.pk, 'topic_pk': self.topic.pk})
+        self.assertRedirects(self.response, topic_posts_url)
+
+    def test_post_changed(self):
+        self.post.refresh_from_db()
+        self.assertEqual(self.post.message, 'edited message')
+
+
+class InvalidPostUpdateViewTests(PostUpdateViewTestCase):
+    def setUp(self):
+        '''
+        Submit an empty dictionary to the `reply_topic` view
+        '''
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.post(self.url, {})
+
+    def test_status_code(self):
+        '''
+        An invalid form submission should return to the same page
+        '''
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_form_errors(self):
+        form = self.response.context.get('form')
+        self.assertTrue(form.errors)
+```
+
+When I run `python3 manage.py test boards.tests.test_view_edit_post`, it returns
+the following:
+
+```shell
+Found 11 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 4.677s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+The `tests` _pass_!
+
+## Running coverage run test
+
+_Before continuing_ with the `rest` of the `PostDeleteView` tests, we can `test`
+the _current_ `test coverage` of our `code`. If I run
+`coverage run manage.py test`, and then `coverage report`, the `following` is
+`returned`:
+
+| Name                                                                           | Stmts   | Miss   | Cover   |
+| ------------------------------------------------------------------------------ | ------- | ------ | ------- |
+| accounts/**init**.py                                                           | 0       | 0      | 100%    |
+| accounts/admin.py                                                              | 1       | 0      | 100%    |
+| accounts/apps.py                                                               | 4       | 0      | 100%    |
+| accounts/forms.py                                                              | 8       | 0      | 100%    |
+| `accounts/migrations/__init__.py`                                              | 0       | 0      | 100%    |
+| accounts/models.py                                                             | 1       | 0      | 100%    |
+| `accounts/tests/__init__.py`                                                   | 0       | 0      | 100%    |
+| accounts/tests/test_form_signup_test.py                                        | 0       | 0      | 100%    |
+| accounts/tests/test_mail_password_reset_tests.py                               | 21      | 0      | 100%    |
+| accounts/tests/test_view_password_change_tests.py                              | 60      | 0      | 100%    |
+| accounts/tests/test_view_password_reset_tests.py                               | 100     | 2      | 98%     |
+| accounts/tests/test_view_signup_tests.py                                       | 55      | 0      | 100%    |
+| accounts/views.py                                                              | 12      | 0      | 100%    |
+| `boards/__init__.py`                                                           | 0       | 0      | 100%    |
+| boards/admin.py                                                                | 5       | 0      | 100%    |
+| boards/apps.py                                                                 | 4       | 0      | 100%    |
+| boards/forms.py                                                                | 13      | 0      | 100%    |
+| boards/migrations/0001_initial.py                                              | 7       | 0      | 100%    |
+| boards/migrations/0002_remove_post_post_liked_by_post_likes_delete_postlike.py | 5       | 0      | 100%    |
+| boards/migrations/0003_remove_post_likes.py                                    | 4       | 0      | 100%    |
+| boards/migrations/0004_like.py                                                 | 6       | 0      | 100%    |
+| boards/migrations/0005_post_likes_delete_like.py                               | 5       | 0      | 100%    |
+| boards/migrations/0006_remove_post_likes_topic_likes.py                        | 5       | 0      | 100%    |
+| boards/migrations/0007_remove_topic_likes_post_likes.py                        | 5       | 0      | 100%    |
+| boards/migrations/0008_alter_post_likes.py                                     | 5       | 0      | 100%    |
+| boards/migrations/0009_alter_post_likes.py                                     | 5       | 0      | 100%    |
+| `boards/migrations/__init__.py`                                                | 0       | 0      | 100%    |
+| boards/models.py                                                               | 36      | 7      | 81%     |
+| boards/templatetags/form_tags.py                                               | 16      | 2      | 88%     |
+| `boards/tests/__init__.py`                                                     | 0       | 0      | 100%    |
+| boards/tests/test_templatetags.py                                              | 24      | 0      | 100%    |
+| boards/tests/test_view_board_topics_tests.py                                   | 25      | 0      | 100%    |
+| boards/tests/test_view_delete_post.py                                          | 30      | 0      | 100%    |
+| boards/tests/test_view_edit_post.py                                            | 69      | 0      | 100%    |
+| boards/tests/test_view_index_tests.py                                          | 17      | 0      | 100%    |
+| boards/tests/test_view_new_topic_tests.py                                      | 63      | 0      | 100%    |
+| boards/tests/test_view_reply_topic_tests.py                                    | 62      | 2      | 97%     |
+| boards/tests/test_view_topic_posts_tests.py                                    | 18      | 0      | 100%    |
+| boards/views.py                                                                | 91      | 5      | 95%     |
+| `django_boards/__init__.py`                                                    | 0       | 0      | 100%    |
+| django_boards/settings.py                                                      | 28      | 0      | 100%    |
+| django_boards/urls.py                                                          | 6       | 0      | 100%    |
+| manage.py                                                                      | 11      | 2      | 82%     |
+| **Total**                                                                      | **847** | **20** | **98%** |
+
+## Finishing the PostDeleteViewTests tests
+
+```python
+# boards/tests/test_view_delete_post.py
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.urls import reverse, resolve
+from django.forms import ModelForm
+from ..models import Board, Post, Topic
+from ..views import PostDeleteView
+
+class PostDeleteViewTestCase(TestCase):
+    '''
+    Base test case to be used in all `PostDeleteView` view tests
+    '''
+    def setUp(self):
+        self.board = Board.objects.create(name='Django', description='Django board.')
+        self.username = 'john'
+        self.password = '123'
+        user = User.objects.create_user(username=self.username, email='john@doe.com', password=self.password)
+        self.topic = Topic.objects.create(subject='Hello, world', board=self.board, starter=user)
+        self.post = Post.objects.create(message='Lorem ipsum dolor sit amet', topic=self.topic, created_by=user)
+        self.url = reverse('delete_post', kwargs={
+            'pk': self.board.pk,
+            'topic_pk': self.topic.pk,
+            'post_pk': self.post.pk
+        })
+
+class LoginRequiredPostDeleteViewTests(PostDeleteViewTestCase):
+  def test_redirection(self):
+      '''
+      Test if only logged in users can delete the posts
+      '''
+      login_url = reverse('login')
+      response = self.client.get(self.url)
+      self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=self.url))
+
+class UnauthorizedPostDeleteViewTests(PostDeleteViewTestCase):
+  def setUp(self):
+      '''
+      Create a new user different from the one who posted
+      '''
+      super().setUp()
+      username = 'jane'
+      password = '321'
+      user = User.objects.create_user(username=username, email='jane@doe.com', password=password)
+      self.client.login(username=username, password=password)
+      self.response = self.client.get(self.url)
+
+  def test_status_code(self):
+      '''
+      A topic should be deleted only by the owner.
+      Unauthorized users should get a 404 response (Page Not Found)
+      '''
+      self.response = self.client.get(self.url)
+      self.assertEqual(self.response.status_code, 404)
+
+class PostDeleteViewTests(PostDeleteViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.get(self.url)
+
+    def test_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_view_class(self):
+        view = resolve('/boards/1/topics/1/posts/1/delete/')
+        self.assertEqual(view.func.view_class, PostDeleteView)
+
+    def test_csrf(self):
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_contains_form(self):
+        form = None
+        if form is not None:
+            form = self.response.context.get('form')
+            self.assertIsInstance(form, ModelForm)
+
+    def test_form_inputs(self):
+        '''
+        The view must contain 3 inputs:  1 csrf, 2 inputs with type="submit"
+        '''
+        self.assertContains(self.response, '<input', 4)
+
+class SuccessfulDeleteViewTests(PostDeleteViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.post(self.url, {'message': 'deleted message'})
+
+    def test_redirection(self):
+        '''
+        A valid form submission should redirect the user
+        '''
+        index_url = reverse('index')
+        self.assertRedirects(self.response, index_url)
+
+class InvalidPostDeleteViewTests(PostDeleteViewTestCase):
+    def setUp(self):
+        '''
+        Click on the delete button with an invalid url on the topic_posts view
+        '''
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.post(self.url)
+
+    def test_status_code(self):
+        '''
+        An invalid url should result in a 404 status code
+        '''
+        self.response = self.client.get(self.url)
+        print(self.response, 'invalid response')
+        self.assertEqual(self.response.status_code, 404)
+
+    def test_form_errors(self):
+        form = None
+        if form is not None:
+            form = self.response.context.get('form')
+            self.assertTrue(form.errors)
+```
+
+When I run `python3 manage.py test boards.tests.test_view_delete_post`, the
+`following` is `returned`:
+
+```shell
+Found 10 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.<HttpResponseNotFound status_code=404, "text/html; charset=utf-8"> invalid response
+.........
+----------------------------------------------------------------------
+Ran 10 tests in 4.273s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+The `tests` _pass_!
+
+## Running coverage run manage.py test and coverage report again
+
+When I run `coverage run manage.py` followed by `coverage report` again to
+_include_ the _new_ `PostDeleteView` tests, the `following` is `returned`:
+
+| Name                                                                           | Stmts   | Miss   | Cover   |
+| ------------------------------------------------------------------------------ | ------- | ------ | ------- |
+| `accounts/__init__.py`                                                         | 0       | 0      | 100%    |
+| accounts/admin.py                                                              | 1       | 0      | 100%    |
+| accounts/apps.py                                                               | 4       | 0      | 100%    |
+| accounts/forms.py                                                              | 8       | 0      | 100%    |
+| `accounts/migrations/__init__.py`                                              | 0       | 0      | 100%    |
+| accounts/models.py                                                             | 1       | 0      | 100%    |
+| `accounts/tests/__init__.py`                                                   | 0       | 0      | 100%    |
+| accounts/tests/test_form_signup_test.py                                        | 0       | 0      | 100%    |
+| accounts/tests/test_mail_password_reset_tests.py                               | 21      | 0      | 100%    |
+| accounts/tests/test_view_password_change_tests.py                              | 60      | 0      | 1005    |
+| accounts/tests/test_view_password_reset_tests.py                               | 120     | 2      | 98%     |
+| accounts/tests/test_view_signup_tests.py                                       | 55      | 0      | 100%    |
+| accounts/views.py                                                              | 12      | 0      | 100%    |
+| `boards/__init__.py`                                                           | 0       | 0      | 100%    |
+| boards/admin.py                                                                | 5       | 0      | 100%    |
+| boards/apps.py                                                                 | 4       | 0      | 1005    |
+| boards/forms.py                                                                | 13      | 0      | 100%    |
+| boards/migrations/0001_initial.py                                              | 7       | 0      | 100%    |
+| boards/migrations/0002_remove_post_post_liked_by_post_likes_delete_postlike.py | 5       | 0      | 1005    |
+| boards/migrations/0003_remove_post_likes.py                                    | 4       | 0      | 100%    |
+| boards/migrations/0004_like.py                                                 | 6       | 0      | 100%    |
+| boards/migrations/0005_post_likes_delete_like.py                               | 5       | 0      | 100%    |
+| boards/migrations/0006_remove_post_likes_topic_likes.py                        | 5       | 0      | 100%    |
+| boards/migrations/0007_remove_topic_likes_post_likes.py                        | 5       | 0      | 1005    |
+| boards/migrations/0008_alter_post_likes.py                                     | 5       | 0      | 100%    |
+| boards/migrations/0009_alter_post_likes.py                                     | 5       | 0      | 100%    |
+| `boards/migrations/__init__.py`                                                | 0       | 0      | 100%    |
+| boards/models.py                                                               | 36      | 5      | 86%     |
+| boards/templatetags/form_tags.py                                               | 16      | 2      | 88%     |
+| `boards/tests/__init__.py`                                                     | 0       | 0      | 100%    |
+| boards/tests/test_templatetags.py                                              | 24      | 0      | 100%    |
+| boards/tests/test_view_board_topics_tests.py                                   | 25      | 0      | 100%    |
+| boards/tests/test_view_delete_post.py                                          | 72      | 4      | 94%     |
+| boards/tests/test_view_edit_post.py                                            | 69      | 0      | 100%    |
+| boards/tests/test_view_index_tests.py                                          | 17      | 0      | 100%    |
+| boards/tests/test_view_new_topic_tests.py                                      | 63      | 0      | 100%    |
+| boards/tests/test_view_reply_topic_tests.py                                    | 62      | 2      | 97%     |
+| boards/tests/test_view_topic_posts_tests.py                                    | 18      | 0      | 1005    |
+| boards/views.py                                                                | 91      | 5      | 95%     |
+| django_boards/**init**.py                                                      | 0       | 0      | 100%    |
+| django_boards/settings.py                                                      | 28      | 0      | 100%    |
+| django_boards/urls.py                                                          | 6       | 0      | 100%    |
+| manage.py                                                                      | 11      | 2      | 82%     |
+| **Total**                                                                      | **889** | **22** | **98%** |
+
+## Creating the PostDetailView
+
+_Lastly_ in this `section`, we `create` a `PosTDetailView, template,` _and
+related_ `tests`. We `have` to `take` into `consideration` _that some_
+`topic posts` might be _very long_, so we only `want` to `display` a
+`truncated version` of the the `topic post` content in the `topic_posts` view.
+
+```python
+# boards/views.py
+from django.views.generic.detail import DetailView
+
+@method_decorator(login_required, name='dispatch')
+class PostDetailView(DetailView):
+    model = Post
+    fields = ('message', )
+    template_name = 'post_detail.html'
+    pk_url_kwarg = 'post_pk'
+    context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+```
+
+### Creating the post_detail url in urls.py
+
+```python
+path(
+    "boards/<pk>/topics/<topic_pk>/posts/<post_pk>/detail/",
+    views.PostDetailView.as_view(),
+    name="post_detail",
+),
+```
+
+### Creating the templates/post_detail.html
+
+```django
+<!-- templates/post_detail.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  Post detail
+{% endblock title %}
+{% block breadcrumb %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'index' %}">Boards</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'board_topics' post.topic.board.pk %}">{{ post.topic.board.name }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'topic_posts' post.topic.board.pk post.topic.pk %}">{{ post.topic.subject }}</a>
+  </li>
+  <li class="breadcrumb-item active">Topic post detail</li>
+{% endblock breadcrumb %}
+{% block content %}
+  <div class="row no-gutters">
+    <div class="col-md-8">
+      <div class="card-body col-md-8">
+        <div class="col">
+          <h5 class="card-title text-muted">{{ post.created_by.username }}</h5>
+          <p class="card-text">
+            <small class="text-muted">{{ post.created_at }}</small>
+          </p>
+        </div>
+        <p class="mt-4">
+          <small>Posts: {{ post.created_by.posts.count }}</small>
+        </p>
+        <div class="post-message">{{ post.message }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="w-25 mb-4 mt-3" id="copy-header">
+    <a id="copy-button"
+       class="btn btn-primary"
+       role="button"
+       role="button"
+       title="Copy link to this topic to Clipboard">
+      <i class="link-icon fa fa-link" aria-hidden="true"></i>
+    </a>
+    <div id="feedback"></div>
+  </div>
+{% endblock content %}
+```
+
+### Creating the PostDetailView tests
+
+```python
+# boards/tests/test_view_post_detail_tests.py
+from django.test import TestCase
+from django.urls import resolve, reverse
+from django.contrib.auth.models import User
+from ..models import Board, Topic, Post
+from ..views import PostDetailView
+
+class PostDetailViewTestCase(TestCase):
+    def setUp(self):
+        self.board = Board.objects.create(name='Django', description='Django board.')
+        self.username = 'john'
+        self.password = '123'
+        user = User.objects.create_user(username=self.username, email='john@doe.com', password=self.password)
+        self.topic = Topic.objects.create(subject='Hello, world', board=self.board, starter=user)
+        self.post = Post.objects.create(message='Lorem ipsum dolor sit amet', topic=self.topic, created_by=user)
+        self.url = reverse('post_detail', kwargs={
+            'pk': self.board.pk,
+            'topic_pk': self.topic.pk,
+            'post_pk': self.post.pk
+        })
+
+class LoginRequiredPostDetailViewTests(PostDetailViewTestCase):
+    def test_redirection(self):
+        '''
+        Test if only logged in users can view the post detail
+        '''
+        login_url = reverse('login')
+        response = self.client.get(self.url)
+        self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=self.url))
+
+class PostUpdateViewTests(PostDetailViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.get(self.url)
+
+    def test_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_view_class(self):
+        view = resolve('/boards/1/topics/1/posts/1/detail/')
+        self.assertEqual(view.func.view_class, PostDetailView)
+```
+
+### Running python3 manage.py test boards.tests.test_view_post_detail_tests
+
+When I run `python3 manage.py test boards.tests.test_view_post_detail_tests`,
+the following is returned:
+
+```shell
+Found 3 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+...
+----------------------------------------------------------------------
+Ran 3 tests in 1.084s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+The tests pass!
+
+### Running coverage run manage.py test and coverage report to include PostDetailView tests
+
+When I run `coverage run manage.py test` followed by `coverage report`, the
+`following` is `returned` for `boards/tests/test_view_post_detail_tests.py`:
+
+| Name                                        | Stmts | Miss | Cover |
+| ------------------------------------------- | ----- | ---- | ----- |
+| boards/tests/test_view_post_detail_tests.py | 29    | 0    | 100%  |
+
+## Conclusion
+
+In this section, I _created_ a generic class-based (GCBV) `PostUpdateView`,
+`PostDeleteView`, and PostDetailView, created the associated urls and templates,
+_created_ `PostUpdateView`, `PostDeleteView`, and PostDetailView tests, debugged
+the code and tests, and checked the test coverage of the django_boards project
+code.
+
+## Related Resources
+
+-   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+-   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+    **_mariadcampbell.com_**
+-   [Built-in class-based generic views](https://docs.djangoproject.com/en/5.1/topics/class-based-views/generic-display/):
+    **_Django docs_**
+-   [Form handling with class-based views](https://docs.djangoproject.com/en/5.1/topics/class-based-views/generic-editing/):
+    **_Django docs_**
+-   [Single object mixins](https://docs.djangoproject.com/en/5.1/ref/class-based-views/mixins-single-object/#django.views.generic.detail.SingleObjectMixin.pk_url_kwarg):
+    **_Django docs_**
+-   [Generic editing views](https://docs.djangoproject.com/en/5.1/ref/class-based-views/generic-editing/):
+    **_Django docs_**
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
