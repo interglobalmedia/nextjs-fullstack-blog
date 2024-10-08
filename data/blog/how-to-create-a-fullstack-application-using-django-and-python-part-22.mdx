@@ -62,6 +62,7 @@ site and `why` it is `crucial` to `do it`. This article `assumes` you have a
 -   [Improving upon the initial Bootstrap 5 pagination implementation in the templates](#improving-upon-the-initial-bootstrap-5-pagination-implementation-in-the-templates)
     -   [Adding JavaScript to make scrollbar return to bottom of page when pagination item is clicked](#adding-javascript-to-make-scrollbar-return-to-bottom-of-page-when-pagination-item-is-clicked)
     -   [Adding a scroll top button to templates/base.html](#adding-a-scroll-top-button-to-templates-basehtml)
+    -   [Adding material icons to templates/base.html](#adding-material-icons-to-templates-basehtml)
     -   [Making the scroll top button appear and disappear based on scrollY position](#making-the-scroll-top-button-appear-and-disappear-based-on-scrolly-position)
     -   [Adding a scroll bottom button to templates/base.html](#adding-a-scroll-bottom-button-to-templates-basehtml)
     -   [Making the scroll bottom button appear and disappear based on scrollY position](#making-the-scroll-bottom-button-appear-and-disappear-based-on-scrolly-position)
@@ -1446,6 +1447,24 @@ function scrollTop() {
 
 scrollTopButton.addEventListener('click', scrollTop)
 ```
+
+### Adding material icons to templates/base.html
+
+```django
+{% block stylesheet %}
+<!-- templates/base.htm -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+{% endblock stylesheet %}
+```
+
+I _added_ `material icons` to `templates/base.html`, because the `scroll top`
+and `scroll bottom` buttons use `material icons`. _Make sure_ that the
+`material icons` are `added` ABOVE the `css/app.css` file, as `indicated` above.
 
 ### Making the scroll top button appear and disappear based on scrollY position
 
