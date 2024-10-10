@@ -1,0 +1,324 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-25
+date: '2024-10-08T15:08:47.216Z'
+lastModified: '2024-10-10T18:01:47.216Z'
+title: How to create a fullstack application using Django and Python Part 25
+author: Maria D. Campbell
+excerpt:
+    'In this section, I add the Humanize package to our templates/topics.html,
+add the Gravatar package for user gravatars, and add the django-avatar
+package for automatic implementation of a user avatar when one is absent.'
+image: oliver-sharp-0pUU4NIJuuw-unsplash.jpg
+tags: ['fullstack development', 'macOS', 'django', 'django-avatar', 'gravatar', 'humanize', 'python3', 'series']
+isPublished: true
+isFeatured: false
+---
+
+![Toy avatar in the grass](oliver-sharp-0pUU4NIJuuw-unsplash.jpg)
+
+**_Photo by_** [Oliver Sharp](https://unsplash.com/@thechickennugget) **_on_**
+[unsplash.com](https://unsplash.com/photos/a-toy-is-sitting-in-the-grass-with-a-toy-gun-0pUU4NIJuuw)
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Adding Humanize](#adding-humanize)
+    -   [Adding Humanize naturaltime to templates/topics.html](#adding-humanize-naturaltime-to-templates-topicshtml)
+-   [Adding a Gravatar](#adding-a-gravatar)
+    -   [Creating boards/templatetags/gravatar.py](#creating-boards-templatetags-gravatarpy)
+    -   [Adding Gravatar functionality to templates/topic_posts.html](#adding-gravatar-functionality-to-templates-topic-postshtml)
+-   [Installing the django-avatar package](#installing-the-django-avatar-package)
+    -   [Adding django-avatar to django_boards/settings.py](#adding-django-avatar-to-django-boards-settingspy)
+    -   [Migrating the database](#migrating-the-database)
+    -   [The default directory for django avatars](#the-default-directory-for-django-avatars)
+-   [Conclusion](#conclusion)
+-   [Footnotes](#footnotes)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Adding Humanize
+
+In this section, we are going to add the Humanize package to our Django project.
+The humanize package contains various common humanization utilities, like
+turning a number into a fuzzy human-readable duration ("3 minutes ago") or into
+a human-readable size or throughput **[^1]**.
+
+Humanize is still a built-in package, but we have to use the following command
+in order to install the latest version and make it work properly:
+
+```shell
+python3 -m pip install --upgrade humanize
+```
+
+Which returns the following in Terminal:
+
+```shell
+Collecting humanize
+Downloading humanize-4.11.0-py3-none-any.whl.metadata (7.8 kB)
+Downloading humanize-4.11.0-py3-none-any.whl (128 kB)
+Installing collected packages: humanize
+Successfully installed humanize-4.11.0
+```
+
+Next, I add homanize to INSTALLED_APPS in django_boards/settings.py:
+
+```python
+# settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'boards',
+    'accounts',
+    'dotenv',
+    'pylint',
+    'graphviz',
+    'djlint',
+    'coverage',
+    'widget_tweaks',
+    'soupsieve',
+    'bs4',
+    'html5lib',
+    'markdown',
+    'humanize',
+]
+```
+
+Now we can use it in the templates.
+
+### Adding Humanize naturaltime to templates/topics.html
+
+```django
+<!-- templates/topics.html -->
+{% extends "base.html" %} {% load humanize %}
+<!--must be added AFTER  b otherwise the package will not work -->
+{% load humanize %}
+...
+<table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Topic</th>
+      <th>Starter</th>
+      <th>Replies</th>
+      <th>Views</th>
+      <th>Last Update</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for topic in topics %}
+      <tr>
+        <td>
+          <a href="{% url 'topic_posts' board.pk topic.pk %}">{{ topic.subject }}</a>
+        </td>
+        <td>{{ topic.starter.username }}</td>
+        <td>{{ topic.replies }}</td>
+        <td>{{ topic.views }}</td>
+        <!-- humanize -->
+        <td>{{ topic.last_updated | naturaltime }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+...
+```
+
+And that's it for humanize. You can add it wherever else you want. I am going to
+just stick with it here for now.
+
+## Adding a Gravatar
+
+Now we are going to add [Gravatar](https://gravatar.com). Gravatar is an easy
+way to add user profile pictures. I used to use it a lot in my WordPress sites.
+
+### Creating boards/templatetags/gravatar.py
+
+```python
+# boards/templatetags/gravatar.py
+import hashlib
+from urllib.parse import urlencode
+
+from django import template
+from django.utils.safestring import mark_safe
+from django.conf import settings
+
+register = template.Library()
+
+
+@register.filter
+def gravatar_url(user):
+    email = user.email.lower().encode('utf-8')
+    default = 'mm'
+    size = 40
+    url = 'https://www.gravatar.com/avatar/{sha256}?{params}'.format(
+        sha256=hashlib.sha256(email).hexdigest(),
+        params=urlencode({'d': default, 's': str(size)})
+    )
+    return url
+
+@register.filter
+def gravatar(user):
+    url = gravatar_url(user)
+    return mark_safe(f'')
+```
+
+This (updated) code is taken from the
+[Gravatar Django documentation](https://docs.gravatar.com/api/avatars/django/)
+and adapted to our project.
+
+### Adding Gravatar functionality to templates/topic_posts.html
+
+```html
+{% extends "base.html" %} {% load gravatar %} ...
+```
+
+However, these changes alone don't result in the implementation of user
+gravatars.
+
+## Installing the django-avatar package
+
+Next, we are going to install thedjango-avatar package. It has the ability to
+default to avatars provided by third party services (like Gravatar or Facebook)
+if no avatar is found for a certain user. Django-avatar automatically generates
+thumbnails and stores them to your default file storage backend for retrieval
+later.
+
+To install django-avatar, we need to run the following command:
+
+```shell
+pip install django-avatar
+```
+
+Which returns the following:
+
+```shell
+Collecting django-avatar
+  Downloading django_avatar-8.0.1-py3-none-any.whl.metadata (2.8 kB)
+Collecting Pillow>=10.0.1 (from django-avatar)
+  Downloading pillow-10.4.0-cp312-cp312-macosx_11_0_arm64.whl.metadata (9.2 kB)
+Collecting django-appconf>=1.0.5 (from django-avatar)
+  Downloading django_appconf-1.0.6-py3-none-any.whl.metadata (5.4 kB)
+Collecting dnspython>=2.3.0 (from django-avatar)
+  Downloading dnspython-2.7.0-py3-none-any.whl.metadata (5.8 kB)
+Requirement already satisfied: django in /Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages (from django-appconf>=1.0.5->django-avatar) (5.1)
+Requirement already satisfied: asgiref<4,>=3.8.1 in /Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages (from django->django-appconf>=1.0.5->django-avatar) (3.8.1)
+Requirement already satisfied: sqlparse>=0.3.1 in /Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages (from django->django-appconf>=1.0.5->django-avatar) (0.5.1)
+Downloading django_avatar-8.0.1-py3-none-any.whl (67 kB)
+Downloading django_appconf-1.0.6-py3-none-any.whl (6.4 kB)
+Downloading dnspython-2.7.0-py3-none-any.whl (313 kB)
+Downloading pillow-10.4.0-cp312-cp312-macosx_11_0_arm64.whl (3.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 3.2 MB/s eta 0:00:00
+Installing collected packages: Pillow, dnspython, django-appconf, django-avatar
+Successfully installed Pillow-10.4.0 django-appconf-1.0.6 django-avatar-8.0.1 dnspython-2.7.0
+```
+
+### Adding django-avatar to django_boards/settings.py
+
+```python
+# django_boards/settings.py
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'boards',
+    'accounts',
+    'dotenv',
+    'pylint',
+    'graphviz',
+    'djlint',
+    'coverage',
+    'widget_tweaks',
+    'soupsieve',
+    'bs4',
+    'html5lib',
+    'markdown',
+    'avatar', # added
+]
+```
+
+### Migrating the database
+
+```shell
+python manage.py migrate
+```
+
+Which, for me, returned the following in Terminal:
+
+```shell
+Operations to perform:
+  Apply all migrations: admin, auth, avatar, boards, contenttypes, sessions
+Running migrations:
+  Applying avatar.0001_initial... OK
+  Applying avatar.0002_add_verbose_names_to_avatar_fields... OK
+  Applying avatar.0003_auto_20170827_1345... OK
+```
+
+### The default directory for django avatars
+
+The default directory for django-avatars is "avatars", and the structure and
+contents of that directory is the following:
+
+```shell
+- django_boards/
+  ...
+  - avatars/<user_id>
+    - <user_id>/
+      - resized/
+        - 80/
+          - 10551051-copy.png
+          - 10551051.png
+      - 10551051-copy.jpeg
+      - 10551051.jpg
+
+```
+
+There is _much more_ to do `regarding` user `avatars/gravatars`. In the
+`next section`, we will `add` a `profile model`, `view`, and `template`, and
+will `add` the `functionality` for `uploading` a `gravatar/avatar` _locally_ as
+`well` as `wrapping up` a few `minor details` relating to the `last_update`
+field for a `post`, _further_ `pagination` tweaks, and `updating` the
+`test_view_reply_topic_tests`.
+
+## Conclusion
+
+In this section, I _added_ the `Humanize` package to our
+`templates/topics.html`, _added_ the `Gravatar` package for `user gravatars`,
+and _added_ the `django-avatar` package for `automatic implementation` of a
+`user avatar` when `one` is `absent`.
+
+## Footnotes
+
+**[^1]**: `Throughput` is a `measure` of _how much_ `work` or `information` a
+`system` can `process` in a `given amount` of `time`. In `programming`,
+`throughput` can `refer` to the `amount` _of work_ `completed` in a
+`given period` of `time`, or the `rate` at which `features` are `delivered`.
+
+## Related Resources
+
+-   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+-   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+    **_mariadcampbell.com_**
+-   [humanize repository on GitHub](https://github.com/python-humanize/humanize?tab=readme-ov-file)
+-   [django.contrib.humanize](https://docs.djangoproject.com/en/5.1/ref/contrib/humanize/):
+    **_Django documentation_**
+-   [gravatar.com](https://gravatar.com)
+-   [hashlib — Secure hashes and message digests](https://docs.python.org/3/library/hashlib.html)
+-   [django-avatar](https://django-avatar.readthedocs.io/en/stable/)
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
