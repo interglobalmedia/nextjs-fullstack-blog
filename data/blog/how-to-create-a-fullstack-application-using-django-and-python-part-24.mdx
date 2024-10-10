@@ -1,0 +1,977 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-24
+date: '2024-10-08T11:25:41.084Z'
+lastModified: '2024-10-10T11:26:41.084Z'
+title: How to create a fullstack application using Django and Python Part 24
+author: Maria D. Campbell
+excerpt:
+    'In this section, I add markdown functionality to the Post model, the
+reply_topic.html and topic_posts.html templates, and I implement ES6 modules
+to our JavaScript code. This means refactoring the copy (link) button and
+associated html markup and CSS. I refactor and modularize the scroll top and
+bottom button JavaScript code and associated CSS, modularize the pagination
+behavior JavaScript code, import the ES6 modules into a new file called
+app.js, and add the type="module" attribute to the app.js script tag in
+templates/base.html.'
+tags: ['fullstack development', 'macOS', 'django', 'code refactoring', 'es6 modules', 
+'javascript', 'markdown', 'series']
+image: desola-lanre-ologun-kwzWjTnDPLk-unsplash.jpg
+isPublished: true
+isFeatured: false
+---
+
+![](desola-lanre-ologun-kwzWjTnDPLk-unsplash.jpg)
+
+**_Photo by_** [Desola Lanre-Ologun](https://unsplash.com/@disruptxn) **_on_**
+[unsplash.com](https://unsplash.com/photos/man-using-black-laptop-computer-kwzWjTnDPLk)
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Adding Markdown](#adding-markdown)
+    -   [Installing the markdown app](#installing-the-markdown-app)
+    -   [Adding a new method to the Post model](#adding-a-new-method-to-the-post-model)
+    -   [Updating templates/topic_posts.html to use markdown](#updating-templates-topic-postshtml-to-use-markdown)
+    -   [templates/edit_post.html containing markdown](#templates-edit-posthtml-containing-markdown)
+-   [Implementing ES6 modules to the JavaScript code](#implementing-es6-modules-to-the-javaScript-code)
+    -   [Refactoring the copy button](#refactoring-the-copy-button)
+        -   [The associated html markup in templates/post_detail.html](#the-associated-html-markup-in-templates-post-detailhtml)
+        -   [The associated CSS in static/css/app.css](#the-associated-css-in-static-css-appcss)
+    -   [Refactoring the scroll top and bottom buttons](#refactoring-the-scroll-top-and-bottom-buttons)
+    -   [Modularizing the pagination behavior JavaScript code](#modularizing-the-pagination-behavior-javaScript-code)
+    -   [Importing ES6 modules into a new file called app.js](#importing-es6-modules-into-a-new-file-called-appjs)
+    -   [Adding the finishing touch to es6 modularization in templates/hase.html](#adding-the-finishing-touch-to-es6-modularization-in-templates-hasehtml)
+-   [Screenshots of refactored features (except pagination)](#screenshots-of-refactored-features-except-pagination)
+    -   [Screenshot of the copy link button clicked/on hover](#screenshot-of-the-copy-link-button-clicked-on-hover)
+    -   [Screenshot of scroll buttons when scrollbar is at bottom of the page](#screenshot-of-scroll-buttons-when-scrollbar-is-at-bottom-of-the-page)
+    -   [Screenshot of the effect of pressing down on a scroll button](#screenshot-of-the-effect-of-pressing-down-on-a-scroll-button)
+    -   [Screenshot of what happens to scroll buttons when scrollbar is positioned at top of page](#screenshot-of-what-happens-to-scroll-buttons-when-scrollbar-is-positioned-at-top-of-page)
+    -   [Screenshot of what happens to scroll buttons when scrollbar is positioned a bit below the top of the page](#screenshot-of-what-happens-to-scroll-buttons-when-scrollbar-is-positioned-a-bit-below-the-top-of-the-page)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Adding Markdown
+
+_Now_ we are `going` _to add_ `Markdown` to the `reply_topic` and `edit_post`
+_views_ and _templates_.
+
+### Installing the markdown app
+
+We `have` to `install` the `markdown` app in our `Django Boards` application:
+
+```shell
+# run the following from within the directory which contains the venv folder, and make sure that the virtual environment is activated:
+pip install markdown
+```
+
+_Which_, _for me_, `returned` the `following`:
+
+```shell
+
+Downloading Markdown-3.7-py3-none-any.whl.metadata (7.0 kB)
+Downloading Markdown-3.7-py3-none-any.whl (106 kB)
+Installing collected packages: markdown
+Successfully installed markdown-3.7
+```
+
+_Then_ I `added` the `following` to `django_boards/settings.py`:
+
+```python
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'boards',
+    'accounts',
+    'dotenv',
+    'pylint',
+    'graphviz',
+    'djlint',
+    'coverage',
+    'widget_tweaks',
+    'soupsieve',
+    'bs4',
+    'html5lib',
+    'markdown', # added
+]
+```
+
+### Adding a new method to the Post model
+
+```python
+# boards/models.py
+...
+from django.utils.html import mark_safe
+from markdown import markdown
+class Post(models.Model):
+  ...
+  def get_message_as_markdown(self):
+        return mark_safe(markdown(self.message, safe_mode='escape'))
+```
+
+We are `dealing` with `user input` here, so we `have` to be `careful`. When
+`using` the `markdown` function, we are `telling` it to escape
+`special characters` _first_ and THEN `parse` the `markdown`. _After that_, we
+`mark` the `output string` as `safe` to be `used` in the `template`.
+
+### Updating templates/topic_posts.html to use markdown
+
+```django
+<!-- change {{ post.message }} to: -->
+<!-- {{ post.get_message_as_markdown }} -->
+<div class="post-message">{{ post.get_message_as_markdown }}</div>
+```
+
+_Now_ we can `already` _use_ `markdown` in the `topic replies`
+(`topic_posts.html`).
+
+I `added` a `topic post` using `markdown` syntax, and it `resulted` in the
+`following`:
+
+![Implementing markdown in topic posts](Screenshot-2024-10-08-at-1.18.14-PM.jpg)
+
+_Implementing markdown in topic posts_
+
+As you can `see` in the `screenshot`, `one` of the `topic posts` _contains_ an
+`italicized word` and a `word` _wrapped_ in `inline code` syntax
+(`magenta color`).
+
+### templates/edit_post.html containing markdown
+
+The `following` is `what` the `edit post` view `looks like` with the
+`implementation` of `markdown`:
+
+![Post edit view using markdown syntax](Screenshot-2024-10-08-at-1.27.42-PM.jpg)
+
+_Post edit view using markdown syntax_
+
+I `tried` to `implement` the `simpleMDE` text `editor` to the `reply_topic.html`
+and `edit_post.html` _templates_, but it `broke everything` on the `page`.
+`After` _some_ `investigation`, I `found out` that it _does not_ `work` with
+`Django 5`. _No problem_! I _write_ `markdown` here `directly` into `files`
+_without a_ "markdown editor", so I have _no problem_ with that. If I do _come
+across_ one that _does work_ with `Django 5`, I will _share it_ in a `post`.
+
+## Implementing ES6 modules to the JavaScript code
+
+As a `JavaScript` _developer_, `one` of my `pet peeves` is to `modularize` my
+`JavaScript` code to `avoid` all `sorts` of `collisions`, _especially_
+`global naming` and `code collisions`. I was _already starting_ to feel
+_oncoming issues_ because of _all_ the `JavaScript` I had _already added_ to the
+`project`. And we are also using `two` third party `JavaScript` libraries from
+`Bootstrap` that could _cause_ `conflicts`. There is _much_ to `refactor`, but
+in the end, the `code` will be `slimmer` and `easy` to `modify` if `needed` or
+`desired`.
+
+### Refactoring the copy button
+
+_Right now_, the `copy button` code `contains` the `following`:
+
+```javascript
+// static/js/copy-button.js
+Element.prototype.getLink = function () {
+	let link = document.createElement('a')
+	link.href = this.getUrl()
+	link.innerText = this.innerText
+	return link
+}
+
+Element.prototype.getUrl = function () {
+	return new URL(
+		window.location.origin + window.location.pathname + '#' + this.id,
+	)
+}
+
+Clipboard.prototype.writeHTML = function (html, text) {
+	let textContent = text || html.innerText
+	let htmlContent = ''
+	if (typeof html == 'string') htmlContent = html
+	else if (html instanceof Element) htmlContent = html.outerHTML
+	else htmlContent = html.toString()
+
+	if (ClipboardItem) {
+		//bug in firefox : https://developer.mozilla.org/en-US/docs/Web/API/ClipboardItem
+		let content = [
+			new ClipboardItem({
+				'text/html': new Blob([htmlContent], { type: 'text/html' }), //this can be interpreted by applications like teams or office word
+				'text/plain': new Blob([textContent], { type: 'text/plain' }), //while this is required for other apps, like plain text editors
+			}),
+		]
+		return this.write(content)
+	} else {
+		return this.writeText(textContent)
+	}
+}
+
+let header = document.getElementById('copy-header')
+let button = document.getElementById('copy-button')
+let feedback = document.getElementById('feedback')
+button.addEventListener('click', function () {
+	navigator.clipboard
+		.writeHTML(header.getLink(), header.getUrl())
+		.then(function () {
+			feedback.innerText = 'copied!'
+			setTimeout(function () {
+				document.getElementById('feedback').innerHTML = ''
+			}, 1000)
+		})
+		.catch((error) => {
+			feedback.innerText = `Oops... that shouldn't have happened. ${error}`
+		})
+})
+```
+
+This `code` is a `hybrid` of `ES5` and `ES6 JavaScript`. I would `have` to `do`
+some `major refactoring` to `make` it _completely_ `ES6 module` friendly, but
+the `work` and `time` that would `go` into `it` is `not` _worth_ `it`.
+
+I `found` _a much_ `slimmer` and _easier_ `solution`. `Clipboard.js`! I `added`
+the `following code` to `copy-button.js`:
+
+```javascript
+// static/js/copy-button.js
+const url = document.location.href
+
+export const copyButton = new Clipboard('.copy-button', {
+	text: function () {
+		return url
+	},
+})
+```
+
+_Right now_ the _associated_ `html markup` in `templates/topic_posts.html` is
+the `following`:
+
+```django
+<!-- templates/topic_posts.html -->
+<div class="d-inline-flex flex-row w-50">
+  <div class=" mb-4 mt-4" id="copy-header">
+    <a href="#"
+        id="copy-button"
+        class="copy-button btn btn-primary"
+        role="button"
+        title="Copy link to post to Clipboard"><i class="fa fa-link" aria-hidden="true"></i></a>
+    <div id="feedback"></div>
+  </div>
+  <div class="reply-button mt-4">
+    <a href="{% url 'reply_topic' topic.board.pk topic.pk %}"
+        class="btn btn-primary"
+        role="button"><i class="reply-icon fa-solid fa-reply"></i> Reply</a>
+  </div>
+</div>
+```
+
+The _only thing_ we `don't need` is the `div` element with the `id` of
+`"feedback"`, so the _associated_ `markup` should `look like` the `following`
+instead:
+
+```django
+<!-- templates/topic_posts.html -->
+<div class="d-inline-flex flex-row w-50">
+  <div class=" mb-4 mt-4" id="copy-header">
+    <a href="#"
+        id="copy-button"
+        class="copy-button btn btn-primary"
+        role="button"
+        title="Copy link to post to Clipboard"><i class="fa fa-link" aria-hidden="true"></i></a>
+  </div>
+  <div class="reply-button mt-4">
+    <a href="{% url 'reply_topic' topic.board.pk topic.pk %}"
+        class="btn btn-primary"
+        role="button"><i class="reply-icon fa-solid fa-reply"></i> Reply</a>
+  </div>
+</div>
+```
+
+### The associated html markup in templates/post_detail.html
+
+```django
+<!-- templates/post_detail.html -->
+<div class=" mb-4 mt-3" id="copy-header">
+  <a id="copy-button"
+      class="btn btn-primary"
+      role="button"
+      title="Copy link to this topic to Clipboard">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+  <div id="feedback"></div>
+</div>
+```
+
+_Again_, we `don't need` the `div` element `with` the `id` of `"feedback"`, so
+the _associated_ `html markup` should `look like` the `following` instead:
+
+```django
+<!-- templates/post_detail.html -->
+<div class=" mb-4 mt-3" id="copy-header">
+  <a id="copy-button"
+      class="btn btn-primary"
+      role="button"
+      title="Copy link to this topic to Clipboard">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</div>
+```
+
+### The associated CSS in static/css/app.css
+
+```css
+/* static/css/app.css */
+/* Make copy text appear and disappear using CSS transitions */
+
+#copy-header {
+	position: relative;
+	margin-left: 1rem;
+}
+
+#copy-header #feedback {
+	position: absolute;
+	top: -1.5rem;
+	left: 0;
+}
+
+#copy-header .link-icon,
+#copy-header #feedback::after {
+	display: none;
+	transition: 0.2s;
+}
+
+#copy-header:hover .link-icon {
+	opacity: 1;
+}
+
+#copy-header #feedback::after {
+	content: copied;
+	opacity: 1;
+}
+
+#copy-header:hover #feedback:after {
+	opacity: 1;
+}
+
+/* End make copy text appear and disappear using CSS transitions */
+
+/* link icon styling */
+.link-icon {
+	font-size: 1.5rem;
+	width: 2.25rem;
+}
+```
+
+When I `made` the `changes` to the `Javascript` and the `html markup`, the
+_associated_ `CSS` became the `following`:
+
+```css
+/* Make copy text appear and disappear using CSS transitions */
+
+#copy-header {
+	position: relative;
+}
+
+#copy-header .copy-button::before {
+	content: '';
+	border-radius: 3px;
+	display: flex;
+	padding: 0.25rem;
+	position: absolute;
+	top: -2rem;
+	left: 0;
+	width: 6.255rem;
+	line-height: 1;
+	transition: color 0.5s, transform 0.2s, background-color 0.2s;
+}
+
+#copy-header .copy-button:hover::before {
+	content: 'Link copied!';
+	color: #2c7a7b;
+	border: 1px solid #2c7a7b;
+	background: #b4eeb4;
+}
+
+/* End make copy text appear and disappear using CSS transitions */
+
+/* link icon styling */
+.link-icon {
+	font-size: 1.5rem;
+	width: 2.25rem;
+}
+```
+
+### Refactoring the scroll top and bottom buttons
+
+There is _not much_ to `do` with `these buttons`, except that they `have` to be
+`placed` in _their own_ `JavaScript` file. _Right now_ the `code` _for both_
+`resides` in a `file` _called_ `scroll-top-bottom.js`, and it `contains` the
+`following`:
+
+```javascript
+// static/js/scroll-top-bottom.js
+// For scroll to top functionality
+const scrollTopButton = document.querySelector('.scroll.top')
+
+function scrollTop() {
+	window.scrollTo(0, 0)
+}
+
+scrollTopButton.addEventListener('click', scrollTop)
+
+// Scroll to bottom functionality
+const scrollDownButton = document.querySelector('.scroll')
+
+function scrollStep() {
+	window.scroll(0, window.scrollY + 200)
+	console.log(window.scrollY + 200)
+}
+
+scrollDownButton.addEventListener('pointerdown', scrollStep)
+
+// scroll top button disappears after click when scrollY == 0, but it reappears when scrollY is greater than 0 on scroll down.
+document.addEventListener('scroll', function () {
+	const scrollButton = document.querySelector('.scroll.top')
+	if (window.scrollY > 0) {
+		scrollButton.style.opacity = 1
+		scrollButton.style.transition = 'opacity 1s ease'
+	} else {
+		scrollButton.style.opacity = 0
+		scrollButton.style.transition = 'opacity 1s ease'
+	}
+})
+
+// scroll bottom button disappears after click of the scroll top button when scrollY == 0, but it reappears when scrollY is greater than 0 on scroll down.
+document.addEventListener('scroll', function () {
+	const scrollButton = document.querySelector('.scroll.bottom')
+	if (window.scrollY > 0) {
+		scrollButton.style.opacity = 1
+		scrollButton.style.transition = 'opacity 1s ease'
+	} else {
+		scrollButton.style.opacity = 0
+		scrollButton.style.transition = 'opacity 1s ease'
+	}
+})
+```
+
+`Code` for `showing` and `hiding` the `buttons` on `scroll` also `shares` the
+`scroll-top-bottom.js` file. What I `ended up` having to `do` is `take out` the
+`eventListeners` for `showing` and `hiding` the `scroll` buttons and `place`
+them in _separate_ `files`. For the `scroll top` button:
+
+```javascript
+// static/js/visibility-top.js
+// scroll top button disappears after click when scrollY == 0, but it reappears when scrollY is greater than 0 on scroll down.
+function toggleVisibilityScrollTop() {
+	document.addEventListener('scroll', function () {
+		const scrollButton = document.querySelector('.scroll.top')
+		if (window.scrollY > 0) {
+			// CSS in JS to change opacity from 0 (app.css) to 1
+			scrollButton.style.opacity = 1
+			scrollButton.style.transition = 'opacity 1s ease'
+		} else {
+			// CSS in JS to change opacity from 1 to 0
+			scrollButton.style.opacity = 0
+			scrollButton.style.transition = 'opacity 1s ease'
+		}
+	})
+}
+
+export default toggleVisibilityScrollTop
+```
+
+For the `scroll bottom` button:
+
+```javascript
+// static/js/visibility-bottom.js
+// scroll bottom button disappears after click of the scroll top button when scrollY == 0, but it reappears when scrollY is greater than 0 on scroll down.
+function toggleVisibilityScrollBottom() {
+	document.addEventListener('scroll', function () {
+		const scrollButton = document.querySelector('.scroll.bottom')
+		if (window.scrollY > 0) {
+			// CSS in JS to change opacity from 0 (app.css) to 1
+			scrollButton.style.opacity = 1
+			scrollButton.style.transition = 'opacity 1s ease'
+		} else {
+			// CSS in JS to change opacity from 1 to 0
+			scrollButton.style.opacity = 0
+			scrollButton.style.transition = 'opacity 1s ease'
+		}
+	})
+}
+
+export default toggleVisibilityScrollBottom
+```
+
+For the` scroll top` and `bottom` button `functionalities`:
+
+```javascript
+// static/js/scroll-top-bottom.js
+// For scroll to top functionality
+export const scrollTopButton = document.querySelector('.scroll.top')
+
+export function scrollTop() {
+	window.scrollTo(0, 0)
+}
+
+scrollTopButton.addEventListener('pointerdown', scrollTop)
+
+// Scroll to bottom functionality
+export const scrollDownButton = document.querySelector('.scroll')
+
+export function scrollStep() {
+	window.scroll(0, window.scrollY + 200)
+	console.log(window.scrollY + 200)
+}
+
+scrollDownButton.addEventListener('pointerdown', scrollStep)
+```
+
+Since I _added_ `JavaScript` for `showing` and `hiding` the `scroll top` and
+`bottom` buttons `depending` on the `scrollY` position, I `had` to `make sure`
+that the `CSS` did it's `part`. _Right now_ it `looks like` the `following`:
+
+```css
+/* static/css/app.css */
+/*  scroll */
+button.top {
+	border: none;
+	border: 3px solid transparent;
+	border-radius: 0.5;
+	display: flex;
+	font-size: 1.5rem;
+	justify-content: space-around;
+	outline: none;
+	position: fixed;
+	transition: color 0.5s, transform 0.2s, background-color 0.2s;
+}
+
+button.top:active {
+	transform: translateY(3px);
+}
+
+button.top::after,
+button.top::before {
+	border-radius: 3px;
+}
+
+button.top,
+button.bottom {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0 0.5rem 0 0;
+	opacity: 0;
+	padding: 20px 9.5px 20px 18px;
+	text-align: center;
+}
+
+button.bottom {
+	padding: 18px 9.5px 20px 18px;
+}
+
+button.scroll {
+	cursor: pointer;
+	font-size: 3.5rem;
+	position: fixed;
+	text-align: center;
+	text-decoration: none;
+	z-index: 1000;
+}
+
+button.scroll.top {
+	bottom: -0.25rem;
+	right: 0;
+}
+
+button.scroll.bottom {
+	right: 0;
+	top: 0;
+}
+
+button.scroll.bottom,
+button.scroll.top {
+	border: none;
+	cursor: pointer;
+	outline: none;
+}
+
+.material-icons {
+	font-size: 3rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: -0.25rem;
+}
+
+button.scroll.top i {
+	margin-top: -0.25rem;
+}
+
+button.scroll.bottom i {
+	`margin-bottom: -1rem;
+}
+
+.shrink-border {
+	background-color: transparent;
+	color: #0978f6;
+}
+
+.shrink-border:hover {
+	background-color: transparent;
+	box-shadow: none;
+	color: #000;
+}
+
+button.shrink-border::before {
+	background: #aecb6e;
+	border: 3px solid #806f67;
+	border-radius: 50%;
+	content: '';
+	height: 100%;
+	max-height: 60px;
+	max-width: 60px;
+	position: absolute;
+	right: 0;
+	top: 0.6rem;
+	transition: opacity 0.3s, border 0.3s;
+	width: 100%;
+	z-index: -1;
+}
+
+button.shrink-border:hover::before {
+	opacity: 0;
+}
+
+button.shrink-border::after {
+	background-color: #e4ddd3;
+	border: 3px solid #806f67;
+	color: blue;
+	content: '';
+	height: 100%;
+	max-height: 60px;
+	max-width: 60px;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	top: 0.6rem;
+	transform: scaleX(1.1) scaleY(1.3);
+	transition: transform 0.3s;
+	width: 100%;
+	z-index: -1;
+}
+
+button.shrink-border:hover::after {
+	opacity: 1;
+	transform: scaleX(1) scaleY(1);
+}
+```
+
+_After_ `modifications` _which made_ `showing` and `hiding` the `buttons`
+possible, the _associated CSS_ `looks like` the `following`:
+
+```css
+/* static/css/app.css */
+/*  scroll */
+button.top {
+	border: none;
+	border: 3px solid transparent;
+	border-radius: 0.5;
+	font-size: 1.5rem;
+	outline: none;
+	position: fixed;
+	transition: color 0.5s, transform 0.2s, background-color 0.2s;
+}
+
+button.top:active {
+	transform: translateY(3px);
+}
+
+button.top::after,
+button.top::before {
+	border-radius: 3px;
+}
+
+button.top,
+button.bottom {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0 0.5rem 0 0;
+	/* Initially hide the buttons via opacity property */
+	opacity: 0;
+	padding: 20px 9.5px 20px 18px;
+	text-align: center;
+}
+
+button.bottom {
+	padding: 18px 9.5px 20px 18px;
+}
+
+button.scroll {
+	cursor: pointer;
+	font-size: 3.5rem;
+	position: fixed;
+	text-align: center;
+	text-decoration: none;
+	z-index: 1000;
+}
+
+button.scroll.top {
+	bottom: -0.25rem;
+	right: 0;
+}
+
+button.scroll.bottom {
+	right: 0;
+	top: 0;
+}
+
+button.scroll.bottom,
+button.scroll.top {
+	border: none;
+	cursor: pointer;
+	outline: none;
+}
+
+.material-icons {
+	font-size: 3rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: -0.25rem;
+}
+
+button.scroll.top i {
+	margin-top: -0.25rem;
+}
+
+button.scroll.bottom i {
+	`margin-bottom: -1rem;
+}
+
+.shrink-border {
+	background-color: transparent;
+	color: #0978f6;
+}
+
+.shrink-border:hover {
+	background-color: transparent;
+	box-shadow: none;
+	color: #000;
+}
+
+button.shrink-border::before {
+	background: #aecb6e;
+	border: 3px solid #806f67;
+	border-radius: 50%;
+	content: '';
+	height: 100%;
+	max-height: 60px;
+	max-width: 60px;
+	position: absolute;
+	right: 0;
+	top: 0.6rem;
+	transition: opacity 0.3s, border 0.3s;
+	width: 100%;
+	z-index: -1;
+}
+
+button.shrink-border:hover::before {
+	opacity: 0;
+}
+
+button.shrink-border::after {
+	background-color: #e4ddd3;
+	border: 3px solid #806f67;
+	color: blue;
+	content: '';
+	height: 100%;
+	max-height: 60px;
+	max-width: 60px;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	top: 0.6rem;
+	transform: scaleX(1.1) scaleY(1.3);
+	transition: transform 0.3s;
+	width: 100%;
+	z-index: -1;
+}
+
+button.shrink-border:hover::after {
+	opacity: 1;
+	transform: scaleX(1) scaleY(1);
+}
+```
+
+### Modularizing the pagination behavior JavaScript code
+
+```javascript
+// static/js/django-boards-pagination.js
+function paginationScrollBehavior() {
+	document
+		.querySelector('.page-link', function (e) {
+			e.preventDefault()
+		})
+		.scrollIntoView({
+			behavior: 'smooth',
+			block: 'end',
+			inline: 'nearest',
+		})
+}
+
+// paginationScrollBehavior()
+
+export default paginationScrollBehavior
+```
+
+_Now_ the `structure` and `contents` of the `static/js` directory `looks like`
+the `following`:
+
+```shell
+- static/
+  - js/
+    - copy-button.js
+    - django-boards-pagination.js
+    - scroll-top-bottom.ks
+    - visibility-bottom.js
+    - visibility-top.js
+```
+
+### Importing ES6 modules into a new file called app.js
+
+```javascript
+//  static/js/app.js
+import paginationScrollBehavior from './django-boards-pagination.js'
+import {
+	scrollTop,
+	scrollStep,
+	scrollTopButton,
+	scrollDownButton,
+} from './scroll-top-bottom.js'
+import toggleVisibilityScrollTop from './visibility-top.js'
+import toggleVisibilityScrollBottom from './visibility-bottom.js'
+import { copyButton } from './copy-button.js'
+
+// Initialize functions
+const toggleVisibilityScrollTopInit = toggleVisibilityScrollTop()
+const toggleVisibilityScrollBottomInit = toggleVisibilityScrollBottom()
+const paginationScrollBehaviorInit = paginationScrollBehavior()
+const copyButtonInit = copyButton()
+
+// For scroll to top functionality
+
+scrollTopButton.addEventListener('pointerdown', scrollTop)
+
+// Scroll to bottom functionality
+
+scrollDownButton.addEventListener('pointerdown', scrollStep)
+```
+
+`export default`(s) _do not_ have to be `wrapped` in `curly braces` (`{}`).
+`Named exports` (`export`) `do`. To `initialize` a `function`, I `store` the
+`call` to the `function` as the `value` of a `variable`. As for the `scroll top`
+and `bottom` buttons, they are `triggered` when `clicked`, so I _set_
+`addEventListeners` on `them` _as indicated_ `above`.
+
+### Adding the finishing touch to es6 modularization in templates/hase.html
+
+In order to _make_ `ES6 modules` _actually_ `work` in our `Django Boards`
+website, we `have` to `do` the `following` in `templates/base.html`:
+
+```django
+<!-- templates/base.html -->
+{% block javascript %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"
+          integrity="sha512-iJh0F10blr9SC3d0Ow1ZKHi9kt12NYa+ISlmCdlCdNZzFwjH1JppRTeAnypvUez01HroZhAmP4ro4AvZ/rG0UQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+          integrity="512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"></script>
+  <script type="module" src="{% static 'js/app.js' %}"></script> <!-- added this and removed other native JavaScript files -->
+{% endblock javascript %}
+```
+
+`That` is `it` as `far` as `es6 modularization` goes of `non-third` party
+`JavaScript` code. I have `included` a very good `article` entitled
+`"A Practical guide to ES6 modules"` under `Related Resources` if you `want` to
+`learn more` about `ES6 modules` and _why_ they are `so important`.
+
+## Screenshots of refactored features (except pagination)
+
+### Screenshot of the copy link button clicked/on hover
+
+![copy link button clicked/on hover](Screenshot-2024-10-10-at-5.22.59-AM.jpg)
+
+_copy link button clicked/on hover_
+
+### Screenshot of scroll buttons when scrollbar is at bottom of the page
+
+![Scroll buttons when scrollbar is at bottom of the page](Screenshot-2024-10-10-at-3.25.34-AM.jpg)
+
+_Scroll buttons when scrollbar is at bottom of the page_
+
+`Take note` of the `position` of the `scrollbar`.
+
+### Screenshot of the effect of pressing down on a scroll button
+
+![The effect of pressing down on a scroll button](Screenshot-2024-10-10-at-3.26.33-AM.jpg)
+
+_The effect of pressing down on a scroll button_
+
+`Take note` of the `position` of the `scrollbar`.
+
+### Screenshot of what happens to scroll buttons when scrollbar is positioned at top of page
+
+![When scrollbar is positioned at top of page](Screenshot-2024-10-10-at-3.26.49-AM.jpg)
+
+_When scrollbar is positioned at top of page_
+
+`Take note` of the `position` of the `scrollbar`.
+
+### Screenshot of what happens to scroll buttons when scrollbar is positioned a bit below the top of the page
+
+![When scrollbar is positioned a bit below the top of the page](Screenshot-2024-10-10-at-3.26.58-AM.jpg)
+
+_When scrollbar is positioned a bit below the top of the page_
+
+As for `Bootstrap` pagination, you can `see` it in `action` for `yourself`.
+
+## Conclusion
+
+In this section, I added `markdown` functionality to the `Post` model, the
+`reply_topic.html` and `topic_posts.html` templates, and I `implemented` ES6
+`modules` to our `JavaScript` code. This meant `refactoring` the `copy` (`link`)
+button and _associated_ `html markup` and `CSS`. I `refactored` and
+`modularized` the `scroll top` and `bottom` button `JavaScript` code and
+_associated_ `CSS`, `modularized` the `pagination` behavior `JavaScript` code,
+`imported` the `ES6 modules` into a _new file_ called `app.js`, and `added` the
+`type="module"` attribute to the `app.js` script `tag` in `templates/base.html`.
+
+## Related Resources
+
+-   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+-   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+    **_mariadcampbell.com_**
+-   [Python-Markdown](https://python-markdown.github.io)
+-   [A Practical guide to ES6 modules](https://www.freecodecamp.org/news/how-to-use-es6-modules-and-why-theyre-important-a9b20b480773/):
+    **_by Dler Ari, freecodecamp.org_**
+-   [clipboard.js](https://clipboardjs.com)
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
