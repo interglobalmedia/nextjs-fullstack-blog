@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-24
 date: '2024-10-08T11:25:41.084Z'
-lastModified: '2024-10-10T11:26:41.084Z'
+lastModified: '2024-10-10T14:48:47.084Z'
 title: How to create a fullstack application using Django and Python Part 24
 author: Maria D. Campbell
 excerpt:
@@ -294,6 +294,24 @@ instead:
   </div>
 </div>
 ```
+
+## Adding the clipboard.js script tag to templates/base.html
+
+```django
+<!-- templates/base.html -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"
+	integrity="sha512-iJh0F10blr9SC3d0Ow1ZKHi9kt12NYa+ISlmCdlCdNZzFwjH1JppRTeAnypvUez01HroZhAmP4ro4AvZ/rG0UQ=="
+	crossorigin="anonymous"
+	referrerpolicy="no-referrer"
+></script>
+```
+
+**Note 10.10.24**: I _inadvertently_ `removed` the `Popper `script `tag` from
+the `script tags` in` templates/base.html`, but `will` be `adding` it `back` and
+`pushing` the `change` to `GitHub` momentarily. `All` the `script tags` are
+`included` at the `end` of this `post` when I `add` the `app.js` file. _Sorry_
+for this _inconvenience_!
 
 ### The associated html markup in templates/post_detail.html
 
@@ -891,18 +909,22 @@ website, we `have` to `do` the `following` in `templates/base.html`:
 ```django
 <!-- templates/base.html -->
 {% block javascript %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"
-          integrity="sha512-iJh0F10blr9SC3d0Ow1ZKHi9kt12NYa+ISlmCdlCdNZzFwjH1JppRTeAnypvUez01HroZhAmP4ro4AvZ/rG0UQ=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-          crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
-          integrity="512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer"></script>
-  <script type="module" src="{% static 'js/app.js' %}"></script> <!-- added this and removed other native JavaScript files -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
+              integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"></script>
+      <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+              integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+              crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+              integrity="512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"
+              integrity="sha512-iJh0F10blr9SC3d0Ow1ZKHi9kt12NYa+ISlmCdlCdNZzFwjH1JppRTeAnypvUez01HroZhAmP4ro4AvZ/rG0UQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"></script> <!-- added this -->
+      <script type="module" src="{% static 'js/app.js' %}"></script> <!-- added this and removed other native JavaScript files -->
 {% endblock javascript %}
 ```
 
