@@ -1,0 +1,1661 @@
+---
+slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-26'
+date: '2024-10-10T11:31:24.237Z'
+lastModified: '2024-10-12T12:09:24.237Z'
+title: 'How to create a fullstack application using Django and Python Part 26'
+author: 'Maria D. Campbell'
+excerpt:
+    'In this section, I extend the built-in Django User with a Profile model
+containing extra fields, create the Profile model in accounts/models.py,
+extend the User model using a one-to-one relationship with the built-in User,
+add a profile url to accounts.urls.py, moved the account url in boards/urls.py
+to accounts/urls.py, install the pillow package to enable use of the
+ImageField in the Profile model, configure urls.py for user-uploaded media
+files during development, implement signals.py in the accounts app, create an
+update profile form, create a profile.html template, delete existing users pre
+User profile and create new ones, and make styling adjustments to various
+templates.'
+image: peter-herrmann-muojltrhwhY-unsplash.jpg
+tags: ['fullstack development', 'macOS', 'django', 'extended built-in user', 'imagefield', 'one-to-one relationship', 'pillow', 'python3', 'series']
+isPublished: true
+isFeatured: false
+---
+
+![Attic full of paintings](peter-herrmann-muojltrhwhY-unsplash.jpg)
+
+**_Photo by_** [Peter Herrmann](https://unsplash.com/@tama66) **_on_**
+[unsplash.com](https://unsplash.com/photos/a-room-filled-with-lots-of-framed-pictures-next-to-a-window-muojltrhwhY)
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Adding a user profile](#adding-a-user-profile)
+    -   [Creating the user profile view in accounts/views.py](#creating-the-user-profile-view-in-accounts-viewspy)
+    -   [Adding a profile url to accounts/urls.py](#adding-a-profile-url-to-accounts-urlspy)
+    -   [Creating the initial templates/profile.html template](#creating-the-initial-templates-profilehtml-template)
+    -   [Extending User Model Using a one-to-one relationship](#extending-user-model-using-a-one-to-one-relationship)
+    -   [Creating the profile model in accounts/models.py](#creating-the-profile-model-in-accounts-modelspy)
+    -   [Installing the pillow package](#installing-the-pillow-package)
+    -   [Running makemigrations and migrate](#running-makemigrations-and-migrate)
+    -   [Registering the Profile model](#registering-the-profile-model)
+-   [Working with media files in Django](#working-with-media-files-in-django)
+    -   [Configuring urls.py for user-uploaded media files during development](#configuring-urlspy-for-user-uploaded-media-files-during-development)
+    -   [Uploading an avatar for another user](#uploading-an-avatar-for-another-user)
+-   [Using signals in Django](#using-signals-in-django)
+    -   [Creating accounts/signals.py](#creating-accounts-signalspy)
+    -   [Connecting the receivers to AppConfig's ready method](#connecting-the-receivers-to-appconfigs-ready-method)
+-   [Creating an update profile form](#creating-an-update-profile-form)
+    -   [Creating update user and profile forms](#creating-update-user-and-profile-forms)
+    -   [Updating the profile view](#updating-the-profile-view)
+    -   [Adding the templates/users/base.html](#adding-the-templates-users-basehtml)
+    -   [Updating templates/users/profile.html](#updating-templates-users-profilehtml)
+-   [Resizing Images In Django](#resizing-images-in-django)
+-   [Why existing users pre the User Profile no longer work](#why-existing-users-pre-the-user-profile-no-longer-work)
+    -   [Deleting existing users and creating new ones](#deleting-existing-users-and-creating-new-ones)
+    -   [topics.html after deleting existing users](#topicshtml-after-deleting-existing-users)
+    -   [Adjusting pagination to make sure it still works](#adjusting-pagination-to-make-sure-it-still-works)
+        -   [Screenshot of adjusted pagination](#screenshot-of-adjusted-pagination)
+-   [Adjusted styling for templates/topic_posts.html (top half view)](#adjusted-styling-for-templates-topic-postshtml-top-half-view)
+-   [Adjusted styling for templates/topic_posts.html (bottom half view)](#adjusted-styling-for-templates-topic-postshtml-bottom-half-view)
+    -   [First topic post adjusted html markup in topic_posts.html](#first-topic-post-adjusted-html-markup-in-topic-postshtml)
+    -   [Adding light colored borders to the topic post cards in templates/topic_posts.html](#adding-light-colored-borders-to-the-topic-post-cards-in-templates-topic-postshtml)
+    -   [Adding conditional avatar in topic_posts.html](#adding-conditional-avatar-in-topic-postshtml)
+-   [Fixing the broken styling for templates/login.html](#fixing-the-broken-styling-for-templates-loginhtml)
+    -   [Changing the extends template tag in templates/users/profile.html](#changing-the-extends-template-tag-in-templates-users-profilehtml)
+    -   [Refactoring templates/login.html markup](#refactoring-templates-loginhtml-markup)
+    -   [Refactoring templates/signup.html markup](#refactoring-templates-signuphtml-markup)
+    -   [Refactoring templates/base_accounts.html](#refactoring-templates-base-accountshtml)
+    -   [Tweaking the styling of templates/password_reset.html](#tweaking-the-styling-of-templates-password-resethtml)
+-   [Current directory structure of django_boards](#current-directory-structure-of-django-boards)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Adding a user profile
+
+We are now going to `add` a `user profile` primarily so that `users` _can
+upload_ `avatars/gravatars` to `add` to `their` (`newly created`) `profiles`.
+
+### Creating the user profile view in accounts/views.py
+
+```python
+# accounts/views.py
+# add to the bottom of the file
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
+```
+
+### Adding a profile url to accounts/urls.py
+
+```python
+# this file has to be created
+# accounts/urls.py
+from django.urls import path
+from .views import profile
+
+urlpatterns = [
+    # Add this
+    path('profile/', profile, name='users-profile'),
+]
+```
+
+I also moved my account url to accounts/urls.py:
+
+```python
+# accounts/urls.py
+from django.urls import path
+from .views import profile, UserUpdateView
+
+urlpatterns = [
+    path('account/', UserUpdateView.as_view(), name='my_account'),
+    path("profile/", profile, name="users-profile"),
+]
+```
+
+This then `meant` that I `had` to `add` the `following` to `boards/urls.py`:
+
+```python
+urlpatterns = [
+    ...
+    path("signup/", accounts_views.signup, name="signup"),
+    path('', include('accounts.urls')),
+    ...
+]
+```
+
+`path('', include('accounts.urls'))` _includes all_ the `urls` _set_ in
+`accounts/urls.py`.
+
+### Creating the initial templates/profile.html template
+
+```django
+<!-- templates/profile.html -->
+{% extends "users/base.html" %}
+{% block title %}
+  Profile Page
+{% endblock title %}
+{% block content %}
+  <div class="row my-3 p-3">
+    <h1>This is the profile page for {{ user.username }}</h1>
+  </div>
+{% endblock content %}
+```
+
+### Extending User Model Using a one-to-one relationship
+
+The `user` profile will `contain` a `user` _avatar_ `field` and `bio field`, and
+the `profile` model will have a _one-to-one_ `relationship` with the _built-in_
+`user`.
+
+### Creating the profile model in accounts/models.py
+
+```python
+from django.db import models
+from django.contrib.auth.models import User
+
+
+# Extending User Model Using a One-To-One Link
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
+    bio = models.TextField()
+
+    def __str__(self):
+        return self.user.username
+```
+
+`In` _this_ `model`, the `first argument` of the _user_ `OneToOnefield`
+specifies which `model` the `Profile` model is `related` to: the `User` model.
+The `second argument`, `on_delete=models.CASCADE`, `means` that `if` a `user` is
+`deleted`, the `user`'s `profile` should be `deleted` as well.
+
+The `avatar` _ImageField's_ `first argument`, `default='default.jpg'`, is the
+`default image` to `use` if a `user` _doesn't_ `upload` _their own_. The
+`second argument`, `upload_to='profile_images'`, is the `directory` where the
+`images` are `uploaded` to.
+
+The `bio` field is `just` a `TextField` where `user information` is `stored`.
+
+The `dunder` (`double underscore`) _str_ `method` _converts an_ `object` into
+its `string representation` . We `have` already `used` this `method` in the
+`boards` models. It `enables` the `display` of the `username` whenever we
+`print ou`t the `user profile`.
+
+### Installing the pillow package
+
+_Next_, we `have` to `install` the `Python` package called `pillow`. `Pillow`
+adds `image` _processing_ `capabilities` to `Python` interpreters. It `provides`
+_extensive_ `file` _format_ `support`, an `efficient` _internal_
+`representation`, and fairly `powerful` _image processing_ `capabilities`.
+
+`Django` _requires us_ to `install` this `library` whenever `working` with
+`ImageField`.
+
+`To` _install_ `pillow`, I `run` the `following command`:
+
+```shell
+pip install pillow
+```
+
+_Which_, _for me_, 1 the `following`:
+
+```shell
+Requirement already satisfied: pillow in /Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages (10.4.0)
+```
+
+I `already` had it `installed`.
+
+### Running makemigrations and migrate
+
+Since we `created` _a new_ `model`, we `have` _to run_ `makemigrations` and
+`migrate`.
+
+First:
+
+```shell
+python3 manage.py makemigrations
+```
+
+`Which returns`:
+
+```shell
+Migrations for 'accounts':
+  accounts/migrations/0001_initial.py
+    + Create model Profile
+```
+
+`Followed by`:
+
+```shell
+python3 manage.py migrate
+```
+
+`Which returns`:
+
+```shell
+Operations to perform:
+  Apply all migrations: accounts, admin, auth, avatar, boards, contenttypes, sessions
+Running migrations:
+  Applying accounts.0001_initial... OK
+```
+
+### Registering the Profile model
+
+```python
+# accounts/admin.py
+from .models import Profile
+# Register your models here.
+
+admin.site.register(Profile)
+```
+
+The `above` _code_ `imports` the `Profile` model, and then _calls_
+`admin.site.register` to `register` it. We can `login` to the `admin panel` and
+see the `model` we `created`:
+
+![The Profile model in admin site](Screenshot-2024-10-11-at-5.36.29-AM.jpg)
+
+_The Profile model in admin site_
+
+`Avatar` _also appears_ `there`.
+
+## Working with media files in Django
+
+When `working` with `media files` in `Django`, we `have` to `change` some
+`settings` to `store` _files_ `locally` and `serve` them `when needed`.
+
+_Specifically_, we `need` _to set_ `MEDIA_URL` and `MEDIA_ROOT` in
+`settings.py`.
+
+`MEDIA_ROOT` _represents the_ `full path` to a `directory` where
+`uploaded files` are `stored`. `Typically` _such_ `files` are `stored` in a
+`directory` inside the `project`'s `root` directory.
+
+`MEDIA_URL` _represents the_ `base` URL which `serve` _media_ `files`. This
+`enables us` _to access_ `media` _via our_ `web browser`.
+
+```python
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+```
+
+### Configuring urls.py for user-uploaded media files during development
+
+`Now` we have to `configure` the `django_boards/urls.py` to `serve`
+_user-uploaded_ `media` files `during development` (when `debug=True`).
+
+```python
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+...
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+```
+
+_Now_ we can `add files` to the `media` _root_ `folder` and `Django` will
+`serve them` from the `media` url.
+
+`Profile` avatars that `users` upload will be `stored` in the
+`/media/profile_images/your_image` path.
+
+`Until` we `configure` the `frontend` where `users` will `upload` their
+`images`, we can go to the `admin panel` and `upload` images for
+`registered users` to `make sure` _everything is_ `working properly`.
+
+_For now_, _the only_ `option` we `have` on the `backend` is from
+`django-avatar`. When I `upload` an `image` for `myself`, it is `populated` for
+`all` other `users`, because they do `not` have any `profile` images `yet`.
+`But` the `upload` was `successful`, and `ended up` in the `right directory`:
+
+```shell
+- django_boards/
+  ...
+  - media/
+    - avatars/
+      - 1/
+        - resized/
+          - 80/
+            - 10551051-copy.png
+        - 10551051-copy.jpeg
+    - default.jpg
+```
+
+The `number` 1 `represents` the `id` of the `user`. The `above` is `what` a
+`user`'s avatar directory s`tructure` would `look like`.
+
+_Next_, I `add` _the following_ `template tags` to `templates/topic_posts.html`:
+
+```django
+<!-- templates/topic_posts.html -->
+...
+<div class="card-body col-md-8">
+	<div class="col">
+		<h5 class="card-title text-muted">{{ post.created_by.username }}</h5>
+		<p class="card-text">
+			<small class="text-muted">{{ post.created_at }}</small>
+		</p>
+	</div>
+	<div class="django-avatar">
+		{% avatar post.created_by 80 class="img-circle img-responsive"
+		id="user_avatar" %}
+	</div>
+</div>
+<div class="mb-4">
+	<small>Posts: {{ post.created_by.posts.count }}</small>
+</div>
+...
+```
+
+I `changed` the `p` tag which `wrapped around` the `posts count` to a `div` tag.
+In the `avatar` template `tag`, `post.created_by` _targets the_ `user` who
+`created` the `topic post`.
+
+`80` _represents the_ `size` of the `avatar`. I already `set` the `avatar` size
+to `80`, so this is `more` _for demonstration_ `purposes`. But I'll `keep` it
+`anyway`.
+
+`class="img-circle img-responsive" id="user_avatar"` is `how` I can `customize`
+the `avatar` styling. the `default shape` of the `avatar` is a `square`, but I
+`wanted` to `change` it to a `circle`, so I `added` the `following` to the
+`bottom` of `static/css/app.css`:
+
+```css
+/* static/css/app.css */
+/* django-avatar styling */
+img#user_avatar.img-circle.img-responsive {
+	border-radius: 50%;
+	margin-left: -1rem;
+}
+```
+
+### Uploading an avatar for another user
+
+_Let's see_ what `happens` when I `upload` an `image` for `another user`.
+
+`When` I `upload` an `avatar` for `djangoguru` via `admin`, it is `uploaded`
+successfully and `saved` to the `media` directory, and the `new avatar` for
+`djangoguru` is `uploaded` to the `posts` _that she_ `created`. This is `thanks`
+to `post.created_by` in the `avatar` template `tag`.
+
+`django-beginner`, however, does `not` have `her` own `image`, so
+`django-avatar` worked its `magic` and `assigned` _a placeholder_ `avatar`.
+`django-avatar` is `working` as `expected`! _No need_ for a `fallback image`
+called `default.jpg` in the `media` directory.
+
+## Using signals in Django
+
+`Signals` are `used` to `perform` some `action` on a `creation/modification` of
+a `particular entry` in a `database`.
+
+A `signal` _consists of_ the `following` _basic_ `concepts`:
+
+There is the `Sender`, which is `usually` a `model` that `notifies` the
+`receiver` when an `event` occurs.
+
+There is the `Receiver`, which is `usually` a `function` that `works` on the
+`data` once it is `notified` of some `action` that has `taken place`. _For
+example_, when a `user instance` is `about` to be `saved` to the `database`.
+
+The `connection` _between_ the the `two` is `done` _through_
+`“signal dispatchers”`.
+
+So `why` _are_ `we` _using_ `signals` _in our_ `case`? Using `signals` will
+`enable` us to `create` a `profile` instance `when` a `new` user `instance` is
+`saved` to the `database`.
+
+### Creating accounts/signals.py
+
+```python
+# accounts/signals.py
+from django.db.models.signals import post_save
+from django.contrib.auth.models import User
+from django.dispatch import receiver
+
+from .models import Profile
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_profile(sender, instance, **kwargs):
+    instance.profile.save()
+```
+
+`create_profile` is the `receiver` function `which` is `run` every `time` a
+`user` is `created`.
+
+`User` is the `sender`, and is `responsible` for `making` the `notification`.
+
+`post_save` is the `signal` sent at the `end` of the `save` method.
+
+_In essence_,` after` the `user` model's `save()` method has `finished`
+`executing`, _it sends_ `signal(post_save)` to the `receiver` function
+(`create_profile`). Then `create_profile` will `receive` the `signal` to
+`create` and `save` a `profile` instance for that `user`.
+
+### Connecting the receivers to AppConfig's ready method
+
+_In order_ to `configure` an `application`, we `create` an `apps.py` file
+`inside` our `accounts` app. Then we `define` a `subclass` of `AppConfig` there.
+
+In `apps.py`, we can `include` any `application` configuration for the
+`accounts` app.
+
+```python
+# accounts/apps.py
+
+from django.apps import AppConfig
+
+
+class UserConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'accounts'
+
+    # add this
+    def ready(self):
+        import accounts.signals  # noqa
+```
+
+`What` we `did` above is `override` the `ready()` method of the `accounts` app
+`config` to `perform` an `initialization` task to `register` signals.
+
+## Creating an update profile form
+
+_Now_ we are `going` to `create` and `display` a `form` where `users` can
+`update` their `profile`. It will `look` _something_ `like` the `following`:
+
+![Account profile form](account_profile_wireframe.drawio.svg)
+
+_Account profile form_
+
+### Creating update user and profile forms
+
+```python
+from .models import Profile
+...
+class UpdateUserForm(forms.ModelForm):
+    username = forms.CharField(max_length=100,
+                               required=True,
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(required=True,
+                             widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+
+class UpdateProfileForm(forms.ModelForm):
+    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
+
+    class Meta:
+        model = Profile
+        fields = ['avatar', 'bio']
+```
+
+`UpdateUserForm` interacts `with` the `User` model to `let` users `update` their
+`username`, `email`, and `change` their `password`. We `already` have `that` set
+`up`.
+
+`UpdateProfileForm` interacts `with` the `profile` model to `let` users `update`
+their `profile`.
+
+### Updating the profile view
+
+```python
+# accounts/views.py
+from django.contrib.auth.decorators import login_required
+# SignUpForm was already there, but just adding it since it is part of the line
+from .forms import SignUpForm, UpdateUserForm, UpdateProfileForm
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect(to='users-profile')
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.profile)
+
+    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+```
+
+_Basically_, _the required_ `forms` are `imported` and `instances` of those
+`forms` are `created` _depending on_ `whether` the `request` is a `get` or
+`post`.
+
+If the `form` is `submitted` (`request` is `post`), we `need` to `pass` in the
+`post data` to the `forms`. But for the `profile` form `there` is `file/image`
+data `coming` in `with` the `request`. This `file data` is `placed` in
+`request.FILES`, so we `need` to `pass` in that `too`.
+
+`Then` it `populates` the `form` fields with the `current information` of the
+`logged` _in_ `user`, for example. The `user` form `expects` an `instance` of a
+`user` since it's `working` with the `User` model, so we use
+`instance=request.user`. `For` the `profile` form, we `pass` in an `instance` of
+the `profile` _model_ `by` _using_ `instance=request.user.profile`.
+
+### Adding the templates/users/base.html
+
+```django
+<!-- Needed to load static for static/css/accounts.css -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<!--Font awesome icons -->
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+		/>
+		<!-- Bootstrap 5 css -->
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+		<!-- Google material Icons -->
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet"
+		/>
+    <!-- Added static/css/accounts.css for styling -->
+		<link rel="stylesheet" href="{% static 'css/accounts.css' %}" />
+		<title>{% block title %}{% endblock %}</title>
+	</head>
+	<body>
+		<div class="container p-3 my-3">
+			<div class="row">
+				<div class="col-md-12">
+					<nav
+						class="navbar rounded navbar-expand-md navbar-light"
+						style="background-color: #f0f5f5"
+					>
+						<a href="/" class="navbar-brand">Home</a>
+						<button
+							type="button"
+							class="navbar-toggler"
+							data-toggle="collapse"
+							data-target="#navbarCollapse"
+						>
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						<div
+							class="collapse navbar-collapse"
+							id="navbarCollapse"
+						>
+							<div class="navbar-nav ml-auto">
+								{% if user.is_authenticated %}
+								<a
+									href="{% url 'users-profile' %}"
+									class="nav-item nav-link"
+									>Profile</a
+								>
+								<a
+									href="{% url 'logout' %}"
+									class="nav-item nav-link"
+									>Logout</a
+								>
+								{% else %}
+								<a
+									href="{% url 'login' %}"
+									class="nav-item nav-link"
+									>Sign in</a
+								>
+								{% endif %}
+							</div>
+						</div>
+					</nav>
+					<!--Any flash messages pop up in any page because this is the base template-->
+					{% if messages %}
+					<div class="alert alert-dismissible" role="alert">
+						{% for message in messages %}
+						<div class="alert alert-{{ message.tags }}">
+							{{ message }}
+						</div>
+						{% endfor %}
+						<button
+							type="button"
+							class="close"
+							data-dismiss="alert"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					{% endif %} {% block content %}{% endblock %}
+				</div>
+			</div>
+		</div>
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script
+			src="https://code.jquery.com/jquery-3.7.1.min.js"
+			integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
+			integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+			integrity="512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+		<!-- A plugin for password show/hide  -->
+		<script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
+	</body>
+</html>
+```
+
+### Updating templates/users/profile.html
+
+```django
+<!-- templates/users/profile.html -->
+{% extends "users/base.html" %}
+<!-- needed to load static for css styling from templates/users/base.html -->
+{% load static %}
+{% block title %}
+  Profile Page
+{% endblock title %}
+{% block content %}
+  <div class="profile-avatar">
+    <img class="rounded-circle account-img"
+         src="{{ user.profile.avatar.url }} "
+         style="cursor: pointer"
+         width="80"
+         height="80"
+         alt="{{ user.profile }}" />
+  </div>
+  {% if user_form.errors %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <div id="form_errors">
+        {% for key, value in user_form.errors.items %}<strong>{{ value }}</strong>{% endfor %}
+      </div>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  {% endif %}
+  <div class="form-content">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label class="mb-1">Username:</label>
+            {{ user_form.username }}
+            <label class="mb-1">Email:</label>
+            {{ user_form.email }}
+          </div>
+          <div class="form-group change-password">
+            <a href="{% url 'password_change' %}">Change Password</a>
+            <hr>
+          </div>
+          <div class="form-group">
+            <label class="mb-1">Change Avatar:</label>
+            <p>{{ profile_form.avatar }}</p>
+          </div>
+          <label class="mb-1">Bio:</label>
+          {{ profile_form.bio }}
+        </div>
+      </div>
+      <br>
+      <br>
+      <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+      <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+    </form>
+  </div>
+{% endblock content %}
+```
+
+This `template` includes the `profile-avatar` div which `contains` the `profile`
+avatar. It `extends` the `templates/users/base.html` template.
+
+The `link` for `"Change Password"` is `all` set `up`. We `don't need` to `make`
+any `changes` there. _However_, we do `have` to `remove` the `Change Password`
+link in the `logged in` _user_ `dropdown menu` _in_ `templates/base.html`:
+
+```html
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="description"
+			content="A forum dedicated to all things Django"
+		/>
+		<meta name="keywords" content="django, python3" />
+		<title>{% block title %} Django Boards {% endblock title %}</title>
+		{% block stylesheet %}
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+		/>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="{% static 'css/app.css' %}" />
+		{% endblock stylesheet %}
+	</head>
+	<body class="site">
+		{% block body %}
+		<div class="site-content">
+			<div class="buttons-container">
+				<button class="scroll bottom shrink-border">
+					<i class="material-icons"> keyboard_arrow_down </i>
+				</button>
+				<button class="scroll top shrink-border">
+					<i class="material-icons">keyboard_arrow_up</i>
+				</button>
+			</div>
+			<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="{% url 'index' %}"
+						>Django Boards</a
+					>
+					{% if user.is_authenticated %}
+					<div class="dropdown">
+						<a
+							class="btn btn-primary dropdown-toggle"
+							href="#"
+							role="button"
+							data-bs-toggle="dropdown"
+							aria-expanded="false"
+							>{{ user.username }}</a
+						>
+						<ul class="dropdown-menu">
+							<li>
+								<a
+									class="dropdown-item"
+									href="{% url 'my_account' %}"
+									>My account</a
+								>
+							</li>
+							<li>
+								<a
+									class="dropdown-item"
+									href="{% url 'users-profile' %}"
+									>My profile</a
+								>
+							</li>
+							<li>
+								<form method="post" action="{% url 'logout' %}">
+									{% csrf_token %}
+									<button
+										class="btn btn-secondary logout"
+										type="submit"
+									>
+										Logout
+									</button>
+								</form>
+							</li>
+						</ul>
+					</div>
+					<button
+						class="navbar-toggler"
+						type="button"
+						data-toggle="collapse"
+						data-target="#mainMenu"
+						aria-controls="mainMenu"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					{% else %}
+					<form class="form-inline ml-auto">
+						<a
+							href="{% url 'login' %}"
+							class="btn btn-outline-secondary"
+							>Log in</a
+						>
+						<a
+							href="{% url 'signup' %}"
+							class="btn btn-primary ml-2"
+							>Sign up</a
+						>
+					</form>
+					{% endif %}
+				</div>
+			</nav>
+			<div class="container">
+				<ol class="breadcrumb my-4">
+					{% block breadcrumb %} {% endblock breadcrumb %}
+				</ol>
+				{% block content %} {% endblock content %}
+			</div>
+		</div>
+		<footer class="site-footer text-center">
+			<script>
+				const theDate = new Date()
+				const footer = document.querySelector('.site-footer')
+				footer.style.fontWeight = '400'
+				footer.style.letterSpacing = '0.07rem'
+				footer.style.fontFamily = "'Quicksand', sans-serif;"
+				footer.style.fontSize = `1.2rem`
+				footer.innerHTML = `© ${theDate.getFullYear()} Maria D. Campbell `
+				const anchor = document.createElement('a')
+				anchor.setAttribute('href', '/')
+				footer.appendChild(anchor)
+				anchor.innerHTML = `Django Boards`
+			</script>
+		</footer>
+		{% endblock body %} {% block javascript %}
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
+			integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+		<script
+			src="https://code.jquery.com/jquery-3.7.1.min.js"
+			integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+			integrity="512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"
+			integrity="sha512-iJh0F10blr9SC3d0Ow1ZKHi9kt12NYa+ISlmCdlCdNZzFwjH1JppRTeAnypvUez01HroZhAmP4ro4AvZ/rG0UQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+		<script type="module" src="{% static 'js/app.js' %}"></script>
+		{% endblock javascript %}
+	</body>
+</html>
+```
+
+I `also` have `added` a `site footer` in `which` I use `JavaScript` to `create`
+a `dynamic date` which `updates` to the `current year` _every year_. I will
+`discuss` how I `created` a `sticky footer` at the `end` of this `section`.
+
+As for the `Change Password` link, _the only_ `glitch` is `that` the `user` has
+to `go` through `updating` the `password` _twice_. That's `because` of the `way`
+I have `validation/validation` _errors_ `set up`. _Either way_ _is not_
+`perfect`, but I `opted` for the `way` I `have` it `set up` now. The `other way`
+was `too misleading` for the `user` _trying to_ `change` the `password`! This is
+a `glitch` which `already existed` _before I_ `added` the `extended` _User_
+`Profile`.
+
+## Resizing Images In Django
+
+`Saving` large `images` and then `showing` a `scaled/smaller` version of it on
+the `profile` page `might` _cause_ `slow` _app_ `performance`. We can `mitigate`
+this `problem` by using `pillow` to `resize` _larger_ `images` and `override` it
+`with` the `resized/smaller` image.
+
+In order to `save` _the resized_ `image`, we `need` to `override` the `save()`
+method. The `save()` method is `accessible` _to all_ `models`, and is `used` to
+`save` an `instance` of the `User` model.
+
+We `need` to `override` the `save()` method `because` we want `customized` save
+`behavior`.
+
+We `need` to `add` the `following` to `accounts/models.py`:
+
+```python
+...
+from PIL import Image
+
+# Extending User Model Using a One-To-One Link
+class Profile(models.Model):
+    ...
+    # resizing images
+    def save(self, *args, **kwargs):
+        super().save()
+
+        img = Image.open(self.avatar.path)
+
+        if img.height > 80 or img.width > 80:
+            new_img = (80, 80)
+            img.thumbnail(new_img)
+            img.save(self.avatar.path)
+```
+
+The `above code` _does the_ `following`:
+
+1. It saves the uploaded image.
+1. It resizes large images to 80 x 80.
+
+## Why existing users pre the User Profile no longer work
+
+_Now_, if I `tried` to `use` _an existing_ `user` such as `django-beginner`,
+`djangoguru`, or even `interglobalmedia` _to create_ `topic posts`,
+`change passwords`, `login`, `logout`, etc., an `error` would be `thrown`.
+_Why_? `Because` they _don't contain_ the `extra fields` that the `Profile`
+model `provides`. This `means` that I `have` to `delete` all `of` the
+`existing users` and `recreate` _new_ `users`. and `deleting` _existing_ `users`
+_means_ `deleting` _all associated_ `topic posts`. The `only things` _that
+would_ `remain` are the `boards` themselves.
+
+### Deleting existing users and creating new ones
+
+_When_ I _delete_ `djangoguru`, `django-beginner`, and `interglobalmedia`, _all
+associated_ `topic posts` _are also_` deleted`. The `only things` that `remain`
+are the `boards` themselves. That is `due` to the `on_delete=models.CASCADE`
+argument `passed` to the `Post` created*by `field` which `links` to a
+`model instance` of `Post` to `User`. `When` the `user` is `deleted`, \_all
+associated* `topic posts` are `deleted` as well.
+
+![Boards remain after existing users are deleted](Screenshot-2024-10-11-at-5.46.41-PM.jpg)
+
+_Boards remain after existing users are deleted_
+
+There is a `topic post` _created by_ a `new superuser` called `mariacam` under
+the `Latest Post` column.
+
+### topics.html after deleting existing users
+
+![topics.html after deleting existing users](Screenshot-024-10-11-at-5.55.43-PM.jpg)
+
+_topics.html after deleting existing users_
+
+### Adjusting pagination to make sure it still works
+
+I `created` a `new topic` _along_ `with` _a few_ `topic posts` to `make sure`
+that `pagination` still `worked`. _However_, I `first` had to `reduce` the
+`number` of `posts` _per_ `page` _so that_ `pagination` _kicks in_:
+
+```python
+# boards/views.py
+...
+class BoardListView(ListView):
+    model = Board
+    context_object_name = 'boards'
+    template_name = 'index.html'
+
+class TopicListView(ListView):
+    model = Topic
+    context_object_name = 'topics'
+    template_name = 'topics.html'
+    paginate_by = 2 # changed from 20 to 2
+
+    def get_context_data(self, **kwargs):
+        kwargs['board'] = self.board
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        self.board = get_object_or_404(Board, pk=self.kwargs.get('pk'))
+        queryset = self.board.topics.order_by('-last_updated').annotate(replies=Count('posts') - 1)
+        return queryset
+...
+class PostListView(ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'topic_posts.html'
+    paginate_by = 3 # changed from 20 to 3
+
+    def get_context_data(self, **kwargs):
+        self.topic.views += 1
+        self.topic.save()
+        kwargs['topic'] = self.topic
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        self.topic = get_object_or_404(Topic, board__pk=self.kwargs.get('pk'), pk=self.kwargs.get('topic_pk'))
+        queryset = self.topic.posts.order_by('created_at')
+        return queryset
+...
+```
+
+### Screenshot of adjusted pagination
+
+![Adjusted pagination](Screenshot-2024-10-11-at-6.21.36-PM.jpg)
+
+_Adjusted pagination_
+
+## Adjusted styling for templates/topic_posts.html (top half view)
+
+I `made` some `styling changes` to `templates/topic_posts.html`. _Now_ it
+`looks like` the `following`:
+
+![Styling changes to topic_posts.html](Screenshot-2024-10-11-at-6.27.17-PM.jpg)
+
+_Styling changes to topic_posts.html (top half view)_
+
+_Below_ is the _associated_ `CSS` in `static/css/app.css`:
+
+```css
+/* static/css/app.css */
+/*  user profile avatar styling */
+.django-avatar {
+	margin-left: 0.75rem;
+	padding-left: 1rem;
+}
+
+.profile-avatar {
+	margin-left: -0.25rem;
+	width: 80px;
+	height: 80px;
+	margin-top: 0.5rem;
+}
+
+/* django-avatar and profile avatar styling */
+img#user_avatar.img-circle.img-responsive {
+	border-radius: 50%;
+	margin-left: -2rem;
+}
+
+small {
+	padding-left: 1rem;
+}
+
+.post-message p {
+	padding-left: 1rem;
+}
+
+.user-post-buttons {
+	margin-left: 1rem;
+	margin-bottom: 1rem;
+}
+```
+
+### Adjusted styling for templates/topic_posts.html (bottom half view)
+
+![Styling for topic_posts.html (bottom half view)](Screenshot-2024-10-11-at-6.21.36-PM.jpg)
+
+_Styling for topic_posts.html (bottom half view_
+
+_Below_ is the _associated_ `html markup` for the `sticky footer` in
+`templates/base.html`:
+
+```django
+<!-- templates/base.html -->
+...
+<html lang="en">
+<!-- new class related to sticky footer -->
+  <body class="site">
+      {% block body %}
+        <!-- new class related to sticky footer -->
+        <div class="site-content">
+        </div>
+        <!-- new footer classes -->
+        <footer class="site-footer text-center">
+          <script>
+                      const theDate = new Date();
+                      const footer = document.querySelector(".site-footer");
+                      footer.style.fontWeight = "400";
+                      footer.style.letterSpacing = "0.07rem";
+                      footer.style.fontFamily = "'Quicksand', sans-serif;";
+                      footer.style.fontSize = `1.2rem`;
+                      footer.innerHTML =
+                          `© ${theDate.getFullYear()} Maria D. Campbell `;
+                      const anchor = document.createElement('a')
+                      anchor.setAttribute('href', '/')
+                      footer.appendChild(anchor)
+                      anchor.innerHTML = `Django Boards`
+          </script>
+        </footer>
+  </body>
+</html>
+```
+
+_Associated_ `sticky footer` _css_ in `static/css/app.css`:
+
+```css
+/* static/css/app.css */
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.site-content {
+	flex: 1;
+	width: 100%;
+}
+```
+
+### First topic post adjusted html markup in topic_posts.html
+
+```django
+<!-- topic_posts.html -->
+... {% for post in posts %}
+<div class="card mb-3 {% if forloop.first %}{% endif %}">
+	{% if forloop.first %}
+	<div class="card-header bg-dark text-white align-items-center py-2 px-3">
+		<h5>{{ topic.subject }}</h5>
+	</div>
+	{% endif %} ...
+</div>
+{% endfor %}
+...
+```
+
+### Adding light colored borders to the topic post cards in templates/topic_posts.html
+
+```css
+/* xtatic/css/app.css */
+/* from: */
+.card-header {
+	margin-bottom: 1rem;
+	border: 0;
+	background-image: linear-gradient(to bottom, #b4eeb4, #aa85e5);
+}
+.card {
+	border: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+/* to: */
+.card-header {
+	margin-bottom: 1rem;
+	/* background-image: linear-gradient(to bottom, #b4eeb4, #aa85e5); */
+}
+.card {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+```
+
+### Adding conditional avatar in topic_posts.html
+
+I `had` to `add` an `if/else` statement to `topic_posts.html` to `render` the
+`correct` _user_ `profile` now that we `have` an `extended` built-in `User`
+profile _in place_:
+
+```html
+<!-- topic_posts.html -->
+{% if user == post.created_by %}
+<div class="profile-avatar">
+	<img
+		class="rounded-circle account-img"
+		alt="{{ user.username }}"
+		src="{{ user.profile.avatar.url }}"
+		style="cursor: pointer"
+		width="80"
+		height="80"
+	/>
+</div>
+{% else %}
+<div class="django-avatar">
+	{% avatar post.created_by class="img-circle img-responsive" id="user_avatar"
+	%}
+</div>
+{% endif %}
+```
+
+I _also_ `had` _to move_ `style="cursor: pointer"` into `static/css/app.css`:
+
+```css
+/* django-avatar and profile avatar styling */
+img#user_avatar.img-circle.img-responsive {
+	border-radius: 50%;
+	/* moved from topic_posts.html */
+	cursor: pointer;
+	margin-left: -2rem;
+}
+```
+
+## Fixing the broken styling for templates/login.html
+
+`Because` _of various_ `changes` and `additions` that I `made` to the `accounts`
+app, the `styling` for `templates/login.html` _broke_ a `bit`. _Right now_ it
+`looks like` the `following`:
+
+![Broken login page styling](Screenshot-2024-10-11-at-7.38.13-PM.jpg)
+
+_Broken login page styling_
+
+_First_, I `have` _to rename_ `templates/users/base.html`. I `can't` _have two_
+`base.html`. So I `rename` it to `base_profile.html`.
+
+_Next_, I `have` _to add_ `meta description` and `keywords` elements to
+`base_profile.html`. I _know_ this `is` _not only_ `because` I _know_ it, but
+`djlint` **[^1]** also `warns` me that `base_profile.html` does `not` _contain_
+`them`. So I `add` the `following`:
+
+```django
+<!-- templates/users/base_profile.html -->
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no"
+	/>
+	<!-- newly added -->
+	<meta
+		name="description"
+		content="A Django Boards application where users respond to topics related to Django created by a superuser"
+	/>
+	<!-- newly added -->
+	<meta
+		name="keywords"
+		content="django, python3, boards, topics, topic posts, user authentication, extended built-in user profile, user avatars, csrf tokens, django signals, generic class based views, function based views, bootstrap, pagination"
+	/>
+	<!--Font awesome icons -->
+	<link
+		rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+	/>
+	<!-- Bootstrap 5 css -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+	<!-- Google material Icons -->
+	<link
+		href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		rel="stylesheet"
+	/>
+	<link rel="stylesheet" href="{% static 'css/accounts.css' %}" />
+	<title>{% block title %}{% endblock %}</title>
+</head>
+```
+
+### Changing the extends template tag in templates/users/profile.html
+
+```django
+<!-- templates/users/profile.html -->
+<!-- from: -->
+{% extends "users/base.html" %}
+<!-- to: -->
+{% extends "users/base_profile.html" %}
+```
+
+### Refactoring templates/login.html markup
+
+```django
+<!-- from: -->
+{% extends "base_accounts.html" %}
+{% load static %}
+{% comment %} {% block stylesheet %}
+  <!-- Bootstrap 5 css -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock stylesheet %} {% endcomment %}
+{% block body %}
+  <div class="container">
+    <h1 class="text-center logo my-4">
+      <a href="{% url 'index' %}">Django Boards</a>
+    </h1>
+    <div class="row justify-content-center">
+      <div class="col-lg-4 col-md-6 col-sm-8">
+        <div class="card rounded">
+          <div class="card-body">
+            <h3 class="card-title">Log in</h3>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ next }}">
+              {% include "includes/form.html" %}
+              <button type="submit" class="btn btn-primary mt-2">Log in</button>
+            </form>
+          </div>
+          <div class="card-footer login-card-footer text-muted text-center">
+            New to Django Boards? <a href="{% url 'signup' %}">Sign up</a>
+          </div>
+        </div>
+        <div class="text-center login-text-center py-2">
+          <small>
+            <a href="{% url 'password_reset' %}"" class="text-muted">Forgot your password?</a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+```
+
+I `removed` the `above` _commented out_ `html` markup. _Now_
+`templates/login.html` _should_ `look like` the `following`:
+
+```django
+<!-- to: -->
+{% extends "base_accounts.html" %}
+{% load static %}
+{% comment %} {% block stylesheet %}
+{% block body %}
+  <div class="container">
+    <h1 class="text-center logo my-4">
+      <a href="{% url 'index' %}">Django Boards</a>
+    </h1>
+    <div class="row justify-content-center">
+      <div class="col-lg-4 col-md-6 col-sm-8">
+        <div class="card rounded">
+          <div class="card-body">
+            <h3 class="card-title">Log in</h3>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ next }}">
+              {% include "includes/form.html" %}
+              <button type="submit" class="btn btn-primary mt-2">Log in</button>
+            </form>
+          </div>
+          <div class="card-footer login-card-footer text-muted text-center">
+            New to Django Boards? <a href="{% url 'signup' %}">Sign up</a>
+          </div>
+        </div>
+        <div class="text-center login-text-center py-2">
+          <small>
+            <a href="{% url 'password_reset' %}"" class="text-muted">Forgot your password?</a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+```
+
+### Refactoring templates/signup.html markup
+
+```django
+<!-- templates/signup.html -->
+<!-- from: -->
+{% extends "base_accounts.html" %}
+{% load static %}
+{% comment %} {% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock stylesheet %} {% endcomment %}
+{% block body %}
+  <div class="container">
+    <h1 class="text-center logo my-4">
+      <a href="{% url 'index' %}">Django Boards</a>
+    </h1>
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">Sign up</h3>
+            <form method="post" novalidate class="signup-form">
+              {% csrf_token %}
+              {% include "includes/form.html" %}
+              <button type="submit" class="btn btn-primary btn-block">Create an account</button>
+            </form>
+          </div>
+          <div class="card-footer text-muted text-center">
+            Already have an account? <a href="{% url 'login' %}">Log in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+```
+
+I `removed` the _commented out_ `html` markup. _Now_ `templates/signup.html`
+_should_ `look like` the `following`:
+
+```django
+<!-- templates/signup.html -->
+<!-- to; -->
+{% extends "base_accounts.html" %}
+{% load static %}
+{% block body %}
+  <div class="container">
+    <h1 class="text-center logo my-4">
+      <a href="{% url 'index' %}">Django Boards</a>
+    </h1>
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">Sign up</h3>
+            <form method="post" novalidate class="signup-form">
+              {% csrf_token %}
+              {% include "includes/form.html" %}
+              <button type="submit" class="btn btn-primary btn-block">Create an account</button>
+            </form>
+          </div>
+          <div class="card-footer text-muted text-center">
+            Already have an account? <a href="{% url 'login' %}">Log in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+```
+
+### Refactoring templates/base_accounts.html
+
+```django
+<!-- templates/base_accounts.html -->
+{% extends "base.html" %}
+{% load static %}
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock stylesheet %}
+{% block body %}
+  <div class="container">
+    <h1 class="text-center logo my-4">
+      <a href="{% url 'index' %}">Django Boards</a>
+    </h1>
+    {% block content %}
+    {% endblock content %}
+  </div>
+{% endblock body %}
+```
+
+I had to add
+`<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">`.
+
+### Tweaking the styling of templates/password_reset.html
+
+```django
+<!-- templates/password_reset.html -->
+{% extends "base_accounts.html" %}
+{% block title %}
+  Reset your password
+{% endblock title %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">Reset your password</h3>
+          <p>Enter your email address and we will send you a link to reset your password.</p>
+          <form method="post" novalidate class="password-reset">
+            {% csrf_token %}
+            {% include "includes/form.html" %}
+            <!-- I added mt-2 to the submit button classes -->
+            <button type="submit" class="btn btn-primary btn-block mt-2">Send password reset email</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+```
+
+## Current directory structure of django_boards
+
+```shell
+.git/ # gitignored
+.venv/ # gitignored
+.vscode/ # gitignored
+- django_boards/
+  - accounts/
+    - `__pycache__/`
+    - migrations/
+    - tests/
+      - `__pycache__/`
+      - `__init__.py`
+      - test_form_signup_test.py
+      - test_mail_password_reset_tests.py
+      - test_view_my_account_tests.py
+      - test_view_password_change_tests.py
+      - test_view_password_reset_tests.py
+      - test_view_signup_tests.py
+    - `__init__.py`
+    - admin.py
+    - apps.py
+    - forms.py
+    - models.py
+    - signals.py
+    - urls.py
+    - views.py
+  - avatars/
+  - boards/
+    - `__pycache__/`
+    - migrations/
+    - templatetags/
+    - `__pycache__/`
+      - form_tags.py
+      - gravatar.py
+    - tests/
+      - `__pycache__/`
+      - `__init__.py`
+      - test_templatetags.py
+      - test_view_board_topics_tests.py
+      - test_view_delete_post_tests.py
+      - test_view_edit_post_tests.py
+      - test_view_index_tests.py
+      - test_view_new_topic_tests.py
+      - test_view_post_detail_tests.py
+      - test_view_reply_topic_tests.py
+      - test_view_topic_posts_tests.py
+    - `__init__.py`
+    - admin.py
+    - apps.py
+    - forms.py
+    - models.py
+    - views.py
+  - django_boards/
+    - `__pycache__/`
+    - `__init__.py`
+    - asgi.py
+    - wsgi.py
+  - htmlcov/ # gitignored
+  - media/
+    - avatars/
+    - profile_images/
+    - default.jpg
+  - static/
+    - css/
+      - accounts.css
+      - app.css
+      - bootstrip.min.css
+    - img/
+      - user_avatar.svg
+    - js/
+      - app.js
+      - copy-button.js
+      - django-boards-pagination.js
+      - scroll-top-button.js
+      - visibility-bottom.js
+      - visibility-top.js
+  - templates/
+    - includes/
+      - form.html
+      - pagination.html
+    - users/
+      - base_profile.html
+      - profile.html
+    - base_accounts.html
+    - base.html
+    - edit_post.html
+    - index.html
+    - login.html
+    - my_account.html
+    - new_topic.html
+    - password_change_done.html
+    - password_change.html
+    - password_reset_complete.html
+    - password_reset_confirm.html
+    - password_reset_done.html
+    - password_reset_email.html
+    - password_reset_subject.txt
+    - password_reset.html
+    - post_confirm_delete.html
+    - post_detail.html
+    - reply_topic.html
+    - signup.html
+    - topic_posts.html
+    - topics.html
+    - .coverage # gitignored
+    - db.sqlite3 # gitignored
+    - manage.py
+- venv/
+- .env # gitignored
+- .gitignore
+```
+
+You can also _check out_ the `GitHub` repository for
+[django-boards](https://github.com/interglobalmedia/django-boards/blob/main/django_boards/templates/base.html).
+`Each section` is _associated with_ a `different branch`, so you can `go back`
+in `history` on `GitHub` to _follow_ the `development` of this `project` from
+the `beginning`. The `link` to the `repository` is also `included` _under_
+`Related Resources` in `each section` of this `series`.
+
+If you `have` any `questions`, you can also `reach out` to `me` in `Giscus`
+comments at the `end` of `any` _given_ `posts`. Simply `click` on
+`"Load comments"` at the `bottom` of a `post`. `I` _will_ `be` _initiating_
+`discussions` _so_ `that` you `can` _do_ `so`.` Please note` that you `do` _have
+to_ `have` an `account` on `Github` _to be_ `able` _to post_ `comments`.
+
+## Conclusion
+
+In this section, I `extended` the _built-in_ `Django User` with a `Profile`
+model `containing` _extra fields_, `created` the `Profile` model in
+`accounts/models.py`, `extended` the `User` model `using` a _one-to-one_
+`relationship` _with_ `the` _built-in_ `User`, `added` a `profile` url to
+`accounts.urls.py`, `moved` the `account` url in `boards/urls.py` to
+`accounts/urls.py`, `installed` the `pillow` package _to enable_ `use` of the
+`ImageField` in the `Profile` model, _configured_ `urls.py` for _user-uploaded_
+`media` _files_ `during development`, _implemented_ `signals` in the `accounts`
+app, created an `update` _profile_ `form`, `created` a `profile.html` template,
+`deleted` _existing_ `users` _pre_ `User` profile and `created` _new_ `ones`,
+and `made` _styling_ `adjustments` t*o various* `templates`.
+
+I couldn't have added `image` functionality to `Django Boards` _without_
+`Hana Belay`'s `tutorial series` on `dev.to`. I have _included_ `links` to her
+`Django` _profile-related_ posts under `Related Resources`. I also `have` to
+_give credit_ to `Renne Rocha`, who `wrote` another `article` regarding
+`extending` the _built-in_ `Django User` with a `Profile` model. `Renne` _did_
+`not` _get into_ `extensive detail` _about the_ `whole process`, but the
+`explanation` _regarding_ `extending` the _built-in_ `Django User` and `signals`
+was `super`!
+
+## Related Resources
+
+-   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+-   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+    **_mariadcampbell.com_**
+-   [Django - User Profile](https://dev.to/earthcomfy/django-user-profile-3hik):
+    **_by Hana Belay, dev.to_**
+-   [Django - Update User Profile](https://dev.to/earthcomfy/django-update-user-profile-33ho):
+    **_by Hana Belay, dev.to_**
+-   [Applications](https://docs.djangoproject.com/en/5.1/ref/applications/#:~:text=AppConfig%20subclasses%20may%20be%20defined,path%20to%20a%20configuration%20class.):
+    **_Django documentation_**
+-   [Extending built-in Django User with a Profile Model](https://rennerocha.com/posts/extending-django-user-profile-model/):
+    **_by Renne Rocha_**
+-   [One-to-One vs. Foreign Key in Django Models](https://medium.com/@rajputgajanan50/one-to-one-vs-foreign-key-in-django-models-9c2c5eac71c1#:~:text=👉Key%20Differences%3A,more%20records%20in%20another%20model.):
+    **_by Gajanan Rajput, medium.com_**
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
