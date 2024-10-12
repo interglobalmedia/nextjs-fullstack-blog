@@ -1,9 +1,9 @@
 ---
-slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-26'
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-26
 date: '2024-10-10T11:31:24.237Z'
-lastModified: '2024-10-12T12:09:24.237Z'
-title: 'How to create a fullstack application using Django and Python Part 26'
-author: 'Maria D. Campbell'
+lastModified: '2024-10-12T14:00:24.237Z'
+title: How to create a fullstack application using Django and Python Part 26
+author: Maria D. Campbell
 excerpt:
     'In this section, I extend the built-in Django User with a Profile model
 containing extra fields, create the Profile model in accounts/models.py,
@@ -74,6 +74,7 @@ site and `why` it is `crucial` to `do it`. This article `assumes` you have a
     -   [Tweaking the styling of templates/password_reset.html](#tweaking-the-styling-of-templates-password-resethtml)
 -   [Current directory structure of django_boards](#current-directory-structure-of-django-boards)
 -   [Conclusion](#conclusion)
+-   [Footnotes](#footnotes)
 -   [Related Resources](#related-resources)
 -   [Related Posts](#related-posts)
 
@@ -1237,7 +1238,7 @@ _First_, I `have` _to rename_ `templates/users/base.html`. I `can't` _have two_
 
 _Next_, I `have` _to add_ `meta description` and `keywords` elements to
 `base_profile.html`. I _know_ this `is` _not only_ `because` I _know_ it, but
-`djlint` **[^1]** also `warns` me that `base_profile.html` does `not` _contain_
+`djLint` **[^1]** also `warns` me that `base_profile.html` does `not` _contain_
 `them`. So I `add` the `following`:
 
 ```django
@@ -1639,6 +1640,12 @@ _give credit_ to `Renne Rocha`, who `wrote` another `article` regarding
 `not` _get into_ `extensive detail` _about the_ `whole process`, but the
 `explanation` _regarding_ `extending` the _built-in_ `Django User` and `signals`
 was `super`!
+
+## Footnotes
+
+**[^1]**: [djLint](https://www.djlint.com) lints & formats Django HTML templates
+in VS Code. I find it to be an invaluable resource. If you don't already use it,
+please do check i out!
 
 ## Related Resources
 
