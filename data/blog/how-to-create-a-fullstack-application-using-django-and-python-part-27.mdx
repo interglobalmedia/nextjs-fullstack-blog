@@ -1,0 +1,2247 @@
+---
+slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-27'
+date: '2024-10-10T18:05:29.659Z'
+lastModified: '2024-11-06T11:12:29.659Z'
+title: 'How to create a fullstack application using Django and Python Part 27'
+author: 'Maria D. Campbell'
+excerpt:
+    'In this section, I make some adjustments to existing functionalities, sanitize our Markdown, add code formatting and
+highlighting to our Markdown, create tests for the ProfileListView, protected
+function based profile view, and profile_detail view, update
+accounts/tests/test_form_signup_test.py, fix the topic posts avatar issue, and
+explain the extended profile functionality.'
+image: kevin-grieve-_o4BOXMXN2M-unsplash.jpg
+tags: ['fullstack development', 'macOS', 'django', 'python3', 'code refactoring', 'markdown', 'nh3', 'sanitization', 'fenced code', 'code highlighting', 'pygments',  'series', 'tests', 'unittest']
+isPublished: true
+isFeatured: false
+---
+
+![Sanitizing station](kevin-grieve-_o4BOXMXN2M-unsplash.jpg)
+
+**_Photo by_** [Kevin Grieve](https://unsplash.com/@grievek1610begur) **_on_**
+[unsplash.com](https://unsplash.com/photos/man-in-blue-shirt-holding-white-and-black-no-smoking-sign-_o4BOXMXN2M)
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Some further adjustments](#some-further-adjustments)
+    -   [Adding timezone.now() to templates/reply_topic view](#adding-timezonenow-to-templates-reply-topic-view)
+    -   [Better controlling the view count in templates/index.html](#better-controlling-the-view-count-in-templates-indexhtml)
+    -   [Refactoring templates/topics.html to match changes in boards/views.py](#refactoring-templates-topicshtml-to-match-changes-in-boards-viewspy)
+    -   [Adding the table-striped class to templates/index.html](#adding-the-table-striped-class-to-templates-indexhtml)
+    -   [Reversing the created_by default behavior in templates/topic_posts.html](#reversing-the-created-by-default-behavior-in-templates-topic-postshtml)
+-   [Limiting replies to last 10 posts on templates/reply_topic.html](#limiting-replies-to-last-10-posts-on-templates-reply-topichtml)
+    -   [Updating templates/reply_topic.html to limit the number of replies to 10](#updating-templates-reply-topichtml-to-limit-the-number-of-replies-to-10)
+    -   [Redirecting the user to the last topic posts page instead of the first](#redirecting-the-user-to-the-last-topic-posts-page-instead-of-the-first)
+    -   [Updating the reply_topic view to add the redirection to last page functionality](#updating-the-reply-topic-view-to-add-the-redirection-to-last-page-functionality)
+-   [Updating boards/tests/test_view_reply_topic.py](#updating-boards-tests-test-view-reply-topicpy)
+-   [Creating a test for the extended user profile](#creating-a-test-for-the-extended-user-profile)
+    -   [Creating a test for the UpdateProfileForm](#creating-a-test-for-the-updateprofileform)
+    -   [Creating tests for the profile view](#creating-tests-for-the-profile-view)
+-   [Creating tests for the profile signals](#creating-tests-for-the-profile-signals)
+-   [Creating the ProfileListView](#creating-the-profilelistview)
+    -   [Paginating a ListView](#paginating-a-listview)
+    -   [Creating templates/users/profiles.html](#creating-templates-users-profileshtml)
+    -   [Screenshots of templates/users/profiles.html](#screenshots-of-templates-users-profileshtml)
+-   [Creating the profile_detail view](#creating-the-profile-detail-view)
+    -   [Breaking down the profile-detail URL](#breaking-down-the-profile-detail-url)
+-   [Customizing the profiles.html and profile.html navigation](#customizing-the-profileshtml-and-profilehtml-navigation)
+-   [Replacing the original navigation in base.html with profile-navigation-main.html include](#replacing-the-original-navigation-in-basehtml-with-profile-navigation-mainhtml-include)
+    -   [Styling for includes/profile-navigation-profile.html](#styling-for-includes-profile-navigation-profilehtml)
+    -   [Styling for includes/profile-navigation-main.html](#styling-for-includes-profile-navigation-mainhtml)
+-   [Removing the scrolldown button and refactoring the scrolltop button](#removing-the-scrolldown-button-and-refactoring-the-scrolltop-button)
+    -   [Removing the scrolldown button and replacing the scrolltop button markup with Bootstrap markup](#removing-the-scrolldown-button-and-replacing-the-scrolltop-button-markup-with-bootstrap-markup)
+    -   [Replacing the original scroll buttons markup with the scroll-button.html include](#replacing-the-original-scroll-buttons-markup-with-the-scroll-buttonhtml-include)
+    -   [Refactored JavaScript for the scrolltop button](#refactored-javascript-for-the-scrolltop-button)
+    -   [Customized CSS for the scrolltop button](#customized-css-for-the-scrolltop-button)
+-   [Moving the footer html markup into a footer.html include](#moving-the-footer-html-markup-into-a-footerhtml-include)
+    -   [Replacing the original footer markup with the new footer.html include in base.html](#replacing-the-original-footer-markup-with-the-new-footerhtml-include-in-basehtml)
+    -   [Replacing the original footer markup with the new footer.html include in base_profile.html](#replacing-the-original-footer-markup-with-the-new-footerhtml-include-in-base-profilehtml)
+-   [Sanitizing our Markdown](#sanitizing-our-markdown)
+    -   [super().to_python(value)](#superto-pythonvalue)
+    -   [to_python(value)](#to-pythonvalue)
+    -   [Why super().to_python(value)?](#why-superto-pythonvalue)
+    -   [What a form instance does](#what-a-form-instance-does)
+-   [Adding code formatting and highlighting to our Markdown](#adding-code-formatting-and-highlighting-to-our-markdown)
+-   [Creating tests for the ProfileListView](#creating-tests-for-the-profilelistview)
+-   [Creating tests for the protected function based profile view](#creating-tests-for-the-protected-function-based-profile-view)
+-   [Creating tests for the profile_detail view](#creating-tests-for-the-profile-detail-view)
+-   [Updating accounts/tests/test_form_signup_test.py](#updating-accounts-tests-test-form-signup-testpy)
+-   [Fixing the topic posts avatar issue](#fixing-the-topic-posts-avatar-issue)
+-   [The extended profile functionality](#the-extended-profile-functionality)
+-   [Conclusion](#conclusion)
+-   [Footnotes](#footnotes)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Some further adjustments
+
+### Adding timezone.now() to templates/reply_topic view
+
+```python
+# boards/views.py
+
+@login_required
+def reply_topic(request, pk, topic_pk):
+    topic = get_object_or_404(Topic, board__pk=pk, pk=topic_pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.topic = topic
+            post.created_by = request.user
+            post.save()
+
+            topic.last_updated = timezone.now()  # <- add
+            topic.save() # <- add
+
+        return redirect('topic_posts', pk=pk, topic_pk=topic_pk)
+    else:
+        form = PostForm()
+    return render(request, 'reply_topic.html', {'topic': topic, 'form': form})
+```
+
+`With` _these_ `changes`, the `Latest Update` _is actually_ `updated` in
+`topics.html`:
+
+![Latest Update in topics.html fixed](Screenshot-24-10-12-at-10.12.08-AM.jpg)
+
+_Latest Update in topics.html fixed_
+
+## Better controlling the view count in templates/index.html
+
+```python
+# boards/views.py
+class PostListView(ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'topic_posts.html'
+    paginate_by = 3
+
+    def get_context_data(self, **kwargs):
+        # change starts here
+        session_key = 'viewed_topic_{}'.format(self.topic.pk)
+        if not self.request.session.get(session_key, False):
+            self.topic.views += 1
+            self.topic.save()
+            self.request.session[session_key] = True
+            # change ends here
+        kwargs['topic'] = self.topic
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        self.topic = get_object_or_404(Topic, board__pk=self.kwargs.get('pk'), pk=self.kwargs.get('topic_pk'))
+        queryset = self.topic.posts.order_by('created_at')
+        return queryset
+```
+
+These `changes` _will provide_ `better navigation` in `templates/topics.html`.
+_Right now_ the `user` _can only_ `click` on the `topic title` and `go` to the
+`first page` of its `topic posts`. We can `do` the `following` to `better` the
+`user experience`:
+
+```python
+# boards/models.py
+import math
+
+class Topic(models.Model):
+  ...
+  def get_page_count(self):
+      count = self.posts.count()
+      pages = count / 10
+      return math.ceil(pages)
+
+  def has_many_pages(self, count=None):
+      if count is None:
+          count = self.get_page_count()
+      return count > 6
+
+  def get_page_range(self):
+      count = self.get_page_count()
+      if self.has_many_pages(count):
+          return range(1, 5)
+      return range(1, count + 1)
+```
+
+_For me_, only `pages = count / 10` works, `because` I `have` the `following`
+set to `10` in `boards/views.py`:
+
+```python
+# boards/views.py
+class TopicListView(ListView):
+    model = Topic
+    context_object_name = 'topics'
+    template_name = 'topics.html'
+    paginate_by = 10 # here
+
+    def get_context_data(self, **kwargs):
+        kwargs['board'] = self.board
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        self.board = get_object_or_404(Board, pk=self.kwargs.get('pk'))
+        queryset = self.board.topics.order_by('-last_updated').annotate(replies=Count('posts') - 1)
+        return queryset
+
+class PostListView(ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'topic_posts.html'
+    paginate_by = 10 # here
+
+    def get_context_data(self, **kwargs):
+
+        session_key = 'viewed_topic_{}'.format(self.topic.pk)
+        if not self.request.session.get(session_key, False):
+            self.topic.views += 1
+            self.topic.save()
+            self.request.session[session_key] = True
+        kwargs['topic'] = self.topic
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        self.topic = get_object_or_404(Topic, board__pk=self.kwargs.get('pk'), pk=self.kwargs.get('topic_pk'))
+        queryset = list(reversed(self.topic.posts.order_by('created_at')))
+        return queryset
+```
+
+The `page numbers` _have to_ `match`.
+
+### Refactoring templates/topics.html to match changes in boards/views.py
+
+```django
+<!-- templates/topics.html -->
+<table class="table table-striped mb-4">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Topic</th>
+      <th>Starter</th>
+      <th>Replies</th>
+      <th>Views</th>
+      <th>Last Update</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for topic in topics %}
+      {% url 'topic_posts' board.pk topic.pk as topic_url %}
+      <tr>
+        <td>
+          <p class="mb-0">
+            <a href="{{ topic_url }}">{{ topic.subject }}</a>
+          </p>
+          <small class="text-muted">
+            Pages:
+            {% for i in topic.get_page_range %}&nbsp;<a href="{{ topic_url }}?page={{ i }}">{{ i }}</a>{% endfor %}
+            {% if topic.has_many_pages %}... <a href="{{ topic_url }}?page={{ topic.get_page_count }}">Last Page</a>{% endif %}
+          </small>
+        </td>
+        <td class="align-middle">{{ topic.starter.username }}</td>
+        <td class="align-middle">{{ topic.replies }}</td>
+        <td class="align-middle">{{ topic.views }}</td>
+        <td class="align-middle">{{ topic.last_updated|naturaltime }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+```
+
+_Here_, we `added` a `table-striped` class to the `table` element, which `looks`
+_really_ `nice`, and `we` added `"mini pagination"` to the `topic`'s
+`topic posts`. _This way_, the `user` can `go` _to other_ `topic posts` pages
+`other than` _just the_ `first`. Now `templates/topics.html` _looks like_ the
+`following`:
+
+![Updated templates/topics.html](Screenshot-2024-10-12-at-10.41.12-AM.jpg)
+
+_Updated templates/topics.html_
+
+### Adding the table-striped class to templates/index.html
+
+```django
+<!-- templates/index.html -->
+...
+<table class="table table-striped">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Board</th>
+      <th>Posts</th>
+      <th>Topics</th>
+      <!-- new wording (instead of Last Post) -->
+      <th>Latest Post</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for board in boards %}
+      <tr>
+        <td>
+          <a href="{% url 'board_topics' board.pk %}">{{ board.name }}</a>
+          <small class="text-muted d-block">{{ board.description }}</small>
+        </td>
+        <td class="align-middle">{{ board.get_posts_count }}</td>
+        <td class="align-middle">{{ board.topics.count }}</td>
+        <td class="align-middle">
+          {% if board.get_posts_count > 0 %}
+            {% with post=board.get_latest_post %}
+              <small>
+                <a href="{% url 'topic_posts' board.pk post.topic.pk %}">By {{ post.created_by.username }} at {{ post.created_at }}</a>
+              </small>
+            {% endwith %}
+          </td>
+        {% else %}
+          <small>0</small>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+...
+```
+
+## Reversing the created_by default behavior in templates/topic_posts.html
+
+```python
+# boards/views.py
+class PostListView(ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'topic_posts.html'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+
+        session_key = 'viewed_topic_{}'.format(self.topic.pk)
+        if not self.request.session.get(session_key, False):
+            self.topic.views += 1
+            self.topic.save()
+            self.request.session[session_key] = True
+        kwargs['topic'] = self.topic
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        self.topic = get_object_or_404(Topic, board__pk=self.kwargs.get('pk'), pk=self.kwargs.get('topic_pk'))
+        queryset = list(reversed(self.topic.posts.order_by('created_at'))) # here
+        return queryset
+```
+
+`list(reversed(self.topic.posts.order_by('created_at')))` _reverses_ the
+`default` _ascending_ `behavior`. But I `wanted` the `opposite`:
+`descending behavior`: `the` _most_ `recently` `created` _post_ `first`, and the
+`first` _created_ `post` last.
+
+_Now_ `templates/topic_posts.html` _looks like_ the `following`:
+
+![Topic posts in descending oder](Screenshot-2024-10-13-at-7.18.59-PM.jpg)
+
+_Topic posts in descending oder_
+
+## Limiting replies to last 10 posts on templates/reply_topic.html
+
+`Right now` _all_ `topic replies` are `listed` on the `reply_topic.html` page:
+
+![Current reply_topic.html containing all replies to a viewed_topic](Screenshot-2024-10-12-at-10.49.35-AM.jpg)
+
+_Current reply_topic.html containing all replies to a viewed_topic_
+
+_Now_ we are` going` to `limit` the `replies` to the last `10`:
+
+```python
+# boards/models.py
+class Topic(models.Model):
+  ...
+  def get_last_ten_posts(self):
+        return self.posts.order_by('-created_at')[:10]
+```
+
+### Updating templates/reply_topic.html to limit the number of replies to 10
+
+```django
+<!-- templates/reply_topic.html -->
+<!-- Modified line right below -->
+{% for post in topic.get_last_ten_posts %}
+  <div class="card mb-2">
+    <div class="card-body p-3">
+      <div class="row mb-3">
+        <div class="col-6">
+          <div class="col-6">
+            <strong class="text-muted">{{ post.created_by.username }}</strong>
+          </div>
+          <div class="col-6 text-right">
+            <small class="text-muted">{{ post.created_at }}</small>
+          </div>
+        </div>
+        <div class="mb-2 mt-3">{{ post.get_message_as_markdown }}</div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+```
+
+### Redirecting the user to the last topic posts page instead of the first
+
+To `enable` _user_ `redirection` to the `last` _topic posts_ `page` instead of
+the `first` _after they_ `submit` their `reply`, we could `add` an `id` to the
+`post card`:
+
+```django
+<!-- templates/topic_posts.html -->
+{% for post in posts %}
+  <div id="{{ post.pk }}"
+        class="card mb-3 {% if forloop.last %} mb-4 {% else %} mb-2 {% endif %} ">
+    {% if forloop.first %}
+      <div class="card-header bg-dark text-white align-items-center py-2 px-3">
+        <h5>{{ topic.subject }}</h5>
+      </div>
+    {% endif %}
+    <div class="row no-gutters">
+      <div class="col-md-8">
+        <div class="card-body col-md-8">
+          <div class="col">
+            <h5 class="card-title text-muted">{{ post.created_by.username }}</h5>
+            <p class="card-text">
+              <small class="text-muted">{{ post.created_at }}</small>
+            </p>
+          </div>
+          {% if user == post.created_by %}
+            <div class="profile-avatar">
+              <img class="rounded-circle account-img"
+                    alt="{{ user.username }}"
+                    src="{{ user.profile.avatar.url }}"
+                    width="80"
+                    height="80" />
+            </div>
+          {% else %}
+            <div class="django-avatar">{% avatar post.created_by class="img-circle img-responsive" id="user_avatar" %}</div>
+          {% endif %}
+        </div>
+        <div class="mb-4">
+          <small>Posts: {{ post.created_by.posts.count }}</small>
+        </div>
+        <div class="post-message">{{ post.get_message_as_markdown }}</div>
+        {% if post.created_by == user %}
+          <div class="d-inline-flex flex-row user-post-buttons">
+            <div class="topic-posts-btn-edit mt-3">
+              <a href="{% url 'edit_post' post.topic.board.pk post.topic.pk post.pk %}"
+                  class="btn btn-primary btn-sm"
+                  role="button">Edit</a>
+            </div>
+            <div class="topic-posts-btn-delete mt-3">
+              <a href="{% url 'delete_post' post.topic.board.pk post.topic.pk post.pk %}"
+                  class="btn btn-primary btn-sm"
+                  role="button">Delete</a>
+            </div>
+          </div>
+        {% else %}
+          <div class="mt-3 user-post-buttons">
+            <a href="{% url 'post_detail' post.topic.board.pk post.topic.pk post.pk %}"
+                class="btn btn-primary btn-sm"
+                role="button">Post detail</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endfor %}
+```
+
+### Updating the reply_topic view to add the redirection to last page functionality
+
+```python
+# boards/views.py
+@login_required
+def reply_topic(request, pk, topic_pk):
+    topic = get_object_or_404(Topic, board__pk=pk, pk=topic_pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.topic = topic
+            post.created_by = request.user
+            post.save()
+
+            topic.last_updated = timezone.now()
+            topic.save()
+            # addition starts here
+            topic_url = reverse('topic_posts', kwargs={'pk': pk, 'topic_pk': topic_pk})
+            topic_post_url = '{url}?page={page}#{id}'.format(
+                url=topic_url,
+                id=post.pk,
+                page=topic.get_page_count()
+            )
+
+            return redirect(topic_post_url)
+    else:
+    # addition ends here
+        form = PostForm()
+    return render(request, 'reply_topic.html', {'topic': topic, 'form': form})
+```
+
+## Updating boards/tests/test_view_reply_topic.py
+
+```python
+# boards/tests/test_view_reply_topic.py
+class SuccessfulReplyTopicTests(ReplyTopicTestCase):
+  ...
+  def test_redirection(self):
+        '''
+        A valid form submission should redirect the user
+        '''
+        url = reverse('topic_posts', kwargs={'pk': self.board.pk, 'topic_pk': self.topic.pk})
+        topic_posts_url = '{url}?page=1#2'.format(url=url)
+        self.assertRedirects(self.response, topic_posts_url)
+```
+
+When I run `python3 manage.py test boards.tests.test_view_reply_topic_tests`,
+the `following` is `returned`:
+
+```shell
+Found 10 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+......<HttpResponse status_code=200, "text/html; charset=utf-8"> location
+....
+----------------------------------------------------------------------
+Ran 10 tests in 4.127s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+This `new test` _checks for_ our `redirect` to the `last` _topic post_ `page`
+_after_ `the` _user_ `submits` _their_ `reply`. `Since` _the test_ `passed`, it
+`means` that our `redirection` took the `user` to the `expected` (`last`)
+`topic` _post_ `page`. I also `checked` it by `creating` a `new reply`, and it
+`worked` as `expected`!
+
+## Creating a test for the extended user profile
+
+### Creating a test for the UpdateProfileForm
+
+```python
+# test_form_profile_test.py
+from django.test import TestCase
+from ..forms import UpdateProfileForm
+
+class UpdateProfileFormTest(TestCase):
+    def test_form_has_fields(self):
+        form = UpdateProfileForm()
+        expected = ['avatar', 'bio', ]
+        actual = list(form.fields)
+        self.assertSequenceEqual(expected, actual)
+```
+
+When I run `python3 manage.py test accounts.tests.test_form_profile_test`, the
+`following` is `returned`:
+
+```shell
+Found 1 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+The `test` _passes_!
+
+### Creating tests for the profile view
+
+```python
+# accounts/tests/test_view_profile_tests.py
+from django.forms import ModelForm
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.urls import resolve, reverse
+
+from ..forms import UpdateUserForm, UpdateProfileForm
+
+from ..views import profile
+
+class MyProfileTestCase(TestCase):
+    def setUp(self):
+        self.username = 'john'
+        self.password = 'secret123'
+        self.user = User.objects.create_user(username=self.username, email='johndoe@example.com', password=self.password)
+        self.url = reverse('users-profile')
+
+class MyProfileTests(MyProfileTestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.get(self.url)
+
+    def test_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_url_resolves_correct_view(self):
+        view = resolve('/profile/')
+        self.assertEqual(view.func, profile)
+
+    def test_csrf(self):
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_contains_user_form(self):
+        # add condition to test whether form is "None" or not. Add condition because there is no form. We’re not doing anything with the form to test at this line, we’re just making it available to your code. - thanks to @KenWhitesell, Django Forum
+        form = None
+        if form is not None:
+            form = self.response.context['form']
+            self.assertIsInstance(form, UpdateUserForm)
+
+    def test_contains_profile_form(self):
+        # add condition to test whether form is "None" or not. Add condition because there is no form. We’re not doing anything with the form to test at this line, we’re just making it available to your code. - thanks to @KenWhitesell, Django Forum
+        form = None
+        if form is not None:
+            form = self.response.context['form']
+            self.assertIsInstance(form, UpdateProfileForm)
+
+    def test_form(self):
+        '''
+        Make sure that form has enctype attribute and 'multipart/form-data' value
+        '''
+        self.assertContains(self.response, '<form', 1)
+        self.assertContains(self.response, 'enctype="multipart/form-data"', 1)
+
+    def test_form_inputs(self):
+        '''
+        The view must contain four inputs: csrf, username, email, avatar upload. It also contains one textarea for bio.
+        '''
+        self.assertContains(self.response, '<input', 4)
+        self.assertContains(self.response, 'type="file"', 1)
+        self.assertContains(self.response, 'type="text"', 2)
+        self.assertContains(self.response, '<textarea', 1)
+
+class LoginRequiredMyProfileTests(TestCase):
+    def test_redirection(self):
+        url = reverse('users-profile')
+        login_url = reverse('login')
+        response = self.client.get(url)
+        self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=url))
+
+class SuccessfulMyProfileTests(MyProfileTestCase):
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.post(self.url, {
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'email': 'johndoe@example.com',
+        })
+
+    def test_data_changed(self):
+        '''
+        refresh the user instance from database to get the updated data.
+        '''
+        self.user.refresh_from_db()
+        self.assertEqual('john', self.user.username)
+        self.assertEqual('johndoe@example.com', self.user.email)
+
+class InvalidMyAccountTests(MyProfileTestCase):
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.post(self.url, {
+            'first_name': 'longstring' * 100
+        })
+
+    def test_status_code(self):
+        '''
+        An invalid form submission should return to the same page
+        '''
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_form_errors(self):
+        form = None
+        if form is not None:
+            form = self.response.context['form']
+            self.assertTrue(form.errors)
+```
+
+When I run `python3 manage.py test accounts.tests.test_view_profile_tests`, the
+`following` is `returned`:
+
+```shell
+Found 11 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 4.279s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+The `tests` _pass_!
+
+## Creating tests for the profile signals
+
+```python
+# accounts/test/signals.tests.py
+from django.test import TestCase
+from ..signals import create_profile, save_profile
+
+class SignalTests(TestCase):
+    def test_create_profile_handler_success(sender, **kwargs):
+        sender.assertTrue(create_profile)
+
+    def test_create_profile_handler_fail(sender, **kwargs):
+        if not sender:
+            sender.assertFalse(create_profile)
+
+    def test_save_profile_handler_success(sender, **kwargs):
+        sender.assertTrue(save_profile)
+
+    def test_save_profile_handler_fail(sender, **kwargs):
+        if not sender:
+            assertFalse(save_profile)
+```
+
+These `tests` are `straightforward` _and relatively_ `simple`. Our actual
+`create_profile` and `save_profile` signals are `called` when we `save` the
+`model` they are `attached` to, `which` is the _built-in_ `User` model. So
+_calling_ `save()` on an `instance` of `User` will the `cause` the `signal` to
+be `called`.
+
+We `don't` _have to_ `activate` _our_ `signals`. They are `already` _set_ `up`
+and `ready` to `go`. My `Profile` tests are `extensive enough` and `affirm` that
+the `create_profile` and `save_profile` _signals_ `work`. I just `wanted` to
+`affirm` that the `signals` themselves were `working` independent of the
+`Profile` itself.
+
+When I run `python3 manage.py test accounts.tests.test_signals_tests`, the
+`following` is `returned`:
+
+```shell
+Found 4 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+The `tests` _pass_!
+
+## Creating the ProfileListView
+
+```python
+# accounts/views.py
+@method_decorator(login_required, name='dispatch')
+class ProfileListView(ListView):
+    model = Profile
+    context_object_name = 'profiles'
+    template_name = 'users/profiles.html'
+    # paginates profiles.html
+    paginate_by = 3
+```
+
+_Currently_ I have `paginate_by` set to `3`, because I don't have many users.
+But _when_ I `populate` the `site` with _more_, I will `set` it to `10`,
+`just like` _with the_ `topic posts`.
+
+### Paginating a ListView
+
+Since The `ProfileListView` is a `django.views.generic.list.ListView`, I was
+`able` to use `paginate_by`. `django.views.generic.list.ListView` _provides_ a
+_built-in_ `way` to `display` the `list`. We `can` _do_ `this` by `adding` the
+`paginate_by` attribute to our `view` class, as `demonstrated` above. We did
+`touch upon` this `previously`, but I thought I would mention it again since the
+opportunity presented itself.
+
+### Creating templates/users/profiles.html
+
+```django
+<!-- templates/users/profiles.html -->
+{% extends "users/base_profile.html" %}
+{% load static %}
+{% block title %}
+  Profiles Page
+{% endblock title %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1 class="mt-4 mb-4">User profiles</h1>
+        {% for profile in profiles %}
+          <div class="row">
+            <div class="card mb-3">
+              <div class="profile-avatar">
+                <img class="rounded-circle account-img"
+                     src="{{ profile.avatar.url }} "
+                     style="cursor: pointer"
+                     width="80"
+                     height="80"
+                     alt="{{ profile.user.username }}"
+                     id="{{ profile.user.pk }}" />
+              </div>
+              <div class="row">
+                <div class="col-lg">
+                  <div class="form-group">
+                    <div class="col d-flex flex-row">
+                      <label class="fw-bold">First name:&nbsp;</label>
+                      <label>{{ profile.user.first_name }}</label>
+                    </div>
+                    <div class="col d-flex flex-row">
+                      <label class="fw-bold">Last name:&nbsp;</label>
+                      {{ profile.user.last_name }}
+                    </div>
+                    <div class="col d-flex flex-row">
+                      <label class="mb-1 fw-bold">Username:&nbsp;</label>
+                      <label>{{ profile.user.username }}</label>
+                    </div>
+                    <div class="col d-flex flex-row">
+                      <label class="mb-1 fw-bold">Email:&nbsp;</label>
+                      <label>{{ profile.user.email }}</label>
+                    </div>
+                    <div class="col d-flex flex-column">
+                      <label class="mb-1 fw-bold">Bio:&nbsp;</label>
+                      <div class="w-100">{{ profile.bio|truncatewords:15 }}</div>
+                      <a href="{% url 'profile' profile.pk %}">Learn more</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% include "includes/pagination.html" %}
+{% endblock content %}
+```
+
+_For_ `fields` that are `part` of the `built-in` default `user`, I `access` them
+`by` _implementing_ `profile.user.username`, `profile.user.first_name`,
+`profile.user.last_name`, and `profile.user.email`.
+
+_For_ `fields` that are `part` of the `extended` _user_ `Profile`, I `access`
+them `by` _implementing_ `profile.avatar` and `profile.bio`.
+
+`As for` _the_ `url`, I `use` the `following` in the
+`profile-navigation-main.html` and `profile-navigation-profile.html` includes:
+
+```html
+<!-- templates/includes/profile-navigation-main.html -->
+<li class="nav-item">
+	<a href="{% url 'users-profile-list' %}" class="nav-item nav-link"
+		>All Profiles</a
+	>
+</li>
+```
+
+`'users-profile-list'` is the `name` of the `profiles` path. We `give` the `url`
+a `name` so that we `don't` _have to_ `include` _the actual_ `url` in the
+`anchor` element's `href` attribute. This is also `helpful` _when_ `we want` to
+`change` a `url`, for example. We `just` _have to_ `change` _the actual_ `URL`
+in `urls.py` and `nowhere else`. `That` _means_ `code` _uses the_ `name` instead
+of `the` _hardcoded_ `URL`, and `does not` _have_ `to` _be_ `updated`.
+
+### Screenshots of templates/users/profiles.html
+
+![templates/users/profiles.html (top half)](Screenshot-2024-10-17-at-12.55.47-PM.jpg)
+
+_templates/users/profiles.html (top half)_
+
+![templates/users/profiles.html (bottom half)](Screenshot-2024-10-17-at-12.58.54-PM.jpg)
+
+_templates/users/profiles.html (bottom half)_
+
+## Creating the profile_detail view
+
+For the `profile_detail` view, I `implemented` a `function based view`:
+
+```python
+def profile_detail(request, pk):
+    profile = get_object_or_404(Profile, pk=pk)
+    return render(request, 'users/profile_detail.html', {'profile': profile})
+```
+
+`All` the `profile_detail` view `does` is `render` what is `stored` in `the`
+_profile_ `user_form` and `profile_form`, so it was an `easier` and `more`
+_direct_ `way` of `rendering` the `profile_detail` view.
+
+`Why` did I even `bother` to `create` a `profile_detail` view? `Because` I
+wanted `users` to `feel free` to `write` as `much` as they `want` about
+`themselves` in the `bio` field, but I `didn't want` the `whole bio` to `appear`
+in `profiles.html`. It `would` _look_ `ridiculous`. I `truncated` the `bio` in
+the `profiles.html` template using `truncatewords`:
+
+```django
+<!-- templates/users/profiles.html -->
+<div class="col d-flex flex-column">
+  <label class="mb-1 fw-bold">Bio:&nbsp;</label>
+  <div class="w-100">{{ profile.bio|truncatewords:15 }}</div>
+  <a href="{% url 'profile' profile.pk %}">Learn more</a>
+</div>
+```
+
+`truncatewords` is a `template filter` used to `shorten` a `string` to a
+`specific number` of `words`. If the `string` is `longer` than the
+`specified number` of `words`, it will be `truncated` and an `ellipsis` (...)
+will be `added` at the `end`. _Above_, I am `truncating` the `bio` to `15` words
+in `profiles.html`.
+
+### Breaking down the profile-detail URL
+
+```python
+path('profile-detail/<int:pk>/', profile_detail, name='profile'),
+```
+
+I `differentiate` the `profile-detail` URL from the `profile` URL, `even though`
+I am `pointing` to the `same data`. _However_, `one` is an `update form`, and
+the `other` is `simply` A `GET` request to the `profile_detail` view. And
+`since` I `name` the URL `"profile"`, and the `endpoint` of the `URL` is the
+`id` of the `user` whose `profile details` are being `requested`, I `add` the
+_following_ `URL` as the `value` of the `anchor` element's `href` attribute in
+`profiles.html`:
+
+```html
+<!-- templates.users/profiles.html -->
+<a href="{% url 'profile' profile.pk %}">Learn more</a>
+```
+
+`'profile'` ia the `path name`, and `profile.pk` _represents the_ `/<int:pk>/`
+_part_ `of` the `profile-detail` path. I `use` _angle_ `brackets` to `capture`
+the `profile id` (_technically_ `primary key`) from the `URL`.
+
+## Customizing the profiles.html and profile.html navigation
+
+_Originally_, `both` the `profiles.html` and `profile.html` navigation
+`contained` _the same_ `navigation links`. This `meant` that on the
+`profiles.html` page, the `link` to `profiles.html` was `present`, `and` on the
+`profile.html` page, the `link` to `profile.html` was `present`. So I `ended` up
+`creating` an `include` called `profile-navigation-profile.html`, which
+`contains` a `conditional statement`:
+
+```django
+<!-- profile-navigation-profile.html -->
+<nav class="navbar navbar-expand-lg navbar-fixed navbar-dark bg-dark ml-auto text-white">
+  <div class="container-fluid">
+  <!-- Here I have to use an absolute url because 'index' is only defined in boards/urls.py. -->
+    <a href="/" class="navbar-brand text-white">Django Boards</a>
+    <button class="navbar-toggler ms-auto"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#n_bar"
+            aria-controls="navbarNavAltMarkup"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse text-white" id="n_bar">
+      <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+        <!-- The condition states that if the current path contains /profiles/ then only show the profile/ url. Otherwise, show the profiles/ url. -->
+          {% if request.get_full_path == "/profiles/" %}
+            <li class="nav-item mb-0">
+              <a class="nav-item nav-link" href="{% url 'users-profile' %}">My Profile</a>
+            </li>
+          {% else %}
+            <li class="nav-item mb-0">
+              <a href="{% url 'users-profile-list' %}" class="nav-item nav-link">All Profiles</a>
+            </li>
+          {% endif %}
+          <li class="nav-item align-middle">
+            <a href="{% url 'my_account' %}" class="nav-item nav-link">My Account</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item nav-link align-middle"
+               href="{% url 'password_change' %}">Change Password</a>
+          </li>
+          <li class="nav-item">
+            <form method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button class="btn btn-secondary mb-2 mt-2 logout" type="submit">Logout</button>
+            </form>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a href="{% url 'login' %}" class="nav-item nav-link">Sign in</a>
+          </li>
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+</nav>
+```
+
+If the `current page` _contains_ `/profiles/` in the `path`, then `only show`
+the `profile/` URL. _Otherwise_, `show` the `profiles/` URL. I `replaced` the
+`navigation` in `base_profile.html` with `profile-navigation-profile.html`:
+
+```django
+<!-- base_profile.html -->
+{% block body %}
+  <div class="site-content">
+    <!-- This include replaces the original full navigation. -->
+    {% include "includes/profile-navigation-profile.html" %}
+    <!--Any flash messages pop up in any page because this is the base template-->
+    {% if messages %}
+      <div class="alert alert-dismissible" role="alert">
+        {% for message in messages %}<div class="alert alert-{{ message.tags }}">{{ message }}</div>{% endfor %}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      {% endif %}
+      {% block content %}
+      {% endblock content %}
+      <!-- moved closing divs below block content. then sticky footer worked. matches base.html -->
+    </div>
+  </div>
+  {% include "includes/footer.html" %}
+{% endblock body %}
+```
+
+## Replacing the original navigation in base.html with profile-navigation-main.html include
+
+I `did` some `major refactoring` to the `navigation` in `base.html`. `First`
+_of_ `all`, I `replaced` the `dropdown` with a `Bootstrap` _responsive_
+`navigation`. `Hamburger` in `screens` smaller than `1007px`, and then
+`desktop navigation` in `screens` 1007px or `greater`. The `navigation` for
+`profile-navigation-profile.html` is the `same`. But it was `basically` the
+`same` _from the_ `beginning`. I `just` _had to_ `make sure` that it `contained`
+the `right markup` to `enable` the `Hamburger` functionality. I will `get` _to
+that_ `soon`.
+
+```django
+<!-- base.html -->
+<body class="site" id="site">
+{% block body %}
+  <div class="site-content">
+  <!-- This include replaces the original full navigation. -->
+    {% include "includes/profile-navigation-main.html" %}
+    <div class="container">
+      <ol class="breadcrumb my-4">
+        {% block breadcrumb %}
+        {% endblock breadcrumb %}
+      </ol>
+      {% block content %}
+      {% endblock content %}
+    </div>
+  </div>
+  {% include "includes/footer.html" %}
+  {% include "includes/scroll-button.html" %}
+{% endblock body %}
+```
+
+### Styling for includes/profile-navigation-profile.html
+
+```css
+/* static/css/accounts.css */
+/* navbar custom styling. creates space to left of Django Boards logo. */
+
+.navbar {
+	padding-left: 0.5rem;
+}
+
+/* cross browser compatibility styling for the responsive navigation hamburger icon styling */
+
+.navbar-toggler,
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+	border: none;
+	outline: none;
+	/* for Firefox. Removed thick border on focus */
+	box-shadow: none;
+}
+
+/* end cross browser compatibility styling for the responsive navigation hamburger icon styling */
+
+/* hamburger styling */
+
+.navbar-toggler {
+	right: 0.5rem;
+}
+
+@media (min-width: 1007px) {
+	.collapse.navbar-collapse {
+		display: flex;
+		justify-content: flex-end;
+		margin-right: 1rem;
+	}
+}
+
+/* end hamburger styling *
+
+/* Website logo styling */
+
+.navbar-brand {
+	font-family: 'Peralta', serif;
+	font-size: 1.75rem;
+	font-style: normal;
+	font-weight: 400;
+}
+
+/* end Website logo styling */
+```
+
+### Styling for includes/profile-navigation-main.html
+
+```css
+/* static/css/app.css */
+
+/* navbar custom styling. creates space to left of Django Boards logo. */
+
+.navbar {
+	padding-left: 0.5rem;
+}
+
+/* cross browser compatibility styling for the responsive navigation hamburger icon styling */
+
+.navbar-toggler,
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+	border: none;
+	outline: none;
+	/* for Firefox. Removed thick border on focus */
+	box-shadow: none;
+}
+
+/* end cross browser compatibility styling for the responsive navigation hamburger icon styling *
+
+/* hamburger styling */
+
+.navbar-toggler {
+	right: 0.5rem;
+}
+
+/* make navigation flex end in larger viewports (> 1006px) */
+
+@media (min-width: 1007px) {
+	.collapse.navbar-collapse {
+		display: flex;
+		justify-content: flex-end;
+		margin-right: 1rem;
+	}
+}
+
+/* hamburger styling *
+
+/* Website logo styling */
+
+.navbar-brand {
+	font-family: 'Peralta', serif;
+	font-size: 1.75rem;
+	font-style: normal;
+	font-weight: 400;
+}
+```
+
+## Removing the scrolldown button and refactoring the scrolltop button
+
+_Next_, I `had` to `remove` the `scrolldown button`, because it `conflicted`
+with the `Hamburger` icon. It `both` conflicted `layout-wise` and some
+`functionality` in `Bootstrap` _conflicted_ `with` it `as well`. I originally
+created the `up` and `down` functionality on `sites` where I did _NOT_ use
+`Bootstrap`. I `created` _everything_ `from scratch`. _Here_, that was `not` the
+`case`. `That` is `something` one has to `seriously consider` when `opting` to
+`work` with `CSS Frameworks` such as `Bootstrap`. There are `many advantages` to
+`working` with it, but `there are` _also_ `downsides`.
+
+### Removing the scrolldown button and replacing the scrolltop button markup with Bootstrap markup
+
+```html
+<!-- templates/includes/scroll-button.html -->
+<!-- Back to top button -->
+<button
+	type="button"
+	class="btn btn-danger btn-floating btn-lg"
+	id="btn-back-to-top"
+>
+	<i class="fas fa-arrow-up"></i>
+</button>
+```
+
+`Above` _is all_ `Bootstrap` markup, so `that` is `why` it `works` with
+`little need` for `JavaScript`. I `added` _my own_ `styling`, `similar` to
+`what` _I had_ `previously`, but `much` _less_ `complicated`. The
+`original styling` is a `rounded square`, `red button` (`btn-danger`) with a
+`white` _up_ `arrow`. If you `want` to `keep` that `styling`, then `don't add`
+the `custom CSS` I `added` to `app.css`. If you `really like` _my_
+`original styling`, `go ahead` and `try` to `make` it `fit` to the
+`current layout`. It will `take` _some_ `time`, `because` the `styling` was
+`meant` for `both` a `scrolltop` and `scrolldown` button. `The` _original_
+`JavaScript` also `depended` on the `opacity` of the `buttons` and `not` on
+`whether` they were `set` to `display: block` or `display: none`, _so further_
+`CSS` refactoring would be `necessary` to `fit` to the `JavaScript`
+functionality.
+
+_As indicated_ in the `code comment`, I `made` this `into` _a reusable_
+`include`. This then can even be `reused` _in future_ `projects` _using_
+`Bootstrap`!
+
+### Replacing the original scroll buttons markup with the scroll-button.html include
+
+```django
+<!-- templates/base.html -->
+{% block body %}
+  <div class="site-content">
+    {% include "includes/profile-navigation-main.html" %}
+    <div class="container">
+      <ol class="breadcrumb my-4">
+        {% block breadcrumb %}
+        {% endblock breadcrumb %}
+      </ol>
+      {% block content %}
+      {% endblock content %}
+    </div>
+  </div>
+  {% include "includes/footer.html" %}
+  {% include "includes/scroll-button.html" %}
+{% endblock body %}
+```
+
+### Refactored JavaScript for the scrolltop button
+
+```javascript
+//Get the button
+export const scrollTopButton = document.getElementById('btn-back-to-top')
+
+export function scrollFunction() {
+	if (
+		document.body.scrollTop > 20 ||
+		document.documentElement.scrollTop > 20
+	) {
+		scrollTopButton.style.display = 'block'
+	} else {
+		scrollTopButton.style.display = 'none'
+	}
+}
+
+export function backToTop() {
+	document.body.scrollTop = 0
+	document.documentElement.scrollTop = 0
+}
+```
+
+### Customized CSS for the scrolltop button
+
+```css
+/* static/css/app.css */
+/* scrollTop button styling */
+
+#btn-back-to-top {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	display: none;
+	z-index: 1000;
+}
+
+.btn.btn-danger.btn-floating.btn-lg {
+	border-radius: 50%;
+	border: 2px solid #000;
+	background: #aecb6e;
+	color: #0978f6;
+	transition: color 0.5s, transform 0.2s, background-color 0.2s;
+}
+
+.btn.btn-danger.btn-floating.btn-lg:hover {
+	background: #e4ddd3;
+	border-radius: 5px;
+	color: #000;
+}
+
+/* end scrollTop button styling */
+```
+
+## Moving the footer html markup into a footer.html include
+
+`Since` I `added` a `footer` to the `profiles.html`, `profile.html`, and
+`profile_detail.html` pages `as well`, and the `script` for the `footer` was
+`pretty lengthy`, I `thought` it would be `easier` if I `created` a
+`footer.html` include. `This` _would_ `reduce` the `markup` in the `base`
+templates, thereby `making` them `easier` to `read`. This `would` _also_ `mean`
+that the `footer` include could `easily` be `added` _to future_ `Django`
+projects!
+
+```django
+<!-- templates/includes/footer.html -->
+<footer class="site-footer text-center">
+  <script>
+                    const theDate = new Date();
+                    const footer = document.querySelector(".site-footer");
+                    footer.style.fontWeight = "400";
+                    footer.style.letterSpacing = "0.07rem";
+                    footer.style.fontFamily = "'Quicksand', sans-serif;";
+                    footer.style.fontSize = `1.2rem`;
+                    footer.style.height = `6rem`;
+                    footer.style.backgroundColor = `#000`;
+                    footer.style.color = `#fff`;
+                    footer.style.width = `100%`;
+                    footer.style.display = `flex`;
+                    footer.style.flexDirection = `column`;
+                    footer.style.justifyContent = `flex-end`;
+                    footer.style.paddingBottom = `1.25rem`;
+                    footer.innerHTML =
+                        `© ${theDate.getFullYear()} Maria D. Campbell `;
+                    const anchor = document.createElement('a')
+                    anchor.setAttribute('href', '/')
+                    footer.appendChild(anchor)
+                    anchor.innerHTML = `Django Boards`
+  </script>
+</footer>
+```
+
+I just `added` a `bit` of `css` for the `footer` in `accounts.css` to
+`take account` of the `background linear-gradient` in the `accounts` pages:
+
+```css
+/* footer styling */
+
+footer {
+	margin: 2rem auto 0;
+}
+```
+
+I did `not` _feel like_ `adding` anymore `CSS` _in_ `JS` to the `footer`! _Feel
+free_ to `add` it `there` if you `like`!
+
+### Replacing the original footer markup with the new footer.html include in base.html
+
+```django
+<!-- templates/base.html -->
+{% block body %}
+<div class="site-content">
+  {% include "includes/profile-navigation-main.html" %}
+  <div class="container">
+    <ol class="breadcrumb my-4">
+      {% block breadcrumb %}
+      {% endblock breadcrumb %}
+    </ol>
+    {% block content %}
+    {% endblock content %}
+  </div>
+</div>
+{% include "includes/footer.html" %}
+{% include "includes/scroll-button.html" %}
+{% endblock body %}
+```
+
+### Replacing the original footer markup with the new footer.html include in base_profile.html
+
+```django
+<!-- templates/users/base_profile.html -->
+{% block body %}
+  <div class="site-content">
+    {% include "includes/profile-navigation-profile.html" %}
+    <!--Any flash messages pop up in any page because this is the base template-->
+    {% if messages %}
+      <div class="alert alert-dismissible" role="alert">
+        {% for message in messages %}<div class="alert alert-{{ message.tags }}">{{ message }}</div>{% endfor %}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      {% endif %}
+      {% block content %}
+      {% endblock content %}
+      <!-- moved closing divs below block content. then sticky footer worked. matches base.html -->
+    </div>
+  </div>
+  {% include "includes/footer.html" %}
+{% endblock body %}
+```
+
+## Sanitizing our Markdown
+
+`For` _security_ `purposes`, it is `very important` to `sanitize` our
+`Markdown`.
+
+I `ended` up `using` the `nh3` library to `clean` my `markdown`. It `replaces`
+the `now` _deprecated_ `bleach` library. To `learn more` _about_ `nh3`,
+`please visit` their `repository` on `GitHub`:
+[messence/nh3 repository on Github](https://github.com/messense/nh3)
+
+♦︎ I _installed_ `nh3`:
+
+```shell
+pip install nh3
+```
+
+♦︎ I `added` it to `INSTALLED_APPS` in `settings.py`:
+
+```python
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'boards',
+    'accounts',
+    'dotenv',
+    'pylint',
+    'graphviz',
+    'djlint',
+    'coverage',
+    'widget_tweaks',
+    'soupsieve',
+    'bs4',
+    'html5lib',
+    'markdown',
+    'avatar',
+    'mistune',
+    'pygments',
+    'nh3',
+]
+```
+
+♦︎ I _implemented_ `nh3` in the `PostForm` class in `boards/forms.py`:
+
+```python
+import nh3
+
+class HtmlSanitizedCharField(forms.CharField):
+    def to_python(self, value):
+        value = super().to_python(value)
+        if value not in self.empty_values:
+            value = nh3.clean(
+                value,
+                # Allow only tags and attributes from our rich text editor
+                tags={
+                    "a",
+                    "abbr",
+                    "acronym",
+                    "b",
+                    "blockquote",
+                    "code",
+                    "em",
+                    "i",
+                    "li",
+                    "ol",
+                    "strong",
+                    "ul",
+                    "s",
+                    "sup",
+                    "sub",
+                },
+                attributes={
+                    "a": {"href"},
+                    "abbr": {"title"},
+                    "acronym": {"title"},
+                },
+                url_schemes={"https"},
+                link_rel=None,)
+        return value
+
+class PostForm(forms.ModelForm):
+    message = HtmlSanitizedCharField(widget=forms.Textarea)
+    class Meta:
+        model = Post
+        fields = ['message', ]
+```
+
+_Following_ `Adam Johnson`'s article _entitled_
+[Django: Sanitize incoming HTML fragments with nh3](https://adamj.eu/tech/2023/12/13/django-sanitize-incoming-html-nh3/)
+_as a_ `start`, _and with_ `some help` from the `article` entitled
+[Converting from bleach to nh3](https://daniel.feldroy.com/posts/2023-06-converting-from-bleach-to-nh3),
+I created a `HtmlSanitizedCharField` class _to which_ I `passed` in
+`forms.CharField` to the class.
+
+`value = super().to_python(value)` _represents_ the _actual_ `value` of the
+`Post` model's `textarea` field. `reply_topic` for a _new_ `topic post`, and
+`PostUpdateView` (the `edit_post.html` template) when the `topic post` is
+`updated`.
+
+But what does `super().to_python(value)` actually mean?
+
+### super().to_python(value)
+
+`super().to_python(value)` is a `method call` that _utilizes_ the `super()`
+function _to access_ the `to_python()` method of the `parent class`.
+
+The `super()` function `allows us` _to access_ `methods` and `properties` of a
+`parent` or `sibling` class. In the `context` of `Django` _model_ `fields`, it's
+`used` to call the `to_python()` method of the _base_ `Field` class.
+
+### to_python(value)
+
+The `to_python(value)` method is `responsible` for `converting` the `raw data`
+(_usually a_ `string`) from a `form` or `database` into a `Python` object that
+is `appropriate` for the `field` type. _For example_, a `DateField` would
+`convert` a `string` _representing a_ `date` into a `Python` _date_ `object`. In
+our case, it is a `form` TextField (HTML `textarea`) which is `converted` into
+`HTML`, because we are `converting` _markdown to_ `HTML`. We are also
+`converting` _markdown_ `fenced code` into `highlighted code` in the `form` of
+`an` HTML `object`.
+
+### Why super().to_python(value)?
+
+Why would we want to use `super().to_python(value)`? When we `create` _custom_
+`model fields` in `Django` by `subclassing` _existing_ `field classes`
+(`class Meta`), we often want to `extend` or `modify` the `behavior` of the
+`parent` class's `to_python()` method.
+
+Using `super()` ensures that we `don't` _accidentally_ `break` _the existing_
+`functionality` of the `parent` _class's_ `method`, _while still_ `allowing` us
+to `add` our own `custom logic`.
+
+♦︎ I _implemented_ `nh3.clean()` in the `Post` model's `get_message_as_markdown`
+method:
+
+```python
+# boards/models.py
+import nh3
+
+class Post(models.Model):
+    message = models.TextField()
+...
+    def get_message_as_markdown(self):
+        clean_content = nh3.clean(self.message, tags={
+            "a",
+            "abbr",
+            "acronym",
+            "b",
+            "blockquote",
+            "code",
+            "em",
+            "i",
+            "li",
+            "ol",
+            "strong",
+            "ul",
+            "s",
+            "sup",
+            "sub",
+        },
+        attributes={
+            "a": {"href"},
+            "abbr": {"title"},
+            "acronym": {"title"},
+        },
+        url_schemes={"http", "https", "mailto"},
+        link_rel=None,)
+        rendered_content = markdown(clean_content, extensions=['fenced_code', 'codehilite'])
+        return mark_safe(rendered_content)
+```
+
+The `nh3.clean()` method `removes` _offending_ `tags` altogether. _For example_,
+if I `did` the `following` _inside my_ `markdown`, _using_ `fenced_code`:
+
+```html
+<script>
+	console.log('This is a console.log message')
+</script>
+```
+
+The `script` tags and their `inner contents` are `completely removed` from the
+`rendered` HTML. If we `inspect` the `HTML` code `associated` with that
+`markdown` in our `browser`, we would `see` that it was `completely removed`. It
+_does_ `still appear` in the `edit_post.html` view, but is `removed completely`
+from `the` _live_ `HTML`.
+
+If I `just` _stopped_ `here`, and _did nothing_ in the `PostUpdateView`, the
+`offending tags` _would initially_ `not` be `saved` to the `edit_post.html`
+textarea, `but` they `would be` if the `topic post` was `updated` with
+`offending tags`.
+
+♦︎ _Most importantly_, I implemented `nh3.clean()` in the `PostUpdateView`:
+
+```python
+@method_decorator(login_required, name='dispatch')
+class PostUpdateView(UpdateView):
+    model = Post
+    fields = ('message', )
+    template_name = 'edit_post.html'
+    pk_url_kwarg = 'post_pk'
+    context_object_name = 'post'
+    success_url = "/" # new
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
+
+    def form_valid(self, form):
+        if form: # new
+            form.instance.message = nh3.clean(form.instance.message, # Allow only the following tags
+                tags={
+                    "a",
+                    "abbr",
+                    "acronym",
+                    "b",
+                    "blockquote",
+                    "code",
+                    "em",
+                    "i",
+                    "li",
+                    "ol",
+                    "strong",
+                    "ul",
+                    "s",
+                    "sup",
+                    "sub",
+                },
+                attributes={
+                    "a": {"href"},
+                    "abbr": {"title"},
+                    "acronym": {"title"},
+                },
+                url_schemes={"https"},
+                link_rel=None,)
+            super().form_valid(form) # end new
+        post = form.save(commit=False)
+        post.updated_by = self.request.user
+        post.updated_at = timezone.now()
+        post.save()
+        print(post.save, 'save the updated data')
+        return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
+```
+
+In `Django`, a `form instance` is an `object` _created_ `from` a `form class`
+(`class Meta`). It `represents` a `single form` that can be `used` to `collect`
+and `process` user `input`. `Like` our `PostForm` with the `single` _message_
+`textarea` field.
+
+### What a form instance does
+
+♦︎ **Data Handling**:
+
+♦︎ **Unbound**: When a form instance is created without any data, it's
+considered `unbound`. It can be used to render the form's HTML structure.
+
+♦︎ **Bound**: When we pass data to a form instance (e.g., from a user
+submission), it becomes `bound`. The `form instance` then `validates` the `data`
+and `provides access` to the `cleaned data`.
+
+As shown earlier, the `contents` of our `PostForm` _message_ `field` submission
+is `bound`. The `textarea` field `must contain` (`markdown`) `content`. So if a
+`form` _exits_, `each instance` of `"form.message"` (`form.instance.message`) is
+`"cleaned"` by the `nh3.clean()` method. This is the `code` that `removes` the
+`offending tags` from the `edit_post.html` _textarea_ `field`. _Here_, the
+`super().form_valid(form)` _again refers_ to the `PostForm` with the _single_
+`"message"` field.
+
+♦︎ **Validation**: `Form instances` provide `validation mechanisms` to _ensure_
+that the `user input` is `correct` and `meets` _the required_ `criteria`. The
+`is_valid()` method `checks` if `all` the `fields` in the `form` contain
+`valid data`. If `validation` fails, the `form instance` stores the `errors`
+_for each_ `field`.
+
+♦︎ **Rendering**: `Form instances` can be `rendered` as `HTML` using `Django`'s
+template engine. This `allows` us to easily `display` the `form` on our
+`web pages`. We can `customize` the `rendering process` using `form widgets` and
+`template` customizations.
+
+♦︎ **Saving Data**: If we're `using` a `ModelForm`, which is a `form` _tied_ to
+a `Django` model, we can `use` the `save()` method to `create` or `update` a
+`database record` _based_ `on` _the_ `form data`.
+
+♦︎ The `other` _important_ `thing` is the `addition` of the `success_url` in the
+`PostUpdateView`. The `success_url` attribute `determines` the `URL` to
+`redirect` to `after` the `object` has `been` _successfully_ `updated`. _Here_,
+the `"/"` _represents_ `going back` to the `topic_posts`, which is the `name`
+for the `PostListView` URL.
+
+## Adding code formatting and highlighting to our Markdown
+
+♦︎ I _enabled_ `fenced code` and `codehilite` extensions in my `Django`
+Markdown. `But` in `order` to `be able` to `make` the `code highlighting` work,
+I `also` _had to_ `install` the `pygments` library:
+
+```shell
+pip install pygments
+```
+
+♦︎ I _added_ `pygments` to my `INSTALLED_APPS` in `settings.py` (_see above_).
+
+♦︎ I `created` a `pygments` _stylesheet_ `using` _the following_ `command`:
+
+```shell
+pygmentize -S default -f html > styles.css
+```
+
+`default` _refers_ to the _pygments_ `default` stylesheet. _However_, I _could
+have_ `chosen` another `stylesheet` _from the_
+[pygments.css repository](https://github.com/richleland/pygments-css) on
+`GitHub`.
+
+♦︎ I `added` the `styles.css` link to my `base.html` template:
+
+```django
+<!-- templates/base.html -->
+{% block stylesheet %}
+  <!-- fontawesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <!-- Material icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+  <!-- css/styles.css -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <!-- css/app.css -->
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+{% endblock stylesheet %}
+```
+
+_Now_, a `code block` in our `markdown` _looks_ `something like` the
+`following`:
+
+![Code block highlighting with pygments](Screenshot-2024-11-01-at-8.46.21-PM.jpg)
+
+_Code block highlighting with pygments_
+
+## Creating tests for the ProfileListView
+
+```python
+# accounts/tests/test_view_profile_list_tests.py
+from django.test import TestCase
+from django.urls import resolve, reverse
+from django.contrib.auth.models import User
+
+from ..views import ProfileListView
+
+class ProfileListTestCase(TestCase):
+
+    def setUp(self):
+        self.username = 'john'
+        self.password = 'secret123'
+        self.user = User.objects.create_user(username=self.username, email='johndoe@example.com', password=self.password)
+        self.url = reverse('users-profile-list')
+        self.response = self.client.get(self.url)
+
+class LoginRequiredProfileListTests(TestCase):
+
+    def test_redirection(self):
+        url = reverse('users-profile-list')
+        login_url = reverse('login')
+        response = self.client.get(url)
+        self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=url))
+
+class ProfileListTests(ProfileListTestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.url = reverse('users-profile-list')
+        self.response = self.client.get(self.url)
+
+    def test_profiles_view_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_profiles_url_resolves_profiles_view(self):
+        view = resolve('/profiles/')
+        self.assertEqual(view.func.view_class, ProfileListView)
+```
+
+The `ProfileListView` is a `protected view`, so the `user` _has_ `to` _be_
+`logged in/authenticated` in `order` to `be able` to `view` the `list` of
+`registered users`. `Once` the `user` _is successfully_ `logged in`, and then
+`visits` the `profiles.html` page, the `response status code` for that `request`
+is `200`. _Lastly_, the `test_profiles_url_resolves_profiles_view` test
+`resolves` that there `indeed` is `an` _actual_ `URL` called `/profiles/`.
+
+When I run `python3 manage.py test accounts.tests.test_view_profile_list_tests`,
+the `following` is `returned`:
+
+```shell
+Found 2 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.878s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+## Creating tests for the protected function based profile view
+
+```python
+from django.forms import ModelForm
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.urls import resolve, reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
+
+from ..forms import UpdateUserForm, UpdateProfileForm
+
+from ..models import Profile
+
+from ..views import profile
+
+class MyProfileTestsCase(TestCase):
+    def setUp(self):
+        self.username = 'john'
+        self.password = 'secret123'
+        self.user = User.objects.create_user(username=self.username, email='johndoe@example.com', password=self.password)
+        self.url = reverse('users-profile')
+
+class MyProfileTests(MyProfileTestsCase):
+
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.url = reverse('users-profile')
+        self.response = self.client.get(self.url)
+
+    def test_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_url_resolves_correct_view(self):
+        view = resolve('/profile/')
+        self.assertEqual(view.func, profile)
+
+    def test_csrf(self):
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_contains_user_form(self):
+        # add condition to test whether form is "None" or not. Add condition because there is no form. We’re not doing anything with the form to test at this line, we’re just making it available to your code. - thanks to @KenWhitesell, Django Forum
+        form = None
+        if form is not None:
+            form = self.response.context['form']
+            self.assertIsInstance(form, UpdateUserForm)
+
+    def test_contains_profile_form(self):
+        # add condition to test whether form is "None" or not. Add condition because there is no form. We’re not doing anything with the form to test at this line, we’re just making it available to your code. - thanks to @KenWhitesell, Django Forum
+        form = None
+        if form is not None:
+            form = self.response.context['form']
+            self.assertIsInstance(form, UpdateProfileForm)
+
+    def test_form(self):
+        '''
+        Make sure that form has enctype attribute and 'multipart/form-data' value
+        '''
+        # self.assertContains(self.response, '<form', 1)
+        self.assertContains(self.response, 'enctype="multipart/form-data"', 1)
+
+    def test_form_inputs(self):
+        '''
+        The view must contain five (not four) inputs: csrf, username, email, avatar upload, and textarea for bio.
+        '''
+        # self.assertContains(self.response, '<input', 4)
+        self.assertContains(self.response, '<input', 5)
+        self.assertContains(self.response, 'type="file"', 1)
+        self.assertContains(self.response, 'type="text"', 2)
+        self.assertContains(self.response, '<textarea', 1)
+
+class LoginRequiredMyProfileTests(TestCase):
+    def test_redirection(self):
+        url = reverse('users-profile')
+        login_url = reverse('login')
+        response = self.client.get(url)
+        self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=url))
+
+class SuccessfulMyProfileTests(MyProfileTestsCase):
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.post(self.url, {
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'email': 'johndoe@example.com',
+        })
+
+    def test_data_changed(self):
+        '''
+        refresh the user instance from database to get the updated data.
+        '''
+        self.user.refresh_from_db()
+        self.assertEqual('john', self.user.username)
+        self.assertEqual('johndoe@example.com', self.user.email)
+
+class InvalidMyProfileTests(MyProfileTestsCase):
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.response = self.client.post(self.url, {
+            'first_name': 'longstring' * 100
+        })
+
+    def test_status_code(self):
+        '''
+        An invalid form submission should return to the same page
+        '''
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_form_errors(self):
+        form = None
+        if form is not None:
+            form = self.response.context['form']
+            self.assertTrue(form.errors)
+
+class MyProfileAvatarTest(MyProfileTestsCase):
+    def setUp(self):
+        super().setUp()
+
+        # Create a test image file
+        with open('test_image.jpg', 'rb') as img:
+            avatar_file = SimpleUploadedFile('test_image.jpg', img.read(), content_type='image/jpeg')
+
+        # Update the profile with the avatar
+        profile.avatar = avatar_file
+        profile.save()
+
+        # Verify that the avatar was saved correctly
+        self.assertTrue(profile.avatar)
+        self.assertEqual(profile.avatar.name, 'avatars/test_image.jpg')
+```
+
+_Again_, `since` the `profile` view is a `protected` one, the` user` has to
+`login` and be `authenticated` `before` _they can_ `see` _their own_ `profile`.
+The `profile` view `consists` of `updating` a `user` and `profile` form due `to`
+the `extended` _user_ `profile`.
+
+`The` _last_ `test` is `important`. It `checks` for a _successful_ `profile`
+_avatar_ `upload`. I `use` the `SimpleUploadedFile` class from `Django`'s
+`django.core.files.uploadedfile` module to `simulate` _file_ `uploads`. We can
+`create` an `instance` of `SimpleUploadedFile` _with the_ `file name`,
+`content`, and `content type`, and then `pass` it to our `Django` views or
+`forms` as `if` it `were` a _real_ `uploaded` file. _Here_, we are `passing` it
+to our `profile` view. _Lastly_, we `assert` that `there` is a `profile avatar`
+_after_ `successful upload`, and that the `profile.avatar.name` is
+'avatars/test*image.jpg', `as` \_it* `is` _in our_ `test`.
+
+The 'rb' in `with open('test_image.jpg', 'rb') as img:` _stands for_
+`read binary`. _In_ `Python`, `when working` _with_ `files`, the `rb mode`
+_stands for_ `"read binary"`.
+
+The `file` is `opened` _for_ `reading only`. `We` _cannot_ `write` _to the_
+`file` _in this_ `mode`.
+
+The `file` is `opened` in `binary mode`, which `means` the `data` is `read` as
+`raw bytes`, `without` _any_ `text encoding` or `decoding` applied.
+
+We `should` _use_ `rb mode` when `dealing` with `files` _that contain_ `data`
+_other than_ `plain text`, `such` _as_ `images`, `audio files`, `video files`,
+or `serialized data` (e.g., `pickle` files **[^1]**).
+
+## Creating tests for the profile_detail view
+
+```python
+# accounts/tests/test_view_profile_detail_tests.py
+from django.forms import ModelForm
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.urls import resolve, reverse
+
+from ..models import Profile
+
+from ..views import profile_detail
+
+class MyProfileDetailTestsCase(TestCase):
+    def setUp(self):
+        self.username = 'john'
+        self.password = 'secret123'
+        self.user = User.objects.create_user(username=self.username, email='johndoe@example.com', password=self.password)
+        self.url = reverse('users-profile')
+
+class MyProfileDetailTests(MyProfileDetailTestsCase):
+
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.username, password=self.password)
+        self.url = reverse('users-profile')
+        self.response = self.client.get(self.url)
+
+    def test_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_url_resolves_correct_view(self):
+        view = resolve('/profile-detail/1/')
+        self.assertEqual(view.func, profile_detail)
+
+class LoginRequiredMyProfileDetailTests(TestCase):
+    def test_redirection(self):
+        url = reverse('users-profile')
+        login_url = reverse('login')
+        response = self.client.get(url)
+        self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=url))
+```
+
+`The` _only_ `test` here `that` _directly_ `applies` to the `post_detail` view
+is `test_url_resolves_correct_view`. _Only_ `users` _whose_ `profile` is _NOT_
+that of the `profile-detail` view `can access` a `profile_detail` view. `But` it
+is _still_ a `protected view` and a `user` _has_ `to` _be_ `logged in` to
+`be able` _to_ `access` it.
+
+## Updating accounts/tests/test_form_signup_test.py
+
+I `decided` _to update_ `test_form_signup_test.py` since I `had` _made_
+`changes` to the accounts app. Specifically, I extended the built-in User with
+the `Profile` model using `signals`. _Originally_ the `test` (which `failed`
+_initially_ `because` there were `differences` between the `signup form` in
+`Django 5` and `Django 1.11`) `contained` the `following`:
+
+```python
+from django.test import TestCase
+from ..forms import SignUpForm
+
+class SignUpFormTest(TestCase):
+    def test_form_has_fields(self):
+        form = SignUpForm()
+        expected = ['username', 'email', 'password1', 'password2', ]
+        actual = list(form.fields)
+        self.assertSequenceEqual(expected, actual)
+```
+
+`When` I `ran` this `version` of the `test`, the `following` was `returned`:
+
+```shell
+Found 1 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+F
+======================================================================
+FAIL: test_form_has_fields (accounts.tests.test_form_signup_test.SignUpFormTest.test_form_has_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/django_boards/accounts/tests/test_form_signup_test.py", line 9, in test_form_has_fields
+    self.assertSequenceEqual(expected, actual)
+AssertionError: Sequences differ: ['username', 'email', 'password1', 'password2'] != ['username', 'first_name', 'last_name', 'email', 'passw[33 chars]ord']
+
+First differing element 1:
+'email'
+'first_name'
+
+Second sequence contains 3 additional elements.
+First extra element 4:
+'password1'
+
+- ['username', 'email', 'password1', 'password2']
++ ['username',
++  'first_name',
++  'last_name',
++  'email',
++  'password1',
++  'password2',
++  'usable_password']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+```
+
+I `made` _the following_ `changes` _according to_ `what` was `returned`:
+
+```python
+from django.test import TestCase
+from ..forms import SignUpForm
+
+class SignUpFormTest(TestCase):
+    def test_form_has_fields(self):
+        form = SignUpForm()
+        expected = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'usable_password']
+        actual = list(form.fields)
+        self.assertSequenceEqual(expected, actual)
+```
+
+`Then` _I ran_ `python3 manage.py test accounts.tests.test_form_signup_test`
+_again_, and the `following` was `returned`:
+
+```shell
+Found 1 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+_Now_ the `test` _passed_. This `test` _was_ `meant` _to be_ `informational`. It
+`would show` _what_ `changes` _were_ `made` _to the_ `signup form`.
+
+## Fixing the topic posts avatar issue
+
+_Originally_ we had `added` a `hard coded` user `avatar` to our `topic posts`.
+Then we `added` _gravatar_ `functionality`, which `did not` _really_ `work`.
+Then we `extended` _the_ `built-in` _user_ `with` a `Profile` model, and
+`this changed` _everything_.
+
+`The` _extended_ `Profile` model `allows users` to `upload` _their own_
+`avatar`, `or` _if_ `not`, `get` a `default`, _genderless_ `one`. _However_,
+this `avatar` does `not` extend to our `topic posts`.
+
+I `came up` _with a_ `solution`. `Users` _can_ `upload` _their own_ `avatars` to
+their `profiles`. These `avatars` _appear_ `both` in the `profiles list`, and in
+the user `profile_detail`. `But` in the `topic posts`, I `added` a `neat`
+_little_ `svg` consisting of `writing utensils` in a `writing` _utensil_
+`holder`. It `looks like` the `following`:
+
+![Default topic posts avatar](Screenshot-2024-10-17-at-6.56.02-PM.jpg)
+
+_Default topic posts avatar_
+
+`There`, _were_, `however`, a `few things` I `had` _to_ `do` _in_ `order` to
+`make` _this_ `happen`, `because` I did `not` _want to_ `remove` the `gravatar`
+_or_ `avatar`
+`functionality. The `avatar`functionality`works`*just*`fine`, but the `avatars`are`not`*too*`visually
+appealing`!
+
+_First_, I _commented out_ `{% load gravatar %}` and `{% load avatar_tags %}` in
+`topic_posts.html`. But `that` was _not enough_.
+
+_Next_, I `had` _to_ `modify` _the_ `html` _for the_ `avatar`:
+
+```html
+<!-- templates/topic_posts.html -->
+<div class="profile-avatar">
+    <img class="rounded-circle account-img"
+          alt="{{ post.created_by.username }}"
+          src="{% static 'img/pen-container.svg' %}"
+          width="80"
+          height="80" />
+  </div>
+</div>
+```
+
+But _this too_ was _not enough_. _Why_? `Because` the
+`"rounded-circle account-img"` _classes_ `render` the `default avatar` I was
+`trying` _to_ `get rid` of. `But` _no_ `problem`. I `made` _the following_
+`changes` in `app.css`:
+
+```css
+/* static/css/app.css */
+
+  content: "";
+  height: 4rem;
+  top: 1rem;
+  left: 1rem;
+  object-fit: cover;
+  position: absolute;
+  width: 4rem;
+  /* Wanted to add my own "post avatar" so had to display this to none. */
+  display: none;
+}
+
+/*  user profile avatar styling */
+
+.django-avatar {
+	margin-left: 0.75rem;
+	padding-left: 1rem;
+}
+
+.profile-avatar {
+	width: 80px;
+	height: 80px;
+	margin-top: 0.5rem;
+}
+
+/* django-avatar and profile avatar styling */
+
+img#user_avatar.img-circle.img-responsive {
+	border-radius: 50%;
+	cursor: pointer;
+	margin-left: -2rem;
+  margin-top: 1rem;
+  /* Wanted to add my own "post avatar" so had to display this to none. */
+  display: none;
+}
+```
+
+_Yes_. `Everything` _had_ `to` _be_ `set` _to_ `display: none` _in_ `app.css`,
+except for `.django-avatar` (`which` _does_ `nothing` _because_ `it` _is not_
+`defined` in `topic_posts.html`) and `profile-avatar`. `When` _I placed_
+`pen-container.svg` into the `img` _folder_ `inside` the `static` _directory_,
+`set` a `width` and `height` to `it` in the `img` element, and `made` _further_
+`styling changes` _using the_ `.profile-avatar` class, the `result` was a
+`nice rendering` of `pen-container.svg`!
+
+## The extended profile functionality
+
+A `user` _does not_ `upload` an `avatar` when `they` _first_ `sign up`. `They`
+_do it_ `afterwards`. _However_, `as per` _the_ `way` _things are_ `set up` _in
+the_ `profile` form, I `added` an `image` called `default.jpg` to the `root` of
+the `media` directory. `It` _was_ `originally` an `svg` _called_
+`something else` _and_ `was also` _in_ `svg` format. I `converted` it to `jpg`
+format and `renamed` it "default.jpg". `When` a `new` _user_ `registers` _with
+the_ `site`, they are `provided` _with this_ `default.jpg` avatar, and can
+`upload` _their own_ `afterwards`.
+
+I `probably` _would do_ `things` _a bit_ `differently` _next time_ `regarding`
+_the user_ `avatar`. `There` are `ways` of `sharing` the `extended profile`
+fields with other `apps` in a `Django` project. I would `just` have to
+`have taken` that `into account` _from the_ `beginning`. But I am `totally fine`
+_with_ `the way` _things are_ `set up` _now_.
+
+## Conclusion
+
+In this section, I added `timezone.now()` to `templates/reply_topic.html`,
+_implemented_ `better control` over the `view count` in `templates/index.html`,
+_limited_ `replies` to the `last` 10 `posts` on `templates/reply_topic.html`,
+`redirected` the `user` to the _last_ `topic posts` page `instead` of the
+`first`, _updated_ `boards/tests/test_view_reply_topic.py`, created `tests` for
+the `UpdateprofileForm` and `profile` view, and `profile signals`, `created` a
+`ProfileListView`, `paginated` the `ProfileListView`, _created_ a
+`ProfileDetailView`, _customized_ the `profiles.html` and `profile.html`
+navigation and _created associated_ `includes`, `removed` the `scrolldown`
+button and `refactored` the `scrolltop` button, _moved_ `footer` HTML `markup`
+into a `footer.html` include, `sanitized` our `Markdown`, _added_
+`code formatting` and `highlighting` to our `Markdown`, _created_ `tests` for
+the `ProfileListView`, `protected` _function based_ `profile` view, and
+`profile_detail` view, _updated_ `accounts/tests/test_form_signup_test.py`,
+`fixed` the `topic posts` _avatar_ `issue`, and `explained` the `extended`
+_profile_ `functionality`.
+
+## Footnotes
+
+**[^1]**: In Python, pickle files are used to serialize and deserialize Python
+objects. This means that we can convert a complex Python object, such as a list,
+dictionary, or even a custom class instance, into a byte stream that can be
+stored in a file. Later, we can load this file and reconstruct the original
+object.
+
+Pickle files are useful when we want to save the state of a Python object for
+later use, or when we need to transfer objects between different Python
+processes or machines.
+
+Pickle files are not secure against malicious data. Unpickling untrusted data
+can lead to arbitrary code execution. Therefore, we should only unpickle data
+from trusted sources.
+
+## Related Resources
+
+-   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+-   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+    **_mariadcampbell.com_**
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+-   [How To Test Django Signals Like A Pro](https://www.bomberbot.com/python/how-to-test-django-signals-like-a-pro/):
+    **_by bomber bot_**
+-   [Bootstrap Scroll Back To Top button - examples & tutorial](https://github.com/mdbootstrap/bootstrap-back-to-top-button):
+    **_mdbootstrap on GitHub_**
+-   [Pagination](https://docs.djangoproject.com/en/5.1/topics/pagination/):
+    **_Django documentation_**
+-   [URL dispatcher](https://docs.djangoproject.com/en/5.1/topics/http/urls/):
+    **_Django documentation_**
+-   [Source code for django.core.files.uploadedfile](https://docs.djangoproject.com/en/5.0/_modules/django/core/files/uploadedfile/):
+    **_Django documentation_**
+-   [Input and Output](https://docs.python.org/3/tutorial/inputoutput.html):
+    **_Python 3 documentation_**
+-   [pickle — Python object serialization](https://docs.python.org/3/library/pickle.html):
+    **_Python 3 documentation_**
+-   [Converting from bleach to nh3](https://daniel.feldroy.com/posts/2023-06-converting-from-bleach-to-nh3):
+    **_Daniel Roy Greenfield_**
+-   [Django: Sanitize incoming HTML fragments with nh3](https://adamj.eu/tech/2023/12/13/django-sanitize-incoming-html-nh3/):
+    **_Adam Johnson_**
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
