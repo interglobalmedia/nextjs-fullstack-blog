@@ -9,7 +9,7 @@ const DynamicAllProjects = dynamic(() =>
 	import('../components/project/all-projects'),
 )
 
-export const PROJECTS_PER_PAGE = 10
+export const PROJECTS_PER_PAGE = 18
 
 export async function getStaticProps() {
 	const allProjectsData = JSON.parse(JSON.stringify(projectsData))
