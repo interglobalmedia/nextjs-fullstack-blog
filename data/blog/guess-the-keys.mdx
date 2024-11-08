@@ -6,39 +6,68 @@ title: Guess the Keys
 author: Maria D. Campbell
 excerpt: Guess the keys.
 image: nhu-nguyen-IL1qSqEMNBo-unsplash.jpg
-tags: ['disabled property', 'event listeners', 'javascript', 'keypress event']
+tags:
+    [
+        'disabled property',
+        'event listeners',
+        'javascript',
+        'keypress event',
+        'project',
+    ]
 isPublished: true
 isFeatured: false
 ---
 
 ![Computer keyboard keys](nhu-nguyen-IL1qSqEMNBo-unsplash.jpg)
 
-***Photo by*** [Nhu Nguyen](https://unsplash.com/@nguyendqnhu) ***on*** [Unsplash](https://unsplash.com/photos/IL1qSqEMNBo)
+**_Photo by_** [Nhu Nguyen](https://unsplash.com/@nguyendqnhu) **_on_**
+[Unsplash](https://unsplash.com/photos/IL1qSqEMNBo)
 
-***Last week*** I ***created*** a ***little game*** with ***vanilla*** `Javascript` revolving around the `keypress` ***event*** that ***might*** end up ***being reused*** one day in a ***bigger project***. ***There was*** a (((lot more))) `going on` ***under*** the ***hood*** than ***meets*** the ***eye***, and I ***learned*** a ***new thing*** or ***two*** in ***the process***. So I **8** it ***was time*** to ***write*** another `post`!
+**_Last week_** I **_created_** a **_little game_** with **_vanilla_**
+`Javascript` revolving around the `keypress` **_event_** that **_might_** end up
+**_being reused_** one day in a **_bigger project_**. **_There was_** a (((lot
+more))) `going on` **_under_** the **_hood_** than **_meets_** the **_eye_**,
+and I **_learned_** a **_new thing_** or **_two_** in **_the process_**. So I
+**8** it **_was time_** to **_write_** another `post`!
 
-The `Javascript` ***file*** consists of `146` ***lines*** of `code`, a ***few*** of ***which*** are
-***empty*** to ***break*** the `code` ***up***, and ***much*** of ***which*** is `CSS` in `JS`. Then ***there is*** the `JavaScript` **_related to_** the `keypress` and `input` ***validation***. There
-are **_two parts_** to the `game`.
+The `Javascript` **_file_** consists of `146` **_lines_** of `code`, a **_few_**
+of **_which_** are **_empty_** to **_break_** the `code` **_up_**, and
+**_much_** of **_which_** is `CSS` in `JS`. Then **_there is_** the `JavaScript`
+**_related to_** the `keypress` and `input` **_validation_**. There are **_two
+parts_** to the `game`.
 
-The **_first part_** is to ***guess*** the `keys` you ***should press*** in ***order*** that a
-`phrase` from a `song` ***appears*** in a `colored box` with a `dashed border` ***above*** the `text
-`Answer`. This can be achieved two ways. You can either press keys over the `text document` (`browser window`) to ***make*** the `colored box` with `phrases` from `songs`
-***appear***, or you can ***type directly*** into the `input field`.
+The **_first part_** is to **_guess_** the `keys` you **_should press_** in
+**_order_** that a `phrase` from a `song` **_appears_** in a `colored box` with
+a `dashed border` **_above_** the
+`text `Answer`. This can be achieved two ways. You can either press keys over the `text
+document` (`browser window`) to ***make*** the `colored
+box`with`phrases`from`songs`***appear***, or you can ***type directly*** into the`input
+field`.
 
-The **_second part_** consists of **_rendering_** `Your input is correct!` ***above***
-the ***text*** `Answer`, and ***replacing*** `Answer` with `You guessed correctly. It is ...!` There are **_only_** a ***certain number*** of `song phrases`, and ***each corresponds*** to a **_certain_** `keypress`. Those `keypresses` are **_equivalent to_** a `string` that ***makes up*** a `name` or `word`. If you ***correctly type*** that `sequence` into the `input field` and ***press*** `return`, you will ***receive*** a `message` ***letting*** you ***know*** that you ***guessed correctly*** followed by the ***answer***. In ***addition***, **_after_** you **press** `return`, the `input field` is **_disabled_**, and you can ***no longer*** `type` into it. You can
-***keep*** on ***typing*** into the `input` with `incorrect characters` ***after inputting*** the
-`correct string`, but ***nothing happens***. When you ***think*** you ***have*** the ***right answer***, ***make sure*** to `press` the `return` ***key***.
+The **_second part_** consists of **_rendering_** `Your input is correct!`
+**_above_** the **_text_** `Answer`, and **_replacing_** `Answer` with
+`You guessed correctly. It is ...!` There are **_only_** a **_certain number_**
+of `song phrases`, and **_each corresponds_** to a **_certain_** `keypress`.
+Those `keypresses` are **_equivalent to_** a `string` that **_makes up_** a
+`name` or `word`. If you **_correctly type_** that `sequence` into the
+`input field` and **_press_** `return`, you will **_receive_** a `message`
+**_letting_** you **_know_** that you **_guessed correctly_** followed by the
+**_answer_**. In **_addition_**, **_after_** you **press** `return`, the
+`input field` is **_disabled_**, and you can **_no longer_** `type` into it. You
+can **_keep_** on **_typing_** into the `input` with `incorrect characters`
+**_after inputting_** the `correct string`, but **_nothing happens_**. When you
+**_think_** you **_have_** the **_right answer_**, **_make sure_** to `press`
+the `return` **_key_**.
 
-If you ***type*** the **_correct_** `keypress`es or **_sequence_** of `keypress`es
-to the **_document_**, you will ***render*** the `song phrases` to the ***page***.
-**_However_**, ***when*** you ***press*** the `return` ***key***, you will ***receive*** the
-**_error message_** `Wrong input. Try again!` in the `colored box`, and
-`Answer` will be **_replaced with_** the ***error message*** `You guessed incorrectly. Try again!`.
+If you **_type_** the **_correct_** `keypress`es or **_sequence_** of
+`keypress`es to the **_document_**, you will **_render_** the `song phrases` to
+the **_page_**. **_However_**, **_when_** you **_press_** the `return`
+**_key_**, you will **_receive_** the **_error message_**
+`Wrong input. Try again!` in the `colored box`, and `Answer` will be **_replaced
+with_** the **_error message_** `You guessed incorrectly. Try again!`.
 
-***How*** I ***achieved*** this game ***via*** `JavaScript code` can be ***broken down*** into
-**_five_** important **_ highlights_**.
+**_How_** I **_achieved_** this game **_via_** `JavaScript code` can be
+**_broken down_** into **_five_** important **_ highlights_**.
 
 -   Adding an `input.value` condition **_not equal_** to the **answer**.
 
@@ -53,27 +82,35 @@ to the **_document_**, you will ***render*** the `song phrases` to the ***page**
 
 -   Adding `page refresh code` to `click event` for **button**.
 
-***At first*** I **_didn’t add_** an `input value condition` to the
-`keypress listener`. So I **_had all_** these **_conditions_** for the `keypress`es
-***and then*** an `else statement` ***which*** simply **_returned_** the ***error message***
-`Wrong input. Try again!`, but **_no condition_** against the ***correct answer***
-which is supposed to be ***typed into*** the `input`. So I **_added nother_**
-`else if condition` **_after_** the ***first*** `if` and ***subsequent***
-`else if condition`s for the **_individual_** `keypress`es **_associated with_**
-the `songs` that **_checked against_** an `incorrect input value` which would
-**_result in_** the ***error message*** `Wrong input. Try again!` **_rendered to_** the `colored box`, and the ***error message*** `You guessed incorrectly. Try again!` that **_replaces_** the ***text*** `Answer`.
-This `else if statement` is then **_followed by_** the ***final*** `else statement` which **_returns_** the ***confirmation messages*** `Your input is correct!` and `You guessed correctly. It is ...!` I **_added_** a `disabled.true` ***property*** to the `input` **_if_** the `answer` is
-***correct*** and the `user` ***presses*** `return` **_after_** `inputting` it.
-***This is*** so that **_no_** `incorrect characters` can be **_rendered_** to the
-`colored box` **_after_** the ***correct answer*** has been `inputted` and the
-`return` ***key*** has been **_pressed_**. ***Lastly***, I ***had*** to **_add_** a ***way*** to
-***refresh*** the **_page_** so that `disabled.true` is ***erased*** and the
-`user` can **_type_** in the `input field` **_again_**.
+**_At first_** I **_didn’t add_** an `input value condition` to the
+`keypress listener`. So I **_had all_** these **_conditions_** for the
+`keypress`es **_and then_** an `else statement` **_which_** simply
+**_returned_** the **_error message_** `Wrong input. Try again!`, but **_no
+condition_** against the **_correct answer_** which is supposed to be **_typed
+into_** the `input`. So I **_added nother_** `else if condition` **_after_** the
+**_first_** `if` and **_subsequent_** `else if condition`s for the
+**_individual_** `keypress`es **_associated with_** the `songs` that **_checked
+against_** an `incorrect input value` which would **_result in_** the **_error
+message_** `Wrong input. Try again!` **_rendered to_** the `colored box`, and
+the **_error message_** `You guessed incorrectly. Try again!` that
+**_replaces_** the **_text_** `Answer`. This `else if statement` is then
+**_followed by_** the **_final_** `else statement` which **_returns_** the
+**_confirmation messages_** `Your input is correct!` and
+`You guessed correctly. It is ...!` I **_added_** a `disabled.true`
+**_property_** to the `input` **_if_** the `answer` is **_correct_** and the
+`user` **_presses_** `return` **_after_** `inputting` it. **_This is_** so that
+**_no_** `incorrect characters` can be **_rendered_** to the `colored box`
+**_after_** the **_correct answer_** has been `inputted` and the `return`
+**_key_** has been **_pressed_**. **_Lastly_**, I **_had_** to **_add_** a
+**_way_** to **_refresh_** the **_page_** so that `disabled.true` is
+**_erased_** and the `user` can **_type_** in the `input field` **_again_**.
 
-I ***didn’t share*** `code` here ***on purpose*** because that w***ould spoil*** the `game` ***for you***! Please ***do check*** it out on `Github`, and ***give it*** a **whirl**! And ***let me*** know ***what*** you ***think***!
+I **_didn’t share_** `code` here **_on purpose_** because that w**_ould spoil_**
+the `game` **_for you_**! Please **_do check_** it out on `Github`, and **_give
+it_** a **whirl**! And **_let me_** know **_what_** you **_think_**!
 
 ## Related Resources
 
-- [Guess The Keys on Github gh-pages](https://interglobalmedia.github.io/guess-the-keys/)
+-   [Guess The Keys on Github gh-pages](https://interglobalmedia.github.io/guess-the-keys/)
 
-- [My Github Profile](https://github.com/interglobalmedia)
+-   [My Github Profile](https://github.com/interglobalmedia)
