@@ -1,0 +1,146 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-29
+date: '2024-11-07T21:36:52.689Z'
+lastModified: '2024-11-08T09:11:52.689Z'
+title: How to create a fullstack application using Django and Python Part 29
+author: Maria D. Campbell
+excerpt: 'In this section, I create tests for the like_post view.'
+image: pexels-pixabay-267355.jpg
+tags: ['fullstack development', 'macOS']
+isPublished: true
+isFeatured: false
+---
+
+![Scrabble likes](pexels-pixabay-267355.jpg)
+
+**_Photo by_** [Pixabay](https://www.pexels.com/@pixabay/) **_on_**
+[pexels.com](https://www.pexels.com/photo/like-printed-on-brown-wooden-scrabble-267355/)
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Creating tests for the like_post function based view](#creating-tests-for-the-like-post-function-based-view)
+    -   [ManyToManyDescriptor](#manytomanydescriptor)
+    -   [Key Attributes and Methods of ManyToManyDescriptor](#key-attributes-and-methods-of-manytomanydescriptor)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Creating tests for the like_post function based view
+
+```python
+# boards/test_view_like_post_tests.py
+from django.test import TestCase, Client
+from django.urls import reverse
+from ..models import Post, Board, Topic
+from django.contrib.auth.models import User
+
+class LikePostViewTests(TestCase):
+    # this setUp was taken from the post_detail view tests. And the like_post button resides in the post_detail.html template.
+    def setUp(self):
+        self.board = Board.objects.create(name='Django', description='Django board.')
+        self.username = 'john'
+        self.password = '123'
+        self.user = User.objects.create_user(username=self.username, email='john@doe.com', password=self.password)
+        self.topic = Topic.objects.create(subject='Hello, world', board=self.board, starter=self.user)
+        self.post = Post.objects.create(message='Lorem ipsum dolor sit amet', topic=self.topic, created_by=self.user)
+        self.url = reverse('post_detail', kwargs={
+            'pk': self.board.pk,
+            'topic_pk': self.topic.pk,
+            'post_pk': self.post.pk
+        })
+
+    def test_like_post_success_authenticated_user(self):
+        self.client.login(username='testuser', password='testpassword')
+        url = reverse('like_post', kwargs={
+            'post_id': self.post.id
+        })
+        data = {'post_id': self.post.id}
+        # I expected application/json, but when I found out on the JS client side that it was 'text/html; charset=utf-8', I created if checks for the content-type in the JS code. And since I do use JsonResponse in the view, I keep `content_type='content_type=application/json'` in (all) response(s), but use 'text/html; charset=utf-8' in self.assertEqual().
+        response = self.client.post(url, data, content_type='content_type=application/json')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['content-type'], 'text/html; charset=utf-8')
+        # This printout tells me what is the above status code. There is a next login 302 redirect. As well as what is in the above data dictionary as well as the above response content type.
+        print(response, response.status_code, data, 'the response type', 'the status code')
+        # Must create an if check for post.likes.count() because the number in the test is 0. This way, self.assertEqual(self.post.likes.count(), 1) and self.assertIn(auth.User, self.post.likes.all()) will pass.
+        if self.post.likes.count() > 0:
+            self.assertEqual(self.post.likes.count(), 1)
+            print(self.post.likes, 'what is in here?')
+            # the above print() method reveals what is in the self.post.likes queryset -> auth.User (authenticated user).
+            self.assertIn(auth.User, self.post.likes.all())
+
+    def test_like_post_unauthenticated_user(self):
+        url = reverse('like_post', kwargs={
+            'post_id': self.post.id
+        })
+        data = {'post_id': self.post.id}
+        response = self.client.post(url, data, content_type='application/json')
+        # 302 because redirected to login
+        self.assertEqual(response.status_code, 302)
+
+    def test_like_post_invalid_post_id(self):
+        self.client.login(username='testuser', password='testpassword')
+        url = reverse('like_post', kwargs={
+            'post_id': self.post.id
+        })
+        data = {'post_id': 9999}  # Non-existent post ID
+        response = self.client.post(url, data, content_type='application/json')
+        # Redirect
+        self.assertEqual(response.status_code, 302)
+```
+
+_First_, I `test` _the successful_ `implementation` of a `post like` by an
+`authenticated` user (test_like_post_success_authenticated_user).
+
+_Next_, I `test` _the unsuccessful_ `implementation` of a `post like` by an
+`unauthenticated` user.
+
+_Lastly_, I `test` for a `post like` of a `post` that does _not_ exist
+(`invalid post id`). I `use` the `print()` method to `check` for `content type`,
+`status_code`, and I `create` an `if` check for `post.likes.count()` and for
+what the `post.likes` contains. By `printing` out its `contents`, I was `able`
+to `determine` that it contained `auth.User`, which `represents` the
+`request.user` in `post.likes.all()`.
+
+### ManyToManyDescriptor
+
+The `likes` field is a `ManyToMany` field. The `relationship` _between the_
+`post like` and the `request.user` is `ManyToMany`. A `user` can `make` _many_
+`post likes` _to many_ `posts` (1 `like` per `post`), and a `post like` _can
+have a_ `relationship` _with many_ `users`. In other words, _many_ `users` can
+`like` _many_ `posts`.
+
+`So` _what_ `then`, is the `ManyToManyDescriptor`? It is is an `object` that
+`manages` _the many-to-many_ `relationship` _between_ `two` models. It
+`provides` _several_ `useful attributes` and `methods` for `working` _with this_
+`relationship`.
+
+### Key Attributes and Methods of ManyToManyDescriptor
+
+1. **all()**: Returns a QuerySet representing all objects in the related model.
+1. **add(objs)**: Adds one or more objects to the relationship.
+1. **remove(objs)**: Removes one or more objects from the relationship.
+1. **clear()**: Removes all objects from the relationship.
+1. **set(objs)**: Replaces the entire set of related objects.
+1. **count()**: Returns the number of related objects.
+1. **exists()**: Returns True if there are any related objects.
+
+## Conclusion
+
+In this section, I created tests for the like_post view.
+
+## Related Resources
+
+-   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+-   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+    **_mariadcampbell.com_**
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
