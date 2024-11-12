@@ -6,7 +6,6 @@ const SocialShareIcon = ({ name, href, size = 8 }) => {
 		linkedin: SvgIconsComponent.Linkedin,
 		'social-hacker-news': SvgIconsComponent.SocialHackerNews,
 		'social-reddit': SvgIconsComponent.SocialReddit,
-		tumblr: SvgIconsComponent.Tumblr,
 	}
 
 	if (name in ComponentsMap) {
