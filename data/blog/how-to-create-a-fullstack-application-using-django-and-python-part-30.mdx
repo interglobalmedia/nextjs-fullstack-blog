@@ -1,0 +1,168 @@
+---
+slug: how-to-create-a-fullstack-application-using-django-and-python-part-30
+date: '2024-11-08T11:20:16.435Z'
+lastModified: '2024-11-24T10:44:16.435Z'
+title: How to create a fullstack application using Django and Python Part 30
+author: Maria D. Campbell
+excerpt: 'In this section, I place the default Django authentication system related
+templates into a new directory called registration inside the templates
+directory, I move the associated URLs into accounts/urls.oy, and add the
+associated default url pattern to django_boards/urls.py. This helps ensure that
+django-boards deployment to Heroku would be successful.'
+image: pexels-olly-3771110.jpg
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'default django authentication system',
+        'django',
+        'python3',
+        'series',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Reception desk](pexels-olly-3771110.jpg)
+
+**_Photo by_** [Andrea Piacquadio](https://www.pexels.com/@olly/) **_on_**
+[pexels.com](https://www.pexels.com/photo/reception-desk-with-antique-hotel-bell-3771110/)
+
+**Important Note**: `Before` committing `anything` to `Git` or `pushing`
+anything to `remote`, please visit
+[How to create a fullstack application using Django and Python Part 4](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
+`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
+site and `why` it is `crucial` to `do it`. This article `assumes` you have a
+`working knowledge` of `Git`.
+
+## Table of Contents
+
+-   [Re-organizing the default Django authentication system related templates and URLs](#re-organizing-the-default-django-authentication-system-related-templates-and-urls)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Re-organizing the default Django authentication system related templates and URLs
+
+According to `research` I `conducted` after a `couple` _of failed_ `deployments`
+on `Heroku`, I `found` that when `using` the `default` Django
+`authentication system`, the following `URL pattern` should be `added` in our
+`accounts/urls.py` file:
+
+```python
+urlpatterns = [
+    path("accounts/", include("django.contrib.auth.urls")),
+]
+```
+
+Our `accounts/urls.py` file should now `look like` the `following`:
+
+```python
+from django.urls import path
+from .views import profile, profile_detail, ProfileListView, UserUpdateView, signup
+from django.contrib.auth import views as auth_views
+
+urlpatterns = [
+    path('account/', UserUpdateView.as_view(), name='my_account'),
+    path("profile/", profile, name="users-profile"),
+    path('profile-detail/<int:pk>/', profile_detail, name='profile'),
+    path("profiles/", ProfileListView.as_view(), name="users-profile-list"),
+        path("signup/", signup, name="signup"),
+    path(
+        "login/", auth_views.LoginView.as_view(), name="login"
+    ),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path(
+        "password_reset/",
+        auth_views.PasswordResetView.as_view(),
+        name="password_reset",
+    ),
+    path(
+        "password_reset/done/",
+        auth_views.PasswordResetDoneView.as_view(),
+        name="password_reset_done",
+    ),
+    path(
+        "reset/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
+    path(
+        "reset/done/",
+        auth_views.PasswordResetCompleteView.as_view(),
+        name="password_reset_complete",
+    ),
+    path(
+        "password_change/",
+        auth_views.PasswordChangeView.as_view(),
+        name="password_change",
+    ),
+    path(
+        "password_change/done/",
+        auth_views.PasswordChangeDoneView.as_view(),
+        name="password_change_done",
+    ),
+]
+```
+
+Adding these `default` registration/password reset URLs `results` in the
+`inclusion` of `the` _following_ `URL` patterns:
+
+```shell
+accounts/login/ [name='login']
+accounts/logout/ [name='logout']
+accounts/password_change/ [name='password_change']
+accounts/password_change/done/ [name='password_change_done']
+accounts/password_reset/ [name='password_reset']
+accounts/password_reset/done/ [name='password_reset_done']
+accounts/reset/<uidb64>/<token>/ [name='password_reset_confirm']
+accounts/reset/done/ [name='password_reset_complete']
+```
+
+`According` to the
+[Django authentication system documentation](https://docs.djangoproject.com/en/5.1/topics/auth/default/),
+_the associated_ `templates` should `reside` in a `directory` called
+`registration`. Now our `templates` directory should `look like` the
+`following`:
+
+```shell
+- templates/
+    ...
+    - registration/
+        - login.html
+        - password_change_done.html
+        - password_change.html
+        - password_reset_complete.html
+        - password_reset_confirm.html
+        - password_reset_done.html
+        - password_reset_email.html
+        - password_reset_subject.txt
+        - password_reset.html
+        - signup.html
+    ...
+```
+
+`Since` the `signup.html` template is _not included_ in the `list` above, when a
+_new visitor_ `lands` on the `site`, they `see` the `link` to the `sign in`
+(`login`) page _and not_ the `signup` page. _However_, there is a `link` to the
+`sign in` page on the `login` page.
+
+## Conclusion
+
+In this section, I placed the default Django authentication system related
+templates into a new directory called registration inside the templates
+directory, I moved the associated URLs into accounts/urls.oy, and added the
+associated default url pattern to django_boards/urls.py. This helped ensure that
+django-boards deployment to Heroku would be successful.
+
+## Related Resources
+
+-   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+-   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+    **_mariadcampbell.com_**
+-   [Using the Django authentication system](https://docs.djangoproject.com/en/5.1/topics/auth/default/):
+    **_Django documentation_**
+
+## Related Posts
+
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
