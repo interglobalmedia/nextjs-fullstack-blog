@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-table-of-contents
 date: '2024-09-03T04:01:33.055Z'
-lastModified: '2024-11-24T10:45:33.055Z'
+lastModified: '2024-11-28T12:58:33.055Z'
 title:
     How to create a fullstack application using Django and Python Table of
     Contents
@@ -242,6 +242,15 @@ to_ `have` an `account` on `Github` _to be_ `able` _to post_ `comments`.
     directory, I move the associated URLs into accounts/urls.oy, and add the
     associated default url pattern to django_boards/urls.py. This helps ensure
     that django-boards deployment to Heroku would be successful.
+1.  [How to create a fullstack application using Django and Python Part 31](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-31):In
+    this section, I modify settings in django_boards/settings.py for deployment
+    on Heroku. I create a new SECRET_KEY for use on Heroku, add gunicorn,
+    dj-database-url, psycopg2 and psycopg2-binary packages, create a
+    requirements.txt file, create a Procfile, create a .python-version file,
+    discuss the purpose of the os module, set DEBUG to false on Heroku,
+    differentiate between DEBUG value in local development and production on
+    Heroku, configure database access, run the collectstatic command for serving
+    static files in production, and install and configure whitenoise.
 
 ## Related Resources
 
