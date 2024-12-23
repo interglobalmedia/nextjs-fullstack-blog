@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-table-of-contents
 date: '2024-09-03T04:01:33.055Z'
-lastModified: '2024-11-28T12:58:33.055Z'
+lastModified: '2024-12-23T22:47:33.055Z'
 title:
     How to create a fullstack application using Django and Python Table of
     Contents
@@ -251,6 +251,20 @@ to_ `have` an `account` on `Github` _to be_ `able` _to post_ `comments`.
     differentiate between DEBUG value in local development and production on
     Heroku, configure database access, run the collectstatic command for serving
     static files in production, and install and configure whitenoise.
+1.  In this section, I prepare my django-boards application for deployment to
+    Render. I update my existing project for deployment to Render, create a
+    Render account, create a DEBUG environment variable for production,
+    configure my media files for production, configure my static files for
+    production, configure ny database settings for production, add the
+    whitenoise package to make my static files persist on Render, create a build
+    script for deployment on Render, install Gunicaon and Uvicorn, create a
+    Django project in the Render dashboard, add the Postgres managed database
+    service, create a web service, create a render.yaml file, create a
+    persistent Disk for my web service's media files, create an SSH key pair
+    locally, connect to my Render web service with SSH, add my SSH key pair to
+    the ssh-agent on my local machine, upload default.jpg to my django-boards
+    web service, transfer default.jpg to Render using the scp command via SSH,
+    and create a superuser in the Render shell.
 
 ## Related Resources
 
