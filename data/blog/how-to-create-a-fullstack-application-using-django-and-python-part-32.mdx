@@ -1987,11 +1987,11 @@ web service `instance`'s `persistent disk` mount `path`.
 The `serve` function `serves` the `file/image` from `MEDIA_ROOT` if it `matches`
 the `pattern`.
 
-`If` I `wanted` to `limit` image `uploads` to `jpg`,` png`, or `gif`, I `would`
-do the `following`:
+`If` I `wanted` to `limit` image `uploads` to `jpg`, `jpeg`, `png`, or `gif`, I
+`would` do the `following`:
 
 ```python
-re_path(r'^media/(?P<path>.*\.jpg|.*\.png|.*\.gif)$', serve, {'document_root': production.MEDIA_ROOT}),
+re_path(r'^media/(?P<path>.*\.jpg|.*\.jpeg|.*\.png|.*\.gif)$', serve, {'document_root': production.MEDIA_ROOT}),
 ```
 
 `This` is `exactly` what I `ended` up `adding`. `*` before `.\` (dot)
