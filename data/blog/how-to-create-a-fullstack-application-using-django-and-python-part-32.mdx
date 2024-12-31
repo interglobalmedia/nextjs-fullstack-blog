@@ -1,7 +1,7 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-32'
 date: '2024-11-24T10:59:44.757Z'
-lastModified: '2024-12-31T12:02:44.757Z'
+lastModified: '2024-12-31T13:10:44.757Z'
 title: 'How to create a fullstack application using Django and Python Part 32'
 author: 'Maria D. Campbell'
 excerpt:
@@ -2333,6 +2333,13 @@ a `topic post`, and `how long` it `takes` for a `like` or `unlike` to
 `register`. It `definitely` can be `up` to `several seconds`. `After` a
 `little bit`, `liking` and `unliking` a `post` works `much better`, `but` the
 `behavior` can be `erratic`.
+
+`Another thing` that `might` have `improved` the `performance` of `liking` and
+`unliking` posts is the `removal` of `window.location` in in the `like/unlike`
+related `JavaScript` code in `base.html`. It `resided` above `history.go(0)`,
+`which` is `still there`. To `view` that `committed change` on `GitHub`, please
+visit
+[025316f](https://github.com/interglobalmedia/django-boards/tree/025316f73bbbb63dc6ebf073d7b854879213a526).
 
 `I` can `run` an `asynchronous` ASGI `server` called `daphne` in `development`,
 `but` right `now`, `daphne 4.1.2` does `not` support `Python 3.13.0`, `which` is
