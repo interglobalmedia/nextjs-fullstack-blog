@@ -1,7 +1,7 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-32'
 date: '2024-11-24T10:59:44.757Z'
-lastModified: '2024-12-29T19:24:44.757Z'
+lastModified: '2024-12-31T11:55:44.757Z'
 title: 'How to create a fullstack application using Django and Python Part 32'
 author: 'Maria D. Campbell'
 excerpt:
@@ -2319,6 +2319,25 @@ the `latest changes` to the `Django Boards` application `code`, please
 
 visit
 [7b55bad](https://github.com/interglobalmedia/django-boards/tree/7b55bada05e5c9b503250f7dd917dba0e90a154b)
+
+## Note regarding likes (again)
+
+**Note 12.31.24**: The likes performance differs drastically in production vs
+local development. In local development, because I use the WSGI development
+server, which is synchronous, liking and unliking a post is instantaneous.
+However, in production, which runs on an asynchronous ASGI server, liking and
+unliking a post is NOT instantaneous. I should even clock how long it takes when
+first landing on a topic post, how long it takes for a like or unlike to
+register. It can be up to several seconds. After a little bit, liking and
+unliking a post works much better, but the behavior can be erratic.
+
+I can run an asynchronous ASGI server called daphne in development, but right
+now, daphne 4.1.2 does not support Python 3.13.0, which is what I am using.
+Upcoming daphne 4.2 WILL support Python 3.13.0. My virtual environment
+recognizes my daphne install, but my requirements.txt does not include daphne,
+and therefore my production environment on Render does not either. It results in
+a failed build. I will talk about how to set up an ASGI server locally when
+daphne 4.2 is released.
 
 ## Conclusion
 
