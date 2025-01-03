@@ -1,7 +1,7 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-32'
 date: '2024-11-24T10:59:44.757Z'
-lastModified: '2024-12-31T13:10:44.757Z'
+lastModified: '2025-01-03T22:48:44.757Z'
 title: 'How to create a fullstack application using Django and Python Part 32'
 author: 'Maria D. Campbell'
 excerpt:
@@ -81,9 +81,9 @@ site and `why` it is `crucial` to `do it`. This article `assumes` you have a
 -   [A note about liking a post](#a-note-about-liking-a-post)
 -   [Commit associated with this post](#commit-associated-with-this-post)
 -   [Adding python-decouple](#adding-python-decouple)
--   [Creating a settings directory to separate development settings from production settings](#Creating-a-settings-directory-to-separate-development-settings-from-production-settings)
+-   [Creating a settings directory to separate development settings from production settings](#creating-a-settings-directory-to-separate-development-settings-from-production-settings)
     -   [Running the local server using the new settings configuration](#running-the-local-server-using-the-new-settings-configuration)
--   [Removing python-dotenv related code from settings/base.py](#removing-python-dotenv-related-code-from-settings-basepy)
+-   [Updating settings/base.py](#updating-settings-basepy)
     -   [Defining MEDIA_ROOT development.py, production.py and removing it from base.py](#defining-media-root-developmentpy-productionpy-and-removing-it-from-basepy)
 -   [settings directory configuration did not work in production on Render and how I fixed it](#settings-directory-configuration-did-not-work-in-production-on-render-and-how-i-fixed-it)
     -   [Breaking down the MEDIA_URL related code in django_boards/urls.py](#breaking-down-the-media-url-related-code-in-django-boards-urlspy)
@@ -91,7 +91,9 @@ site and `why` it is `crucial` to `do it`. This article `assumes` you have a
 -   [django_boards/asgi.py to date](#django-boards-asgipy-to-date)
 -   [django_boards/wsgi.py to date](#django-boards-wsgipy-to-date)
 -   [manage.py to date](#managepy-to-date)
+-   [Fine-tuning manage.py so I didn't have to manually switch between development and production](#fine-tuning-managepy-so-i-didnt-have-to-manually-switch-between-development-and-production)
 -   [Note regarding likes (again)](#note-regarding-likes-again)
+-   [Latest commit for Django Boards on Github](#latest-commit-for-django-boards-on-github)
 -   [Conclusion](#conclusion)
 -   [Footnotes](#footnotes)
 -   [Related Resources](#related-resources)
@@ -1621,15 +1623,11 @@ To `see` the `commit` associated with `removing` commented out `code` from
 `base.py`, please visit
 [ddaccc9](https://github.com/interglobalmedia/django-boards/tree/ddaccc9fa455818e1ccb37d9fbdb7b75243f0bf9).
 
-## Removing python-dotenv related code from settings/base.py
+## Updating settings/base.py
 
-`Originally`, in `settings.py`, I only used `python-dotenv` with the
-`SECRET_KEY` and `DEBUG` environment `variables`. `Now` that I `was` using
-`python-decouple` with those `variables`, I `decided` to `remove` the
-`python-dotenv` (and `os.environ`) related `code` from `settings/base.py`. It
-also `made` the `code` look even `cleaner` and `easier` to `read`.
-
-`After` doing `that`,` base.py` looked `like` the `following`:
+`When` I `removed` all the `commented` out `code` that `related` either
+`specifically` to `development` or `production`, my `settings/base.py` looked
+`like` the `following`:
 
 ```python
 # settings/base.py
@@ -1649,6 +1647,10 @@ import os
 from pathlib import Path
 import dj_database_url
 from decouple import config, Csv
+from dotenv import load_dotenv
+load_dotenv() # take environment variables from .env
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -1667,17 +1669,8 @@ AVATAR_PROVIDERS = (
 # using decouple
 SECRET_KEY = config("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-# using decouple
-DEBUG = config("DEBUG", default=False, cast=bool)
-
-# For user uploaded files locally
-# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# MEDIA_URL is the same in both local development and production
 MEDIA_URL = "/media/"
-# For user uploaded files on render.com
-# MEDIA_ROOT = "/opt/render/project/src/mediafiles/"
-# Using decouple
-MEDIA_ROOT = config("MEDIA_ROOT", default="/opt/render/project/src/mediafiles/")
 
 # Application definition
 
@@ -1736,8 +1729,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "django_boards.wsgi.application"
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -1792,39 +1783,42 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 ```
 
-To `see` the `commit` associated `with` removing `python-dotenv` related `code`
-from `base.py`, please visit
-[9ba2706](https://github.com/interglobalmedia/django-boards/tree/9ba27060d463a60c2e2009ec299e306e9b8282f4).
-
-You `will` also `see` that I `added` a `new` line
-`MEDIA_ROOT = config("MEDIA_ROOT", default="/opt/render/project/src/mediafiles/")`.
-`However`, when I `ran` the `local server` in `development`, my `images` in the
-`media` directory `did` not `appear`. `That` is `because` I did `not` set a
-`MEDIA_ROOT` environment `variable` inside my `.env` file. `Again`, as with
-`ALLOED_HOSTS`, my `images` in `production` also `did` not `appear`. I `had` to
-remove `MEDIA_ROOT` in `settings/base.py`, and `redefine` it in `development.py`
-and `production.py`.
+To `see` the `commit` associated `with` the above `code` for `base.py`, please
+visit
+[56b8be1](https://github.com/interglobalmedia/django-boards/tree/56b8be129f26fb59febc6ed597334e533ea75ea1).
 
 ### Defining MEDIA_ROOT development.py, production.py and removing it from base.py
 
-`Next`, I `had` to remove `MEDIA_ROOT` from `base.py` (`first` I `commented` it
-`out`) and `define` it in `development.py`:
+`As` you can `see`, I removed `MEDIA_ROOT` from `base.py` (`first` I `commented`
+it `out`) and `defined` it in `development.py`:
 
 ```python
+# settings/development.py
 from .base import *
+
+# SECURITY WARNING: don't run with debug turned on in production!
+# using pyhon-dotenv
+DEBUG = os.getenv('DEBUG')
 
 # using decouple to point to ALLOWED_HOSTS env var locally
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
 # For user uploaded files locally
-MEDIA_ROOT = os.path.join(BASE_DIR, "../media") # note `../`
+MEDIA_ROOT = os.getenv("MEDIA_ROOT")
 
-# Local Database
+print(MEDIA_ROOT, 'media root in development')
+
+WSGI_APPLICATION = "django_boards.wsgi.application"
+
+# correct absolute path in which db.sqlite3 resides
+CURRENT_DIR= '/Users/mariacam/Python-Development/django-boards/'
+
+# Local Database. Comment out before deploying to production
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "../db.sqlite3",
+        "NAME": CURRENT_DIR + "db.sqlite3",
     }
 }
 
@@ -1834,27 +1828,44 @@ STATICFILES_DIRS = [
 ]
 ```
 
-`Now` when `I` ran
-`python3 manage.py runserver --settings=django_boards.settings.development` on
-my `local machine`, I was `able` to `see` my `user` avatar `images`. I
-`made sure` to `remove` that (same) `commented` out `code` from `base.py`.
+I `also` had `to` add `MEDIA_ROOT` to my `.env` file:
 
-`Note` that I` had` to add `../` in `front` of `media` in the `value` of
-`MEDIA_ROOT`.
+```shell
+MEDIA_ROOT=media/
+```
+
+`Then` I `had` to `make sure` to `export` it `so that` it was `recognized` in my
+`development` environment. I `ran` the following `command` inside the `root`
+django-boards `directory`:
+
+```shell
+export MEDIA_ROOT=media/
+```
+
+`Then`, when `I` ran `export`, `MEDIA_ROOT` appeared `as` one `of` the
+`accessible` environment `variables`.
 
 `Next`, I `added` the `following` to `settings/production.py`:
 
 ```python
+# settings/production.py
 from .base import *
+
+# SECURITY WARNING: don't run with debug turned on in production!
+# using environ
+DEBUG = os.environ.get('DEBUG')
 
 # using decouple to point to ALLOWED_HOSTS env var on render
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
-# For user uploaded files on render.com
-MEDIA_ROOT = "/opt/render/project/src/mediafiles/" # new
+MEDIA_ROOT = os.environ.get("MEDIA_ROOT", "/opt/render/project/src/mediafiles")
+print(MEDIA_ROOT, "media root")
+
+ASGI_APPLICATION = "django_boards.asgi.application"
 
 # Render database
 # using decouple
+# comment out while in local development
 DATABASES = {
     "default": dj_database_url.config(default=config("DATABASE_URL"), conn_max_age=600),
 }
@@ -1865,11 +1876,13 @@ STATIC_ROOT = BASE_DIR / '../staticfiles'
 ```
 
 `Because` I was `differentiating` between my `MEDIA_ROOT` in `local development`
-and `production`, I didn't `have` to use `python-decouple`.
+and `production`, I didn't `have` to use `python-decouple`. I used
+`os.environ.get()` instead, which `grabs` the `MEDIA_ROOT` environment
+`variable` from `production` on `Render`.
 
-`Finally`, I removed `DEBUG` and `MEDIA_ROOT` related `commented` out `code`
-that `I` no longer `needed` from `settings/base.py`. `I` also `added` more
-helpful `comments`.
+I removed `DEBUG` and `MEDIA_ROOT` related `commented` out `code` that `I` no
+longer `needed` from `settings/base.py`. `I` also `added` more helpful
+`comments`.
 
 To `see` the associated `version` (`commit`) of `settings/base.py`,
 `settings/development.py`, and `settings/production.py`, please visit
@@ -2010,7 +2023,7 @@ URL `pattern`, it `points` to `settings/production.py`. `Since` I imported
 
 ## The settings directory code to date
 
-base.py:
+settings/base.py:
 
 ```python
 """
@@ -2050,9 +2063,6 @@ AVATAR_PROVIDERS = (
 # SECURITY WARNING: keep the secret key used in production secret!
 # using decouple
 SECRET_KEY = config("SECRET_KEY")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-# using decouple
 
 # MEDIA_URL is the same in both local development and production
 MEDIA_URL = "/media/"
@@ -2114,7 +2124,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "django_boards.wsgi.application"
+WSGI_APPLICATION = "django_boards.wsgi.application" #subsquently moved to development.py
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -2183,10 +2193,8 @@ DEBUG = os.getenv('DEBUG')
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
 # For user uploaded files locally
-MEDIA_ROOT = os.path.join(BASE_DIR, "../media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "../media") # subsequently changed to MEDIA_ROOT = os.getenv("MEDIA_ROOT") and MEDIA_ROOT=media/ added to .env
 
-# This approach points to the same path as above, but it is more difficult to read
-# MEDIA_ROOT = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'media'))
 print(MEDIA_ROOT, 'media root in development')
 
 # Local Database
@@ -2217,13 +2225,13 @@ DEBUG = os.environ.get('DEBUG')
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
 MEDIA_ROOT = os.environ.get("MEDIA_ROOT", "/opt/render/project/src/mediafiles")
-# This on the other hand, did not point to the same path to mediafiles as on Render.
-# MEDIA_ROOT = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'mediafiles'))
 print(MEDIA_ROOT, "media root")
 
+ASGI_APPLICATION = "django_boards.asgi.application" # this was subsequently added
 
 # Render database
 # using decouple
+# comment out while in local development
 DATABASES = {
     "default": dj_database_url.config(default=config("DATABASE_URL"), conn_max_age=600),
 }
@@ -2256,7 +2264,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_boards.settings.producti
 application = get_asgi_application()
 ```
 
-Render uses ASGI, so `DJANGO_SETTINGS_MODULE` should always be set to
+`Render` uses `ASGI`, so `DJANGO_SETTINGS_MODULE` should `always` be `set` to
 `django_boards.settings.production`.
 
 ## django_boards/wsgi.py to date
@@ -2321,6 +2329,64 @@ the `latest changes` to the `Django Boards` application `code`, please
 visit
 [7b55bad](https://github.com/interglobalmedia/django-boards/tree/7b55bada05e5c9b503250f7dd917dba0e90a154b)
 
+### Fine-tuning manage.py so I didn't have to manually switch between development and production
+
+`I` made `these changes` later `on`, `but` thought `it` appropriate to `share`
+here:
+
+```python
+# manage.py
+
+#!/usr/bin/env python
+"""Django's command-line utility for administrative tasks."""
+import os
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env
+dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+load_dotenv(dotenv_path)
+from django_boards.settings import development, production
+import sys
+
+def main():
+    """Run administrative tasks."""
+    # in order for development env to work, must be set to development here locally. Must be set to production before deploying to Render. The "if elif" condition takes care of that.
+    DEVELOPMENT_ENVIRONMENT = os.getenv("ENVIRONMENT")
+    PRODUCTION_ENVIRONMENT = os.environ.get("ENVIRONMENT")
+    if development:
+        print(development, 'in development')
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DEVELOPMENT_ENVIRONMENT")
+    elif production:
+        print(production, 'in production')
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "PRODUCTION_ENVIRONMENT")
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
+
+
+if __name__ == "__main__":
+    main()
+```
+
+I added `ENVIRONMENT=django_boards.settings.development` to `.env`, and
+`made sure` to `export` it `so` it `would` be `added` to my `local` global
+`environment` variables. `Again`, I used `os.getenv()` to `get` the
+`ENVIRONMENT` environment `variable` locally, and `os.environ.get()` to `get`
+THE `ENVIRONMENT` variable in `production`. I `also` made `sure` to `export` it
+in `Render`'s `shell`. This way, I `did` not `have` to `worry` about
+`switching manually` between `django_boards.settings.development` and
+`django_boards.settings.production` as the `value` of the
+`DJANGO_SETTINGS_MODULE`. I defined `DJANGO_SETTINGS_MODULE` in `production` to
+`django_boards.settings.production` and `exported` it `there`.
+
+The `commit` associated `with` the above `manage.py` code on `Github` is
+[73038bc](https://github.com/interglobalmedia/django-boards/tree/73038bccf2a295c959ce925b1b07ea4ecb7f3062).
+
 ## Note regarding likes (again)
 
 **Note 12.31.24**: The `likes` performance `differs drastically` in `production`
@@ -2350,23 +2416,31 @@ visit
 `failed build`. I will `talk` about `how` to `set up` an ASGI `server` locally
 when `daphne 4.2` is `released`.
 
+## Latest commit for Django Boards on Github
+
+To `view` the `latest commit` for `Django Boards` on `Github`, please visit
+[56b8be1](https://github.com/interglobalmedia/django-boards/tree/56b8be129f26fb59febc6ed597334e533ea75ea1).
+
 ## Conclusion
 
-In this section, I prepared my django-boards application for deployment to
-Render. I updated my existing project for deployment to Render, created a Render
-account, created a DEBUG environment variable for production, configured my
-media files for production, configured my static files for production,
-configured my database settings for production, added the whitenoise package to
-make my static files persist on Render, created a build script for deployment on
-Render, installed Gunicaon and Uvicorn, created a Django project in the Render
-dashboard, added the Postgres managed database service, created a web service,
-created a render.yaml file, created a persistent Disk for my web service's media
-files, created an SSH key pair locally, connected to my Render web service with
-SSH, added my SSH key pair to the ssh-agent on my local machine, uploaded
-default.jpg to my django-boards web service, transfered default.jpg to Render
-using the scp command via SSH, and created a superuser in the Render shell.
-Later I came back and created a new settings directory where I separated my
-local development environment from my production environment.
+`In` this `section`, I `prepared` my django-boards `application` for
+`deployment` to `Render`. I` updated` my `existing project` for `deployment` to
+`Render`, `created` a `Render account`, `created` a `DEBUG` environment
+`variable` for `production`, `configured` my `media files` for `production`,
+`configured` my `static files` for `production`, `configured` my
+`database settings` for `production`, `added` the `whitenoise` package to `make`
+my `static files` persist on `Render`, `created` a `build script` for
+`deployment` on `Render`, installed `Gunicaon` and `Uvicorn`, `created` a
+`Django project` in the `Render dashboard`, `added` the `Postgres` managed
+database `service`, `created` a `web service`, `created` a `render.yaml` file,
+`created` a `persistent Disk` for my `web service`'s `media files`, `created` an
+`SSH key pair` locally, `connected` to my `Render` web `service` with `SSH`,
+`added` my `SSH key pair` to the `ssh-agent` on my `local machine`, uploaded
+`default.jpg` to my `django-boards web service`, transfered `default.jpg` to
+`Render` using the `scp command` via `SSH`, and `created` a `superuser` in the
+`Render shell`. `Later` I `came back` and `created` a new `settings directory`
+where I `separated` my `local` development `environment` from my
+`production environment`.
 
 ## Footnotes
 
