@@ -1,7 +1,7 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-32'
 date: '2024-11-24T10:59:44.757Z'
-lastModified: '2025-01-03T22:48:44.757Z'
+lastModified: '2025-01-04T22:09:44.757Z'
 title: 'How to create a fullstack application using Django and Python Part 32'
 author: 'Maria D. Campbell'
 excerpt:
@@ -94,6 +94,10 @@ site and `why` it is `crucial` to `do it`. This article `assumes` you have a
 -   [Fine-tuning manage.py so I didn't have to manually switch between development and production](#fine-tuning-managepy-so-i-didnt-have-to-manually-switch-between-development-and-production)
 -   [Note regarding likes (again)](#note-regarding-likes-again)
 -   [Latest commit for Django Boards on Github](#latest-commit-for-django-boards-on-github)
+-   [Running python3 manage.py check](#running-python3-managepy-check)
+    -   [Updating security settings in settings/production.py](#updating-security-settings-in-settings-productionpy)
+    -   [Adding a site to the HSTS preload list](#adding-a-site-to-the-HSTS-preload-list)
+-   [Regenerating a SECRET_KEY locally for production on Render](#regenerating-a-secret-key-locally-for-production-on-render)
 -   [Conclusion](#conclusion)
 -   [Footnotes](#footnotes)
 -   [Related Resources](#related-resources)
@@ -2420,6 +2424,338 @@ when `daphne 4.2` is `released`.
 
 To `view` the `latest commit` for `Django Boards` on `Github`, please visit
 [56b8be1](https://github.com/interglobalmedia/django-boards/tree/56b8be129f26fb59febc6ed597334e533ea75ea1).
+
+## Running python3 manage.py check
+
+`I` just `learned about` the `python3 manage.py check` command (`1.4.25`), so I
+`decided` to `run it` on `Django Boards` locally to `make sure` I `had`
+everything `configured` correctly. `This` is `what` it `initially returned` in
+`Terminal`:
+
+```shell
+media/ media root in development
+media/ media root
+<module 'django_boards.settings.development' from '/Users/mariacam/Python-Development/django-boards/django_boards/settings/development.py'> in development
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/manage.py", line 34, in <module>
+    main()
+    ~~~~^^
+  File "/Users/mariacam/Python-Development/django-boards/manage.py", line 30, in main
+    execute_from_command_line(sys.argv)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/core/management/__init__.py", line 442, in execute_from_command_line
+    utility.execute()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/core/management/__init__.py", line 436, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/core/management/base.py", line 405, in run_from_argv
+    parser = self.create_parser(argv[0], argv[1])
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/core/management/base.py", line 368, in create_parser
+    self.add_arguments(parser)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/core/management/commands/check.py", line 47, in add_arguments
+    choices=tuple(connections),
+            ~~~~~^^^^^^^^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/utils/connection.py", line 73, in __iter__
+    return iter(self.settings)
+                ^^^^^^^^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/utils/connection.py", line 45, in settings
+    self._settings = self.configure_settings(self._settings)
+                     ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/db/utils.py", line 148, in configure_settings
+    databases = super().configure_settings(databases)
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/utils/connection.py", line 50, in configure_settings
+    settings = getattr(django_settings, self.settings_name)
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/conf/__init__.py", line 81, in __getattr__
+    self._setup(name)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/conf/__init__.py", line 68, in _setup
+    self._wrapped = Settings(settings_module)
+                    ~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/conf/__init__.py", line 166, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/Users/mariacam/.pyenv/versions/3.13.0/lib/python3.13/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'DEVELOPMENT_ENVIRONMENT'
+(venv) (3.13.0)  ✘ mariacam@Marias-MBP  ~/Python-Development/django-boards   main ●  python3 manage.py --settings=django_boards.settings.development che
+ck
+media/ media root in development
+media/ media root
+<module 'django_boards.settings.development' from '/Users/mariacam/Python-Development/django-boards/django_boards/settings/development.py'> in development
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/core/management/__init__.py", line 255, in fetch_command
+    app_name = commands[subcommand]
+               ~~~~~~~~^^^^^^^^^^^^
+KeyError: '--settings=django_boards.settings.development'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/manage.py", line 34, in <module>
+    main()
+    ~~~~^^
+  File "/Users/mariacam/Python-Development/django-boards/manage.py", line 30, in main
+    execute_from_command_line(sys.argv)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/core/management/__init__.py", line 442, in execute_from_command_line
+    utility.execute()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/core/management/__init__.py", line 436, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/core/management/__init__.py", line 262, in fetch_command
+    settings.INSTALLED_APPS
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/conf/__init__.py", line 81, in __getattr__
+    self._setup(name)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/conf/__init__.py", line 68, in _setup
+    self._wrapped = Settings(settings_module)
+                    ~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/mariacam/Python-Development/django-boards/venv/lib/python3.13/site-packages/django/conf/__init__.py", line 166, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/Users/mariacam/.pyenv/versions/3.13.0/lib/python3.13/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'DEVELOPMENT_ENVIRONMENT'
+```
+
+`There` was `something wrong` with my `code` in `manage.py`. Then I added
+`DEVELOPMENT_ENVIRONMENT` to `.env` setting `ENVIRONMENT` as its `value`. `That`
+also `did` not `work`.
+
+`Next`, I changed `manage.py` to the `following`:
+
+```python
+# manage.py
+#!/usr/bin/env python
+"""Django's command-line utility for administrative tasks."""
+import os
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env
+dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+load_dotenv(dotenv_path)
+from django_boards.settings import development, production
+import sys
+
+def main():
+    """Run administrative tasks."""
+    # in order for development env to work, must be set to development here locally. Must be set to production before deploying to Render. The "if elif" condition takes care of that.
+    if development:
+        print(development, 'in development')
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_boards.settings.development")
+    elif production:
+        print(production, 'in production')
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_boards.settings.production")
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
+
+
+if __name__ == "__main__":
+    main()
+```
+
+`This time` it `worked` in `development`. The `following` was `returned` in
+`Terminal`:
+
+```shell
+media/ media root in development
+media/ media root
+<module 'django_boards.settings.development' from '/Users/mariacam/Python-Development/django-boards/django_boards/settings/development.py'> in development
+System check identified no issues (0 silenced).
+```
+
+`Then` I `committed` the `changes` and `pushed` to `GitHub/production`.
+
+```python
+python manage.py check --settings=django_boards.settings.production --deploy
+/opt/render/project/src/mediafiles media root
+/opt/render/project/src/mediafiles media root in development
+System check identified some issues:
+
+WARNINGS:
+?: (security.W004) You have not set a value for the SECURE_HSTS_SECONDS setting. If your entire site is served only over SSL, you may want to consider setting a value and enabling HTTP Strict Transport Security. Be sure to read the documentation first; enabling HSTS carelessly can cause serious, irreversible problems.
+?: (security.W008) Your SECURE_SSL_REDIRECT setting is not set to True. Unless your site should be available over both SSL and non-SSL connections, you may want to either set this setting True or configure a load balancer or reverse-proxy server to redirect all connections to HTTPS.
+?: (security.W009) Your SECRET_KEY has less than 50 characters, less than 5 unique characters, or it's prefixed with 'django-insecure-' indicating that it was generated automatically by Django. Please generate a long and random value, otherwise many of Django's security-critical features will be vulnerable to attack.
+?: (security.W012) SESSION_COOKIE_SECURE is not set to True. Using a secure-only session cookie makes it more difficult for network traffic sniffers to hijack user sessions.
+?: (security.W016) You have 'django.middleware.csrf.CsrfViewMiddleware' in your MIDDLEWARE, but you have not set CSRF_COOKIE_SECURE to True. Using a secure-only CSRF cookie makes it more difficult for network traffic sniffers to steal the CSRF token.
+```
+
+`I` also `had` to `change` the line `DEBUG = os.environ.get('DEBUG')` in
+`setttings/production.py` explicitly to `DEBUG=False`. Using `os.environ.get()`
+still `pointed` to `DEBUG=True` in my `.env`. That `meant` I should `explicitly`
+set `DEBUG=True` in `settings/development.py` as well.
+
+I `have` made `sure` that my `production site` has `Maintenance` mode `enabled`
+until `I` have `completed` my `security settings` and `added` a `backend` email
+`service`.
+
+### Updating security settings in settings/production.py
+
+```python
+# settings/production.py
+from .base import *
+
+# SECURITY WARNING: don't run with debug turned on in production!
+# using environ
+DEBUG = False
+
+# Added as a result of running "python manage.py check --settings=django_boards.settings.production --deploy" in render's shell
+SECURE_SSL_REDIRECT=True
+
+SESSION_COOKIE_SECURE=True
+
+CSRF_COOKIE_SECURE=True
+
+# using decouple to point to ALLOWED_HOSTS env var on render
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
+
+MEDIA_ROOT = os.environ.get("MEDIA_ROOT", "/opt/render/project/src/mediafiles")
+print(MEDIA_ROOT, "media root")
+
+ASGI_APPLICATION = "django_boards.asgi.application"
+
+# Render database
+# using decouple
+# comment out while in local development
+DATABASES = {
+    "default": dj_database_url.config(default=config("DATABASE_URL"), conn_max_age=600),
+}
+
+# This production code might break development mode, so we check whether we're in DEBUG mode
+# Tell Django to copy static assets into a path called `static` (this is specific to Render)
+STATIC_ROOT = BASE_DIR / '../staticfiles'
+```
+
+`The` only other `thing`, `according` to `Render`, `is` to `add` the
+`SECURE_HSTS_SECONDS` setting. `According` to `Render`,
+
+> Render automatically creates and renews TLS certificates for all custom
+> domains, including wildcard domains. All HTTP traffic to a custom domain is
+> automatically redirected to HTTPS.
+
+`This` tells `me` that `I` should `have` no problem `setting` my
+S`ECURE_HSTS_SECONDS` setting to a `non-zero` value. As I later `mention` in
+`part 33`, my `certificate`(s) for my `custom domain` was `successfully issued`.
+
+`Initially`, I set `SECURE_HSTS_SECONDS=60` just to `make sure` that
+`everything` is `working`. It is. `I` was `able` to `access` the `site` and even
+`log in`.
+
+`Then` I `increased` it to `5 minutes`. `I` was still `able` to `access` the
+`site` and `log in`. `I` will i`ncrease` the `time` even `more` when the
+`backend email service` has been `resolved`.
+
+In addition, if I `wanted` to (it is `optional` but `recommended`), I `could`
+set `SECURE_HSTS_INCLUDE_SUBDOMAINS=True` and `SECURE_HSTS_PRELOAD=True`.
+
+```python
+# would be placed in settings/production.py
+SECURE_HSTS_INCLUDE_SUBDOMAINS=True
+SECURE_HSTS_PRELOAD=True # Enable HSTS preloading (requires registration)
+```
+
+`To recap`, `in order` for `SECURE_HSTS_SECONDS` to `work` properly (and `not`
+break my `site`), I `have` to `make sure` HTTPS is `working`:
+
+1. I `have` to `make sure` my `Django site` is `configured` to use `HTTPS`, and
+   `that` my `SSL certificate` is `valid`.
+1. `SECURE_HSTS_SECONDS` sets the `duration` (`in seconds`) `that` the `browser`
+   should `remember` to only `access` my `site` over `HTTPS`.
+1. If `SECURE_HSTS_INCLUDE_SUBDOMAIN` is `set` to `True`, `HSTS` will `also` be
+   `enforced` for all `subdomains` of my `site`.
+1. If `SECURE_HSTS_PRELOAD` is `set` to `True`, my `site` can be `submitted` to
+   the `HSTS preload list` maintained by `major browsers`. This `ensures` that
+   the `site` is `always accessed` over `HTTPS`, `even` for
+   `first-time visitors`.
+
+### Adding a site to the HSTS preload list
+
+To `add` my `site` to the `HSTS preload list`, I `should`:
+
+1. `Ensure` my `site` meets the `following requirements`:
+    - `Serves` a `valid certificate`
+    - `Redirects` from `HTTP` to `HTTPS` on the `same host`
+    - `Serves` all `subdomains` over `HTTPS`
+    - Supports `HTTPS` for the `www subdomain`
+    - The `max-age directive` in the `HSTS header` is `at least` 31536000
+      `seconds` (1 year)
+    - The `includeSubDomains directive` is `specified`
+    - The `preload directive` is `specified`
+1. `Submit` my `domain` using the `form` on the
+   [HSTS preload list﻿ website](https://hstspreload.org)
+1. `Check` the `status` of my `request` by:
+    - `Entering` the `domain` name `again` in the `form`
+    - Visiting `chrome://net-internals/#hsts` in my `Chrome browser`
+
+`When` I add `hrome://net-internals/#hsts` to the `Chrome address bar`, the
+`following appears`:
+
+![Checking status of HSTS preload list](Screenshot-2025-01-04-at-2.49.17-PM.jpg)
+
+_Checking status of HSTS preload list_
+
+## Regenerating a SECRET_KEY locally for production on Render
+
+`According` to the `check` command, `Render` did not `generate` a `secure`
+enough `SECRET_KEY` for me. `I` should have `run` the `command` for `generating`
+a `long`, `random` key `locally` and then `added` it `as` the `value` of my
+`SECRET_KEY` environment `variable` on `Render`. `I` finally `did`, `and` I
+`executed` the `following` to `generate` the `secure`, `long`, and `randomly`
+generated `SECRET_KEY` in `Terminal`:
+
+```shell
+python manage.py shell
+```
+
+This `returned` the `following`:
+
+```shell
+media/ media root in development # returned from a print() function
+media/ media root # returned from a print() function
+<module 'django_boards.settings.development' from '/Users/mariacam/Python-Development/django-boards/django_boards/settings/development.py'> in development # returned from a print() function
+Python 3.13.0 (main, Nov 16 2024, 22:29:42) [Clang 16.0.0 (clang-1600.0.26.3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>>
+```
+
+`Then` I `ran` the `following`:
+
+```shell
+>>> import secrets
+>>> secret_key = secrets.token_urlsafe(100)
+>>> print(secret_key)
+>>> generated SECRET_KEY
+```
+
+`Then` I `copied` the `newly generated` 100 character `SECRET_KEY` and
+`pasted it` as the `value` of my `SECRET_KEY` in `production`. `When` I ran
+`python manage.py check --settings=django_boards.settings.production --deploy`
+again in `production`, I `no` longer `got` a `warning` regarding `SECRET_KEY`.
+
+To view the Django Boards latest commit up to and including changes made after I
+ran
+`python manage.py check --settings=django_boards.settings.production --deploy`
+on Render, please visit
+[3e38f3f](https://github.com/interglobalmedia/django-boards/tree/3e38f3ffd2f2205642f3e82a56b288edf8045bc0).
 
 ## Conclusion
 
