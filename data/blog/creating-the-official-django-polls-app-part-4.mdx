@@ -1,13 +1,25 @@
 ---
 slug: 'creating-the-official-django-polls-app-part-4'
 date: '2025-01-08T10:45:59.278Z'
-lastModified: '2025-01-09T18:38:59.278Z'
+lastModified: '2025-01-09T21:51:59.278Z'
 title: 'Creating the official Django Polls app Part 4'
 author: 'Maria D. Campbell'
-excerpt: 'In this section, we add a minimal form to our polls.detail.html template, update the function based vote view, create a polls/results.html template, refactor our polls/urls.py to match the new generic views, and install DJLint
-to format our Django templates.'
+excerpt:
+    'In this section, we add a minimal form to our polls.detail.html template,
+    update the function based vote view, create a polls/results.html template,
+    refactor our polls/urls.py to match the new generic views, and install
+    DJLint to format our Django templates.'
 image: david-clode-J_5xvghAvmc-unsplash.jpg
-tags: ['fullstack development', 'macOS', 'djlint', 'forms', 'function based views', 'generic class based views', 'series']
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'djlint',
+        'forms',
+        'function based views',
+        'generic class based views',
+        'series',
+    ]
 isPublished: true
 isFeatured: false
 ---
@@ -377,6 +389,14 @@ urlpatterns = [
     path('<int:pk>/vote/', views.vote, name='vote')
 ]
 ```
+
+**Note 1.9.25**: `path('<int:pk>/vote/', views.vote, name='vote')` should be:
+
+```python
+ path('<int:question_id>/vote/', views.vote, name='vote')
+```
+
+This `change` will `appear` in the `code` associated `with` part `5`.
 
 `Here`, `as` mentioned `earlier`, we `have` to make `sure` to use `<int:pk>`
 instead of `<int:question_id>`. `Otherwise`, an `error` will be `thrown` stating
