@@ -1,7 +1,7 @@
 ---
 slug: 'creating-the-official-django-polls-app-part-3'
 date: '2025-01-06T12:26:17.011Z'
-lastModified: '2025-01-09T13:31:17.011Z'
+lastModified: '2025-01-09T16:57:17.011Z'
 title: 'Creating the official Django Polls app Part 3'
 author: 'Maria D. campbell'
 excerpt: 'Creating the official Django Polls app Part 3.'
@@ -49,6 +49,7 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 -   [Using the templating engine system](#using-the-templating-engine-system)
 -   [Removing the hardcoded URL in the template in polls/index.html](#removing-the-hardcoded-url-in-the-template-in-polls-indexhtml)
 -   [Namespacing URL names](#namespacing-url-names)
+-   [A note about polls/urls.py](#a-note-about-polls-urlspy)
 -   [Code associated with this section](#code-associated-with-this-section)
 -   [Conclusion](#conclusion)
 -   [Related Resources](#related-resources)
@@ -617,9 +618,9 @@ app_name = "polls"
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<int:question_id>/', views.detail, name='detail'),
-    path('<int:question_id>/results/', views.results, name='results'),
-    path('<int:question_id>/vote/', views.vote, name='vote')
+    path('polls/<int:question_id>/', views.detail, name='detail'),
+    path('polls/<int:question_id>/results/', views.results, name='results'),
+    path('polls/<int:question_id>/vote/', views.vote, name='vote')
 ]
 ```
 
@@ -634,14 +635,85 @@ Then we update polls/detail.html to the following:
 {% endfor %}
 ```
 
+## A note about polls/urls.py
+
+`According` to `what` I had `understood` from the `official` Django `tutorial`,
+`we` should `have` the `following` in `polls/urls.py`:
+
+```python
+# polls/urls.py
+from django.urls import path
+from . import views
+
+app_name = "polls"
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('<int:question_id>/', views.detail, name='detail'),
+    path('<int:question_id>/results/', views.results, name='results'),
+    path('<int:question_id>/vote/', views.vote, name='vote')
+]
+```
+
+The following is what I had inside django_polls/urls.py:
+
+```python
+urlpatterns = [
+    path('', include('polls.urls')),
+    path('admin/', admin.site.urls),
+]
+```
+
+`Then` we `should` have `been able` to access `http://127.0.0.1:8000/polls/1/`,
+for example. `However`, it `did` not `work` for `me`. I am on Django `5.1.4`,
+and `when` I omitted `polls/` from `polls/urls.py`, an `error` was thrown. I
+`had` to `do` the `following`:
+
+```python
+# polls/urls.py
+from django.urls import path
+from . import views
+
+app_name = "polls"
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('polls/<int:question_id>/', views.detail, name='detail'),
+    path('polls/<int:question_id>/results/', views.results, name='results'),
+    path('polls/<int:question_id>/vote/', views.vote, name='vote')
+]
+```
+
+My `mistake` was `that` I did `not` add `polls/` inside `django_polls/urls.py`;
+
+```python
+urlpatterns = [
+    path('', include('polls.urls')),
+    path('admin/', admin.site.urls),
+]
+```
+
+`It` should `be`:
+
+```python
+urlpatterns = [
+    path('polls/', include('polls.urls')),
+    path('admin/', admin.site.urls),
+]
+```
+
+`Sorry` for `this error`! `It` will be `included` in the `commit` associated
+with `part 4`.
+
 ## Code associated with this section
 
 To `view` the `code` associated `with` this `section`, please visit
 [a8c6675](https://github.com/interglobalmedia/django-polls/tree/a8c667575b78c3ddde5d178fffded5f85be2bd31).
 
-I also made a subsequently made a change to polls/urls.py. To view this change,
-please visit
+`I` also subsequently `made` a `change` to `polls/urls.py`. To `view` this
+`change`, please visit
 [c0dcc1f](https://github.com/interglobalmedia/django-polls/commit/c0dcc1fd76b5be7c5ff29b82e947d5d1b2acac00).
+`Note` that `this` includes the `error mentioned`.
 
 ## Conclusion
 
