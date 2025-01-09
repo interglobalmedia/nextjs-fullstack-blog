@@ -1,7 +1,7 @@
 ---
 slug: 'creating-the-official-django-polls-app-part-3'
 date: '2025-01-06T12:26:17.011Z'
-lastModified: '2025-01-08T10:38:17.011Z'
+lastModified: '2025-01-09T13:24:17.011Z'
 title: 'Creating the official Django Polls app Part 3'
 author: 'Maria D. campbell'
 excerpt: 'Creating the official Django Polls app Part 3.'
@@ -134,9 +134,9 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<int:question_id>/', views.detail, name='detail'), # new
-    path('<int:question_id>/results/', views.results, name='results'), # new
-    path('<int:question_id>/vote/', views.vote, name='vote') # new
+    path('polls/<int:question_id>/', views.detail, name='detail'), # new
+    path('polls/<int:question_id>/results/', views.results, name='results'), # new
+    path('polls/<int:question_id>/vote/', views.vote, name='vote') # new
 ]
 ```
 
