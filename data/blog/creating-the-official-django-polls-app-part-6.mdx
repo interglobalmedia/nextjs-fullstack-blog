@@ -1,0 +1,194 @@
+---
+slug: 'creating-the-official-django-polls-app-part-6'
+date: '2025-01-10T13:24:39.002Z'
+lastModified: '2025-01-10T15:09:39.002Z'
+title: 'Creating the official Django Polls app Part 6'
+author: 'Maria D. Campbell'
+excerpt: 'In this section, we add static files to our Django Polls application
+configured for local development.'
+image: david-clode-J_5xvghAvmc-unsplash.jpg
+tags: ['fullstack development', 'macOS', 'django', 'python3', 'local development', 'series', 'staticfiles', 'static template tag', 'tutorial',]
+isPublished: true
+isFeatured: false
+---
+
+![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.jpg)
+
+_Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
+[unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)
+
+## Table of Contents
+
+-   [Customizing our app's look and feel](#customizing-our-apps-look-and-feel)
+    -   [STATICFILES_FINDERS setting](#staticfiles-finders-setting)
+-   [Static file namespacing](#static-file-namespacing)
+-   [Adding CSS to styles.css](#adding-css-to-stylescss)
+-   [Adding the static template tag to polls/index.html](#adding-the-static-template-tag-to-polls-indexhtml)
+-   [Adding a background image to style.css](#adding-a-background-image-to-stylecss)
+-   [Warning](#warning)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Customizing our app's look and feel
+
+`Besides` HTML `generated` by the `server`, `web applications` usually also
+`need` to `serve` additional `files` such as `images`, `JavaScript`, or `CSS`.
+`These` are n`ecessary` to `add` further f`unctionality` to (`JS`) and
+`prettify` the `web page`. In `Django`, these `files` are `referred` to as
+`“static files”`.
+
+`In order` to `make` this `happen`, `first` we `have` to c`reate` a `static`
+directory `inside` our `polls` directory. `Django` will `look` for
+`static files` there. `This` is `similar` to how `Django` finds `templates`
+inside `polls/templates/`.
+
+`Next`, we `add` a `polls directory` inside `static`, `and` inside `polls`, we
+`add` a `style.css` file.
+
+### STATICFILES_FINDERS setting
+
+The `STATICFILES_FINDERS` setting `is` not `added` to `settings.py` by
+`default`, but `contains` a `list` of `finders` that `know how` to `discover`
+static `files` from `various sources`. `One` of the `defaults` is
+`AppDirectoriesFinderlooks`, which `looks` for a `“static” subdirectory` in
+`each` of the `INSTALLED_APPS`, `like` the `one` in `polls` we just c`reated`.
+The `admin` site `uses` the `same` directory `structure` for its `static files`.
+
+Our `styles` should `now` be inside `polls/static/polls/styles.css`. `Because`
+of `how` the A`ppDirectoriesFinder` staticfile `finder` works, `we` can `refer`
+to this `static file` in `Django` as `polls/style.css`, `similar` to `how` we
+`referenced` the `path` for `templates`.
+
+## Static file namespacing
+
+`According` to the `Django` tutorial `part 6` documentation,
+
+> Just like templates, we might be able to get away with putting our static
+> files directly in polls/static (rather than creating another polls
+> subdirectory), but it would actually be a bad idea. Django will choose the
+> first static file it finds whose name matches, and if you had a static file
+> with the same name in a different application, Django would be unable to
+> distinguish between them. We need to be able to point Django at the right one,
+> and the best way to ensure this is by namespacing them. That is, by putting
+> those static files inside another directory named for the application itself.
+
+## Adding CSS to styles.css
+
+`Next`, `we` can `add` the following `CSS` inside `styles.css`:
+
+```css
+li a {
+	color: green;
+}
+```
+
+## Adding the static template tag to polls/index.html
+
+`Next`, `we` can `add` the `following` template `tag` inside `index.html`:
+
+```django
+<!-- polls/index.html -->
+<!-- new -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="This is the Django Polls Home Page.">
+    <meta name="keywords"
+          content="Django, Python, polls, questions, choices, votes">
+    <title>
+      {% block title %}
+        Django Polls Home Page
+      {% endblock title %}
+    </title>
+    {% block stylesheet %}
+      <!-- new -->
+      <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+    {% endblock stylesheet %}
+  </head>
+  <body>
+    {% block body %}
+      {% if latest_question_list %}
+        <ul>
+          {% for question in latest_question_list %}
+            <li>
+              <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No polls available.</p>
+      {% endif %}
+    {% endblock body %}
+  </body>
+</html>
+```
+
+`Now` we can `run` the `development server` and `see` what `adding` a
+`static directory` with a `style.css` file `did` for our `application`:
+
+```shell
+python3 manage.py runserver
+```
+
+`Then`, I `went` to the `browser` at `http://127.0.0.1:8000/polls/`, and `the`
+following `appeared`:
+
+![Result of adding a static directory and style.css file](Screenshot-2025-01-10-at-9.15.49-AM.jpg)
+
+_Result of adding a static directory and style.css file_
+
+The `{% static %}` template `tag` generates `the` absolute `URL` of
+`static files`. That’s `all` we `need` to `do` for `development`.
+
+## Adding a background image to style.css
+
+```css
+body {
+	background: white url('../images/david-clode-J_5xvghAvmc-unsplash.jpg')
+		center center no-repeat;
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+}
+
+li a {
+	color: #00ffff;
+}
+```
+
+`Now`, `when` I `go` to the `browser` at `http://localhost:8000/polls/`, the
+`index.html` page `looks like` the `following`:
+
+![Adding background to index.html](Screenshot-2025-01-10-at-9.33.35-AM.jpg)
+
+_Adding background to index.html_
+
+## Warning
+
+`According` to the `Django Polls` tutorial `documentation`,
+
+> The `{% static %}` template tag is not available for use in static files which
+> aren’t generated by Django, like your stylesheet. You should always use
+> relative paths to link your static files between each other, because then you
+> can change STATIC_URL (used by the static template tag to generate its URLs)
+> without having to modify a bunch of paths in your static files as well.
+
+`These` are the `staticfiles basics`. `For` more `details` on `settings` and
+`other` bits `included` with the `framework`, see the
+[static files howto](https://docs.djangoproject.com/en/5.1/howto/static-files/)
+and the
+[staticfiles reference](https://docs.djangoproject.com/en/5.1/ref/contrib/staticfiles/).
+[Deploying static files](https://docs.djangoproject.com/en/5.1/howto/static-files/deployment/)
+`discusses` how `to` use `static files` on a `real server`.
+
+## Conclusion
+
+`In` this `section`, we `added` static `files` to our `Django Polls` application
+`configured` for `local development`.
+
+## Related Resources
+
+## Related Posts
