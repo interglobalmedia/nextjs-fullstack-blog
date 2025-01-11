@@ -1,7 +1,7 @@
 ---
 slug: 'creating-the-official-django-polls-app-part-7'
 date: '2025-01-10T16:36:01.233Z'
-lastModified: '2025-01-11T12:51:01.233Z'
+lastModified: '2025-01-11T12:09:01.233Z'
 title: 'Creating the official Django Polls app Part 7'
 author: 'Maria D. Campbell'
 excerpt: "In this section, we customize the Question admin form, add Choice related
@@ -41,6 +41,8 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 -   [Customizing the admin look and feel](#customizing-the-admin-look-and-feel)
 -   [Customizing our project’s templates](#customizing-our-projects-templates)
 -   [Code associated with this post](#code-associated-with-this-post)
+-   [Customizing the admin index page](#customizing-the-admin-index-page)
+    -   [Code associated with customizing the admin index page](#code-associated-with-customizing-the-admin-index-page)
 -   [Conclusion](#conclusion)
 -   [Related Resources](#related-resources)
 -   [Related Posts](#related-posts)
@@ -463,6 +465,97 @@ _Overriding Django admin base_site.html_
 To `view` the `code` associated `with` this `post`, please visit
 [397e660](https://github.com/interglobalmedia/django-polls/commit/397e66002dd4506c36e793aa28e2663a18891886).
 
+## Customizing the admin index page
+
+We could also customize the look and feel of the Django admin index page. We may
+want to make significant changes to the layout. After all, the index is probably
+the most important page of the admin, and it should be easy to use.
+
+The template to customize is admin/index.html. We should do the same as with
+admin/base_site.html. We copy it from the default directory to your custom
+template directory). We edit the file, and we’ll see it uses a template variable
+called app_list. That variable contains every installed Django app. Instead of
+using that, we can hard-code links to object-specific admin pages in whatever
+way we think works best.
+
+I took the admin/index.html from Django's repository on Github (like provided
+earlier) and copied and pasted the contents into my own
+templates/admin/index.html where my base_site.html also resides:
+
+```django
+<!-- templates/admin/index.html -->
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "admin/css/dashboard.css" %}">
+{% endblock %}
+{% block coltype %}
+    colMS
+{% endblock coltype %}
+{% block bodyclass %}
+    {{ block.super }} dashboard
+{% endblock bodyclass %}
+{% block nav-breadcrumbs %}{% endblock %}
+{% block nav-sidebar %}{% endblock %}
+{% block content %}
+    <div id="content-main">{% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}</div>
+{% endblock content %}
+{% block sidebar %}
+    <div id="content-related">
+        <div class="module" id="recent-actions-module">
+            <h2>{% translate "Recent actions" %}</h2>
+            <h3>{% translate "My actions" %}</h3>
+            {% load log %}
+            {% get_admin_log 10 as admin_log for_user user %}
+            {% if not admin_log %}
+                <p>{% translate 'None available' %}</p>
+            {% else %}
+                <ul class="actionlist">
+                    {% for entry in admin_log %}
+                        <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                            <span class="visually-hidden">
+                                {% if entry.is_addition %}
+                                    {% translate "Added:" %}
+                                {% elif entry.is_change %}
+                                    {% translate "Changed:" %}
+                                {% elif entry.is_deletion %}
+                                    {% translate "Deleted:" %}
+                                {% endif %}
+                            </span>
+                            {% if entry.is_deletion or not entry.get_admin_url %}
+                                {{ entry.object_repr }}
+                            {% else %}
+                                <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                            {% endif %}
+                            <br>
+                            {% if entry.content_type %}
+                                <span class="mini quiet">
+                                    {% filter capfirst %}
+                                        {{ entry.content_type.name }}
+                                    {% endfilter %}
+                                </span>
+                            {% else %}
+                                <span class="mini quiet">{% translate "Unknown content" %}</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endblock sidebar %}
+```
+
+I have to examine this more carefully and get to know what is what, but I will
+end up customizing it in some way!
+
+### Code associated with customizing the admin index page
+
+To `view` the `code` associated with `customizing` the `admin` index `page`,
+please visit
+[0998605](https://github.com/interglobalmedia/django-polls/commit/09986053cf1531a8ea51ebe30e00202b294a163a).
+
 ## Conclusion
 
 In this section, we customized the Question admin form, added Choice related
@@ -473,6 +566,8 @@ customized our project's templates.
 ## Related Resources
 
 -   [Writing your first Django app, part 7](https://docs.djangoproject.com/en/5.1/intro/tutorial07/):
+    Django documentation
+-   [The Django admin site](https://docs.djangoproject.com/en/5.1/ref/contrib/admin/):
     Django documentation
 
 ## Related Posts
