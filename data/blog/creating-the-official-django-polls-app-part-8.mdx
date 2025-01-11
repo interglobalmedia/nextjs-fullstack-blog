@@ -1,0 +1,240 @@
+---
+slug: 'creating-the-official-django-polls-app-part-8'
+date: '2025-01-11T00:14:10.537Z'
+lastModified: '2025-01-11T19:54:10.537Z'
+title: 'Creating the official Django Polls app Part 8'
+author: 'Maria D. Campbell'
+excerpt: "In this section, we install the Django Debug Toolbar, configure the toolbar
+so it appears in the browser when we run our development server, learn
+that we can customize the toolbar, run our Django Polls project in the browser
+to view the toolbar, are introduced to resources where we can access
+other third party packages to use in our applications, and are provided with
+next steps."
+image: david-clode-J_5xvghAvmc-unsplash.jpg
+tags: ['fullstack development', 'macOS', 'django', 'python3', 'django commons', 'django debug toolbar', 'django settings', 'pip', 'series', 'third party packages', 'tutorial',]
+isPublished: true
+isFeatured: false
+---
+
+![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.jpg)
+
+_Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
+[unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)
+
+## Table of Contents
+
+-   [Installing Django Debug Toolbar](#installing-django-debug-toolbar)
+-   [Customizing the toolbar](#customizing-the-toolbar)
+-   [Running our project in the browser](#running-our-project-in-the-browser)
+-   [Installing other third-party packages](#installing-other-third-party-packages)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+`Now` we'll `become acquainted` with `third-party` packages. `One` of `Django`’s
+appealing `features` is their `rich ecosystem` of `third-party` packages.
+They’re `community` developed `packages` that `can` be `used` to quickly `add`
+new `features` to an `application`.
+
+`We` will `learn` how to `add` the `Django Debug Toolbar`, `which` is a commonly
+`used` third party `package`. The `Django Debug Toolbar` has `ranked` in the
+`top` three `most` used `third-party` packages in the `Django Developers Survey`
+in `recent years`.
+
+## Installing Django Debug Toolbar
+
+The `Django Debug Toolbar` is a `useful tool` for `debugging` Django
+`applications`. `It’s` a `third-party` package that is `maintained` by the
+`community organization` [Django Commons](https://github.com/django-commons).
+`The` toolbar `helps` us `understand` how `our` application `functions` and `to`
+identify `problems`. `It` does `so` by providing `panels` that `provide` debug
+`information` about `the` current `request` and `response`.
+
+To `install` a `third-party application` like the `toolbar`, we `need` to
+`install` the `package` by `running` the below `command` within an `activated`
+virtual `environment`. `This` is `similar` to our `earlier` step `for`
+installing `Django`:
+
+```shell
+pip install django-debug-toolbar
+```
+
+`Then`, as `before`, we `run` the following `command` to add
+`django-debug-toolbar` to our `requirements.txt`:
+
+```shell
+pip freeze > requirements.txt
+```
+
+`After` running `pip freeze > requirements.txt`, `we` also `have` to `add` the
+`package` to our `INSTALLED_APPS` in `settings.py`:
+
+```python
+INSTALLED_APPS = [
+    # ... all other apps
+    'debug_toolbar',
+]
+```
+
+`Then` we `have` to `add` the `Debug` Toolbar `middleware` to our
+`MIDDLEWARE setting` in `settings.py`:
+
+```python
+MIDDLEWARE = [
+    # ... all other middleware
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+```
+
+`Then` we `have` to `configure` an `INTERNAL_IPS` in `settings.py` to `allow`
+the `toolbar` to be `displayed` (`typically` set to '127.0.0.1'):
+
+```python
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+```
+
+`Then` we `have` to `add` the `following` to `django_polls/urls.py`:
+
+```python
+import debug_toolbar
+
+urlpatterns = [
+    path('polls/', include('polls.urls')),
+    path('admin/', admin.site.urls),
+    path('__debug__/', include(debug_toolbar.urls)),
+]
+```
+
+`The` above `configuration` is `not` from the `official` Django Debug Toolbar
+`documentation`. `Their` way `differs` slightly. `The` only `place` where it
+`differs` is in `urls.py`.
+
+```python
+# django_polls/urls.py
+rom debug_toolbar.toolbar import debug_toolbar_urls
+
+urlpatterns = [
+    # ... the rest of your URLconf goes here ...
+] + debug_toolbar_urls()
+```
+
+`Either` way `works`. `Django Debug Toolbar`'s approach `follows` the
+`configuration convention` for `development` environments. We `do` something
+`similar` when `configuring` static `files` for `development`, `specifically`
+media (images) `files`.
+
+`If` you `want` to `learn more` about `Django Debug Toolbars`, `visit` their
+`documentation` entitled
+[Django Debug Toolbar Installation](https://django-debug-toolbar.readthedocs.io/en/latest/installation.html).
+
+## Customizing the toolbar
+
+`We` can `further configure` the `toolbar` by `using` the `DEBUG_TOOLBAR_CONFIG`
+setting. `We` can `refer` to the
+[documentation](https://django-debug-toolbar.readthedocs.io/en/latest/installation.html)
+`for` the `available options`.
+
+## Running our project in the browser
+
+`Next`, `we` can `start` our `Django` development `server` and `access` our
+`website` in a `browser`. `If` we're `accessing` the `site` from an `allowed` IP
+`address` (as `specified` in `INTERNAL_IPS`), `we` should `see` the
+`debug toolbar` on the `page`.
+
+When `I` visit `http://127.0.0.1:8000/polls/`, `the` browser `window` looks
+`like` the `following`:
+
+![Adding the django debug toolbar](Screenshot-2025-01-11-at-12.40.49-PM.jpg)
+
+_Adding the django debug toolbar_
+
+`Wherever` I `go` on the `site`, the `django debug toolbar` appears.
+
+`We` also `should` be `able` to `see` the `DjDT “handle”` on the `right side` of
+the `browser window` when we `browse` to http://localhost:8000/admin/. `We` can
+`click` it to `open` the `debug toolbar` and `use` the `tools` in each `panel`.
+`We` can `view` the
+[panels documentation page](https://django-debug-toolbar.readthedocs.io/en/latest/panels.html)
+`for` more `information` on `what` the `panels` show.
+
+`When` I went `into` my `admin interface` in the `browser`, `it` looked `like`
+the `following`:
+
+![Admin interface including Django Debug Toolbar](Screenshot-2025-01-11-at-2.37.00-PM.jpg)
+
+_Admin interface including Django Debug Toolbar_
+
+`When` I `clicked` on `"Hide"` to `the` top `right` of the `browser window`,
+`the` following `appeared`:
+
+![Appearance of the DJDT box](Screenshot 2025-01-11 at 2.40.17 PM.jpg)
+
+_Appearance of the DJDT box_
+
+`When` I `clicked` on the `DJDT` box, the `Django Debug Toolbar` reappeared.
+
+## Installing other third-party packages
+
+`There` are `many` more `third-party` packages `which` we `can` find `using` the
+`Django` resource [Django Packages](https://djangopackages.org).
+
+`It` can be `hard` to `choose` which `third-party` packages `we` should `use`.
+`It` really `depends` on our `needs` and `objectives`. `Sometimes` it’s `okay`
+to `use` a `package` that’s in `alpha` stage. `Sometimes` we `need` to `know` if
+it’s `production` ready. `Adam Johnson` (who's written a lot of great articles
+on Django development) `has` a `blog post` regarding what `qualifies` a
+`package` as `“well maintained”` entitled
+[The Well-Maintained Test: 12 Questions for New Dependencies](https://adamj.eu/tech/2021/11/04/the-well-maintained-test/).
+[Django Packages](https://djangopackages.org) shows `data` for some
+`characteristics`, `such` as `when` a `package` was `last updated`.
+
+`According` to
+[Writing your first Django app, part 8](https://docs.djangoproject.com/en/5.1/intro/tutorial08/),
+
+> As Adam points out in his post, when the answer to one of the questions is
+> “no”, that’s an opportunity to contribute.
+
+`If` you `want` to `see` what `Django` suggests `for` next `steps`, please visit
+[Writing your first Django app, part 8](https://docs.djangoproject.com/en/5.1/intro/tutorial08/)
+and `go down` to the `section` entitled "What's next?".
+
+The `next` (advanced) `tutorial` suggested by `Django` after `this one` is
+entitled
+[How to write reusable apps](https://docs.djangoproject.com/en/5.1/intro/reusable-apps/).
+I `know` I `will` be `checking` it `out` to `see` if `there` is `anything` I
+`haven't` yet `learned`. `I` also `have` a `series` here `on` the `site`
+entitled `"How to create a fullstack application using Django and Python"` in
+`which` we `write` reusable `apps`. `If` you `want` to `learn more`, please
+visit
+[How to create a fullstack application using Django and Python Table of Contents](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents).
+`I` still `have` a `couple of` more `sections` to `write` in `order` to
+`complete` the `series`, `but` 33 `sections` have `already` been `completed`.
+`By` the `time` you `get` to `34`, it `and` the `rest` will `already` have
+`been` published. `Check` it `out`!
+
+## Conclusion
+
+`In` this `section`, we `installed` the `Django Debug Toolbar`, `configured` the
+`toolbar` so `it` would `appear` in the `browser` when `we` ran `our`
+development `server`, `learned` that `we` can `customize` the `toolbar`, `ran`
+our `Django Polls` project in the `browser` to `view` the `toolbar`, were
+`introduced` to `resources` where `we` could `access` other `third` party
+`packages` to `use` in our `applications`, `and` were `provided` with
+`next steps`.
+
+## Related Resources
+
+-   [Writing your first Django app, part 8](https://docs.djangoproject.com/en/5.1/intro/tutorial08/):
+    Django documentation
+-   [Django Debug Toolbar Installation](https://django-debug-toolbar.readthedocs.io/en/latest/installation.html):
+    _Django Debug Toolbar documentation_
+-   [Django Debug Toolbar on GitHub](https://github.com/django-commons/django-debug-toolbar/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
+
+## Related Posts
+
+-   [Creating the official Django Polls app table of contents](/blog/creating-the-official-django-polls-app-table-of-contents):
+    `mariadcampbell.com`
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents):
+    `mariadcampbell.com`
