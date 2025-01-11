@@ -1,0 +1,125 @@
+---
+slug: 'how-to-upgrade-the-python-version-in-a-virtual-environment'
+date: '2025-01-11T13:59:51.225Z'
+lastModified: '2025-01-11T16:05:51.225Z'
+title: 'How to upgrade the Python version in a virtual environment'
+author: 'Maria D. Campbell'
+excerpt: "In this post, I show how to upgrade the Python version being used in a Django
+application's virtual environment."
+image: mitchell-luo-G5i9LQ7sPOw-unsplash.jpg
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'django',
+        'pip',
+        'python3',
+        'dependencies',
+        'django commons',
+        'django debug toolbar',
+        'third party packages',
+        'venv',
+        'virtual environment',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Various tools on a wall](mitchell-luo-G5i9LQ7sPOw-unsplash.jpg)
+
+_Photo by_ [Mitchell Luo](https://unsplash.com/@mitchel3uo) _on_
+[unsplash.com](https://unsplash.com/photos/black-and-silver-claw-hammer-beside-red-and-black-hand-tool-G5i9LQ7sPOw)
+
+## Table of Contents
+
+-   [Activating the virtual environment](#activating-the-virtual-environment)
+-   [Saving my current dependencies](#saving-my-current-dependencies)
+-   [De-activating the virtual environment](#de-activating-the-virtual-environment)
+-   [Deleting the current venv folder](#deleting-the-current-venv-folder)
+-   [Creating a new venv folder](#creating-a-new-venv-folder)
+-   [Re-activating the virtual environment](#re-activating-the-virtual-environment)
+-   [Installing saved dependencies](#installing-saved-dependencies)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+`I` was `working` on a `new project` today (the `official` Django `Polls` app
+`tutorial` as a matter of fact), `and` I `noticed` that my `virtual environment`
+was `using` Python `3.12`. `But` in `my project`, `I` am `using` Python
+`3.13.0`. `Using` different `versions` of `Python` in the `virtual environment`
+vs `in` the `code` can `create problems` and `conflicts`. I `had` to `upgrade`
+my `version` of `Python` in my `venv` folder `pronto`!
+
+## Activating the virtual environment
+
+`First`, I `had` to `make sure` that my `virtual environment` was `activated` in
+my `project`:
+
+```shell
+source venv/bin/activate
+```
+
+## Saving my current dependencies
+
+`Next`, I `had` to `make sure` to `save` my `application`'s current
+`dependencies`:
+
+```shell
+pip freeze > requirements.txt
+```
+
+## De-activating the virtual environment
+
+`Next`, I `had` to `deactivate` the `virtual environment`:
+
+```shell
+deactivate
+```
+
+## Deleting the current venv folder
+
+`Next`, I `had` to `delete` the `current` venv `folder`. `That` is `what` I
+`call` my `virtual` environment `folder`. `You` might `call` it
+`something else`!
+
+## Creating a new venv folder
+
+`Next`, I `had` to `create` a `new` venv `folder` using `3.13` since `that` is
+`what` I `wanted` to `upgrade` to:
+
+```shell
+python3.13 -m venv venv
+```
+
+## Re-activating the virtual environment
+
+`Next`, I `had` to `re-activate` the `virtual environment`:
+
+```shell
+source venv/bin/activate
+```
+
+## Installing saved dependencies
+
+`Next`, I `had` to `install` my `saved dependencies`:
+
+```shell
+pip install -r requirements.txt
+```
+
+And that's it!
+
+## Conclusion
+
+`In` this `post`, I `showed` how to `upgrade` the `Python version` being `used`
+in a `Django` application's `virtual environment`.
+
+## Related Resources
+
+-   [How to upgrade Python venv version](https://stackoverflow.com/questions/71106411/how-to-upgrade-python-venv-version):
+    stackoverflow
+
+## Related Posts
+
+-   [Creating the official Django Polls app Part 8](/blog/creating-the-official-django-polls-app-part-8):
+    `mariadcampbell.com`
