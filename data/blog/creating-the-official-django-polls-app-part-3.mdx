@@ -194,27 +194,28 @@ the matching `polls/` text and `sends` the remaining `34/` text to the
 detail(request=<HttpRequest object>, question_id=34)
 ```
 
-`question_id=34` comes from `<int:question_id>`. The use of angle brackets
-"captures" the part of the URL representing the question_id and sends it as a
-keyword argument to the view function.
+`question_id=34` comes from `<int:question_id>`. The `use` of `angle brackets`
+"captures" the `part` of `the` URL `representing` the `question_id` and `sends`
+it `as` a `keyword argument` to the `view` function.
 
-The question_id part of the string defines the name that will be used to
-identify the matched pattern, and the int part is a converter that determines
-what patterns should match the part of the URL path. The `:` separates the
-converter from the pattern name.
+The `question_id` part `of` the string `defines` the `name` that `will` be
+`used` to `identify` the `matched pattern`, and `the` int `part` is a
+`converter` that `determines` what `patterns` should `match` the `part` of the
+`URL` path. The `:` separates the `converter` from the `pattern` name.
 
 ### Writing views that actually work
 
-Each view is responsible for doing one of two things: returning an HttpResponse
-object containing the content for the requested page, or raising an exception
-such as Http404.
+Each `view` is `responsible` for `doing` one `of` two `things`: `returning` an
+`HttpResponse` object `containing` the `content` for the `requested` page, or
+`raising` an `exception` such as `Http404`.
 
-Our view can read records from a database or not. It can use a template engine
-such as the Django template engine, or a third party Python template engine or
-not. It can generate a PDF file, output XML, create a ZIP file on the fly,
-anything we want, using whatever Python libraries we want.
+Our `view` can read `records` from a `database` or `not`. `It` can `use` a
+`template engine` such `as` the `Django` template `engine`, `or` a t`hird party`
+Python `template engine` or `not`. `It` can `generate` a `PDF` file, output
+`XML`, `create` a `ZIP` file on the `fly`, `anything` we `want`, `using`
+whatever `Python` libraries we `want`.
 
-All Django wants is that HttpResponse or an exception.
+`All` Django `wants` is that `HttpResponse` or an `exception`.
 
 ### Re-writing the index view
 
@@ -227,35 +228,38 @@ def index(request):
     return HttpResponse(output)
 ```
 
-However, there is a problem here. The page's design is hard-coded in the view.
-If we want to change the way the page looks, we would have to edit the Python
-code. That is because we haven't created a template for the index view yet. By
-creating a template for this index view, we will be able to separate the page
-design (template) from the Python code in views.py.
+`However`, there `is` a `problem` here. The `page`'s `design` is `hard-coded` in
+the `view`. `If` we `want` to `change` the `way` the `page` looks, `we` would
+`have` to `edit` the `Python` code. `That` is `because` we haven't `created` a
+`template` for the `index` view `yet`. By `creating` a `template` for this
+`index` view, `we` will `be able` to `separate` the `page design` (`template`)
+from the `Python` code in `views.py`.
 
 ## Creating a templates directory in the polls directory
 
-According to the tutorial, we are creating a templates directory in the polls
-directory. I have always created the templates directory in the root of the
-project. Let's see what the difference or advantage may be in creating it inside
-the polls directory. Apparently, by default, settings.py configures a
-DjangoTemplates backend whose APP_DIRS option is set to True, and
-DjangoTemplates looks for a “templates” subdirectory in each of the
-INSTALLED_APPS.
+`According` to the `tutorial`, we are `creating` a `templates` directory in the
+`polls` directory. I `have` always `created` the `templates` directory in the
+`root` of the `project`. Let's `see` what the `difference` or `advantage` may
+`be` in `creating` it `inside` the `polls` directory. `Apparently`, by default,
+`settings.py` configures a `DjangoTemplates` backend `whose` APP_DIRS `option`
+is `set` to `True`, and `DjangoTemplates` looks `for` a “templates”
+`subdirectory` in `each` of the `INSTALLED_APPS`.
 
-Next, I create a subdirectory inside templates called polls. Within polls, I
-create a file called index.html. However, even though index.html resides in
-polls/templates/polls/index.html, because of how the app_directories template
-loader works, we can refer to this template within Django as polls/index.html.
+`Next`, I `create` a `subdirectory` inside `templates` called `polls`. Within
+`polls`, I `create` a `file` called `index.html`. `However`, `even` though
+`index.html` resides in `polls/templates/polls/index.html`, `because` of `how`
+the `app_directories` template `loader` works, `we` can `refer` to this
+`template` within `Django` as `polls/index.html`.
 
 ### Template namespacing
 
-The reason we place our polls templates inside templates/polls/ is because
-django will choose the first template it finds whose name matches, and if we had
-a template in another app with the same name, Django would be unable to
-distinguish between them. We need to be able to point Django to the right one,
-and the best way to do this is by namespacing. In other words, putting the
-templates inside another directory with the name of the app itself.
+The `reason` we `place` our `polls` templates `inside` templates/polls/ is
+`because` Django will `choose` the `first template` it `finds` whose `name`
+matches, and `if` we `had` a `template` in `another app` with `the` same `name`,
+`Django` would be `unable` to `distinguish` between `them`. We `need` to
+`be able` to point `Django` to `the` right `one`, `and` the `best way` to
+`do this` is by `namespacing`. `In` other `words`, `putting` the `templates`
+inside another `directory` with the `name` of `the` app `itself`.
 
 ### Adding Django code to index.html
 
@@ -306,11 +310,12 @@ def index(request):
 ...
 ```
 
-The code above loads the template polls/index.html and passes it a context. The
-context is a dictionary mapping template variable names to Python objects.
+The `code` above `loads` the template `polls/index.html` and `passes` it a
+`context`. The `context` is a `dictionary` mapping `template` variable `names`
+to `Python` objects.
 
-Now, when I go to the browser and reload `http://127.0.0.1:8000`, the following
-appears:
+`Now`, `when` I `go` to the `browser` and reload `http://127.0.0.1:8000`, `the`
+following `appears`:
 
 ![Question 1 rendered to the page](Screenshot-2025-01-06-at-8.44.51-PM.jpg)
 
@@ -318,10 +323,10 @@ _Question 1 rendered to the page_
 
 ## The render() shortcut
 
-The render() shortcut function simplifies the process of rendering a template
-with context data and returning an HttpResponse object.
+The `render()` shortcut `function` simplifies the `process` of `rendering` a
+`template` with `context data` and `returning` an `HttpResponse` object.
 
-We can refactor the index view to use this render() function:
+`We` can `refactor` the `index` view `to` use this `render() `function:
 
 ```python
 from django.shortcuts import render
@@ -337,41 +342,43 @@ def index(request):
     return render(request, "polls/index.html", context)
 ```
 
-When we use render(), we no longer need to use HttpResponse or loader.
+When `we` use `render()`, we `no` longer `need` to use `HttpResponse` or
+`loader`.
 
-render() takes the request object as its first argument, a template name as its
-second argument, and a dictionary (context) as its optional third argument. It
-returns an HttpResponse object of the given template rendered with the given
-context.
+render() `takes` the `request` object `as` its `first argument`, a
+`template name` as its `second argument`, `and` a `dictionary` (`context`) as
+`its` optional `third argument`. It `returns` an `HttpResponse` object of `the`
+given `template` rendered `with` the given `context`.
 
-Arguments:
+**Arguments**:
 
-1. request: HttpRequest object representing the current request.
-1. template_name: The path to the template file we want to render (e.g.,
-   'polls/index.html').
-1. context (optional): A dictionary containing the data we want to pass to the
-   template.
+1. **request**: `HttpRequest` object `representing` the `current request`.
+1. **template_name**: The `path` to the `template` file we `want` to `render`
+   (e.g., `'polls/index.html'`).
+1. `context` (optional): A `dictionary` containing the `data` we `want` to
+   `pass` to the `template`.
 
-How it works:
+**How it works**:
 
-1. Django's template engine searches for the specified template file.
-1. The template engine processes the template, replacing variables with their
-   values from the context dictionary.
-1. The render() function creates an HttpResponse object containing the rendered
-   HTML content.
-1. The HttpResponse object is returned, ready to be sent to the user's browser.
+1. `Django`'s `template` engine `searches` for the `specified` template `file`.
+1. The `template` engine `processes` the `template`, replacing `variables` with
+   their `values` from the `context dictionary`.
+1. `The` render() `function` creates an `HttpResponse` object `containing` the
+   `rendered` HTML `content`.
+1. The `HttpResponse` object is `returned`, `ready` to be `sent` to the `user`'s
+   `browser`.
 
-Benefits:
+**Benefits**:
 
-1. render() combines several common steps into one, making our view functions
-   more concise.
-1. By separating the logic of our view from the presentation of our template,
-   our code becomes easier to read and maintain.
+1. `render()` combines `several` common `steps` into `one`, `making` our `view`
+   functions more `concise`.
+1. By `separating` the `logic` of our `view` from the `presentation` of our
+   `template`, our `code` becomes `easier` to `read` and `maintain`.
 
 ## Raising a 404 error in the detail view
 
-Next, we'll work on the detail view. The detail view displays the question text
-for a given poll:
+`Next`, we'll `work` on the `detail` view. The `detail` view `displays` the
+`question text` for `a` given `poll`:
 
 ```python
 # polls/views.py
@@ -383,12 +390,12 @@ def detail(request, question_id):
     return render(request, "polls/detail.html", {"question": question})
 ```
 
-Here, the detail view raises the Http404 exception if q question with the
-requested ID does not exist.
+`Here`, `the` detail `view` raises the `Http404 exception` if q `question` with
+the `requested` ID `does` not `exist`.
 
-For now, according to the tutorial, we won't proceed yet with the detail view.
-But if we want to see something of it, we can add the following to a new
-polls/templates/polls/detail.html file:
+`For now`, `according` to the `tutorial`, `we` won't `proceed` yet `with` the
+`detail` view. `But` if we `want` to `see` something `of it`, `we` can `add` the
+`following` to `a` new `polls/templates/polls/detail.html` file:
 
 ```django
 <!-- polls/templates/polls/detail.html -->
@@ -407,7 +414,7 @@ polls/templates/polls/detail.html file:
 </html>
 ```
 
-It resulted in the following on the detail page:
+It `resulted` in the `following` on the `detail` page:
 
 ![Result of the detail view](Screenshot-2025-01-07-at-12.34.55-AM.jpg)
 
@@ -415,8 +422,9 @@ _Result of the detail view_
 
 ## get_object_or_404()
 
-There is a shortcut for using get() and raising an Http404 if an object does not
-exist called get_object_or_404(). We can use it in the detail view:
+`There` is a `shortcut` for using `get()` and `raising` an `Http404` if an
+`object` does not `exist` called `get_object_or_404()`. `We` can `use` it `in`
+the `detail` view:
 
 ```python
 def detail(request, question_id):
@@ -424,57 +432,60 @@ def detail(request, question_id):
     return render(request, "polls/detail.html", {"question": question})
 ```
 
-get_object_or_404() takes a Django models as its first argument, followed by an
-arbitrary number of keyword args, which it passes to the get() function of the
-model's manager. It raises Http404 if the object doesn’t exist.
+`get_object_or_404()` takes `a` Django `model` as its `first argument`, followed
+`by` an `arbitrary number` of `keyword args`, `which` it `passes` to the `get()`
+function of the `model`'s manager. `It` raises `Http404` if the `object` doesn’t
+`exist`.
 
 ### Model's manager in Django
 
-In Django, a model's manager is an object that provides an interface for
-interacting with the database and retrieving model instances. It acts as a
-bridge our model and the database, allowing to perform queries and other
-operations.
+In `Django`, a `model`'s `manager` is an `object` that `provides` an `interface`
+for `interacting` with the `database` and `retrieving` model `instances`. It
+`acts` as a `bridge` between our `model` and the `database`, `allowing` us `to`
+perform `queries` and other `operations`.
 
-The default model manager:
+**The default model manager**:
 
-Every Django model has at least one manager, called objects by default. We use
-it to perform database operations like:
+`Every` Django` model` has `at least` one `manager`, called `objects` by
+`default`. `We` use `it` to `perform` database `operations` like:
 
-1. Model.objects.all() to retrieve all instances of a model.
-1. Model.objects.filter(condition) to retrieve instances that meet specific
-   conditions.
-1. Model.objects.create(data) to create a new instance of the model.
-1. Model.objects.get(condition) to retrieve a single instance that meets a
-   specific condition.
+1. `Model.objects.all()` to `retrieve` all `instances` of a `model`.
+1. `Model.objects.filter(condition)` to retrieve `instances` that `meet`
+   specific `conditions`.
+1. `Model.objects.create(data)` to `create` a `new instance` of the `model`.
+1. `Model.objects.get(condition)` to `retrieve` a single `instance` that `meets`
+   a `specific condition`.
 
-Custom managers:
+**Custom managers**:
 
-We can define custom managers gto add specialized behavior to our models. For
-example:
+`We` can `define` custom `managers` to `add` specialized `behavior` to our
+`models`. For example:
 
-1. Filtering to create a manager that returns only a subset of objects based on
-   specific criteria.
-1. Calculations that add methods to perform calculations on model data.
-1. Data modification, defining methods to perform complex updates or deletions
-   on model instances.
+1. `Filtering` to `create` a `manager` that `returns` only a `subset` of
+   `objects` based on `specific criteria`.
+1. `Calculations` that `add` methods `to` perform `calculations` on `model`
+   data.
+1. `Data modification`, `defining` methods to `perform` complex `updates` or
+   `deletions` on `model` instances.
 
-Benefits of using managers:
+**Benefits of using managers**:
 
-1. Clean code. Managers bundle database logic including the methods (functions)
-   that operate on that database within a single unit, making our model code
-   more readable and maintainable.
-1. Reusability. We can write common queries and operations once in a (custom)
-   manager and reuse them throughout our application.
-1. Flexibility. Managers provide a powerful way to customize how we access and
-   manipulate our data.
+1. **Clean code**. Managers `bundle` database `logic` including the `methods`
+   (`functions`) that `operate` on that `database` within a `single unit`,
+   `making` our `model code` more `readable` and `maintainable`.
+1. **Reusability**. We `can` write `common queries` and `operations` once in a
+   (`custom`) `manager` and `reuse` them `throughout` our `application`.
+1. **Flexibility**. Managers `provide` a `powerful way` to `customize` how we
+   `access` and `manipulate` our `data`.
 
 ### Manager names
 
-As already mentioned, by default, Django adds a Manager with the name objects to
-every Django model class. But if we want to use objects as a field name or to
-use a name other than objects for the Manager, we can rename it on a per model
-basis. To rename the Manager for a given class, we can define a class attribute
-of type models.Manager() on that model. For example:
+`As` already `mentioned`, `by default`, Django `adds` a `Manager` with `the`
+name `objects` to `every` Django `model class`. But `if` we `want` to `use`
+objects `as` a `field name` or to `use` a `name` other than `objects` for the
+`Manager`, `we` can `rename` it `on` a `per` model `basis`. To `rename` the
+`Manager` for a `given class`, `we` can `define` a `class attribute` of type
+`models.Manager()` on that `model`. For example:
 
 ```python
 from django.db import models
@@ -484,15 +495,16 @@ class Question(models.Model):
     questions = models.Manager()
 ```
 
-In the above example model, Question.objects will throw an AttributeError
-exception, but Question.questions.all() will provide a list of all Question
-objects. To learn more about manager names, please visit
-[Managers](https://docs.djangoproject.com/en/5.1/topics/db/managers/) in the
-Django documentation.
+`In` the `above` example `model`, `Question.objects` will `throw` an
+`AttributeError` exception, but `Question.questions.all()` will `provide` a
+`list` of all `Question` objects. To `learn more` about `manager names`,
+`please` visit
+[Managers](https://docs.djangoproject.com/en/5.1/topics/db/managers/) in `the`
+Django `documentation`.
 
 ## Using the templating engine system
 
-Next, we can add the following to polls/templates/polls/detail.html:
+`Next`, `we` can `add` the `following` to `polls/templates/polls/detail.html`:
 
 ```html
 <!-- polls/templates/polls/detail.html -->
@@ -547,15 +559,16 @@ Instead of simply:
 </html>
 ```
 
-The templating engine uses dot lookup syntax ro access variable attributes.
+`The` templating `engine` uses `dot lookup syntax` to `access` variable
+`attributes`.
 
-With `{{ question.question_text }}`, Django first does a dictionary lookup on
-the object question. When that fails, it tries an attribute lookup. This works
-here. If attribute lookup had also failed, it would’ve tried a list-index
-lookup.
+With `{{ question.question_text }}`, `Django` first `does` a `dictionary lookup`
+on the `object` question. `When` that `fails`, it `tries` an `attribute lookup`.
+`This` works `here`. I`f` attribute `lookup` had `also failed`, `it` would’ve
+`tried` a `list-index lookup`.
 
-Examples of dictionary lookup, attribute lookup and list-index lookups using dot
-notation:
+`Examples` of `dictionary lookup`, `attribute lookup` and `list-index lookup`
+using `dot notation`:
 
 ```django
 {{ my_dict.key }}
@@ -563,16 +576,18 @@ notation:
 {{ my_list.0 }}
 ```
 
-As for the detail.html template, methods are called in the `{% for %}` loop.
-question.choice_set.all actually represents question.choice_set.all(), which
-returns an iterable of Choice objects and can be used in the `{% for %}` tag.
+`As for` the `detail.html` template, `methods` are c`alled` in the `{% for %}`
+loop. `question.choice_set.all` actually represents `question.choice_set.all()`,
+which `returns` an `iterable` of `Choice objects` and `can` be `used` in the
+`{% for %}` tag.
 
 ## Removing the hardcoded URL in the template in polls/index.html
 
-Using hardcoded URLs in templates makes it difficult to change URLs on projects
-with a lot of templates. However, since we defined the name argument in the
-path() functions in the polls.urls module, we can remove specific URL paths
-defined in our url configurations by using the `{% url %}` template tag:
+`Using` hardcoded `URLs` in `templates` makes it `difficult` to `change` URLs on
+`projects` with a `lot` of `templates`. `However`, since we `defined` the
+`name argument` in the `path()` functions in the `polls.urls` module, we `can`
+remove `specific` URL `paths` defined `in` our `url configurations` by `using`
+the `{% url %}` template `tag`:
 
 ```django
 <!-- polls/index.html -->
@@ -605,19 +620,20 @@ defined in our url configurations by using the `{% url %}` template tag:
 `'detail'` refers to the URL name defined in polls/urls.py. `question.id` refers
 to the id of the given question "detail".
 
-If we wanted to change the URL of the polls detail view, we would do it in
-polls/urls.py.
+`If` we `wanted` to `change` the `URL` of the `polls` detail `view`, `we` would
+`do it` in `polls/urls.py`.
 
 ## Namespacing URL names
 
-In real Django projects, there might be five, ten, twenty apps or more. How does
-Django differentiate the URL names between them? For example, the polls app has
-a detail view, and so might an app on the same project that is for a blog. How
-does one make it so that Django knows which app view to create for a URL when
-using the `{% url %}` template tag?
+`In` real `Django` projects, there `might` be `five`, `ten`, `twenty` apps or
+`more`. `How` does `Django` differentiate the `URL names` between `them`? For
+example, `the` polls `app` has a `detail` view, `and` so `might` an `app` on
+`the` same `project` that is `for` a `blog`. `How` does `one` make `it` so that
+`Django` knows `which` app `view` to `create` for a `URL` when `using` the
+`{% url %}` template `tag`?
 
-We add namespaces to our URLconf. In the polls/urls.py file, we can add an
-app_name to set the application namespace:
+`We` add `namespaces` to our `URLconf`. `In` the `polls/urls.py` file, `we` can
+`add` an `app_name` to `set` the `application namespace`:
 
 ```python
 # polls/urls.py
@@ -634,7 +650,7 @@ urlpatterns = [
 ]
 ```
 
-Then we update polls/detail.html to the following:
+Then `we` update `polls/detail.html` to the `following`:
 
 ```django
 <!-- polls/detail.html -->
@@ -665,7 +681,7 @@ urlpatterns = [
 ]
 ```
 
-The following is what I had inside django_polls/urls.py:
+The `following` is `what` I `had` inside `django_polls/urls.py`:
 
 ```python
 urlpatterns = [
