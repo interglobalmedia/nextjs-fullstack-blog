@@ -1,0 +1,555 @@
+---
+slug: 'adding-pre-commit-hooks-to-a-django-project'
+date: '2025-01-14T01:08:34.129Z'
+lastModified: '2025-01-14T12:38:34.129Z'
+title: 'Adding pre-commit hooks to a Django project'
+author: 'Maria D. Campbell'
+excerpt: "In this post, we add the pre-commit framework to a Django Project, configure
+pre-commit, add and configure the black autoformatter, the isort code formatter,
+the flake8 linter, and the djLint template linter and formatter."
+image: pexels-cottonbro-6865184.jpg
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'django',
+        'python3',
+        'code formatting',
+        'djlint',
+        'flake8',
+        'isort',
+        'linting',
+        'pre-commit hook',
+    ]
+isPublished: true
+isFeatured: true
+---
+
+![Woman Using Lint Remover](pexels-cottonbro-6865184.jpg)
+
+_Photo by_ [cottonbro studio](https://www.pexels.com/@cottonbro/) _on_
+[pexels.com](https://www.pexels.com/photo/woman-using-lint-remover-6865184/)
+
+## Table of Contents
+
+-   [Adding pre-commit to a Django project](#adding-pre-commit-to-a-django-project)
+    -   [Installing pre-commit](#installing-pre-commit)
+    -   [Configuring pre-commit](#configuring-pre-commit)
+    -   [Running the pre-commit install command](#running-the-pre-commit-install-command) -
+-   [Configuring Black](#configuring-black)
+    -   [Customizing our black settings](#customizing-our-black-settings)
+-   [Configuring isort](#configuring-isort)
+-   [Configuring Flake8](#configuring-flake8)
+    -   [Creating a .flake8 configuration file](#creating-a-flake8-configuration-file)
+-   [Configuring djlint](#configuring-djlint)
+-   [Running pre-commit in Continuous Integration](#running-pre-commit-in-continuous-integration)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+Code `linting` and `formatting` isn't `just` for JavaScript `development`. `It`
+is `also` for `Django` and `Python` development! I `sooo` `recommend` it.
+Without `linting` and `formatting` tools and `pre-commit` hooks `to` make sure
+`they` are `implemented`, `it` would `be` a big `headache` to `do` it
+`manually`, `and` even `unreliable`!
+
+## Adding pre-commit to a Django project
+
+A `pre-commit` is a `review` of `code` before it's `added` to a
+`version control system`'s main `repository`. `It's` a `way` to `ensure` that
+`code` is `high quality` and `follows` coding `standards`.
+
+`According` to [Atlassian](https://www.atlassian.com/git/tutorials/git-hooks),
+
+> Git hooks are scripts that run automatically every time a particular event
+> occurs in a Git repository. They let you customize Git’s internal behavior and
+> trigger customizable actions at key points in the development life cycle.
+> Common use cases for Git hooks include encouraging a commit policy, altering
+> the project environment depending on the state of the repository, and
+> implementing continuous integration workflows. But, since scripts are
+> infinitely customizable, you can use Git hooks to automate or optimize
+> virtually any aspect of your development workflow.
+
+`In` our `case`, `we` are `adding` a `pre-commit` hook to a `Django` project.
+The `Django` projects I `added` the `pre-commit` hooks `to` are
+[Django Polls](https://github.com/interglobalmedia/django-polls) and
+[Django Boards](https://github.com/interglobalmedia/django-boards).
+
+`A` pre-commit `hook` is a `local hook`. A `local hook` affects `only` the
+`repository` in `which` it `resides`. The `thing` to `know` about `local hooks`
+is that `developers` can `modify` their `own` local `hooks`, `so` we `can't` use
+`them` to `enforce` commit `policies`, for example. But `they` can `make` it
+`easier` for `developers` to `stick` to `certain rules`.
+
+A `pre-commit` is `executed` every `time` we `run` a `git commit` before the
+`we` are `able` to `make` our `commit message`. `The` pre-commit `checks` to
+`make sure` that the `commit` being `made` follows `the` rules `set` by
+`linters` or `code formatters` being `used`, for example. `If` our `changes`
+don't `meet` those `standards`, `we` can't `make` our `commit`. `Sometimes` the
+`code formatters` or `linters` will `automatically fix` the `issues` so we're
+`ready` to `re-commit` our `changes`, `but` other `times` they `will` only
+t`ell` us `what` and `where` an `issue` needs `to` be `fixed`.
+
+The [pre-commit framework](https://pre-commit.com) `manages` and `maintains`
+multi-language `pre-commit` hooks. `That` is `what` we `will` be `installing`.
+
+### Installing pre-commit
+
+`Since` we are `dealing` with `Django`, we `will` install `pre-commit` with
+`pip`:
+
+```shell
+pip install pre-commit
+```
+
+`Make sure` that `you` have `activated` your `virtual environment` before
+`running` the `pip` command.
+
+### Configuring pre-commit
+
+`Next`, we `have` to `configure` pre-commit. `To` do `that`, we `need` to
+`create` a `file` called `.pre-commit-config.yaml` inside the `root` of our
+`Django` project:
+
+```shell
+touch .pre-commit-config.yaml
+```
+
+`I` first `added` the `following` to my `.pre-commit-config.yaml` file:
+
+```yaml
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v5.0.0
+      hooks:
+          - id: check-yaml
+          - id: end-of-file-fixer
+          - id: trailing-whitespace
+```
+
+`The` above `configuration` uses `hooks` from the `pre-commit/pre-commit-hooks`
+repository on `GitHub`. The `current version` is `5.0.0`.
+
+`If` you `want` to `make sure` that `all` your `hooks` are `up` to `date`, `you`
+can `run` the following `command`:
+
+```shell
+pre-commit autoupdate
+```
+
+1. `check-yaml` tries to `load` all `yaml` files and `verify` their `syntax`.
+1. `end-of-file-fixer` makes `sure` that `files` end `in` a `new line` and
+   `only` a `new line`.
+1. `trailing-whitespace` trims `trailing whitespace`.
+
+`You` can `check out` the `pre-commit` repository on `GitHub` for a `list` of
+`other` hooks `prvided` by `pre-commit`. `They` also `have` their
+`documentation` at [pre-commit.com](https://pre-commit.com/). It's `worth`
+checking `out`!
+
+### Running the pre-commit install command
+
+Once `we` have `added` our `first configuration` to `.pre-commit-config.yaml`,
+we `run` the `following command`:
+
+```shell
+pre-commit install
+```
+
+This `will` set `up` the `hooks` we `add` to `.pre-commit-config.yaml` locally.
+After `installation`, `every time` we run `git commit`, the `configured hooks`
+will `run` on the (`git`) `staged` files.
+
+We `can` also `run` the command `pre-commit run --all-files` against `all`
+project `files` instead `of` just the `ones` that `are` being `committed`.
+`This way`, `especially` when `using` pre-commit `on` a `project` for the
+`first time`, we `can` get `rid` of the `initial` heavy `lifting` so as `not` to
+`do` it `when` actually `making` our `commits`. `When` I ran
+`pre-commit run --all-files` against my `Django Boards` application for the
+`first time`, `there` were `A LOT` of `fixes` to be `made`. `If` I `had` simply
+`started` to `commit` my `files`, I `would` have `made` a `lot` more
+`unnecessary work` for myself! After that, `simply` running `git commit` should
+`not` be `so bad`!
+
+`The` check-yaml `hook` should `automatically fix` any `issues`. `After` running
+`pre-commit run --all-files` and then `git status`, `we` are `ready` to `commit`
+our `changes`. They `should` be `successful` because `all` our `issues` have
+`been fixed`.
+
+## Configuring Black
+
+`Black` is a `Python` formatter `that` I `use` in `VSCode`. `As` per `Black`'s
+`documentation`,
+
+> Black is a PEP 8 compliant opinionated formatter with its own style.
+
+`PEP 8` is the `official` style `guide` for `Python` code.
+
+`Pre-commit` will n`ot` run `on` files `that` are `ignored` by `Git` (`added` to
+a `.gitignore` file). `In` Django `projects`, we `track` our `migration` files,
+`but` it `really` is `not` a `good idea` to `pre-commit` those `files`. `They`
+are `auto-generated` by `Django`, `so` it is `better` to `leave` them
+`untouched`.
+
+`That` being `said`, `we` should `add` the `following` to the `top` of the
+`.pre-commit-config.yaml` file:
+
+```yaml
+exclude: .*migrations\/.*
+```
+
+`Next`, `let's` configure `Black` in `.pre-commit-config.yaml`:
+
+```yaml
+- repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+    -   id: black
+        language_version: python3.13
+```
+
+I also add the following:
+
+```yaml
+- repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 24.10.0
+    hooks:
+      - id: black
+        # It is recommended to specify the latest version of Python
+        # supported by your project here, or alternatively use
+        # pre-commit's default_language_version, see
+        # https://pre-commit.com/#top_level-default_language_version
+        language_version: python3.13
+```
+
+`The` first `configuration` I `added` myself `as` per `pre-commit` docs. `The`
+second `Hana` added. The `first` is `just` the `default configuration`, `and`
+does `not` have `to` be `used`.` I` have `since` removed `it`.
+
+`rev` refers to `the` latest `version` of `Black`. `The` current `version` is
+`24.10.0`.
+
+`Black` recommends `specifying` the `latest version` of the `language_version`
+used `in` our `project`, `which` is `Python`. The `current` latest `version` I
+am `using` in my `project` is `3.13`.
+
+### Customizing our black settings
+
+We `customize` our `black` settings `using` a `file` called `pyproject.toml`.
+
+`pyproject.toml` is a `configuration` file `used` in `Python` projects. It
+`specifies` project `information` in a `standardized way`. `pyproject.toml` is
+`also` used `by` packaging `tools` as `well` as `other tools` such as `linters`,
+`type checkers`, etc.
+
+1. The `[build-system]` table `is` strongly `recommended`. `It` allows `us` to
+   `declare` which
+   [build backend](https://packaging.python.org/en/latest/glossary/#term-Build-Backend)
+   we `use` and `which` other `dependencies` are `needed` to `build` our
+   `project`.
+1. The `[project]` table `is` the `format` that `most` build backends `use` to
+   `specify` our `project's` basic `metadata`, `such` as `dependencies`, our
+   `name`, etc.
+1. The `[tool]` table `has` tools-specific `subtables`, i.e., `[tool.hatch]`,
+   `[tool.black]`, `[tool.mypy]`. The `contents` of the `table` are `defined` by
+   `each tool`. `We` should `consult` the `particular tool`'s `documentation` to
+   `know` what `it` can `contain`. `To` learn `more` about `pyproject.toml`,
+   please visit
+   [Writing your pyproject.toml](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)
+   in the `Python Packaging User Guide`.
+
+In `our` case `here`, regarding `customizing` black `settings`, `we` should
+`add` the `followin`g to the `top` of our `pyproject.toml`:
+
+```toml
+[tool.black]
+line-length = 88
+target-version = ['py313']
+include = '\.pyi?$'
+```
+
+1. `line-length` describes `how` many `characters` are `allowed` per `line`. The
+   `default` is `88`.
+
+1. `target-version` describes `Python` versions `that` should be `supported` by
+   `Black's` output. `To` learn `more` about other `configurations`, please
+   visit
+   [Usage and Configuration](https://black.readthedocs.io/en/stable/usage_and_configuration/).
+
+`Pre-commit` will `detect` these `configurations` and `check` our `project`
+against `them`.
+
+After `adding` this `new hook`, we `should` run `pre-commit run --all-files`
+again.
+
+`It` is `probable` that a `lot` of `things` become `formatted` by `Black` as a
+`result` of `running` the `pre-commit run --all-files` command. `We` should then
+`stage` and `commit` those `changes`.
+
+## Configuring isort
+
+[isort](https://pycqa.github.io/isort/) is a `tool` which `"sorts"` our
+`imports` `"so we don't have to"`.
+
+`According` to the [isort documentation](https://pycqa.github.io/isort/),
+
+> isort is a Python utility / library to sort imports alphabetically, and
+> automatically separated into sections and by type. It provides a command line
+> utility, Python library and
+> [plugins for various editors](https://github.com/pycqa/isort/wiki/isort-Plugins)
+> to quickly sort all your imports. It requires Python 3.7+ to run but supports
+> formatting Python 2 code too.
+
+`isort` also `works` in `accordance` with `PEP 8`.
+
+`Next`, we `add` the `following` to our `.pre-commit-config.yaml`:
+
+```yaml
+- repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        name: isort (python)
+```
+
+`We` can also `customize` our i`sort` settings `in` our `pyproject.toml` file.
+`We` can `add` the `following` right `below` our `existing` black `settings`:
+
+```toml
+[tool.isort]
+profile = "django"
+combine_as_imports = true
+include_trailing_comma = true
+line_length = 88
+multi_line_output = 3
+known_first_party = ["config"]
+```
+
+Certain `profile(s)` such as `black`, `django`, `pycharm`, `google`,
+`open_stack`, `plone`, `attrs`, `hug`, `wemake`, and `appnexus` are `built` into
+`isort` to `allow` easy `interoperability` with `common projects` and
+`code styles`.
+
+1. To `use` any `of` the `above profiles` in our `pyproject.toml` file, `we` use
+   `profile=PROFILE_NAME`. `Above`, we use `profile = "django"`.
+1. `combine_as_imports` is `specific` to `Django`, `and` the `value` to `assign`
+   is `"true"`, `just` as `above`. This `setting` combines `as` imports `on` the
+   `same line`.
+1. `include_trailing_comma` includes a `trailing comma` on `multi-line` imports
+   `that` include `parentheses`.
+1. `line-length` refers `to` the `max-length` of `an` import `line` (`used` for
+   `wrapping` long `imports`). `It` should `be` the `same` sa `black's`,
+   `otherwise` an `error` will be `thrown` and the `commit` will `fail`.
+1. `multi_line_output` defines how `from` imports "wrap" when `they` go `past`
+   the `line_length` limit.
+1. `known_first_party` forces `isort` to `recognize` a `module` as `being` part
+   `of` the `current` Python `project`. `It` should `be` the `name` of our
+   `Django` project.
+
+To `learn` more `about` other `configuration` options, please visit
+[Configuration options for isort](https://pycqa.github.io/isort/docs/configuration/options.html).
+
+`Now` let's run `pre-commit run --all-files` again. The `result` of `running`
+this `command` will `probably` be `that` isort `fixes` a `lot` of `files`. We
+`have` also `updated` the `pre-commit` config `to` trim `trailing whitespaces`.
+
+`Again`, `we` can `stage` and `commit` our `changes`.
+
+## Configuring Flake8
+
+[Flake8](https://flake8.pycqa.org/en/latest/) is a `popular` linting `tool` for
+`Python` code. `It` is a `command-line` utility `for` enforcing `style`
+consistency `across` Python `projects`. `By default` it `is` a `wrapper` that
+`includes` lint `checks` provided `by` the `PyFlakes` project, `PEP-0008`
+inspired `style` checks `provided` by the `PyCodeStyle` project, `and` McCabe
+`complexity` checking `provided` by the `McCabe` project. `It` will `also` run
+`third-party` extensions `if` they are `found` and `installed`.
+
+Now `we` will `add` the `following` to the `bottom` of our
+`.pre-commit-config.yaml` file:
+
+```yaml
+- repo: https://github.com/pycqa/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+```
+
+`Flake8` supports `storing` its `configuration` in our `project` in `one` of
+`setup.cfg`, `tox.ini`, or `.flake8` file. `We` are `going` to `go` with
+`.flake8`.
+
+### Creating a .flake8 configuration file
+
+`First`, we `run` the `touch .flake8` command `to` create our `.flake8` file.
+`Then` we `add` the `following` to `it`:
+
+```shell
+[flake8]
+max-line-length = 88
+```
+
+`To` learn `more` about `other` configuration `options`, please visit
+[Configuring Flake8](https://flake8.pycqa.org/en/latest/user/configuration.html).
+
+`Now` let's run `pre-commit run --all-files` again.
+
+`As` we `will` see, `flake8` does `not` automatically `fix` our `issues` for
+`us`. `It` only `tells` us `what` is `wrong` and `where`. `Hana Belay` describes
+the `type` of `issues` that she `encountered` in her `project` she `uses` in her
+`article` entitled
+[Django Code Formatting and Linting Made Easy: A Step-by-Step Pre-commit Hook Tutorial](https://dev.to/earthcomfy/django-code-formatting-and-linting-made-easy-a-step-by-step-pre-commit-hook-tutorial-592f)
+on [dev.to](https://dev.to). I `used` my `own` projects, so `things` were `a`
+bit `different`. `They` were `even` a `bit` different `from` each `other`!
+
+`In` my `Django Polls` project, I `added` the `following` inside `.flake8`:
+
+```shell
+[flake8]
+max-line-length = 88
+ignore = E501, W503
+per-file-ignores =
+    config/settings/*:F405 F403 F401
+```
+
+`E501` is `for` when `lines` are `too long`. `W503` is for `line break` before
+`binary operator`. The `reason` we `ignore` W503 `out` of the `gates` is because
+`W503` and `W504` rules `conflict` with `each other`. To `avoid` such
+`conflicts`, we `add` one `of` them `to` our `ignore`. `I` add `W503`,
+`following` Hana's `tutorial`.
+
+`We` may `get` E501 `errors` because `Black` doesn't `know` how to `operate` on
+`strings`. `We` can `ignore` such `warnings`.` We` also `can` ignore `W503`
+warnings regarding `line break before binary operator`. This `results` in `the`
+line `ignore = E501, W503`.
+
+`Other` issues `F401`, `E712`, and `F841` get `fixed`. `The` final `.flake8`
+contents `for` my `Django Polls` project `is` the `following`:
+
+```shell
+[flake8]
+max-line-length = 88
+ignore = E501, W503
+per-file-ignores =
+    config/settings/*:F405 F403 F401
+```
+
+`The` same `as` Hana's `.flake8` contents. `HOWEVER`, when `I` added `linting`
+and `code formatting` for `Django Boards`, `which` is a `much more` complex
+`project`, `I` ended `up` with `the` following `.flake8`:
+
+```shell
+[flake8]
+max-line-length = 88
+ignore = F401, F403, F405, E501, W503, F541, F821, F841
+per-file-ignores =
+    config/settings/*:F405 F403 F401
+```
+
+I `still` include `E501` and `W503`, `but` I `had` my `own` reasons `for`
+including `the` other `rules` to `ignore`.
+
+After `adding` the `flake8` configurations to `.flake8`, we `run`
+`pre-commit run --all-files` again. Everything `should` be `fixed` and `ready`
+for `commit`.
+
+## Configuring djlint
+
+`I` already `was` using `Djlint` in my `Django` projects. `However`, my
+`configuration` was not o`ptimal`. `Using` pre-commit `optimized` the
+`configuration` of `this` invaluable `tool`.
+
+Djlint `formats` and `lints` Django `HTML` templates.
+
+`Next`, we `add` the `following` to our `.pre-commit-config.yaml` file:
+
+```yaml
+- repo: https://github.com/djlint/djLint
+    rev: v1.36.4
+    hooks:
+      - id: djlint-reformat-django
+      - id: djlint-django
+```
+
+To `customize` our `djLint` settings, `we` can `use` the `pyproject.toml` file.
+`We` can `add` the `following` there:
+
+```toml
+[tool.djlint]
+profile = "django"
+ignore = "H020,H021"
+```
+
+Hana `adds` the `following`:
+
+```toml
+[tool.djlint]
+profile = "django"
+ignore = "H031"
+```
+
+"H031" `checks` for the `presence` of `meta keywords`. I `already` had
+`meta keywords` added `to` my `project`, `and` didn't `feel` the `need` to `add`
+it `there`. `However`, in `future projects` it `might` be a `good idea` to `add`
+it `instead` of just `depending` on the `linting errors` that `appear` in the
+`templates` and `then` doing `nothing` about `them`. To `learn more` about
+`other` djLint `linting rules`, please visit
+[djlint Linter Usage](https://www.djlint.com/docs/linter/) in the djLint docs.
+
+`I` add `something` slightly `different` to my `Django Boards` pyproject.toml
+`for` djlint:
+
+```toml
+[tool.djlint]
+profile = "django"
+ignore = "H020,H021"
+line_length = 88
+```
+
+`One thing` I think `important` to `mention`. DO NOT `add` djlint `comments` at
+`the` very `top` (first line) of `your` Django `templates`. I `read` somewhere
+`that` that's the `way` I `should` do `it` (I `subsequently` found `out` that
+was `wrong` in the [djLint docs](https://www.djlint.com/docs/ignoring-code/)),
+`and` it `resulted` in a `"Bad Gateway 502"` in `production` as well as a
+`syntax error` in `development`. `Make sure` to `check` all your
+`linting changes` before `merging` into your `main branch` and `pushing` to
+`production`! `That` will `save` you a `"Bad Gateway 502"` or even a `500`
+status `code` in `production`!
+
+## Running pre-commit in Continuous Integration
+
+To `learn more` about running `pre-commit` in `Continuous Integration`, please
+visit `Hana Belay's` article on `dev.to` entitled
+[Django Code Formatting and Linting Made Easy: A Step-by-Step Pre-commit Hook Tutorial](https://dev.to/earthcomfy/django-code-formatting-and-linting-made-easy-a-step-by-step-pre-commit-hook-tutorial-592f).
+`It` is `very easy` to `set up`, `and` she `has` great `screenshots` to
+`help make` the `process` easier to `follow`.
+
+## Conclusion
+
+In this post, we added the pre-commit framework to a Django Project, configured
+pre-commit, added and configured the black autoformatter, the isort code
+formatter, the flake8 linter, and the djLint template linter and formatter.
+
+## Related Resources
+
+-   [Django Polls on GitHub](https://github.com/interglobalmedia/django-polls)
+-   [Django Boards on GitHub](https://github.com/interglobalmedia/django-boards)
+-   [Git hooks](https://www.atlassian.com/git/tutorials/git-hooks): Atlassian
+-   [Django Code Formatting and Linting Made Easy: A Step-by-Step Pre-commit Hook Tutorial](https://dev.to/earthcomfy/django-code-formatting-and-linting-made-easy-a-step-by-step-pre-commit-hook-tutorial-592f):
+    Hana Belay, `dev.to`
+-   [Pre-commit framework](https://pre-commit.com)
+-   [Black repository on GitHub](https://github.com/psf/black)
+-   [PEP 8 – Style Guide for Python Code](https://peps.python.org/pep-0008/)
+-   [Writing your pyproject.toml](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/):
+    Python Packaging User Guide
+-   [Read The Docs](https://about.readthedocs.com)
+-   [Using Black with other tools](https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html):
+    Black 24.8.0 documentation
+-   [Flake8 man page](https://flake8.pycqa.org/en/4.0.1/manpage.html#:~:text=flake8%20is%20a%20command%2Dline,style%20consistency%20across%20Python%20projects.)
+-   [Flake8: Your Tool For Style Guide Enforcement](https://flake8.pycqa.org/en/latest/)
+
+## Related Posts
+
+-   [Creating the official Django Polls app table of contents](/blog/creating-the-official-django-polls-app-table-of-contents):
+    `mariadcampbell.commands`
+-   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
