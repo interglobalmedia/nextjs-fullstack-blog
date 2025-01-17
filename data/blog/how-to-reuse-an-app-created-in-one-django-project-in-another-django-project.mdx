@@ -1,0 +1,238 @@
+---
+slug: 'how-to-reuse-an-app-created-in-one-django-project-in-another-django-project'
+date: '2025-01-16T20:24:46.485Z'
+lastModified: '2025-01-17T12:31:46.485Z'
+title:
+    How to reuse an app created in one Django project in another Django project
+author: Maria D. Campbell
+excerpt:
+    "In this post, I discuss how one can reuse an app created in one Django project
+in another project so that I don't have to 're-create' it all over again in
+another project."
+image: david-clode-J_5xvghAvmc-unsplash.jpg
+tags: [
+            'fullstack development', 
+            'macOS', 
+            'django',
+            'python3', 
+            'reusable app', 
+            'local development',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.jpg)
+
+_Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
+[unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)
+
+## Table of Contents
+
+-   [Reusing an app created in one Django project in another Django project](#reusing-an-app-created-in-one-django-project-in-another-django-project)
+    -   [Copying an application from one Django project into another](#copying-an-application-from-one-django-project-into-another)
+-   [Copying the polls app into a new top level directory called cast-votes](#copying-the-polls-app-into-a-new-top-level-directory-called-cast-votes)
+-   [Configuring the polls app in cast-votes](#configuring-the-polls-app-in-cast-votes)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Reusing an app created in one Django project in another Django project
+
+`I` have `created` enough `Django` apps `at` this `point` that `can` be
+`reusable` in other `Django` projects `other` than `the` ones `they` were
+`initially` created `in`. `It` is `smart` and `efficient development` to `be`
+able `to` do `so`. `Why` re-create `something` which `already` exists
+`somewhere else`? This `is` a `great path` to `creating` reusable `apps` that
+`others` can also `use` in their `Django` projects. `It` also `paves` a `path`
+to `writing` great `documentation` for these `apps`.
+
+### Copying an application from one Django project into another
+
+`Following` the
+["Writing your first Django app"](https://docs.djangoproject.com/en/5.1/intro/tutorial01/)
+`series`, I `created` a `project` called `django_polls` inside a `top` level
+`directory` called `django-polls`. This `was` all `fine`. The `app` was
+`standalone`, and `that` was `great`. But `the` problems `began` when I `found`
+out `about` the `Django` advanced `tutorial` called
+["Advanced tutorial: How to write reusable apps"](https://docs.djangoproject.com/en/5.1/intro/reusable-apps/).
+I `approached` the `django_polls` project `like` I `would` any `other` with the
+`naming`. `I` did `not` know `what` was `coming` up `next`, `and` neither `was`
+I `appraised` of it `beforehand`.
+
+`In` this `post`, `I` will `discuss` how `to` avoid `as` much` as` possible
+`such` naming `conflicts` while` still` naming `projects` and `reusable apps`
+with `professional` sounding `names`.
+
+## Copying the polls app into a new top level directory called cast-votes
+
+`I` arbitrarily `named` a` new` top `level` directory `cast-votes`, and `inside`
+I `created` a `new` project `called` config. `I` came `across` a `number` of
+`posts` and `threads` where `Django` developers `repeatedly` called `their`
+projects `"config"` so `that` there `would` be `less` of a `chance` of
+`naming conflicts` when `installing` reusable `apps`. I `thought` it a
+`great idea`, and `decided` to `do` the `same` for the `purpose` of this `post`.
+`It` looks `like` I `might` continue `to` follow this `convention`!
+
+`You` can `follow` the `steps` to `creating` a `new project` in my `post`
+entitled
+[Creating the official Django Polls app Part 1](/blog/creating-the-official-django-polls-app-part-1).
+`However`, this `time`, i`nstead` of `creating` a `top` level `directory` called
+`django-polls`, and `then` a `project` called `django_polls`, `create` a `top`
+level `directory` called `cast-vote` and a `project` called `config` inside
+`cast-vote`.
+
+`If` you `have` already `completed` the
+[Creating the official Django Polls app](https://docs.djangoproject.com/en/5.1/intro/tutorial01/)
+`series` and `therefore` created an `app` called `polls`, `you` can `copy` the
+`polls` app `directory` into the `root` of the `cast-votes` directory. There
+`should` be no `conflicts`, `since` the `project name` does `not` contain
+`"polls"` in it. `It's` as `generic` as `it` can `get`. `We` are `not` thinking
+`about` creating a `package` from `polls` yet. `That` will `take place` in
+`another post`. Right `now` we just `want` to `make sure` that our `polls` app
+`can` be `reused` by `ourselves` on `our` local `machine`.
+
+## Configuring the polls app in cast-votes
+
+`Once` we `have` placed `polls` inside `the` top `level` cast-votes `directory`,
+we `need` to `configure` it a bit. The `steps` are `not` dissimilar `from` those
+`we` were `supposed` to `take` to `prepare` our `polls` app `package` in the
+["Advanced tutorial: How to write reusable apps"](https://docs.djangoproject.com/en/5.1/intro/reusable-apps/).
+
+`First`, `we` have `to` add `polls` to `INSTALLED_APPS` in `config/settings.py`:
+
+```python
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "polls",
+]
+```
+
+`Next`, we `have` to `configure` our `polls.urls` in `config/urls.py`:
+
+```python
+from django.contrib import admin
+from django.urls import include, path # include is new
+
+urlpatterns = [
+    path("polls/", include("polls.urls")), # new
+    path("admin/", admin.site.urls),
+]
+```
+
+`Then`, just `make sure` that `there` isn't `anything` in your `templates` that
+`does` not `belong` in `cast-votes`. I `had` a c`ouple` of `URLs` in
+`templates/includes` and `templates/polls/index.html`. `Those` URLS `assumed`
+that I `still` had` another` reusable `app` called `pages`, which `exists` in
+the `original` django-polls `top` level `directory` along `with` the
+`django_polls` project. But `since` I `haven't` added this `pages` reusable
+`app` to `cast-votes`, I `had` to `make sure` to `update` them. `If`, however,
+`I` did `want` to `add` that `reusable app` so `that` I `would` have a `top`
+level `index page` (because right now I don't and neither should you unless you
+did something different), `then` I `could` keep `those` URLs `which` were
+`specific` to `django-polls/pages`. `There` were `no` other `"dependencies"` on
+`django-polls`.
+
+`If` I `were` to `package` this `app` and `publish` it, those `URLs` would
+`cause` a `problem`. `The` other `question` to `ask` is, `do` we `want` to
+include `templates` in our `packaged app` or `not`? `A` packaged `app` is
+`going` to be `different` from a `reusable app` which `we` created `locally` on
+our `machine` and `then` copied `over` to `another` Django `project`. We `have`
+some `control` over its `behavior` in `relation` to the `project`, `and` in
+`relation` to `other` reusable `apps` which `might` be subsequently `added`.
+
+`According` to a `thread` on `stackoverflow` entitled
+[Customize templates in a third party Django app](https://stackoverflow.com/questions/38341254/customize-templates-in-a-third-party-django-app/38725452#38725452),
+
+> You can put the template in a separate app within your project. Django looks
+> for templates in your apps in the order they are defined in INSTALLED_APPS,
+> and uses the first match: The order of INSTALLED_APPS is significant! For
+> example, if you want to customize the Django admin, you might choose to
+> override the standard admin/base_site.html template, from
+> django.contrib.admin, with your own admin/base_site.html in myproject.polls.
+> You must then make sure that your myproject.polls comes before
+> django.contrib.admin in INSTALLED_APPS, otherwise django.contrib.admin’s will
+> be loaded first and yours will be ignored.
+
+`This` led `me` to `the` updated `documentation` for `Django` 5.1 `entitled`
+[How to override templates](https://docs.djangoproject.com/en/5.1/howto/overriding-templates/):
+
+> In your project, you might want to override a template in another Django
+> application, whether it be a third-party application or a contrib application
+> such as django.contrib.admin. You can either put template overrides in your
+> project’s templates directory or in an application’s templates directory.
+
+And then:
+
+.So create an app, called e.g. social_share_templates, and put it in
+INSTALLED_APPS before django_social_share. Then add the template to this folder:
+
+```django
+{{project_root}}/social_share_templates/templates/django_social_share/templatetags/post_to_facebook.html
+```
+
+And then:
+
+> The reason your current configuration does not work, is that your local app
+> has the same name as the app in site-packages. If your local app is an actual
+> python module, you won't be able to use the app in site-packages. Otherwise,
+> Django just looks for the templates in the app in site-packages.
+
+And then:
+
+> So create an app, called e.g. social_share_templates, and put it in
+> INSTALLED_APPS before django_social_share. Then add the template to this
+> folder:
+
+This `issue`(s) in `the` above `thread` is `similar` to `what` I `encountered`
+when `trying` to `package` an `existing` reusable `app` following
+[Creating the official Django Polls app](https://docs.djangoproject.com/en/5.1/intro/tutorial01/),
+`among` other `things`.
+
+`If` you `have` app and `project` templates `directories` that `both` contain
+`overrides`, the `default` Django `template loader` will `try` to `load` the
+`template` from the `project-level` directory `first`. `In` other `words`,
+`DIRS` is `searched` before `APP_DIRS`.
+
+`To` learn `more` about `this`, please visit
+[How to override templates](https://docs.djangoproject.com/en/5.1/howto/overriding-templates/)
+`in` the `current` Django (5.1) `documentation`.
+
+We `choose` third `party` packages `primarily` for their
+`functionality/features`. `If` we `want` to `change` the `looks` a `bit`, we
+`customize` the `templates`, `following` the `steps` described in
+[How to override templates](https://docs.djangoproject.com/en/5.1/howto/overriding-templates/).
+
+`But` in my `case`, `I` just `made` a `couple` of `adjustments` to `fit` the
+`app` (`module`, not `package`) `to` the `new` config `project`.
+
+To `see` the o`riginal` django-polls `structure` containing `both` the `pages`
+reusable `app` and `polls` reusable `app`, please visit
+[django-polls](https://github.com/interglobalmedia/django-polls) on `Github`.
+
+## Conclusion
+
+`In` this `post`, I `discussed` how `I` can `reuse` an `app` created `in` one
+`Django` project `in` another `project` so `that` I `don't` have to
+`"re-create"` it `all` over `again` in another `project`.
+
+## Related Resources
+
+-   [Writing your first Django app, part 1](https://docs.djangoproject.com/en/5.1/intro/tutorial01/):
+    Django documentation
+-   [How to override templates](https://docs.djangoproject.com/en/5.1/howto/overriding-templates/):
+    Django documentation
+-   [Advanced tutorial: How to write reusable apps](https://docs.djangoproject.com/en/5.1/intro/reusable-apps/):
+    Django documentation
+-   [Customize templates in a third party Django app](https://stackoverflow.com/questions/38341254/customize-templates-in-a-third-party-django-app/38725452#38725452):
+    stackoverflow
+
+## Related Posts
+
+-   [Creating the official Django Polls app table of contents](http://localhost:3000/blog/creating-the-official-django-polls-app-table-of-contents):
+    `mariadcampbell.com`
