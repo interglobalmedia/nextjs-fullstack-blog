@@ -1,0 +1,179 @@
+---
+slug: 'when-you-forget-to-make-your-first-git-commit-to-remote-origin-checkout-into-a-new-branch-and-then-merge-into-main'
+date: '2025-01-19T11:59:25.926Z'
+lastModified: '2025-01-19T14:58:25.926Z'
+title:
+    'When you forget to make your first git commit to remote origin, checkout
+    into a new branch, and then merge into main'
+author: 'Maria D. Campbell'
+excerpt:
+    "In this post, I discuss creating a new local Git repository, checking out into a
+new branch called create-config-project-and-users-app, trying to check out into
+main branch after committing changes in create-config-project-and-users-app, and
+after not succeeding, creating a new branch called main in
+create-config-project-and-users-app and checking out into main all at once,
+creating the remote repository on GitHub, adding remote origin, merging
+create-config-project-and-users-app into main, and pushing changes to
+remote origin."
+image: pexels-realtoughcandy-11035539.jpg
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'command line',
+        'git',
+        'local repository',
+        'remote repository',
+        'feature branch',
+        'main branch',
+        'git merge',
+        'series',
+        'terminal',
+    ]
+isPublished: true
+isFeatured: true
+---
+
+![Git logo](pexels-realtoughcandy-11035539.jpg)
+
+_Photo by_ [RealToughCandy.com](https://www.pexels.com/@realtoughcandy/) _on_
+[pexels.com](https://www.pexels.com/photo/person-holding-a-small-paper-11035539/)
+
+## Table of Contents
+
+-   [Creating a new local Git repository](#creating-a-new-local-git-repository)
+    -   [Checking out into new branch called create-config-project-and-users-app](#checking-out-into-new-branch-called-create-config-project-and-users-app)
+    -   [Trying to check out into main branch after committing changes in create-config-project-and-users-app](#trying-to-check-out-into-main-branch-after-committing-changes-in-create-config-project-and-users-app)
+    -   [Creating a new branch called main in create-config-project-and-users-app and checking out into main all at once](#creating-a-new-branch-called-main-in-create-config-project-and-users-app-and-checking-out-into-main-all-at-once)
+    -   [Creating the remote repository on GitHub and add adding remote origin](#creating-the-remote-repository-on-github-and-add-adding-remote-origin)
+    -   [Merging create-config-project-and-users-app into main branch and pushing changes to remote origin](#merging-create-config-project-and-users-app-into-main-branch-and-pushing-changes-to-remote-origin)
+-   [Conclusion](#conclusion)
+-   [Related Resources](#related-resources)
+-   [Related Posts](#related-posts)
+
+## Creating a new local Git repository
+
+`Recently`, I `created` a `new` local `Git` repository `called`
+`custom-abstract-base-user-model`. `Then` I `initialized` Git `with` the
+`following command`:
+
+```shell
+git init
+```
+
+### Checking out into new branch called create-config-project-and-users-app
+
+`However`, `instead` of `immediately making` my `first commit` to a
+`remote repository` on `GitHub`, I `checked out` into `a` new `branch` called
+`create-config-project-and-users-app`:
+
+```shell
+git checkout -b create-config-project-and-users-app
+```
+
+### Trying to check out into main branch after committing changes in create-config-project-and-users-app
+
+`Then`, after `adding` all the `features` I `wanted` to `add` to that `branch`
+and `committing` my `changes`, I `ran` the `following command`:
+
+```shell
+git checkout main
+```
+
+Which `returned` the `following` in `Terminal`:
+
+```shell
+error: pathspec 'main' did not match any file(s) known to git
+```
+
+### Creating a new branch called main in create-config-project-and-users-app and checking out into main all at once
+
+I `never` actually `"created"` a `main` branch, `because` I never `committed`
+anything. I simply `checked out` into a `new branch`, `and` any `content` I had
+`created` in `"main"`, was `checked into` the `new branch` as well. `This` was
+`fine`! I `had` to `create` a `main` branch `that` I `could` check `into`, merge
+`create-config-project-and-users-app` into `main`, `and` then `push` to
+`remote origin` on `GitHub`. To `make` this `happen`, I `ran` the
+`following command`:
+
+```shell
+git checkout -b main create-config-project-and-users-app
+```
+
+What `this` command `means` is `that` I am `creating` a `new branch` called
+`main` from a `branch` called `create-config-project-and-users-app`, `and` then
+`checking` out `into` the `new` main `branch`.
+
+### Creating the remote repository on GitHub and add adding remote origin
+
+`Then`, I `had` to `create` my `remote repository` on `GitHub`, `followed` by
+`running` the `following` in `Terminal`:
+
+```shell
+ git remote add origin git@github.com:interglobalmedia/custom-abstract-base-user-model.git
+```
+
+### Merging create-config-project-and-users-app into main branch and pushing changes to remote origin
+
+`Then` I `ran` the `following command`:
+
+```shell
+git merge create-config-project-and-users-app --no-ff
+```
+
+Which `returned`:
+
+```shell
+Already up to date.
+```
+
+`This` was `because` when I `checked` out `into` the `new` main `branch`, the
+`changes` I `made` in `create-config-project-and-users-app` were "merged" into
+`main`. `All` I `had` to `do` was `run` the `following command`:
+
+```shell
+git push -u origin main
+```
+
+Which `returned` the `following` in `Terminal`:
+
+```shell
+Enumerating objects: 30, done.
+Counting objects: 100% (30/30), done.
+Delta compression using up to 10 threads
+Compressing objects: 100% (28/28), done.
+Writing objects: 100% (30/30), 6.85 KiB | 3.42 MiB/s, done.
+Total 30 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), done.
+To github.com:interglobalmedia/custom-abstract-base-user-model.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+```
+
+## Conclusion
+
+`In` this `post`, `I` discussed `creating` a new `local` Git `repository`,
+`checking` out `into` a `new branch` called
+`create-config-project-and-users-app`, `trying` to `check` out `into` main
+`branch` after `committing changes` in `create-config-project-and-users-app`,
+and `after` not `succeeding`, `creating` a new `branch` called `main` in
+`create-config-project-and-users-app` and `checking` out `into` main `all` at
+`once`, `creating` the `remote repository` on `GitHub`, `adding` remote
+`origin`, merging `create-config-project-and-users-app` into `main`, `and`
+pushing `changes` to `remote origin`.
+
+`If` you `also` ever `forget` to `make` your `first commit` in your `local` Git
+`repository` and `subsequently` check `out` into a `new` feature `branch`,
+`follow` the `steps` shown `here`, `and` you `will` have `no` issues
+`checking out` into `your` main `branch` and `merging` your `changes` made `in`
+the `feature branch`!
+
+## Related Resources
+
+-   [Custom abstract base user model repository on GitHub](https://github.com/interglobalmedia/custom-abstract-base-user-model):
+    interglobalmedia, GitHub
+
+## Related Posts
+
+-   [AbstractUser vs AbstractBaseUser vs User extended profile in Django Part 1](http://localhost:3000/blog/abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-part-1):
+    `mariadcampbell.com`
