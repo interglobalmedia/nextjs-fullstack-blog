@@ -1,4 +1,4 @@
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import classes from '../../styles/hero.module.scss'
 
 function Hero() {
@@ -10,7 +10,6 @@ function Hero() {
 					alt="Maria Campbell profile image"
 					width={300}
 					height={300}
-					layout="responsive"
 				/>
 			</div>
 			<h1>
