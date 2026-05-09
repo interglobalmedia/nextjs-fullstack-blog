@@ -1,11 +1,13 @@
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { Fragment } from 'react'
-import { getAllPosts } from '../lib/posts-util'
-import ScrollStep from '../components/buttons/scroll-step'
-import ScrollTop from '../components/buttons/scroll-top'
+import { getAllPosts } from '../../lib/posts-util'
+import ScrollStep from '../../components/buttons/scroll-step'
+import ScrollTop from '../../components/buttons/scroll-top'
 
-const DynamicAllPosts = dynamic(() => import('../components/posts/all-posts'))
+const DynamicAllPosts = dynamic(
+	() => import('../../components/posts/all-posts'),
+)
 
 export const POSTS_PER_PAGE = 10
 
