@@ -5,14 +5,14 @@ import { getPostData, getPostFiles } from '../../lib/posts-util.js'
 
 import Head from '../../components/seo/head.js'
 
-const DynamicPostContent = dynamic(() =>
-	import('../../components/posts/post-detail/post-content.js'),
+const DynamicPostContent = dynamic(
+	() => import('../../components/posts/post-detail/post-content.js'),
 )
-const DynamicScrollTop = dynamic(() =>
-	import('../../components/buttons/scroll-top.js'),
+const DynamicScrollTop = dynamic(
+	() => import('../../components/buttons/scroll-top.js'),
 )
-const DynamicScrollStep = dynamic(() =>
-	import('../../components/buttons/scroll-step.js'),
+const DynamicScrollStep = dynamic(
+	() => import('../../components/buttons/scroll-step.js'),
 )
 
 function PostDetailPage(props) {
@@ -59,7 +59,7 @@ export function getStaticPaths() {
 		paths: slugs.map((slug) => ({
 			params: { slug: slug },
 		})),
-		fallback: false,
+		fallback: 'blocking',
 	}
 }
 

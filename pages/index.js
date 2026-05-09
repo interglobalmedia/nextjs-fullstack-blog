@@ -6,8 +6,8 @@ import { getFeaturedPosts } from '../lib/posts-util'
 import ScrollStep from '../components/buttons/scroll-step'
 import ScrollTop from '../components/buttons/scroll-top'
 
-const DynamicFeaturedPosts = dynamic(() =>
-	import('../components/home-page/featured-posts'),
+const DynamicFeaturedPosts = dynamic(
+	() => import('../components/home-page/featured-posts'),
 )
 
 function HomePage(props) {
@@ -37,6 +37,7 @@ export function getStaticProps() {
 		props: {
 			posts: featuredPosts,
 		},
+		revalidate: 60, // re-generates the page at most once every 60 seconds
 	}
 }
 

@@ -5,8 +5,8 @@ import ScrollTop from '../components/buttons/scroll-top'
 import ScrollStep from '../components/buttons/scroll-step'
 import classes from '../styles/projects.module.scss'
 
-const DynamicAllProjects = dynamic(() =>
-	import('../components/project/all-projects'),
+const DynamicAllProjects = dynamic(
+	() => import('../components/project/all-projects'),
 )
 
 export const PROJECTS_PER_PAGE = 18
@@ -18,7 +18,10 @@ export async function getStaticProps() {
 		currentPage: 1,
 		totalPages: Math.ceil(allProjectsData.length / PROJECTS_PER_PAGE),
 	}
-	return { props: { initialDisplayProjects, allProjectsData, pagination } }
+	return {
+		props: { initialDisplayProjects, allProjectsData, pagination },
+		revalidate: 60,
+	}
 }
 
 export default function Projects({
