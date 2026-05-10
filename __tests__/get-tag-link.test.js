@@ -1,14 +1,15 @@
 import '@testing-library/jest-dom'
-import renderer from 'react-test-renderer'
-import Link from 'next/link'
+import { render, screen } from '@testing-library/react'
 import { getTagLink } from '../components/posts/get-tag-link'
 
 describe('getTagLink', () => {
 	it('renders a tag link', () => {
-		const tagMacOS = getTagLink(`macOS`)
-		const tagLink = <Link href={tagMacOS}>#{tagMacOS}</Link>
-		const tree = renderer.create(tagLink).toJSON()
+		const { container } = render(getTagLink('macOS'))
 
-		expect(tree).toMatchSnapshot()
+		const link = container.querySelector('a')
+		expect(link).toBeInTheDocument()
+		expect(link).toHaveAttribute('href', '/blog/tag/macOS')
+		expect(link).toHaveTextContent('#macOS')
+		expect(link).toHaveClass('tag')
 	})
 })
