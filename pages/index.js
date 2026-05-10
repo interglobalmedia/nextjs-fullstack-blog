@@ -18,7 +18,7 @@ function HomePage(props) {
 				<title>Maria D. Campbell's Next Blog Home Page</title>
 				<meta
 					name="description"
-					content="Welcome to my Home page, which contains featured blog posts. I blog about cybersecurity, fullstack development as well as macOS, Command Line, Linux, shell scripting, Windows, Git, and ethics
+					content="Welcome to my Home page, which contains featured blog posts. I blog about ai, cybersecurity, fullstack development as well as macOS, Command Line, Linux, shell scripting, Windows, Git, and ethics
 				in technology"
 				/>
 			</Head>
