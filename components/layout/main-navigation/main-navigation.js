@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -15,15 +15,15 @@ const DynamicMoonSunButton = dynamic(
 const DynamicHamButton = dynamic(() => import('../../buttons/ham-button'))
 
 function MainNavigation() {
-	const [mobileNavOpen, setMobileNavOpen] = useState(false)
+	// ✅ replace useState declaration with this
+	const mobileNavOpen = useRef(false)
 	const router = useRouter()
 
 	const toggleMobileNav = () => {
-		const newState = !mobileNavOpen
-		setMobileNavOpen(newState)
+		mobileNavOpen.current = !mobileNavOpen.current
 		const navbar = document.querySelector('.main-nav')
 		const ham = document.querySelector('.hamburger')
-		if (newState) {
+		if (mobileNavOpen.current) {
 			navbar.classList.add('show-nav')
 			ham.classList.add('show-close')
 		} else {
@@ -49,8 +49,8 @@ function MainNavigation() {
 			navbar.classList.remove('show-nav')
 			ham.classList.remove('show-close')
 		}
-		// eslint-disable-next-line react-hooks/set-state-in-effect
-		setMobileNavOpen(false)
+		// no eslint complaint, no re-render
+		mobileNavOpen.current = false
 	}, [router.pathname])
 
 	return (
