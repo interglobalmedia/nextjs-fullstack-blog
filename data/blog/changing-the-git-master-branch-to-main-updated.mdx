@@ -1,0 +1,89 @@
+---
+slug: 'changing-the-git-master-branch-to-main-updated'
+date: '2026-05-12T11:07:23.168Z'
+lastModified: '2026-05-12T11:07:23.168Z'
+title: 'Changing the Git master branch to main (updated)'
+author: 'Maria D. Campbell'
+excerpt: 'Chaning the Git master branch to main on Github (updated).'
+image: Screenshot-2026-05-12-at-8.08.06-AM.jpg
+tags: ["default branch", "git", "macOS", "main branch", "master branch"]
+isPublished: false
+isFeatured: true
+---
+
+![Changing the Git default branch manually on Github](Screenshot-2026-05-12-at-8.08.06-AM.jpg)
+
+## Table of Contents
+
+I still have some older projects tracked by Git which use the old master branch.
+
+## When the Git default branch was changed to main and why
+
+The default Git branch was changed from master to main on June 12, 2020. It was changed because some (developers) were concerned that the term "master" could be associated with slavery and its degative historical connotations. They thought the term "main" would be more inclusive.
+
+## How to change the Git default branch from master to main
+
+I changed most of my Git projects' default branches from master to main on June 12, 2020. However, there are a few older projects that I have not yet updated. And today I came across one of them.
+
+The process to change master to main has also changed somewhat since it was first implemented. For one, Github has radically changed since then!
+
+As of today, the following is how one can change the Git default branch on Github from master to main:
+
+```shell
+// renames the default local Git branch master to main
+git branch -m master main
+// pushes the new main branch to remote origin (in my case, Github)
+git push -u origin main
+// deletes remote master branch
+git push origin --delete master
+```
+
+This is where I had to stop. Github would not let me delete the master branch because it was protected. Protected branches (which was a feature rolled out in September 2015) became the default setting for the main branch (or master) when GitHub transitioned from using "master" to "main" as the default branch name.
+
+So when I executed the command `git push origin --delete master`, the following was returned:
+
+```shell
+To git@github.com:interglobalmedia/pokemon-api.git
+! [remote rejected]   master (refusing to delete the current branch: refs/heads/master)
+error: failed to push some refs to 'git@github.com:interglobalmedia/pokemon-api.git'
+```
+
+This happened because Github expects me to define a "default branch", and deleting it is not permitted. AND, it is most probable (as was in my case) that the master branch is "protected". That meant that I had to change the default branch manually on remote from "master" to "main" in the following way:
+
+![Changing the Git default branch manually on Github](Screenshot-2026-05-12-at-8.08.06-AM.jpg)
+
+When I go to the General setting within the Settings tab of my repository, and go down to "Default Branch", I click on the ⇄ (oposite arrows) button and the following appears:
+
+![Switching default branch to another branch within a repository settings Github](Screenshot-2026-05-12-at-8.27.48-AM.jpg)
+
+Next, I click on the master branch name and a dropdown appears with the available branch names to swtich to:
+
+![Dropdown of available branch names to switch to within a repository setting on Github](Screenshot-2026-05-12-at-8.32.54-AM.jpg)
+
+**Note:** I already switched from master to main when I took the above screenshot, but the steps still apply. In addition, when you first switch to main, main will probably be at the bottom of the dropdown menu.
+
+When you have selected the main branch, go back to Terminal inside your project and run the following:
+
+```shell
+// fetches your remote origin branch (now main)
+git fetch -p origin
+// changes the tracked branch
+git branch -u origin/master main
+// you ahve already deleted the local master branch so now you are pushing that change to remote and are deleting it remotely as well
+git push origin :master
+```
+
+Now you should have been able to successfully change your default branch to main on remoate and delete your master branch as well.
+
+One other thing to note, however. When you next push your changes to remote, something like the following may appear in Terminal afterwards:
+
+```shell
+To github.com:your-username/your-repo.git
+ * [new branch]      main -> main
+
+hint: If you want 'master' to be the default branch, rename it back using:
+hint:   git branch -m main master
+hint: To set the upstream, use:
+hint:   git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main
+```
+All I did, and it suppressed my message, was run `git push -u origin main` when I pushed my next change to remote origin
