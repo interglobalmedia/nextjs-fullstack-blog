@@ -35,3 +35,6 @@ certificates
 
 # vscode
 .vscode
+
+# saved terminal output
+output.txt
