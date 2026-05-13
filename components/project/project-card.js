@@ -1,6 +1,7 @@
 import Image from '../image/image'
 import Link from 'next/link'
 import { Oswald } from 'next/font/google'
+import { Fragment } from 'react'
 import { getTagLink } from '../posts/get-tag-link'
 import projectsData from '../../data/projectsData'
 import classes from '../../styles/card.module.scss'
@@ -40,9 +41,12 @@ const Card = ({ title, id, summary, imgSrc, href, tags }) => {
 						>
 							<p>{summary}</p>
 							<p className={classes.tag}>
-								{tags
-									.map((tag) => getTagLink(tag))
-									.reduce((prev, curr) => [prev, ', ', curr])}
+								{tags.map((tag, index) => (
+									<Fragment key={tag}>
+										{getTagLink(tag)}
+										{index < tags.length - 1 && ', '}
+									</Fragment>
+								))}
 							</p>
 							Learn more &rarr;
 						</figcaption>

@@ -37,8 +37,8 @@ SyntaxHighlighter.registerLanguage('jsx', jsx)
 SyntaxHighlighter.registerLanguage('scss', scss)
 
 const DynamicPostHeader = dynamic(() => import('./post-header'))
-const DynamicSocialShareIcon = dynamic(() =>
-	import('../../../helpers/social-icons-map.js'),
+const DynamicSocialShareIcon = dynamic(
+	() => import('../../../helpers/social-icons-map.js'),
 )
 
 function PostContent(props) {
@@ -106,9 +106,9 @@ function PostContent(props) {
 					typeof element === 'string'
 						? element
 						: element?.type !== undefined &&
-						  typeof element.props.children === 'string'
-						? element.props.children
-						: [],
+							  typeof element.props.children === 'string'
+							? element.props.children
+							: [],
 				)
 				.join('')
 
@@ -134,9 +134,9 @@ function PostContent(props) {
 					typeof element === 'string'
 						? element
 						: element?.type !== undefined &&
-						  typeof element.props.children === 'string'
-						? element.props.children
-						: [],
+							  typeof element.props.children === 'string'
+							? element.props.children
+							: [],
 				)
 				.join('')
 
@@ -166,15 +166,14 @@ function PostContent(props) {
 			// const language = languageArray[1];
 			const match = /language-(\w+)/.exec(className || '')
 			return !inline && match ? (
-				// eslint-disable-next-line react/no-children-prop
 				<SyntaxHighlighter
-					children={String(children).replace(/\n$/, '')}
 					style={atomDark}
 					language={match[1]}
 					PreTag="div"
-					// className='pre-div'
 					{...props}
-				></SyntaxHighlighter>
+				>
+					{String(children).replace(/\n$/, '')}
+				</SyntaxHighlighter>
 			) : (
 				<span className={`inline-code`} {...props}>
 					{children}
@@ -215,9 +214,12 @@ function PostContent(props) {
 				<p>Last modified on {lastModifiedFormattedDate}</p>
 				{
 					<p>
-						{post.tags
-							.map((tag) => getTagLink(tag))
-							.reduce((prev, curr) => [prev, ', ', curr])}
+						{post.tags.map((tag, index) => (
+							<Fragment key={tag}>
+								{getTagLink(tag)}
+								{index < post.tags.length - 1 && ', '}
+							</Fragment>
+						))}
 					</p>
 				}
 				<ReactMarkdown
