@@ -80,6 +80,8 @@ function PostContent(props) {
 
 			if (node.children[0].tagName === 'img') {
 				const image = node.children[0]
+				const src = image.properties.src
+				const isGif = src.endsWith('.gif')
 
 				return (
 					<div className={classes.image}>
@@ -90,6 +92,7 @@ function PostContent(props) {
 							height={400}
 							layout="responsive"
 							objectFit="contain"
+							unoptimized={isGif}
 						/>
 					</div>
 				)
