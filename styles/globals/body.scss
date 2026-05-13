@@ -1,3 +1,6 @@
+/* @use functions */
+@use 'sass:color';
+
 /* dark theme styling for body/sticky footer */
 body {
 	--color-grey-50: hsl(265deg 55% 96%);
@@ -38,7 +41,7 @@ body {
 
 	background-color: var(--color-grey-100);
 	/* stylelint-disable scss/no-global-function-names */
-	background-color: lighten(#5e718b, 15%);
+	background-color: color.adjust(#5e718b, $lightness: 15%);
 	color: #252525;
 	display: flex;
 	flex-direction: column;
