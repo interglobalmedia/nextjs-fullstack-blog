@@ -1,3 +1,6 @@
+/* @use functions */
+@use 'sass:color';
+
 /* media query variables */
 $min-740: '(min-width: 740px)';
 
@@ -84,7 +87,7 @@ h1.heading-one {
 
 	&::before {
 		/* stylelint-disable scss/no-global-function-names */
-		color: lighten($aussie-blue, 10%);
+		color: color.adjust($aussie-blue, $lightness: 10%);
 		margin-left: -2.3em;
 		text-align: right;
 		top: 0;
