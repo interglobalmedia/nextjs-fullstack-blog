@@ -1,9 +1,12 @@
+/* @use functions */
+@use 'sass:color';
+
 /* dark theme styling for footer */
 
 /* dark footer anchor styling */
 .dark footer a {
 	/* stylelint-disable scss/no-global-function-names */
-	color: lighten($tailwind-lighter-orange, 7.5%);
+	color: color.adjust($tailwind-lighter-orange, $lightness: 7.5%);
 }
 
 /* dark footer social icons styling  */
@@ -16,10 +19,10 @@
 .dark div > div.footer-tumblr,
 .dark div > div.footer-dev,
 .dark div > div.footer-patreon {
-	fill: darken($aussie-blue, 12.5%);
+	fill: color.adjust($aussie-blue, $lightness: -12.5%);
 
 	&:hover {
-		fill: darken($tailwind-dark-orange, 1.25%);
+		fill: color.adjust($tailwind-dark-orange, $lightness: -1.25%);
 		transition: fill 2s ease-out;
 	}
 }

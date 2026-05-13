@@ -1,6 +1,9 @@
 /* scss variables */
 $min-768: '(min-width: 768px)';
 
+/* @use functions */
+@use 'sass:color';
+
 /* stylelint-disable scss/no-global-function-names */
 
 .tag {
@@ -29,7 +32,7 @@ $min-768: '(min-width: 768px)';
 }
 
 .tag>h1 {
-    color: darken(#1c1c1c, 1.25%);
+    color: color.adjust(#1c1c1c, $lightness: -1.25%);
     font-size: var(--size-8);
     margin: var(--size-8) auto;
     text-align: center;

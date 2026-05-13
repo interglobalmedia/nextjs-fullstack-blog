@@ -1,3 +1,6 @@
+/* @use functions */
+@use 'sass:color';
+
 /* dark social share icon styling */
 .dark div > div.share-hacker-news,
 .dark div > div.share-twitter,
@@ -5,10 +8,10 @@
 .dark div > div.share-linkedin,
 .dark div > div.share-tumblr {
     /* stylelint-disable scss/no-global-function-names */
-	fill: darken($aussie-blue, 2.5%);
+	fill: color.adjust($aussie-blue, $lightness: 2.5%);
 
 	&:hover {
-		fill: darken($tailwind-dark-orange, 2.5%);
+		fill: color.adjust($tailwind-dark-orange, $lightness: -2.5%);
 		transition: fill 1s ease-out;
 		transform: rotate3d(0, 0, 0, 0deg);
 	}

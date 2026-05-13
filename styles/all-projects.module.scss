@@ -1,6 +1,9 @@
 /* scss variables */
 $min-768: '(min-width: 768px)';
 
+/* @use functions */
+@use 'sass:color';
+
 /* stylelint-disable scss/no-global-function-names */
 
 .projects {
@@ -10,7 +13,7 @@ $min-768: '(min-width: 768px)';
 }
 
 .projects > h1 {
-	color: darken(#1c1c1c, 1.25%);
+	color: color.adjust(#1c1c1c, $lightness: -1.25%);
 	font-family: var(--oswald-font);
 	font-size: var(--size-12);
 	text-align: center;
