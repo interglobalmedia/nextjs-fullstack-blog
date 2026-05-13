@@ -5,11 +5,14 @@ $min-768: '(min-width: 768px)';
 $aussie-blue: #80d0ff;
 $asian-green: #96aa9a;
 
+/* @use functions */
+@use 'sass:color';
+
 /* stylelint-disable scss/no-global-function-names */
 
 .content {
 	background-color: var(--color-grey-200);
-	background-color: lighten($asian-green, 7.5%);
+	background-color: color.adjust($asian-green, $lightness: 7.5%);
 	border-radius: 6px;
 	font-size: var(--size-5);
 	line-height: var(--size-8);
@@ -107,10 +110,10 @@ $asian-green: #96aa9a;
 .svg-wrapper > div.share-reddit,
 .svg-wrapper > div.share-linkedin,
 .svg-wrapper > div.share-tumblr {
-	fill: darken(#1c1c1c, 15%);
+	fill: color.adjust(#1c1c1c, $lightness: -15%);
 
 	&:hover {
-		fill: darken($aussie-blue, 15%);
+		fill: color.adjust($aussie-blue, $lightness: -15%);
 		transition: fill 1s ease-out;
 	}
 }

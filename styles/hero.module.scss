@@ -1,7 +1,10 @@
+/* @use functions */
+@use 'sass:color';
+
 /* stylelint-disable scss/no-global-function-names */
 
 .hero {
-	background-color: darken(#1c1c1c, 1.25%);
+	background-color: color.adjust(#1c1c1c, $lightness: -1.25%);
 	padding: var(--size-8) 0;
 	text-align: center;
 }

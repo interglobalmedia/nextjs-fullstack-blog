@@ -1,5 +1,7 @@
 /* scss variables */
 $min-768: '(min-width: 768px)';
+/* @use functions */
+@use 'sass:color';
 
 /* stylelint-disable scss/no-global-function-names */
 
@@ -10,7 +12,8 @@ $min-768: '(min-width: 768px)';
 }
 
 .latest > h2 {
-	color: darken(#1c1c1c, 1.25%);
+	/* replaces the darken() function */
+	color: color.adjust(#1c1c1c, $lightness: -1.25%);
 	font-family: var(--oswald-font);
 	font-size: var(--size-12);
 	padding-bottom: 1rem;

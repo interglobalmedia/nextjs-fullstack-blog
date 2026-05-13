@@ -1,3 +1,6 @@
+/* @use functions */
+@use 'sass:color';
+
 /*  dark theme styling for footer-navigation component */
 ul.footer-navigation {
 	@media #{$min-1024} {
@@ -9,11 +12,11 @@ ul.footer-navigation {
 /* dark theme styling for provider-button */
 .dark .provider-button {
     /* stylelint-disable scss/no-global-function-names */
-	background: darken($aussie-blue, 12.5%);
+	background: color.adjust($aussie-blue, $lightness: -12.5%);
 	color: #000;
 
 	&:hover {
-		background: darken($tailwind-dark-orange, 1.25%);
+		background: color.adjust($tailwind-dark-orange, $lightness: -1.25%);
 		transition: background 2s ease-in-out;
 	}
 }

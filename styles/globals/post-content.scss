@@ -1,3 +1,6 @@
+/* @use functions */
+@use 'sass:color';
+
 html {
 	scroll-behavior: smooth;
 }
@@ -54,7 +57,7 @@ a:hover {
 .dark a,
 .dark .tag {
 	/* stylelint-disable scss/no-global-function-names */
-	color: darken($tailwind-lightest-orange, 2.5%);
+	color: color.adjust($tailwind-lightest-orange, $lightness: -2.5%);
 }
 
 .dark blockquote a {
@@ -76,7 +79,7 @@ p {
 blockquote {
 	margin-left: 1rem;
 	padding-left: 0.5rem;
-	border-left: 4px solid darken($aussie-blue, 30%);
+	border-left: 4px solid color.adjust($aussie-blue, $lightness: -30%);
 	background-color: var(--color-grey-200);
 }
 
@@ -86,11 +89,11 @@ blockquote {
 
 /* styling for inline code workaround */
 .inline-code {
-	color: darken(#d1d1d1, 47.5%);
+	color: color.adjust(#d1d1d1, $lightness: -47.5%);
 }
 
 .dark .inline-code {
-	color: darken(#c0c0c0, 20%);
+	color: color.adjust(#c0c0c0, $lightness: -20%);
 }
 
 /* stylelint-disable no-descending-specificity */
@@ -101,17 +104,17 @@ blockquote {
 
 /* dark theme for hero for post content article element  */
 .dark .content {
-	background: darken(#1c1c1c, 1.25%);
+	background: color.adjust(#1c1c1c, $lightness: -1.25%);
 }
 
 /* dark theme for pre element in post-content */
 .dark .pre pre {
-	background: lighten(#1c1c1c, 5%) !important;
+	background: color.adjust(#1c1c1c, $lightness: 5%) !important;
 }
 
 /* dark theme styling for post item */
 .dark .time {
-	color: darken($tailwind-lighter-orange, 2.5%);
+	color: color.adjust($tailwind-lighter-orange, $lightness: -2.5%);
 }
 
 /* styling for copy code button */

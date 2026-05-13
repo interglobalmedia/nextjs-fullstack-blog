@@ -1,3 +1,6 @@
+/* @use functions */
+@use 'sass:color';
+
 /* dark theme styling for main-navigation */
 li.menu-link-li {
 	margin: 0 0 1.5rem 1.5rem;
@@ -134,7 +137,7 @@ a.menu-link {
 	}
 	@media #{$max-1279} {
         /* stylelint-disable scss/no-global-function-names */
-		background-color: darken(#1c1c1c, 1.25%);
+		background-color: color.adjust(#1c1c1c, $lightness: -1.25%);
 		display: block;
 		height: 100vh;
 		left: 0;
@@ -181,7 +184,7 @@ a.menu-link {
 /* targets active class of anchor nav link in mobile (smaller) viewports */
 .menu-link.active,
 .navigation-underline.active {
-	color: lighten($aussie-blue, 10%);
+	color: color.adjust($aussie-blue, $lightness: 10%);
 }
 
 .dark .main-nav {
@@ -218,7 +221,7 @@ a.menu-link {
 		height: 2px;
 		bottom: 0;
 		left: 0;
-		background-color: lighten($aussie-blue, 25%);
+		background-color: color.adjust($aussie-blue, $lightness: 25%);
 		visibility: hidden;
 		transform: scaleX(0);
 		transition: all 0.3s ease-in-out;
@@ -231,7 +234,7 @@ a.menu-link {
 		height: 2px;
 		bottom: 0;
 		left: 0;
-		background-color: lighten($aussie-blue, 25%);
+		background-color: color.adjust($aussie-blue, $lightness: 25%);
 		visibility: hidden;
 		transform: scaleX(0);
 		transition: all 0.3s ease-in-out;
@@ -248,7 +251,7 @@ a.menu-link {
 		height: 2px;
 		bottom: 0;
 		left: 0;
-		background-color: lighten($aussie-blue, 3.5%);
+		background-color: color.adjust($aussie-blue, $lightness: 3.5%);
 		visibility: visible;
 		transform: scaleX(1);
 		transition: all 0.3s ease-in-out;
@@ -261,7 +264,7 @@ a.menu-link {
 		left: 0;
 		width: 100%;
 		height: 2px;
-		background: lighten($aussie-blue, 3.5%);
+		background: color.adjust($aussie-blue, $lightness: 3.5%);
 		margin-bottom: 0;
 		transition: background-color 3s linear;
 		visibility: visible;
@@ -280,7 +283,7 @@ a.menu-link {
 		height: 2px;
 		bottom: 0;
 		left: 0;
-		background: lighten($aussie-blue, 3.5%);
+		background: color.adjust($aussie-blue, $lightness: 3.5%);
 		transition: background-color 3s ease-in-out;
 	}
 
@@ -291,7 +294,7 @@ a.menu-link {
 		left: 0;
 		width: 100%;
 		height: 2px;
-		background: lighten($aussie-blue, 3.5%);
+		background: color.adjust($aussie-blue, $lightness: 3.5%);
 		transition: background-color 3s ease-in-out;
 	}
 }
@@ -305,7 +308,7 @@ a.menu-link {
 		height: 2px;
 		bottom: 0;
 		left: 0;
-		background-color: lighten($tailwind-dark-orange, 3.5%);
+		background-color: color.adjust($tailwind-dark-orange, $lightness: 3.5%);
 		visibility: visible;
 		transform: scaleX(1);
 		transition: all 0.3s ease-in-out;
@@ -318,7 +321,7 @@ a.menu-link {
 		left: 0;
 		width: 100%;
 		height: 2px;
-		background: lighten($tailwind-dark-orange, 3.5%);
+		background: color.adjust($tailwind-dark-orange, $lightness: 3.5%);
 		margin-bottom: 0;
 		transition: background-color 3s linear;
 		visibility: visible;
@@ -337,7 +340,7 @@ a.menu-link {
 		height: 2px;
 		bottom: 0;
 		left: 0;
-		background: lighten($tailwind-dark-orange, 3.5%);
+		background: color.adjust($tailwind-dark-orange, $lightness: 3.5%);
 		transition: background-color 3s ease-in-out;
 	}
 
@@ -348,7 +351,7 @@ a.menu-link {
 		left: 0;
 		width: 100%;
 		height: 2px;
-		background: lighten($tailwind-dark-orange, 3.5%);
+		background: color.adjust($tailwind-dark-orange, $lightness: 3.5%);
 		transition: background-color 3s ease-in-out;
 	}
 }
@@ -360,18 +363,18 @@ a.menu-link {
 /* stylelint-disable-next-line no-descending-specificity */
 .navigation-underline.active,
 .menu-link.active {
-	color: lighten($aussie-blue, 5%);
-	text-shadow: 1px 1px 2px lighten($discord-charcoal, 15%);
+	color: color.adjust($aussie-blue, $lightness: 5%);
+	text-shadow: 1px 1px 2px color.adjust($discord-charcoal, $lightness: 15%);
 	transition: color 0.5s ease-in-out;
 }
 
 .dark .menu-link.active {
-	color: lighten($tailwind-dark-orange, 3.5%);
+	color: color.adjust($tailwind-dark-orange, $lightness: 3.5%);
 	text-shadow: 1px 1px 2px $discord-charcoal;
 	transition: all 0.5s ease-in-out;
 
 	&:hover {
-		color: darken($cream, 15%);
+		color: color.adjust($cream, $lightness: -15%);
 		transition: all 0.5s ease-in-out;
 	}
 }
@@ -379,8 +382,8 @@ a.menu-link {
 /* stylelint-disable no-descending-specificity */
 .menu-link {
 	&:hover {
-		color: lighten($aussie-blue, 15%);
-		text-shadow: 1px 1px 2px lighten($discord-charcoal, 15%);
+		color: color.adjust($aussie-blue, $lightness: 15%);
+		text-shadow: 1px 1px 2px color.adjust($discord-charcoal, $lightness: 15%);
 		text-decoration: none;
 		transition: color 0.5s ease-in-out;
 	}
@@ -395,7 +398,7 @@ a.menu-link {
 
 .dark .menu-link {
 	&:hover {
-		color: darken($cream, 15%);
+		color: color.adjust($cream, $lightness: -15%);
 		text-shadow: 1px 1px 2px $discord-charcoal;
 		transition: color 0.5s ease-in-out;
 	}
