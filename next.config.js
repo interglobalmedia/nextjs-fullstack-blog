@@ -6,9 +6,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-	reactStrictMode: true,
+	reactStrictMode: false,
 	sassOptions: {
 		includePaths: [path.join(__dirname, 'styles')],
+		silenceDeprecations: ['import'],
 	},
 	turbopack: {
 		rules: {
@@ -17,13 +18,6 @@ const nextConfig = {
 				as: '*.js',
 			},
 		},
-
-		// resolveAlias: {
-		//     'react/jsx-runtime.js': 'preact/compat/jsx-runtime',
-		//     react: 'preact/compat',
-		//     'react-dom/test-utils': 'preact/test-utils',
-		//     'react-dom': 'preact/compat',
-		// },
 	},
 }
 
