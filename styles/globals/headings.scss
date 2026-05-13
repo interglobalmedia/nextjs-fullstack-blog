@@ -1,3 +1,6 @@
+/* @use functions */
+@use 'sass:color';
+
 /* global styles for headings */
 h1,
 h2,
@@ -30,14 +33,14 @@ h3 {
 .dark h2,
 .dark h3 {
 	/* stylelint-disable scss/no-global-function-names */
-	color: lighten($tailwind-dark-orange, 5%);
+	color: color.adjust($tailwind-dark-orange, $lightness: 5%);
 }
 
 .dark h2 a,
 .dark h3 a {
-	color: lighten($tailwind-dark-orange, 5%) !important;
+	color: color.adjust($tailwind-dark-orange, $lightness: 5%) !important;
 }
 
 .dark .card a h2 a {
-	color: darken(#1c1c1c, 1.25%) !important;
+	color: color.adjust(#1c1c1c, $lightness: -1.25%) !important;
 }

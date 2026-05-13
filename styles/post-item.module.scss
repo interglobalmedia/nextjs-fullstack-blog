@@ -3,8 +3,10 @@ $min-320: '(min-width: 320px)';
 $min-768: '(min-width: 768px)';
 
 /* scss color variables */
-
 $white: #fff;
+
+/* @use functions */
+@use 'sass:color';
 
 /* stylelint-disable scss/no-global-function-names */
 
@@ -40,7 +42,7 @@ $white: #fff;
 }
 
 .image {
-	background-color: darken(#1c1c1c, 1.25%);
+	background-color: color.adjust(#1c1c1c, $lightness: -1.25%);
 	background-position: center;
 	background-size: cover;
 	box-shadow: -2px 2px 10px 0 rgb(68 68 68 / 40%);

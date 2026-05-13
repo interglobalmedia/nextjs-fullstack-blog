@@ -4,6 +4,9 @@ $min-768: '(min-width: 768px)';
 /* scss color variables */
 $aussie-blue: #80d0ff;
 
+/* @use functions */
+@use 'sass:color';
+
 .main {
 	list-style-type: none;
 	display: grid;
@@ -14,7 +17,7 @@ $aussie-blue: #80d0ff;
 }
 
 .projects-wrapper > h1 {
-	color: darken(#1c1c1c, 1.25%);
+	color: color.adjust(#1c1c1c, $lightness: -1.25%);
 	font-family: var(--oswald-font);
 	font-size: var(--size-12);
 	margin: 2rem auto 0;

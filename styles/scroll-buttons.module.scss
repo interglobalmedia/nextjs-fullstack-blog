@@ -2,15 +2,19 @@
 $chai-punk-pink-lite: #f293b1;
 $cream: #ffe9d6;
 
-/* stylelint-disable scss/no-global-function-names */
-$icon-background: darken(#1c1c1c, 1.25%);
-
 /* border related variables */
 $border-radius: 0.5;
 
 /* icon related variables */
 $icon-font: 2em;
 $icon-size: 2.81rem;
+
+/* @use functions */
+@use 'sass:color';
+@use 'sass:math';
+
+/* stylelint-disable scss/no-global-function-names */
+$icon-background: color.adjust(#1c1c1c, $lightness: -1.25%);
 
 /*  scroll */
 .scroll {
@@ -24,8 +28,8 @@ $icon-size: 2.81rem;
 	text-decoration: none;
 	z-index: 9;
 	cursor: pointer;
-	margin-left: $icon-size/5;
-	margin-right: $icon-size/5;
+	margin-left: math.div($icon-size, 5);
+	margin-right: math.div($icon-size, 5);
 	border-radius: $icon-size * $border-radius;
 	overflow: hidden;
 
@@ -46,7 +50,7 @@ $icon-size: 2.81rem;
 		right: 0;
 
 		&.material-icons {
-			margin-top: $icon-size/20;
+			margin-top: math.div($icon-size, 20);
 		}
 	}
 
