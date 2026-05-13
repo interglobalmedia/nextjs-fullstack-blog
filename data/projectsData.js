@@ -58,7 +58,6 @@ const projectsData = [
 			'audio web api',
 			'metadata',
 			'object oriented javascript',
-			'object oriented javascript',
 			'progress bar',
 			'search',
 			'thumb slider',
