@@ -28,14 +28,16 @@ const Card = ({ title, id, summary, imgSrc, href, tags }) => {
 				</h2>
 				{imgSrc && (
 					<figure className={classes.image}>
-						<Image
-							alt={title}
-							src={imgSrc}
-							className="object-cover object-center md:h-36 lg:h-48"
-							width={600}
-							height={400}
-							layout="responsive"
-						/>
+						<div style={{ position: 'relative' }}>
+							<Image
+								alt={title}
+								src={imgSrc}
+								className="object-cover object-center md:h-36 lg:h-48"
+								fill
+								sizes="(max-width: 768px) 100vw, 50vw"
+								style={{ objectFit: 'cover' }}
+							/>
+						</div>
 						<figcaption
 							className={`${classes.content} ${oswald.variable}`}
 						>
