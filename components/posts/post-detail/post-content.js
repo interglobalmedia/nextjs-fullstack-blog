@@ -15,7 +15,7 @@ import scss from 'react-syntax-highlighter/dist/cjs/languages/prism/scss'
 import dynamic from 'next/dynamic'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import { getTagLink } from '../get-tag-link'
 import classes from '../../../styles/post-content.module.scss'
 import getReadTime from '../../../lib/utils/read-time'
@@ -90,8 +90,12 @@ function PostContent(props) {
 							alt={image.properties.alt}
 							width={600}
 							height={400}
-							layout="responsive"
-							objectFit="contain"
+							sizes="100vw"
+							style={{
+								objectFit: 'contain',
+								width: '100%',
+								height: 'auto',
+							}}
 							unoptimized={isGif}
 						/>
 					</div>
