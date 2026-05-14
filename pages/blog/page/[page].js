@@ -1,17 +1,17 @@
 import { Fragment } from 'react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { getAllPosts } from '../../../lib/posts-util'
+import { getAllPostsMetadata } from '../../../lib/posts-util'
 import ScrollTop from '../../../components/buttons/scroll-top'
 import ScrollStep from '../../../components/buttons/scroll-step'
 import { POSTS_PER_PAGE } from '../../blog'
 
-const DynamicAllPosts = dynamic(() =>
-	import('../../../components/posts/all-posts'),
+const DynamicAllPosts = dynamic(
+	() => import('../../../components/posts/all-posts'),
 )
 
 export function getStaticPaths() {
-	const totalPosts = getAllPosts()
+	const totalPosts = getAllPostsMetadata() // was getAllPosts()
 	const totalPages = Math.ceil(totalPosts.length / POSTS_PER_PAGE)
 	const paths = Array.from({ length: totalPages }, (_, i) => ({
 		params: { page: (i + 1).toString() },
@@ -27,7 +27,18 @@ export function getStaticProps(context) {
 	const {
 		params: { page },
 	} = context
-	const posts = getAllPosts()
+	const allPosts = getAllPostsMetadata()
+	const posts = allPosts.map(
+		({ slug, title, excerpt, tags, date, image, author }) => ({
+			slug,
+			title,
+			excerpt,
+			tags,
+			date,
+			image,
+			author,
+		}),
+	)
 	const pageNumber = parseInt(page)
 	const initialDisplayPosts = posts.slice(
 		POSTS_PER_PAGE * (pageNumber - 1),

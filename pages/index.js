@@ -30,14 +30,13 @@ function HomePage(props) {
 	)
 }
 
-export function getStaticProps() {
+export async function getStaticProps() {
 	const featuredPosts = getFeaturedPosts()
-
 	return {
 		props: {
 			posts: featuredPosts,
 		},
-		revalidate: 60, // re-generates the page at most once every 60 seconds
+		revalidate: 60,
 	}
 }
 

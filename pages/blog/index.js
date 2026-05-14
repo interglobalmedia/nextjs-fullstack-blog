@@ -12,7 +12,18 @@ const DynamicAllPosts = dynamic(
 export const POSTS_PER_PAGE = 10
 
 export async function getStaticProps() {
-	const posts = getAllPostsMetadata() // was getAllPosts()
+	const allPosts = getAllPostsMetadata()
+	const posts = allPosts.map(
+		({ slug, title, excerpt, tags, date, image, author }) => ({
+			slug,
+			title,
+			excerpt,
+			tags,
+			date,
+			image,
+			author,
+		}),
+	)
 	const initialDisplayPosts = posts.slice(0, POSTS_PER_PAGE)
 	const pagination = {
 		currentPage: 1,
