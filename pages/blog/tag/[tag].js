@@ -1,13 +1,13 @@
 import { Fragment } from 'react'
 import dynamic from 'next/dynamic'
-import { getAllPosts, getAllPostsByTag } from '../../../lib/posts-util'
+import { getAllPostsMetadata } from '../../../lib/posts-util'
 import Head from 'next/head'
 import classes from '../../../styles/tag.module.scss'
 import ScrollStep from '../../../components/buttons/scroll-step'
 import ScrollTop from '../../../components/buttons/scroll-top'
 
-const DynamicPostItem = dynamic(() =>
-	import('../../../components/posts/post-item'),
+const DynamicPostItem = dynamic(
+	() => import('../../../components/posts/post-item'),
 )
 
 export default function Tag(props) {
@@ -35,7 +35,7 @@ export default function Tag(props) {
 }
 
 export async function getStaticPaths() {
-	const posts = getAllPosts()
+	const posts = getAllPostsMetadata() // was getAllPosts()
 	const tags = new Set(posts.flatMap((post) => post.tags))
 
 	return {
@@ -51,7 +51,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { tag } }) {
-	const posts = getAllPostsByTag({ tag })
+	const posts = getAllPostsMetadata().filter((post) =>
+		post.tags.includes(tag),
+	)
 
 	return {
 		props: {
