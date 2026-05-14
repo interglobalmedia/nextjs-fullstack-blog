@@ -1,9 +1,9 @@
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { Fragment } from 'react'
-import { getAllPosts } from '../../lib/posts-util'
 import ScrollStep from '../../components/buttons/scroll-step'
 import ScrollTop from '../../components/buttons/scroll-top'
+import { getAllPostsMetadata } from '../../lib/posts-util'
 
 const DynamicAllPosts = dynamic(
 	() => import('../../components/posts/all-posts'),
@@ -12,7 +12,7 @@ const DynamicAllPosts = dynamic(
 export const POSTS_PER_PAGE = 10
 
 export async function getStaticProps() {
-	const posts = getAllPosts()
+	const posts = getAllPostsMetadata() // was getAllPosts()
 	const initialDisplayPosts = posts.slice(0, POSTS_PER_PAGE)
 	const pagination = {
 		currentPage: 1,
