@@ -91,12 +91,13 @@ function PostContent(props) {
 							width={600}
 							height={400}
 							sizes="100vw"
+							unoptimized={isGif}
+							loading="eager"
 							style={{
 								objectFit: 'contain',
 								width: '100%',
 								height: 'auto',
 							}}
-							unoptimized={isGif}
 						/>
 					</div>
 				)
