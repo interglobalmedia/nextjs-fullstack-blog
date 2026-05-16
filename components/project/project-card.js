@@ -16,47 +16,43 @@ const oswald = Oswald({
 const Card = ({ title, id, summary, imgSrc, href, tags }) => {
 	return (
 		<li className={`card ${classes.card}`}>
-			<Link href={href}>
-				<h2 className={classes['heading-two']}>
-					{href ? (
-						<Link href={href} aria-label={`Link to ${title}`}>
-							{title}
-						</Link>
-					) : (
-						title
-					)}
-				</h2>
-				{imgSrc && (
-					<figure className={classes.image}>
-						<div style={{ position: 'relative' }}>
-							<Image
-								alt={title}
-								src={imgSrc}
-								className="object-cover object-center md:h-36 lg:h-48"
-								fill
-								sizes="(max-width: 768px) 100vw, 50vw"
-								style={{ objectFit: 'cover' }}
-							/>
-						</div>
-						<figcaption
-							className={`${classes.content} ${oswald.variable}`}
-						>
-							<p>{summary}</p>
-							<p className={classes.tag}>
-								{tags.map((tag, index) => (
-									<Fragment key={tag}>
-										{getTagLink(tag)}
-										{index < tags.length - 1 && ', '}
-									</Fragment>
-								))}
-							</p>
-							Learn more &rarr;
-						</figcaption>
-					</figure>
+			<h2 className={classes['heading-two']}>
+				{href ? (
+					<Link href={href} aria-label={`Link to ${title}`}>
+						{title}
+					</Link>
+				) : (
+					title
 				)}
-			</Link>
+			</h2>
+			{imgSrc && (
+				<figure className={classes.image}>
+					<div style={{ position: 'relative' }}>
+						<Image
+							alt={title}
+							src={imgSrc}
+							className="object-cover object-center md:h-36 lg:h-48"
+							fill
+							sizes="(max-width: 768px) 100vw, 50vw"
+							style={{ objectFit: 'cover' }}
+						/>
+					</div>
+					<figcaption
+						className={`${classes.content} ${oswald.variable}`}
+					>
+						<p>{summary}</p>
+						<p className={classes.tag}>
+							{tags.map((tag, index) => (
+								<Fragment key={tag}>
+									{getTagLink(tag)}
+									{index < tags.length - 1 && ', '}
+								</Fragment>
+							))}
+						</p>
+						{href && <Link href={href}>Learn more &rarr;</Link>}
+					</figcaption>
+				</figure>
+			)}
 		</li>
 	)
 }
-
-export default Card
