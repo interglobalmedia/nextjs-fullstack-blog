@@ -1,31 +1,29 @@
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import projectsData from '../data/projectsData'
+import { getAllProjectsMetadata } from '../lib/projects-util'
 import ScrollTop from '../components/buttons/scroll-top'
 import ScrollStep from '../components/buttons/scroll-step'
-import classes from '../styles/projects.module.scss'
 
 const DynamicAllProjects = dynamic(
-	() => import('../components/project/all-projects'),
+	() => import('../components/projects/all-projects'),
 )
 
-export const PROJECTS_PER_PAGE = 18
+export const PROJECTS_PER_PAGE = 10
 
 export async function getStaticProps() {
-	const allProjectsData = JSON.parse(JSON.stringify(projectsData))
-	const initialDisplayProjects = allProjectsData.slice(0, PROJECTS_PER_PAGE)
+	const allProjects = getAllProjectsMetadata()
+	const initialDisplayProjects = allProjects.slice(0, PROJECTS_PER_PAGE)
 	const pagination = {
 		currentPage: 1,
-		totalPages: Math.ceil(allProjectsData.length / PROJECTS_PER_PAGE),
+		totalPages: Math.ceil(allProjects.length / PROJECTS_PER_PAGE),
 	}
 	return {
-		props: { initialDisplayProjects, allProjectsData, pagination },
-		revalidate: 60,
+		props: { initialDisplayProjects, allProjects, pagination },
 	}
 }
 
 export default function Projects({
-	projects,
+	allProjects,
 	initialDisplayProjects,
 	pagination,
 }) {
@@ -40,7 +38,7 @@ export default function Projects({
 				/>
 			</Head>
 			<DynamicAllProjects
-				projects={projects}
+				allProjects={allProjects}
 				initialDisplayProjects={initialDisplayProjects}
 				pagination={pagination}
 			/>
