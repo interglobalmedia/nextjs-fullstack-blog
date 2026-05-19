@@ -6,8 +6,8 @@ import siteMetadata from '../../data/siteMetadata'
 import classes from '../../styles/footer.module.scss'
 
 const DynamicSocialIcon = dynamic(() => import('../../helpers/icons-map'))
-const DynamicFooterNavigation = dynamic(() =>
-	import('./footer-navigation/footer-navigation'),
+const DynamicFooterNavigation = dynamic(
+	() => import('./footer-navigation/footer-navigation'),
 )
 
 const oswald = Oswald({
