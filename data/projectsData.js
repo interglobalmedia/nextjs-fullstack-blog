@@ -485,6 +485,7 @@ const projectsData = [
 	{
 		id: 17,
 		title: 'Monsters Rolodex (React Hooks)',
+		author: 'Maria D. Campbell',
 		repository: 'https://github.com/interglobalmedia/monsters-rolodex-2022',
 		website:
 			'https://interglobalmedia.github.io/monsters-rolodex-2022-functional-components-hooks/',
