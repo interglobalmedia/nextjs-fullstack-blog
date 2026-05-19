@@ -193,24 +193,20 @@ function PostContent(props) {
 		<Fragment>
 			<article className={`content ${classes.content}`}>
 				<DynamicPostHeader title={post.title} image={imagePath} />
-				<div className={`${classes['share-icons-wrapper']}`}>
-					<h1 className={`${classes['social-share-heading']}`}>
+				<div className={classes['svg-wrapper']}>
+					<h2 className={`${classes['social-share-heading']}`}>
 						Social Share:
-					</h1>
-					<div className={classes['svg-wrapper']}>
+					</h2>
+					<div className={classes['share-icons-row']}>
 						<div
 							className={`share-hacker-news ${classes['share-hacker-news']}`}
 						>
 							<DynamicSocialShareIcon
 								name="social-hacker-news"
-								href={`https://news.ycombinator.com/submitlink?u=
-                                ${combinatorIntent}&t=${post.title}`}
+								href={`https://news.ycombinator.com/submitlink?u=${combinatorIntent}&t=${post.title}`}
 								size="6"
 							/>
 						</div>
-						<div
-							className={`share-twitter ${classes['share-twitter']}`}
-						></div>
 						<Share
 							title={post.title}
 							url={url}

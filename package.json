@@ -16,7 +16,10 @@
 		"stylelint": "stylelint styles/**/*.scss",
 		"stylelint:fix": "stylelint --fix **/*.scss",
 		"prepare": "husky",
-		"test": "jest --coverage"
+		"test": "jest --coverage",
+		"compose": "node scripts/compose",
+		"compose-project": "node scripts/compose-project",
+		"generate-sitemap": "node scripts/generate-sitemap"
 	},
 	"dependencies": {
 		"@giscus/react": "^3.1.0",
