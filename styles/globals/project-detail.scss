@@ -1,0 +1,86 @@
+/* @use functions */
+@use 'sass:color';
+
+/* dark theme for hero for project-detail article element */
+.dark .content {
+	background: color.adjust(#1c1c1c, $lightness: -1.25%);
+}
+
+.dark .content h1 {
+	color: color.adjust($tailwind-dark-orange, $lightness: 5%);
+}
+
+.dark main p,
+.dark main ul {
+	color: $white;
+}
+
+.dark ol {
+	color: $white;
+}
+
+.dark strong {
+	color: $ghost-white;
+}
+
+/* dark theme for author, dates, read-time */
+.dark .author,
+.dark .dates,
+.dark .read-time {
+	color: $white;
+}
+
+/* dark theme for tags */
+.dark .tags a {
+	color: color.adjust($tailwind-lightest-orange, $lightness: -2.5%);
+}
+
+/* dark theme for pill buttons */
+.dark .links a {
+	border-color: $white;
+	color: $white;
+
+	&:hover {
+		background-color: color.adjust($aussie-blue, $lightness: -15%);
+		border-color: color.adjust($aussie-blue, $lightness: -15%);
+		color: $white;
+	}
+}
+
+/* styling for inline code workaround */
+.dark .inline-code {
+	color: color.adjust(#c0c0c0, $lightness: -20%);
+}
+
+/* stylelint-disable no-descending-specificity */
+.inline-code,
+.dark .inline-code {
+	word-break: break-all;
+}
+
+/* styling for copy code button */
+.project-pre {
+	margin-bottom: 0.5em !important;
+	/* stylelint-disable property-no-vendor-prefix */
+	/* stylelint-disable color-function-notation */
+	-webkit-box-shadow: -10px 0 13px -7px #000, 10px 0 13px -7px #000,
+		35px -23px 2px -16px rgba(0 0 0 / 0%);
+	box-shadow: -10px 0 13px -7px #000, 10px 0 13px -7px #000,
+		35px -23px 2px -16px rgba(0 0 0 / 0%);
+	position: relative;
+}
+
+/* dark theme for pre element in project-detail */
+.dark .project-pre pre {
+	background: color.adjust(#1c1c1c, $lightness: 5%) !important;
+}
+
+/* dark theme for table */
+.dark .content table {
+	color: $white;
+}
+
+/* dark theme for social share heading */
+.dark .social-share-heading {
+	color: $white;
+}
