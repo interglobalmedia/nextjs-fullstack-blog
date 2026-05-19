@@ -70,11 +70,18 @@ $asian-green: #96aa9a;
 
 .svg-wrapper {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	gap: 1.5rem;
 	justify-content: flex-start;
 	margin-bottom: 0;
 	margin-top: 1.5rem;
+}
+
+.share-icons-row {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	gap: 0.5rem;
 }
 
 .svg-wrapper div.share-hacker-news {
