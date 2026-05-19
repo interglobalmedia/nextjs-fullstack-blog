@@ -1,0 +1,138 @@
+// Note: open, inquirer, and inquirer-datepicker-prompt are pinned to CJS-compatible
+// versions (open@8, inquirer@8) due to ESM incompatibility with inquirer-datepicker-prompt.
+// To modernize, inquirer-datepicker-prompt would need to be replaced first.
+
+const fs = require('fs')
+const slugify = require('slug')
+const inquirer = require('inquirer')
+const open = require('open')
+
+inquirer.registerPrompt('datetime', require('inquirer-datepicker-prompt'))
+
+inquirer.prompt([
+    {
+        type: 'input',
+        name: 'title',
+        message: 'Enter Title',
+    },
+    {
+        type: 'input',
+        name: 'slug',
+        default: (answers) => slugify(answers.title.toLowerCase()),
+        message: 'Enter Slug',
+    },
+    {
+        type: 'input',
+        name: 'author',
+        message: 'Enter Author',
+    },
+    {
+        type: 'input',
+        name: 'summary',
+        message: 'Enter Summary',
+    },
+    {
+        type: 'input',
+        name: 'repository',
+        message: 'Enter Repository URL',
+    },
+    {
+        type: 'input',
+        name: 'website',
+        message: 'Enter Live Site URL',
+    },
+    {
+        type: 'confirm',
+        name: 'isPublished',
+        default: false,
+        message: 'Is Published?',
+    },
+    {
+        type: 'confirm',
+        name: 'isFeatured',
+        default: false,
+        message: 'Is Featured?',
+    },
+    {
+        type: 'checkbox',
+        message: 'Select tags',
+        name: 'tags',
+        choices: [
+            { name: 'next.js' },
+            { name: 'react' },
+            { name: 'node.js' },
+            { name: 'javascript' },
+            { name: 'typescript' },
+            { name: 'css' },
+            { name: 'sass' },
+            { name: 'webpack' },
+            { name: 'web audio api' },
+            { name: 'fetch api' },
+            { name: 'rest api' },
+            { name: 'socket.io' },
+            { name: 'express' },
+            { name: 'mongodb' },
+            { name: 'postgresql' },
+            { name: 'vercel' },
+            { name: 'github pages' },
+        ],
+        validate: (answer) =>
+            answer.length ? true : 'You must choose at least one tag',
+    },
+    {
+        type: 'datetime',
+        name: 'date',
+        message: 'When would you like the project to be published?',
+        format: ['dd', '-', 'mm', '-', 'yyyy', ' ', 'hh', ':', 'MM', ' ', 'TT'],
+    },
+    {
+        type: 'datetime',
+        name: 'lastModified',
+        message: 'When would you like the project to be last modified?',
+        format: ['dd', '-', 'mm', '-', 'yyyy', ' ', 'hh', ':', 'MM', ' ', 'TT'],
+    },
+])
+    .then((answers) => {
+        const {
+            slug,
+            date,
+            lastModified,
+            title,
+            author,
+            summary,
+            repository,
+            website,
+            imgSrc,
+            tags,
+            isPublished,
+            isFeatured,
+        } = answers
+
+        const fileName = `data/projects/${slug}.mdx`
+        if (fs.existsSync(fileName)) {
+            throw 'That project already exists!'
+        }
+
+        fs.writeFileSync(
+            fileName,
+            `---
+slug: '${slug}'
+date: '${date.toISOString()}'
+lastModified: '${lastModified.toISOString()}'
+title: '${title}'
+author: '${author}'
+summary: '${summary}'
+repository: '${repository}'
+website: '${website}'
+tags: ${JSON.stringify(tags)}
+isPublished: ${isPublished}
+isFeatured: ${isFeatured}
+---
+
+`,
+        )
+
+        fs.mkdirSync(`public/images/projects/${slug}`, { recursive: true })
+        console.log(`\n${slug} was created!`)
+        open(`http://localhost:3000/projects/${slug}`)
+    })
