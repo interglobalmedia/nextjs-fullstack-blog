@@ -17,43 +17,39 @@ isFeatured: false
 **_on_**
 [pexels.com](https://www.pexels.com/photo/brown-and-white-wolf-sitting-on-snow-1559660/)
 
-I **_wanted_** to **_add_** a `CSS linter` to my **_students'_**
-`portfolio site repository` on **_Github_** so that I could **_point out_**
-`errors` in the `HTML` or `CSS code` when **_created_**. And I **_wanted_** to
-**_show_** how one could **_prevent_** the `deployment` of the `code` to a
-**_remote server_** if such errors were present. And what better way in case of
-HTML and CSS than with the addition of stylelint to the project workflow.
+I wanted to add a CSS linter to my students' portfolio site repository on Github
+so that I could point out errors in the HTML or CSS code when created. And I
+wanted to show how one could prevent the deployment of the code to a remote
+server if such errors were present. And what better way in case of HTML and CSS
+than with the addition of stylelint to the project workflow.
 
-But of course **_that_** would **_also mean_** the **_addition_** of `husky` to
-the `workflow`. I **_use_** the `husky` **_npm package_** to **_make sure_**
-that my `code` does **_not contain_** any `errors` before I **_commit_** my
-**_changes_** to my **_remote repository_**. I **_want_** it to be **_production
-ready_**!
+But of course that would also mean the addition of `husky` to the workflow. I
+use the `husky` npm package to make sure that my code does not contain any
+errors before I commit my changes to my remote repository. I want it to be
+production ready!
 
-First I **_installed_** the `husky package` **_using_** `npm`. So:
+First I installed the `husky` package using `npm`. So:
 
 ```shell
 npm i husky -D
 ```
 
-Next, I **_wanted_** to **_enable_** `Git hooks`, since **_that_** is **_what_**
-`husky` is **_all about_**. So I **_ran_** the **_following_** `command` in
-`Terminal`:
+Next, I wanted to enable `Git` hooks, since that is what `husky` is all about.
+So I ran the following command in Terminal:
 
 ```shell
 npx husky install
 ```
 
-And then to **_automatically_** have `Git hooks` **_enabled_** `after install`,
-I **_edited_** my `package.json` by **_running_** the **_following command_** in
-`Terminal`:
+And then to automatically have `Git` hooks enabled after install, I edited my
+`package.json` by running the following command in Terminal:
 
 ```shell
 npm pkg set scripts.prepare="husky install"
 ```
 
-And this **_resulted_** in the **_creation_** of **_following_** `local script`
-**_inside_** my `package.json`:
+And this resulted in the creation of following local script inside my
+`package.json`:
 
 ```json
 // package.json
@@ -64,52 +60,47 @@ And this **_resulted_** in the **_creation_** of **_following_** `local script`
 }
 ```
 
-**_Next_**, I **_wanted_** to **_create_** a `hook` that would **_check_**
-whether my `CSS` had any `errors` or **_not_**. I had **_already created_** a
-`local script` **_called_** `validate` which **_looks like_** the
-**_following_**:
+Next, I wanted to create a hook that would check whether my CSS had any errors
+or not. I had already created a local script called validate which looks like
+the following:
 
 ```json
 "validate": "npm run stylelint",
 ```
 
-And my `stylelint` **_local script_** which `validate` **_executes_** when I
-**_run_** the `validate script` looked like the **_following_**:
+And my `stylelint` local script which validate executes when I run the
+`validate` script looked like the following:
 
 ```json
 "stylelint": "stylelint **/*.css",
 ```
 
-What the `value` of the `“stylelint”` script **_means_** is that **_within_**
-any `folder` in the **_root_** of my `project` that **_contains_** a `file` with
-the `.css` **_extension_**, **_lint_** it and **_print out_** any `errors` that
-**_may come in_** the `VS Code Integrated Terminal` **_console_**. `**` stands
-for folder, and `/*.css` **_stands for_** any files which **_contain_** the
-`.css` **_extension_**.
+What the value of the `“stylelint”` script means is that within any folder in
+the root of my project that contains a file with the `.css` extension, lint it
+and print out any errors that may come in the VS Code Integrated Terminal
+console. `**` stands for folder, and `/*.css` stands for any files which contain
+the `.css` extension.
 
-**_Next_**, I **_actually_** had to **_create_** a `hook` which would
-**_execute_** my `validate script` **_whenever_** I would **_make_** a (`local`)
-`commit` from **_within_** my `project`. So **_when_** the `stylelinting` would
-**_fail_**, I would **_not_** be able to **_execute_** the `commit`.
+Next, I actually had to create a `hook` which would execute my `validate` script
+whenever I would make a (local) commit from within my project. So when the
+`stylelinting` would fail, I would not be able to execute the commit.
 
-In **_order_** to **_create_** a `“pre-commit”` **_git hook_** which would
-**_execute_** my `validate` **_local script_**, I **_first ran_** the
-**_following_** in my `VS Code Integrate Terminal`:
+In order to create a `“pre-commit”` git hook which would execute my `validate`
+local script, I first ran the following in my VS Code Integrate Terminal:
 
 ```shell
 npx husky add .husky/pre-commit “npm run validate”
 ```
 
-And the **_following_** was **_returned_** to the `Terminal console`:
+And the following was returned to the Terminal console:
 
 ```shell
 husky - created .husky/pre-commit
 ```
 
-This **_created_** a `Git hook` **_called_** `pre-commit` **_inside_** my
-`.husky` **_folder_** which was **_created_** when I **_installed_** `husky`.
-And **_inside_** the `pre-commit` **_file_**, the **_following_** was
-**_added_**:
+This created a `Git` hook called `pre-commit` inside my `.husky` folder which
+was created when I installed `husky`. And inside the `pre-commit` file, the
+following was added:
 
 ```shell
 #!/usr/bin/env sh
@@ -118,12 +109,11 @@ And **_inside_** the `pre-commit` **_file_**, the **_following_** was
 npm run validate
 ```
 
-Then I **_tested_** this out to **_make sure_** that my `husky` pre-commit
-`Git hook` **_actually worked_** when I **_tried_** to `commit` a **_change_**
-inside my `project`. So I **_purposely created_** an `error` in the
-`styles/main.css` **_file_**. And then I **_tried_** to `commit` the
-**_change_**. As a **_result_**, when I **_tried_** to **_commit_**
-`styles/main.css`, the **_following_** was **_returned_** in `Terminal`:
+Then I tested this out to make sure that my `husky` pre-commit `Git` hook
+actually worked when I tried to commit a change inside my project. So I
+purposely created an error in the `styles/main.css` file. And then I tried to
+commit the change. As a result, when I tried to commit `styles/main.css`, the
+following was returned in Terminal:
 
 ```shell
 git commit
@@ -144,15 +134,13 @@ styles/main.css
 husky - pre-commit hook exited with code 2 (error)
 ```
 
-I had **_purposely removed_** the `body element selector rule set`’s
-**_closing_** `curly brace`. As **_indicated_** by
-`11:1 ✖ Unclosed block CssSyntaxError`, **_where_** the
-`body element selector rule set` **_begins_**. So then I **_added back_** the
-**_closing_** `curly brace` and **_tried_** to `commit` **_again_**.
+I had purposely removed the body element selector rule set’s closing curly
+brace. As indicated by `11:1 ✖ Unclosed block CssSyntaxError`, where the body
+element selector rule set begins. So then I added back the closing curly brace
+and tried to commit again.
 
-**_First_** I **_added_** my **_new change_**, which was the **_fix_** to the
-`body element selector rule set` **_running_** `git add styles/main.css`, and
-then I **_ran_** `git commit` **_again_**.
+First I added my new change, which was the fix to the body element selector rule
+set running `git add styles/main.css`, and then I ran `git commit` again.
 
 ```shell
 git commit
@@ -168,18 +156,18 @@ On branch main
 Your branch is up to date with 'origin/main'.
 ```
 
-**_This time_**, the `commit` was a **_success_**!
+This time, the commit was a success!
 
-So **_each time_** there is an `error` in my `CSS code`, I **_can’t commit_**
-that **_change_**. I **_first_** have to **_fix_** the `error`, `stage` that
-**_change_**, and THEN **_execute_** the `git commit` command **_again_**.
+So each time there is an error in my CSS code, I can’t commit that change. I
+first have to fix the error, stage that change, and THEN execute the
+`git commit` command again.
 
-And **_all this_** was **_done_** by **_manually installing_** `husky` and
-**_manually_** setting up my `Git hook`.
+And all this was done by manually installing `husky` and manually setting up my
+`Git` hook.
 
 ## Related Resources
 
--   [husky docs](https://typicode.github.io/husky/#/?id=install)
+- [husky docs](https://typicode.github.io/husky/#/?id=install)
 
--   [Making the Git pre-commit hook work on macOS](/blog/making-the-git-precommit-hook-work-on-macos):
-    **_maria d. campbell. interglobalmedianetwork.com_**
+- [Making the Git pre-commit hook work on macOS](/blog/making-the-git-precommit-hook-work-on-macos):
+  **_maria d. campbell. interglobalmedianetwork.com_**
