@@ -13,30 +13,27 @@ isFeatured: false
 
 ![Chicks in nest representing adding Husky to a subfolder of a Git root repository](pexels-pixabay-36430.jpg)
 
-***Photo by*** [Pixabay](https://www.pexels.com/@pixabay/) ***on*** [pexels.com](https://www.pexels.com/photo/nature-animal-cute-sitting-36430/)
+_Photo by_ [Pixabay](https://www.pexels.com/@pixabay/) _on_
+[pexels.com](https://www.pexels.com/photo/nature-animal-cute-sitting-36430/)
 
-**_Recently_** I **_decided_** to **_add_** `Husky`, `linters`, and
-`lint-staged` to an **_application_** of mine **_AFTER_** I had **_almost
-completed_** it. **_However_**, it **_contains_** two **_subfolders_** within
-its **_root_** `Git` **_repository_**. A `client folder` and a `server folder`.
-So **_how_** was I **_going_** to **_achieve_** adding `Husky` (**_along with_**
-some `linters`) to the `client folder`? `Husky` **_expects_** to be **_placed_**
-in the `root directory`!
+Recently I decided to add `Husky`, `linters`, and `lint-staged` to an
+application of mine AFTER I had almost completed it. However, it contains two
+subfolders within its root `Git` repository. A `client` folder and a `server`
+folder. So how was I going to achieve adding `Husky` (along with some linters)
+to the `client` folder? `Husky` expects to be placed in the root directory!
 
-In **_this kind_** of **_scenario_**, we **_can’t_** completely **_automate_**
-the `process`. **_What_** do I **_mean_** by that? You **_can visit_** my `post`
-**_entitled_**
+In this kind of scenario, we can’t completely automate the `process`. What do I
+mean by that? You can visit my post entitled
 [Adding husky to your development workflow](https://www.interglobalmedianetwork.com/blog/adding-husky-to-your-development-workflow)
-to **_find_** out **_more_**. The long and short of it? **_Except for_** the
-**_installation_** of the `linters` you **_want_** to **_add_** to your
-`Git repository` and the **_installation_** of the `husky` and `lint-staged`
-**_devDependencies_**, **_everything else_** has to be **_manually created_**.
+to find out more. The long and short of it? Except for the installation of the
+linters you want to add to your `Git` repository and the installation of the
+`husky` and `lint-staged` devDependencies, everything else has to be manually
+created.
 
-So **_what_** did I **_do_**? I **_wanted_** to **_add_** `stylelint` for
-`sass/scss`, `eslint` (`custom`) `configuration`, and `prettier`, so I
-**_added_** the **_following devDependencies_** `inside` my `client subfolder`
-where the `React part` of my **_application_** `generated` with
-`create-react-app` **_resides_**:
+So what did I do? I wanted to add `stylelint` for `sass/scss`, `eslint` (custom)
+configuration, and `prettier`, so I added the following devDependencies inside
+my `client` subfolder where the `React` part of my application generated with
+`create-react-app` resides:
 
 ```json
 "devDependencies": {
@@ -55,45 +52,39 @@ where the `React part` of my **_application_** `generated` with
   }
 ```
 
-**_However_**, I **_initialized_** my **_local_** `Git repository` in a
-**_parent_** `root directory` **_called_** `socketio-realtime-node-chat`. So
-**_how_** was I **_going_** to **_circumvent_** this?
+However, I initialized my local `Git` repository in a parent root directory
+called `socketio-realtime-node-chat`. So how was I going to circumvent this?
 
-**_After installing_** `Husky` as a `devDependency`, I **_did not_** go to the
-**_next step_** of **_running_** `npx husky install` in the `macOS Terminal` to
-**_enable_** the `running` of `npm pkg set scripts.prepare="husky install"`
-**_command_** which **_resulted_** in the **_addition_** of a
-`“prepare” script “husky install”` in my `package.json` **_located_** in my
-`client folder`. I **_manually added_** my `"prepare" script` to my
-`client folder`’s `package.json`, and it **_looks like_** the **_following_**:
+After installing `Husky` as a `devDependency`, I did not go to the next step of
+running `npx husky install` in macOS Terminal to enable the running of
+`npm pkg set scripts.prepare="husky install"` command which resulted in the
+addition of a `“prepare” script “husky install”` in my `package.json` located in
+my `client` folder. I manually added my "prepare" script to my `client` folder’s
+`package.json`, and it looks like the following:
 
 ```json
 "prepare": "cd ../ && husky install ./client/.husky"
 ```
 
-**_Because_** my `Git repository` was **_initialized_** in a
-`parent root folder` which **_contains both_** my `client` and `server`
-**_subfolders_**, but I **_only wanted_** to **_set up_** `husky` and `linters`
-**_inside_** my `client folder`, I **_had_** to **_set up_** a `script` which
-would `cd` (`change directory`) me **_out_** of the `client directory`
-**_into_** the `parent`, `root Git directory`, and then **_install_** `husky`
-**_inside_** of the `.husky directory` **_located_** at the `root` of my
-`client subfolder`. So **_that_** is **_why_** `“./client/.husky”`. `./`
-**_indicates_** that the `client folder` is **_located_** at the `root` of the
-`parent Git repository directory` (**_in my case_**) called
-`socketio-realtime-node-chat`.
+Because my `Git` repository was initialized in a parent root folder which
+contains both my `client` and `server` subfolders, but I only wanted to set up
+`husky` and `linters` inside my `client` folder, I had to set up a script which
+would `cd` (change directory) me out of the `client` directory into the parent,
+root `Git` directory, and then install `husky` inside of the `.husky` directory
+located at the root of my `client` subfolder. So that is why `./client/.husky`.
+`./` indicates that the `client` folder is located at the root of the parent
+`Git` repository directory (in my case) called `socketio-realtime-node-chat`.
 
-**_Next_**, **_instead_** of **_running_** a `command` **_such as_**
+Next, instead of running a command such as
 
 ```shell
 npx husky add .husky/pre-commit “npm run validate”
 ```
 
-to **_create_** a `pre-commit Git hook` via `macOS Terminal`, I **_manually
-created_** a `file` **_within_** the `.husky directory` at the `root` of my
-`client subfolder` called `pre-commit` (**_no file extension_**, and there is
-**_not one_** when **_created_** when `running` a `command` in `Terminal`), and
-I **_added_** the **_following_** to it:
+to create a pre-commit `Git` hook via macOS Terminal, I manually created a file
+within the `.husky` directory at the root of my `client` subfolder called
+`pre-commit` (no file extension, and there is not one when created when running
+a command in Terminal), and I added the following to it:
 
 ```shell
 #!/bin/sh
@@ -102,35 +93,30 @@ I **_added_** the **_following_** to it:
 cd ./client && npm run validate
 ```
 
-**_Why_** the `#!/bin/sh` at the **_beginning_** of the **_above_** `script`?
-The `#` stands for **_commenting out_** something. If you **_take_** a
-**_look_** at a `pre-commit file`, you **_will see_** that that `line` is
-`“greyed out”`. **_That_**’s the **_reason why_**. As for `/bin/sh`, it is
-**_normally_** an `executable` **_representing_** the `system shell` and
-**_usually implemented_** as a
-[symbolic link](https://macsecurity.net/view/541-create-remove-symlink-mac)
-**_pointing to_** the `executable` for **_whichever shell_** is the
-`system shell`. **_However_**, **_here_**, it is **_not_** an `executable`
-**_representing_** your `system` (`computer`) `shell`. It **_represents_** the
-`script` for a `Git hook`. In **_this case_**, a `pre-commit hook``. So
-**_that_** is **_why_** it is **_commented out_**.
+Why the `#!/bin/sh` at the beginning of the above script? The `#` stands for
+commenting out something. If you take a look at a `pre-commit file`, you will
+see that that line is “greyed out”. That’s the reason why. As for `/bin/sh`, it
+is normally an executable representing the system shell and usually implemented
+as a [symbolic link](https://macsecurity.net/view/541-create-remove-symlink-mac)
+pointing to the executable for whichever shell is the system shell. However,
+here, it is not an executable representing your system (computer) shell. It
+represents the script for a `Git` hook. In this case, a `pre-commit` hook. So
+that is why it is commented out.
 
-**_What_** does `.` **_represent_**? It **_represents_** the
-`parent root directory`, which in **_this case_**, is
-`socketio-realtime-node-chat`.
+What does `.` represent? It represents the parent root directory, which in this
+case, is `socketio-realtime-node-chat`.
 
-And **_what_** does `"$(dirname "$0")/_/husky.sh"` **_mean_**?
+And what does `"$(dirname "$0")/_/husky.sh"` mean?
 
-`dirname` is short for `directory name`, and **_given_** a `string`
-**_containing_** the `path` of a `file` or `directory`, this `command`
-**_returns_** the **_parent directory's_** `path`. And `dirname "$0"`
-**_returns_** the `directory` where the `script` is **_saved_**. In the
-**_case_** of `husky`, the `script` is **_saved inside_** of a `directory`
-**_called_** `.husky`, **_right after_** a `folder` **_called_** `_` **_which
-contains_** a `.gitignore file` and a `husky.sh file`. And `/husky.sh` after `_`
-denotes the `path` to `husky.sh` inside the `_` `directory`.
+`dirname` is short for `directory name`, and given a string containing the path
+of a file or directory, this command returns the parent directory's path. And
+`dirname "$0"` returns the directory where the script is saved. In the case of
+`husky`, the script is saved inside of a directory called `.husky`, right after
+a folder called `_` which contains a `.gitignore` file and a `husky.sh file`.
+And `/husky.sh` after `_` denotes the `path` to `husky.sh` inside the `_`
+`directory`.
 
-So `.husky` **_contains_** the **_following hierarchy_**:
+So `.husky` contains the following hierarchy:
 
 ```shell
 .husky
@@ -140,17 +126,16 @@ So `.husky` **_contains_** the **_following hierarchy_**:
   pre-commit
 ```
 
-**_Then_**, when I **_commit_** any **_changes_**, if **_there_** is
-**_anything_** that **_needs fixing_**, I **_can’t commit_** the **_changes_**
-until they have been **_fixed_**. And **_that_** is **_it_**!
+Then, when I commit any changes, if there is anything that needs fixing, I can’t
+commit the changes until they have been fixed. And that is it!
 
 ## Related Resources
 
--   [socketio-realtime-node-chat- Github Repository](https://github.com/interglobalmedia/socketio-realtime-node-chat-):
-    **_interglobalmedia_**
+- [socketio-realtime-node-chat- Github Repository](https://github.com/interglobalmedia/socketio-realtime-node-chat-):
+  **_interglobalmedia_**
 
--   [(#!/bin/bash) What exactly is this?](https://medium.com/@codingmaths/bin-bash-what-exactly-is-this-95fc8db817bf):
-    **_Sanjay Mishra_**, medium.com
+- [(#!/bin/bash) What exactly is this?](https://medium.com/@codingmaths/bin-bash-what-exactly-is-this-95fc8db817bf):
+  **_Sanjay Mishra_**, medium.com
 
--   [What Is dirname $0 and Usage Examples](https://bytexd.com/what-is-dirname-0-and-usage-examples/):
-    **_Samreena Aslam_**, ByteXD
+- [What Is dirname $0 and Usage Examples](https://bytexd.com/what-is-dirname-0-and-usage-examples/):
+  **_Samreena Aslam_**, ByteXD
