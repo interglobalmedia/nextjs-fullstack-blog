@@ -2,82 +2,82 @@
 slug: connecting-to-mongodb-compass-to-access-local-mongodb-databases-via-the-new-mongosh-shell
 date: '2022-11-27T17:32:25.537Z'
 lastModified: '2022-11-27T17:32:25.537Z'
-title: Connecting to MongoDB Compass to access local MongoDB databases via the new mongosh shell
+title:
+    Connecting to MongoDB Compass to access local MongoDB databases via the new
+    mongosh shell
 author: Maria D. Campbell
-excerpt: Connecting to MongoDB Compass to access local MongoDB databases via the new mongosh shell.
-image: pexels-pixabay-276502.jpg
-tags: [
+excerpt:
+    'How to connect to MongoDB Compass to access local MongoDB databases via the
+    new mongosh shell.'
+image: pexels-pixabay-276502.webp
+tags:
+    [
         'databases',
         'fullstack development',
         'macOS ventura',
         'mongodb community version 6',
         'mongo legacy shell',
-        'mongosh shell'
-      ]
+        'mongosh shell',
+    ]
 isPublished: true
 isFeatured: false
 ---
 
-![Connecting to MongoDB Compass to access local MongoDB databases via the new mongosh shell](pexels-pixabay-276502.jpg)
+![Connecting to MongoDB Compass to access local MongoDB databases via the new mongosh shell](pexels-pixabay-276502.webp)
 
-***Photo by*** [Pexabay](https://www.pexels.com/@pixabay/) ***on*** [pexels.com](https://www.pexels.com/photo/abstract-close-up-cobweb-connection-276502/)
+_Photo by_ [Pexabay](https://www.pexels.com/@pixabay/) _on_
+[pexels.com](https://www.pexels.com/photo/abstract-close-up-cobweb-connection-276502/)
 
-It is **_very simple_** to **_connect_** to one’s **_local_**
-`MongoDB databases` **_using_** `MongoDB Compass`. All you **_need_** to do is
-**_connect_** to your (new) `mongosh shell` **_via_** `Terminal`. I
-**_installed_** my **_instance_** of the `mongoldb-community`’s **_latest
-version_** (`6.0.1`) **_using_** `Homebrew`. So to **_start_** the
-`mongoldb-community service` with `Homebrew`, I **_first run_** the **_following
-command_**:
+It is very simple to connect to one’s local MongoDB databases using MongoDB
+Compass. All you need to do is connect to your (new) `mongosh shell` via
+Terminal. I installed my instance of the mongoldb-community's latest version
+(6.0.1) using Homebrew. So to start the `mongoldb-community service` with
+Homebrew, I first run the following command:
 
 ```shell
 brew services start mongodb-community
 ```
 
-**_Next_**, I **_run_** the **_following command_**:
+Next, I run the following command:
 
 ```shell
 mongosh
 ```
 
-**_Then_** I **_run_** the **_following command_** to **_see_** what `databases`
-I **_have locally_**:
+Then I run the following command to see what databases I have locally:
 
 ```shell
 show dbs
 ```
 
-**_Then_** I **_use_** the **_following command_** to **_switch_** to the
-`database` I **_want_** to **_use_**:
+Then I use the following command to switch to the database I want to use:
 
 ```shell
 use bookit
 ```
 
-In **_my case_**, I **_switch_** to a `database` called `bookit`.
+In my case, I switch to a database called `bookit`.
 
-**_Then_**, I **_go into_** `MongoDB Compass` **_intalled_** on my `computer`,
-and I **_start_** a **_new connection_**. When I **_open up_** `Compass``, it
-**_looks like_** the **_following_**:
+Then, I go into MongoDB Compass installed on my computer, and I start a new
+connection. When I open up Compass, it looks like the following:
 
 ![Making a new connection to MongoDB Compass using the new mongosh shell](mongodb-compass-new-connection.webp)
 
-***Making a new connection to MongoDB Compass using the new mongosh shell***
+_Making a new connection to MongoDB Compass using the new mongosh shell_
 
-And, as you can **_see_** within the `screenshot`, I have **_entered_** my
-`localhost url`, so **_all_** I **_have_** to **_do_** is **_click_** on the
-`Connect button`. And **_when_** I **_do so_**, the **_following appears_**:
+And, as you can see within the screenshot, I have entered my `localhost url`, so
+all I have to do is click on the "Connect" button. And when I do so, the
+following appears:
 
 ![Connected to MongoDB Compass](mongodb-compass-connected.webp)
 
-***Connected to MongoDB Compass***
+_Connected to MongoDB Compass_
 
-**_Then_**, I **_just click_** on the `database` of **_my choice_** in the
-**_sidebar_** to the **_left_**. And **_that_** is **_it!_**
+Then, I just click on the database of my choice in the sidebar to the left. And
+that is it!
 
-**_Happy MongoDB Compassing!_**
+Happy MongoDB Compassing!
 
 ## Related Resources
 
--   [MongoDB Compass](https://www.mongodb.com/products/compass)
-
+- [MongoDB Compass](https://www.mongodb.com/products/compass)
