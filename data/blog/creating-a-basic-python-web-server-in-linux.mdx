@@ -4,42 +4,47 @@ date: '2024-08-17T11:53:51.789Z'
 lastModified: '2024-08-17T11:53:51.789Z'
 title: Creating a basic Python web server in Linux
 author: Maria D. Campbell
-excerpt: Creating a basic Python web server in Linux.
-image: nicolas-picard--lp8sTmF9HA-unsplash.jpg
+excerpt: How to create a basic Python web server in Linux.
+image: nicolas-picard--lp8sTmF9HA-unsplash.webp
 tags: ['linux', 'python3', 'http server', 'web server']
 isPublished: true
 isFeatured: false
 ---
 
-![Spider's web](nicolas-picard--lp8sTmF9HA-unsplash.jpg)
+![Spider's web](nicolas-picard--lp8sTmF9HA-unsplash.webp)
 
-**_Photo by_** [Nicolas Picard](https://unsplash.com/@artnok) **_on_**
+_Photo by_ [Nicolas Picard](https://unsplash.com/@artnok) _on_
 [unsplash.com](https://unsplash.com/photos/selective-focus-photography-of-spiderweb--lp8sTmF9HA)
 
 ## Table of Contents
 
--   [Setting up the project structure](#setting-up-the-project-structure)
--   [Breaking down the code](#breaking-down-the-code)
-    -   [The SimpleHTTPServer in Python2](#the-simplehttpserver-in-python2)
-    -   [The http.server in Python3](#the-httpserver-in-python3)
-    -   [The socketserver module in Python3](#the-socketserver-module-in-python3)
-        -   [socketsever server types](#socketsever-server-types)
-        -   [httpd.serve_forever() in Python3](#httpdserve-forever-in-python3)
--   [Related Resources](#related-resources)
+- [Setting up the project structure](#setting-up-the-project-structure)
+- [Breaking down the code](#breaking-down-the-code)
+    - [The SimpleHTTPServer in Python2](#the-simplehttpserver-in-python2)
+        - [The http.server in Python3](#the-httpserver-in-python3)
+    - [The socketserver module in Python3](#the-socketserver-module-in-python3)
+        - [socketserver server types](#socketsever-server-types)
+            - [httpd.serve_forever() in Python3](#httpdserve-forever-in-python3)
+        - [The socketserver module and synchronous request handling](#the-socketserver-module-and-synchronous-request-handling)
+            - [socketserver synchronous request handling key points](#socketserver-synchronous-request-handling-key-points)
+        - [The socketserver module and asynchronous request handling](#the-socketserver-module-and-asynchronous-request-handling)
+            - [How to handle asynchronous handling using socketserver](#how-to-handle-asynchronous-handling-using-socketserver)
+                - [Asynchronous server using asyncio (recommended for high concurrency)](#ssynchronous-server-using-asyncio-recommended-for-high-concurrency)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
 
 ## Setting up the project structure
 
-In my `Linux Mint OS`, and `probably` many other `Linux` distros, `Python`(`3`)
-comes `pre-installed`, so there is `nothing extra` to `install` for this
-`particular project`.
+In my Linux Mint OS, and probably many other Linux distros, Python (3) comes
+pre-installed, so there is nothing extra to install for this particular project.
 
-`First`, I `created` a `folder` called `python_development` where I would `keep`
-my `Python` development-related `projects`. Then, `inside` of that
-`root folder`, I `created` a `folder` called `basic_python_web_server`, and
-`that` is `where` my `project files` were to `reside`.
+1. I created a folder called `python_development` where I would keep my Python
+   development-related projects. Then, inside of that root folder, I created a
+   folder called `basic_python_web_server`, and that is where my project files
+   were to reside.
 
-`Next`, I `created` an `index.html` file in `which` I `added` the
-`following content`:
+2. I created an `index.html` file in which I added the following content:
 
 ```html
 <html>
@@ -47,7 +52,7 @@ my `Python` development-related `projects`. Then, `inside` of that
 </html>
 ```
 
-`Next`, I `created` a `file` called `web.py` and `added` the `following code`:
+3. I created a file called `web.py` and added the following code:
 
 ```python
 #
@@ -67,64 +72,62 @@ print('serving at port', PORT)
 httpd.serve_forever()
 ```
 
-`Next`, I `ran` the `following command` to `start up` the `server` from
-`Terminal`:
+4. I ran the following command to start up the server from Terminal:
 
 ```shell
 python3 -u web.py
 ```
 
-And the `following` was `returned`:
+And the following was returned:
 
 ```shell
 serving at port 8000
 ```
 
-`Next`, I `opened` up my `Firefox browser` and `typed` in the `following` in the
-`address bar`:
+5. I opened up my Firefox browser and typed in the following in the address bar:
 
 ```shell
 # url I typed into the browser address bar
 http://localhost:8000/
 ```
 
-And `then` the `following text` appeared in the `browser window`:
+And then the following text appeared in the browser window:
 
 ```shell
 Hello, Linux Mint Developers from Python3!
 ```
 
-And that was it! I `successfully created` a `basic web` (`http`) `server` from
-`Terminal` using `Python3`.
+And that was it! I successfully created a basic web (http) server from Terminal
+using Python3.
 
 ## Breaking down the code
 
 ### The SimpleHTTPServer in Python2
 
-The `SimpleHTTPServer` module that `came` with `Python 2` was a `simple` HTTP
-`server` that `provided` standard `GET` and `POST` request `handlers`. You could
-easily `set up` a `server` on `localhost` to serve `files`. You could `also`
-write `HTML files` and `create` a working `web application` on `localhost`.
+The `SimpleHTTPServer` module that came with Python 2 was a simple HTTP server
+that provided standard `GET` and `POST` request handlers. You could easily set
+up a server on `localhost` to serve files. You could also write HTML files and
+create a working web application on `localhost`.
 
-An `advantage` of the built-in `SimpleHTTPServer` is that you `didn't` have to
-`install` and `configure` anything. The `only thing` that you `needed`, was to
-have `Python` installed. It was `perfect` to `use` when you `needed` a quick
-`web server` running and you `didn't want` to `deal` with `setting` up `Apache`
-or `Nginx-like` servers.
+An advantage of the built-in `SimpleHTTPServer` is that you didn't have to
+install and configure anything. The only thing that you needed, was to have
+Python2 installed. It was perfect to use when you needed a quick web server
+running and you didn't want to deal with setting up Apache or Nginx-like
+servers.
 
-`SimpleHTTPServer` was a `simple` and `efficient` tool to `learn how` a `server`
-or a `web app` works using `GET` and `POST` requests. You could `use` this to
-`turn` any `directory` in your `system` into a `web server` directory.
+`SimpleHTTPServer` was a simple and efficient tool to learn how a server or a
+web app works using `GET` and `POST` requests. You could use this to turn any
+directory in your system into a web server directory.
 
-`Previously`, we were `able` to run `something like` the `following` from
-`Terminal` using the `SimpleHTTPServer` module:
+Previously, we were able to run something like the following from Terminal using
+the `SimpleHTTPServer` module:
 
 ```shell
 python -m SimpleHTTPServer 8000
 ```
 
-`However`, now it `no` longer `works` that `way` with `Python3`. For me, the
-`following` was `returned`:
+However, now it no longer works that way with Python3. For me, the following was
+returned:
 
 ```shell
 /usr/bin/python3: No module named SimpleHTTPServer
@@ -132,47 +135,79 @@ python -m SimpleHTTPServer 8000
 
 ### The http.server in Python3
 
-My `Basic Python Web Server` project is `using` a `Python3` module called
-`http.server`. `Similar` to `SimpleHTTPServer`, tt `allows` me to `turn` my
-`project directory` into a simple `HTTP` web server.
+My "Basic Python Web Server" project is using a Python3 module called
+`http.server`. Similar to `SimpleHTTPServer`, tt allows me to turn my project
+directory into a simple `HTTP` web server.
 
-In `Python3`, `SimpleHTTPServer` was `merged` into the `http.server` module. So
-if I `wanted` to `start up` the `http.server` from `Terminal`, I would `run` the
-`following command` instead:
+In Python3, `SimpleHTTPServer` was merged into the `http.server` module. So if I
+wanted to start up the `http.server` from Terminal, I would run the following
+command instead:
 
 ```shell
 python3 -m http.server 8000
 ```
 
-To `stop` the `server`, I simply `hit` the `Control key` + `C key`.
+To stop the server, I simply hit the `Control key + C key`.
 
-The `http.server` module is `not recommended` for `production`. But it can
-`come` in `handy` when you `want` to quickly `share files` with `students` in a
-`classroom` or `others` who are `connected` to the `same network`. Or `perhaps`
-you `need` to host `static resources` downloaded from the `Internet` for
-`offline development`.
+The `http.server` module is not recommended for production. But it can come in
+handy when you want to quickly share files with students in a classroom or
+others who are connected to the same network. Or perhaps you need to host static
+resources downloaded from the Internet for offline development.
 
-### The socketserver module in Python3
+## The socketserver module in Python3
 
-The `socketsever` module is a `framework` for creating `network servers`.
+The `socketserver` module is a framework for creating network servers. It can be
+used in production, simplifies writing network servers and provides various
+server classes for different protocols.
 
-The `socketsever` module defines `classes` for handling
-`synchronous network requests` (the `server request handler` blocks until the
-`request` is `completed`) over `TCP`, `UDP`, `Unix` streams, and `Unix`
-datagrams.
+### socketserver server types
 
-`Responsibility` for `processing` a `request` is `split between` a
-`server class` and a `request handler class`. The `server` deals with
-`communication issues` (`listing` on a `socket`, `accepting connections`, etc.)
-and the `request handler` deals with `“protocol” issues` (`interpreting`
-incoming `data`, `processing` it, `sending data` back to the `client`). This
-`division` of `responsibility` means `that` typically you can just `use` an
-existing `server class` without any `modification`, and `provide` a
-`request handler class` for it to `work` with your `protocol`.
+`socketserver` contains five different server classes.
 
-In our code,
-`Responsibility for processing a request is split between a server class and a request handler class`
-refers to the `following`:
+- `BaseServer` defines the API, and is not really intended to be instantiated
+  and used directly.
+- `TCPServer` (which is what we are using here) uses TCP/IP sockets to
+  communicate.
+- `UDPServer` uses datagram sockets.
+- `UnixStreamServer` and `UnixDatagramServer` use Unix-domain sockets and are
+  only available on Unix platforms (such as Linux or macOS).
+
+### httpd.serve_forever() in Python3
+
+`httpd.serve_forever()` is a method on the `TCPServer` instance that starts the
+server and begins listening and responding to incoming requests. It is part of
+the `http.server` module and is therefore not recommended for production. It
+lacks security features required for production environments and is intended for
+testing and development only.
+
+### The socketserver module and synchronous request handling
+
+The `socketserver` module can define classes for handling synchronous network
+requests over `TCP`, `UDP`, `Unix` streams, and `Unix` datagrams. The server
+request handler blocks until the request is completed.
+
+`socketserver` includes several server classes that handle different types of
+network protocols in synchronous request handling:
+
+- **TCPServer**: Uses the TCP protocol for continuous streams of data between
+  client and server.
+- **UDPServer**: Uses datagrams, which are discrete packets that may arrive out
+  of order or be lost.
+- **UnixStreamServer**: Similar to TCPServer but uses Unix domain sockets; not
+  available on non-Unix platforms.
+- **UnixDatagramServer**: Similar to UDPServer but also uses Unix domain
+  sockets; not available on non-Unix platforms.
+
+Responsibility for processing a request is split between a server class and a
+request handler class. The server deals with communication issues (listening on
+a socket, accepting connections, etc.) and the request handler deals with
+protocol issues (interpreting incoming data, processing it, sending data back to
+the client). This division of responsibility means that typically you can just
+use an existing server class without any modification, and provide a request
+handler class for it to work with your protocol.
+
+In our code, "Responsibility for processing a request is split between a server
+class and a request handler class" refers to the following:
 
 ```shell
 # request handler class
@@ -181,23 +216,207 @@ Handler = http.server.SimpleHTTPRequestHandler
 httpd = socketserver.TCPServer(('', PORT), Handler)
 ```
 
-### socketsever server types
+Code example of synchronous request handling using `socketserver`:
 
-`socketserver` contains `five` different `server classes`. `BaseServer` defines
-the `API`, and is `not` really `intended` to be `instantiated` and
-`used directly`. `TCPServer` (which is what we are using here) uses
-`TCP/IP sockets` to `communicate`. `UDPServer` uses `datagram sockets`.
-`UnixStreamServer` and `UnixDatagramServer` use `Unix-domain sockets` and are
-`only available` on `Unix platforms` (such as `Linux` or `macOS`).
+```python
+import socketserver
 
-### httpd.serve_forever() in Python3
+class MyRequestHandler(socketserver.BaseRequestHandler):
+    def handle(self):
+        data = self.request.recv(1024).strip()
+        print(f"Received: {data}")
+        self.request.sendall(data.upper())
 
-`httpd.serve_forever()` is a `method` on the `TCPServer` instance that `starts`
-the `server` and `begins listening` and `responding` to `incoming requests`.
+if __name__ == "__main__":
+    with socketserver.TCPServer(("localhost", 9999), MyRequestHandler) as server:
+        print("Server started at localhost:9999")
+        server.serve_forever()
+
+```
+
+`MyRequestHandler` is a custom request handler class that inherits from
+`BaseRequestHandler`.
+
+The `handle()` method processes incoming requests. It receives data, prints it,
+and sends back the uppercase version.
+
+`socketserver.TCPServer` creates a TCP server that listens on `localhost` on
+`port 9999`.
+
+The `serve_forever()` method keeps the server running, one request at a time.
+
+### socketserver synchronous request handling key points
+
+- The server processes requests synchronously, meaning it handles one request at
+  a time.
+- The server prints the received data and responds with the data converted to
+  uppercase.
+- To run the server, execute the script, and it will start listening for
+  incoming connections.
+
+### The socketserver module and asynchronous request handling
+
+The `socketserver` module also can handle asynchronous request handling by using
+mixin classes like `ForkingMixin` and `ThreadingMixin`, which allow the server
+to process requests in separate threads or processes, enabling it to handle
+multiple requests at once.
+
+To enable asynchronous request handling, `socketserver` offers two important
+mixin classes:
+
+- **ForkingMixin**: Allows the server to handle each request in a separate
+  process. This is helpful for CPU-bound tasks.
+- **ThreadingMixin**: Allows the server to handle requests in separate threads,
+  which is good for I/O-bound tasks.
+
+### How to handle asynchronous handling using socketserver
+
+There are four ways to handle asynchronous handling using sockserver:
+
+1. **Subclassing**: Create a request handler class by subclassing
+   `BaseRequestHandler` and overriding the `handle()` method to define how
+   requests are processed.
+2. **Server instantiation**: Instantiate one of the server classes (e.g.,
+   TCPServer or UDPServer) and pass the server address and request handler
+   class.
+3. **Using Mixins**: Combine the server class with the desired mixin class to
+   enable asynchronous behavior. For example, to create a threaded server, you
+   would use ThreadingTCPServer.
+4. **Running the server**: Use the `serve_forever()` method to start processing
+   requests. This method will keep the server running and handle incoming
+   requests as they arrive.
+
+Here’s a simple example of how to set up a threaded TCP server using
+asynchrononous request handling:
+
+```python
+# threaded_socketserver.py
+import socketserver
+
+class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
+    def handle(self):
+        peer = self.client_address
+        print(f"Connected: {peer}")
+        try:
+            while True:
+                data = self.request.recv(1024)
+                if not data:
+                    break
+                msg = data.decode().strip()
+                print(f"Received from {peer}: {msg}")
+                response = f"Echo: {msg}\n".encode()
+                self.request.sendall(response)
+        finally:
+            print(f"Disconnected: {peer}")
+
+class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    daemon_threads = True
+    allow_reuse_address = True
+
+if __name__ == "__main__":
+    HOST, PORT = "0.0.0.0", 9999
+    with ThreadedTCPServer((HOST, PORT), ThreadedTCPRequestHandler) as server:
+        print(f"Threaded TCP server listening on {HOST}:{PORT}")
+        server.serve_forever()
+```
+
+Usage involves running the script, then connecting with telnet[^1]/nc[^2]:
+`nc localhost 9999`. Each client runs in its own thread.
+
+This setup allows the server to handle multiple requests at once, enhancing
+responsiveness and performance.
+
+### Asynchronous server using asyncio (recommended for high concurrency)
+
+```python
+# threaded_socketserver.py
+import socketserver
+
+class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
+    def handle(self):
+        peer = self.client_address
+        print(f"Connected: {peer}")
+        try:
+            while True:
+                data = self.request.recv(1024)
+                if not data:
+                    break
+                msg = data.decode().strip()
+                print(f"Received from {peer}: {msg}")
+                response = f"Echo: {msg}\n".encode()
+                self.request.sendall(response)
+        finally:
+            print(f"Disconnected: {peer}")
+
+class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    daemon_threads = True
+    allow_reuse_address = True
+
+if __name__ == "__main__":
+    HOST, PORT = "0.0.0.0", 9999
+    with ThreadedTCPServer((HOST, PORT), ThreadedTCPRequestHandler) as server:
+        print(f"Threaded TCP server listening on {HOST}:{PORT}")
+        server.serve_forever()
+```
+
+It is recommended to use `asyncio` when high concurrency is involved, which
+refers to the ability of a program to manage multiple tasks simultaneously,
+improving performance and responsiveness, especially for I/O-bound operations,
+such as network requests or file handling. This is often achieved using
+techniques like threading or asynchronous programming with libraries such as
+asyncio (as shown above).
+
+High concurrency in Python enhances the ability to manage multiple tasks
+efficiently, making it a crucial aspect for developers working on applications
+that require responsiveness and performance optimization.
+
+## Conclusion
+
+In this post, I discuss the various ways to create a Python3 web server in Linux
+from Terminal, whether they could be used in development or production, two
+types of Python3 modules available to use and for what purpose. There is the
+`http.server` module which turns a project directory into a simple HTTP web
+server. it replaced the `SimpleHTTPServer` in Python2. It is recommended in
+development environments only as it lacks the security features and
+functionality required for production environments. It is primarily intended for
+local development and testing. The `socketserver` module is a framework that
+creates network servers for either synchronous or asynchronous request handling.
+And the `http.serve_forever()` method, which is part of the `http.server`
+module, is a method on the TCPServer instance that starts the server and begins
+listening and responding to incoming requests. The `http.server` module approach
+to creating servers can be quickly implemented but should only be used in
+development and for demonstration purposes whereas the `socketserver` approach
+is typically used for creating network servers that can handle multiple client
+requests such as web servers, chat applications, and file transfer services. It
+simplifies the process of writing TCP and UDP servers, and allows for
+synchronous and asynchronous request handling.
+
+[^1]:
+    **telnet** is a network protocol that allows users to remotely access and
+    control another computer through a text-based command-line interface. It
+    operates on a client-server model, typically using TCP over port 23, and
+    transmits data in plain text, making it less secure than modern alternatives
+    like SSH.
+
+[^2]:
+    [nc, or netcat](https://man.archlinux.org/man/nc.1.en), is a versatile
+    networking tool that can establish TCP and UDP connections, listen on ports,
+    and perform port scanning, making it more script-friendly than telnet.
+    Unlike telnet, which is primarily for connecting to remote servers, nc can
+    handle a wider range of networking tasks.
 
 ## Related Resources
 
--   [Python SimpleHTTPServer - Python HTTP Server](https://www.digitalocean.com/community/tutorials/python-simplehttpserver-http-server):
-    **_By Pankaj, Digital Ocean_**
--   [Python: Let’s Create a Simple HTTP Server](https://www.afternerd.com/blog/python-http-server/):
-    **_afternerd_**
+- [socketserver — A framework for network servers](https://docs.python.org/3/library/socketserver.html):
+  _Python documentation, docs.python.org_
+- [Python SimpleHTTPServer - Python HTTP Server](https://www.digitalocean.com/community/tutorials/python-simplehttpserver-http-server):
+  _by Pankaj, Digital Ocean_
+- [Python: Let’s Create a Simple HTTP Server](https://www.afternerd.com/blog/python-http-server/):
+  _afternerd_
+- [How to kill a SocketServer?]: _by Paul Rubin, the coding forums_
+- [The Power of Asynchronous Programming in Python for Modern Backend Systems](https://python.plainenglish.io/the-power-of-asynchronous-programming-in-python-for-modern-backend-systems-659b1808b1de):
+  _by Manalimran, Python in plain English_
+- [21.21. socketserver — A framework for network servers Python 3.6.3](https://documentation.help/Python-3.6.3/socketserver.html):
+  _documentation HELP!_
+- [Telnet Explained: What Is It and How It Works?](https://www.cloudns.net/blog/telnet-explained-what-is-it-and-how-it-works/):
+  _by VASILENA MARKOVA, ClouDNS_
