@@ -1,10 +1,12 @@
 ---
-slug: "fixing-the-path-to-xcode-after-installing-latest-version-on-macos-monterey"
-date: "2022-07-13T20:57:36.699Z"
-lastModified: "2022-07-13T20:57:36.699Z"
-title: "Fixing the path to Xcode after installing latest version on macOS Monterey"
-author: "Maria D. Campbell"
-excerpt: "Fixing the path to Xcode after installing the latest version on macOS."
+slug: 'fixing-the-path-to-xcode-after-installing-latest-version-on-macos-monterey'
+date: '2022-07-13T20:57:36.699Z'
+lastModified: '2022-07-13T20:57:36.699Z'
+title:
+    'Fixing the path to Xcode after installing latest version on macOS Monterey'
+author: 'Maria D. Campbell'
+excerpt:
+    'How to fix the path to Xcode after installing the latest version on macOS.'
 image: connor-botts-M2xfTZn8pUg-unsplash.webp
 tags: ['macOS', 'monterey', 'xCode', 'CLT']
 isPublished: true
@@ -13,35 +15,70 @@ isFeatured: false
 
 ![Fixing the path to Xcode after installing the latest version on macOS Monterey](connor-botts-M2xfTZn8pUg-unsplash.webp)
 
-***Photo by*** [Connor Botts](https://unsplash.com/@cinemamaster) ***on*** [unsplash.com](https://unsplash.com/photos/M2xfTZn8pUg)
+_Photo by_ [Connor Botts](https://unsplash.com/@cinemamaster) _on_
+[unsplash.com](https://unsplash.com/photos/M2xfTZn8pUg)
 
-Today, **_after seeing_** a
-[tweet](https://twitter.com/JI/status/1546948817462800384) on
-[Twitter](https://twitter.com/) **_regarding_** what the **_latest version_** of [Git](https://git-scm.com/) **_had_** to **_offer_** (which I **_subsequently found_** I could **_not install_** with the **_latest version_** of `Xcode`), I **_decided_** it was **_about time_** to **_update_** `Git`. And that **_meant updating_** `Xcode` **_first_**.
+Today, after seeing a [tweet](https://twitter.com/JI/status/1546948817462800384)
+on [Twitter](https://twitter.com/) regarding what the latest version of
+[Git](https://git-scm.com/) had to offer (which I subsequently found I could not
+install with the latest version of Xcode), I decided it was about time to update
+Git. And that meant updating Xcode first.
 
-I **_ran over_** to the [Apple Developer site](https://developer.apple.com/), and **_grabbed_** the **_first version_** of `Xcode` that I **_saw_**, which was `Xcode 14.0 beta`. **_Of course_** it **_took forever_** to **_download_**. **_Then_** it **_took forever_** to **_expand_** from the `.xip` **folder**. And **_then_** I **_deleted_** my **_previous version_** from `Applications`, and **_dragged over_** the **_new version_** into `Applications`. But when I **_checked_** to **_see_** whether the **_install_** was **_successful_**, it **_threw_** an `error`. An `error` which I **_knew_** meant that the **_version_** was **_incompatible_** with `Monterey`. It was **_meant_** for `Ventura`. And I **_already knew_** that my `computer` was **_too old_** and therefore **_not compatible_** with it. To **_learn more_** about `macOS ventura` and **_which_** `Mac computers` are **_compatible_** with it, please **_visit_** the **_article_** entitled [How to install the macOS Ventura public beta](https://www.theverge.com/23200261/how-to-install-macos-ventura-public-beta-backups-separate-partition-drive)
-on `The Verge`. The **_publish date_** is `July 11, 2022`. **Man**, was I
-**_bummed_**. And I **_knew_** what **_that meant_**. The **_time_** was
-**_approaching_** to **_get_** a **_new computer_** (**laptop**)!
+I went over to the [Apple Developer site](https://developer.apple.com/), and
+grabbed the first version of Xcode that I saw, which was `Xcode 14.0 beta`. Of
+course it took forever to download. Then it took forever to expand from the
+`.xip` folder. And then I deleted my previous version from Applications, and
+dragged over the new version into Applications. But when I checked to see
+whether the install was successful, it threw an error. An error which I knew
+meant that the version was incompatible with Monterey. It was meant for Ventura.
+And I already knew that my computer was too old and therefore not compatible
+with it. To learn more about macOS ventura and which Mac computers are
+compatible with it, please visit the article entitled
+[How to install the macOS Ventura public beta](https://www.theverge.com/23200261/how-to-install-macos-ventura-public-beta-backups-separate-partition-drive)
+on The Verge. The publish date is July 11, 2022. Man, was I bummed. And I knew
+what that meant. The time was approaching to get a new computer (laptop)!
 
-But **_back_** to the `subject` at **_hand_**. After **_finding out_** which
-`version` of `Xcode` **_was_** `compatible` with [macOS Monterey](https://developer.apple.com/xcode/resources/), I **_went back_** into the [Apple Developer site](https://developer.apple.com/) and [downloaded Xcode version 13.4.1](https://developer.apple.com/download/all/). **_After removing_** `version 14.0` from `Applications`, **_moving_** it to the `trash`, and then **_moving_** `expanded version 13.4.1` into `Applications`, **_when_** I **_checked_** to see **_whether_** the `install` was **_successful_**, an `error` was **_thrown_**.
+But back to the subject at hand. After finding out which version of Xcode was
+compatible with [macOS Monterey](https://developer.apple.com/xcode/resources/),
+I went back into the [Apple Developer site](https://developer.apple.com/) and
+[downloaded Xcode version 13.4.1](https://developer.apple.com/download/all/).
+After removing version 14.0 from Applications, moving it to the trash, and then
+moving "expanded version 13.4.1" into "Applications", when I checked to see
+whether the install was successful, an error was thrown.
 
-I **_ran_** `xcodebuild -version` to **_make sure_** that `Xcode` was
-**_installed correctly_**. **_Instead_** of the **_version_** of `Xcode` that I **_installed_** `being printed` to the `Terminal console`, I **_got_** an `error` that I **_either_** had to **_change_** the `path` of my `Xcode` **_install_**, or I **_had_** to **_install_** `CLT` (`Command Line Tools`) by **_running_** the `xcode-select --install` **_command_**. I **_ran_** the `xcode-select --install` **_command_**, even though I had **_already_** done so and therefore **_no longer_** had any `CLT` **_related updates_** to **_download_**. And **_when_** I **_did so_**, I was **_prompted_** with the **_message_** that it was **_already installed_**.
+I ran `xcodebuild -version` to make sure that Xcode was installed correctly.
+Instead of the version of Xcode that I installed being printed to the Terminal
+console, I got an error that I either had to change the path of my Xcode
+install, or I had to install CLT (Command Line Tools) by running the
+`xcode-select --install` command. I ran the `xcode-select --install` command,
+even though I had already done so and therefore no longer had any CLT related
+updates to download. And when I did so, I was prompted with the message that it
+was already installed.
 
-I **_searched_** for the **_answer_** as to **_how_** I **_could correct_** the `path` to `Xcode` in `Applications`. I **_pretty quickly_** came up with the **_article_** entitled [Xcode-select active developer directory error](https://itecnote.com/tecnote/xcode-select-active-developer-directory-error/) on `iTecNote.com`, **_published_** on `July 11, 2022` (very recent). I **_followed_** the **_suggestion_** to **_run_** the command `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`, and it **_worked_** like a **_charm_**!
+I searched for the answer as to how I could correct the path to Xcode in
+Applications. I pretty quickly came up with the article entitled
+[Xcode-select active developer directory error](https://itecnote.com/tecnote/xcode-select-active-developer-directory-error/)
+on "iTecNote.com", published on July 11, 2022 (very recent). I followed the
+suggestion to run the command
+`sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`, and it worked
+like a charm!
 
-**_Next_**, I **_checked_** to **_make sure_** that `CLT` **_recognized_**
-`Git`, so I **_ran_** `git --version` in `Terminal`. I did **_not receive_** the `version number` I was **_hoping_** for (`2.37.1`), which I **_thought_** would have **_come_** with `Xcode 14.0`.` Git version 2.32.1` was returned **_instead_**. The `version` I **_had previously_** was `2.30.1`, so **_not_** that **_great_** an `upgrade`, but **_still better_** than `2.30.1`. I **_guess_** I **_will have_** to **_wait_** a **_while_** before I am **_able_** to [`just "git push" to push new branches. No more "--set-upstream origin"`](https://twitter.com/JI/status/1546948817462800384). **_OR_** I could **_re-install_** it with `Homebrew`, which I **_found out_** has the **_absolute_** `latest version` of` Git`: `2.37.1`! That **_might be_** the **_next post_** I `write about`.
+Next, I checked to make sure that CLT recognized Git, so I ran `git --version`
+in Terminal. I did not receive the version number I was hoping for (2.37.1),
+which I thought would have come with Xcode 14.0. Git version 2.32.1 was returned
+instead. The version I had previously was 2.30.1, so not that great an upgrade,
+but still better than 2.30.1. I guess I will have to wait a while before I am
+able to
+[`just "git push" to push new branches. No more "--set-upstream origin"`](https://twitter.com/JI/status/1546948817462800384).
+OR I could re-install it with Homebrew, which I found out has the absolute
+latest version of Git: 2.37.1! That might be the next post I write about.
 
-`Happy Xcoding`!
+Happy Xcoding!
 
 ## Related Resources
 
--   [Xcode-select active developer directory error](https://itecnote.com/tecnote/xcode-select-active-developer-directory-error/) -
-    **_iTecNote.com_**
+- [Xcode-select active developer directory error](https://itecnote.com/tecnote/xcode-select-active-developer-directory-error/) -
+  _iTecNote.com_
 
--   [download Xcode version 13.4.1](https://developer.apple.com/download/all/) -
-    **_developer.apple.com_**
-
+- [download Xcode version 13.4.1](https://developer.apple.com/download/all/) -
+  _developer.apple.com_
