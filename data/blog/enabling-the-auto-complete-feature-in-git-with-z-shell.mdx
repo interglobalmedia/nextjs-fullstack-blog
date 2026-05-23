@@ -4,7 +4,7 @@ date: '2020-05-30T14:34:56.387Z'
 lastModified: '2020-05-30T14:34:56.387Z'
 title: Enabling the auto-complete feature in Git with Z-shell
 author: Maria D. Campbell
-excerpt: How to enable the auto-complete feature in Git.
+excerpt: How to enable the auto-complete feature in Git using Z-shell.
 image: jean-philippe-delberghe-wec3m4dy_le-unsplash.webp
 tags: ['git', 'auto-complete']
 isPublished: true
@@ -13,41 +13,41 @@ isFeatured: false
 
 ![Enabling the auto-complete feature in Git with Z-shell](jean-philippe-delberghe-wec3m4dy_le-unsplash.webp)
 
-***Photo by*** [Philippe Delberghe](https://unsplash.com/@jipy32) ***on*** [unsplash.com](https://unsplash.com/photos/Wec3M4dY_LE)
+_Photo by_ [Philippe Delberghe](https://unsplash.com/@jipy32) _on_
+[unsplash.com](https://unsplash.com/photos/Wec3M4dY_LE)
 
-Not only can you `auto-complete` **command line** `commands` in `Zsh`, for
-**_example_**, but you can auto-complete commands in `Git` as well! And it is
-quite simple.
+Not only can you `auto-complete` command line commands in `Zsh`, for example,
+but you can `auto-complete` commands in Git as well! And it is quite simple.
 
-**_First_**, go to the `Git` **_repository_** on `Github` and to the
-**_following_** link:
+First, go to the Git repository on Github and to the following link:
 
--   [https://github.com/git/git/master/contrib/completion/](https://github.com/git/git/master/contrib/completion/)
+- [https://github.com/git/git/master/contrib/completion/](https://github.com/git/git/master/contrib/completion/)
 
-**_There_**, you will see a number of files for **_different_** `Git` shell
-environments. `Bash`, `Zsh`, `Prompt` (for Windows), to name a couple. I use
-`Zsh`, so I **_downloaded_** the `git-completion.zsh` file to my desktop and
-then moved it into my `~` (Home) directory. After **_that_**, I added the
-**_following_** to my `.zshrc` file (also located in my home directory):
+There, you will see a number of files for different Git shell environments.
+Bash, Zsh, Prompt (for Windows), to name a couple. I use Zsh, so I downloaded
+the `git-completion.zsh` file to my desktop and then moved it into my `~` (Home)
+directory. After that, I added the following to my `.zshrc` file (also located
+in my home directory):
 
 ```shell
 source ~/git-completion.zsh
 ```
 
-I placed this line **_right above_** my `PATH` exports.
+I placed this line right above my `PATH` exports.
 
-I made sure to **_quit_** `Terminal` and then open a **_new_** `Terminal` window instance **_before_** testing out my new `Git` auto-complete **_feature_**. And it works! For example, if I type `che` **_followed_** by the `tab` key, I get the **_following_** in `Terminal`:
+I made sure to quit Terminal and then open a new Terminal window instance before
+testing out my new Git auto-complete feature. And it works! For example, if I
+type `che` followed by the tab key, I get the following in Terminal:
 
 ![Git auto-complete feature in action](screenshot-2020-05-29-22.26.43.webp)
 
-***Git auto-complete feature in action***
+_Git auto-complete feature in action_
 
-There are **_other_** ways of getting the `git-completion.zsh` file onto your
-desktop from Github such as with `git pull`, but I will get into that in another post.
+There are other ways of getting the `git-completion.zsh` file onto your desktop
+from Github such as with `git pull`, but I will get into that in another post.
 
 ## Related Resources
 
--   [Git repository on Github: Completion](https://github.com/git/git/tree/master/contrib/completion)
+- [Git repository on Github: Completion](https://github.com/git/git/tree/master/contrib/completion)
 
--   [Git in Other Environments - Git in Zsh](https://git-scm.com/book/id/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Zsh)
-
+- [Git in Other Environments - Git in Zsh](https://git-scm.com/book/id/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Zsh)
