@@ -2,9 +2,13 @@
 slug: error-hydration-failed-because-the-initial-ui-does-not-match-what-was-rendered-on-the-server-in-nextjs
 date: '2022-12-01T19:16:15.626Z'
 lastModified: '2022-12-01T19:16:15.626Z'
-title: Error hydration failed because the initial UI does not match what was rendered on the server in Next.js
+title:
+    Error hydration failed because the initial UI does not match what was
+    rendered on the server in Next.js
 author: Maria D. Campbell
-excerpt: Error hydration failed because the initial UI does not match what was rendered on the server in Next.js.
+excerpt:
+    Why error hydration fails because the initial UI does not match what was
+    rendered on the server in Next.js.
 image: pexels-pixabay-416528.webp
 tags: ['hydration failure', 'nextjs', 'reactjs', 'ssr', 'ui mismatch']
 isPublished: true
@@ -13,10 +17,13 @@ isFeatured: false
 
 ![Error hydration failed because the initial UI does not match what was rendered on the server in Next.js](pexels-pixabay-416528.webp)
 
-***Photo by*** [Pixabay](https://www.pexels.com/@pixabay/) ***on*** [pexels.com](https://www.pexels.com/photo/clean-clear-cold-drink-416528/)
+_Photo by_ [Pixabay](https://www.pexels.com/@pixabay/) **_on_**
+[pexels.com](https://www.pexels.com/photo/clean-clear-cold-drink-416528/)
 
-
-I **_just discovered_** (**_right now_**) that if I have **_invalid_** `JSX` in one `Next.js` **_page component_**, and **_different_** `JSX` (which is **_valid_** let’s say) in **_another_** `Next.js` **_page component_** which is **_part_** of the **_same_** `UI`, I get a `hydration error`. Let’s say I **_have_** the **_following_** in my `Home` (page) `component`:
+I just discovered (right now) that if I have invalid JSX in one Next.js page
+component, and different JSX (which is valid let’s say) in another Next.js page
+component which is part of the same UI, I get a hydration error. Let’s say I
+have the following in my Home (page) component:
 
 ```jsx
 // pages/index.js
@@ -47,8 +54,7 @@ export default function Home({ users }) {
 }
 ```
 
-**_However_**, in `pages/users/[id].js`, the `JSX` **_looks like_** the
-**_following_**:
+However, in `pages/users/[id].js`, the JSX looks like the following:
 
 ```jsx
 export default function Home({ user }) {
@@ -81,15 +87,15 @@ export default function Home({ user }) {
 }
 ```
 
-When I **_went_** to the `browser` to **_check_** my `application`, I **_saw_** the **_following error_**:
+When I went to the browser to check my application, I saw the following error:
 
 ![Next.js hydration error](nextjs-hydration-error.webp)
 
-***Next.js hydration error***
+_Next.js hydration error_
 
-I wasn’t **_quite sure_** what was **_going on_**, so I **_went_** into
-`Chrome Developer Tools` **_itself_** to see what `error` I was **_getting
-there_** and the **_following_** is what was **_returned_**:
+I wasn’t quite sure what was going on, so I went into Chrome Developer Tools
+itself to see what error I was getting there and the following is what was
+returned:
 
 ```shell
 next-dev.js?3515:20 Warning: Expected server HTML to contain a matching <table> in <div>.
@@ -100,50 +106,62 @@ next-dev.js?3515:20 Warning: Expected server HTML to contain a matching <table> 
     at PathnameContextProviderAdapter
 ```
 
-This told me **_immediately_** that there **_must be_** an **_error_** in the
-`JSX`, but I **_still wanted_** to **_know why_** I would **_get_** this
-`error`, so I **_read more_** about this `hydration error` in the
-`Next.js docs`. And the **_following_** is **_what_** I **_came up_** with:
+This told me immediately that there must be an error in the JSX, but I still
+wanted to know why I would get this error, so I read more about this hydration
+error in the Next.js documentation. And the following is what I came up with:
 
 > [React Hydration Error](https://nextjs.org/docs/messages/react-hydration-error)
-[Why This Error Occurred](https://nextjs.org/docs/messages/react-hydration-error#why-this-error-occurred)
-While rendering your application, there was a difference between the React tree that was pre-rendered (SSR/SSG) and the React tree that rendered during the first render in the Browser. The first render is called Hydration which is a [feature of React](https://reactjs.org/docs/react-dom.html#hydrate). This can cause the React tree to be out of sync with the DOM and result in unexpected content/attributes being present. While rendering your application, there was a difference between the React tree that was pre-rendered (SSR/SSG) and the React tree that rendered during the first render in the Browser. The first render is called Hydration which is a feature of React. This can cause the React tree to be out of sync with the DOM and result in unexpected content/attributes being present.
+> [Why This Error Occurred](https://nextjs.org/docs/messages/react-hydration-error#why-this-error-occurred)
+> While rendering your application, there was a difference between the React
+> tree that was pre-rendered (SSR/SSG) and the React tree that rendered during
+> the first render in the Browser. The first render is called Hydration which is
+> a [feature of React](https://reactjs.org/docs/react-dom.html#hydrate). This
+> can cause the React tree to be out of sync with the DOM and result in
+> unexpected content/attributes being present. While rendering your application,
+> there was a difference between the React tree that was pre-rendered (SSR/SSG)
+> and the React tree that rendered during the first render in the Browser. The
+> first render is called Hydration which is a feature of React. This can cause
+> the React tree to be out of sync with the DOM and result in unexpected
+> content/attributes being present.
 
 As for the hydration error (hydrate has been replaced with hydrateRoot in
 React 18) itself,
 
-> React expects that the rendered content is identical between the server and the client. It can patch up differences in text content, but you should treat mismatches as bugs and fix them. In development mode, React warns about mismatches during hydration. There are no guarantees that attribute differences will be patched up in case of mismatches. This is important for performance reasons because in most apps, mismatches are rare, and so validating all markup would be prohibitively expensive.
+> React expects that the rendered content is identical between the server and
+> the client. It can patch up differences in text content, but you should treat
+> mismatches as bugs and fix them. In development mode, React warns about
+> mismatches during hydration. There are no guarantees that attribute
+> differences will be patched up in case of mismatches. This is important for
+> performance reasons because in most apps, mismatches are rare, and so
+> validating all markup would be prohibitively expensive.
 
-There were `examples` and `suggestions` as to **_how_** to **_fix_**
-`invalid JSX` (`HTML`), but I **_still wanted_** to **_delve deeper_** before
-**_making_** any **_changes_**. **_Honestly_**, I was **_wondering_** whether I
-would **_be able_** to **_still use_** the `table element` with the **_nested_**
-`Link` vs **_non-nested_** `Link`. It was **_terribly obvious_** `from` the
-`beginning` that it **_just_** was **_not going_** to **_happen_**. I
-**_looked_** for **_similar_** `issues/topics` on
+There were examples and suggestions as to how to fix invalid JSX (HTML), but I
+still wanted to delve deeper before making any changes. Honestly, I was
+wondering whether I would be able to still use the table element with the nested
+Link vs non-nested Link. It was terribly obvious from the beginning that it just
+was not going to happen. I looked for similar issues/topics on
 [stackoverflow](https://stackoverflow.com/questions/71706064/react-18-hydration-failed-because-the-initial-ui-does-not-match-what-was-render/74201575#74201575),
-and the **_following_** is **_what_** I **_found_**:
+and the following is what I found:
 
-> If u use html tags u want to place them in correct way and correct order. in NEXTJS. - [Bathila Sanvidu](https://stackoverflow.com/questions/71706064/react-18-hydration-failed-because-the-initial-ui-does-not-match-what-was-render/74201575#74201575) answered Oct 26 at 0:47
+> If u use html tags u want to place them in correct way and correct order. in
+> NEXTJS. -
+> [Bathila Sanvidu](https://stackoverflow.com/questions/71706064/react-18-hydration-failed-because-the-initial-ui-does-not-match-what-was-render/74201575#74201575)
+> answered Oct 26 at 0:47
 
-I **_even found_** an `issue` on the `topic` on the `Next.js GitHub repository`.
-There were **_many different solutions_** `proposed` there, but what **_did_**
-`recur often` was the **_mention_** of `“invalid html”`.
+I even found an issue on the topic on the Next.js GitHub repository. There were
+many different solutions proposed there, but what did recur often was the
+mention of “invalid html”.
 
-And **_then_** I **_found another_** `issue` on the `Next.js Github repo`
-**_entitled_**
+And then I found another issue on the Next.js Github repo entitled
 [React 18 - Avoiding hydration errors, but initialize client-only state directly if possible #23068](https://github.com/facebook/react/issues/23068).
-But **_why_** would I **_want_** to **_keep_** `invalid HTML` **_just because_**
-I am **_trying_** to **_force_** an `issue`? In **_this case_**, **_using_** a
-`table` (which would **_not_** be `best practice` for `smaller viewports`,
-because it just would **_not display_** like a `table` **_anymore anywway_**,
-but **_more like_** a `single column` if **_even possible_**! `Tables` are
-**_so_** `“1995”` **_anyway_**.
+But why would I want to keep invalid HTML just because I am trying to force an
+issue? In this case, using a table (which would not be best practice for smaller
+viewports, because it just would not display like a table anymore anyway, but
+more like a single column if even possible! Tables are so “1995”.
 
-I **_refactored_** my `JSX` to **_finally_** look like **_something decent_**
-and which was **_entirely responsive_** and a `mobile first design` (**_totally
-into_** that **_approach now_**), and the **_following_** is the
-` JSX`` I ***came up*** with for my  `Home` (`page`) `component`:
+I refactored my JSX to finally look like something decent and which was entirely
+responsive and a mobile first design (totally into that approach), and the
+following is the JSX I came up with for my Home (page) component`:
 
 ```jsx
 export default function Home({ users }) {
@@ -171,7 +189,7 @@ export default function Home({ users }) {
 }
 ```
 
-And the `getStaticProps` **_remained_** the **_same_**:
+And the `getStaticProps` remained the same:
 
 ```jsx
 export async function getStaticProps() {
@@ -187,8 +205,7 @@ export async function getStaticProps() {
 }
 ```
 
-And for the **_single_** `(dynamic) user` I **_ended up_** with the
-**_following_** `JSX`:
+And for the single (dynamic) user I ended up with the following JSX:
 
 ```jsx
 export default function Home({ user }) {
@@ -213,9 +230,8 @@ export default function Home({ user }) {
 }
 ```
 
-And **_there_**, I had **_both_** `getStaticProps` and `getStaticPaths`
-**_because_** the `path` was **_dynamic_** (**_getting_** a `single user` by
-`id`):
+And there, I had both `getStaticProps` and `getStaticPaths` because the `path`
+was dynamic (getting a single user by id):
 
 ```jsx
 export async function getStaticProps(context) {
@@ -249,25 +265,25 @@ export async function getStaticPaths() {
 }
 ```
 
-And **_both returned_** `JSX(s)` **_matched_** and were `valid HTML`. And this
-is **_how_** the `Home page` **_rendered_**:
+And both returned JSX matched and were valid HTML. And this is how the Home page
+rendered:
 
 ![Valid JSX](valid-jsx.webp)
 
-***Valid JSX***
+_Valid JSX_
 
-It **_might not_** be a `table`, but it is `mobile first design`, and is
-**_completely responsive_**. The **_entire repository_** on `Github`:
+It might not be a table, but it is mobile first design, and is completely
+responsive. The entire repository on Github:
 [Next users data fetching repo on GitHub](https://github.com/interglobalmedia/next-users-data-fetching)
 
-**_Happy Next.js JSX matching_**!
+Happy Next.js JSX matching!
 
 ## Related Resources
 
--   [React Hydration Error](https://nextjs.org/docs/messages/react-hydration-error)
+- [React Hydration Error](https://nextjs.org/docs/messages/react-hydration-error)
 
--   [React 18: Hydration failed because the initial UI does not match what was rendered on the server](https://stackoverflow.com/questions/71706064/react-18-hydration-failed-because-the-initial-ui-does-not-match-what-was-render/74201575#74201575)
+- [React 18: Hydration failed because the initial UI does not match what was rendered on the server](https://stackoverflow.com/questions/71706064/react-18-hydration-failed-because-the-initial-ui-does-not-match-what-was-render/74201575#74201575)
 
--   [React 18 - Avoiding hydration errors, but initialize client-only state directly if possible #23068](https://github.com/facebook/react/issues/23068)
+- [React 18 - Avoiding hydration errors, but initialize client-only state directly if possible #23068](https://github.com/facebook/react/issues/23068)
 
--   [Next users data fetching repo on Github](https://github.com/interglobalmedia/next-users-data-fetching)
+- [Next users data fetching repo on Github](https://github.com/interglobalmedia/next-users-data-fetching)
