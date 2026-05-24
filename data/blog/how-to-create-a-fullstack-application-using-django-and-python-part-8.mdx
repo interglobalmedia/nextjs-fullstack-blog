@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-8
 date: '2024-09-06T17:13:22.089Z'
-lastModified: '2024-12-18T08:16:22.089Z'
+lastModified: '2026-05-24T15:50:22.089Z'
 title: How to create a fullstack application using Django and Python Part 8
 author: Maria D. Campbell
 excerpt:
@@ -32,38 +32,37 @@ isFeatured: false
 
 _Board app_
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Views, Templates, and Static files](#views-templates-and-static-files)
--   [Creating an index.html file inside the templates directory in the top django_boards directory](#creating-an-indexhtml-file-inside-the-templates-directory-in-the-top-django-boards-directory)
--   [Boards](#boards)
--   [Testing the index (home) page](#testing-the-index-home-page)
--   [Setting up the static files](#setting-up-the-static-files)
--   [django.contrib.staticfiles](#djangocontribstaticfiles)
--   [Creating the static directory](#creating-the-static-directory)
--   [Creating the css directory](#creating-the-css-directory)
--   [Downloading Bootstrap](#downloading-bootstrap)
--   [Configuring the static directory in settings.py](#configuring-the-static-directory-in-settingspy)
--   [The collectstatic command](#the-collectstatic-command)
--   [Loading the static Bootstrap CSS file in the index.html template](#loading-the-static-bootstrap-css-file-in-the-indexhtml-template)
--   [Editing the index.html template to include Bootstrap styling](#editing-the-indexhtml-template-to-include-bootstrap-styling)
--   [Conclusion](#conclusion)
--   [Footnotes](#footnotes)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Views, Templates, and Static files](#views-templates-and-static-files)
+- [Creating an index.html file inside the templates directory in the top django_boards directory](#creating-an-indexhtml-file-inside-the-templates-directory-in-the-top-django-boards-directory)
+- [Boards](#boards)
+- [Testing the index (home) page](#testing-the-index-home-page)
+- [Setting up the static files](#setting-up-the-static-files)
+- [django.contrib.staticfiles](#djangocontribstaticfiles)
+- [Creating the static directory](#creating-the-static-directory)
+- [Creating the css directory](#creating-the-css-directory)
+- [Downloading Bootstrap](#downloading-bootstrap)
+- [Configuring the static directory in settings.py](#configuring-the-static-directory-in-settingspy)
+- [The collectstatic command](#the-collectstatic-command)
+- [Loading the static Bootstrap CSS file in the index.html template](#loading-the-static-bootstrap-css-file-in-the-indexhtml-template)
+- [Editing the index.html template to include Bootstrap styling](#editing-the-indexhtml-template-to-include-bootstrap-styling)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
+- [Footnotes](#footnotes)
 
 ## Views, Templates, and Static files
 
-Right now I already have a `home page` I call `"index"` (`index.html` inside
-`"templates"` directory). Inside `urls.py` of inner `django_boards` project
-`directory`:
+Right now I already have a home page I call index (`index.html` inside the
+templates directory). Inside `urls.py` of inner django_boards project directory:
 
 ```python
 from django.contrib import admin
@@ -77,7 +76,7 @@ urlpatterns = [
 ]
 ```
 
-And the `corresponding view` in the `boards` app `views.py`:
+And the corresponding view in the boards app `views.py`:
 
 ```python
 from django.shortcuts import render
@@ -90,8 +89,8 @@ def index(request):
   return render(request, 'index.html', {'boards': boards}) # renders all boards to the page
 ```
 
-This `next thing` to `do` is to `render` all the `boards` with a
-`different approach` as a `comparison`:
+This next thing to do is to render all the boards with a different approach as a
+comparison:
 
 ```python
 from django.shortcuts import render
@@ -112,26 +111,26 @@ def index(request):
   return HttpResponse(response_html)
 ```
 
-And this `results` in the `following` in the `browser`:
+And this results in the following in the browser:
 
 ![Rendering board names in the browser](Screenshot-2024-09-06-at-2.11.07-PM.jpg)
 
-I `changed` the `code` from `using` the `render` method to `render` the
-`index.html` page with the `list` of `boards` to `returning` an `HttpResponse`
-and `passing` the `response_html` object to it. This is `okay`, but it is the
-`role` of the `templating engine` to `render` the `page`(s).
+I changed the code from using the render method to render the `index.html` page
+with the list of boards to returning an HttpResponse and passing the
+response_html object to it. This is okay, but it is the role of the templating
+engine to render the page(s).
 
 ## Creating an index.html file inside the templates directory in the top django_boards directory
 
-Next, I `created` an `index.html` file inside the `templates` directory inside
-the `parent` django_boards `project` directory:
+Next, I created an `index.html` file inside the templates directory inside the
+parent django_boards project directory:
 
 ```shell
 - templates/
   - index.html
 ```
 
-`Inside` the `index.html` file, I `add` the `following` markup:
+Inside the `index.html` file, I add the following markup:
 
 ```html
 <html lang="en">
@@ -150,20 +149,20 @@ the `parent` django_boards `project` directory:
 </html>
 ```
 
-The above contains `html markup` mixed with some `special tags`
-`{% for board in boards %}{% endfor %}` and a `variable`, `{{ board.name }}`.
-These `tags` and `variable` are part of the
+The above contains html markup mixed with some special tags
+`{% for board in boards %}{% endfor %}` and a variable, `{{ board.name }}`.
+These tags and `variable` are part of the
 [Django Templating Language](https://docs.djangoproject.com/en/5.1/topics/templates/).
 
 The `{% for board in boards %}{% endfor %}` represents a `for in loop`, which
-iterates over the `keys` of an `object`. `{{ board.name }}` renders the
-`board name` to the `page`, for example.
+iterates over the keys of an object. `{{ board.name }}` renders the board name
+to the page, for example.
 
-`Before` we can actually `view` our `index.html` page being `rendered` to the
-page, we have to tell `Django` where to `find` this `template`.
+Before we can actually view our `index.html` page being rendered to the page, we
+have to tell Django where to find this template.
 
-To do this, we have to go into `settings.py` located in the `django_boards`
-project `subdirectory` also called `django_boards` and `add` the `following`:
+To do this, we have to go into `settings.py` located in the django_boards
+project subdirectory also called django_boards and add the following:
 
 ```python
 TEMPLATES = [
@@ -185,7 +184,7 @@ TEMPLATES = [
 ]
 ```
 
-We `needed` to `added`:
+We needed to added:
 
 ```python
 'DIRS': [ # what needs to be added
@@ -193,18 +192,18 @@ We `needed` to `added`:
 ],
 ```
 
-`What` the `value` of the 'DIRS' array is `doing` is `finding` the full `path`
-of our `projects` directory (`BASE_DIR`) and appending `'templates'` using the
+What the value of the 'DIRS' array is doing is finding the full path of our
+projects directory (`BASE_DIR`) and appending 'templates' using the
 `os.path.join()` method.
 
-We can `debug` this `using` the `Python3` shell:
+We can debug this using the Python3 shell:
 
 ```shell
 # first run python3 manage.py shell after stopping the development server
 python3 manage.py shell
 ```
 
-`Then` we `type` the `following` in the `python3` shell:
+Then we type the following in the python3 shell:
 
 ```shell
 from django.conf import settings
@@ -212,7 +211,7 @@ from django.conf import settings
 settings.BASE_DIR
 ```
 
-`Which` for me, `returns`:
+Which for me, returns:
 
 ```shell
 PosixPath('/Users/mariacam/Python-Development/django-boards/django_boards')
@@ -226,16 +225,16 @@ import os
 os.path.join(settings.BASE_DIR, 'templates')
 ```
 
-`Which` for me, `returns`:
+Which for me, returns:
 
 ```shell
 '/Users/mariacam/Python-Development/django-boards/django_boards/templates'
 ```
 
-`os.path.join(settings.BASE_DIR, 'templates')` is `pointing` to the `templates`
-directory which we `configured` in `settings.py`.
+`os.path.join(settings.BASE_DIR, 'templates')` is pointing to the templates
+directory which we configured in `settings.py`.
 
-Now we can `bring back` the `previous code` to the `index view`:
+Now we can bring back the previous code to the index view:
 
 ```python
 from django.shortcuts import render
@@ -248,7 +247,7 @@ def index(request):
   return render(request, 'index.html', {'boards': boards}) # renders all boards to the page
 ```
 
-Now the `index` (home) page `looks like` the following:
+Now the index (home) page looks like the following:
 
 ```shell
 Boards
@@ -260,8 +259,7 @@ Django Models
 Python Objects
 ```
 
-However, we can `make` the page `look better` by `adding` a `table` to the
-`html markup`:
+However, we can make the page look better by adding a table to the html markup:
 
 ```html
 <!DOCTYPE html>
@@ -302,7 +300,7 @@ However, we can `make` the page `look better` by `adding` a `table` to the
 </html>
 ```
 
-Which `looks` something `like` the `following`:
+Which looks something like the following:
 
 ## Boards
 
@@ -321,8 +319,8 @@ Which `looks` something `like` the `following`:
 
 ## Testing the index (home) page
 
-`Next`, we are `going` to `write` our `first test` in the `tests.py` page inside
-the `boards` app:
+Next, we are going to write our first test in the `tests.py` page inside the
+boards app:
 
 ```python
 from django.urls import reverse
@@ -340,11 +338,11 @@ class IndexTests(TestCase):
     self.assertEqual(response.status_code, 200)
 ```
 
-This is a very `basic test` in which we are `checking` the `status code` of the
-`response`. A `200` status `cod`e means `success`.
+This is a very basic test in which we are checking the status code of the
+response. A 200 status code means success.
 
-We can `check` the `status code` of the `response` in the `console` while the
-development `server` is `running`:
+We can check the status code of the response in the console while the
+development server is running:
 
 ```shell
 Watching for file changes with StatReloader
@@ -362,27 +360,24 @@ Quit the server with CONTROL-C.
 
 `"GET / HTTP/1.1" 200 2097` and
 `"GET /static/css/bootstrap.min.css HTTP/1.1" 200 232803` tells me that getting
-`index.html` AND `Bootstrap` was `successful`. 200 s`tatus code` indicates
-`success`.
+`index.html` AND Bootstrap was successful. 200 status code indicates success.
 
-If you want to `learn more` about common` HTTP` status `codes`, please visit
-[httpstatus](https://httpstatus.io/http-status-codes) which `provides` an
-`overview` of the `most common` HTTP `status codes`.
+If you want to learn more about common HTTP status codes, please visit
+[httpstatus](https://httpstatus.io/http-status-codes) which provides an overview
+of the most common HTTP status codes.
 
-If I had had a `mistake` in my `code` like an `uncaught exception`,
-`syntax error`, etc., `Django` would `return` a `status code` of `500`. A
-`status code` of `500` gives a `message` of "Internal Server Error". A `500`
-status `code` means the `server` encountered `something` it didn't `expect` and
-was `unable` to `complete` the `request`.
+If I had had a mistake in my code like an uncaught exception, syntax error,
+etc., Django would return a status code of 500. A status code of 500 gives a
+message of "Internal Server Error". A 500 status code means the server
+encountered something it didn't expect and was unable to complete the request.
 
-To `run` our `test` in `tests.py`, we `run` the `following command` in
-`Terminal`:
+To run our test in `tests.py`, we run the following command in Terminal:
 
 ```shell
 python3 manage.py test
 ```
 
-And the `following`, for me, was `returned`:
+And the following, for me, was returned:
 
 ```shell
 Found 2 test(s).
@@ -420,29 +415,28 @@ Ran 2 tests in 0.000s
 FAILED (errors=2)
 ```
 
-My test `failed` because I had `added` an `__init__.py` file at the `root` of my
-`django_boards` project. When I `removed` it, and ran `python3 manage.py test`,
-then it `went away`. `According` to an `answer` in a `thread` entitled
+My test failed because I had added an `__init__.py` file at the root of my
+django_boards project. When I removed it, and ran `python3 manage.py test`, then
+it went away. According to an answer in a thread entitled
 [ImportError: Failed to import test module:](https://stackoverflow.com/questions/51676483/importerror-failed-to-import-test-module)
-on `stackoverflow`:
+on stackoverflow:
 
 > So I got this error because I had an `__init__.py` file in the same directory
 > as the project root (the same directory that manage.py exists in.) This caused
 > some wierd import issues with the tests code and caused a number of other
 > imports of tests to fail. -- chander answered Sep 27, 2023 at 18:31
 
-`Why` did I `have` that `__init__.py` there? Because `in order` to `generate`
-a` UML diagram` from `Python` code, I `had` to add `__init__.py` in `all` my
-`directories`, including `project` and `app`. However, `eventually` I should
-have `removed` the `__init__.py` file at the `root` of the `project`.
+Why did I have that `__init__.py` there? Because in order to generate a UML
+diagram from Python code, I had to add `__init__.py` in all my directories,
+including project and app. However, eventually I should have removed the
+`__init__.py` file at the root of the project.
 
-To `get back` more `information` about the `test`, we `could` set `verbosity`.
+To get back more information about the test, we could set verbosity.
 [Verbosity](https://docs.djangoproject.com/en/5.1/topics/testing/advanced/)
-`determines` the `amount` of `notification` and `debug` information that will be
-`printed` to the `console`. `0` is `no` output, `1` is `normal` output, and `2`
-is `verbose` output.
+determines the amount of notification and debug information that will be printed
+to the console. 0 is no output, 1 is normal output, and 2 is verbose output.
 
-Let's `try` this `out`:
+Let's try this out:
 
 ```shell
 python3 test --verbosity=0
@@ -525,41 +519,39 @@ OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 ```
 
-I `like having` as much `verbosity` as `possible`. It `tells` me `exactly` what
-I `have` in my a`pplication` and `what` specifically `passed`.
+I like having as much verbosity as possible. It tells me exactly what I have in
+my application and what specifically passed.
 
 ## Setting up the static files
 
-`Static` files `consist` of `HTML`, `JavaScript`, `CSS`, `images`, `fonts`, and
-anything else we may want to `use` for the `frontend` of the `site`.
+Static files consist of HTML, JavaScript, CSS, images, fonts, and anything else
+we may want to use for the frontend of the site.
 
-`Django` only `serves` static `files` during the `development` process to `make`
-the development `workflow` easier. `Django` does `provide` some `features` to
-manage `static files`. Those `features` are `available` in the
-`django.contrib.staticfiles` application `included` in the `INSTALLED_APPS`
-configuration in `settings.py`.
+Django only serves static files during the development process to make the
+development workflow easier. Django does provide some features to manage static
+files. Those features are available in the `django.contrib.staticfiles`
+application included in the `INSTALLED_APPS` configuration in `settings.py`.
 
 ## django.contrib.staticfiles
 
-`django.contrib.staticfiles` collects `static files` from `each` of our
-`applications` (and any `other places` we `specify`) into a `single location`
-that can `easily` be `served` in `production`.
+`django.contrib.staticfiles` collects static files from each of our applications
+(and any other places we specify) into a single location that can easily be
+served in production.
 
-The `common solution` to use for
-`site styling is `Bootstrap`. `Bootstrap`is a powerful, extensible, and feature-packed`frontend
-toolkit`. We can `build`and`customize`with`Sass`, utilize `prebuilt`grid`systems`and`components`, and bring `projects`to`life`with powerful`JavaScript`
-plugins.
+The common solution to use for site styling is Bootstrap. Bootstrapis a
+powerful, extensible, and feature-packed frontend toolkit. We can build and
+customize with Sass, utilize prebuilt grid systems and components, and bring
+projects to life with powerful JavaScript plugins.
 
 ## Creating the static directory
 
-In the `django_boards` project `root` directory, `alongside` the `templates`
-directory, we `have` to `create` a `directory` called `static` where our
-`static files` are kept.
+In the django_boards project root directory, alongside the templates directory,
+we have to create a directory called static where our static files are kept.
 
 ## Creating the css directory
 
-`Inside` the `static` directory, we `create` another `directory` called `css`.
-Now my `Django Boards` directory `structure` should `look like` the `following`:
+Inside the static directory, we create another directory called css. Now my
+Django Boards directory structure should look like the following:
 
 ```shell
 - django-boards/ # top level container for the django boards site
@@ -581,17 +573,17 @@ Now my `Django Boards` directory `structure` should `look like` the `following`:
 
 ## Downloading Bootstrap
 
-`Next`, we `have` to `download` [Bootstrap](https://getbootstrap.com). The
-`current version` at the `time` of writing `this post` is `5.3.3`, and the
-`Compiled CSS and JS` version `should` be `downloaded`. From there, we should
-`copy` the `css/bootstrap.min.css` to the `project`'s `css` folder `inside` the
-new `static` directory (as shown above).
+Next, we have to download [Bootstrap](https://getbootstrap.com). The current
+version at the time of writing this post is 5.3.3, and the Compiled CSS and JS
+version should be downloaded. From there, we should copy the
+`css/bootstrap.min.css` to the project's css folder inside the new static
+directory (as shown above).
 
 ## Configuring the static directory in settings.py
 
-`Next`, we `have` to let `Django` know `where` the `static` files are `located`.
-In order to do this, we have to go into `settings.py` and `add` the `following`
-as the `values` of `STATIC_URL1` and `STATICFILES_DIRS`:
+Next, we have to let Django know where the static files are located. In order to
+do this, we have to go into `settings.py` and add the following as the values of
+`STATIC_URL` and `STATICFILES_DIRS`:
 
 ```python
 STATIC_URL = 'static/'
@@ -601,38 +593,35 @@ STATICFILES_DIRS = [
 ]
 ```
 
-`STATIC_URL` tells `Django` to append `static` to the `base url`, which in
-`development` for us is `http://127.0.0.1:8000`, when `searching` for
-`static files`.
+`STATIC_URL` tells Django to append static to the base url, which in development
+for us is http://127.0.0.1:8000, when searching for static files.
 
-The `STATICFILES_DIRS` tuple **[^1]** tells `Django` where to find
-`static files` that are `not linke`d to a `particular app`. Here we are telling
-`Django` to look for `static files` in our `root` folder, `not` in `any`
-particular `app` (i.e., the `board` app).
+The `STATICFILES_DIRS` tuple[^1] tells Django where to find static files that
+are not linked to a particular app. Here we are telling Django to look for
+static files in our root folder, not in any particular app (i.e., the board
+app).
 
 ## The collectstatic command
 
 Among its [core components](https://testdriven.io/blog/django-static-files/),
-`Django`'s `django.contrib.staticfiles` app provides `management` commands. One
-of them is the `collectstatic` command. This `command` collects `static files`
-from `various locations` like `/board/static/` or directories in
-`STATICFILES_DIRS setting in settings.py, and `copies them`to the`STATIC_ROOT`
+Django's `django.contrib.staticfiles` app provides management commands. One of
+them is the `collectstatic` command. This command collects static files from
+various locations like `/board/static/` or directories in
+`STATICFILES_DIRS setting in `settings.py`, and copies them to the `STATIC_ROOT`
 directory.
 
-The `STATIC_ROOT` directory is `where` the `static files` get `copied` to
-`automatically` after `collectstatic` is run.
+The `STATIC_ROOT` directory is where the static files get copied to
+automatically after `collectstatic` is run.
 
-The `collectstatic` command is a `built-in` Django `management` command that
-`collects` all `static files` from a `Django` project, `including` files `from`
-each `installed` app, and `places them` in a `single location`, `specified` by
-the `STATIC_ROOT` setting in `settings.py`. This is the `location` where our
-`web server` will `look` for `static files` to serve to the `end users` in
-`production`.
+The `collectstatic` command is a built-in Django management command that
+collects all static files from a Django project, including files from each
+installed app, and places them in a single location, specified by the
+`STATIC_ROOT` setting in `settings.py`. This is the location where our web
+server will look for static files to serve to the end users in production.
 
 ## Loading the static Bootstrap CSS file in the index.html template
 
-Next, we have to `load` the `Bootstrap CSS` file `inside` our `index.html`
-template:
+Next, we have to load the Bootstrap CSS file inside our `index.html` template:
 
 ```html
 {% load static %}<!DOCTYPE html>
@@ -649,13 +638,13 @@ template:
 </html>
 ```
 
-The `{% load static %}` is `Django`'s `special` template tag `syntax` telling
-the `template engine` to `use` the `files` in the `static` directory in the
-`index.html` template. `Without` this `special tag`, `Django` would `not know`
-to `load` the the `static files` like` CSS`, `JS`, and any `images` that `might`
-be `stored` there. The `site` would contain `no styling`, `media assets`, or
-`JS functionality`! That's `why` so many `backend-centric developers` like
-`Bootstrap`. It's an `all` inclusive `CSS` (`with` some `JS`) `framework`.
+The `{% load static %}` is Django's special template tag syntax telling the
+template engine to use the files in the static directory in the `index.html`
+template. Without this special tag, Django would not know to load the static
+files like CSS, JS, and any images that might be stored there. The site would
+contain no styling, media assets, or JS functionality! That's why so many
+backend-centric developers like Bootstrap. It's an all inclusive CSS (with some
+JS) framework.
 
 `{% static 'css/bootstrap.min.css' %}` returns `/static/css/bootstrap.min.css`.`
 
@@ -709,7 +698,7 @@ be `stored` there. The `site` would contain `no styling`, `media assets`, or
 </html>
 ```
 
-Which `renders` the `following` in the `browser`:
+Which renders the following in the browser:
 
 ![Board with Bootstrap CSS](board-with-bootstrap-css.jpg)
 
@@ -717,28 +706,26 @@ _Board with Bootstrap CSS_
 
 ## Conclusion
 
-In this section, I added an index.html template to a directory called static,
+In this section, I added an `index.html `template to a directory called static,
 tested the index (home) page, set up the static files, downloaded Bootstrap,
-configured the static directory in settings.py, discussed the collectstatic
-command, loaded the Bootstrap CSS file in index.html, and edited index.html to
-include Bootstrap styling.
-
-## Footnotes
-
-**[^1]**: A `Python tuple` is a` data structure` similar to a `list`.
-The` main difference` between the `two` is that a `tuple` is `immutable`,
-`meaning` it `cannot` be `changed` once it is `created`. This `makes` it `ideal`
-for `storing data` that should `not` be `modified`, `such` as `database records`
-(aka `rows`).
+configured the static directory in `settings.py`, discussed the `collectstatic`
+command, loaded the Bootstrap CSS file in `index.html`, and edited `index.html`
+to include Bootstrap styling.
 
 ## Related Resources
 
--   [Working with Static and Media Files in Django](https://testdriven.io/blog/django-static-files/):
-    **_by Amal Shaji, testdriven.io_**
--   [getbootstrap](https://getbootstrap.com)
--   [Everything About Django collectstatic Command](https://www.geeksforgeeks.org/everything-about-django-collectstatic-command/):
-    **_Geeks for Geeks_**
+- [Working with Static and Media Files in Django](https://testdriven.io/blog/django-static-files/):
+  _by Amal Shaji, testdriven.io_
+- [getbootstrap](https://getbootstrap.com)
+- [Everything About Django collectstatic Command](https://www.geeksforgeeks.org/everything-about-django-collectstatic-command/):
+  _Geeks for Geeks_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+
+[^1]:
+    A Python tuple is a data structure similar to a list. The main difference
+    between the two is that a tuple is immutable, meaning it cannot be changed
+    once it is created. This makes it ideal for storing data that should not be
+    modified, such as database records (aka rows).
