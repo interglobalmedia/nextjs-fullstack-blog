@@ -13,95 +13,122 @@ isFeatured: false
 
 ![Chattr Node.js socket.io app](chattr.webp)
 
-***Chattr Node.js socket.io app***
+_Chattr Node.js socket.io app_
 
-I just **_completed building_** a `full stack` `React`, `Node.js`, `Socket.io` `application` and **_successfully_** `hosted` it on `Heroku`. **_At first_** I **_tried creating_** a `droplet` on `Digital Ocean` and then `hosting` my `application` **_there_**. **_However_**, I **_would have_** had to **_use_** my `Digital Ocean IP` as my `front end URL` **_OR_** an `actual domain` **_in order_** to purportedly `host` it there, but I **_did not_** even **_get_** to **_that point_**. When I **_tried_** to **_add_** `Nginx` to the `droplet`, it just **_did not happen_**. **_And_** there is `no free tier` for this kind of application there. It **_costs_** `$6/month` **_at the least_**, and **_perhaps_** even **_more_**, **_depending_** on the `traffic` and `usage`. **_At one point_**, I **_no longer_** even **_was able_** to `log into` my `droplet` either! I **_think_** I was **_maxed out_**. **_Suffice it_** to **_say_**, it was **_one big headache_**.
+I just completed building a full stack React, Node.js, Socket.io application and
+successfully hosted it on Heroku. At first I tried creating a droplet on Digital
+Ocean and then hosting my application there. However, I would have had to use my
+Digital Ocean IP as my front end URL OR an actual domain in order to purportedly
+host it there. I did not even get to that point. When I tried to add Nginx to
+the droplet, it just did not happen. And there is no free tier for this kind of
+application. It costs $6/month at the least, and perhaps even more, depending on
+the traffic and usage. At one point, I no longer even was able to log into my
+droplet either! I think I was maxed out. Suffice it to say, it was one big
+headache.
 
-I **_decided_** to **_go back_** to `Heroku` and `host` **_there_**. They have **_made_** `many updates` and `changes`. There **_no longer_** is a `free tier`, but the **_cheapest_** `monthly charge` is `$5/month`, which is **_still_** `$1 less` **_than_** `Digital Ocean`, and also **_NOT_** a `huge headache`. I’m **_not saying_** that I **_would never_** try using `Digital Ocean`. The `headache` and `use case` was just **_not worth it_** for **_this project_**. On the **_other hand_**, it **_might never_** be **_worth it_**!
+I decided to go back to Heroku and host there. They have made many updates and
+changes. There no longer is a free tier, but the cheapest monthly charge is
+$5/month, which is still $1 less than Digital Ocean and also NOT a huge
+headache. I’m not saying that I would never try using Digital Ocean. The
+headache and use case was just not worth it for this project. On the other hand,
+it might never be worth it!
 
-**_Anyway_**, **_this time_** I **_had_** to **_install_** `Heroku` using
-`Homebrew`. I **_don’t remember_** doing it **_that way_** previously, but it `was` a `breeze`.
+This time I had to install Heroku using Homebrew. I don’t remember doing it that
+way previously, but it was a breeze.
 
-I **_also had_** to **_make_** `some changes` to the `structure` of the
-`application`. When I **_previously_** had **_created_** `full stack Node.js applications`, I **_had used_** `views` with `templating engines` such as `EJS`, **_for example_**, and **_not_** `React`. So **_this time_**, I **_had_** to `make sure` that I `could run` **_both_** the `front` and `back ends` of the `application` in **_one place_**, and that **_meant_** `refactoring` the `app structure` and `local scripts` a **_bit_**.
+I also had to make some changes to the structure of the application. When I
+previously had created full stack Node.js applications, I had used views with
+templating engines such as EJS, for example, and not React. So this time, I had
+to make sure that I could run both the front and back ends of the application in
+one place, and that meant refactoring the app structure and local scripts a bit.
 
-I **_searched_** for `guidance` **_regarding_** this `refactoring`, and I
-**_found_** a `great solution` on [Dev.to](https://dev.to/)! The `article` is **_entitled_** [How to deploy React + Node.js application to Heroku](https://dev.to/myogeshchavan97/how-to-deploy-react-node-js-application-to-heroku-4jb4) and is **_written_** by `Yogesh Chavan`.
+I searched for guidance regarding this refactoring, and I found a great solution
+on [Dev.to](https://dev.to/)! The article is entitled
+[How to deploy React + Node.js application to Heroku](https://dev.to/myogeshchavan97/how-to-deploy-react-node-js-application-to-heroku-4jb4)
+and is written by Yogesh Chavan.
 
-I **_had structured_** my `application` with a `client folder` for the
-`React front end`, and a `server folder` for the `Node.js back end`. I had
-**_never had_** to **_set things up_** that way when `using views` for the
-`application` `"front end"`. But **_how_** was I **_going_** to **_be able_** to **_run_** the `whole application` (**_including_** `React`) using **_only one port_**?
+I had structured my application with a client folder for the React front end,
+and a server folder for the Node.js back end. I had never had to set things up
+that way when using views for the application "front end". But how was I going
+to be able to run the whole application (including React) using only one port?
 
-**_According_** to `Yogesh`, (and I think I had done something similar way back when), I **_just needed_** to `make sure` that I (or `Heroku` in `production`) **_ran_** a `build` of the **_latest changes_** made to the `React application` **_which_** **_would be saved_** on the `client side` in the **_application's_** `root folder`. And **_after_** the the `build` is **_created_**, the `script` **_cds_** (`changes directory`) into the `server folder` and **_installs_** the **_necessary_** `application npm modules`. That `meant` **_first dragging out_** the `contents` of the `client folder` and **_placing it_** in the `root` of the
-`project`. That **_made_** the `package.json` of the (`former`) `client folder` the **_root_** `package.json`. That was **_very important_** to **_do_**.
+According to Yogesh, and I think I had done something similar way back when, I
+just needed to make sure that I (or Heroku in production) ran a build of the
+latest changes made to the React application which would be saved on the client
+side in the application's root folder. And after the the build is created, the
+script cds (changes directory) into the server folder and installs the necessary
+application npm modules. That meant first dragging out the contents of the
+client folder and placing it in the root of the project. That made the
+`package.json` of the (former) client folder the root `package.json`. That was
+very important to do.
 
-I **_had_** to `make sure` that I **_removed_** the `value` of my `socket_url` **_variable_** and **_set it_** to an `empty string`.
+I had to make sure that I removed the value of my `socket_url` variable and set
+it to an empty string.
 
-I **_had_** to `make sure` to **_change_** the `name` of the **_default_**
-`React` **_start script_** that **_comes with_** `create-react-app` to
-`“start-client”` so that it **_would not_** be **_used_**!
+I had to make sure to change the name of the default React start script that
+comes with `create-react-app` to `“start-client”` so that it would not be used!
 
-**_Next_**, I **_had_** to **_change_** the `value` of the **_default_**
-`React build script` that **_came_** with `create-react-app`. **_Initially_**, it was:
+Next, I had to change the value of the default React build script that came with
+`create-react-app`. Initially, it was:
 
 ```json
 "build": "react-scripts build”
 ```
 
-I **_changed it_** to:
+I changed it to:
 
 ```json
 "build": "react-scripts build && (cd server && npm install)"
 ```
 
-What **_this_** `script` **_does_** is it **_creates_** a `build folder` at the **_root_** of my `application/project` (**_run_** the `ls command` at the **_root_** of **_yours_** and **_see_** for **_yourself!_**), and I **_added_** the **_following_** to my `index.js file` in the `server directory`, which **_contains_** the `code` for my `Node.js server`:
+What this script does is it creates a build folder at the root of my
+`application/project` (run the `ls` command at the root of yours and see for
+yourself!), and I added the following to my `index.js` file in the server
+directory, which contains the code for my Node.js server:
 
 ```js
 const buildPath = path.join(__dirname, '..', 'build')
 app.use(express.static(buildPath))
 ```
 
-This `code` **_ensures_** that the `contents` of the `build folder` are
-**_accessed_**, and if it **_contains_** an `.html file` (**_which_** it
-**_does_**), the `Express server` **_renders_** the `contents` of **_that
-file_** when `http://localhost:8000` is **_accessed_**. And my `Node.js server` is (already) **_running_** on `port 8000`. So **_because_** I **_removed_** the `value` of the `React URL` **_containing_** its `port 3000`, **_both_** `front` and `back end` are **_running_** now on `port 8000`.
+This code ensures that the contents of the build folder are accessed, and if it
+contains an `.html` file (which it does), the Express server renders the
+contents of that file when `http://localhost:8000` is accessed. And my Node.js
+server is (already) running on `port 8000`. Because I removed the value of the
+React URL containing its `port 3000`, both front and back end are running now on
+`port 8000`.
 
-The `value` of the `buildPath` **_points_** to the `root` of the
-`server folder`, represented by `__dirname`, **_which_** is **_where_** the
-`index.js file` of the `back end server side` code **_resides_**, and `‘..’`
-**_represents_** `moving out` of the `server directory` **_into_** the
-`root directory` of the `application` **_itself_**, **_where_** the
-`front end build directory` **_resides_**, **_after running_** the
-`npm run build script` at the **_root_** of the `project`.
+The value of the `buildPath` points to the root of the server folder,
+represented by `__dirname`, which is where the `index.js` file of the back end
+server side code resides, and `‘..’` represents moving out of the server
+directory into the root directory of the application itself, where the front end
+build directory resides, after running the `npm run build` script at the root of
+the project.
 
-`app.use(express.static(buildPath))` **_makes sure_** that `Express`
-**_renders_** the `contents` of the `index.html file` **_inside_** the
-`build folder`.
+`app.use(express.static(buildPath))` makes sure that Express renders the
+contents of the `index.html` file inside the `build` folder.
 
-I **_also_** could have **_removed_** `all reference` to the `cors npm module`, **_since_** the `application` is **_only running_** on `one port`, but I **_am keeping_** it **_for now_**.
+I also could have removed all reference to the `cors` npm module, since the
+application is only running on one port, but I am keeping it for now.
 
-To **_view_** the `application` on `Heroku`, **_please visit_**
+To view the application on Heroku, please visit
 [Socketio Realtime Node Chat App](https://socketio-realtime-node-chat.herokuapp.com/).
 
-**Note**: I am **_currently_** on `Apple M1 Max`, `macOS Ventura 13.1`
-(**_soon_** `13.2`). **_And originally_** I **_had_** `Xcode 13.4.1`.
-**_However_**, **_when_** I **_tried_** to **_deploy_** my `application` to
-`Heroku`, it **_let me know_** that **_my version_** of `Xcode` was **_too
-old_**, and that I **_should update_** it to the **_latest version_**. This
-**_of course_** has to **_do_** with `Git` and `CLT`. So **_once_** I
-**_updated_** `Xcode`, I **_no longer_** got **_any_** `error messages`
-**_regarding_** `Xcode`. So **_make sure_** you **_have updated_** to the
-**_latest version_** of `Xcode` for your `macOS` **_before deploying_**
-`applications` to `Heroku` **_via_** your `macOS`!
+**Note**: I am currently on `Apple M1 Max`, `macOS Ventura 13.1` (soon 13.2).
+And originally I had `Xcode 13.4.1`. However, when I tried to deploy my
+application to Heroku, it let me know that my version of Xcode was too old, and
+that I should update it to the latest version. This of course has to do with Git
+and CLT. So once I updated Xcode, I no longer got any error messages regarding
+Xcode. Make sure you have updated to the latest version of Xcode for your macOS
+before deploying applications to Heroku via your macOS!
 
 ## Related Resources
 
--   [How to deploy React + Node.js application to Heroku](https://dev.to/myogeshchavan97/how-to-deploy-react-node-js-application-to-heroku-4jb4):
-    Yogesh Chavan, dev.to
+- [How to deploy React + Node.js application to Heroku](https://dev.to/myogeshchavan97/how-to-deploy-react-node-js-application-to-heroku-4jb4):
+  _Yogesh Chavan, dev.to_
 
--   [Chattr public and private realtime chat](https://socketio-realtime-node-chat.herokuapp.com/),
-    Maria Campbell, Heroku
+- [Chattr public and private realtime chat](https://socketio-realtime-node-chat.herokuapp.com/):
+  _Maria Campbell, Heroku_
 
--   [Installing Xcode and/or Command Line Tools on Your Mac](https://interglobalmedia.github.io/adding-xcode-command-line-tools/#/):
-    **_interglobalmedia_**, `Github GH Pages`
+- [Installing Xcode and/or Command Line Tools on Your Mac](https://interglobalmedia.github.io/adding-xcode-command-line-tools/#/):
+  _interglobalmedia, Github GH Pages_
