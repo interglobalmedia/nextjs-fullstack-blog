@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-1
 date: '2024-08-26T10:48:14.082Z'
-lastModified: '2024-12-18T07:11:14.082Z'
+lastModified: '2026-05-24T06:34:14.082Z'
 title: How to create a fullstack application using Django and Python Part 1
 author: Maria D. Campbell
 excerpt:
@@ -30,12 +30,12 @@ isFeatured: false
 
 ![Python resting](david-clode-InNbh_k66g4-unsplash.jpg)
 
-**_Photo by_** [David Clode](https://unsplash.com/@davidclode) **_on_**
+_Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 [unsplash.com](https://unsplash.com/photos/brown-snake-in-shallow-focus-InNbh_k66g4)
 
-This `series` is `based` on a `series` entitled
+This series is based on a series entitled
 [A Complete Beginner's Guide to Django](https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/)
-by `Vitor Freitas` on his website
+by Vitor Freitas on his website
 [simpleisbetterthancomplex.com/](https://simpleisbetterthancomplex.com/) from
 over 7 years ago. I have made updates to outdated code/content, added features,
 and am making some changes and additions to the structure, functionality, and
@@ -44,46 +44,45 @@ about Django! Check it out to compare what he did in his series and development
 sequence compared to mine. I hope you will enjoy building this project, I know I
 have!
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [So why Django over other fullstack formats or frameworks?](#so-why-django-over-other-fullstack-formats-or-frameworks?)
--   [So what is Django?](#ao-what-is-django)
--   [The Django Boards project](#the-django-boards-project)
--   [Setting up the project](#setting-up-the-project)
--   [Creating the project directory](#creating-the-project-directory)
-    -   [The directory structure](#the-directory-structure)
--   [Installing pyenv with Homebrew](#installing-pyenv-with-homebrew)
-    -   [Fixing the pyenv install](#fixing-the-pyenv-install)
-    -   [Selecting a Python interpreter inside your Favorite IDE](#selecting-a-python-interpreter-inside-your-favorite-ide)
-    -   [Determining which versions of Python have been installed with pyenv](#determining-which-versions-of-python-have-been-installed-with-pyenv)
-    -   [The pyenv local command](#the-pyenv-local-command)
--   [Installing virtualenv](#installing-virtualenv)
-    -   [What is virtualenv?](#what-is-virtualenv)
-    -   [Creating a virtual environment for the Django application](#creating-a-virtual-environment-for-the-Django-application)
-    -   [Activating the virtual environment](#activating-the-virtual-environment)
-    -   [Deactivating the virtual environment](#deactivating-the-virtual-environment)
--   [Installing Django](#installing-django)
--   [Conclusion](#conclusion)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [So why Django over other fullstack formats or frameworks?](#so-why-django-over-other-fullstack-formats-or-frameworks?)
+- [So what is Django?](#ao-what-is-django)
+- [The Django Boards project](#the-django-boards-project)
+- [Setting up the project](#setting-up-the-project)
+- [Creating the project directory](#creating-the-project-directory)
+    - [The directory structure](#the-directory-structure)
+- [Installing pyenv with Homebrew](#installing-pyenv-with-homebrew)
+    - [Fixing the pyenv install](#fixing-the-pyenv-install)
+    - [Selecting a Python interpreter inside your Favorite IDE](#selecting-a-python-interpreter-inside-your-favorite-ide)
+    - [Determining which versions of Python have been installed with pyenv](#determining-which-versions-of-python-have-been-installed-with-pyenv)
+    - [The pyenv local command](#the-pyenv-local-command)
+- [Installing virtualenv](#installing-virtualenv)
+    - [What is virtualenv?](#what-is-virtualenv)
+    - [Creating a virtual environment for the Django application](#creating-a-virtual-environment-for-the-Django-application)
+    - [Activating the virtual environment](#activating-the-virtual-environment)
+    - [Deactivating the virtual environment](#deactivating-the-virtual-environment)
+- [Installing Django](#installing-django)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 ## So why Django over other fullstack formats or frameworks?
 
-I `come` from `fullstack JavaScript`. That means `JavaScript` ( including
-`React`, `ejs`, `npm`, `node.js`, `express.js`, `next.js`, etc.), `HTML`, and
-`CSS`. I also have `worked` with `WordPress`, which is `large` and `extensive`
-by `default`, as `well` as `expensive` to `maintain` and `host` if `done right`.
-I `loved` working with `Node.js`, `npm`, and `JavaScript/React`, but there were
-`use cases` where it `just` was `not` optimal. `Sometimes` I just `wanted` to
-`build` an `all-inclusive` fullstack `application` `quickly` and `securely`.
-That's where `Django` comes in.
+I come from fullstack JavaScript. That means JavaScript (including React, ejs,
+npm, node.js, express.js, next.js, etc.), HTML, and CSS. I also have worked with
+WordPress, which is large and extensive by default, as well as expensive to
+maintain and host if done right. I loved working with Node.js, npm, and
+JavaScript/React, but there were use cases where it just was not optimal.
+Sometimes I just wanted to build an all-inclusive fullstack application quickly
+and securely. That's where Django comes in.
 
 ## So what is Django?
 
@@ -106,19 +105,18 @@ According to the [Django](https://www.djangoproject.com) website,
 
 ## The Django Boards project
 
-I recently `started` building an `application` with `Django` called
-`Django Boards`. `Happy` to be `building` a `fullstack application` again, and
-to be `working` with (`Python`) `Django`.
+I recently started building an application with Django called Django Boards.
+Happy to be building a fullstack application again, and to be working with
+(Python) Django.
 
 ## Setting up the project
 
 ### Creating the project directory
 
-`First`, I `created` the `Django Boards` directory where I would `house` the
-`application` and `from which` to `deploy` it to `Github`. I already `had` a
-folder `dedicated` to `Django` and `Python` projects called
-`python-development`, and I `created` a new `directory` inside `called`
-django-boards:
+First, I created the Django Boards directory where I would house the application
+and from which to deploy it to Github. I already had a folder dedicated to
+Django and Python projects called python-development, and I created a new
+directory inside called django-boards:
 
 ```shell
 # inside Python-Development directory inside /Users/mariacam
@@ -134,42 +132,39 @@ mkdir django-boards
 
 ### Installing pyenv with Homebrew
 
-`Just like` I `like` to `install` and `manage` versions of `Node.js` with
-[NVM (Node Version Manager)](https://github.com/nvm-sh/nvm), I `like` to
-`install` and `manage` versions of `Python` with `pyenv`.
+Just like I like to install and manage versions of Node.js with
+[NVM (Node Version Manager)](https://github.com/nvm-sh/nvm), I like to install
+and manage versions of Python with pyenv.
 
-`pyenv` allows `you` to easily `switch` between `different versions` of
-`Python`, which can be `useful` for `compatibility testing` or `for` using
-`different versions` of `Python` for `different projects`.
+pyenv allows you to easily switch between different versions of Python, which
+can be useful for compatibility testing or for using different versions of
+Python for different projects.
 
-Some main features of pyenv are:
+Some of the key features of pyenv are:
 
-Some of the key features of `pyenv` are:
+- Manage multiple versions of Python, including different implementations (e.g.,
+  CPython, PyPy).
+- Install new Python versions easily.
+- Set global and local (per-project) Python versions.
+- Use virtual environments more effectively in conjunction with tools like
+  pyenv-virtualenv.
 
--   Manage multiple versions of `Python`, including different implementations
-    (e.g., `CPython`, `PyPy`).
--   Install new `Python` versions easily.
--   Set `global` and `local` (`per-project`) `Python` versions.
--   Use virtual environments more effectively in conjunction with tools like
-    `pyenv-virtualenv`.
-
-To install `pyenv` with `Homebrew`,run the `following command`(`s`) in
-`Terminal`:
+To install pyenv with Homebrew, run the following command(s) in Terminal:
 
 ```shell
 brew update && brew install pyenv
 ```
 
-`To` make `sure` that you `actually have` pyenv `installed`, `run` the
-`following` in `Terminal`:
+To make sure that you actually have pyenv installed, run the following in
+Terminal:
 
 ```shell
 pyenv --version
 ```
 
-`If` you `get back` a `version`, then you `know` that `you` have
-`successfully installed` it. You `could` also `run` the `following` to
-`make sure` you have `pyenv` successfully `installed` after `installation`:
+If you get back a version, then you know that you have successfully installed
+it. You could also run the following to make sure you have pyenv successfully
+installed after installation:
 
 ```shell
 echo '# exit code:' $?
@@ -178,27 +173,26 @@ echo '# exit code:' $?
 # exit code: 0
 ```
 
-And if `0` is `returned`, `then` you `know` that it `has` been
-`successfully installed`.
+And if 0 is returned, then you know that it has been successfully installed.
 
-I had to `run` the `following command` to `install` the
-`macOS-Homebrew-specific` Python `build dependencies`:
+I had to run the following command to install the macOS-Homebrew-specific Python
+build dependencies:
 
 ```shell
 brew install openssl readline sqlite3 xz zlib
 ```
 
-Originally, I `had` installed `Python` via
+Originally, I had installed Python via
 [python.org's official installation](https://www.python.org/downloads/) as well
-as `Homebrew` and `pyenv`.
+as Homebrew and pyenv.
 
-I `previously installed` Python `3.8.2` and `3.8.3` with `pyenv`. I installed
-`python@3.12` with [Homebrew](https://brew.sh). I `downloaded` and `installed`
-Python `3.11` and `3.12` from [python.org](https://www.python.org). I moved the
-two [python.org](https://www.python.org) `installs` to the `trash`. I later
-`found` that I `had` to `keep` the `python@3.12` Homebrew `install`. When I
-tried to `uninstall` it with the `brew uninstall python@3.12` command, the
-`following` was `returned` in `Terminal`:
+I previously installed Python 3.8.2 and 3.8.3 with pyenv. I installed
+python@3.12 with [Homebrew](https://brew.sh). I downloaded and installed Python
+3.11 and 3.12 from [python.org](https://www.python.org). I moved the two
+[python.org](https://www.python.org) installs to the trash. I later found that I
+had to keep the python@3.12 Homebrew install. When I tried to uninstall it with
+the `brew uninstall python@3.12` command, the following was returned in
+Terminal:
 
 ```shell
 `Error`: Refusing to uninstall /opt/homebrew/Cellar/python@3.12/3.12.5
@@ -207,24 +201,24 @@ You can override this and force removal with:
   brew uninstall --ignore-dependencies python@3.12
 ```
 
-`Working` with `Python` alone was `not` a `problem`. Getting `pyenv` to
-`work properly` was a `bit` of a `problem`. `Getting` my `Django` install and
-`application` to `work` was `also` a `bit` of a `challenge`. What `got` the
-`whole` thing `started` was `changing` my `Django` project `name` midstream. I
-will `discuss` what I `did` to `fix` this `later` on.
+Working with Python alone was not a problem. Getting pyenv to work properly was
+a bit of a problem. Getting my Django install and application to work was also a
+bit of a challenge. What got the whole thing started was changing my Django
+project name midstream. I will discuss what I did to fix this later on.
 
 ### Fixing the pyenv install
 
-1. I got `rid` of `versions` of `Python` I had `installed` via `python.org`
-   which `resided` in the `Applications` folder so `that` there `would` be `no`
-   potential `conflicts` between `Python` versions `installed` via `python.org`
-   and those `installed` via `Homebrew` or `pyenv`.
+1. I got rid of versions of Python I had installed via
+   [python.org](https://www.python.org) which resided in the Applications folder
+   so that there would be no potential conflicts between Python versions
+   installed via [python.org](https://www.python.org) and those installed via
+   Homebrew or pyenv.
 
-2. I uninstalled `pyenv` with the `brew uninstall pyenv` command, and then
-   `re-installed` it with the `brew install pyenv` command.
+2. I uninstalled pyenv with the `brew uninstall pyenv` command, and then
+   re-installed it with the `brew install pyenv` command.
 
-3. I `made sure` that `pyenv` was in `PATH`. I `added` the `following` to the
-   `bottom` of my `.zshrc` file:
+3. I made sure that pyenv was in PATH. I added the following to the bottom of my
+   .zshrc file:
 
 ```shell
 export PYENV_ROOT="$HOME/.pyenv"
@@ -234,10 +228,10 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 ```
 
-4. I ran `exec $SHELL` to `start` a `new` zsh `session` in `Terminal`.
+4. I ran `exec $SHELL` to start a new zsh session in Terminal.
 
-5. I ran `pyenv install --list` to `see` what `versions` of `Python` were
-   `available` via `pyenv`. The `following` was `returned`:
+5. I ran `pyenv install --list` to see what versions of Python were available
+   via pyenv. The following was returned:
 
 ```shell
 Available versions:
@@ -1295,7 +1289,7 @@ Which returns:
   3.14t-dev
 ```
 
-`This` command `redirects` the `pyenv install -l` command as `stdin` to
+This command redirects the `pyenv install -l` command as `stdin` to
 `grep '^ [0-9]'`. In other words, the command lists all the available Python
 versions available for install using pyenv, but it filters the list to only
 return versions that begin with a number. Those versions represent Python
@@ -1307,92 +1301,88 @@ pyenv.
 The `|` (pipe) shell operator takes the output of `pyenv install -l` and uses it
 as stdin of `grep '^ [0-9]'`.
 
-`grep '^ [0-9]'` filters the ()`pyenv install -l`) `list` to `display` only
-`lines` that `begin` with `two spaces` (`beginning` represented by `^`) and
-`followed` by a `digit` (`represented` by [0-9]). `That` is `all` that's
-`needed`, `because` the `rest` of the `versions` that `are` returned `begin`
-with an `alpha character`.
+`grep '^ [0-9]'` filters the (`pyenv install -l`) list to display only lines
+that begin with two spaces (beginning represented by `^`) and followed by a
+digit (represented by [0-9]). That is all that's needed, because the rest of the
+versions that are returned begin with an alpha character.
 
-6. I `decided` to go with `Python3` version `3.12.5`, and `installed` it with
-   the `pyenv install 3.12.5` command. `However`, when I ran
-   `python3 --version`, `Python 3.8.3` was `still returned`.
+6. I decided to go with Python3 version 3.12.5, and installed it with the
+   `pyenv install 3.12.5` command. However, when I ran `python3 --version`,
+   Python 3.8.3 was still returned.
 
-7. I `ran` the `pyenv local 3.12.5` command, and then ran `python3 --version`.
-   This time `Python 3.12.5` was returned!
+7. I ran the `pyenv local 3.12.5` command, and then ran `python3 --version`.
+   This time Python 3.12.5 was returned!
 
 ### Determining which versions of Python have been installed with pyenv
 
-If I `wanted` to `figure out` which `versions` of `Python` I had `installed`
-with `pyenv`, I could `run` the `following command` in `Terminal`:
+If I wanted to figure out which versions of Python I had installed with pyenv, I
+could run the following command in Terminal:
 
 ```shell
 ls ~/.pyenv/versions/
 ```
 
-`Which` in my case `returns`:
+Which in my case returns:
 
 ```shell
 3.12.5 3.8.2  3.8.3
 ```
 
-`Each` Python `version` that is `installed` with `pyenv` is `located` in the
-`.pyenv` root `directory` (`~/.pyenv/versions/`). And `pyenv` builds `Python`
-from `source`. `For example`, if I `run` the command `cd .pyenv/versions/` from
-my `home` directory, the `following` is `returned`:
+Each Python version that is installed with pyenv is located in the .pyenv root
+directory (`~/.pyenv/versions/`). And pyenv builds Python from source. For
+example, if I run the command `cd .pyenv/versions/` from my home directory, the
+following is returned:
 
 ```shell
 ~/.pyenv/versions git: (master)
 ```
 
-`pyenv` builds `Python` from its `remote` Git `repository` as `indicated` by
+pyenv builds Python from its remote Git repository as indicated by
 `git: (master)`.
 
-This `was` very `helpful` in `figuring out` how I had `installed` Python `3.8.3`
-so that I would `know how` to `update` Python from `3.8.3` to `3.12.5`.
+This was very helpful in figuring out how I had installed Python 3.8.3 so that I
+would know how to update Python from 3.8.3 to 3.12.5.
 
 ### The pyenv local command
 
-The `pyenv local` command `sets` the `local` Python `version` to be `used` in
-the `current directory` and `all` directories `underneath` it. It writes the
-version name to a file named `.python-version` in the `current directory`. This
-`local version` takes `precedence` over the `global version` set by
-`pyenv global`.
+The `pyenv` local command sets the local Python version to be used in the
+current directory and all directories underneath it. It writes the version name
+to a file named `.python-version` in the current directory. This local version
+takes precedence over the global version set by `pyenv global`.
 
-I ran `pyenv local 3.12.5` in `/Users/mariacam`, my `home` directory. I `did`
-this `so` that `all` other `directories` and `subdirectories` within the `home`
-directory would `all inherit` this `command`. `And` they `did`.
+I ran `pyenv local 3.12.5` in `/Users/mariacam`, my home directory. I did this
+so that all other directories and subdirectories within the home directory would
+all inherit this command. And they did.
 
 ## Selecting a Python interpreter inside your Favorite IDE
 
-`Before` installing `virtualenv`, I `select` a `Python` interpreter in
-`Visual Studio Code`. There are `many interpreters` to `choose from`:
+Before installing virtualenv, I select a Python interpreter in Visual Studio
+Code. There are many interpreters to choose from:
 
 ![Screenshot of Python interpreters available in Visual Studio Code](Screenshot-2024-08-27-at-7.25.19-AM.jpg)
 
 _Screenshot of Python interpreters available in Visual Studio Code_
 
-`Since` I am `using` Python `3.12.5` installed with `pyenv`, I `selected` the
-Python `3.12.5` interpreter `installed` with `pyenv`
-(`~/.pyenv/versions/3.12.5/bin/python`).
+Since I am using Python 3.12.5 installed with pyenv, I selected the Python
+3.12.5 interpreter installed with pyenv (`~/.pyenv/versions/3.12.5/bin/python`).
 
 ## Installing virtualenv
 
-`Next`, I used `pip` to install `virtualenv`.
+Next, I used pip to install virtualenv.
 
-`pip` is the `package installer` for `Python`. It `allows` you to `install` and
-manage `libraries` and `dependencies` that are `not` part of the
-`Python standard library`. With `pip`, you can `find`, `install`, `upgrade`, and
-`uninstall` Python `packages`.
+pip is the package installer for Python. It allows you to install and manage
+libraries and dependencies that are not part of the Python standard library.
+With pip, you can find, install, upgrade, and uninstall Python packages.
 
-Some essential `pip` commands include:
+Some essential pip commands include:
 
--   `pip install <package-name>`: To install a package
--   `pip uninstall <package-name>`: To uninstall a package
--   `pip list`: To list installed packages
--   `pip show <package-name>`: To display information about a particular package
+- `pip install <package-name>`: To install a package
+- `pip uninstall <package-name>`: To uninstall a package
+- `pip list`: To list installed packages
+- `pip show <package-name>`: To display information about a particular package
 
-`To` install `virtualenv`, I `ran` the `pip3 install virtualenv`. I `made sure`
-that I installed `virtualenv` at the `root` of my `Django` project. `Revisiting`
+To install virtualenv, I ran the `pip3 install virtualenv`. I made sure that I
+installed virtualenv at the root of my Django project. Revisiting
 [the directory structure](#the-directory-structure):
 
 ```shell
@@ -1400,26 +1390,26 @@ that I installed `virtualenv` at the `root` of my `Django` project. `Revisiting`
   - /django-boards # this is the project root directory where I install virtualenv
 ```
 
-`pip3` is `similar` to `pip` but `specifically` for `Python 3.x` versions. It is
-the `package installer` for `libraries` and `dependencies` in `Python 3`
-environments. This `helps distinguish` between `Python 2` packages and
-`Python 3` packages on `systems` where `both versions` are `installed`.
+pip3 is similar to pip but specifically for Python 3.x versions. It is the
+package installer for libraries and dependencies in Python 3 environments. This
+helps distinguish between Python 2 packages and Python 3 packages on systems
+where both versions are installed.
 
-`pip3` is `installed` with `Python 3x` versions.
+pip3 is installed with Python 3x versions.
 
 ### What is virtualenv?
 
-`virtualenv` is a `tool` for `creating` isolated `Python` environments. It
-`allows` you to `create` a `self-contained` directory that `contains` a Python
-`installation` and `packages`, `isolated` from `other` Python `environments` on
-a `system`. This is `useful` for `managing` project-specific `dependencies` and
-avoiding `conflicts` between `different projects`.
+virtualenv is a tool for creating isolated Python environments. It allows you to
+create a self-contained directory that contains a Python installation and
+packages, isolated from other Python environments on a system. This is useful
+for managing project-specific dependencies and avoiding conflicts between
+different projects.
 
 ### Creating a virtual environment for the Django application
 
-`Once` I installed `virtualenv` with `pip3`, I `had` to `create` my
-`Django Boards` application `virtual environment`, so I `ran` the
-`virtualenv venv -p python3` command and the `result` was the `following`:
+Once I installed virtualenv with pip3, I had to create my Django Boards
+application virtual environment, so I ran the `virtualenv venv -p python3`
+command and the result was the following:
 
 ```shell
 /Users/mariacam
@@ -1427,76 +1417,70 @@ avoiding `conflicts` between `different projects`.
     - /venv
 ```
 
-To `create` a `virtual environment` with the `virtualenv` command, I `ran` the
-`following` in `Terminal`:
+To create a virtual environment with the virtualenv command, I ran the following
+in Terminal:
 
 ```shell
 virtualenv venv -p python 3
 ```
 
-The `virtualenv venv -p python3` command `creates` a `new` virtual `environment`
-named `venv` and `specifies` that it `should` use `Python 3.x` as the
-`Python interpreter`. It is `common practice` to `name` the `virtual`
-environment `venv`.
+The `virtualenv venv -p python3` command creates a new virtual environment named
+"venv" and specifies that it should use Python 3.x as the Python interpreter. It
+is common practice to name the virtual environment "venv".
 
--   `virtualenv` is the `command` for `creating` a `new` virtual `environment`.
--   `venv` is the `name` of the `directory` where the `virtual environment` is
-    `created`.
--   the `-p python3` option `specifies` the `Python interpreter` to `use` for
-    the `virtual environment`. `In` this `case`, it is `set` to use
-    `Python 3.x`.
+- `virtualenv` is the command for creating a new virtual environment.
+- "venv" is the name of the directory where the virtual environment is created.
+- the `-p python3` option specifies the Python interpreter to use for the
+  virtual environment. In this case, it is set to use Python 3.x.
 
 ### Activating the virtual environment
 
-To `activate` the `virtual environment` I just `created`, I `ran` the
-`source venv/bin/activate` command. This `command` is `used` to `activate` a
-`virtual environment` in `Unix-like` systems such as `Linux` and `macOS`.
+To activate the virtual environment I just created, I ran the
+`source venv/bin/activate` command. This command is used to activate a virtual
+environment in Unix-like systems such as Linux and macOS.
 
--   `source` is a `built-in` shell `command` that `reads` and `executes`
-    commands from a `file` in the `current` shell `session`.
--   `venv/bin/activate` is the `path` to the `"activate"` script in the
-    `virtual environment` directory (`if` the `virtual environment` is
-    `actually` named `venv`).
--   The `"activate"` script `sets up` the `environment variables` needed to
-    `use` the `virtual environment`.
+- `source` is a built-in shell command that reads and executes commands from a
+  file in the current shell session.
+- `venv/bin/activate` is the path to the "activate" script in the virtual
+  environment directory (if the virtual environment is actually named "venv").
+- The "activate" script sets up the environment variables needed to use the
+  virtual environment.
 
-`When` you run `source venv/bin/activate`, it `modifies` your `shell session` to
-`use` the `Python interpreter` and `libraries` located in the `venv` directory
-`instead` of the `system-wide` Python `installation`. The `command` prompt
-`changes` to `indicate` that `you` are now `working within` the
-`virtual environment`. For example, `when` I `activate` my `venv` virtual
-`environment`, my `command` prompt `changes` to the `following`:
+When you run `source venv/bin/activate`, it modifies your shell session to use
+the Python interpreter and libraries located in the "venv" directory instead of
+the system-wide Python installation. The command prompt changes to indicate that
+you are now working within the virtual environment. For example, when I activate
+my `venv` virtual environment, my command prompt changes to the following:
 
 ```shell
 (venv)  mariacam@Marias-MBP  ~/Python-Development/django-boards   main ●
 ```
 
-`(venv)` is `added` to the `beginning` of the `command prompt`.
+`(venv)` is added to the beginning of the command prompt.
 
 ### Deactivating the virtual environment
 
-`In order` to `deactivate` the `virtual environment`, I `run` the
-`following command` in `Terminal`:
+In order to deactivate the virtual environment, I run the following command in
+Terminal:
 
 ```shell
 deactivate
 ```
 
-`Since` I was `going` to `continue working` on `Django Boards`, I `did` not
-`deactivate` it. My `virtual environment` needs to be `activated` in `order` to
-`be able` to `develop` my `Django application`.
+Since I was going to continue working on Django Boards, I did not deactivate it.
+My virtual environment needs to be activated in order to be able to develop my
+Django application.
 
 ## Installing Django
 
-`To` install `django` in my `Django application`, I `run` the
-`following command` at the `root` of the `Django Boards` project
-(`/django-boards`):
+To install django in my Django application, I run the following command at the
+root of the Django Boards project (`/django-boards`):
 
 ```shell
 pip3 install django
 ```
 
-`And` the `following` is `returned` in `Terminal`:
+And the following is returned in Terminal:
 
 ```shell
 Collecting django
@@ -1512,23 +1496,23 @@ Installing collected packages: sqlparse, asgiref, django
 Successfully installed asgiref-3.8.1 django-5.1 sqlparse-0.5.1
 ```
 
-`Now` I am `ready` to continue `developing` my `Django` application!
+Now I am ready to continue developing my Django application!
 
 ## Conclusion
 
 In this section, I created the project directory, installed pyenv with Homebrew,
-installed Python 3.12.5 with pyenv, executed the pyenv local command, installed
-virtualenv and created a virtual environment, activated and deactivated the
-environment, and installed Django.
+installed Python 3.12.5 with pyenv, executed the `pyenv` local command,
+installed virtualenv and created a virtual environment, activated and
+deactivated the environment, and installed Django.
 
 ## Related Resources
 
 [A Complete Beginner's Guide to Django](https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/):
-**_by Vitor Freitas_**
+_by Vitor Freitas_
 
--   [Create a project environment for the Django tutorial](https://code.visualstudio.com/docs/python/tutorial-django):
-    **_Visual Studio Code docs_**
+- [Create a project environment for the Django tutorial](https://code.visualstudio.com/docs/python/tutorial-django):
+  _Visual Studio Code docs_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
