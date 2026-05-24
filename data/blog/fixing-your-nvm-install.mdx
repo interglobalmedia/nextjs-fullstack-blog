@@ -4,34 +4,36 @@ date: '2017-01-15T12:30:17.013Z'
 lastModified: '2023-02-09T17:19:17.013Z'
 title: 'Fixing Your NVM Install'
 author: 'Maria D. Campbell'
-excerpt: 'Fixing your nvm install.'
+excerpt: 'How to fix your nvm install.'
 image: nvm.jpg
-tags:
-    [
-        'command line',
-        'nodejs',
-        'nvm',
-        'oh my zsh',
-        'osx',
-        'zshell'
-    ]
+tags: ['command line', 'nodejs', 'nvm', 'oh my zsh', 'osx', 'zshell']
 isPublished: true
 isFeatured: false
 ---
 
 ![Image of the NVM Node.js version manager](nvm.jpg)
 
-***[NVM Node.js Version Manager](https://github.com/nvm-sh/nvm)***
+_[NVM Node.js Version Manager](https://github.com/nvm-sh/nvm)_
 
-The ***other day*** I ***wrote*** a `post` ***entitled***  [What To Do When You Can’t Upgrade Oh my zsh](/posts/what-to-do-when-you-cant-upgrade-oh-my-zsh/) in
-which I ***mentioned*** that my ***next post*** would be ***about fixing*** my `nvm` ***install***. So ***this morning*** I ***did*** just ***that***. I ***fixed*** my `nvm` ***install***, and ***now*** it ***works***. It ***only took*** a ***couple*** of ***minutes*** out of my ***morning***, and ***now*** there is ***one less headache*** on ***my machine***!
+The other day I wrote a post entitled
+ [What To Do When You Can’t Upgrade Oh my zsh](/posts/what-to-do-when-you-cant-upgrade-oh-my-zsh/) in
+which I mentioned that my next post would be about fixing my nvm install. So
+this morning I did just that. I fixed my nvm install, and now it works. It only
+took a couple of minutes out of my morning, and now there is one less headache
+on my machine!
 
-***First*** I ***did*** a ***bit*** of `research` on the ***topic***, and ***came up*** with the **_thread_** [Node Version Manager install – nvm command not found](https://stackoverflow.com/questions/16904658/node-version-manager-install-nvm-command-not-found), because ***that*** is ***what*** I would ***come up*** with when ***trying*** to ***find out*** what ***version***
-of `nvm` I had ***installed*** on my `computer`. `Z shell` had **_not_** been **_recognizing_**
-anything `nvm`. I **_followed_** the ***link*** in the **_thread_** to
-[NVM on Github](https://github.com/creationix/nvm) and ***read more*** on ***installing***
-`nvm`. The `thread` on `StackOverflow` was a bit ***more pertinent*** to ***my situation***, so I
-***stuck*** with the `explanation` ***there***. ***One thing*** I ***should note*** that ***might confuse*** you if you ***decide*** to ***go*** the `NVM on Github` ***route***, is to ***ignore*** the ***suggestion*** to ***type*** the `nvm -v` ***command*** to ***check*** and ***see*** what **_version_** of `nvm` ***you have*** on ***your computer*** if ***you use*** `Z shell`. ***That*** `command` will ***not*** be ***recognized*** by it. ***When*** I ***typed*** `nvm -v` in `CL`, ***then*** I ***received***
+First I did a bit of research on the topic, and came up with the thread
+[Node Version Manager install – nvm command not found](https://stackoverflow.com/questions/16904658/node-version-manager-install-nvm-command-not-found),
+because that is what I would come up with when trying to find out what version
+of nvm I had installed on my computer. Z shell had not been recognizing anything
+nvm. I followed the link in the thread to
+[NVM on Github](https://github.com/creationix/nvm) and read more on installing
+nvm. The thread on StackOverflow was a bit more pertinent to my situation, so I
+stuck with the explanation there. One thing I should note that might confuse you
+if you decide to go the NVM on Github route, is to ignore the suggestion to type
+the `nvm -v` command to check and see what version of nvm you have on your
+computer if you use Z shell. That command will not be recognized by it. When I
+typed `nvm -v` in CL, then I received
 
 ```shell
 Node Version Manager
@@ -91,62 +93,72 @@ Note:
 to remove, delete, or uninstall nvm - just remove the `$NVM_DIR` folder (usually `~/.nvm`)So, as stated above, typenvm --version
 ```
 
-So, ***as*** stated ***above***, type
+So, as stated above, type
 
 ```shell
 nvm --version
 ```
 
-Just ***be aware*** that ***there*** are **_some differences*** between `bash`
-***commands*** and `Z shell` (Oh my zsh) ***commands***. They even ***have written*** `books` on it.
-**_From Bash to Z Shell: Conquering the Command Line_** is one. ***Don’t know*** if
-it’s ***any good*** and it is ***somewhat dated***, but ***serves*** as an ***example***.
+Just be aware that there are some differences between bash commands and Z shell
+(Oh my zsh) commands. They even have written books on it. From Bash to Z Shell:
+Conquering the Command Line is one. Don’t know if it’s any good and it is
+somewhat dated, but serves as an example.
 
-**8**, I ***went into*** my `~/` (`home`) ***directory*** in `iTerm2` to ***make sure*** that I ***did*** indeed ***have*** an `~/.nvm` ***folder***, and ***I did***. Then, ***after*** a ***bit*** of ***research*** and ***falling back*** on ***what*** I ***had learned*** when [fixing](/posts/what-to-do-when-you-cant-upgrade-oh-my-zsh/) my `Z Shell` (`Oh my zsh`) ***install***, I ***typed***
+Next, I went into my `~/` (`home`) directory in iTerm2 to make sure that I did
+indeed have an `~/.nvm` directory, and I did. Then, after a bit of research and
+falling back on what I had learned when
+[fixing](/posts/what-to-do-when-you-cant-upgrade-oh-my-zsh/) my Z Shell (Oh my
+zsh) install, I typed
 
 ```shell
 source ~/.nvm/nvm.sh
 ```
 
-in the **_current_** `iTerm2` ***instance***. ***Below*** is the ***message*** I ***received*** when
-I ***hit*** `return`:
+in the current iTerm2 instance. Below is the message I received when I hit
+return:
 
 ```shell
 nvm is not compatible with the npm config "prefix" option: currently set to "/Users/mariacam/.npm-global"
 Run `npm config delete prefix` or `nvm use --delete-prefix v4.4.7 --silent` to unset it.
 ```
 
-I ***chose*** the ***former*** and ***typed***
+I chose the former and typed
 
 ```shell
 npm config delete prefix
 ```
 
-***After that*** I ***typed***
+After that, I typed
 
 ```shell
 nvm --version
 ```
 
-in `CL` and ***received*** the ***following*** when I ***hit*** `return`
+in CL and received the following when I hit return:
 
 ```shell
 0.31.4
 ```
 
-I ***guess*** I ***should be*** `updating` my `NVM` ***install***! ***Perhaps*** we’ll ***cover that*** in my ***next*** `post`.
+I guess I should be updating my NVM install! Perhaps we’ll cover that in my next
+post.
 
 ```shell
 OSX operating system: El Capitan 10.11.6
 ```
 
-**Note:** ***When*** I ***checked*** to ***see*** what ***version*** of `Node` I had ***installed*** on ***my*** `computer`, I ***was surprised*** to ***see*** that I had **_version_** `4.4.7` ***installed***. I ***had been*** downloading ***latest versions*** via `Command Line` for ***a while***, **_thinking_** that I was being ***automatically updated*** as in ***the past***.
-***However***, I had ***installed*** `NVM` ***since then***, and it ***takes care*** of ***managing*** which `versions` you ***want*** to ***use***. So ***simply downloading*** `Node` ***expecting*** a `miracle` ***to happen*** won’t work. You ***have*** to ***do*** the ***following***:
+**Note:** When I checked to see what version of Node I had installed on my
+computer, I was surprised to see that I had version 4.4.7 installed. I had been
+downloading latest versions via Command Line for a while, thinking that I was
+being automatically updated as in the past. However, I had installed NVM since
+then, and it takes care of managing which versions you want to use. So simply
+downloading Node expecting a miracle to happen won’t work. You have to do\_ the
+following:
 
 ```shell
 nvm install 7.4.0
 ```
 
-***for example***, or ***whichever other*** `version` you ***want*** to ***use***. It’s ***that simple***! 
+for example, or whichever other version you want to use. It’s that simple!
 
-*Happy noding*!
+Happy noding!

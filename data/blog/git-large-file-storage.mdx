@@ -4,7 +4,9 @@ date: '2020-02-24T12:38:50.225Z'
 lastModified: '2020-02-24T12:38:50.225Z'
 title: Git Large File Storage
 author: Maria D. Campbell
-excerpt: Using Git Large File Storage in your repositories.
+excerpt:
+    How to use Git Large File Storage to manage large files in your
+    repositories.
 image: robert-v-ruggiero-sspxcjdjb9s-unsplash.webp
 tags: ['git', 'github', 'git large file storage']
 isPublished: true
@@ -13,62 +15,59 @@ isFeatured: false
 
 ![Git Large File Storage](robert-v-ruggiero-sspxcjdjb9s-unsplash.webp)
 
-**_Photo by_** [Robert V. Ruggiero](https://unsplash.com/@rvrmakes) **_on_**
+_Photo by_ [Robert V. Ruggiero](https://unsplash.com/@rvrmakes) _on_
 [unsplash.com](https://unsplash.com/photos/sSpxCJDjb9s)
 
-I finally have reached the stage of adding `.mov` files to my **Github**
-repositories, and was made aware of the need to use `Git Large File Storage`. I
-never thought I would have to download it (with `Homebrew` of course), but the
+I finally have reached the stage of adding `.mov` files to my Github
+repositories and was made aware of the need to use "Git Large File Storage". I
+never thought I would have to download it (with Homebrew of course), but the
 other morning I finally had to take the plunge.
 
-So what is `Git Large File Storage` (`LFS`)? It is an **_open source_** `Git`
-**extension** for **_versioning_** large files. It **_replaces_** **large
-files** such as `audio samples`, `videos`, `datasets`, and `graphics` with
-`text pointers` inside `Git`, while **_storing_** the **file contents** on a
-**remote server** like `Github.com` or `Github Enterprise`.
+So what is "Git Large File Storage" (LFS)? It is an open source Git extension
+for versioning large files. It replaces large files such as audio samples,
+videos, datasets, and graphics with text pointers inside Git, while storing the
+file contents on a remote server like Github.com or Github Enterprise.
 
-First I had to **install** the `Git command line` **extension**. I did this with
-`Homebrew` by **_typing_** the **following command** in `Terminal` followed by
-**_pressing_** the `enter/return` key:
+First I had to install the Git command line extension. I did this with Homebrew
+by typing the following command in Terminal followed by pressing the
+enter/return key:
 
 ```shell
 brew install git-lfs
 ```
 
-Then I **_executed_** the **following command** in `Terminal`:
+Then I executed the following command in Terminal:
 
 ```shell
 git lfs install
 ```
 
-I only need to run this once per user account.
+I only needed to run this once per user account.
 
-In each repository where I want to use `Git LFS`, I select the `file types` I'd
-like `Git LFS` to **_manage_**. Or I can **_directly_** edit my `.gitattributes`
-file. I have to **_track_** `.mov` files, so I did the following in the
-repository I was working on:
+In each repository where I want to use Git LFS, I select the file types I'd like
+Git LFS to manage. Or I can directly edit my `.gitattributes` file. I have to
+track `.mov` files, so I did the following in the repository I was working on:
 
 ```shell
 git lfs track "*.mov"
 ```
 
-Then I make sure to add my .gitattributes to the staging area, and then commit
+Then I made sure to add my `.gitattributes` to the staging area, and then commit
 it.
 
-If you have **_pre-existing_** **files** that you need to **_convert_** to
-`Git LFS` **_within_** your **repository**, such as on **other branches** or in
-your **_prior_** **commit history** in your **_repository_**, you have to use
-the `git lfs migrate[1]` **command**, which has options designed to suit various
-use cases.
+If you have pre-existing files that you need to convert to Git LFS within your
+repository, such as on other branches or in your prior commit history in your
+repository, you have to use the `git lfs migrate[1]` command, which has options
+designed to suit various use cases.
 
-After you have **_tracked_** the **files** you want to **track** and
-**_committed_** the `.gitattributes` file, then you can simply `commit` your
-**files** and `push` them to `origin master`. And that is it!
+After you have tracked the files you want to track and committed the
+`.gitattributes` file, then you can simply commit your files and push them to
+origin master. And that is it!
 
 ![Git File Large Storage](git-large-file-storage.webp)
 
-**_Git File Large Storage_**
+_Git File Large Storage_
 
 ## Related Resources
 
--   [Git Large File Storage](https://git-lfs.github.com./)
+- [Git Large File Storage](https://git-lfs.github.com./)
