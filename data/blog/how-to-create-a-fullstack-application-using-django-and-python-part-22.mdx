@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-22
 date: '2024-10-01T15:17:34.665Z'
-lastModified: '2024-12-18T07:21:34.665Z'
+lastModified: '2026-05-25T19:37:34.665Z'
 title: How to create a fullstack application using Django and Python Part 22
 author: Maria D. Campbell
 excerpt: "In this section, I implement a Generic Class Based view and
@@ -19,96 +19,93 @@ isFeatured: false
 
 ![Women linking their arms together](pexels-arkhod-85162625-9939244.jpg)
 
-**_Photo by_** [Arkhod](https://www.pexels.com/@arkhod-85162625/) **_on_**
+_Photo by_ [Arkhod](https://www.pexels.com/@arkhod-85162625/) **_on_**
 [pexels.com](https://www.pexels.com/photo/back-view-of-women-holding-each-others-hands-9939244/)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+_Important Note_: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Using a Class Based View (CBV) on the index/home page](#using-a-class-based-view-cbv-on-the-index-home-page)
-    -   [What is a Class Based View?](#what-is-a-class-based-view)
-    -   [Class Based View (CBV) example](#class-based-view-cbv-example)
--   [Refactoring the index/home page to include a Generic Class Based View (GCBV)](#refactoring-the-index-home-page-to-include-a-generic-class-based-view-gcbv)
-    -   [Refactoring the index url in urls.py](#refactoring-the-index-url-in-urlspy)
-    -   [Refactoring boards/tests/test_view_index_tests.py](#refactoring-boards-tests-test-view-index-testspy)
--   [Pagination](#pagination)
-    -   [Adding dummy posts to board_topics to enable the display of pagination](#adding-dummy-posts-to-board-topics-to-enable-the-display-of-pagination)
-    -   [Experimenting with the Python shell](#experimenting-with-the-python-shell)
-    -   [Importing the Paginator utility](#importing-the-paginator-utility)
--   [Function Based View (FBV) Pagination](#function-based-view-fbv-pagination)
-    -   [board_topics in boards/views.py](#board-topics-in-boards-viewspy)
--   [Adding pagination to templates/topics.html](#adding-pagination-to-templates-topicshtml)
--   [Replacing board_topics FBV pagination with GCBV pagination](#replacing-board-topics-fbv-pagination-with-gcbv-pagination)
-    -   [get_context_data](#get-context-data)
-    -   [Refactoring the board_topics url in urls.py](#refactoring-the-board-topics-url-in-urlspy)
-    -   [paginate_by](#paginate-by)
-    -   [Refactoring boards/tests/test_view_board_topics.py](#refactoring-boards-tests-test-view-board-topicspy)
--   [Creating a reusable pagination template](#creating-a-reusable-pagination-template)
-    -   [Refactoring the topic_posts view](#refactoring-the-topic-posts-view)
-    -   [Updating the topic_posts URL](#updating-the-topic-posts-url)
-    -   [Creating the templates/includes/pagination.html reusable template](#creating-the-templates-includes-paginationhtml-reusable-template)
-    -   [Adding templates/includes/pagination.html to templates/topic_posts.html](#adding-templates-includes-paginationhtml-to-templates-topic-postshtml)
-    -   [Adding pagination to templates/topics.html](#adding-pagination-to-templates-topicshtml)
-    -   [Adding more topics to templates/topics.html](#adding-more-topics-to-templates-topicshtml)
-    -   [Adding topic replies to templates/topic_posts.html](#adding-topic-replies-to-templates-topic-postshtml)
-    -   [Adding topic replies to a specific board with a specific topic id and specific user (templates/topic_posts.html)](#adding-topic-replies-to-a-specific-board-with-a-specific-topic-id-and-specific-user-templates-topic-postshtml))
--   [Running python3 manage.py test boards.tests.test_view_topic_posts_tests](#running-python3-managepy-test-boardsteststest-view-topic-posts-tests)
--   [Improving upon the initial Bootstrap 5 pagination implementation in the templates](#improving-upon-the-initial-bootstrap-5-pagination-implementation-in-the-templates)
-    -   [Adding JavaScript to make scrollbar return to bottom of page when pagination item is clicked](#adding-javascript-to-make-scrollbar-return-to-bottom-of-page-when-pagination-item-is-clicked)
-    -   [Adding a scroll top button to templates/base.html](#adding-a-scroll-top-button-to-templates-basehtml)
-    -   [Adding material icons to templates/base.html](#adding-material-icons-to-templates-basehtml)
-    -   [Making the scroll top button appear and disappear based on scrollY position](#making-the-scroll-top-button-appear-and-disappear-based-on-scrolly-position)
-    -   [Adding a scroll bottom button to templates/base.html](#adding-a-scroll-bottom-button-to-templates-basehtml)
-    -   [Making the scroll bottom button appear and disappear based on scrollY position](#making-the-scroll-bottom-button-appear-and-disappear-based-on-scrolly-position)
-    -   [The CSS for the scroll top and scroll bottom buttons in static/css/app.css](#the-css-for-the-scroll-top-and-scroll-bottom-buttons-in-static-css-appcss)
-    -   [Adding a copy link button to the topic_posts and post_detail views](#adding-a-copy-link-button-to-the-topic-posts-and-post-detail-views)
-    -   [The copy link button styling in static/css/app.css](#the-copy-link-button-styling-in-static-css-appcss)
-    -   [Fixing the copy link button and reply button styling](#fixing-the-copy-link-button-and-reply-button-styling)
-    -   [Refactoring the copy link button html in templates/topic_posts.html and templates/post_detail.html](#refactoring-the-copy-link-button-html-in-templates-topic-postshtml-and-templates-post-detailhtml)
-    -   [Improving on the templates/post_details.html styling](#improving-on-the-templates-post-detailshtml-styling)
-    -   [Fixing the logout button styling](#fixing-the-logout-button-styling)
--   [Making the names of the boards tests files consistent](#making-the-names-of-the-boards-tests-files-consistent)
--   [Conclusion](#conclusion)
--   [Footnotes](#footnotes)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Using a Class Based View (CBV) on the index/home page](#using-a-class-based-view-cbv-on-the-index-home-page)
+    - [What is a Class Based View?](#what-is-a-class-based-view)
+    - [Class Based View (CBV) example](#class-based-view-cbv-example)
+- [Refactoring the index/home page to include a Generic Class Based View (GCBV)](#refactoring-the-index-home-page-to-include-a-generic-class-based-view-gcbv)
+    - [Refactoring the index url in urls.py](#refactoring-the-index-url-in-urlspy)
+    - [Refactoring boards/tests/test_view_index_tests.py](#refactoring-boards-tests-test-view-index-testspy)
+- [Pagination](#pagination)
+    - [Adding dummy posts to board_topics to enable the display of pagination](#adding-dummy-posts-to-board-topics-to-enable-the-display-of-pagination)
+    - [Experimenting with the Python shell](#experimenting-with-the-python-shell)
+    - [Importing the Paginator utility](#importing-the-paginator-utility)
+- [Function Based View (FBV) Pagination](#function-based-view-fbv-pagination)
+    - [board_topics in boards/views.py](#board-topics-in-boards-viewspy)
+- [Adding pagination to templates/topics.html](#adding-pagination-to-templates-topicshtml)
+- [Replacing board_topics FBV pagination with GCBV pagination](#replacing-board-topics-fbv-pagination-with-gcbv-pagination)
+    - [get_context_data](#get-context-data)
+    - [Refactoring the board_topics url in urls.py](#refactoring-the-board-topics-url-in-urlspy)
+    - [paginate_by](#paginate-by)
+    - [Refactoring boards/tests/test_view_board_topics.py](#refactoring-boards-tests-test-view-board-topicspy)
+- [Creating a reusable pagination template](#creating-a-reusable-pagination-template)
+    - [Refactoring the topic_posts view](#refactoring-the-topic-posts-view)
+    - [Updating the topic_posts URL](#updating-the-topic-posts-url)
+    - [Creating the templates/includes/pagination.html reusable template](#creating-the-templates-includes-paginationhtml-reusable-template)
+    - [Adding templates/includes/pagination.html to templates/topic_posts.html](#adding-templates-includes-paginationhtml-to-templates-topic-postshtml)
+    - [Adding pagination to templates/topics.html](#adding-pagination-to-templates-topicshtml)
+    - [Adding more topics to templates/topics.html](#adding-more-topics-to-templates-topicshtml)
+    - [Adding topic replies to templates/topic_posts.html](#adding-topic-replies-to-templates-topic-postshtml)
+    - [Adding topic replies to a specific board with a specific topic id and specific user (templates/topic_posts.html)](#adding-topic-replies-to-a-specific-board-with-a-specific-topic-id-and-specific-user-templates-topic-postshtml))
+- [Running python3 manage.py test boards.tests.test_view_topic_posts_tests](#running-python3-managepy-test-boardsteststest-view-topic-posts-tests)
+- [Improving upon the initial Bootstrap 5 pagination implementation in the templates](#improving-upon-the-initial-bootstrap-5-pagination-implementation-in-the-templates)
+    - [Adding JavaScript to make scrollbar return to bottom of page when pagination item is clicked](#adding-javascript-to-make-scrollbar-return-to-bottom-of-page-when-pagination-item-is-clicked)
+    - [Adding a scroll top button to templates/base.html](#adding-a-scroll-top-button-to-templates-basehtml)
+    - [Adding material icons to templates/base.html](#adding-material-icons-to-templates-basehtml)
+    - [Making the scroll top button appear and disappear based on scrollY position](#making-the-scroll-top-button-appear-and-disappear-based-on-scrolly-position)
+    - [Adding a scroll bottom button to templates/base.html](#adding-a-scroll-bottom-button-to-templates-basehtml)
+    - [Making the scroll bottom button appear and disappear based on scrollY position](#making-the-scroll-bottom-button-appear-and-disappear-based-on-scrolly-position)
+    - [The CSS for the scroll top and scroll bottom buttons in static/css/app.css](#the-css-for-the-scroll-top-and-scroll-bottom-buttons-in-static-css-appcss)
+    - [Adding a copy link button to the topic_posts and post_detail views](#adding-a-copy-link-button-to-the-topic-posts-and-post-detail-views)
+    - [The copy link button styling in static/css/app.css](#the-copy-link-button-styling-in-static-css-appcss)
+    - [Fixing the copy link button and reply button styling](#fixing-the-copy-link-button-and-reply-button-styling)
+    - [Refactoring the copy link button html in templates/topic_posts.html and templates/post_detail.html](#refactoring-the-copy-link-button-html-in-templates-topic-postshtml-and-templates-post-detailhtml)
+    - [Improving on the templates/post_details.html styling](#improving-on-the-templates-post-detailshtml-styling)
+    - [Fixing the logout button styling](#fixing-the-logout-button-styling)
+- [Making the names of the boards tests files consistent](#making-the-names-of-the-boards-tests-files-consistent)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
+- [Footnotes](#footnotes)
 
 ## Using a Class Based View (CBV) on the index/home page
 
-Now we are going to `use` a `Class Based View` (`CBV`) on our `home page`.
+Now we are going to use a Class Based View (CBV) on our home page.
 
 ### What is a Class Based View?
 
-A `view` in Django is a `callable` which `takes` a `request` and `returns` a
-`response`. This `can` _be_ `more` than `just` a `function`, and `Django`
-_provides_ some `classes` which can be `used` as `views`. They _allow us_ to
-`structure` our `views` and _reuse_ `code` by `making use` of `inheritance` and
-`mixins`.
+A view in Django is a callable which takes a request and returns a response.
+This can be more than just a function, and Django provides some classes which
+can be used as views. They allow us to structure our views and reuse code by
+making use of inheritance and mixins[^1].
 
-Django _provides_ `base` _view_ `classes` (CBVs) which can `apply` to a _wide
-range_ of `applications`. All `views` _inherit from_ the `View` class, which
-`handles` _linking_ the `view` into the `URL`s, `HTTP` method `dispatching` and
-`other` _common_ `features`. `RedirectView` provides an `HTTP redirect`, and
-`TemplateView` _extends_ the `base class` to `enable` it also `render` a
-`template`.
+Django provides base view classes (CBVs) which can apply to a wide range of
+applications. All views inherit from the View class, which handles linking the
+view into the URLs, HTTP method dispatching and other common features.
+`RedirectView` provides an HTTP redirect, and `TemplateView` extends the base
+class to enable it also render a template.
 
-`Class-based` views `provide` an _alternative way_ _to implement_ `views` as
-`Python` objects `instead` of `functions`. They _do not_ replace
-`function-based` views, but have _some differences_ and _advantages_ when
-`compared` to `function-based` views:
+Class-based views provide an alternative way to implement views as Python
+objects instead of functions. They do not replace function-based views, but have
+some differences and advantages when compared to function-based views:
 
 1. Organization of code related to specific HTTP methods (GET, POST, etc.) can
    be addressed by separate methods instead of conditional branching (if
    statements).
 1. Object oriented techniques such as
-   [mixins (multiple inheritance)](<https://docs.djangoproject.com/en/5.1/topics/class-based-views/intro/#:~:text=Using%20mixins¶,define%20the%20method%20render_to_response()%20.>)
-   **[^1]** can be used to factor code into reusable components.
+   [mixins (multiple inheritance)](<https://docs.djangoproject.com/en/5.1/topics/class-based-views/intro/#:~:text=Using%20mixins¶,define%20the%20method%20render_to_response()%20.>)[^1]
+   can be used to factor code into reusable components.
 
 ### Class Based View (CBV) example
 
@@ -125,9 +122,9 @@ class MyView(View):
 
 ## Refactoring the index/home page to include a Generic Class Based View (GCBV)
 
-_Now_ we are `going` to `refactor` the `index view` to `use` a
-`Generic Class Based View` _instead of_ our current `Function Based View` . This
-will _permit us_ to `take advantage` of some `Class Based View` capabilities.
+Now we are going to refactor the `index` view to use a
+`Generic Class Based View` instead of our current `Function Based View` . This
+will permit us to take advantage of some `Class Based View` capabilities.
 
 ```python
 class BoardListView(ListView):
@@ -136,9 +133,9 @@ class BoardListView(ListView):
     template_name = 'index.html'
 ```
 
-Since we are `just getting` all the `boards` from the `database` and
-`displaying` (l`isting`) `them` on the `home` page, the `above` is `all` we
-`have` to do to `make` the `BoardListView` work.
+Since we are just getting all the boards from the database and displaying
+(listing) them on the home page, the above is all we have to do to make the
+`BoardListView` work.
 
 ### Refactoring the index url in urls.py
 
@@ -147,17 +144,16 @@ Since we are `just getting` all the `boards` from the `database` and
 path("", views.BoardListView.as_view(), name="index"),
 ```
 
-Because `Django`’s `URL resolver` _expects_ to `send` a `request` and
-_associated_ `arguments` to a `callable function`, _not_ a `class`,
-`class-based` views have an `as_view()` class `method` which `returns` a
-`function` that `can` be `called` when a `request` _arrives_ for a
-`URL matching` the _associated_ `pattern`.
+Because Django’s URL resolver expects to send a request and associated arguments
+to a callable function, not a class, class-based views have an `as_view()` class
+method which returns a function that can be called when a request arrives for a
+URL matching the associated pattern.
 
 ### Refactoring boards/tests/test_view_index_tests.py
 
-_Right now_, when I run
-`python3 manage.py test boards.tests.test_view_index_tests`, the` following` is
-`returned`:
+Right now, when I run
+`python3 manage.py test boards.tests.test_view_index_tests`, the following is
+returned:
 
 ```shell
 Found 1 test(s).
@@ -182,10 +178,10 @@ Ran 1 test in 0.000s
 FAILED (errors=1)
 ```
 
-We _no longer_ can `import name 'index' from 'boards.views'`
-(`from ..views import index`) into our` IndexTests`, _because_ the
-(`function based`) `index` view is now `class BoardListView` (Class Based View)
-in `boards/views.py`. So we `make` the _following changes_ in
+We no longer can import name `index` from `boards.views`
+(`from ..views import index`) into our` IndexTests`, because the (function
+based) `index` view is now `class BoardListView` (Class Based View) in
+`boards/views.py`. So we make the following changes in
 `boards/tests/test_view_index_tests.py`:
 
 ```python
@@ -196,7 +192,7 @@ def test_home_url_resolves_home_view(self):
 ```
 
 Then I run `python3 manage.py test boards.tests.test_view_index_tests` again,
-and _this time_ the `following` is `returned`:
+and this time the following is returned:
 
 ```shell
 Found 3 test(s).
@@ -210,22 +206,21 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-_Now_ the `tests` _pass_!
+Now the tests pass!
 
 ## Pagination
 
-It's `easy` to _implement_ `pagination` with `class-based` views. But `before`
-_we do_ `that`, we are `going` to `implement` it `manually` so that we can
-`understand` how it `works` _under the_ `hood`.
+It's easy to implement pagination with class-based views. But before we do that,
+we are going to implement it manually so that we can understand how it works
+under the hood.
 
-We _won't_ `paginate` the `boards listing` _for now_, because there probably
-`won't` be _too many_ `boards` (I however, might change my mind). But we _will_
-`paginate` the `topics listing` view (`board_topics`) and the `post listing`
-view (`topic_posts`).
+We won't paginate the boards listing for now, because there probably won't be
+too many boards (I however, might change my mind). But we will paginate the
+topics listing view (`board_topics`) and the post listing view (`topic_posts`).
 
 ### Adding dummy posts to board_topics to enable the display of pagination
 
-We can `create` a `bunch` of `board topics` using the `Python` shell:
+We can create a bunch of board topics using the Python shell:
 
 ```shell
 python3 manage.py shell
@@ -345,13 +340,13 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 
-_In_ `macOS`, `in order` _to enable_ `multi-lines` in the `Python` shell (here,
-the `for in` loop), when you have `completed` a `line`, `don't` _hit_ `return`!
-It will `cause` an `error`. `Press` the `shift key` and THEN the `return key`.
-`Do this` with `each line` of the `for in` loop. `When` you have `completed` the
-_last line_ of the `for in` loop, THEN you can `hit` the `return key`.
+In macOS, in order to enable multi-lines in the Python shell (here, the `for in`
+loop), when you have completed a line, don't hit return! It will cause an error.
+Press the shift key and THEN the return key. Do this with each line of the
+`for in` loop. When you have completed the last line of the `for in` loop, THEN
+you can hit the return key.
 
-Now let's see how our `topic_posts` view `looks like` in the `browser`:
+Now let's see how our `topic_posts` view looks like in the browser:
 
 ![Newly populated Django board topics view](Screenshot-2024-10-04-at-9.17.55-AM.jpg)
 
@@ -379,9 +374,8 @@ Topic.objects.filter(board__name='Django').count()
 queryset = Topic.objects.filter(board__name='Django').order_by('-last_updated')
 ```
 
-We `should` _always_ `define` an `ordering` (`.order_by()`) to a `QuerySet` we
-are `going` to `paginate`. _Otherwise_, it `might` give `inconsistent` or
-_unexpected_ `results`.
+We should always define an ordering (`.order_by()`) to a `QuerySet` we are going
+to paginate. Otherwise, it might give inconsistent or unexpected results.
 
 ### Importing the Paginator utility
 
@@ -509,11 +503,11 @@ def board_topics(request, pk):
     return render(request, "topics.html", {"board": board, 'topics': topics})
 ```
 
-_Now_ we `have` to `make sure` that we `render` _the pages_ `correctly` using
-the `Bootstrap 5` _pagination_ `component`.
+Now we have to make sure that we render the pages correctly using the Bootstrap
+5 pagination component.
 
-`Here` we are `using` _all the_ `methods` we `dealt` with `previously`. _In
-addition_, `topics` is _no longer_ a `QuerySet` but a `paginator.Page instance`.
+Here we are using all the methods we dealt with previously. In addition, topics
+is no longer a `QuerySet` but a `paginator.Page instance`.
 
 ## Adding pagination to templates/topics.html
 
@@ -599,7 +593,7 @@ addition_, `topics` is _no longer_ a `QuerySet` but a `paginator.Page instance`.
 {% endblock content %}
 ```
 
-And it `looks like` the `following` in the `browser`:
+And it looks like the following in the browser:
 
 ![Board topics view pagination](Screenshot-2024-10-04-at-12.24.39-PM.jpg)
 
@@ -625,18 +619,16 @@ class TopicListView(ListView):
         return queryset
 ```
 
-`When` using `pagination` with `class-based` views, `interaction` with the
-`paginator` in the `template` differs a `bit`. `Pagination` makes `makes` the
-following `variables` _available_ in the `template`:` paginator`, `page_obj`,
-`is_paginated`, `object_list`, and the `topics` variable `assigned` to
-`context_object_name`. `topics` is `equivalent` to the _default variable_
-"object_list".
+When using pagination with class-based views, interaction with the paginator in
+the template differs a bit. Pagination makes makes the following variables
+available in the template: paginator, `page_obj`, `is_paginated`, `object_list`,
+and the topics variable assigned to `context_object_name`. topics is equivalent
+to the default variable `object_list`.
 
 ### get_context_data
 
-`context_context_data` gets `additional data` to a `template` _when using_
-`GCBVs`. We `subclass` our `GCBV` and `provide` _our own_ `implementation` of
-`get_context_data`.
+`context_context_data` gets additional data to a template _when using_ `GCBVs`.
+We subclass our `GCBV` and provide our own implementation of `get_context_data`.
 
 ### Refactoring the board_topics url in urls.py
 
@@ -646,10 +638,10 @@ path("boards/<pk>/", views.TopicListView.as_view(), name="board_topics"),
 
 ### paginate_by
 
-With `generic` _class based_ `views`, `all` _pagination_ `logic` is
-`pre-defined`. _To implement_ `pagination`, we _only need_ to `modify` the
-`paginate_by` attribute. We can `set` the `paginate_py` attribute to a _specific
-number_ and the `rest` will be `taken care` of `by` the `view` itself.
+With generic class based views, all pagination logic is pre-defined. To
+implement pagination, we only need to modify the `paginate_by` attribute. We can
+set the `paginate_py` attribute to a specific number and the rest will be taken
+care of by the view itself.
 
 ### Refactoring boards/tests/test_view_board_topics.py
 
@@ -1052,7 +1044,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 
-Which `results` in the `following` in the `browser`:
+Which results in the following in the browser:
 
 ![Newly populated Python board topics view](Screenshot-2024-10-04-at-4.10.36-PM.jpg)
 
@@ -1060,8 +1052,7 @@ _Newly populated Python board topics view_
 
 ### Adding topic replies to templates/topic_posts.html
 
-_This time_ we will add `topic replies` to a `specific topic` using the `Python`
-shell:
+This time we will add topic replies to a specific topic using the Python shell:
 
 ```shell
 python3 manage.py shell
@@ -1178,8 +1169,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 
-This _creates_ `replies` to the `topic` with the `id` of `4`, which `results` in
-the `following` in the `browser`:
+This creates replies to the topic with the id of 4, which results in the
+following in the browser:
 
 ![Newly populated Django board topic_id=4 (topic_posts) view](Screenshot-2024-10-04-at-5.08.39-PM.jpg)
 
@@ -1199,10 +1190,10 @@ Type "help", "copyright", "credits" or "license" for more information.
 <Post: I'm so glad you started this …>
 ```
 
-_Above_, we `create` _one_ `reply` by a `specific user` _instead_ of just the
-`first` (`first()`) `user`, and `specify` the `topic id` of a `topic` that is
-`part` of the `board` we `want` to `target` (which `in` this `case` is the
-`Random` board). This `looks like` the `following` in the `browser`:
+Above, we create one reply by a specific user instead of just the first
+(`first()`) user, and specify the topic id of a topic that is part of the board
+we want to target (which in this case is the Random board). This looks like the
+following in the browser:
 
 ![Creating a reply by a specific user to specific topic id that is part of the board we want to target](Screenshot-2024-10-05-at-6.30.27-AM.jpg)
 
@@ -1212,7 +1203,7 @@ board we want to target_
 ## Running python3 manage.py test boards.tests.test_view_topic_posts_tests
 
 Whn I run `python3 manage.py test boards.tests.test_view_topic_posts_tests`, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 1 test(s).
@@ -1237,16 +1228,16 @@ Ran 1 test in 0.000s
 FAILED (errors=1)
 ```
 
-`Our` _tests_ `fail` because of the `following line` (`line 6`) in
+Our tests fail because of the following line (line 6) in
 `test_view_topic_posts_tests`:
 
 ```python
 from ..views import topic_posts
 ```
 
-Our `topic_posts` view is _no longer_ a `function based view` called
-`topic_posts`. It's now a `generic class based view` called `PostListView`. We
-have _already updated_ our `URL`. we just `have` to `update` our `tests`:
+Our `topic_posts` view is no longer a function based view called `topic_posts`.
+It's now a generic class based view called `PostListView`. We have already
+updated our URL. we just have to update our tests:
 
 ```python
 from ..views import PostListView
@@ -1260,7 +1251,7 @@ class TopicPostsTests(TestCase):
 
 Then when I run
 `python3 manage.py test boards.tests.test_view_topic_posts_tests` again, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 2 test(s).
@@ -1274,7 +1265,7 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-_Now_ the `tests` _pass_!
+_Now_ the tests _pass_!
 
 ## Improving upon the initial Bootstrap 5 pagination implementation in the templates
 
@@ -1346,16 +1337,16 @@ _Now_ the `tests` _pass_!
 {% endif %}
 ```
 
-1. I `replaced` all `instances` of `"Previous"` with `&laquo;` (`<<`).
-1. I `replaced` all `instances` of `"Next"` with `&raquo;` (`>>`).
-1. I `replaced` all `instances` of `"First"` with `&#124;&#60;` (`|<`).
-1. I `replaced` all `instances` of `"Last"` with `&#62;&#124;` (`>|`).
+1. I replaced all instances of `"Previous"` with `&laquo;` (`<<`).
+1. I replaced all instances of `"Next"` with `&raquo;` (`>>`).
+1. I replaced all instances of `"First"` with `&#124;&#60;` (`|<`).
+1. I replaced all instances of `"Last"` with `&#62;&#124;` (`>|`).
 
 ### Adding JavaScript to make scrollbar return to bottom of page when pagination item is clicked
 
-I didn't like the _default_ `scroll behavior` of `returning` to the `top` of the
-`page` when a `pagination item` (`page number`) was `clicked`, so I `added` the
-_following_ `JavaScript` to a _new file_ called `django-boards-pagination.js`:
+I didn't like the default scroll behavior of returning to the top of the page
+when a pagination item (page number) was clicked, so I added the following
+JavaScript to a new file called `django-boards-pagination.js`:
 
 ```javascript
 // static/js/django-boards-pagination.js
@@ -1370,7 +1361,7 @@ document
 	})
 ```
 
-Then I `added` the `script` tag to `templates/base.html`:
+Then I added the script tag to `templates/base.html`:
 
 ```django
 {% block javascript %}
@@ -1390,14 +1381,14 @@ Then I `added` the `script` tag to `templates/base.html`:
 {% endblock javascript %}
 ```
 
-_Now_, when I `click` on a `pagination` _page_ `number`, the `scrollbar` goes to
-the `top` of the `page`, but then `returns` to the `bottom`.
+Now, when I click on a pagination page number, the scrollbar goes to the top of
+the page, but then returns to the bottom.
 
 ### Adding a scroll top button to templates/base.html
 
-I `wanted` to `make sure` that a `user` would `easily` be `able` to `get back`
-to the `top` of the `page` after being `taken down` to the `bottom` of it, so I
-`added` a `scroll top` button to `templates/base.html`:
+I wanted to make sure that a user would easily be able to get back to the top of
+the page after being taken down to the bottom of it, so I added a scroll top
+button to `templates/base.html`:
 
 ```django
 <!-- templates/base.html -->
@@ -1412,9 +1403,9 @@ to the `top` of the `page` after being `taken down` to the `bottom` of it, so I
 {% endblock body %}
 ```
 
-But I `had` to `add` some `JavaScript` to `make` this `scroll top` button
-`work`, so I `created` a _new file_ called `scroll-top-bottom.js` and `added` it
-to `templates/base.html`:
+But I had to add some JavaScript to make this scroll top button work, so I
+created a new file called `scroll-top-bottom.js` and added it to
+`templates/base.html`:
 
 ```django
  {% block javascript %}
@@ -1434,7 +1425,7 @@ to `templates/base.html`:
 {% endblock javascript %}
 ```
 
-Then I `added` the `following code` to `static/js/scroll-top-bottom.js`:
+Then I added the following code to `static/js/scroll-top-bottom.js`:
 
 ```javascript
 // static/js/scroll-top-bottom.js
@@ -1462,17 +1453,16 @@ scrollTopButton.addEventListener('click', scrollTop)
 {% endblock stylesheet %}
 ```
 
-I _added_ `material icons` to `templates/base.html`, because the `scroll top`
-and `scroll bottom` buttons use `material icons`. _Make sure_ that the
-`material icons` are `added` ABOVE the `css/app.css` file, as `indicated` above.
+I added material icons to `templates/base.html`, because the scroll top and
+scroll bottom buttons use material icons. Make sure that the material icons are
+added ABOVE the `css/app.css` file, as indicated above.
 
 ### Making the scroll top button appear and disappear based on scrollY position
 
-I _didn't want_ the `scroll top` button to `always` be `visible`. It would
-`interfere` with the `visibility` of the `logged in` _user_ `dropdown menu`, and
-its `visibility` would `not` _always_ `serve` a `purpose`. I `wanted` it to be
-`visible` _only_ `when` it `served` a `purpose`. So I `added` the
-`following code` in `static/js/scroll-top-bottom.js`:
+I didn't want the scroll top button to always be visible. It would interfere
+with the visibility of the logged in user dropdown menu, and its visibility
+would not always serve a purpose. I wanted it to be visible only when it served
+a purpose. So I added the following code in `static/js/scroll-top-bottom.js`:
 
 ```js
 // scroll top button disappears after click when scrollY == 0, but it reappears when scrollY is greater than 0 on scroll down.
@@ -1488,16 +1478,16 @@ document.addEventListener('scroll', function () {
 })
 ```
 
-I `use` a `combination` of `CSS` in `JS` (the `JS` _style_ `property`) and
-_straight_ `CSS` (in `static/css/app.css`) to `make` the `scroll top` button
-`appear` and `disappear`. I will `add` the `CSS` _for both_ `scroll top` and
-`scroll bottom` buttons at the `end` of this `section`.
+I use a combination of CSS in JS (the JS style property) and straight CSS (in
+`static/css/app.css`) to make the scroll top button appear and disappear. I will
+add the CSS for both scroll top and scroll bottom buttons at the end of this
+section.
 
 ### Adding a scroll bottom button to templates/base.html
 
-I `wanted` to `make sure` that a `user` would be `able` _to leisurely_
-`scroll down` the `page` to `view` various `replies` to `topics`, so I `added` a
-`scroll bottom` button to `templates/base.html`:
+I wanted to make sure that a user would be able to leisurely scroll down the
+page to view various replies to topics, so I added a scroll bottom button to
+`templates/base.html`:
 
 ```django_boards
 <!-- templates/base.html -->
@@ -1517,9 +1507,9 @@ I `wanted` to `make sure` that a `user` would be `able` _to leisurely_
 {% endblock body %}
 ```
 
-But I `had` to `add` some `JavaScript` to `make` this `scroll bottom` button
-`work`, so I `added` _the associated_ `JavaScript` to the (now) existing file
-called `scroll-top-bottom.js`:
+But I had to add some JavaScript to make this scroll bottom button work, so I
+added the associated JavaScript to the (now) existing file called
+`scroll-top-bottom.js`:
 
 ```javascript
 // Scroll to bottom button code
@@ -1535,11 +1525,10 @@ scrollDownButton.addEventListener('pointerdown', scrollStep)
 
 ### Making the scroll bottom button appear and disappear based on scrollY position
 
-I `didn't want` the `scroll bottom` button to `always` be `visible` _either_.
-There is _no point_ in it's `always` _being_ `visible`, and it is _more
-interesting_ if it _dynamically_ `appears` and `disappears`. `Just like` with
-the `scroll top` button, I `wanted` it to be `visible` _only when_ it `served` a
-`purpose`. So I `added` the `following code` in
+I didn't want the scroll bottom button to always be visible either. There is no
+point in it's always being visible, and it is more interesting if it dynamically
+appears and disappears. Just like with the scroll top button, I wanted it to be
+visible only when it served a purpose. So I added the following code in
 `static/js/scroll-top-bottom.js`:
 
 ```javascript
@@ -1570,7 +1559,10 @@ button.top {
 	justify-content: space-around;
 	outline: none;
 	position: fixed;
-	transition: color 0.5s, transform 0.2s, background-color 0.2s;
+	transition:
+		color 0.5s,
+		transform 0.2s,
+		background-color 0.2s;
 }
 
 button.top:active {
@@ -1661,7 +1653,9 @@ button.shrink-border::before {
 	position: absolute;
 	right: 0;
 	top: 0.6rem;
-	transition: opacity 0.3s, border 0.3s;
+	transition:
+		opacity 0.3s,
+		border 0.3s;
 	width: 100%;
 	z-index: -1;
 }
@@ -1721,9 +1715,9 @@ button.shrink-border:hover::after {
 {% endblock content %}
 ```
 
-But I `needed` to also `add` some `JavaScript` to `make` the `copy link` button
-work. I `created` a _new file_ called `copy-button.js` and `placed` it inside
-`static/js`. It contains the following code:
+But I needed to also add some JavaScript to make the copy link button work. I
+created a new file called copy-button.js and placed it inside `static/js`. It
+contains the following code:
 
 ```javascript
 // static/js/copy-button.js
@@ -1779,7 +1773,7 @@ button.addEventListener('click', function () {
 })
 ```
 
-Then I `had` to `add` the `file` to `templates/base.html`:
+Then I had to add the file to `templates/base.html`:
 
 ```django
 <!-- templates/base.html -->
@@ -1846,9 +1840,9 @@ Then I `had` to `add` the `file` to `templates/base.html`:
 
 ### Fixing the copy link button and reply button styling
 
-With _all_ the _new buttons_ that _have been_ recently `created` with
-`Bootstrap` styling, the `copy link` and `reply button` styling `broke`! _Right
-now_, they `look like` the `following`:
+With all the new buttons that have been recently created with Bootstrap styling,
+the copy link and reply button styling broke! Right now, they look like the
+following:
 
 ![Copy link and reply buttons broken styling](Screenshot-2024-10-07-at-1.41.13-PM.jpg)
 
@@ -1856,7 +1850,7 @@ _Copy link and reply buttons broken styling_
 
 ### Refactoring the copy link button html in templates/topic_posts.html and templates/post_detail.html
 
-_First_, I made the `following changes` in `templates/topic_posts.html`:
+First, I made the following changes in `templates/topic_posts.html`:
 
 ```django
 <!-- templates/topic_posts.html -->
@@ -1882,10 +1876,10 @@ _First_, I made the `following changes` in `templates/topic_posts.html`:
 {% endblock content %}
 ```
 
-There was _no need_ to `make` any `changes` in `static/css/app/.css` because the
-`styling` _relies on_ `Bootstrap 5` classes.
+There was no need to make any changes in `static/css/app/.css` because the
+styling relies on Bootstrap 5 classes.
 
-_Next_, I `made` the `following changes` in `templates/post_details.html`:
+Next, I made the following changes in `templates/post_details.html`:
 
 ```django
 </1-- templates/post_details.html -->
@@ -1904,11 +1898,11 @@ _Next_, I `made` the `following changes` in `templates/post_details.html`:
 {% endblock content %}
 ```
 
-There was _no need_ to `make` any `changes` in `static/css/app/.css` either,
-because the `styling` _relies on_ `Bootstrap 5` classes.
+There was no need to make any changes in `static/css/app/.css` either, because
+the styling relies on Bootstrap 5 classes.
 
-With `these` slight `changes`, the `copy link` and `reply buttons` _look like_
-the `following`:
+With these slight changes, the copy link and reply buttons look like the
+following:
 
 ![Refactored copy link and reply buttons styling](Screenshot-2024-10-07-at-5.54.55-PM.jpg)
 
@@ -1916,14 +1910,14 @@ _Refactored copy link and reply buttons styling_
 
 ### Improving on the templates/post_details.html styling
 
-_Right now_ the `post_details` view `styling` is a _bit off_. It `looks like`
-the `following`:
+Right now the `post_details` view styling is a bit off. It looks like the
+following:
 
 ![Broken post_details view styling](Screenshot-2024-10-07-at-4.58.32-PM.jpg)
 
 _Broken post_details view styling_
 
-So I `added` the `following` to `templates/post-details.html`:
+So I added the following to `templates/post-details.html`:
 
 ```html
 <!-- templates/post-details.html -->
@@ -1963,14 +1957,14 @@ So I `added` the `following` to `templates/post-details.html`:
 {% endblock content %}
 ```
 
-_With_ this _little change_, the `post-details` view `looks` _much_ `better`:
+With this little change, the `post-details` view looks much better:
 
 ![Result of adding div with classes "card mb-3" to post_details view](Screenshot-2024-10-07-at-5.14.42-PM.jpg)
 
 _Result of adding div with classes "card mb-3" to post_details view_
 
-But the `link` button is a `bit` _too_ `much` _to the_ `left`. Let's `fix` that!
-I `added` the `following` _little_ `tweak` to `static/css/app.css`:
+But the link button is a bit too much to the left. Let's fix that! I added the
+following little tweak to `static/css/app.css`:
 
 ```css
 /* Make copy text appear and disappear using CSS transitions */
@@ -1981,7 +1975,7 @@ I `added` the `following` _little_ `tweak` to `static/css/app.css`:
 }
 ```
 
-_Now_ the `post_details` view `looks like` the `following`:
+Now the `post_details` view looks like the following:
 
 ![Result of post-details view fixed styling](Screenshot-2024-10-07-at-5.26.48-PM.jpg)
 
@@ -1989,20 +1983,19 @@ _Result of post-details view fixed styling_
 
 ### Fixing the logout button styling
 
-The `logout` button also was `affected by` the `styling` of _other buttons_ or
-_anchor elements_ because it did _not contain_ any `classes` or `ids`. `When` I
-`fixed` the _other buttons_ or _anchor elements_ (or `changed` _anchor_
-`elements` into `buttons`), and I `changed` the `logout` anchor `button` to an
-_actual_ `button` element, it `looks` _much_ `better`. _However_, I want its
-`styling` to `look like` the `rest` of the `logged in` _user_ `dropdown menu`.
-_Right now_ it `looks like` the `following`:
+The logout button also was affected by the styling of other buttons or anchor
+elements because it did not contain any classes or ids. When I fixed the other
+buttons or anchor elements (or changed anchor elements into buttons), and I
+changed the logout anchor button to an actual button element, it looks much
+better. However, I want its styling to look like the rest of the logged in user
+dropdown menu. Right now it looks like the following:
 
 ![Logout button with default button styling](Screenshot-2024-10-07-at-5.41.00-PM.jpg)
 
 _Logout button with default button styling_
 
-I `added` the `following classes` to `templates/base.html`, and now it
-`looks like` the `following`:
+I added the following classes to `templates/base.html`, and now it looks like
+the following:
 
 ```django
 <!-- templates/base.html -->
@@ -2014,10 +2007,9 @@ I `added` the `following classes` to `templates/base.html`, and now it
 </li>
 ```
 
-I `added` the `li` element which `wraps around` the `logout` form, and I
-`changed` the `Logout` _anchor element_ `button` to an _actual_ `button`. Then I
-_added classes_ to the `Logout` button and `added` _the following_ `CSS` to
-`static/css/app.css`:
+I added the `li` element which wraps around the logout `form`, and I changed the
+Logout anchor element button to an actual button. Then I added classes to the
+Logout button and added the following CSS to `static/css/app.css`:
 
 ```css
 /* static/css/app.css */
@@ -2031,7 +2023,7 @@ _added classes_ to the `Logout` button and `added` _the following_ `CSS` to
 }
 ```
 
-_Now_ the `Logout` button `looks like` the `following`:
+_Now_ the Logout button looks like the following:
 
 ![Refactored Logout button styling](Screenshot-2024-10-07-at-5.49.10-PM.jpg)
 
@@ -2056,43 +2048,41 @@ This was a _personal preference_, and is _entirely optional_.
 
 ## Conclusion
 
-In this section, I _experimented_ with the `Python` shell to _demonstrate_ how
-`pagination` works `under` the `hood`, I _implemented_ a
-`Generic Class Based View` and `pagination` to the `index/home` view, _added_
-`Class Based View` pagination to the `topics` view and `topic_posts` view,
-_added_ `Bootstrap 5` pagination to the _associated_ `templates`, `refactored`
-the _associated_ `urls` in `urls.py`, and `refactored` _the associated_ `tests`.
-I also `added` a `copy link` button to `copy` the `link` to a `topic`'s
-`replies` (`posts`), a `scroll top` and `scroll bottom` button using
-`JavaScript` to `enable` their `functionality`, _and added_ `JavaScript` code to
-`make` the `scrollbar` _return_ to the `bottom` of the `page` when a
-`pagination item` (`page number`) is `clicked`.
-
-## Footnotes
-
-**[^1]**: Mixins are a form of multiple inheritance where behaviors and
-attributes of multiple parent classes can be combined.
+In this section, I experimented with the Python shell to demonstrate how
+pagination works under the hood, I implemented a Generic Class Based View and
+pagination to the `index/home` view, added Class Based View pagination to the
+topics view and `topic_posts` view, added Bootstrap 5 pagination to the
+associated templates, refactored the associated urls in `urls.py`, and
+refactored the associated tests. I also added a copy link button to copy the
+link to a topic's replies (posts), a scroll top and scroll bottom button using
+JavaScript to enable their functionality, and added JavaScript code to make the
+scrollbar return to the bottom of the page when a pagination item (page number)
+is clicked.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
-    **_mariadcampbell.com_**
--   [Introduction to class-based views](#introduction-to-class-based-views):
-    **_Django documentation_**
--   [Class-based views](#class-based-views): **_Django documentation_**
--   [Paginator](https://docs.djangoproject.com/en/5.1/ref/paginator/): **_Django
-    documentation_**
--   [Pagination](https://docs.djangoproject.com/en/5.1/topics/pagination/):
-    **_Django documentation_**
--   [Use Pagination with Django Class-Based Generic ListView](https://www.geeksforgeeks.org/use-pagination-with-django-class-based-generic-listview/):
-    **_Geeks for Geeks_**
--   [Classy Class-Based Views.](https://ccbv.co.uk): **_ccbv_**
--   [Class Based vs Function Based Views – Which One is Better to Use in Django?](https://www.geeksforgeeks.org/class-based-vs-function-based-views-which-one-is-better-to-use-in-django/):
-    **_Geeks for Geeks_**
--   [Bootstrap Pagination](https://getbootstrap.com/docs/5.0/components/pagination/):
-    **_Bootstrap 5_**
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+  _mariadcampbell.com_
+- [Introduction to class-based views](#introduction-to-class-based-views):
+  _Django documentation_
+- [Class-based views](#class-based-views): _Django documentation_
+- [Paginator](https://docs.djangoproject.com/en/5.1/ref/paginator/): _Django
+  documentation_
+- [Pagination](https://docs.djangoproject.com/en/5.1/topics/pagination/):
+  _Django documentation_
+- [Use Pagination with Django Class-Based Generic ListView](https://www.geeksforgeeks.org/use-pagination-with-django-class-based-generic-listview/):
+  _Geeks for Geeks_
+- [Classy Class-Based Views.](https://ccbv.co.uk): _ccbv_
+- [Class Based vs Function Based Views – Which One is Better to Use in Django?](https://www.geeksforgeeks.org/class-based-vs-function-based-views-which-one-is-better-to-use-in-django/):
+  _Geeks for Geeks_
+- [Bootstrap Pagination](https://getbootstrap.com/docs/5.0/components/pagination/):
+  _Bootstrap 5_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+
+[^1]:
+    Mixins are a form of multiple inheritance where behaviors and attributes of
+    multiple parent classes can be combined.
