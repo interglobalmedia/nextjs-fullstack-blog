@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-25
 date: '2024-10-08T15:08:47.216Z'
-lastModified: '2024-12-18T07:22:47.216Z'
+lastModified: '2026-05-25T22:34:47.216Z'
 title: How to create a fullstack application using Django and Python Part 25
 author: Maria D. Campbell
 excerpt:
@@ -16,38 +16,38 @@ isFeatured: false
 
 ![Toy avatar in the grass](oliver-sharp-0pUU4NIJuuw-unsplash.jpg)
 
-**_Photo by_** [Oliver Sharp](https://unsplash.com/@thechickennugget) **_on_**
+_Photo by_ [Oliver Sharp](https://unsplash.com/@thechickennugget) **_on_**
 [unsplash.com](https://unsplash.com/photos/a-toy-is-sitting-in-the-grass-with-a-toy-gun-0pUU4NIJuuw)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Adding Humanize](#adding-humanize)
-    -   [Adding Humanize naturaltime to templates/topics.html](#adding-humanize-naturaltime-to-templates-topicshtml)
--   [Adding a Gravatar](#adding-a-gravatar)
-    -   [Creating boards/templatetags/gravatar.py](#creating-boards-templatetags-gravatarpy)
-    -   [Adding Gravatar functionality to templates/topic_posts.html](#adding-gravatar-functionality-to-templates-topic-postshtml)
--   [Installing the django-avatar package](#installing-the-django-avatar-package)
-    -   [Adding django-avatar to django_boards/settings.py](#adding-django-avatar-to-django-boards-settingspy)
-    -   [Migrating the database](#migrating-the-database)
-    -   [The default directory for django avatars](#the-default-directory-for-django-avatars)
--   [Conclusion](#conclusion)
--   [Footnotes](#footnotes)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Adding Humanize](#adding-humanize)
+    - [Adding Humanize naturaltime to templates/topics.html](#adding-humanize-naturaltime-to-templates-topicshtml)
+- [Adding a Gravatar](#adding-a-gravatar)
+    - [Creating boards/templatetags/gravatar.py](#creating-boards-templatetags-gravatarpy)
+    - [Adding Gravatar functionality to templates/topic_posts.html](#adding-gravatar-functionality-to-templates-topic-postshtml)
+- [Installing the django-avatar package](#installing-the-django-avatar-package)
+    - [Adding django-avatar to django_boards/settings.py](#adding-django-avatar-to-django-boards-settingspy)
+    - [Migrating the database](#migrating-the-database)
+    - [The default directory for django avatars](#the-default-directory-for-django-avatars)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
+- [Footnotes](#footnotes)
 
 ## Adding Humanize
 
 In this section, we are going to add the Humanize package to our Django project.
 The humanize package contains various common humanization utilities, like
 turning a number into a fuzzy human-readable duration ("3 minutes ago") or into
-a human-readable size or throughput **[^1]**.
+a human-readable size or throughput[^1].
 
 Humanize is still a built-in package, but we have to use the following command
 in order to install the latest version and make it work properly:
@@ -66,7 +66,7 @@ Installing collected packages: humanize
 Successfully installed humanize-4.11.0
 ```
 
-Next, I add homanize to INSTALLED_APPS in django_boards/settings.py:
+Next, I add `homanize` to `INSTALLED_APPS` in `django_boards/settings.py`:
 
 ```python
 # settings.py
@@ -96,7 +96,7 @@ INSTALLED_APPS = [
 
 Now we can use it in the templates.
 
-### Adding Humanize naturaltime to templates/topics.html
+### Adding Humanize `naturaltime` to `templates/topics.html`
 
 ```django
 <!-- templates/topics.html -->
@@ -132,12 +132,12 @@ Now we can use it in the templates.
 ...
 ```
 
-And that's it for humanize. You can add it wherever else you want. I am going to
-just stick with it here for now.
+And that's it for `humanize`. You can add it wherever else you want. I am going
+to just stick with it here for now.
 
 ## Adding a Gravatar
 
-Now we are going to add [Gravatar](https://gravatar.com). Gravatar is an easy
+Now we are going to add [Gravatar](https://gravatar.com). `Gravatar` is an easy
 way to add user profile pictures. I used to use it a lot in my WordPress sites.
 
 ### Creating boards/templatetags/gravatar.py
@@ -186,13 +186,13 @@ gravatars.
 
 ## Installing the django-avatar package
 
-Next, we are going to install thedjango-avatar package. It has the ability to
+Next, we are going to install the `django-avatar` package. It has the ability to
 default to avatars provided by third party services (like Gravatar or Facebook)
-if no avatar is found for a certain user. Django-avatar automatically generates
-thumbnails and stores them to your default file storage backend for retrieval
-later.
+if no avatar is found for a certain user. `django-avatar` automatically
+generates thumbnails and stores them to your default file storage backend for
+retrieval later.
 
-To install django-avatar, we need to run the following command:
+To install `django-avatar`, we need to run the following command:
 
 ```shell
 pip install django-avatar
@@ -269,7 +269,7 @@ Running migrations:
 
 ### The default directory for django avatars
 
-The default directory for django-avatars is "avatars", and the structure and
+The default directory for `django-avatar` is "avatars", and the structure and
 contents of that directory is the following:
 
 ```shell
@@ -286,39 +286,37 @@ contents of that directory is the following:
 
 ```
 
-There is _much more_ to do `regarding` user `avatars/gravatars`. In the
-`next section`, we will `add` a `profile model`, `view`, and `template`, and
-will `add` the `functionality` for `uploading` a `gravatar/avatar` _locally_ as
-`well` as `wrapping up` a few `minor details` relating to the `last_update`
-field for a `post`, _further_ `pagination` tweaks, and `updating` the
-`test_view_reply_topic_tests`.
+There is much more to do regarding user `avatars/gravatars`. In the next
+section, we will add a profile model, view, and template, and will add the
+functionality for uploading a `gravatar/avatar` locally_as well as wrapping up a
+few minor details relating to the `last_update` field for a post, further
+pagination tweaks, and updating the `test_view_reply_topic_tests`.
 
 ## Conclusion
 
 In this section, I _added_ the `Humanize` package to our
-`templates/topics.html`, _added_ the `Gravatar` package for `user gravatars`,
-and _added_ the `django-avatar` package for `automatic implementation` of a
-`user avatar` when `one` is `absent`.
-
-## Footnotes
-
-**[^1]**: `Throughput` is a `measure` of _how much_ `work` or `information` a
-`system` can `process` in a `given amount` of `time`. In `programming`,
-`throughput` can `refer` to the `amount` _of work_ `completed` in a
-`given period` of `time`, or the `rate` at which `features` are `delivered`.
+`templates/topics.html`, added the `Gravatar` package for user gravatars, and
+added the `django-avatar` package for automatic implementation of a user avatar
+when one is absent.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
-    **_mariadcampbell.com_**
--   [humanize repository on GitHub](https://github.com/python-humanize/humanize?tab=readme-ov-file)
--   [django.contrib.humanize](https://docs.djangoproject.com/en/5.1/ref/contrib/humanize/):
-    **_Django documentation_**
--   [gravatar.com](https://gravatar.com)
--   [hashlib — Secure hashes and message digests](https://docs.python.org/3/library/hashlib.html)
--   [django-avatar](https://django-avatar.readthedocs.io/en/stable/)
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+  _mariadcampbell.com_
+- [humanize repository on GitHub](https://github.com/python-humanize/humanize?tab=readme-ov-file)
+- [django.contrib.humanize](https://docs.djangoproject.com/en/5.1/ref/contrib/humanize/):
+  _Django documentation_
+- [gravatar.com](https://gravatar.com)
+- [hashlib — Secure hashes and message digests](https://docs.python.org/3/library/hashlib.html)
+- [django-avatar](https://django-avatar.readthedocs.io/en/stable/)
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+
+[^1]:
+    Throughput is a measure of _how much_ work or information a system can
+    process in a given amount of time. In programming, throughput can refer to
+    the amount _of work_ completed in a given period of time, or the rate at
+    which features are delivered.
