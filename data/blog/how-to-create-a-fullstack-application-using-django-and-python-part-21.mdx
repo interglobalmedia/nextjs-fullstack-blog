@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-21
 date: '2024-10-02T21:28:03.262Z'
-lastModified: '2024-12-18T07:21:03.262Z'
+lastModified: '2026-05-25T17:52:03.262Z'
 title: How to create a fullstack application using Django and Python Part 21
 author: Maria D. Campbell
 excerpt: 'In this section, I create a generic class-based (GCBV) PostUpdateView,
@@ -20,58 +20,57 @@ isFeatured: false
 _Photo by_ [Lo Sarno](https://unsplash.com/@lo_sarno) _on_
 [unsplash.com](https://unsplash.com/photos/blue-sky-and-white-clouds-JrtFcxpTSss)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Creating the Update View](#creating-the-update-view)
-    -   [Adding the edit url in django_boards/urls.py](#adding-the-edit-url-in-django-boards-urlspy)
-    -   [Adding the edit page link to templates/topic_posts.html](#adding-the-edit-page-link-to-templates-topic-postshtml)
-    -   [Creating templates/edit_post.html](#creating-templates-edit-posthtml)
--   [Testing PostUpdateView](#testing-postupdateview)
-    -   [Creating boards/tests/test_view_edit_post.py](#creating-boards-tests-test-view-edit-postpy)
-    -   [python3 manage.py test boards.tests.test_view_edit_post](#python3-managepy-test-boardsteststest-view-edit-post)
-        -   [The dispatch method](#the-dispatch-method)
-        -   [Fixing test_status_code](#fixing-test-status-code)
-    -   [Running python3 manage.py test boards.tests.test_view_edit_post again](#running-python3-managepy-test-boardsteststest-view-edit-post-again)
--   [Adding a PostDeleteView](#adding-a-postdeleteview)
-    -   [Adding the delete url in django_boards/urls.py](#adding-the-delete-url-in-django-boards-urlspy)
-    -   [Adding the delete (topic post) link to templates/topic_posts.html](#adding-the-delete-topic-post-link-to-templates-topic-postshtml)
-    -   [Creating templates/post_confirm_delete.html](#creating-templates-post-confirm-deletehtml)
--   [Testing PostDeleteView](#testing-postdeleteview)
-    -   [Creating boards/tests/test_view_delete_post.py](#creating-boards-tests-test-view-delete-postpy)
--   [Finishing the PostUpdateViewTests tests](#finishing-the-postupdateviewtests-tests)
--   [Running coverage run test](#running-coverage-run-test)
--   [Finishing the PostDeleteViewTests tests](#finishing-the-postdeleteviewtests-tests)
--   [Running coverage run manage.py test and coverage report again](#running-coverage-run-managepy-test-and-coverage=report-again)
--   [Creating the PostDetailView](#creating-the-postdetailview)
-    -   [Creating the post_detail url in urls.py](#creating-the-post-detail-url-in-urlspy)
-    -   [Creating the templates/post_detail.html](#creating-the-templates-post-detailhtml)
--   [Creating the PostDetailView tests](#creating-the-postdetailview-tests)
-    -   [Running python3 manage.py test boards.tests.test_view_post_detail_tests](#running-python3-managepy-test-boardsteststest-view-post-detail-tests)
-    -   [Running coverage run manage.py test and coverage report to include PostDetailView tests](#running-coverage-run-managepy-test-and-coverage-report-to-include-postdetailview-tests)
--   [Conclusion](#conclusion)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Creating the Update View](#creating-the-update-view)
+    - [Adding the edit url in django_boards/urls.py](#adding-the-edit-url-in-django-boards-urlspy)
+    - [Adding the edit page link to templates/topic_posts.html](#adding-the-edit-page-link-to-templates-topic-postshtml)
+    - [Creating templates/edit_post.html](#creating-templates-edit-posthtml)
+- [Testing PostUpdateView](#testing-postupdateview)
+    - [Creating boards/tests/test_view_edit_post.py](#creating-boards-tests-test-view-edit-postpy)
+    - [python3 manage.py test boards.tests.test_view_edit_post](#python3-managepy-test-boardsteststest-view-edit-post)
+        - [The dispatch method](#the-dispatch-method)
+        - [Fixing test_status_code](#fixing-test-status-code)
+    - [Running python3 manage.py test boards.tests.test_view_edit_post again](#running-python3-managepy-test-boardsteststest-view-edit-post-again)
+- [Adding a PostDeleteView](#adding-a-postdeleteview)
+    - [Adding the delete url in django_boards/urls.py](#adding-the-delete-url-in-django-boards-urlspy)
+    - [Adding the delete (topic post) link to templates/topic_posts.html](#adding-the-delete-topic-post-link-to-templates-topic-postshtml)
+    - [Creating templates/post_confirm_delete.html](#creating-templates-post-confirm-deletehtml)
+- [Testing PostDeleteView](#testing-postdeleteview)
+    - [Creating boards/tests/test_view_delete_post.py](#creating-boards-tests-test-view-delete-postpy)
+- [Finishing the PostUpdateViewTests tests](#finishing-the-postupdateviewtests-tests)
+- [Running coverage run test](#running-coverage-run-test)
+- [Finishing the PostDeleteViewTests tests](#finishing-the-postdeleteviewtests-tests)
+- [Running coverage run manage.py test and coverage report again](#running-coverage-run-managepy-test-and-coverage=report-again)
+- [Creating the PostDetailView](#creating-the-postdetailview)
+    - [Creating the post_detail url in urls.py](#creating-the-post-detail-url-in-urlspy)
+    - [Creating the templates/post_detail.html](#creating-the-templates-post-detailhtml)
+- [Creating the PostDetailView tests](#creating-the-postdetailview-tests)
+    - [Running python3 manage.py test boards.tests.test_view_post_detail_tests](#running-python3-managepy-test-boardsteststest-view-post-detail-tests)
+    - [Running coverage run manage.py test and coverage report to include PostDetailView tests](#running-coverage-run-managepy-test-and-coverage-report-to-include-postdetailview-tests)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 ## Creating the Update View
 
-Now we are going to `create` an `edit post view` using a
+Now we are going to create an edit post view using a
 [Built-in class-based generic view](https://docs.djangoproject.com/en/5.1/topics/class-based-views/generic-display/).
-But `before` we `start creating` our `view`, we `have` to _make sure_ that _all
-instances_ of `"id"` are _replaced by_ `pk` (_if_ that is the _way_ you _went_).
-`When` _using_ `Generic Class-Based Views` (GCBVs), we `must` use `"object.pk"`
-only. I _found out_ the `hard way` _after_ I `created` my _first_ `GCBV` and was
-_using_ `"id"` instead of `"pk"`. It _would_ be `good practice` to simply
-`stick` with `"pk"` _instead of_ something else `"just to be smart"`, _like me_.
-`Changing` all `instances` of `"id"` with `"pk"` will `take` no `time`. If you
-_miss one_, you will _find out_ `where` in the `Terminal` console when `running`
-the `development server`.
+But before we start creating our view, we have to make sure that all instances
+of `id` are replaced by `pk` (if that is the way you went). When using Generic
+Class-Based Views (GCBVs), we must use `object.pk` only. I found out the hard
+way after I created my first `GCBV` and was using `id` instead of `pk`. It would
+be good practice to simply stick with `pk` instead of something else "just to be
+smart", like me. Changing all instances of `id` with `pk` will take no time. If
+you miss one, you will find out where in the Terminal console when running the
+development server.
 
 ```python
 #boards/views.py
@@ -94,26 +93,24 @@ class PostUpdateView(UpdateView):
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 ```
 
-With the _generic_ `UpdateView` and the `CreateView`, we can _either_ `define` a
-`form_class` or the `fields` attribute _regarding_ `forms`. We are _going with_
-the `fields` attribute since `that` is `what` we `have` been `doing` all
-`along`. We are `using` the `fields` attribute to `create` a `model form`
-_on-the-fly_. `Django` uses a `model form factory` _internally_ to `compose` a
-`PostForm` model. It’s a `simple form` with `one` _message_ `field`, so it's
-`okay` to `go` this `route`. But for `more` _complex_ `forms`, it’s `better` to
-`define` a `model form` _externally_ and `refer` to it.
+With the generic `UpdateView` and the `CreateView`, we can either define a
+`form_class` or the `fields` attribute regarding forms. We are going with the
+`fields` attribute since that is what we have been doing all along. We are using
+the `fields` attribute to create a model `form` on-the-fly. Django uses a
+`model form factory` internally to compose a `PostForm` model. It’s a simple
+`form` with one `message` field, so it's okay to go this route. But for more
+complex forms, it’s better to define a model `form` externally and refer to it.
 
-The `pk_url_kwarg` is the `name` of the `URLConf` keyword `argument` that
-`contains` the `primary key`. _By default_, `pk_url_kwarg` is `'pk'`. It's the
-`"name"` we `define` in the `path` in `urls.py`.
+The `pk_url_kwarg` is the name of the `URLConf` keyword argument that contains
+the primary key. By default, `pk_url_kwarg` is `pk`. It's the `name` we define
+in the `path` in `urls.py`.
 
-`context_object_name` _assigns the_ `name` of the `variable` to `use` in the
-`context`. _However_, if we `did` not `assign` a `context_object_name`, the
-`Post object` would be `available` as the _default_ `"object"` in the
-`template`.
+`context_object_name` assigns the name of the variable to use in the context.
+However, if we did not assign a `context_object_name`, the Post object would be
+available as the default `object` in the template.
 
-We also `override` the `form_valid()` method so `that` we can `add` some
-`more fields` such as `updated_by` and `updated_at`.
+We also override the `form_valid()` method so that we can add some more fields
+such as `updated_by` and `updated_at`.
 
 ### Adding the edit url in django_boards/urls.py
 
@@ -232,19 +229,18 @@ class InvalidPostUpdateViewTests(PostUpdateViewTestCase):
     # ...
 ```
 
-The `LoginRequiredPostUpdateViewTests` class _tests_ if the `view` is
-`protected` with the `@login_required` decorator. That `means` _only_
-`authenticated users` can `access` the `edit_post` view.
+The `LoginRequiredPostUpdateViewTests` class tests if the view is protected with
+the `@login_required` decorator. That means only authenticated users can access
+the `edit_post` view.
 
-The `UnauthorizedPostUpdateViewTests` class _creates_ a `new user`, _different_
-from the `one` who created the post, and who `tries` to `access` the `edit_post`
-view. This `test` _makes sure_ only the `authorized owner` of the `post` is
-`able` to `edit` it.
+The `UnauthorizedPostUpdateViewTests` class creates a new user, different from
+the one who created the post, and who tries to access the `edit_post` view. This
+test makes sure only the authorized owner of the post is able to edit it.
 
 ### python3 manage.py test boards.tests.test_view_edit_post
 
 When I run `python3 manage.py test boards.tests.test_view_edit_post`, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 2 test(s).
@@ -278,8 +274,8 @@ FAILED (failures=2)
 Destroying test database for alias 'default'...
 ```
 
-We can `fix` the `first failure` by `adding` the `following` to the
-`PostUpdateView` class:
+We can fix the first failure by adding the following to the `PostUpdateView`
+class:
 
 ```python
 # boards/views.py
@@ -299,44 +295,42 @@ class PostUpdateView(UpdateView):
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 ```
 
-The `@login_required` decorator _does not_ `work directly` with the
-`class view`. We `have` to `use` _the utility_ `@method_decorator`, _passing in_
-`"login_required"`, and `pass` in the `name` of the `method` which `should` be
-`"decorated"`. This is the `"drier"` approach. To `learn more` about
-`decorating` classes, _please visit_
+The `@login_required` decorator does not work directly with the class view. We
+have to use the utility `@method_decorator`, passing in `login_required`, and
+pass in the name of the method which should be "decorated". This is the "drier"
+approach. To learn more about decorating classes, please visit
 [Introduction to class-based views](https://docs.djangoproject.com/en/5.1/topics/class-based-views/intro/)
-in the `Django` documentation.
+in the Django documentation.
 
 ### The dispatch method
 
-The `dispatch` method `looks` at a `request` to `determine` whether it is a
-`GET`, `POST`, etc, and `relays` the `request` to a _matching method_ if `one`
-is `defined`, or _raises_ `HttpResponseNotAllowed` _if not_. It is `important`
-to `note` that `methods` _inside_ `class based views` return the `same` as
-`what` is `returned` from `function based views`. They `return` _some_ `form` of
-`HttpResponse`. This `means` that `django.shortcuts` (`http shortcuts`) or
-`TemplateResponse objects` are `valid` _inside_ `class-based views`.
+The `dispatch` method looks at a request to determine whether it is a GET, POST,
+etc, and relays the request to a matching method if one is defined, or raises
+`HttpResponseNotAllowed` if not. It is important to note that methods inside
+class based views return the same as what is returned from function based views.
+They return some form of `HttpResponse`. This means that `django.shortcuts`
+(`http shortcuts`) or `TemplateResponse` objects are valid inside class-based
+views.
 
-To `decorate` _every_ `instance` of a `class-based view`, we `need` to
-`decorate` the `class definition` itself. To do this we `apply` the `decorator`
-to the `dispatch()` method of the `class`.
+To decorate every instance of a class-based view, we need to decorate the class
+definition itself. To do this we apply the decorator to the `dispatch()` method
+of the class.
 
-A `method` on a `class` _isn’t quite_ the `same` as a `standalone function`, so
-we `can’t` just `apply` a `function decorator` to the `method`. We `need` to
-`transform` it `into` a `method decorator` first. The `method_decorator`
-decorator `transforms` a `function decorator` into a `method decorator` so
-`that` it can be `used` on an `instance method`:
+A method on a class isn’t quite the same as a standalone function, so we can’t
+just apply a `function decorator` to the method. We need to transform it into a
+`method decorator` first. The `method_decorator` decorator transforms a
+`function decorator` into a `method decorator` so that it can be used on an
+instance method:
 
 ```python
 @method_decorator(login_required, name='dispatch')
 ```
 
-`All requests` _pass through_ the `dispatch` method, so it’s `safe` to decorate
-it.
+All requests pass through the `dispatch` method, so it’s safe to decorate it.
 
-When I run `python3 manage.py test boards.tests.test_view_edit_post` again
-_after adding_ `@method_decorator(login_required, name='dispatch')`, the
-`following` is `returned`:
+When I run `python3 manage.py test boards.tests.test_view_edit_post` again after
+adding `@method_decorator(login_required, name='dispatch')`, the following is
+returned:
 
 ```shell
 Found 2 test(s).
@@ -361,11 +355,11 @@ Destroying test database for alias 'default'...
 
 ### Fixing test_status_code
 
-The `test_status_code` error _means_ that we `have` to `deal` with the `problem`
-of `preventing` other `users` _editing any_ `posts`.
+The `test_status_code` error means that we have to deal with the problem of
+preventing other users editing any posts.
 
-The `easiest way` to `fix` this `issue` is to `override` the `get_queryset`
-method of the `UpdateView`:
+The easiest way to fix this issue is to override the `get_queryset` method of
+the `UpdateView`:
 
 ```python
 @method_decorator(login_required, name='dispatch')
@@ -388,20 +382,20 @@ class PostUpdateView(UpdateView):
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 ```
 
-`With` the line `queryset = super().get_queryset()` we are `reusing` the
-`get_queryset` method `from` the `parent class`, that is, the
-`UpdateView class`. Then, we are `adding` an `extra filter` to the `queryset`,
-which is `filtering` the `post` using the `logged` in `user`, _available inside_
-the `request` object. We can `override` a
+With the line `queryset = super().get_queryset()` we are reusing the
+`get_queryset` method from the parent class, that is, the `UpdateView` class.
+Then, we are adding an extra filter to the `queryset`, which is filtering the
+`post` using the logged in user, available inside the `request` object. We can
+override a
 [Manager’s base QuerySet](https://docs.djangoproject.com/en/5.1/topics/db/managers/)
-by `overriding` the `Manager.get_queryset()` method. `get_queryset()` should
-`return` a `QuerySet` with the `properties` we require. Here, it is the `logged`
-in `user` who `created` _the original_ `Post`.
+by overriding the `Manager.get_queryset()` method. `get_queryset()` should
+return a `QuerySet` with the properties we require. Here, it is the logged in
+user who created the original Post.
 
 ### Running python3 manage.py test boards.tests.test_view_edit_post again
 
 When I run `python manage.py test boards.tests.test_view_edit_post` again, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 2 test(s).
@@ -415,7 +409,7 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-_Now_ the `test` _passes_!
+Now the test passes!
 
 ## Adding a PostDeleteView
 
@@ -459,8 +453,8 @@ path(
 </div>
 ```
 
-I will `add` the _complete_ `templates/topic_posts.html` contents `after` we
-`complete` _the upcoming_ `PostDetailView`.
+I will add the complete `templates/topic_posts.html` contents after we complete
+the upcoming `PostDetailView`.
 
 ### Creating templates/post_confirm_delete.html
 
@@ -559,7 +553,7 @@ class UnauthorizedPostDeleteViewTests(PostDeleteViewTestCase):
 ```
 
 When I run `python3 manage.py test boards.tests.test_view_delete_post`, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 2 test(s).
@@ -573,8 +567,8 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-The `reason` this `test` _passes_ is `because` as `with` the `PostUpdateView`,
-if I `did` _not_ `add`:
+The reason this test passes is because as with the `PostUpdateView`, if I did
+not add:
 
 ```python
 def get_queryset(self): # added
@@ -582,7 +576,7 @@ def get_queryset(self): # added
     return queryset.filter(created_by=self.request.user)
 ```
 
-The `following` would `have` been `returned` _instead_:
+The following would have been returned instead:
 
 ```shell
 Found 2 test(s).
@@ -605,11 +599,10 @@ FAILED (failures=1)
 Destroying test database for alias 'default'...
 ```
 
-`get_queryset` _makes sure_ `that` a `post` _is only_ `deleted` by the `user`
-_stored_ in the `created_by` field:
-`return queryset.filter(created_by=self.request.user)`. _Without this_, `anyone`
-could POTENTIALLY `delete` the `post`, as `indicated` by the _failing_
-`status_code` test `without` the `get_queryset` function in the actual
+`get_queryset` makes sure that a post is only deleted by the user stored in the
+`created_by` field: `return queryset.filter(created_by=self.request.user)`.
+Without this, anyone could POTENTIALLY delete the post, as indicated by the
+failing `status_code` test without the `get_queryset` function in the actual
 `PostDeleteView`.
 
 ## Finishing the PostUpdateViewTests tests
@@ -749,14 +742,13 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-The `tests` _pass_!
+The tests pass!
 
 ## Running coverage run test
 
-_Before continuing_ with the `rest` of the `PostDeleteView` tests, we can `test`
-the _current_ `test coverage` of our `code`. If I run
-`coverage run manage.py test`, and then `coverage report`, the `following` is
-`returned`:
+Before continuing with the rest of the `PostDeleteView` tests, we can test the
+current test coverage of our code. If I run `coverage run manage.py test`, and
+then `coverage report`, the following is returned:
 
 | Name                                                                           | Stmts   | Miss   | Cover   |
 | ------------------------------------------------------------------------------ | ------- | ------ | ------- |
@@ -928,7 +920,7 @@ class InvalidPostDeleteViewTests(PostDeleteViewTestCase):
 ```
 
 When I run `python3 manage.py test boards.tests.test_view_delete_post`, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 10 test(s).
@@ -943,12 +935,12 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-The `tests` _pass_!
+The tests _pass_!
 
 ## Running coverage run manage.py test and coverage report again
 
 When I run `coverage run manage.py` followed by `coverage report` again to
-_include_ the _new_ `PostDeleteView` tests, the `following` is `returned`:
+include the new `PostDeleteView` tests, the following is returned:
 
 | Name                                                                           | Stmts   | Miss   | Cover   |
 | ------------------------------------------------------------------------------ | ------- | ------ | ------- |
@@ -999,10 +991,10 @@ _include_ the _new_ `PostDeleteView` tests, the `following` is `returned`:
 
 ## Creating the PostDetailView
 
-_Lastly_ in this `section`, we `create` a `PosTDetailView, template,` _and
-related_ `tests`. We `have` to `take` into `consideration` _that some_
-`topic posts` might be _very long_, so we only `want` to `display` a
-`truncated version` of the the `topic post` content in the `topic_posts` view.
+Lastly in this section, we create a `PosTDetailView, template,` and related
+tests. We have to take into consideration that some topic posts might be very
+long, so we only want to display a truncated version of the the topic post
+content in the `topic_posts` view.
 
 ```python
 # boards/views.py
@@ -1141,7 +1133,7 @@ The tests pass!
 ### Running coverage run manage.py test and coverage report to include PostDetailView tests
 
 When I run `coverage run manage.py test` followed by `coverage report`, the
-`following` is `returned` for `boards/tests/test_view_post_detail_tests.py`:
+following is returned for `boards/tests/test_view_post_detail_tests.py`:
 
 | Name                                        | Stmts | Miss | Cover |
 | ------------------------------------------- | ----- | ---- | ----- |
@@ -1149,26 +1141,26 @@ When I run `coverage run manage.py test` followed by `coverage report`, the
 
 ## Conclusion
 
-In this section, I _created_ a generic class-based (GCBV) `PostUpdateView`,
-`PostDeleteView`, and PostDetailView, created the associated urls and templates,
-_created_ `PostUpdateView`, `PostDeleteView`, and PostDetailView tests, debugged
-the code and tests, and checked the test coverage of the django_boards project
-code.
+In this section, I created a generic class-based (GCBV) `PostUpdateView`,
+`PostDeleteView`, and `PostDetailView`, created the associated urls and
+templates, created `PostUpdateView`, `PostDeleteView`, and `PostDetailView`
+tests, debugged the code and tests, and checked the test coverage of the
+`django_boards` project code.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
-    **_mariadcampbell.com_**
--   [Built-in class-based generic views](https://docs.djangoproject.com/en/5.1/topics/class-based-views/generic-display/):
-    **_Django docs_**
--   [Form handling with class-based views](https://docs.djangoproject.com/en/5.1/topics/class-based-views/generic-editing/):
-    **_Django docs_**
--   [Single object mixins](https://docs.djangoproject.com/en/5.1/ref/class-based-views/mixins-single-object/#django.views.generic.detail.SingleObjectMixin.pk_url_kwarg):
-    **_Django docs_**
--   [Generic editing views](https://docs.djangoproject.com/en/5.1/ref/class-based-views/generic-editing/):
-    **_Django docs_**
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+  _mariadcampbell.com_
+- [Built-in class-based generic views](https://docs.djangoproject.com/en/5.1/topics/class-based-views/generic-display/):
+  _Django docs_
+- [Form handling with class-based views](https://docs.djangoproject.com/en/5.1/topics/class-based-views/generic-editing/):
+  _Django docs_
+- [Single object mixins](https://docs.djangoproject.com/en/5.1/ref/class-based-views/mixins-single-object/#django.views.generic.detail.SingleObjectMixin.pk_url_kwarg):
+  _Django docs_
+- [Generic editing views](https://docs.djangoproject.com/en/5.1/ref/class-based-views/generic-editing/):
+  _Django docs_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
