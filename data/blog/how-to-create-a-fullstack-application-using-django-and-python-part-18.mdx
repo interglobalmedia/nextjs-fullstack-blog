@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-18
 date: '2024-09-18T12:15:57.613Z'
-lastModified: '2024-12-18T07:20:57.613Z'
+lastModified: '2026-05-25T13:40:57.613Z'
 title: How to create a fullstack application using Django and Python Part 18
 author: Maria D. Campbell
 excerpt: 'In this section, I create the password_reset routes, views, tests, and
@@ -38,64 +38,63 @@ isFeatured: false
 Photo by [Towfiqu barbhuiya](https://unsplash.com/@towfiqu999999) on
 [unsplash.com](https://unsplash.com/photos/a-golden-padlock-sitting-on-top-of-a-keyboard-FnA5pAzqhMM)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Displaying the contents of emails in the Terminal console](#displaying-the-contents-of-emails-in-the-terminal-console)
-    -   [Adding the EMAIL_BACKEND setting to settings.py](#adding-the-email-backend-setting-to-settingspy)
--   [Configuring the routes](#configuring-the-routes)
--   [Creating the password_reset templates](#creating-the-password-reset-templates)
--   [Creating a test_view_password_reset.py file in accounts/tests/](#creating-a-test-view-password-resetpy-file-in-accounts-tests-)
--   [The password_reset view](#the-password-reset-view)
-    -   [Creating accounts/tests/test_view_password_reset.py](#creating-accounts-tests-test-view-password-resetpy)
--   [Creating templates/password_reset_subject.txt](#creating-templates-password-reset-subjecttxt)
--   [Creating templates/password_reset_email.html](#creating-templates-password-reset-emailhtml)
--   [Creating accounts/tests/test_mail_password_reset.py](#creating-accounts-tests-test-mail-password-resetpy)
--   [The password_reset_done view](#the-password-reset-done-view)
-    -   [templates/password_reset_done.html](#templates-password-reset-donehtml)
--   [accounts/tests/test_password_reset_done_tests.py](#accounts-tests-test-password-reset-done-testspy)
--   [password_reset_confirm view](#password-reset-confirm-view)
-    -   [templates/password_reset_confirm.html](#templates-password-reset-confirmhtml)
--   [accounts/tests/test_password_reset_confirm_tests.py](#accounts-tests-test-password-reset-confirm-testspy)
--   [accounts/tests/test_invalid_password_reset_confirm_tests.py](#accounts-tests-test_invalid-password-reset-confirm-tests.py)
--   [password_reset_complete view](#password-reset-complete-view)
-    -   [templates/password_reset_complete.html](#templates-password-reset-completehtml)
--   [accounts/tests/test_password_reset_complete_tests.py](#accounts-tests-test-password-reset-complete-testspy)
--   [password_change view](#password-change-view)
-    -   [django_boards/urls.py](#django-boards-urlspy)
--   [Defining the login URL of our application in settings.py](#defining-the-login-url-of-our-application-in-settingspy)
--   [templates/password_change.html](#templates-password-changehtml)
--   [templates/password_change_done.html](#templates-password-change-donehtml)
--   [accounts/tests/test_login_required_password_change_tests.py](#accounts-tests-test-login-required-password-change-testspy)
--   [accounts/tests/test_password_change_test_case.py](#accounts-tests-test-password-change-test-casepy)
--   [accounts/tests/test_successful_password_change_tests.py](#accounts-tests-test-successful-password-change-testspy)
--   [accounts/tests/test_invalid_password_change_tests.py](#accounts-tests-test-invalid-password-change-testspy)
--   [Resetting password](#resetting-password)
--   [Running our tests](#running-our-tests)
--   [Creating our Test Client using Beautiful Soup 4 and Soup Sieve](#creating-our-test-client-using-beautiful-soup-4-and-soup-sieve)
--   [Current file/directory structure of Django Boards](#current-file-directory-structure-of-django-boards)
--   [Current file/directory structure of Django Boards](#current-file-directory-structure-of-django-boards)
--   [Conclusion](#conclusion)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Displaying the contents of emails in the Terminal console](#displaying-the-contents-of-emails-in-the-terminal-console)
+    - [Adding the EMAIL_BACKEND setting to settings.py](#adding-the-email-backend-setting-to-settingspy)
+- [Configuring the routes](#configuring-the-routes)
+- [Creating the password_reset templates](#creating-the-password-reset-templates)
+- [Creating a test_view_password_reset.py file in accounts/tests/](#creating-a-test-view-password-resetpy-file-in-accounts-tests-)
+- [The password_reset view](#the-password-reset-view)
+    - [Creating accounts/tests/test_view_password_reset.py](#creating-accounts-tests-test-view-password-resetpy)
+- [Creating templates/password_reset_subject.txt](#creating-templates-password-reset-subjecttxt)
+- [Creating templates/password_reset_email.html](#creating-templates-password-reset-emailhtml)
+- [Creating accounts/tests/test_mail_password_reset.py](#creating-accounts-tests-test-mail-password-resetpy)
+- [The password_reset_done view](#the-password-reset-done-view)
+    - [templates/password_reset_done.html](#templates-password-reset-donehtml)
+- [accounts/tests/test_password_reset_done_tests.py](#accounts-tests-test-password-reset-done-testspy)
+- [password_reset_confirm view](#password-reset-confirm-view)
+    - [templates/password_reset_confirm.html](#templates-password-reset-confirmhtml)
+- [accounts/tests/test_password_reset_confirm_tests.py](#accounts-tests-test-password-reset-confirm-testspy)
+- [accounts/tests/test_invalid_password_reset_confirm_tests.py](#accounts-tests-test_invalid-password-reset-confirm-tests.py)
+- [password_reset_complete view](#password-reset-complete-view)
+    - [templates/password_reset_complete.html](#templates-password-reset-completehtml)
+- [accounts/tests/test_password_reset_complete_tests.py](#accounts-tests-test-password-reset-complete-testspy)
+- [password_change view](#password-change-view)
+    - [django_boards/urls.py](#django-boards-urlspy)
+- [Defining the login URL of our application in settings.py](#defining-the-login-url-of-our-application-in-settingspy)
+- [templates/password_change.html](#templates-password-changehtml)
+- [templates/password_change_done.html](#templates-password-change-donehtml)
+- [accounts/tests/test_login_required_password_change_tests.py](#accounts-tests-test-login-required-password-change-testspy)
+- [accounts/tests/test_password_change_test_case.py](#accounts-tests-test-password-change-test-casepy)
+- [accounts/tests/test_successful_password_change_tests.py](#accounts-tests-test-successful-password-change-testspy)
+- [accounts/tests/test_invalid_password_change_tests.py](#accounts-tests-test-invalid-password-change-testspy)
+- [Resetting password](#resetting-password)
+- [Running our tests](#running-our-tests)
+- [Creating our Test Client using Beautiful Soup 4 and Soup Sieve](#creating-our-test-client-using-beautiful-soup-4-and-soup-sieve)
+- [Current file/directory structure of Django Boards](#current-file-directory-structure-of-django-boards)
+- [Current file/directory structure of Django Boards](#current-file-directory-structure-of-django-boards)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 ## Displaying the contents of emails in the Terminal console
 
-During `development`, there are `two ways` that we can `"send"` emails.
-`Instead` of `sending` _real_ `emails`, we can `log` them. We can `write`
-_dummy_ `emails` to a `.txt` file, or we can `display them` as `stdout` to
-`Terminal`. It is _more convenient_ to _display them_ in `Terminal`.
+During development, there are two ways that we can "send" emails. Instead of
+sending real emails, we can log them. We can write dummy emails to a `.txt`
+file, or we can display them as `stdout` to Terminal. It is more convenient to
+display them in Terminal.
 
 ### Adding the EMAIL_BACKEND setting to settings.py
 
-_Next_, we `add` the `EMAIL_BACKEND` setting to `django_boards/settings.py`
-file:
+_Next_, we add the `EMAIL_BACKEND` setting to `django_boards/settings.py` file:
 
 ```python
 # django_boards/settings.py
@@ -104,18 +103,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ## Configuring the routes
 
-The `password reset process` requires `four views`:
+The password reset process requires four views:
 
-1, A `page` with a `form` to `start` the `reset process`.
+1, A page with a form to start the reset process.
 
-1. A `success page` saying the `process` has been `initiated`, `instructing` the
-   `user` to `check` their `spam directory`, etc.
-1. A `page` to `check` the `token` sent `via email`.
-1. A `page` to `tell` the `user` if the `reset` was `successful` or` not`.
+1. A success page saying the process has been initiated, instructing the user to
+   check their spam directory, etc.
+1. A page to check the token sent via email.
+1. A page to tell the user if the reset was successful or not.
 
-The `views` are `built-in`, so we `don't need` _to implement_ `anything`. All we
-`need` to `do` is `add` the `routes` to the `urls.py` and `create` the
-`templates`.
+The views are built-in, so we don't need to implement anything. All we need to
+do is add the routes to the `urls.py` and create the templates.
 
 **In django_boards/urls.py:**
 
@@ -144,17 +142,15 @@ urlpatterns = [
 ]
 ```
 
-It is _important_ to `pass` in the `template_name` so `that` we _know_ which
-`password-reset` path is `associated` _with which_ `template`. If a
-`template_name` is `not` _passed in_, then `Django` _defaults_ to
-`registration/password_reset_form.html` to r`ender` the _associated template_
-for the `view`, but as I _already mentioned_, we `want` to `explicitly` tell
-`Django` which `template` the `URL` is _associated with_.
+It is important to pass in the `template_name` so that we know which
+password-reset path is associated with which template. If a `template_name` is
+not passed in, then Django defaults to `registration/password_reset_form.html`
+to render the associated template for the view, but as I already mentioned, we
+want to explicitly tell Django which template the URL is associated with.
 
 ## Creating the password_reset templates
 
-_Next_, _inside_ the `templates` directory, we `create` the
-`following templates`:
+Next, inside the templates directory, we create the following templates:
 
 1. **registration/password_reset_form.html**:
 1. **password_reset_email.html**: template for when user receives email after
@@ -183,7 +179,7 @@ _Next_, _inside_ the `templates` directory, we `create` the
 
 ## Creating a test_view_password_reset.py file in accounts/tests/
 
-_Next_, I `create` a `test_view_password_reset.py` file in the `accounts/tests/`
+_Next_, I create a `test_view_password_reset.py` file in the `accounts/tests/`
 directory.
 
 ## The password_reset view
@@ -288,13 +284,12 @@ class InvalidPasswordResetTests(TestCase):
         self.assertEqual(0, len(mail.outbox))
 ```
 
-Let's `break up` this `file`. It's _already_ a bit `big`. We will `break` it
-`up` by `class`.
+Let's break up this file. It's already a bit big. We will break it up by class.
 
-_First_, let's `create` a `file` called `test_password_reset_tests.py` and
-`place` it _inside_ `accounts/tests`. Then let's `place` the `imports` at the
-`top` of the `file` followed by the `class PasswordResetTests` contents. it
-`should` then `look like` the `following`:
+First, let's create a file called `test_password_reset_tests.py` and place it
+inside `accounts/tests`. Then let's place the imports at the top of the file
+followed by the `class PasswordResetTests` contents. it should then look like
+the following:
 
 ```python
 # accounts/tests/test_password_reset_tests.py
@@ -334,9 +329,9 @@ class PasswordResetTests(TestCase):
         self.assertContains(self.response, 'type="email"', 1)
 ```
 
-_Next_, let's `create` a `file` called `test_successful_password_reset_tests.py`
-and place it in the `accounts/tests/` directory. Then it should `look like` the
-`following`:
+Next, let's create a file called `test_successful_password_reset_tests.py` and
+place it in the `accounts/tests/` directory. Then it should look like the
+following:
 
 ```python
 # accounts/tests/test_successful_password_reset_tests.py
@@ -366,8 +361,8 @@ class SuccessfulPasswordResetTests(TestCase):
         self.assertEqual(1, len(mail.outbox))
 ```
 
-_Lastly_, let's `create` a `file` called `test_invalid_password_reset_tests.py`
-and `place` it in the `accounts/tests/` directory.
+Lastly, let's create a file called `test_invalid_password_reset_tests.py` and
+place it in the `accounts/tests/` directory.
 
 ```python
 # accounts/tests/test_invalid_password_reset_tests.py
@@ -430,7 +425,7 @@ The Django Boards Team
 
 ## Creating accounts/tests/test_mail_password_reset.py
 
-`test_mail_password_reset.py` tests the `email message`:
+`test_mail_password_reset.py` tests the email message:
 
 ```python
 # accounts/tests/test_mail_password_reset.py
@@ -464,13 +459,12 @@ class PasswordResetMailTests(TestCase):
         self.assertEqual(['john@doe.com',], self.email.to)
 ```
 
-The `PasswordResetMailTests` test `grabs` the `email` sent by `Django Boards`,
-`checks out` the `subject line`, the `body` of the `email`, and who `received`
-the `email`.
+The `PasswordResetMailTests` test grabs the email sent by Django Boards, checks
+out the subject line, the body of the email, and who received the email.
 
-_To maintain_ `consistency`, we will `change` the `name` of this `file` to
-`test_password_reset_mail_tests.py` and `place` the `above code` into it. It
-should `look like` the `following`:
+To maintain consistency, we will change the name of this file to
+`test_password_reset_mail_tests.py` and place the above code into it. It should
+look like the following:
 
 ```python
 # accounts/tests/test_password_reset_mail_tests.py
@@ -529,7 +523,7 @@ class PasswordResetMailTests(TestCase):
 {% endblock content %}
 ```
 
-Which `looks like` the `following` in the `browser`:
+Which looks like the following in the browser:
 
 ![Password reset done view](Screenshot-2024-09-19-at-5.53.24-AM.jpg)
 
@@ -599,27 +593,26 @@ class PasswordResetDoneTests(TestCase):
 {% endblock content %}
 ```
 
-The `above template` can `only` be `accessed` with the `link` _sent_ in the
-`email`. The URL `looks` something `like` the `following`:
+The above template can only be accessed with the link sent in the email. The URL
+looks something like the following:
 `http://127.0.0.1:8000/password-reset/Mw/4po-2b5f2d47c19966e294a1/`
 
-The `password-reset` view (`http://127.0.0.1:8000/password-reset/`) `looks like`
-the `following` in the `browser`:
+The `password-reset` view (`http://127.0.0.1:8000/password-reset/`) looks like
+the following in the browser:
 
 ![The password-reset view in the browser](Screenshot-2024-09-19-at-5.41.15-AM.jpg)
 
 _The password-reset view in the browser_
 
-_During_ `development`, `grab` this `link` from the `email` in the `console`.
+During\_ development, grab this link from the email in the console.
 
-If the `link` is `valid`, the `view` should `look` something `like` the
-`following`:
+If the link is valid, the view should look something like the following:
 
 ![Password reset link is valid](boards_project_wireframe_django_board_password_reset_confirm.drawio.svg)
 
 _Password reset link is valid_
 
-If the `link` has `expired`:
+If the link has expired:
 
 ![Password reset link has expired](boards_project_wireframe_django_board_password_reset_confirm_expired.drawio.svg)
 
@@ -742,7 +735,8 @@ class InvalidPasswordResetConfirmTests(TestCase):
 {% endblock content %}
 ```
 
-templates/password_reset_complete.html looks like the following in the browser:
+`templates/password_reset_complete.html` looks like the following in the
+browser:
 
 ![Password reset complete view in browser](Screenshot-2024-09-1-at-7.54.25-AM.jpg)
 
@@ -772,9 +766,9 @@ class PasswordResetCompleteTests(TestCase):
 
 ## password_change view
 
-This `view` is `meant` to be `used` by `logged` in `users` that `want` to
-`change` their `password`. Usually, those `forms` are `composed` of
-`three fields`: `old password`, `new password`, and `new password confirmation`.
+This view is meant to be used by logged in users that want to change their
+password. Usually, those forms are composed of three fields: old password, new
+password, and new password confirmation.
 
 ### django_boards/urls.py
 
@@ -834,16 +828,15 @@ urlpatterns = [
 ]
 ```
 
-The `"password change"` URLs are `meant` only for `logged` in `users`. They will
-`not work` for `anyone else`. They `make use` of a `view decorator` named
-`@login_required`. This `decorator` prevents `non-authorized` users from
-`accessing` the `page`. If the `user` is `not` logged `in`, `Django` will
-`redirect` them to the `login page`.
+The "password change" URLs are meant only for logged in users. They will not
+work for anyone else. They make use of a `view decorator` named
+`@login_required`. This decorator prevents non-authorized users from accessing
+the page. If the user is not logged in, Django will redirect them to the login
+page.
 
 ## Defining the login URL of our application in settings.py
 
-_Now_ we `have` to `define` the `login` URL of our `application` in
-`settings.py`:
+Now we have to define the login URL of our application in `settings.py`:
 
 ```python
 # in django_baords/settings.py below DEFAULT_AUTO_FIELD
@@ -875,8 +868,7 @@ LOGIN_URL = 'login'
 {% endblock content %}
 ```
 
-The `password_change `view `looks` something `like` the `following` in the
-`browser`:
+The `password_change` view looks something like the following in the browser:
 
 ![Password change view in the browser for logged in users](Screenshot-2024-09-19-at-8.18.31-AM.jpg)
 
@@ -903,8 +895,8 @@ _Password change view in the browser for logged in users_
 {% endblock content %}
 ```
 
-The password_change_done view `looks` something `like` the `following` in the
-`browser`:
+The `password_change_done` view looks something like the following in the
+browser:
 
 ![password change done view in the browser](Screenshot-2024-09-19-at-8.28.58-AM.jpg)
 
@@ -929,9 +921,8 @@ class LoginRequiredPasswordChangeTests(TestCase):
         self.assertRedirects(response, f'{login_url}?next={url}')
 ```
 
-The `above test` tries to `access` the `password_change` view `without` being
-`logged in`. The `expected behavior` is to `redirect` the `user` to the
-`login page`.
+The above test tries to access the `password_change` view without being logged
+in. The expected behavior is to redirect the user to the login page.
 
 ## accounts/tests/test_password_change_test_case.py
 
@@ -952,11 +943,10 @@ class PasswordChangeTestCase(TestCase):
         self.response = self.client.post(self.url, data)
 ```
 
-Here we `define` a _new class_ named `PasswordChangeTestCase`. It `does` a
-`basic setup`, `creates` a `user` and `makes` a POST `request` to the
-`password_change` view. In the `next set` of `test cases`, we are going to` use`
-this `class` instead of the `TestCase` class and `test` a `successful request`
-and an `invalid request`.
+Here we define a new class named `PasswordChangeTestCase`. It does a basic
+setup, creates a user and makes a POST request to the `password_change` view. In
+the next set of test cases, we are going to use this class instead of the
+`TestCase` class and test a successful request and an invalid request.
 
 ## accounts/tests/test_successful_password_change_tests.py
 
@@ -1033,20 +1023,19 @@ class InvalidPasswordChangeTests(PasswordChangeTestCase):
         self.assertTrue(self.user.check_password('old_password'))
 ```
 
-The `.refresh_from_db()` method `makes sure` we `have` the `latest state` of the
-`data`. It _forces_ `Django` to `query` the `database` again to `update` the
-`data`. We `have` to `do` this `because` the `change_password` view `updates`
-the `password` in the `database`. To `test` if the `password` really `changed`,
-we `have` to `grab` the `latest data` from the `database`.
+The `.refresh_from_db()` method makes sure we have the latest state of the data.
+It forces Django to query the database again to update the data. We have to do
+this because the `change_password` view updates the password in the database. To
+test if the password really changed, we have to grab the latest data from the
+database.
 
 ## Resetting password
 
-_First_, I `go` to the url `127.0.0.1:8000/reset-password` and `type` in my
-(dummy) `email address` to `have` an `"email"` sent to `me` with a `reset link`
-so I can `reset` my `password`, followed by `clicking` on
-`"Send password reset email"`.
+First, I go to the url `127.0.0.1:8000/reset-password` and type in my (dummy)
+email address to have an "email" sent to me with a reset link so I can reset my
+password, followed by clicking on `"Send password reset email"`.
 
-Then I `go` to the `Terminal` console, and the `following` is `returned`:
+Then I go to the Terminal console, and the following is returned:
 
 ```shell
 [19/Sep/2024 14:29:23] "GET /password-reset/ HTTP/1.1" 200 2261
@@ -1084,24 +1073,23 @@ The Django Boards Team
 [19/Sep/2024 14:29:34] "GET /password-reset/done/ HTTP/1.1" 200 1864
 ```
 
-Then I `place` the
+Then I place the
 `http://127.0.0.1:8000/password-reset/MQ/cdluxa-58aa430ce75d6ae32cf33a87bd68e757/`
-URL in the b`rowser`, and the `following` is `rendered`:
+URL in the browser, and the following is rendered:
 
 ![password_reset_done view](Screenshot-2024-09-19-at-10.37.37-AM.jpg)
 
 _password_reset_done view_
 
-To `complete` the (dummy) `password_reset` process, I `go` to the
-`http://127.0.0.1:8000/password-reset/complete/` URL, _which_, as
-`shown previously`, `looks` something `like` the `following`:
+To complete the (dummy) `password_reset` process, I go to the
+`http://127.0.0.1:8000/password-reset/complete/` URL, which, as shown
+previously, looks something like the following:
 
 ![password_reset-complete view](Screenshot-2024-09-1-at-7.54.25-AM.jpg)
 
 _password_reset-complete view_
 
-Then I `click` on the `"Return to login"` button, and I am `taken` to the
-`following`:
+Then I click on the "Return to login" button, and I am taken to the following:
 
 ![login view](Screenshot-2024-09-16-at-5.46.39-PM.jpg)
 
@@ -1109,14 +1097,14 @@ _login view_
 
 ## Running our tests
 
-_Next_, we `want` to `make sure` that our `tests` pass. To `run` _all our_
-`tests` using the `coverage` command, we `run` the `following` in `Terminal`:
+Next, we want to make sure that our tests pass. To run all our tests using the
+coverage command, we run the following in Terminal:
 
 ```shell
 coverage run manage.py test
 ```
 
-Which `returns` the `following`:
+Which returns the following:
 
 ```shell
 Found 57 test(s).
@@ -1161,26 +1149,25 @@ FAILED (failures=3)
 Destroying test database for alias 'default'...
 ```
 
-The `tests` that have `failed` are `inside` the
-`test_password_reset_confirm_tests.py` file. _Specifically_, the
-`test_csrf(self)` function, and the `test_form_inputs(self)` function. We
-_encountered_ these `same errors` when we were `running` the `tests` inside the
-`SignUpTests` class
+The tests that have failed are inside the `test_password_reset_confirm_tests.py`
+file. Specifically, the `test_csrf(self)` function, and the
+`test_form_inputs(self)` function. We encountered these same errors when we were
+running the tests inside the `SignUpTests` class
 ([part 15](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-15)).
 
-You can `opt` to `go` with the original `test_form_inputs(self)` function and
-keep `.assertContains()`. Then you just `have` to `find out` which three inputs
-the test is looking for within the output returned from running the
-`coverage run manage.py tes` command, or searching for them in the browser via
-inspect element in the password_reset_confirm view
+You can opt to go with the original `test_form_inputs(self)` function and keep
+`.assertContains()`. Then you just have to find out which three inputs the test
+is looking for within the output returned from running the
+`coverage run manage.py test` command, or searching for them in the browser via
+inspect element in the `password_reset_confirm` view
 (`password_reset_confirm.html`). OR, we can find the classes we want to target
-located inside password_reset_confirm.html by using Beautiful Soup 4 and Soup
-Sieve to locate and grab them. I am going with Beautiful Soup 4 and Soup Sieve
-again.
+located inside `password_reset_confirm.html` by using `Beautiful Soup 4` and
+`Soup Sieve` to locate and grab them. I am going with `Beautiful Soup 4` and
+`Soup Sieve` again.
 
 ## Creating our Test Client using Beautiful Soup 4 and Soup Sieve
 
-inside the test_password_reset_confirm_tests.py file, we have to import `bs4`
+inside the `test_password_reset_confirm_tests.py` file, we have to import `bs4`
 and `soupsieve as sv` at the top of the file along with the rest of the imports:
 
 ```python
@@ -1189,13 +1176,13 @@ import bs4
 import soupsieve as sv
 ```
 
-Next, we have to recreate the test_form_inputs function. I will comment out the
-original one for reference, and recreate it below the commented out one.
+Next, we have to recreate the `test_form_inputs` function. I will comment out
+the original one for reference, and recreate it below the commented out one.
 
-However, before I re-create the test, I have to add a class to the form inside
+However, before I re-create the test, I have to add a class to the `form` inside
 `password_reset_confirm.html` so I can target it and locate the inputs within
-the form needed to pass the test. I added a class called
-"password-reset-confirm". Now the form looks like the following:
+the `form` needed to pass the test. I added a class called
+"password-reset-confirm". Now the `form` looks like the following:
 
 ```django
 <!-- password_reset_confirm.html -->
@@ -1207,9 +1194,9 @@ the form needed to pass the test. I added a class called
 ```
 
 Then I have to go through the password reset process in order to grab the URL
-containing the uuid64 and csrf token and input fields needed for the test.
+containing the `uuid64` and `csrf token` and `input` fields needed for the test.
 
-The link containing the uuid64 and the csrf token:
+The link containing the `uuid64` and the `csrf token`:
 
 ```shell
 http://127.0.0.1:8000/password-reset/MQ/cdmf2o-4a2a585ea7ef5129dbe30487b9f8cdb0/
@@ -1221,8 +1208,8 @@ The URL takes me to the following:
 
 _Change password for @interglobalmedia_
 
-I select `inspect element` in the browser to find out what the ids are of the
-two inputs displayed in the Change password form, and I find the following:
+I select inspect element in the browser to find out what the ids are of the two
+inputs displayed in the Change password `form`, and I find the following:
 
 ```shell
 id_new_password1
@@ -1247,7 +1234,7 @@ def test_form_inputs(self):
         sv.select('input:is(#id_new_password1, #id_new_password2, .form-control)', soup)
 ```
 
-Then I replace `'csrfmiddlewaretoken'` in the test_csrf function with the csrf
+Then I replace `'csrfmiddlewaretoken'` in the `test_csrf` function with the csrf
 token in the password-reset URL I got back from my initial failed tests in the
 Terminal console when I ran `coverage run manage.py test`:
 
@@ -1291,8 +1278,8 @@ def test_contains_form(self):
 
 I replaced `self.assertIsInstance(form, PasswordResetForm)` line with below
 because original line returned None. But with
-`self.assertIn('form', self.response.context)`, response has a context attribute
-that contains the context used to render the template.
+`self.assertIn('form', self.response.context)`, response has a `context`
+attribute that contains the context used to render the template.
 
 ## Current file/directory structure of Django Boards
 
@@ -1388,21 +1375,21 @@ that contains the context used to render the template.
 
 ## Conclusion
 
-In this section, I created the password_reset routes, views, tests, and
+In this section, I created the `password_reset` routes, views, tests, and
 templates. The results of the password reset process was output to the Terminal
 console. Just as in
 [part 15](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-15),
-I had to debug the password_reset_confirm_tests tests to find out what the
-actual csrf token was and hard code it into the test_csrf (function) test. I
-re-used the Beautiful Soup 4 and Soup Sieve packages to refactor the
-test_form_inputs (function) test.
+I had to debug the `password_reset_confirm_tests` tests to find out what the
+actual `csrf token` was and hard code it into the `test_csrf` (function) test. I
+re-used the `Beautiful Soup 4` and `Soup Sieve` packages to refactor the
+`test_form_inputs` (function) test.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [Django - Reset Password](https://dev.to/earthcomfy/django-reset-password-3k0l):
-    **_by Hana Belay, dev.to_**
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django - Reset Password](https://dev.to/earthcomfy/django-reset-password-3k0l):
+  _by Hana Belay, dev.to_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
