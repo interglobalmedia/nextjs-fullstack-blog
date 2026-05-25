@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-23
 date: '2024-10-04T10:40:05.054Z'
-lastModified: '2024-12-18T07:22:05.054Z'
+lastModified: '2026-05-25T19:44:05.054Z'
 title: How to create a fullstack application using Django and Python Part 23
 author: 'Maria D. Campbell'
 excerpt: 'In this section, I create a generic class based view called UserUpdateView (My
@@ -14,29 +14,29 @@ isFeatured: false
 
 ![Social media icons](igor-omilaev-rUvFnzl_fmg-unsplash.jpg)
 
-**_Photo by_** [Igor Omilaev](https://unsplash.com/@omilaev) **_on_**
+_Photo by_ [Igor Omilaev](https://unsplash.com/@omilaev) **_on_**
 [unsplash.com](https://unsplash.com/photos/a-thumbs-up-in-front-of-a-colorful-background-rUvFnzl_fmg)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Creating the (user) My Account view](#creating-the-user-my-account-view)
-    -   [Adding the My Account url to django_boards/urls.py](#adding-the-my-account-url-to-django-boards-urlspy)
-    -   [Creating templates/my_account.html](#creating-templates-my-accounthtml)
-    -   [Updating the My Account url in the logged in user dropdown menu](#updating-the-my-account-url-in-the-logged-in-user-dropdown-menu)
--   [Creating My Accounts tests](#creating-my-accounts-tests)
-    -   [Creating accounts/tests/test_view_my_account_tests.py](#creating-accounts-tests-test-view-my-account-testspy)
-    -   [Running python3 manage.py test accounts.tests.test_view_my_account_tests](#running-python3-managepy-test-accountsteststest-view-my-account-tests)
--   [Running code test coverage to include My Account view tests](#running-code-test-coverage-to-include-my-account-view-tests)
--   [Conclusion](#conclusion)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Creating the (user) My Account view](#creating-the-user-my-account-view)
+    - [Adding the My Account url to django_boards/urls.py](#adding-the-my-account-url-to-django-boards-urlspy)
+    - [Creating templates/my_account.html](#creating-templates-my-accounthtml)
+    - [Updating the My Account url in the logged in user dropdown menu](#updating-the-my-account-url-in-the-logged-in-user-dropdown-menu)
+- [Creating My Accounts tests](#creating-my-accounts-tests)
+    - [Creating accounts/tests/test_view_my_account_tests.py](#creating-accounts-tests-test-view-my-account-testspy)
+    - [Running python3 manage.py test accounts.tests.test_view_my_account_tests](#running-python3-managepy-test-accountsteststest-view-my-account-tests)
+- [Running code test coverage to include My Account view tests](#running-code-test-coverage-to-include-my-account-view-tests)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 ## Creating the (user) My Account view
 
@@ -88,13 +88,13 @@ path('account/', accounts_views.UserUpdateView.as_view(), name='my_account'),
 {% endblock content %}
 ```
 
-_Right now_, it `looks like` the `following`:
+Right now, it looks like the following:
 
 ![My Account view](Screenshot-2024-10-08-at-8.20.13-AM.jpg)
 
 _My Account view_
 
-It is `looking` _a bit_ `"squashed"`. Let's _change_ that!
+It is looking a bit "squashed". Let's change that!
 
 ```django
 <!-- templates/my_account.html -->
@@ -118,7 +118,7 @@ It is `looking` _a bit_ `"squashed"`. Let's _change_ that!
 {% endblock content %}
 ```
 
-_Now_ the `My Account` view `looks like` the `following`:
+_Now_ the My Account view looks like the following:
 
 ![Improved My Account view html markup](Screenshot-2024-10-08-at-8.38.23AM.jpg)
 
@@ -240,7 +240,7 @@ class InvalidMyAccountTests(MyAccountTestCase):
 ### Running python3 manage.py test accounts.tests.test_view_my_account_tests
 
 When I run `python3 manage.py test accounts.tests.test_view_my_account_tests`,
-the `following` is `returned`:
+the following is returned:
 
 ```shell
 Found 10 test(s).
@@ -266,13 +266,13 @@ FAILED (failures=1)
 Destroying test database for alias 'default'...
 ```
 
-The `reason` that the `MyAccountTests.test_form_inputs` test `fails` is
-`because` there IS _another_ `input` on the `my_account.html` page. The `logout`
-_csrf token_ `input` in the `Logout` form of the `logged in` _user_
-`dropdown menu`. `See` _the above_ `output` _from running_
-`python3 manage.py test accounts.tests.test_view_my_account_tests`. I `had` to
-`make` an `adjustment` to the `MyAccountTests.test_form_inputs` test AND
-`update` the `comment`:
+The reason that the `MyAccountTests.test_form_inputs` test fails is because
+there IS another input on the `my_account.html` page. The logout csrf token
+input in the Logout form of the logged in user dropdown menu. See the above
+output from running
+`python3 manage.py test accounts.tests.test_view_my_account_tests`. I had to
+make an adjustment to the `MyAccountTests.test_form_inputs` test AND update the
+comment:
 
 ```python
 # accounts/tests/test_view_my_account_tests.py
@@ -290,7 +290,7 @@ class MyAccountTests(MyAccountTestCase):
 
 _Now_ when I run
 `python3 manage.py test accounts.tests.test_view_my_account_tests` again, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 10 test(s).
@@ -304,12 +304,12 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-_Now_ the `tests` _pass_!
+Now the tests pass!
 
 ## Running code test coverage to include My Account view tests
 
 When I run `coverage run manage.py test` followed by `coverage report`, the
-`following` is `returned`:
+following is returned:
 
 | Name                                         | Stmts | Miss | Cover |
 | -------------------------------------------- | ----- | ---- | ----- |
@@ -322,10 +322,10 @@ Account view), associated tests, a URL, and template.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
-    **_mariadcampbell.com_**
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+  _mariadcampbell.com_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
