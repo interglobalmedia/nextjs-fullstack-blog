@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-20
 date: '2024-09-24T21:24:26.918Z'
-lastModified: '2024-12-18T07:20:26.918Z'
+lastModified: '2026-05-25T15:41:26.918Z'
 title: How to create a fullstack application using Django and Python Part 20
 author: Maria D. Campbell
 excerpt: 'In this section, I re-organize the accounts and boards tests content, refactor password reset-related django_boards/urls.py, fix the
@@ -17,63 +17,62 @@ isFeatured: false
 
 ![Man working in dark attic of house with headlamp for light source](greg-rosenke-0OZt4hzVUAY-unsplash.jpg)
 
-**_Photo by_** [Greg Rosenke](https://unsplash.com/@greg_rosenke) **_on_**
+_Photo by_ [Greg Rosenke](https://unsplash.com/@greg_rosenke) _on_
 [unsplash.com](https://unsplash.com/photos/man-in-green-crew-neck-t-shirt-holding-smoking-pipe-0OZt4hzVUAY)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Re-organizing the accounts and boards tests](#re-organizing-the-accounts-and-boards-tests)
-    -   [accounts/tests](#accounts-tests)
-        -   [accounts/tests/test_form_signup_test.py](#accounts-tests-test-form-signup-testpy)
-        -   [accounts/tests/test_mail_password_reset_tests.py](#accounts-tests-test-mail-password-reset-testspy)
-        -   [accounts/tests/test_view_password_change_tests.py](#accounts-tests-test-view-password-change-testspy)
-        -   [accounts/tests/test_view_password_reset_tests.py](#accounts-tests-test-view-password-reset-testspy)
-        -   [accounts/tests/test_view_signup_tests.py](#accounts-tests-test-view-signup-testspy)
-    -   [boards/tests](#boards-tests)
-        -   [boards/tests/test_templatetags.py](#boards-tests-test-templatetagspy)
-        -   [boards/tests/test_view_board_topics_tests.py](#boards-tests-test-view-board-topics-testspy)
-        -   [boards/tests/test_view_index_tests.py](#boards-tests-test-view-index-testspy)
-        -   [boards/tests/test_view_new_topic_tests.py](#boards-tests-test-view-new-topic-testspy)
-        -   [boards/tests/test_view_reply_topic_tests.py](#boards-tests-test-view-reply-topic-testspy)
-        -   [boards/tests/test_view_topic_posts_tests.py](#boards-tests-test-view-topic-posts-testspy)
--   [Revisiting failed tests in section 19 (accounts)](#revisiting-failed-tests-in-section-19-accounts)
-    -   [Refactoring django_boards/urls.py](#refactoring-django-boards-urlspy)
-    -   [Refactoring test_view_password_reset_tests.py](#refactoring-test-view-password-reset-testspy)
-    -   [Refactoring test_view_password_change_tests.py](#refactoring-test-view-password-change-testspy)
--   [Running the accounts/tests](#running-the-accounts-tests)
-    -   [python3 manage.py test accounts.tests.test_form_signup_test](#python3-managepy-test-accountsteststest-form-signup-test)
-    -   [python3 manage.py test accounts.tests.test_mail_password_reset_tests](#python3-managepy-test-accountsteststest-mail-password-reset-tests)
-    -   [python3 manage.py test accounts.tests.test_view_password_change_tests](#python3-managepy-test-accountsteststest-view-password-change-tests)
-    -   [python3 manage.py test accounts.tests.test_view_password_reset_tests](#python3-managepy-test-accountsteststest-view-password-reset-tests)
-    -   [python3 manage.py test accounts.tests.test_view_signup_tests](#python3-managepy-test-accountsteststest-view-signup-tests)
--   [Adding the change_password URL to templates/base.html](#adding-the-change-password-url-to-templates-basehtml)
--   [Running the boards/tests](#running-the-boards-tests)
-    -   [python3 manage.py test boards.tests.test_view_board_topics_tests](#python3-managepy-test-boardsteststest-view-board-topics-tests)
-    -   [python3 manage.py test boards.tests.test_view_board_topics_tests](#python3-managepy-test-boardsteststest-view-board-topics-tests)
-    -   [python3 manage.py test boards.tests.test_view_new_topic_tests](#python3-managepy-test-boardsteststest-view-new-topic-tests)
-    -   [python3 manage.py test boards.tests.test_view_reply_topic_tests](#python3-managepy-test-boardsteststest-view-reply-topic-tests)
-        -   [The 302 redirect fix](#the-302-redirect-fix)
-    -   [python3 manage.py test boards.tests.test_view_topic_posts_tests](#python3-managepy-test-boardsteststest-view-topic-posts-tests)
-        -   [Adding the reply_topic URL to templates/topic_posts.html](#adding-the-reply-topic-url-to-templates-topic-postshtml)
--   [Conclusion](#conclusion)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Re-organizing the accounts and boards tests](#re-organizing-the-accounts-and-boards-tests)
+    - [accounts/tests](#accounts-tests)
+        - [accounts/tests/test_form_signup_test.py](#accounts-tests-test-form-signup-testpy)
+        - [accounts/tests/test_mail_password_reset_tests.py](#accounts-tests-test-mail-password-reset-testspy)
+        - [accounts/tests/test_view_password_change_tests.py](#accounts-tests-test-view-password-change-testspy)
+        - [accounts/tests/test_view_password_reset_tests.py](#accounts-tests-test-view-password-reset-testspy)
+        - [accounts/tests/test_view_signup_tests.py](#accounts-tests-test-view-signup-testspy)
+    - [boards/tests](#boards-tests)
+        - [boards/tests/test_templatetags.py](#boards-tests-test-templatetagspy)
+        - [boards/tests/test_view_board_topics_tests.py](#boards-tests-test-view-board-topics-testspy)
+        - [boards/tests/test_view_index_tests.py](#boards-tests-test-view-index-testspy)
+        - [boards/tests/test_view_new_topic_tests.py](#boards-tests-test-view-new-topic-testspy)
+        - [boards/tests/test_view_reply_topic_tests.py](#boards-tests-test-view-reply-topic-testspy)
+        - [boards/tests/test_view_topic_posts_tests.py](#boards-tests-test-view-topic-posts-testspy)
+- [Revisiting failed tests in section 19 (accounts)](#revisiting-failed-tests-in-section-19-accounts)
+    - [Refactoring django_boards/urls.py](#refactoring-django-boards-urlspy)
+    - [Refactoring test_view_password_reset_tests.py](#refactoring-test-view-password-reset-testspy)
+    - [Refactoring test_view_password_change_tests.py](#refactoring-test-view-password-change-testspy)
+- [Running the accounts/tests](#running-the-accounts-tests)
+    - [python3 manage.py test accounts.tests.test_form_signup_test](#python3-managepy-test-accountsteststest-form-signup-test)
+    - [python3 manage.py test accounts.tests.test_mail_password_reset_tests](#python3-managepy-test-accountsteststest-mail-password-reset-tests)
+    - [python3 manage.py test accounts.tests.test_view_password_change_tests](#python3-managepy-test-accountsteststest-view-password-change-tests)
+    - [python3 manage.py test accounts.tests.test_view_password_reset_tests](#python3-managepy-test-accountsteststest-view-password-reset-tests)
+    - [python3 manage.py test accounts.tests.test_view_signup_tests](#python3-managepy-test-accountsteststest-view-signup-tests)
+- [Adding the change_password URL to templates/base.html](#adding-the-change-password-url-to-templates-basehtml)
+- [Running the boards/tests](#running-the-boards-tests)
+    - [python3 manage.py test boards.tests.test_view_board_topics_tests](#python3-managepy-test-boardsteststest-view-board-topics-tests)
+    - [python3 manage.py test boards.tests.test_view_board_topics_tests](#python3-managepy-test-boardsteststest-view-board-topics-tests)
+    - [python3 manage.py test boards.tests.test_view_new_topic_tests](#python3-managepy-test-boardsteststest-view-new-topic-tests)
+    - [python3 manage.py test boards.tests.test_view_reply_topic_tests](#python3-managepy-test-boardsteststest-view-reply-topic-tests)
+        - [The 302 redirect fix](#the-302-redirect-fix)
+    - [python3 manage.py test boards.tests.test_view_topic_posts_tests](#python3-managepy-test-boardsteststest-view-topic-posts-tests)
+        - [Adding the reply_topic URL to templates/topic_posts.html](#adding-the-reply-topic-url-to-templates-topic-postshtml)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 ## Re-organizing the accounts and boards tests
 
-_Before_ we `continue` developing `Django Boards`, we `have` to `address` our
-`current` _failed_ `tests` from `part 19` and `fix them`.
+Before we continue developing Django Boards, we have to address our current
+failed tests from part 19 and fix them.
 
-But _before_ we _even_ do _that_, I `re-organized` the `accounts` and `boards`
-tests. I `grouped` the `tests` by `view`. `accounts/tests` now `contains` the
-`following files`:
+But before we even do that, I re-organized the `accounts` and `boards` tests. I
+grouped the tests by view. `accounts/tests` now contains the following files:
 
 ```shell
 - accounts/
@@ -87,7 +86,7 @@ tests. I `grouped` the `tests` by `view`. `accounts/tests` now `contains` the
     - test_view_signup_tests.py
 ```
 
-And the `boards/tests` _contains_:
+And the `boards/tests` contains:
 
 ```shell
 - boards/
@@ -998,10 +997,9 @@ class TopicPostsTests(TestCase):
         self.assertEqual(view.func, topic_posts)
 ```
 
-There are a some `differences` between the `code` through `part 19` and the
-`code` _shared here_. _Make sure_ to `check` for `them`! I successfully
-refactored all the accounts tests. I just have 1 failing test in the boards
-tests.
+There are a some differences between the code through part 19 and the code
+shared here. Make sure to check for them! I successfully refactored all the
+`accounts` tests. I just have 1 failing test in the boards tests.
 
 The only test that fails is when I run
 `python3 manage.py test boards.tests.test_view_reply_topic_tests` and get back
@@ -1034,16 +1032,16 @@ Destroying test database for alias 'default'...
 
 ### Refactoring django_boards/urls.py
 
-I _found out_ from @kenWhitesell on
-[Django Forum](https://forum.djangoproject.com) that the `main reason` for my
-`test failures` in `accounts` was the `password reset` URLs. If we `use` the
-_default_ `password` reset `configuration`, we `have` to `use` _particular_
-`urls`. _First_ I `went` to the `Django documentation` for
+I found out from @kenWhitesell on
+[Django Forum](https://forum.djangoproject.com) that the main reason for my test
+failures in `accounts` was the password reset URLs. If we use the default
+password reset configuration, we have to use particular urls. First I went to
+the Django documentation for
 [Using the Django authentication system](https://docs.djangoproject.com/en/5.1/topics/auth/default/#using-the-views)
-(which `Ken` _pointed_ me _to_), and `following` the `steps` there, _along with_
-a `thread` I `discovered` on `stackoverflow`
-([AttributeError: module 'django.contrib.auth.views' has no attribute 'password_reset' " error in urls.py](https://stackoverflow.com/questions/61601342/attributeerror-module-django-contrib-auth-views-has-no-attribute-password-r/61603384#61603384)),
-I `ended up` with the `following` in my `django_boards/urls.py` file:
+(which Ken pointed me to), and following the steps there, along with a thread I
+discovered on stackoverflow
+([AttributeError: module 'django.contrib.auth.views' has no attribute 'password_reset' error in urls.py](https://stackoverflow.com/questions/61601342/attributeerror-module-django-contrib-auth-views-has-no-attribute-password-r/61603384#61603384)),
+I ended up with the following in my `django_boards/urls.py` file:
 
 ```python
 # django_boards/urls.py
@@ -1112,7 +1110,7 @@ urlpatterns = [
 ]
 ```
 
-The `Django documentation` _does mention_ the `option` to do _something like_:
+The Django documentation does mention the option to do something like:
 
 ```python
 urlpatterns = [
@@ -1120,8 +1118,8 @@ urlpatterns = [
 ]
 ```
 
-_But_ if you `want` to `stick` to the _default_ `password` reset
-`configurations`, you `have` to `go with`:
+But if you want to stick to the default password reset configurations, you have
+to go with:
 
 ```python
 path(
@@ -1133,8 +1131,7 @@ path(
 
 I learned this the hard way!
 
-_Then_ I `had` to `make` some `changes` to the _related_ `password` reset
-`tests`.
+Then I had to make some changes to the _related_ password reset tests.
 
 ### Refactoring test_view_password_reset_tests.py
 
@@ -1541,7 +1538,7 @@ class InvalidPasswordChangeTests(PasswordChangeTestCase):
 ### python3 manage.py test accounts.tests.test_form_signup_test
 
 When I run `python3 manage.py test accounts.tests.test_form_signup_test`, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 1 test(s).
@@ -1572,18 +1569,17 @@ FAILED (failures=1)
 Destroying test database for alias 'default'...
 ```
 
-The `test` _fails_. Yes, it `fails` because the `original test` that was
-`created` 7 `years ago` was `targeting` only `4` input `fields`. But the
-`current` signup `form` contains a `usable password` by `default`. The `intent`
-of this `test` is to `check` whether or `not` something has `changed` in the
-`form`, and `yes`, it `has`. `Once` I `ran` this, I `commented out` this `test`.
-_No reason_ to `run` it `again`! _At least_ for the `time being`.
+The test fails. Yes, it fails because the original test that was created 7 years
+ago was targeting only 4 input fields. But the current signup form contains a
+usable password by default. The intent of this test is to check whether or not
+something has changed in the form, and yes, it has. Once I ran this, I commented
+out this test. No reason to run it again! At least for the time being.
 
 ### python3 manage.py test accounts.tests.test_mail_password_reset_tests
 
 When I run
 `python3 manage.py test accounts.tests.test_mail_password_reset_tests`, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 3 test(s).
@@ -1603,7 +1599,7 @@ The tests pass.
 
 When I run
 `python3 manage.py test accounts.tests.test_view_password_change_tests`, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 12 test(s).
@@ -1622,9 +1618,9 @@ The tests (still) pass.
 
 ### python3 manage.py test accounts.tests.test_view_password_reset_tests
 
-_Now_ when I run
+Now when I run
 `python3 manage.py test accounts.tests.test_view_password_reset_tests`, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 20 test(s).
@@ -1680,12 +1676,12 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-The tests pass. The `key` was in the _correct_ `URL`s.
+The tests pass. The key was in the correct URLs.
 
 ### python3 manage.py test accounts.tests.test_view_signup_tests
 
 When I run `python3 manage.py test accounts.tests.test_view_signup_tests`, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 11 test(s).
@@ -1770,10 +1766,10 @@ The tests pass.
 
 ## Adding the change_password URL to templates/base.html
 
-_In order_ for the `logged` in `user` to `be able` to `change` their `password`,
-I `had` to `add` the following to `templates/base.html`:
+In order for the logged in user to be able to change their password, I had to
+add the following to `templates/base.html`:
 
-````django
+```django
 <!-- templates/base.html -->
 {% if user.is_authenticated %}
     <div class="dropdown">
@@ -1810,20 +1806,34 @@ I `had` to `add` the following to `templates/base.html`:
 {% else %}
 ```
 
-It is `important` to `note` that *replacing* `#` with `{%url password_change %}` does _not_ work. Why?
+It is important to note that replacing `#` with `{%url password_change %}` does
+not work. Why?
 
-*First*, in `class SuccessfulPasswordChangeTests.test_redirection` and in the `actual behavior` in the `browser`, we have a `redirection` to the `password_change_done` url from the `password_change` url.
+First, in `class SuccessfulPasswordChangeTests.test_redirection` and in the
+actual behavior in the browser, we have a redirection to the
+`password_change_done` url from the `password_change` url.
 
-*Second*, it is *not possible* to use `{%url password_change %} because the `url` has not been `loaded` when `reverse` is `called`. `In order` to `fix` this, I `hardcode` the `url` *instead of* `using` the `reverse` (`password_change`). To *learn more* about this, please `visit` the `thread` entitled [Django url error in template with password_change view](https://stackoverflow.com/questions/6512610/django-url-error-in-template-with-password-change-view) on `stackoverflow`.
+Second, it is not possible to use `{%url password_change %}` because the `url`
+has not been loaded when `reverse` is called. In order to fix this, I hardcode
+the url instead of using the `reverse (password_change)`. To learn more about
+this, please visit the thread entitled
+[Django url error in template with password_change view](https://stackoverflow.com/questions/6512610/django-url-error-in-template-with-password-change-view)
+on stackoverflow.
 
-## Revisiting failed tests in section 19 (boards) ### python3 manage.py test
-boards.tests.test_templatetags When I run `python3 manage.py test
-boards.tests.test_templatetags`, the `following` is `returned`: ```shell Found 4
+## Revisiting failed tests in section 19 (boards)
+
+### python3 manage.py test boards.tests.test_templatetags
+
+When I run `python3 manage.py test boards.tests.test_templatetags`, the
+following is returned:
+
+```shell
+Found 4
 test(s). Creating test database for alias 'default'... System check identified
 no issues (0 silenced). ....
 ---------------------------------------------------------------------- Ran 4
 tests in 0.001s OK Destroying test database for alias 'default'...
-````
+```
 
 The tests pass.
 
@@ -1832,7 +1842,7 @@ The tests pass.
 ### python3 manage.py test boards.tests.test_view_board_topics_tests
 
 When I run `python3 manage.py test boards.tests.test_view_board_topics_tests`,
-it `returns` the `following`:
+it returns the following:
 
 ```shell
 Found 4 test(s).
@@ -1851,7 +1861,7 @@ The tests pass.
 ### python3 manage.py test boards.tests.test_view_index_tests
 
 When I run `python3 manage.py test boards.tests.test_view_index_tests`, it
-`returns` the `following`:
+returns the following:
 
 ```shell
 Found 3 test(s).
@@ -1870,7 +1880,7 @@ The tests pass.
 ### python3 manage.py test boards.tests.test_view_new_topic_tests
 
 When I run `python3 manage.py test boards.tests.test_view_new_topic_tests`, the
-`following` is `returned`:
+following is returned:
 
 ```shell
 Found 10 test(s).
@@ -1889,7 +1899,7 @@ The test passed.
 ### python3 manage.py test boards.tests.test_view_reply_topic_tests
 
 When I run `python3 manage.py test boards.tests.test_view_reply_topic_tests`,
-the `following` is `returned`:
+the following is returned:
 
 ```shell
 Found 10 test(s).
@@ -1914,13 +1924,13 @@ FAILED (failures=1)
 Destroying test database for alias 'default'...
 ```
 
-`One` out of `ten` tests `failed`. We have a redirect issue. The `test` should
-`result` in `returning` to the `same page` (status code `200`) if an
-`invalid form` is `submitted`, but I have `set up` a `redirect` in the
-`reply_topic` view to the `topic-posts` view (`topic_posts.html`) if a `topic`
-post `submission` is `valid`. If it is _not_ `valid`, the `user` _remains_ on
-the `reply_topic` view (`reply_topic.html`). If the `form submission` is _not_
-`valid`, the `status code` should be` 200`. However, right now, it is `302`.
+One out of ten tests failed. We have a redirect issue. The test should result in
+returning to the same page (status code 200) if an invalid `form` is submitted,
+but I have set up a redirect in the `reply_topic` view to the `topic-posts` view
+(`topic_posts.html`) if a topic post submission is valid. If it is not valid,
+the user remains on the `reply_topic` view (`reply_topic.html`). If the form
+submission is not valid, the status code should be 200. However, right now, it
+is 302.
 
 ### The 302 redirect fix
 
@@ -1952,15 +1962,15 @@ class InvalidReplyTopicTests(ReplyTopicTestCase):
 ```
 
 The fix here is to add `response = self.client.get(self.url, {})`.
-`self.response = self.client.post(self.url, {})` has a `status code` of `200`,
-and it is the `URL` that the `user` should `remain at` if the `reply_topic` form
-`submission` is `invalid`. _Getting_ that `URL` with
-`response = self.client.get(self.url, {})`, `makes` the `test` _pass_!
+`self.response = self.client.post(self.url, {})` has a status code of 200, and
+it is the URL that the user should remain at if the `reply_topic` form
+submission is invalid. Getting that URL with
+`response = self.client.get(self.url, {})`, makes the test pass!
 
 ### python3 manage.py test boards.tests.test_view_topic_posts_tests
 
 When I run `python3 manage.py test boards.tests.test_view_topic_posts_tests`,
-the `following` is `returned`:
+the following is returned:
 
 ```shell
 Found 2 test(s).
@@ -1997,21 +2007,21 @@ The tests pass.
 
 ## Conclusion
 
-In this section, I _re-organized_ the `accounts` and `boards` tests `content`,
-_refactored_ password reset-related `django_boards/urls.py`, `fixed` the
-password reset-related `accounts` tests `failures`, `added` the
-`password_change` URL to `templates/base.html`, `fixed` the `302`
-redirect-related `failure` in the `boards.tests.test_view_reply_topic_tests`,
-and `added` the `reply_topic` URL to `templates/topic_posts.html`.
+In this section, I re-organized the accounts and boards tests content,
+refactored password reset-related `django_boards/urls.py`, fixed the password
+reset-related accounts tests failures, added the `password_change` URL to
+`templates/base.html`, fixed the 302 redirect-related failure in the
+`boards.tests.test_view_reply_topic_tests`, and added the `reply_topic` URL to
+`templates/topic_posts.html`.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
-    **_mariadcampbell.com_**
--   [Using the Django authentication system](https://docs.djangoproject.com/en/5.1/topics/auth/default/#using-the-views):
-    **_Django docs_**
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+  _mariadcampbell.com_
+- [Using the Django authentication system](https://docs.djangoproject.com/en/5.1/topics/auth/default/#using-the-views):
+  _Django docs_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
