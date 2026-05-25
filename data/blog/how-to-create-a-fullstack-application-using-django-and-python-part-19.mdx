@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-19
 date: '2024-09-20T09:56:36.150Z'
-lastModified: '2024-12-18T07:20:36.150Z'
+lastModified: '2026-05-25T14:20:36.150Z'
 title: How to create a fullstack application using Django and Python Part 19
 author: Maria D. Campbell
 excerpt: 'In this section, I implement protecting views, I configure the Login next
@@ -22,64 +22,64 @@ isFeatured: false
 _Photo by_ [Chittima Stanmore](https://unsplash.com/@cstanmore1_) _on_
 [unsplash.com](https://unsplash.com/photos/a-red-padlock-attached-to-a-chain-link-fence-fLCrjOp4BIA)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [How to protect views](#how-to-protect-views)
--   [Configuring the Login next redirect](#configuring-the-login-next-redirect)
-    -   [templates/login.html](#templates-loginhtml)
--   [@login_required tests](#login-required-tests)
-    -   [boards/tests/test_login_required_new_topic_tests.py](#boards-tests-test-login-required-new-topic-testspy)
--   [Accessing the authenticated user](#accessing-the-authenticated-user)
--   [The topic posts view](#the-topic-posts-view)
-    -   [Creating the templates/topic_posts.html](#creating-the-templates-topic-postshtml)
-    -   [boards/tests/test_topic_posts_tests.py](#boards-tests-test-topic-posts-testspy)
-    -   [Creating a for loop to iterate over topic posts in topic_posts.html](#creating-a-for-loop-to-iterate-over-topic-posts-in-topic-postshtml)
-    -   [Updating the topics.html template with URL to the topic posts listing](#updating-the-topicshtml-template-with-url-to-the-topic-posts-listing)
--   [The reply post view](#the-reply-post-view)
-    -   [Adding the post reply URL to django_boards/urls.py](#adding-the-post-reply-url-to-django-boards-urlspy)
-    -   [Creating a form for the post reply in boards/forms.py](#creating-a-form-for-the-post-reply-in-boards-formspy)
--   [Update the return redirect of the new_topic view function](#update-the-return-redirect-of-the-new-topic-view-function)
--   [First version of templates/reply_topic.html (without likes or links)](#first-version-of-templates-reply-topichtml-without-likes-or-links)
--   [Making the starter post more prominent on the page](#making-the-starter-post-more-prominent-on-the-page)
--   [boards/tests/test_reply_topic_test_case.py](#boards-tests-test-reply-topic-test-casepy)
--   [boards/tests/test_login_required_reply_topic_tests.py](#boards-tests-test-login-required-reply-topic-testspy)
--   [boards/tests/test_reply_topic_tests.py](#boards-tests-test-reply-topic-testspy)
--   [boards/tests/test_successful_reply_topic_tests.py](#boards-tests-test-successful-reply-topic-testspy)
--   [boards/tests/test_invalid_reply_topic_tests.py](#boards-tests-test-invalid-reply-topic-testspy)
--   [QuerySets](#querysets)
-    -   [Improving the index/home view](#improving-the-index-home-view)
--   [Experimenting with the Python shell](#experimenting-with-the-python-shell)
--   [boards/models.py](#boards-modelspy)
--   [Adding the posts count, topics count, and latest post to the index/home view](#adding-the-posts-count-topics-count-and-latest-post-to-the-index-home-view)
--   [Running the tests to include the new ReplyTopic related tests](#running-the-tests-to-include-the-new-replytopic-related-tests)
--   [Improving the topics view](#improving-the-topics-view)
--   [Updating the board_topics in boards/views.py](#updating-the-board-topics-in-boards-viewspy)
--   [Updating templates/topics.html](#updating-templates-topicshtml)
--   [Adding a new field to the Topic model](#adding-a-new-field-to-the-topic-model)
--   [Running makemigrations and migrate](#running-makemigrations-and-migrate)
--   [app.css](#appcss)
--   [Conclusion](#conclusion)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [How to protect views](#how-to-protect-views)
+- [Configuring the Login next redirect](#configuring-the-login-next-redirect)
+    - [templates/login.html](#templates-loginhtml)
+- [@login_required tests](#login-required-tests)
+    - [boards/tests/test_login_required_new_topic_tests.py](#boards-tests-test-login-required-new-topic-testspy)
+- [Accessing the authenticated user](#accessing-the-authenticated-user)
+- [The topic posts view](#the-topic-posts-view)
+    - [Creating the templates/topic_posts.html](#creating-the-templates-topic-postshtml)
+    - [boards/tests/test_topic_posts_tests.py](#boards-tests-test-topic-posts-testspy)
+    - [Creating a for loop to iterate over topic posts in topic_posts.html](#creating-a-for-loop-to-iterate-over-topic-posts-in-topic-postshtml)
+    - [Updating the topics.html template with URL to the topic posts listing](#updating-the-topicshtml-template-with-url-to-the-topic-posts-listing)
+- [The reply post view](#the-reply-post-view)
+    - [Adding the post reply URL to django_boards/urls.py](#adding-the-post-reply-url-to-django-boards-urlspy)
+    - [Creating a form for the post reply in boards/forms.py](#creating-a-form-for-the-post-reply-in-boards-formspy)
+- [Update the return redirect of the new_topic view function](#update-the-return-redirect-of-the-new-topic-view-function)
+- [First version of templates/reply_topic.html (without likes or links)](#first-version-of-templates-reply-topichtml-without-likes-or-links)
+- [Making the starter post more prominent on the page](#making-the-starter-post-more-prominent-on-the-page)
+- [boards/tests/test_reply_topic_test_case.py](#boards-tests-test-reply-topic-test-casepy)
+- [boards/tests/test_login_required_reply_topic_tests.py](#boards-tests-test-login-required-reply-topic-testspy)
+- [boards/tests/test_reply_topic_tests.py](#boards-tests-test-reply-topic-testspy)
+- [boards/tests/test_successful_reply_topic_tests.py](#boards-tests-test-successful-reply-topic-testspy)
+- [boards/tests/test_invalid_reply_topic_tests.py](#boards-tests-test-invalid-reply-topic-testspy)
+- [QuerySets](#querysets)
+    - [Improving the index/home view](#improving-the-index-home-view)
+- [Experimenting with the Python shell](#experimenting-with-the-python-shell)
+- [boards/models.py](#boards-modelspy)
+- [Adding the posts count, topics count, and latest post to the index/home view](#adding-the-posts-count-topics-count-and-latest-post-to-the-index-home-view)
+- [Running the tests to include the new ReplyTopic related tests](#running-the-tests-to-include-the-new-replytopic-related-tests)
+- [Improving the topics view](#improving-the-topics-view)
+- [Updating the board_topics in boards/views.py](#updating-the-board-topics-in-boards-viewspy)
+- [Updating templates/topics.html](#updating-templates-topicshtml)
+- [Adding a new field to the Topic model](#adding-a-new-field-to-the-topic-model)
+- [Running makemigrations and migrate](#running-makemigrations-and-migrate)
+- [app.css](#appcss)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 ## How to protect views
 
-We `have` to start `protecting` our `views` from `non-authorized` users. For
-example, we `have` the `new_topic` view for `starting` **_a new_** `topic post`:
+We have to start protecting our views from non-authorized users. For example, we
+have the `new_topic` view for starting a new topic post:
 
 ![The unprotected new_topic view](Screenshot-2024-09-20-at-8.06.17-AM.jpg)
 
 _The unprotected new_topic view_
 
-`Django` has a **_built-in_** `decorator` _to prevent_ `unauthorized users` from
-`being able` _to access_ `views` only `meant` for `logged` in `users`:
+Django has a built-in decorator to prevent unauthorized users from being able to
+access views only meant for logged in users:
 
 ```python
 # boards/views.py
@@ -122,17 +122,16 @@ def new_topic(request, id):
     return render(request, 'new_topic.html', {'board': board, 'form': form})
 ```
 
-_From_ now _on_, if the `user` _is not_ `authenticated`, they `will` be
-`redirected` to the `login page`.
+_From_ now _on_, if the user _is not_ authenticated, they will be redirected to
+the login page.
 
 ![Unauthorized user redirect to login page](Screenshot-2024-09-20-at-8.35.27-AM.jpg)'
 
 _Unauthorized user redirect to login page_
 
-_Notice_ the `http://127.0.0.1:8000/login/?next=/boards/1/new/` URL in the
-`browser`? We are going to `improve` upon the `user experience` by
-`taking advantage` of the` Django` next `redirect` variable and `improving upon`
-the `login template` as well.
+Notice the `http://127.0.0.1:8000/login/?next=/boards/1/new/` URL in the
+browser? We are going to improve upon the user experience by taking advantage of
+the Django next redirect variable and improving upon the login template as well.
 
 ## Configuring the Login next redirect
 
@@ -180,8 +179,8 @@ the `login template` as well.
 {% endblock body %}
 ```
 
-if we `try` to `login` now `after` being `redirected` to the `login` page, we
-`will` be `taken back` (in this case) to the `protected` new_topic `view`:
+if we try to login now after being redirected to the login page, we will be
+taken back (in this case) to the protected `new_topic` view:
 
 ![Taken back to the new_topic view after logging in](Screenshot-2024-09-20-at-8.06.17-AM.jpg)
 
@@ -208,9 +207,9 @@ class LoginRequiredNewTopicTests(TestCase):
         self.assertRedirects(self.response, '{login_url}?next={url}'.format(login_url=login_url, url=self.url))
 ```
 
-In the `test`(`s`) above, we are `trying` to `make` a `request` to the
-`new_topic` view `without` being `authenticated`. The _expected_ `result` is for
-the `request` to be `redirected` to the `login` view.
+In the test(s) above, we are trying to make a request to the `new_topic` view
+without being authenticated. The expected result is for the request to be
+redirected to the `login` view.
 
 ## Accessing the authenticated user
 
@@ -255,7 +254,7 @@ def new_topic(request, id):
     return render(request, 'new_topic.html', {'board': board, 'form': form})
 ```
 
-We can `test` this by `creating` a `new topic`:
+We can test this by creating a new topic:
 
 ![Creating a new topic using refactored new_topic view](Screenshot-2024-09-20-at-11.59.09-AM.png)
 
@@ -263,25 +262,23 @@ _Creating a new topic using refactored new_topic view_
 
 ## The topic posts view
 
-Let’s `implement` the `posts listing` page, `according` to the `wireframe`
-below:
+Let’s implement the posts listing page, according to the wireframe below:
 
 ![Boards app wireframe new topic posts and replies](boards_project_wireframe_django_board_new_topic_posts_and_replies.drawio.svg)
 
 _Boards app wireframe new topic posts and replies_
 
-1. `First`, we `need` a `route`:
+1. First, we need a route:
 
 ```python
 # django_boards/urls.py
 path('boards/<id>/topics/<topic_id>/', views.topic_posts, name='topic_posts'),
 ```
 
-We are now `dealing` with `two` keyword` args`.` id` is `used` to `identify` the
-`Board`, and `topic_id` is `used` to `identify` which `topic` to `get` from the
-`database`.
+We are now dealing with two keyword args. `id` is used to identify the Board,
+and `topic_id` is used to identify which topic to get from the database.
 
-The `matching view` inside `boards/views.py` is the `following`:
+The matching view inside `boards/views.py` is the following:
 
 ```python
 # boards/views.py
@@ -290,8 +287,8 @@ def topic_posts(request, id, topic_id):
     return render(request, 'topic_posts.html', {'topic': topic})
 ```
 
-We are _indirectly_ `getting` the `current board`. The `topic model` is
-`related` to the `board model`, so we can `access` the `current board`.
+We are indirectly getting the current board. The topic model is related to the
+board model, so we can access the current board.
 
 ### Creating the templates/topic_posts.html
 
@@ -405,25 +402,25 @@ class TopicPostsTests(TestCase):
 {% endblock content %}
 ```
 
-This is `how` the `topic_posts.html` looks `like` in the `browser`:
+This is how the `topic_posts.html` looks like in the browser:
 
 ![topic_posts view](Screenshot-2024-09-20-at-4.47.47-PM.jpg)
 
 _topic_posts view_
 
-Since we `don't` have a `way` of `uploading` images `yet`, I `manually added` an
-`image` to the `static/img/` directory. I `created` it using `draw.io` and
-`saved` it as an `svg`.
+Since we don't have a way of uploading images yet, I manually added an image to
+the `static/img/` directory. I created it using `draw.io` and saved it as an
+svg.
 
-The code `{{ post.created_by.posts.count }}` is `executing` a `select count` in
-the `database` (`Posts: 9`).
+The code `{{ post.created_by.posts.count }}` is executing a select count in the
+database (`Posts: 9`).
 
-We are also `testing` if the `current post` belongs to the `authenticated user`:
-`{% if post.created_by == user %}`, and `only` the `author` of the `post` is
-able to `see` the `edit` button.
+We are also testing if the current post belongs to the authenticated user:
+`{% if post.created_by == user %}`, and only the author of the post is able to
+see the edit button.
 
-This is also `where` we would `add` the `post likes` and `links`: alongside the
-`reply button`. We will get back to this later.
+This is also where we would add the post likes and links: alongside the reply
+button. We will get back to this later.
 
 ### Updating the topics.html template with URL to the topic posts listing
 
@@ -513,7 +510,7 @@ class PostForm(forms.ModelForm): # added
         fields = ['message', ]
 ```
 
-And `now` we `protect` the `reply_topic` view in `boards/views.py`:
+And now we protect the `reply_topic` view in `boards/views.py`:
 
 ```python
 # boards/views.py
@@ -535,8 +532,8 @@ def reply_topic(request, id, topic_id):
 
 ## Update the return redirect of the new_topic view function
 
-_Next_, we have to `update` the `return redirect` of the `new_topic` view
-function (`marked` with the `comment` # TODO):
+Next, we have to update the return redirect of the `new_topic` view function
+(marked with the comment # TODO):
 
 ```python
 @login_required
@@ -561,11 +558,11 @@ def new_topic(request, id):
     return render(request, 'new_topic.html', {'board': board, 'form': form})
 ```
 
-It's `important` to `note` that in the `reply_topic` view, we are _using_
-`topic_id`, `because` we are `referring` to the `keyword` argument of the
-`function`. In the `new_topic` view, we are _using_ `topic.id`, because `topic`
-is an `object` (a `Topic` model `instance`), and with `.id` we are `accessing`
-the `id` property of the `Topic` model `instance`.
+It's important to note that in the `reply_topic` view, we are using `topic_id`,
+because we are referring to the keyword argument of the function. In the
+`new_topic` view, we are using `topic.id`, because topic is an object (a Topic
+model instance), and with `.id` we are accessing the `id` property of the Topic
+model instance.
 
 ## First version of templates/reply_topic.html (without likes or links)
 
@@ -612,14 +609,14 @@ the `id` property of the `Topic` model `instance`.
 {% endblock content %}
 ```
 
-Which `looks like` the `following` in the `browser`:
+Which looks like the following in the browser:
 
 ![Topic reply view first version](Screenshot-2024-09-22-at-4.08.19-PM.jpg)
 
 _Topic reply view first version_
 
-After `posting` a `reply`, the `user` is `redirected` back to the `topic_posts`
-view (`topic_posts.html`).
+After posting a reply, the user is redirected to the `topic_posts` view
+(`topic_posts.html`).
 
 ## Making the starter post more prominent on the page
 
@@ -679,13 +676,13 @@ view (`topic_posts.html`).
 {% endblock content %}
 ```
 
-Which `looks like` the `following` in the `browser`:
+Which looks like the following in the browser:
 
 ![topic_posts view design revamp](Screenshot-024-09-23-at-15.02-AM.jpg)
 
 _topic_posts view design revamp_
 
-I will` share` my `CSS` code at the `end` of this `section`!
+I will share my CSS code at the end of this section!
 
 ## boards/tests/test_reply_topic_test_case.py
 
@@ -838,24 +835,23 @@ class InvalidReplyTopicTests(ReplyTopicTestCase):
         self.assertTrue(form.errors)
 ```
 
-The `crux` here is the `ReplyTopicTestCase` class. The `other` four `test cases`
+The crux here is the `ReplyTopicTestCase` class. The other four test cases
 extend the `ReplyTopicTestCase` class.
 
-_First_, we `check` if the `view` is `protected` with the `@login_required`
-decorator, and then `check` the `HTML` inputs, `status code`. _Finally_, we
-`test` a `valid` and an `invalid` form `submission`.
+First, we check if the view is protected with the `@login_required` decorator,
+and then check the HTML inputs, status code. Finally, we test a valid and an
+invalid form submission.
 
 ## QuerySets
 
-A `QuerySet` represents a `collection` of `objects` from our `database`. It can
-have `zero`, `one`, or many `filters`. `QuerySets` reduce the `number` of
-`query` results `based` on `given parameters`. In `SQL` terms, a `QuerySet`
-equates to a `SELECT` statement, and a `filter` is a `limiting clause` such as
-`WHERE` or `LIMIT`.
+A `QuerySet` represents a collection of objects from our database. It can have
+zero, one, or many filters. `QuerySets` reduce the number of query results based
+on given parameters. In SQL terms, a `QuerySet` equates to a `SELECT` statement,
+and a filter is a limiting clause such as `WHERE` or `LIMIT`.
 
-We `get` a `QuerySet` by `using` our `model`’s `Manager`. Each `model` has
-`at least` one `Manager`, and it’s called `objects` by `default`. We can
-`access` it `directly` via the `model` class. For example:
+We get a `QuerySet` by using our model’s Manager. Each model has at least one
+Manager, and it’s called objects by default. We can access it directly via the
+model class. For example:
 
 ```python
 Blog.objects
@@ -867,26 +863,26 @@ Traceback:
 AttributeError: "Manager isn't accessible via Blog instances."
 ```
 
-To `learn more` about `QuerySets`, please visit
+To learn more about `QuerySets`, please visit
 [Making queries](https://docs.djangoproject.com/en/5.1/topics/db/queries/#) in
-the _official_ `Django` documentation.
+the _official_ Django documentation.
 
 ### Improving the index/home view
 
-We have _three things_ to `add` to the `index/home` view:
+We have _three things_ to add to the `index/home` view:
 
 1. Display the posts count of the board.
 1. Display the topics count of the board.
 1. Display the last user who posted something and the date and time it was
    posted.
 
-But let's first `experiment` with the `Python` shell for a `bit` before
-`refactoring` the `index/home` view.
+But let's first experiment with the Python shell for a bit before refactoring
+the `index/home` view.
 
 ## Experimenting with the Python shell
 
-`Before` we start `experimenting` with the `Python` shell, let's `add` the
-`following` to the `Post` model (at the end):
+Before we start experimenting with the Python shell, let's add the following to
+the Post model (at the end):
 
 ```python
 from django.utils.text import Truncator # new
@@ -897,16 +893,16 @@ def __str__(self):
     # return self.message
 ```
 
-_Above_, we are `using` the `Truncator` utility class. It `truncates` long
-`strings` into an `arbitrary` string `size`. `Here` it is `30` characters.
+Above, we are using the Truncator utility class. It truncates long strings into
+an arbitrary string size. Here it is 30 characters.
 
-To `start` the `Python` shell, we `run` the `following command` in `Terminal`:
+To start the Python shell, we run the following command in Terminal:
 
 ```shell
 python3 manage.py shell
 ```
 
-And _for me_, the `following` is `returned`:
+And for me, the following is returned:
 
 ```shell
 Python 3.12.5 (main, Aug 26 2024, 07:35:37) [Clang 15.0.0 (clang-1500.3.9.4)] on darwin
@@ -914,7 +910,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 (InteractiveConsole)
 ```
 
-Then, let's `run` the `following`:
+Then, let's run the following:
 
 ```shell
 # first import Board model
@@ -931,7 +927,7 @@ board.topics.count()
 2
 ```
 
-_Next_, let's `get` the `number` of `posts` within a `board`:
+_Next_, let's get the number of posts within a board:
 
 ```shell
 # first import the Post model:
@@ -946,8 +942,8 @@ Post.objects.count()
 11
 ```
 
-We `have` a `total` of 11 `posts`, but they don't `necessarily` all `belong` to
-the `Django` board. However, we can `filter` the `posts`:
+We have a total of 11 posts, but they don't necessarily all belong to the Django
+board. However, we can filter the posts:
 
 ```shell
 Post.objects.filter(topic__board=board)
@@ -959,17 +955,16 @@ Post.objects.filter(topic__board=board).count()
 2
 ```
 
-In _my case_, the `same` two `topic posts` from the `Django` were `returned` in
-the `QuerySet` as `well` as the `count()`. That is `because` I had
-`previously defined` the `board`, which was `Django`, and I only `have` two
-`Django` topics.
+In my case, the same two topic posts from the Django were returned in the
+`QuerySet` as well as the `count()`. That is because I had previously defined
+the board, which was Django, and I only have two Django topics.
 
-The double underscores `topic__board` is `used` to `navigate` through the
-`models`’ `relationships`. `Under` the `hood`, `Django` builds a `connection`
-between `Board` - `Topic` - `Post`, and `builds` an `SQL` query to `retrieve`
-just the `posts` that `belong` to a `specific board`.
+The double underscores `topic__board` is used to navigate through the models’
+relationships. Under the hood, Django builds a connection between Board -> Topic
+-> Post, and builds an SQL query to retrieve just the posts that belong to a
+specific board.
 
-_Lastly_, we `want` to `identify` the `latest post`:
+_Lastly_, we want to identify the latest post:
 
 ```shell
 # order by the `created_at` field, getting the most recent post first:
@@ -982,8 +977,7 @@ Post.objects.filter(topic__board=board).order_by('-created_at').first()
 <Post: I am really excited about sta…>
 ```
 
-_Now_ we can `implement` what `we` just `did` in the `Python` shell in our
-`actual code`.
+Now we can implement what we just did in the Python shell in our actual code.
 
 ## boards/models.py
 
@@ -1004,8 +998,8 @@ class Board(models.Model):
 
 ```
 
-We are _using_ `self`, because the `methods` are `used` by a `Board` instance.
-We are `using` the `Board` instance to `filter` the `QuerySet`.
+We are using self, because the methods are used by a Board instance. We are
+using the Board instance to filter the `QuerySet`.
 
 ## Adding the posts count, topics count, and latest post to the index/home view
 
@@ -1053,13 +1047,13 @@ We are `using` the `Board` instance to `filter` the `QuerySet`.
 {% endblock content %}
 ```
 
-I also `included` an `if statement` regarding `getting` the `latest post`,
-because it `could` be the `case` that a `board` has _no topics_ and _no posts_.
-So the `if statement` checks if there `indeed` is _at least_ one `board` topic
-`post`, and if so, `render` a `link` to that `latest post`. `Otherwise`, just
-`render` "0" to `indicate` that `there` _is no_ `latest post` to `link` to.
+I also included an `if` statement regarding getting the latest post, because it
+could be the case that a board has no topics and no posts. So the `if` statement
+checks if there indeed is at least one board topic post, and if so, render a
+link to that latest post. Otherwise, just render 0 to indicate that there is no
+latest post to link to.
 
-We `could` also `do something` a `bit` more `verbose`:
+We could also do something a bit more verbose:
 
 ```django
 <!-- templates/index.html -->
@@ -1104,21 +1098,21 @@ We `could` also `do something` a `bit` more `verbose`:
 {% endblock content %}
 ```
 
-_Either_ `works` just `fine`. It's a `matter` of `personal preference`. The
-`second approach` looks `like` the `following` in the `browser`:
+Either works just fine. It's a matter of personal preference. The second
+approach looks like the following in the browser:
 
 ![Adding the posts count, topics count, and last post to the index/home view approach 2](Screenshot-2024-09-23-at-7.28.23-PM.jpg)
 
 _Adding posts count, topics count, last post to index/home view approach 2_
 
-I am `goin`g to `go` with the `first approach`, and am `going` to `create` a new
-`Random` Board `topic`:
+I am going to go with the first approach, and am going to create a new Random
+Board topic:
 
 ![Adding a new Random board topic](Screenshot-2024-09-23-at-7.35.34-PM.jpg)
 
 _Adding a new Random board topic_
 
-The _new_ `Random` board topic `link` takes `us` to the `following`:
+The _new_ Random board topic link takes us to the following:
 
 ![New Random board topic](Screenshot-2024-09-23-at-7.53.53-PM.jpg)
 
@@ -1126,7 +1120,7 @@ _New Random board topic_
 
 ## Running the tests to include the new ReplyTopic related tests
 
-`python3 manage.py test` results in the `following`:
+`python3 manage.py test` results in the following:
 
 ```shell
 Found 65 test(s).
@@ -1181,10 +1175,10 @@ FAILED (failures=4)
 Destroying test database for alias 'default'...
 ```
 
-_However_, if we `want` to `know` how our `latest tests` in particular `pass`,
-we can `run` them `individually`. Let's do that!
+However, if we want to know how our latest tests in particular pass, we can run
+them individually. Let's do that!
 
-Running test_login_required_reply_topic_tests.py:
+Running `test_login_required_reply_topic_tests.py`:
 
 ```shell
 python3 manage.py test boards.tests.test_login_required_reply_topic_tests
@@ -1208,7 +1202,7 @@ Destroying test database for alias 'default'...
 InvalidReplyTopicTests
 ```
 
-Running test_reply_topic_tests.py:
+Running `test_reply_topic_tests.py`:
 
 ```shell
 python3 manage.py test boards.tests.test_reply_topic_tests
@@ -1240,12 +1234,12 @@ FAILED (failures=1)
 Destroying test database for alias 'default'...
 ```
 
-`Remember` these errors from _other instances_ of the `test_form_inputs`
-function and `status code 302 != 200` fails? We will _implement_
-`Beautiful Soup 4` and `Soup Sieve` again to `ensure` that these `tests` _pass_
-instead of `hard coding` the `arguments` passed to `assertContains()`.
+Remember these errors from other instances of the `test_form_inputs` function
+and `status code 302 != 200` fails? We will implement `Beautiful Soup 4` and
+`Soup Sieve` again to ensure that these tests pass instead of hard coding the
+arguments passed to `assertContains()`.
 
-Running test_successful_reply_topic_tests.py:
+Running `test_successful_reply_topic_tests.py`:
 
 ```shell
 python3 manage.py test boards.tests.test_successful_reply_topic_tests
@@ -1265,7 +1259,7 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-Running test_invalid_reply_topic_tests.py:
+Running `test_invalid_reply_topic_tests.py`:
 
 ```shell
 python3 manage.py test boards.tests.test_invalid_reply_topic_tests
@@ -1286,14 +1280,14 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-I will _go through_ `debugging` the (current) _failed tests_ in `Part 20`. There
-are 5 failed tests, including the `test_reply_topic_tests.py` file. The
-`test failures` are all `familiar`.
+I will go through debugging the (current) failed tests in Part 20. There are 5
+failed tests, including the `test_reply_topic_tests.py` file. The test failures
+are all familiar.
 
 ## Improving the topics view
 
-We will `include` the `topic replies` (`posts`) `count` in a _different way_,
-and we'll \_ `test` first_it `out` in the `Python` shell:
+We will include the topic replies (posts) count in a different way, and we'll
+`test` first_it out in the Python shell:
 
 ```shell
 from django.db.models import Count
@@ -1315,12 +1309,12 @@ for topic in topics:
 1
 ```
 
-We are `running` the `annotate` QuerySet `method` to `generate` _a "new"_
-`column`. This `new column` will be `translated` into a `property`, `accessible`
-via `topic.replies`, and will `contain` the `post count` of a `given topic`.
+We are running the annotate `QuerySet` method to generate a "new" column. This
+new column will be translated into a property, accessible via `topic.replies`,
+and will contain the post count of a given topic.
 
-We, _however_, have to `ignore` the `starter topic` (which is `also` a `Post`
-instance) when `counting` the `posts`. We can `do` it in the _following way_:
+We, however, have to ignore the starter topic (which is also a Post instance)
+when counting the posts. We can do it in the following way:
 
 ```shell
 topics = board.topics.order_by('-last_updated').annotate(replies=Count('posts') - 1)
@@ -1365,7 +1359,7 @@ def board_topics(request, id):
 {% endfor %}
 ```
 
-_Which_ `results` _in_:
+_Which_ results _in_:
 
 ![Including topic replies in topics view](Screenshot-2024-09-23-at-10.05.02-PM.jpg)
 
@@ -1386,26 +1380,26 @@ class Topic(models.Model):
         return self.subject
 ```
 
-We are `using` a `PositiveIntegerField` in the `value` of the views `field`.
-`PositiveIntegerField` is `like` a `IntegerField` but `must` be either
-`positive` or `zero` (`0`). It _supports_ `values` from `0` to `2147483647`, and
-is `safe` _in all_ `databases` supported by `Django`.
+We are using a `PositiveIntegerField` in the value of the `views` field.
+`PositiveIntegerField` is like a `IntegerField` but must be either positive or
+zero (0). It supports values from 0 to 2147483647, and is safe in all databases
+supported by Django.
 
-We are using `PositiveIntegerField` because we `want` _to store_ `views` (and
-_increase_ them).
+We are using `PositiveIntegerField` because we want to store views (and increase
+them).
 
 ## Running makemigrations and migrate
 
-_Before_ we can `actually` use `PositiveIntegerField`, we `have` _to run_
-`makemigrations` and `migrate`, because we _made changes_ to our `model`(`s`).
+Before we can actually use `PositiveIntegerField`, we have to run
+`makemigrations` and `migrate`, because we made changes to our model(s).
 
 ```shell
 python3 manage.py makemigrations
 python3 manage.py migrate
 ```
 
-_Now_ we can _use_ `PositiveIntegerField` to `keep track` of the `number` of
-`views` a `given topic` has:
+Now we can use `PositiveIntegerField` to keep track of the number of views a
+given topic has:
 
 ```python
 # boards/views.py
@@ -1416,7 +1410,7 @@ def topic_posts(request, id, topic_id):
     return render(request, 'topic_posts.html', {'topic': topic})
 ```
 
-And `then` in `topics.html`:
+And then in `topics.html`:
 
 ```django
 <!-- topics.html -->
@@ -1434,8 +1428,8 @@ And `then` in `topics.html`:
 {% endfor %}
 ```
 
-If we _go to_ the `topics` view for a `topic__board` and `refresh` the `page` a
-_few times_, we should `see` if it’s `counting` the `page views`:
+If we go to the topics view for a `topic__board` and refresh the page a few
+times, we should see if it’s counting the page views:
 
 ![Tracking the topics view views](Screenshot-2024-09-24-at-8.36.25 -M.jpg)
 
@@ -1443,7 +1437,7 @@ _Tracking the topics view views_
 
 ## app.css
 
-Below is the current app.css contents:
+Below is the current `app.css` contents:
 
 ```css
 @import url('https://fonts.googleapis.com/css2?family=Peralta&display=swap');
@@ -1522,21 +1516,21 @@ Below is the current app.css contents:
 ## Conclusion
 
 In this section, I implemented protecting views, I configured the Login next
-redirect, I created @login_required tests, I updated the topic posts view,
-created the topic_posts.html template and related tests, updated the reply post
-(reply_topic) view and created related tests, discussed QuerySets and used them
-to improve the index/home view, improved the topics view, updated the
-board_topics view, updated the topics.html template, and added a new field to
-the Topic model.
+redirect, I created `@login_required` tests, I updated the topic posts view,
+created the `topic_posts.html` template and related tests, updated the reply
+post (`reply_topic`) view and created related tests, discussed `QuerySets` and
+used them to improve the `index/home` view, improved the topics view, updated
+the `board_topics` view, updated the `topics.html` template, and added a new
+field to the Topic model.
 
 In section 20, I will debug the 5 tests that are currently failing.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [PositiveIntegerField – Django Models](https://www.geeksforgeeks.org/positiveintegerfield-django-models/):
-    **_Geeks for Geeks_**
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [PositiveIntegerField – Django Models](https://www.geeksforgeeks.org/positiveintegerfield-django-models/):
+  _Geeks for Geeks_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
