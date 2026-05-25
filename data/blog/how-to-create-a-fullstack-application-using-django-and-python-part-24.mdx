@@ -22,56 +22,56 @@ isFeatured: false
 
 ![](desola-lanre-ologun-kwzWjTnDPLk-unsplash.jpg)
 
-**_Photo by_** [Desola Lanre-Ologun](https://unsplash.com/@disruptxn) **_on_**
+_Photo by_ [Desola Lanre-Ologun](https://unsplash.com/@disruptxn) **_on_**
 [unsplash.com](https://unsplash.com/photos/man-using-black-laptop-computer-kwzWjTnDPLk)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Adding Markdown](#adding-markdown)
-    -   [Installing the markdown app](#installing-the-markdown-app)
-    -   [Adding a new method to the Post model](#adding-a-new-method-to-the-post-model)
-    -   [Updating templates/topic_posts.html to use markdown](#updating-templates-topic-postshtml-to-use-markdown)
-    -   [templates/edit_post.html containing markdown](#templates-edit-posthtml-containing-markdown)
--   [Implementing ES6 modules to the JavaScript code](#implementing-es6-modules-to-the-javaScript-code)
-    -   [Refactoring the copy button](#refactoring-the-copy-button)
-        -   [The associated html markup in templates/post_detail.html](#the-associated-html-markup-in-templates-post-detailhtml)
-        -   [The associated CSS in static/css/app.css](#the-associated-css-in-static-css-appcss)
-    -   [Refactoring the scroll top and bottom buttons](#refactoring-the-scroll-top-and-bottom-buttons)
-    -   [Modularizing the pagination behavior JavaScript code](#modularizing-the-pagination-behavior-javaScript-code)
-    -   [Importing ES6 modules into a new file called app.js](#importing-es6-modules-into-a-new-file-called-appjs)
-    -   [Adding the finishing touch to es6 modularization in templates/hase.html](#adding-the-finishing-touch-to-es6-modularization-in-templates-hasehtml)
--   [Screenshots of refactored features (except pagination)](#screenshots-of-refactored-features-except-pagination)
-    -   [Screenshot of the copy link button clicked/on hover](#screenshot-of-the-copy-link-button-clicked-on-hover)
-    -   [Screenshot of scroll buttons when scrollbar is at bottom of the page](#screenshot-of-scroll-buttons-when-scrollbar-is-at-bottom-of-the-page)
-    -   [Screenshot of the effect of pressing down on a scroll button](#screenshot-of-the-effect-of-pressing-down-on-a-scroll-button)
-    -   [Screenshot of what happens to scroll buttons when scrollbar is positioned at top of page](#screenshot-of-what-happens-to-scroll-buttons-when-scrollbar-is-positioned-at-top-of-page)
-    -   [Screenshot of what happens to scroll buttons when scrollbar is positioned a bit below the top of the page](#screenshot-of-what-happens-to-scroll-buttons-when-scrollbar-is-positioned-a-bit-below-the-top-of-the-page)
--   [Conclusion](#conclusion)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Adding Markdown](#adding-markdown)
+    - [Installing the markdown app](#installing-the-markdown-app)
+    - [Adding a new method to the Post model](#adding-a-new-method-to-the-post-model)
+    - [Updating templates/topic_posts.html to use markdown](#updating-templates-topic-postshtml-to-use-markdown)
+    - [templates/edit_post.html containing markdown](#templates-edit-posthtml-containing-markdown)
+- [Implementing ES6 modules to the JavaScript code](#implementing-es6-modules-to-the-javaScript-code)
+    - [Refactoring the copy button](#refactoring-the-copy-button)
+        - [The associated html markup in templates/post_detail.html](#the-associated-html-markup-in-templates-post-detailhtml)
+        - [The associated CSS in static/css/app.css](#the-associated-css-in-static-css-appcss)
+    - [Refactoring the scroll top and bottom buttons](#refactoring-the-scroll-top-and-bottom-buttons)
+    - [Modularizing the pagination behavior JavaScript code](#modularizing-the-pagination-behavior-javaScript-code)
+    - [Importing ES6 modules into a new file called app.js](#importing-es6-modules-into-a-new-file-called-appjs)
+    - [Adding the finishing touch to es6 modularization in templates/hase.html](#adding-the-finishing-touch-to-es6-modularization-in-templates-hasehtml)
+- [Screenshots of refactored features (except pagination)](#screenshots-of-refactored-features-except-pagination)
+    - [Screenshot of the copy link button clicked/on hover](#screenshot-of-the-copy-link-button-clicked-on-hover)
+    - [Screenshot of scroll buttons when scrollbar is at bottom of the page](#screenshot-of-scroll-buttons-when-scrollbar-is-at-bottom-of-the-page)
+    - [Screenshot of the effect of pressing down on a scroll button](#screenshot-of-the-effect-of-pressing-down-on-a-scroll-button)
+    - [Screenshot of what happens to scroll buttons when scrollbar is positioned at top of page](#screenshot-of-what-happens-to-scroll-buttons-when-scrollbar-is-positioned-at-top-of-page)
+    - [Screenshot of what happens to scroll buttons when scrollbar is positioned a bit below the top of the page](#screenshot-of-what-happens-to-scroll-buttons-when-scrollbar-is-positioned-a-bit-below-the-top-of-the-page)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 ## Adding Markdown
 
-_Now_ we are `going` _to add_ `Markdown` to the `reply_topic` and `edit_post`
-_views_ and _templates_.
+Now we are going to add Markdown to the `reply_topic` and `edit_post` views and
+templates.
 
 ### Installing the markdown app
 
-We `have` to `install` the `markdown` app in our `Django Boards` application:
+We have to install the markdown app in our Django Boards application:
 
 ```shell
 # run the following from within the directory which contains the venv folder, and make sure that the virtual environment is activated:
 pip install markdown
 ```
 
-_Which_, _for me_, `returned` the `following`:
+Which, for me, returned the following:
 
 ```shell
 
@@ -81,7 +81,7 @@ Installing collected packages: markdown
 Successfully installed markdown-3.7
 ```
 
-_Then_ I `added` the `following` to `django_boards/settings.py`:
+Then I added the following to `django_boards/settings.py`:
 
 ```python
 # Application definition
@@ -121,10 +121,10 @@ class Post(models.Model):
         return mark_safe(markdown(self.message, safe_mode='escape'))
 ```
 
-We are `dealing` with `user input` here, so we `have` to be `careful`. When
-`using` the `markdown` function, we are `telling` it to escape
-`special characters` _first_ and THEN `parse` the `markdown`. _After that_, we
-`mark` the `output string` as `safe` to be `used` in the `template`.
+We are dealing with user input here, so we have to be careful. When using the
+markdown function, we are telling it to escape special characters first and THEN
+parse the markdown. After that, we mark the output string as safe to be used in
+the template.
 
 ### Updating templates/topic_posts.html to use markdown
 
@@ -134,50 +134,46 @@ We are `dealing` with `user input` here, so we `have` to be `careful`. When
 <div class="post-message">{{ post.get_message_as_markdown }}</div>
 ```
 
-_Now_ we can `already` _use_ `markdown` in the `topic replies`
-(`topic_posts.html`).
+Now we can already use markdown in the topic replies (`topic_posts.html`).
 
-I `added` a `topic post` using `markdown` syntax, and it `resulted` in the
-`following`:
+I added a topic post using markdown syntax, and it resulted in the following:
 
 ![Implementing markdown in topic posts](Screenshot-2024-10-08-at-1.18.14-PM.jpg)
 
 _Implementing markdown in topic posts_
 
-As you can `see` in the `screenshot`, `one` of the `topic posts` _contains_ an
-`italicized word` and a `word` _wrapped_ in `inline code` syntax
-(`magenta color`).
+As you can see in the screenshot, one of the topic posts contains an italicized
+word and a word wrapped in inline code syntax (magenta color).
 
 ### templates/edit_post.html containing markdown
 
-The `following` is `what` the `edit post` view `looks like` with the
-`implementation` of `markdown`:
+The following is what the edit post view looks like with the implementation of
+markdown:
 
 ![Post edit view using markdown syntax](Screenshot-2024-10-08-at-1.27.42-PM.jpg)
 
 _Post edit view using markdown syntax_
 
-I `tried` to `implement` the `simpleMDE` text `editor` to the `reply_topic.html`
-and `edit_post.html` _templates_, but it `broke everything` on the `page`.
-`After` _some_ `investigation`, I `found out` that it _does not_ `work` with
-`Django 5`. _No problem_! I _write_ `markdown` here `directly` into `files`
-_without a_ "markdown editor", so I have _no problem_ with that. If I do _come
-across_ one that _does work_ with `Django 5`, I will _share it_ in a `post`.
+I tried to implement the `simpleMDE` text editor to the `reply_topic.html` and
+`edit_post.html` templates, but it broke everything on the page. After some
+investigation, I found out that it does not work with Django 5. No problem! I
+write markdown here directly into files without a "markdown editor", so I have
+no problem with that. If I do come across one that does work with Django 5, I
+will share it in a post.
 
 ## Implementing ES6 modules to the JavaScript code
 
-As a `JavaScript` _developer_, `one` of my `pet peeves` is to `modularize` my
-`JavaScript` code to `avoid` all `sorts` of `collisions`, _especially_
-`global naming` and `code collisions`. I was _already starting_ to feel
-_oncoming issues_ because of _all_ the `JavaScript` I had _already added_ to the
-`project`. And we are also using `two` third party `JavaScript` libraries from
-`Bootstrap` that could _cause_ `conflicts`. There is _much_ to `refactor`, but
-in the end, the `code` will be `slimmer` and `easy` to `modify` if `needed` or
-`desired`.
+As a JavaScript developer, one of my pet peeves is to modularize my JavaScript
+code to avoid all sorts of collisions, especially global naming and code
+collisions. I was already starting to feel oncoming issues because of all the
+JavaScript I had already added to the project. And we are also using two third
+party JavaScript libraries from Bootstrap that could cause conflicts. There is
+much to refactor, but in the end, the code will be slimmer and easy to modify if
+needed or desired.
 
 ### Refactoring the copy button
 
-_Right now_, the `copy button` code `contains` the `following`:
+Right now, the copy button code contains the following:
 
 ```javascript
 // static/js/copy-button.js
@@ -233,12 +229,12 @@ button.addEventListener('click', function () {
 })
 ```
 
-This `code` is a `hybrid` of `ES5` and `ES6 JavaScript`. I would `have` to `do`
-some `major refactoring` to `make` it _completely_ `ES6 module` friendly, but
-the `work` and `time` that would `go` into `it` is `not` _worth_ `it`.
+This code is a hybrid of `ES5` and `ES6 JavaScript`. I would have to do some
+major refactoring to make it completely `ES6 module` friendly, but the work and
+time that would go into it is not worth it.
 
-I `found` _a much_ `slimmer` and _easier_ `solution`. `Clipboard.js`! I `added`
-the `following code` to `copy-button.js`:
+I found a much slimmer and easier solution. `Clipboard.js`! I added the
+following code to `copy-button.js`:
 
 ```javascript
 // static/js/copy-button.js
@@ -251,8 +247,8 @@ export const copyButton = new Clipboard('.copy-button', {
 })
 ```
 
-_Right now_ the _associated_ `html markup` in `templates/topic_posts.html` is
-the `following`:
+Right now the associated html markup in `templates/topic_posts.html` is the
+following:
 
 ```django
 <!-- templates/topic_posts.html -->
@@ -273,9 +269,8 @@ the `following`:
 </div>
 ```
 
-The _only thing_ we `don't need` is the `div` element with the `id` of
-`"feedback"`, so the _associated_ `markup` should `look like` the `following`
-instead:
+The only thing we don't need is the `div` element with the `id` of `"feedback"`,
+so the associated markup should look like the following instead:
 
 ```django
 <!-- templates/topic_posts.html -->
@@ -307,11 +302,10 @@ instead:
 ></script>
 ```
 
-**Note 10.10.24**: I _inadvertently_ `removed` the `Popper `script `tag` from
-the `script tags` in` templates/base.html`, but `will` be `adding` it `back` and
-`pushing` the `change` to `GitHub` momentarily. `All` the `script tags` are
-`included` at the `end` of this `post` when I `add` the `app.js` file. _Sorry_
-for this _inconvenience_!
+**Note 10.10.24**: I inadvertently removed the Popper script tag from the script
+tags in` templates/base.html`, but will be adding it back and pushing the change
+to GitHub momentarily. All the script tags are included at the end of this post
+when I add the `app.js` file. Sorry for this inconvenience!
 
 ### The associated html markup in templates/post_detail.html
 
@@ -328,8 +322,8 @@ for this _inconvenience_!
 </div>
 ```
 
-_Again_, we `don't need` the `div` element `with` the `id` of `"feedback"`, so
-the _associated_ `html markup` should `look like` the `following` instead:
+Again, we don't need the `div` element with the `id` of `"feedback"`, so the
+associated html markup should look like the following instead:
 
 ```django
 <!-- templates/post_detail.html -->
@@ -388,8 +382,8 @@ the _associated_ `html markup` should `look like` the `following` instead:
 }
 ```
 
-When I `made` the `changes` to the `Javascript` and the `html markup`, the
-_associated_ `CSS` became the `following`:
+When I made the changes to the JavaScript and the html markup, the associated
+CSS became the following:
 
 ```css
 /* Make copy text appear and disappear using CSS transitions */
@@ -408,7 +402,10 @@ _associated_ `CSS` became the `following`:
 	left: 0;
 	width: 6.255rem;
 	line-height: 1;
-	transition: color 0.5s, transform 0.2s, background-color 0.2s;
+	transition:
+		color 0.5s,
+		transform 0.2s,
+		background-color 0.2s;
 }
 
 #copy-header .copy-button:hover::before {
@@ -429,10 +426,9 @@ _associated_ `CSS` became the `following`:
 
 ### Refactoring the scroll top and bottom buttons
 
-There is _not much_ to `do` with `these buttons`, except that they `have` to be
-`placed` in _their own_ `JavaScript` file. _Right now_ the `code` _for both_
-`resides` in a `file` _called_ `scroll-top-bottom.js`, and it `contains` the
-`following`:
+There is not much to do with these buttons, except that they have to be placed
+in their own JavaScript file. Right now the code for both resides in a file
+called `scroll-top-bottom.js`, and it contains the following:
 
 ```javascript
 // static/js/scroll-top-bottom.js
@@ -480,10 +476,10 @@ document.addEventListener('scroll', function () {
 })
 ```
 
-`Code` for `showing` and `hiding` the `buttons` on `scroll` also `shares` the
-`scroll-top-bottom.js` file. What I `ended up` having to `do` is `take out` the
-`eventListeners` for `showing` and `hiding` the `scroll` buttons and `place`
-them in _separate_ `files`. For the `scroll top` button:
+Code for showing and hiding the buttons on scroll also shares the
+`scroll-top-bottom.js` file. What I ended up having to do is take out the
+`eventListeners` for showing and hiding the scroll buttons and place them in
+separate files. For the scroll top button:
 
 ```javascript
 // static/js/visibility-top.js
@@ -506,7 +502,7 @@ function toggleVisibilityScrollTop() {
 export default toggleVisibilityScrollTop
 ```
 
-For the `scroll bottom` button:
+For the scroll bottom button:
 
 ```javascript
 // static/js/visibility-bottom.js
@@ -529,7 +525,7 @@ function toggleVisibilityScrollBottom() {
 export default toggleVisibilityScrollBottom
 ```
 
-For the` scroll top` and `bottom` button `functionalities`:
+For the scroll top and bottom button functionalities:
 
 ```javascript
 // static/js/scroll-top-bottom.js
@@ -553,9 +549,9 @@ export function scrollStep() {
 scrollDownButton.addEventListener('pointerdown', scrollStep)
 ```
 
-Since I _added_ `JavaScript` for `showing` and `hiding` the `scroll top` and
-`bottom` buttons `depending` on the `scrollY` position, I `had` to `make sure`
-that the `CSS` did it's `part`. _Right now_ it `looks like` the `following`:
+Since I added JavaScript for showing and hiding the scroll top and bottom
+buttons depending on the scrollY position, I had to make sure that the CSS did
+it's part. Right now it looks like the following:
 
 ```css
 /* static/css/app.css */
@@ -569,7 +565,10 @@ button.top {
 	justify-content: space-around;
 	outline: none;
 	position: fixed;
-	transition: color 0.5s, transform 0.2s, background-color 0.2s;
+	transition:
+		color 0.5s,
+		transform 0.2s,
+		background-color 0.2s;
 }
 
 button.top:active {
@@ -660,7 +659,9 @@ button.shrink-border::before {
 	position: absolute;
 	right: 0;
 	top: 0.6rem;
-	transition: opacity 0.3s, border 0.3s;
+	transition:
+		opacity 0.3s,
+		border 0.3s;
 	width: 100%;
 	z-index: -1;
 }
@@ -693,8 +694,8 @@ button.shrink-border:hover::after {
 }
 ```
 
-_After_ `modifications` _which made_ `showing` and `hiding` the `buttons`
-possible, the _associated CSS_ `looks like` the `following`:
+After modifications which made showing and hiding the buttons possible, the
+associated CSS looks like the following:
 
 ```css
 /* static/css/app.css */
@@ -706,7 +707,10 @@ button.top {
 	font-size: 1.5rem;
 	outline: none;
 	position: fixed;
-	transition: color 0.5s, transform 0.2s, background-color 0.2s;
+	transition:
+		color 0.5s,
+		transform 0.2s,
+		background-color 0.2s;
 }
 
 button.top:active {
@@ -798,7 +802,9 @@ button.shrink-border::before {
 	position: absolute;
 	right: 0;
 	top: 0.6rem;
-	transition: opacity 0.3s, border 0.3s;
+	transition:
+		opacity 0.3s,
+		border 0.3s;
 	width: 100%;
 	z-index: -1;
 }
@@ -852,8 +858,8 @@ function paginationScrollBehavior() {
 export default paginationScrollBehavior
 ```
 
-_Now_ the `structure` and `contents` of the `static/js` directory `looks like`
-the `following`:
+Now the structure and contents of the `static/js` directory looks like the
+following:
 
 ```shell
 - static/
@@ -895,16 +901,16 @@ scrollTopButton.addEventListener('pointerdown', scrollTop)
 scrollDownButton.addEventListener('pointerdown', scrollStep)
 ```
 
-`export default`(s) _do not_ have to be `wrapped` in `curly braces` (`{}`).
-`Named exports` (`export`) `do`. To `initialize` a `function`, I `store` the
-`call` to the `function` as the `value` of a `variable`. As for the `scroll top`
-and `bottom` buttons, they are `triggered` when `clicked`, so I _set_
-`addEventListeners` on `them` _as indicated_ `above`.
+`export default` does not have to be wrapped in curly braces (`{}`). Named
+exports (`export`) do. To initialize a function, I store the call to the
+function as the value of a variable. As for the scroll top and bottom buttons,
+they are triggered when clicked, so I set `addEventListeners` on them as
+indicated above.
 
 ### Adding the finishing touch to es6 modularization in templates/hase.html
 
-In order to _make_ `ES6 modules` _actually_ `work` in our `Django Boards`
-website, we `have` to `do` the `following` in `templates/base.html`:
+In order to make ES6 modules actually work in our Django Boards website, we have
+to do the following in `templates/base.html`:
 
 ```django
 <!-- templates/base.html -->
@@ -928,10 +934,10 @@ website, we `have` to `do` the `following` in `templates/base.html`:
 {% endblock javascript %}
 ```
 
-`That` is `it` as `far` as `es6 modularization` goes of `non-third` party
-`JavaScript` code. I have `included` a very good `article` entitled
-`"A Practical guide to ES6 modules"` under `Related Resources` if you `want` to
-`learn more` about `ES6 modules` and _why_ they are `so important`.
+That is it as far as `es6 modularization` goes of non-third party JavaScript
+code. I have included a very good article entitled
+`"A Practical guide to ES6 modules"` under Related Resources if you want to
+learn more about `ES6 modules` and why they are so important.
 
 ## Screenshots of refactored features (except pagination)
 
@@ -947,7 +953,7 @@ _copy link button clicked/on hover_
 
 _Scroll buttons when scrollbar is at bottom of the page_
 
-`Take note` of the `position` of the `scrollbar`.
+Take note of the position of the scrollbar.
 
 ### Screenshot of the effect of pressing down on a scroll button
 
@@ -955,7 +961,7 @@ _Scroll buttons when scrollbar is at bottom of the page_
 
 _The effect of pressing down on a scroll button_
 
-`Take note` of the `position` of the `scrollbar`.
+Take note of the position of the scrollbar.
 
 ### Screenshot of what happens to scroll buttons when scrollbar is positioned at top of page
 
@@ -963,7 +969,7 @@ _The effect of pressing down on a scroll button_
 
 _When scrollbar is positioned at top of page_
 
-`Take note` of the `position` of the `scrollbar`.
+Take note of the position of the scrollbar.
 
 ### Screenshot of what happens to scroll buttons when scrollbar is positioned a bit below the top of the page
 
@@ -971,29 +977,29 @@ _When scrollbar is positioned at top of page_
 
 _When scrollbar is positioned a bit below the top of the page_
 
-As for `Bootstrap` pagination, you can `see` it in `action` for `yourself`.
+As for Bootstrap pagination, you can see it in action for yourself.
 
 ## Conclusion
 
-In this section, I added `markdown` functionality to the `Post` model, the
-`reply_topic.html` and `topic_posts.html` templates, and I `implemented` ES6
-`modules` to our `JavaScript` code. This meant `refactoring` the `copy` (`link`)
-button and _associated_ `html markup` and `CSS`. I `refactored` and
-`modularized` the `scroll top` and `bottom` button `JavaScript` code and
-_associated_ `CSS`, `modularized` the `pagination` behavior `JavaScript` code,
-`imported` the `ES6 modules` into a _new file_ called `app.js`, and `added` the
-`type="module"` attribute to the `app.js` script `tag` in `templates/base.html`.
+In this section, I added markdown functionality to the Post model, the
+`reply_topic.html` and `topic_posts.html` templates, and I implemented ES6
+modules to our JavaScript code. This meant refactoring the copy (link) button
+and associated html markup and CSS. I refactored and modularized the scroll top
+and bottom button JavaScript code and associated CSS, modularized the pagination
+behavior JavaScript code, imported the ES6 modules into a new file called
+`app.js`, and added the `type="module"` attribute to the `app.js` script tag in
+`templates/base.html`.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
-    **_mariadcampbell.com_**
--   [Python-Markdown](https://python-markdown.github.io)
--   [A Practical guide to ES6 modules](https://www.freecodecamp.org/news/how-to-use-es6-modules-and-why-theyre-important-a9b20b480773/):
-    **_by Dler Ari, freecodecamp.org_**
--   [clipboard.js](https://clipboardjs.com)
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+  _mariadcampbell.com_
+- [Python-Markdown](https://python-markdown.github.io)
+- [A Practical guide to ES6 modules](https://www.freecodecamp.org/news/how-to-use-es6-modules-and-why-theyre-important-a9b20b480773/):
+  _by Dler Ari, freecodecamp.org_
+- [clipboard.js](https://clipboardjs.com)
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
