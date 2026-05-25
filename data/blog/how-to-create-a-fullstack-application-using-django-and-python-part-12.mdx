@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-12
 date: '2024-09-11T14:40:09.958Z'
-lastModified: '2024-12-18T07:17:09.958Z'
+lastModified: '2026-05-25T04:44:09.958Z'
 title: How to create a fullstack application using Django and Python Part 12
 author: 'Maria D. Campbell'
 excerpt:
@@ -33,32 +33,31 @@ isFeatured: false
 **_on_**
 [pexels.com](https://www.pexels.com/photo/person-holding-an-orange-and-blue-python-sticker-11035474/)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Adding the IndexTests class to boards/tests.py](#adding-the-indexTests-class-to-boards-testspy)
-    -   [Updating templates/index.html to make the failed test pass](#updating-templates-indexhtml-to-make-the-failed-test-pass)
-    -   [Viewing the updated HTML templates in the browser](#viewing-the-updated-HTML-templates-in-the-browser)
--   [Linking back to the index/home page from the single Board page](#linking-back-to-the-index-home-page-from-the-single-board-page)
-    -   [Writing the test for linking back to the index/home page from the single Board page](#writing-the-test-for-linking-back-to-the-index-home-page-from-the-single-board-page)
-    -   [Updating topics.html so test will pass](#updating-topicshtml-so-test-will-pass)
-    -   [Re-running python3 manage.py test](#re-running-python3-managepy-test)
--   [Conclusion](#conclusion)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Adding the IndexTests class to boards/tests.py](#adding-the-indexTests-class-to-boards-testspy)
+    - [Updating templates/index.html to make the failed test pass](#updating-templates-indexhtml-to-make-the-failed-test-pass)
+    - [Viewing the updated HTML templates in the browser](#viewing-the-updated-HTML-templates-in-the-browser)
+- [Linking back to the index/home page from the single Board page](#linking-back-to-the-index-home-page-from-the-single-board-page)
+    - [Writing the test for linking back to the index/home page from the single Board page](#writing-the-test-for-linking-back-to-the-index-home-page-from-the-single-board-page)
+    - [Updating topics.html so test will pass](#updating-topicshtml-so-test-will-pass)
+    - [Re-running python3 manage.py test](#re-running-python3-managepy-test)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 ## Adding the IndexTests class to boards/tests.py
 
-In `Part 11`, we created `tests` for `BoardTopics` using
-`class BoardTopicsTests`. `Now` we are `going` to create `tests` for the `Index`
-(`Home`) page. Update `class IndexTests(TestCase)` to the `following` in
-`boards/tests.py`:
+In Part 11, we created tests for `BoardTopics` using `class BoardTopicsTests`.
+Now we are going to create tests for the Index (Home) page. Update
+`class IndexTests(TestCase)` to the following in `boards/tests.py`:
 
 ```python
 from django.urls import reverse
@@ -88,18 +87,17 @@ class IndexTests(TestCase):
     self.assertContains(self.response, 'href="{0}"'.format(board_topics_url))
 ```
 
-We have `added` a `setUp(self)` method for IndexTests. That's `because` we are
-`also going` to `need` a `Board` instance for `IndexTests`. We moved `url` and
-`self.response` into `setUp(TestCase)` so we can `reuse` the `same response` in
-the new `test_home_view_contains_link_to_topics_page` test.
+We have added a `setUp(self)` method for IndexTests. That's because we are also
+going to need a Board instance for IndexTests. We moved `url` and
+`self.response` into `setUp(TestCase)` so we can reuse the same response in the
+new `test_home_view_contains_link_to_topics_page` test.
 
-In `test_home_view_contains_link_to_topics_page`, we `use` the
-`.assertContains()` method. `Django` adds `.assertContains()` to its
-`test suite`. It is `used` specifically for `responses`. `.assertContains()`
-asserts that the `response` (`index.html`) contains
-`'href="{0}"'.format(board_topics_url)`, which `transforms` to
-`'href="/boards/1/"'`. `However`, if I run `python3 manage.py test` as the
-`code` is `right now`, I `get back` the `following`:
+In `test_home_view_contains_link_to_topics_page`, we use the `.assertContains()`
+method. Django adds `.assertContains()` to its test suite. It is used
+specifically for responses. `.assertContains()` asserts that the response
+(`index.html`) contains `'href="{0}"'.format(board_topics_url)`, which
+transforms to `'href="/boards/1/"'`. However, if I run `python3 manage.py test`
+as the code is right now, I get back the following:
 
 ```shell
 Found 6 test(s).
@@ -126,7 +124,7 @@ Destroying test database for alias 'default'...
 
 ### Updating templates/index.html to make the failed test pass
 
-In order to `get` our `failed test` to `pass`, we `have` to update
+In order to get our failed test to pass, we have to update
 `templates/index.html`:
 
 ```html
@@ -225,8 +223,8 @@ In order to `get` our `failed test` to `pass`, we `have` to update
 We changed `{{ board.name }}` to
 `<a href="{% url 'board_topics' board.id %}" >{{ board.name }}</a >`.
 
-Now when we `run` the `tests` again using the `python3 manage.py test` command,
-the `following` should be `returned`:
+Now when we run the tests again using the `python3 manage.py test` command, the
+following should be returned:
 
 ```shell
 Found 6 test(s).
@@ -240,34 +238,34 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-We `should` always `use` the Django `{% url %}` template tag to `create`
-application `URLs`. The `first parameter` is the `name` of the `URL` defined in
-`URLconf/urls.py`, and the `second argument` is the `board.id`.
+We should always use the Django `{% url %}` template tag to create application
+URLs. The first parameter is the name of the URL defined in `URLconf/urls.py`,
+and the second argument is the `board.id`.
 
 ### Viewing the updated HTML templates in the browser
 
-_Next_, we can `check` what our `changes` actually `look like` in the `browser`:
+_Next_, we can check what our changes actually look like in the browser:
 
 ![List of linked available Boards on the index/home page](Screenshot-2024-09-11-at-12.47.07-PM.jpg)
 
 _List of linked available Boards on the index/home page_
 
-When I `click` on a `linked` single `Board`, it `takes me` to the `following`:
+When I click on a linked single Board, it takes me to the following:
 
 ![Linked single Board page](Screenshot-2024-09-11-at-12.51.42-PM.jpg)
 
 _Linked single Board page_
 
-I am `taken` to `http://127.0.0.1:8000/boards/1/`, and that `URL` is why our
-`failed test` _no longer_ `fails`. The `path/url` to `the` single `Board` _now
-contains_ `/boards/1/`.
+I am taken to `http://127.0.0.1:8000/boards/1/`, and that URL is why our failed
+test no longer fails. The `path/url` to the single Board now contains
+`/boards/1/`.
 
 ## Linking back to the index/home page from the single Board page
 
 ### Writing the test for linking back to the index/home page from the single Board page
 
-Let's `link back` to the `index/home` page from the `single` Board `page`.
-`First` we will `write` the `test` for `that` in `boards/tests.py`:
+Let's link back to the `index/home` page from the single Board page. First we
+will write the test for that in `boards/tests.py`:
 
 ```python
 # in boards/tests.py
@@ -279,8 +277,8 @@ def test_board_topics_view_contains_link_back_to_homepage(self):
   self.assertContains(response, 'href="{0}"'.format(index_page_url))
 ```
 
-We can `run` our `tests` again using `python3 manage.py test`, and
-`something like` the `following` should be `returned`:
+We can run our tests again using `python3 manage.py test`, and something like
+the following should be returned:
 
 ```shell
 Found 7 test(s).
@@ -307,7 +305,7 @@ Destroying test database for alias 'default'...
 
 ### Updating topics.html so test will pass
 
-We `couldn't` find `/` because we `have` to `update` our `topics.html` template:
+We couldn't find `/` because we have to update our `topics.html` template:
 
 ```html
 <!-- before: -->
@@ -350,8 +348,8 @@ We `couldn't` find `/` because we `have` to `update` our `topics.html` template:
 
 ### Re-running python3 manage.py test
 
-Now let's _re-run_ `python3 manage.py test`, which `should` now `return` the
-`following`:
+Now let's _re-run_ `python3 manage.py test`, which should now return the
+following:
 
 ```shell
 Found 7 test(s).
@@ -365,12 +363,11 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-The test `passes` because we `have` added
-`<a href="{% url 'index' %}">Boards</a>`. `'index'` translates to `/`. `index`
-is the `name` of the `path` of the `index` or `home` page `named` in
-`django_boards/urls.py`.
+The test passes because we have added `<a href="{% url 'index' %}">Boards</a>`.
+`'index'` translates to `/`. `index` is the `name` of the `path` of the `index`
+or home page named in `django_boards/urls.py`.
 
-Now the `single` Board `page` _links back_ to the `index/home` page:
+Now the single Board page links back to the `index/home` page:
 
 ![Single Board page links back to index/home page](Screenshot-2024-09-1-at-1.57.35-PM.jpg)
 
@@ -380,14 +377,14 @@ _Single Board page links back to index/home page_
 
 In this section, I added the `IndexTests` class to `boards/tests.py`, updated
 `templates/index.html` to make a failed test pass, wrote a test for linking back
-to the `index/home` page from the `single` Board `page`, updated
+to the `index/home` page from the single Board page, updated
 `templates/topics.html` to link back to the `index/home` page, and updated
 `templates/topics.html` so a failed test would pass.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
