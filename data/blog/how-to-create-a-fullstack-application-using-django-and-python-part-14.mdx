@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-14
 date: '2024-09-12T10:25:26.723Z'
-lastModified: '2024-12-18T07:18:26.723Z'
+lastModified: '2026-05-25T10:00:26.723Z'
 title: How to create a fullstack application using Django and Python Part 14
 author: Maria D. Campbell
 excerpt: 'In this section, I build a NewTopicForm.'
@@ -30,92 +30,90 @@ isFeatured: false
 
 _new_topic.html including form.html_
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Building the New Topic form](#building-the-new-topic-form)
-    -   [Forms in Django](#forms-in-django)
-        -   [How to save user input in the database](#how-to-save-user-input-in-the-database)
-        -   [Creating a new url route called new_topic in django_boards/urls.py](#creating-a-new-url-route-called-new-topic-in-django-boards-urlspy)
-        -   [Creating a new_topic view in boards/views.py](#creating-a-new-topic-view-in-boards-viewspy)
-        -   [Creating the templates/new_topic.html form template](#creating-the-templates-new-topichtml-form-template)
-        -   [Viewing new_topic.html in the browser](#viewing-new-topichtml-in-the-browser)
-    -   [Adding NewTopicTests to boards/tests.py](#adding-newtopictests-to-boards-testspy)
-        -   [NewTopicTests class summary](#newtopictests-class-summary)
-        -   [Running the NewTopicTests](#running-the-newtopictests)
-    -   [Creating the new_topic form](#creating-the-new-topic-form)
-        -   [The form element](#the-form-element)
-        -   [Django CSRF csrf_token (Cross-Site Request Forgery Token)](#django-csrf-csrf-token-cross-site-request-forgery-token)
-        -   [The form inputs' name attributes](#the-form-inputs-name-attributes)
-    -   [A naive implementation of the new_topic view that takes the data from the HTML form and starts a new topic](#a-naive-implementation-of-the-new-topic-view-that-takes-the-data-from-the-html-form-and-starts-a-new-topic)
-    -   [Hardcoding User fields due to absence of authentication](#hardcoding-user-fields-due-to-absence-of-authentication)
-        -   [Redirecting user to board topics list page instead of posts within a topic](#redirecting-user-to-board-topics-list-page-instead-of-posts-within-a-topic)
-        -   [Updating templates/topics.html to include a listing of all topics](#updating-templates-topicshtml-to-include-a-listing-of-all-topics)
-        -   [Two new concepts introduced in the new_topic view](#two-new-concepts-introduced-in-the-new-topic-view)
-    -   [Creating the button that goes to the new_topic view in templates/topics.html](#creating-the-button-that-goes-to-the-new-topic-view-in-templates-topicshtml)
-    -   [Testing whether the user can reach the new_topic view from templates/topics.html](#testing-whether-the-user-can-reach-the-new-topic-view-from-templates-topicshtml)
-        -   [Testing the form view](#testing-the-form-view)
-        -   [Running python3 manage.py test including updated NewTopicTests](#running-python3-managepy-test-including-updated-newtopictests)
-    -   [Creating forms the correctly](#creating-forms-correctly)
-        -   [Creating a boards/forms.py file](#creating-a-boards-formspy-file)
-        -   [Meta class in Models](#meta-class-in-models)
-        -   [Refactoring boards/views.py to include form validation](#refactoring-boards-viewspy-to-include-form-validation)
-            -   [Breaking down the refactored new_topic view](#breaking-down-the-refactored-new-topic-view)
-        -   [Updating templates/new_topic.html to fully use Django Forms API](#updating-templates-new-topichtml-to-fully-use-django-forms-api)
-            -   [Forms API help_text](#forms-api-help-text)
-            -   [Adding the help_text attribute to the Textarea widget in forms.py](#adding-the-help-text-attribute-to-the-textarea-widget-in-formspy)
-    -   [Rendering Bootstrap Form Styling](#rendering-bootstrap-form-styling)
-        -   [Installing and using django-widget-tweaks with Bootstrap](#installing-and-using-django-widget-tweaks-with-bootstrap)
-            -   [Breaking down the addition of django-widget-tweaks in templates/new_topic.html](#breaking-down-the-addition-of-django-widget-tweaks-in-templates-new-topichtml)
-        -   [Implementing Bootstrap validation tags in templates/new_topic.html](#implementing-bootstrap-validation-tags-in-templates-new-topichtml)
-    -   [Re-usable forms templates](#re-usable-forms-templates)
-        -   [Updating templates/new_topic.html](#updating-templates-new-topichtml)
-    -   [Adding more tests to NewTopicTests](#adding-more-tests-to-newtopictests)
-        -   [The response context attribute](#the-response-context-attribute)
--   [Conclusion](#conclusion)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Building the New Topic form](#building-the-new-topic-form)
+    - [Forms in Django](#forms-in-django)
+        - [How to save user input in the database](#how-to-save-user-input-in-the-database)
+        - [Creating a new url route called new_topic in django_boards/urls.py](#creating-a-new-url-route-called-new-topic-in-django-boards-urlspy)
+        - [Creating a new_topic view in boards/views.py](#creating-a-new-topic-view-in-boards-viewspy)
+        - [Creating the templates/new_topic.html form template](#creating-the-templates-new-topichtml-form-template)
+        - [Viewing new_topic.html in the browser](#viewing-new-topichtml-in-the-browser)
+    - [Adding NewTopicTests to boards/tests.py](#adding-newtopictests-to-boards-testspy)
+        - [NewTopicTests class summary](#newtopictests-class-summary)
+        - [Running the NewTopicTests](#running-the-newtopictests)
+    - [Creating the new_topic form](#creating-the-new-topic-form)
+        - [The form element](#the-form-element)
+        - [Django CSRF csrf_token (Cross-Site Request Forgery Token)](#django-csrf-csrf-token-cross-site-request-forgery-token)
+        - [The form inputs' name attributes](#the-form-inputs-name-attributes)
+    - [A naive implementation of the new_topic view that takes the data from the HTML form and starts a new topic](#a-naive-implementation-of-the-new-topic-view-that-takes-the-data-from-the-html-form-and-starts-a-new-topic)
+    - [Hardcoding User fields due to absence of authentication](#hardcoding-user-fields-due-to-absence-of-authentication)
+        - [Redirecting user to board topics list page instead of posts within a topic](#redirecting-user-to-board-topics-list-page-instead-of-posts-within-a-topic)
+        - [Updating templates/topics.html to include a listing of all topics](#updating-templates-topicshtml-to-include-a-listing-of-all-topics)
+        - [Two new concepts introduced in the new_topic view](#two-new-concepts-introduced-in-the-new-topic-view)
+    - [Creating the button that goes to the new_topic view in templates/topics.html](#creating-the-button-that-goes-to-the-new-topic-view-in-templates-topicshtml)
+    - [Testing whether the user can reach the new_topic view from templates/topics.html](#testing-whether-the-user-can-reach-the-new-topic-view-from-templates-topicshtml)
+        - [Testing the form view](#testing-the-form-view)
+        - [Running python3 manage.py test including updated NewTopicTests](#running-python3-managepy-test-including-updated-newtopictests)
+    - [Creating forms the correctly](#creating-forms-correctly)
+        - [Creating a boards/forms.py file](#creating-a-boards-formspy-file)
+        - [Meta class in Models](#meta-class-in-models)
+        - [Refactoring boards/views.py to include form validation](#refactoring-boards-viewspy-to-include-form-validation)
+            - [Breaking down the refactored new_topic view](#breaking-down-the-refactored-new-topic-view)
+        - [Updating templates/new_topic.html to fully use Django Forms API](#updating-templates-new-topichtml-to-fully-use-django-forms-api)
+            - [Forms API help_text](#forms-api-help-text)
+            - [Adding the help_text attribute to the Textarea widget in forms.py](#adding-the-help-text-attribute-to-the-textarea-widget-in-formspy)
+    - [Rendering Bootstrap Form Styling](#rendering-bootstrap-form-styling)
+        - [Installing and using django-widget-tweaks with Bootstrap](#installing-and-using-django-widget-tweaks-with-bootstrap)
+            - [Breaking down the addition of django-widget-tweaks in templates/new_topic.html](#breaking-down-the-addition-of-django-widget-tweaks-in-templates-new-topichtml)
+        - [Implementing Bootstrap validation tags in templates/new_topic.html](#implementing-bootstrap-validation-tags-in-templates-new-topichtml)
+    - [Re-usable forms templates](#re-usable-forms-templates)
+        - [Updating templates/new_topic.html](#updating-templates-new-topichtml)
+    - [Adding more tests to NewTopicTests](#adding-more-tests-to-newtopictests)
+        - [The response context attribute](#the-response-context-attribute)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 ## Building the New Topic form
 
-`Before` we `build` the `New Topic` form, we have to `discuss` how `forms` work
-in `Django`.
+Before we build the New Topic form, we have to discuss how forms work in Django.
 
 ### Forms in Django
 
-`Handling forms` is `complex`. in `Django`'s admin, there are `several types` of
-`data` that `may need` to be `displayed` in a `form`, `rendered` as `HTML`,
-`edited` using a `suitable interface`, `sent back` to the `server`, `validated`
-and `cleaned up`, and then `saved` or `passed on` for `further processing`.
+Handling forms is complex. in Django's admin, there are several types of data
+that may need to be displayed in a form, rendered as HTML, edited using a
+suitable interface, sent back to the server, validated and cleaned up, and then
+saved or passed on for further processing.
 
-`Django`'s form `functionality` can `simplify` and `automate` large `parts` of
-`form development`, and can do it `more securely` than if programmers
-`developed` the `forms` on `their own`.
+Django's form functionality can simplify and automate large parts of form
+development, and can do it more securely than if programmers developed the forms
+on their own.
 
-`Django` handles `three aspects` of `form development`:
+Django handles three aspects of form development:
 
-1. `preparing` and `restructuring` data for `rendering`
+1. preparing and restructuring data for rendering
 
-1. `creating` HTML `forms` for the `data`
+1. creating HTML forms for the data
 
-1. `receiving` and `processing` submitted `forms` and `data` from the `client`
+1. receiving and processing submitted forms and data from the client
 
-`In` the `context` of a `web application`, `"form"` might `refer` to an `HTML`
-form, to the `Django` Form (`class`) that `produces` it, to the
-`structured data` returned when it is `submitted`, or the `end-to-end` form
-development `process`.
+In the context of a web application, "form" might refer to an HTML form, to the
+Django Form (class) that produces it, to the structured data returned when it is
+submitted, or the end-to-end form development process.
 
 ### How to save user input in the database
 
 ### Creating a new url route called new_topic in django_boards/urls.py
 
-_For starters_, let's `create` a `new` url `route` named `new_topic`:
+_For starters_, let's create a new url route named `new_topic`:
 
 ```python
 # in django_boards/urls.py
@@ -127,12 +125,12 @@ urlpatterns = [
 ]
 ```
 
-The `structure` of the `new_topic` path will `help` us `identify` the _correct_
-`Board` to `point` to.
+The structure of the `new_topic` path will help us identify the _correct_ Board
+to point to.
 
 ### Creating a new_topic view in boards/views.py
 
-_Next_, we `create` a `new_topic` view in `boards/views.py`:
+_Next_, we create a `new_topic` view in `boards/views.py`:
 
 ```python
 # in boards/views.py
@@ -202,14 +200,14 @@ class NewTopicTests(TestCase):
 
 ### NewTopicTests class summary
 
-1. **setUp** creates a new Board instance to be used for testing.
-1. **test_new_topic_view_success_status_code** checks if the view request
-   returns a response success status code of 200.
-1. **test_new_topic_view_not_found_status_code** checks to see if a response
+1. `setUp` creates a new Board instance to be used for testing.
+1. `test_new_topic_view_success_status_code` checks if the view request returns
+   a response success status code of 200.
+1. `test_new_topic_view_not_found_status_code` checks to see if a response
    status code of 404 (Not Found) is returned for a non-existent Board.
-1. **test_new_topic_url_resolves_new_topic_view** checks to see if the right
-   view is being rendered.
-1. **test_new_topic_view_contains_link_back_to_board_topics_view** checks to see
+1. `test_new_topic_url_resolves_new_topic_view` checks to see if the right view
+   is being rendered.
+1. `test_new_topic_view_contains_link_back_to_board_topics_view` checks to see
    if the link back to the list of topics is correct.
 
 ### Running the NewTopicTests
@@ -219,7 +217,7 @@ class NewTopicTests(TestCase):
 python3 manage.py test
 ```
 
-`Which` should `return` the `following`:
+Which should return the following:
 
 ```shell
 Found 11 test(s).
@@ -262,7 +260,7 @@ Destroying test database for alias 'default'...
 {% endblock content %}
 ```
 
-The `form` looks `like` the `following`:
+The form looks like the following:
 
 ![The new_top.html form](Screenshot-2024-09-12-at-11.58.43-AM.jpg)
 
@@ -270,21 +268,20 @@ _The new_top.html form_
 
 ### The form element
 
-The `form` HTML `element` is a `container` for `different types` of
-`input elements` such as `text fields`, `checkboxes`, `radio buttons`, and
-`submit buttons`.
+The `form` HTML element is a container for different types of `input` elements
+such as `text fields`, `checkboxes`, `radio buttons`, and `submit buttons`.
 
-In the `form` tag, we `have` the `method` attribute. The `method` attribute
-`specifies` how to `send` form `data` specified in the `action` attribute. For
-the most part, the `method` attribute `accepts` the `GET` and `POST` methods.
+In the `form` tag, we have the `method` attribute. The `method` attribute
+specifies how to send `form` data specified in the `action` attribute. For the
+most part, the `method` attribute accepts the `GET` and `POST` methods.
 
 | Value | Description                                                                                                                                                                                         | Example                                                                                                                                                 |
 | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Get   | used to retrieve data from the server, appends form-data into the URL in browser address bar in name/value pairs, values are limited to 3000 characters, and it's suitable for non-sensitive data   | Every time we click on a link or type a URL in the browser, we are creating a GET request                                                               |
+| GET   | used to retrieve data from the server, appends form-data into the URL in browser address bar in name/value pairs, values are limited to 3000 characters, and it's suitable for non-sensitive data   | Every time we click on a link or type a URL in the browser, we are creating a GET request                                                               |
 | POST  | Is used when we want to change data on the server, appends form-data inside the body of the HTTP request (data is not shown is in URL), there are no size limits, and are secure for sensitive data | Whenever we send data to the server, i.e. via form data submission creating or updating the state of an object or resource, we should use POST requests |
 
-The `action` attribute `specifies` the `route` that the `form data` should be
-`sent` to when a `form` is `submitted`.
+The `action` attribute specifies the `route` that the `form` data should be sent
+to when a `form` is submitted.
 
 **action attribute syntax**:
 
@@ -302,11 +299,10 @@ The `action` attribute `specifies` the `route` that the `form data` should be
 
 ### Django CSRF csrf_token (Cross-Site Request Forgery Token)
 
-The Django `csrf_token` is `meant` to `protect` a `site` from
-`cross-site request forgery` attacks. This `type` of `attack` forces
-`authenticated` users to `submit` a `request` to a `Web application` to `which`
-they are `already` authenticated. `CSRF` attacks `exploit` the `trust` a
-`web application` has in an `authenticated` user.
+The Django `csrf_token` is meant to protect a site from cross-site request
+forgery attacks. This type of attack forces authenticated users to submit a
+request to a Web application to which they are already authenticated. CSRF
+attacks exploit the trust a web application has in an authenticated user.
 
 According to [OWASP](https://owasp.org/www-community/attacks/csrf),
 
@@ -320,9 +316,9 @@ According to [OWASP](https://owasp.org/www-community/attacks/csrf),
 > If the victim is an administrative account, CSRF can compromise the entire web
 > application.
 
-So `every` time a `Django` application `receives` a `POST` request, it will
-`first look` for the `CSRF` token. If the `request` has `no` token, or the
-`token` is `invalid`, it will `discard` the `POST` data.
+So every time a Django application receives a POST request, it will first look
+for the CSRF token. If the request has no token, or the token is invalid, it
+will discard the POST data.
 
 **An example of a csrf_token template tag**:
 
@@ -330,8 +326,8 @@ So `every` time a `Django` application `receives` a `POST` request, it will
 {% csrf_token %}
 ```
 
-The `csrf_token` is `added` to a `hidden` input `field` that is `submitted` with
-`all` the other `form` data:
+The `csrf_token` is added to a hidden `input` field that is submitted with all
+the other `form` data:
 
 ```html
 <input
@@ -343,9 +339,9 @@ The `csrf_token` is `added` to a `hidden` input `field` that is `submitted` with
 
 ### The form inputs' name attributes
 
-We `need` to add `name` attributes to the `form`'s input `fields`, because we
-will be `using` those `attributes` to retrieve `data` from our `form` on the
-`server side`. For example:
+We need to add `name` attributes to the form's `input` fields, because we will
+be using those attributes to retrieve data from our `form` on the server side.
+For example:
 
 ```html
 <input type="text" class="form-control" id="id_subject" name="subject" />
@@ -357,7 +353,7 @@ will be `using` those `attributes` to retrieve `data` from our `form` on the
 ></textarea>
 ```
 
-`Something like` the `following` on the `server side` (`boards/views.py`):
+Something like the following on the server side (`boards/views.py`):
 
 ```python
 subject = request.POST['subject']
@@ -397,20 +393,20 @@ def new_topic(request, id):
     return render(request, 'new_topic.html', {'board': board})
 ```
 
-There are `some` parts `missing` in the `above implementation`. There is no
-`data validation`, and the `user` could `submit` an `empty form` or or a
-`subject` that contains `more` than `255` characters.
+There are some parts missing in the above implementation. There is no data
+validation, and the user could submit an empty form or or a subject that
+contains more than 255 characters.
 
 ### Hardcoding User fields due to absence of authentication
 
-Up to this point, we have been `hardcoding` the `User` fields, because we have
-`not implemented` any `authentication` yet. We will be getting to that soon.
+Up to this point, we have been hardcoding the User fields, because we have not
+implemented any authentication yet. We will be getting to that soon.
 
 ### Redirecting user to board topics list page instead of posts within a topic
 
-Up to this point, we have `not` yet `created` the `view` where we `list` all the
-`posts` within a `topic`, so upon `response.status_code` 200, we `redirect` the
-`user` to the `list` of board topics `page`.
+Up to this point, we have not yet created the view where we list all the posts
+within a topic, so upon `response.status_code` 200, we redirect the user to the
+list of board topics page.
 
 ![Creating a new post topic on the new topic page](Screenshot-2024-09-13-at-5.25.14-AM.jpg)
 
@@ -420,10 +416,9 @@ _Creating a new post topic on the new topic page_
 
 _Result of new topic submission_
 
-The `submission` seemed to `work`. I even `received` a `success` response
-`status code` of `200` in `Terminal`. However, the `submission` didn't `seem` to
-go `anywhere` because we still `don't have` the `topics listing` yet! Let's do
-that now.
+The submission seemed to work. I even received a success response status code of
+200 in Terminal. However, the submission didn't seem to go anywhere because we
+still don't have the topics listing yet! Let's do that now.
 
 ## Updating templates/topics.html to include a listing of all topics
 
@@ -463,47 +458,44 @@ that now.
 {% endblock content %}
 ```
 
-`With` these `changes`, `http://127.0.0.1:8000/boards/1/`, which is the
-`listing` of `all` (post) `topics` for a `given board`, looks `something like`
-the `following`:
+With these changes, `http://127.0.0.1:8000/boards/1/`, which is the listing of
+all (post) topics for a given board, looks something like the following:
 
 ![Including a listing of all (post) topics for a given board](Screenshot-2024-09-13-at-5.41.41-AM.jpg)
 
 _Including a listing of all (post) topics for a given board_
 
-The `above` includes `submissions` I made `before` the `submitted data` had
-`anywhere` to `go`!
+The above includes submissions I made before the submitted data had anywhere to
+go!
 
 ### Two new concepts introduced in the new_topic view
 
-`Two` new `concepts` are `introduced` in the `new_topic` view in
-`boards/views.py`.
+Two new concepts are introduced in the `new_topic` view in `boards/views.py`.
 
-1. We are using the `topics property` for the `first time` in the `Board` model.
-   The `topics property` is created `automatically` by` Django` using a
-   `reverse relationship` (`related_name='topics'` in `models.py`).
+1. We are using the `topics` property for the first time in the Board model. The
+   `topics` property is created automatically by Django using a reverse
+   relationship (`related_name='topics'` in `models.py`).
     1. In the line `board=board` in `Topic.objects.create()` inside `new_topic`
-       in `boards/views.py`, we `set` the `board field` in the `Topic` model,
-       `which` is a `models.ForeignKey(Board)`. Now our `Board` instance is
-       `aware` that it `has` a `Topic` instance `associated` with it.
-    1. In the `Python` code, we `have` to use `board.topics.all()`, because
-       `.all()` using parentheses `indicates` a `method`, which is `what` we
-       `need`. We are `not` literally using `board.topics.all()`. We are using
+       in `boards/views.py`, we set the `board` field in the Topic model, which
+       is a `models.ForeignKey(Board)`. Now our Board instance is aware that it
+       has a Topic instance associated with it.
+    1. In the Python code, we have to use `board.topics.all()`, because `.all()`
+       using parentheses indicates a method, which is what we need. We are not
+       literally using `board.topics.all()`. We are using
        `board = Board.objects.all()` inside `def index(request)`, which makes
-       `board.topics` available. To be able to `return` all `topics` associated
-       with a `given board`, we `have` to run `board.topics.all()` (via
+       `board.topics` available. To be able to return all topics associated with
+       a given board, we have to run `board.topics.all()` (via
        `Board.objects.all()`) in `boards/views.py`. But in
-       `templates/topics.html`, we `exclude` the `parentheses`:
-       `{% for topic in board.topics.all %}`. `Here`, it is `considered` a
-       `property` and `not` a `method`. `board.topics` is a `Related Manager`,
-       `similar` to `Model Manager`, and `available` on the `board.objects`
-       property.
-2. We are `making use` of a `ForeignKey` in our `topics.html` template:
-   `<td>{{ topic.starter.username }}</td>`. We are `able` to `access` any
-   `property` of the `User` model. If we `wanted` to `access` the `user`'s
-   `email`, we would use `topic.starter.email`.
+       `templates/topics.html`, we exclude the parentheses:
+       `{% for topic in board.topics.all %}`. Here, it is considered a property
+       and not a method. `board.topics` is a Related Manager, similar to Model
+       Manager, and available on the `board.objects` property.
+2. We are making use of a `ForeignKey` in our `topics.html` template:
+   `<td>{{ topic.starter.username }}</td>`. We are able to access any property
+   of the User model. If we wanted to access the user's email, we would use
+   `topic.starter.email`.
 
-## Creating the button that goes to the new_topic view in templates/topics.html
+## Creating the button that goes to the `new_topic `view in `templates/topics.html`
 
 ```html
 <!-- templates/topics.html -->
@@ -517,13 +509,13 @@ The `above` includes `submissions` I made `before` the `submitted data` had
 {% endblock content %}
 ```
 
-Which `results` in the `following rendering` to the `new_topic` view `page`:
+Which results in the following rendering to the `new_topic` view page:
 
 ![Adding button going to new_topic view in templates/topics.html](Screenshot-2024-09-13-at-6.51.20-AM.jpg)
 
 _Adding button going to new_topic view in templates/topics.html_
 
-`Clicking` on the `"New topic"` button `takes us` to the `new_topic` view:
+Clicking on the "New topic" button takes us to the `new_topic` view:
 
 ![Result of clicking on the "New topic" button (new_topic view)](Screenshot-24-09-13-at-6.54.41-AM.jpg)
 
@@ -546,10 +538,10 @@ class BoardTopicsTests(TestCase):
         self.assertContains(response, 'href="{0}"'.format(new_topic_url))
 ```
 
-This `test` makes `sure` our view `contains` the `required` navigation `links`.
+This test makes sure our view contains the required navigation links.
 
-When we run `python3 manage.py test` in `Terminal`, the `following` should be
-`returned`:
+When we run `python3 manage.py test` in Terminal, the following should be
+returned:
 
 ```shell
 Found 12 test(s).
@@ -565,8 +557,8 @@ Destroying test database for alias 'default'...
 
 ## Testing the form view
 
-We'll `create` some `tests` on the `processing` of our `form` before actually
-`updating` our `form` template:
+We'll create some tests on the processing of our `form` before actually updating
+our `form` template:
 
 ```python
 # boards/tests.py
@@ -646,8 +638,8 @@ class NewTopicTests(TestCase):
 
 ## Running python3 manage.py test including updated NewTopicTests
 
-When I run `python3 manage.py test` including the `updated` NewTopicTests, it
-`returns` the `following`:
+When I run `python3 manage.py test` including the updated `NewTopicTests`, it
+returns the following:
 
 ```shell
 Found 16 test(s).
@@ -670,16 +662,16 @@ FAILED (failures=1)
 Destroying test database for alias 'default'...
 ```
 
-We `have` one `failed test` and one `AssertionError`. `Instead` of `refactoring`
-the `tests`, we'll `make` those `tests` pass `using` the `Django Forms API`.
+We have one failed test and one `AssertionError`. Instead of refactoring the
+tests, we'll make those tests pass using the Django Forms API.
 
 ## Creating forms correctly
 
-Now we are `going` to `use` the `Forms API` to `create` our `form`.
+Now we are going to use the Forms API to create our form.
 
-The `Forms API` is `accessible` through the `django.forms` module.
+The Forms API is accessible through the `django.forms` module.
 
-`Django` works with `two types` of `forms`: `forms.Form` and `forms.ModelForm`.
+Django works with two types of forms: `forms.Form` and `forms.ModelForm`.
 
 | Forms API type | Description                                                                                                                        |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
@@ -702,22 +694,20 @@ class NewTopicForm(forms.ModelForm):
         fields = ["subject", "message"]
 ```
 
-The `form` we have `created` here is a `ModelForm` which is `associated` with a
-`Topic` model.
+The `form` we have created here is a `ModelForm` which is associated with a
+Topic model.
 
-The `"subject"` field `inside` the `fields` list in the `Meta` class `refers` to
-the `subject` field in the `Topic` class.
+The `subject` field inside the fields list in the Meta class refers to the
+`subject` field in the Topic class.
 
-The `"message"` field `inside` the `fields` list in the `Meta` class `refers` to
-the `message` field in the `Post` class. `"message"` refers to the `Post` we
-`want` to `save`.
+The `message` field inside the fields list in the Meta class refers to the
+`message` field in the Post class. "message" refers to the Post we want to save.
 
 ### Meta class in Models
 
-The `Meta` model is `sub-Model` class of a `Model` class. Model `Meta` is `used`
-to change the `behavior` of our `model` fields. It is `optional`. In `order` to
-use `Meta`, we `have` to `add` it to the `Model` we `want` to `use` it in
-(`as above`).
+The Meta model is `sub-Model` class of a Model class. Model Meta is used to
+change the behavior of our `model` fields. It is optional. In order to use Meta,
+we have to add it to the Model we want to use it in (as above).
 
 ## Refactoring boards/views.py to include form validation
 
@@ -773,34 +763,34 @@ def new_topic(request, id):
     return render(request, 'new_topic.html', {'board': board, 'form': form})
 ```
 
-The `above` is `how` we `use` a `form` in a `view`.
+The above is how we use a `form` in a view.
 
 ### Breaking down the refactored new_topic view
 
-`first` we `check` if the `form method` is a `POST` request. `If` it `is` a POST
-request, it `means` the `user` is `submitting` some `data` via the `form` to the
-`server`. It also `means` that we should `instantiate` a `form instance`
-(`NewTopicForm(request.POST)`) `passing` the `POST` data to the `form`
+first we check if the `form` method is a POST request. If it is a POST request,
+it means the user is submitting some data via the `form` to the server. It also
+means that we should instantiate a `form` instance
+(`NewTopicForm(request.POST)`) passing the POST data to the `form`
 (`NewTopicForm(request.POST`).
 
-Then, `if` the `form` is `valid` (`form.is_valid()`), we can `save` the `data`
-to the `database` (`topic = form.save()`). The `.save()` method `returns` an
-`instance` of the `NewTopicForm` saved to the `database`. And `since` this is a
-`Topic` form, it `returns` the `Topic` which was `created` (`topic.form()`).
+Then, if the `form` is valid (`form.is_valid()`), we can save the data to the
+database (`topic = form.save()`). The `.save()` method returns an instance of
+the `NewTopicForm` saved to the database. And since this is a Topic form, it
+returns the Topic which was created (`topic.form()`).
 
-Then the `user` is `redirected` to the `board_topics` view
-(`templates/topics.html`) so that the `user` can't `re-submit` the same` form`
-data and to `complete` the `form` submission `process`.
+Then the user is redirected to the `board_topics` view (`templates/topics.html`)
+so that the user can't re-submit the same `form` data and to complete the `form`
+submission process.
 
-_If_, on the other hand, the `form` is `NOT` valid, Django `adds` a `list` of
-`errors` to the `form`. After that, the `view` doesn't do `anything`,
-`just returns` the `last statement`:
+_If_, on the other hand, the `form` is NOT valid, Django adds a list of errors
+to the `form`. After that, the view doesn't do anything, just returns the last
+statement:
 `return render(request, 'new_topic.html', {'board': board, 'form': form})`. This
-now `means` that we `have` to update `templates/new_topic.html` to `reflect` our
-refactored `new_topic` view to `display` errors `properly`.
+now means that we have to update `templates/new_topic.html` to reflect our
+refactored `new_topic` view to display errors properly.
 
-But `meanwhile`, let's re-run `ptyhon3 manage.py test` in `Terminal`. It should
-`return` the `following`:
+But meanwhile, let's re-run `ptyhon3 manage.py test` in Terminal. It should
+return the following:
 
 ```shell
 Found 16 test(s).
@@ -814,8 +804,8 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-We `fixed` the `two tests` which previously `failed` with the `refactoring` of
-our `new_topic` view.
+We fixed the two tests which previously failed with the refactoring of our
+`new_topic` view.
 
 ## Updating templates/new_topic.html to fully use Django Forms API
 
@@ -840,39 +830,38 @@ our `new_topic` view.
 {% endblock content %}
 ```
 
-Now the `new_topic` view (templates/new_topic.html) `looks like` the `following`
-in the `browser`:
+Now the `new_topic` view (`templates/new_topic.html`) looks like the following
+in the browser:
 
 ![Updated new_topic view (templates/new_topic.html)](Screenshot-2024-09-13-at-10.08.38-AM.jpg)
 
 _Updated new_topic view (templates/new_topic.html)_
 
-The `form` has `three` rendering `options`: `form.as_table`, `form.as_ul`, and
-`form.as_p`. They are a `quick way` to `render` all the `fields` of a `form`.
+The `form` has three rendering options: `form.as_table`, `form.as_ul`, and
+`form.as_p`. They are a quick way to render all the fields of a `form`.
 
 What we have implemented by using `{{ form.as_p }}` is very powerful. If, for
 example, our form contained 50 fields, we could render all the fields just by
 using `{{ form.as_p }}`.
 
-By `using` the `Forms API`, `Django` will natively `validate` the `form` data
-and `error` messages for each `field`.
+By using the Forms API, Django will natively validate the `form` data and error
+messages for each field.
 
-If I `try` to `submit` an empty `new_topic` form the `following happens`:
+If I try to submit an empty `new_topic` form the following happens:
 
 ![Result of trying to submit an empty form](Screenshot-2024-09-13-at-10.18.51-AM.jpg)
 
 _Result of trying to submit an empty form_
 
-`When` I only `fill` in the `subject` field and then `try` to `submit` the
-`new_topic` form:
+When I only fill in the `subject` field and then try to submit the `new_topic`
+form:
 
 ![Result of only filling in the subject field and then submitting the new_topic form](Screenshot-2024-09-13-at-10.19.24-AM.jpg)
 
 _Result of only filling in the subject field and then submitting the new_topic
 form_
 
-`If`, however, I `add` the `novalidate` boolean `attribute` to the `opening`
-form `tag`:
+If, however, I add the `novalidate` boolean attribute to the opening `form` tag:
 
 ```django
 {% block content %}
@@ -883,8 +872,8 @@ form `tag`:
 {% endblock content %}
 ```
 
-It will `prevent` my `browser` from `implementing` its own `built-in` browser
-`form` validation:
+It will prevent my browser from implementing its own built-in browser `form`
+validation:
 
 ![Result of adding novalidate boolean attribute to the opening form tag](Screenshot-2024-09-13-at-11.05.5AM.jpg)
 
@@ -892,13 +881,13 @@ _Result of adding novalidate boolean attribute to the opening form tag_
 
 ### Forms API help_text
 
-The `Forms API` also `handles` help_text.
+The Forms API also handles help_text.
 
-What is `help_text`? The help_text `attribute` is `used` to display
-`"help text"` along `with` the `form` field in the `admin interface` or
-`ModelForm`. It's `useful` for `documentation` even if the `field` is `not part`
-of a `form`. For example, we could `define` the `date pattern` received as
-`input` in the `DateField` help_text, for example.
+What is `help_text`? The `help_text` attribute is used to display "help text"
+along with the form field in the admin interface or `ModelForm`. It's useful for
+documentation even if the field is not part of a `form`. For example, we could
+define the `date` pattern received as input in the `DateField` help_text, for
+example.
 
 ### Adding the help_text attribute to the Textarea widget in forms.py
 
@@ -929,13 +918,13 @@ class NewTopicForm(forms.ModelForm):
         fields = ["subject", "message"]
 ```
 
-`With` these `changes`, the `new_topic` view `looks like` the `following`:
+With these changes, the `new_topic` view looks like the following:
 
 ![topic_view with Textarea widget help_text](Screenshot-2024-09-13-at-12.57.03-PM.jpg)
 
 _topic_view with Textarea widget help_text_
 
-We `can` also `set` extra `attributes` to a `form` field:
+We can also set extra attributes to a `form` field:
 
 ```python
 # in forms.py
@@ -958,8 +947,8 @@ class NewTopicForm(forms.ModelForm):
         fields = ["subject", "message"]
 ```
 
-`With` this `addition`, the `NewTopicForm` in the `new_topic` view `looks like`
-the `following`:
+With this addition, the `NewTopicForm` in the `new_topic` view looks like the
+following:
 
 ![Adding placeholder attribute and value to Textarea widget](Screenshot-2024-09-13-at-1.25.20-PM.jpg)
 
@@ -969,18 +958,17 @@ _Adding placeholder attribute and value to Textarea widget_
 
 ### Installing and using django-widget-tweaks with Bootstrap
 
-Next, we are going to `install` a `Django` package called
-`django-widget-tweaks`. It `gives us` more `control` over the
-`rendering process`, `keeps` the `form defaults` and `adds` extra
-`customizations` on top of it:
+Next, we are going to install a Django package called `django-widget-tweaks`. It
+gives us more control over the rendering process, keeps the `form` defaults and
+adds extra customizations on top of it:
 
 ```shell
 # install django-widget-tweaks in Terminal with the following command:
 python3 -m pip install django-widget-tweaks
 ```
 
-Then we `have` to `make sure` to add `django-widget-tweaks` to `INSTALLED_APPS`
-in `settings.py`:
+Then we have to make sure to add `django-widget-tweaks` to `INSTALLED_APPS` in
+`settings.py`:
 
 ```python
 # in django_boards/settings.py
@@ -1039,7 +1027,7 @@ Now let's use `django-widget-tweaks` in `templates/new_topic.html`:
 {% endblock %}
 ```
 
-Let's `go` to the `browser` and `see` what our `new_topic` view `looks like`:
+Let's go to the browser and see what our `new_topic` view looks like:
 
 ![Result of using django-widget-tweaks on the NewTopicForm](Screenshot-2024-09-13-at-2.18.30-PM.jpg)
 
@@ -1047,15 +1035,15 @@ _Result of using django-widget-tweaks on the NewTopicForm_
 
 ### Breaking down the addition of django-widget-tweaks in templates/new_topic.html
 
-1. First we _load_ `django-widget-tweaks` with the `{% load widget_tweaks %}`
-   tag, `located` right `above` the `opening` form `tag`.
-2. Then we `render` the `form` fields `inside` the `for in` loop `with` the
+1. First we load `django-widget-tweaks` with the `{% load widget_tweaks %}` tag,
+   located right above the opening form tag.
+2. Then we render the form fields inside the for in loop with the
    `{% render_field field class="form-control" %}` tag.
 
-The `render_field` is `not part` of `Django`. it `lives` inside
-`django-widget-tweaks`. To `use` it, we `have` to `pass` a `form` field
-`instance` as a `first parameter`, followed by `arbitrary` HTML `attributes`.
-Then we can `assign classes` based on `certain conditions`.
+The `render_field` is not part of Django. it lives inside
+`django-widget-tweaks`. To use it, we have to pass a form field instance as a
+first parameter, followed by arbitrary HTML attributes. Then we can assign
+classes based on certain conditions.
 
 ### Implementing Bootstrap validation tags in templates/new_topic.html
 
@@ -1109,8 +1097,7 @@ Then we can `assign classes` based on `certain conditions`.
 {% endblock content %}
 ```
 
-`These` changes `result` in the `following` when I `try` and `submit` an
-`empty form`:
+These changes result in the following when I try and submit an empty `form`:
 
 ![Result when trying to submit an empty form](Screenshot-2024-09-13-at-4.38.10-PM.jpg)
 
@@ -1120,22 +1107,21 @@ _Result when trying to submit an empty form_
 
 _Result when trying to submit an empty message_
 
-`Now` we have `three` different `rendering states`:
+Now we have three different rendering states:
 
-1. **initial state**: the form has no data (not bound)
-1. **invalid**: we add the `.is-invalid` CSS class and add `error messages` in a
-   `div` element with the `.invalid-feedback` class. The `form field` and
-   `messages` are in `red`.
-1. **valid**: we `add` the `.is-valid` CSS class so as to `color` the
-   `form field` in `green`, `giving feedback` to the `user` that the `field` is
-   `good` to `go`.
+1. **initial state**: the `form` has no data (not bound)
+1. **invalid**: we add the `.is-invalid` CSS class and add error messages in a
+   `div` element with the `.invalid-feedback` class. The `form` field and
+   messages are in red.
+1. **valid**: we add the `.is-valid` CSS class so as to color the `form` field
+   in green, giving feedback to the user that the field is good to go.
 
 ## Re-usable forms templates
 
-Next, `inside` the `templates` directory, we `create` a _new directory_ called
-`includes`.
+Next, inside the templates directory, we create a new directory called
+"includes".
 
-_Inside_ the `includes` directory, we `create` a `file` called `form.html`:
+_Inside_ the includes directory, we create a file called `form.html`:
 
 ```django
 <!-- templates/includes/form.html -->
@@ -1192,11 +1178,11 @@ _Inside_ the `includes` directory, we `create` a `file` called `form.html`:
 {% endblock content %}
 ```
 
-The `{% include %}` tag is `used` to _include_ HTML `templates` in _other_
-`templates`. It's a `good way` to _reuse_ HTML `components` in a `project`.
+The `{% include %}` tag is used to include HTML templates in other templates.
+It's a good way to reuse HTML components in a project.
 
-In the `next form` we `implement`, we can just use
-`{% include 'includes/form.html' %}` to `render` it.
+In the next form we implement, we can just use
+`{% include 'includes/form.html' %}` to render it.
 
 ## Adding more tests to NewTopicTests
 
@@ -1224,45 +1210,45 @@ class NewTopicTests(TestCase):
         self.assertTrue(form.errors)
 ```
 
-_Above_, we use `.assertIsInstance()` method. We are `grabbing` the `form`
-instance in the `context data`, and `checking` if it is a `NewTopicForm`.
+Above, we use `.assertIsInstance()` method. We are grabbing the `form` instance
+in the context data, and checking if it is a `NewTopicForm`.
 
-In the _last_ `test`, we add `self.assertTrue(form.errors)` to `make sure` the
-`form` is `showing errors` when the `data` is `invalid`.
+In the last test, we add `self.assertTrue(form.errors)` to make sure the `form`
+is showing errors when the data is invalid.
 
 ### The response context attribute
 
-The `response` in `test_contains_form()` and
-`test_new_topic_invalid_post_data()` has a `context` attribute that `contains`
-the `context` used to `render` the `form.html` template.
+The response in `test_contains_form()` and `test_new_topic_invalid_post_data()`
+has a `context` attribute that contains the context used to render the
+`form.html` template.
 
-The _last_ `two tests` check whether a `given request` is `rendered` by a
-`given` Django `template`, with a `template context` that contains
-`certain values` (`form = response.context.get('form')`).
+The last two tests check whether a given request is rendered by a given Django
+template, with a template context that contains certain values
+(`form = response.context.get('form')`).
 
 ## Conclusion
 
 In this section, I talked about how to save user input to the database, built a
-NewTopicForm, created a new route called new_topic, a new_topic view, a
-new_topic form template, NewTopicTests, implemented the CSRF csrf_token in the
-form, updated topics.html template to include a listing of all topics, created a
-button going to the new_topic view in topics.html, added Model Meta to
-NewTopicForm, refactored boards/views.py to include form validation, used the
-Forms API in new_topic.html, added the help_text attribute to the Textarea
-widget in forms.py, used django-widget-tweaks with Bootstrap, implemented
-Bootstrap validation tags in new_topic.html, and created a re-usable form
-template.
+`NewTopicForm`, created a new route called `new_topic`, a `new_topic` view, a
+`new_topic` form template, `NewTopicTests`, implemented the CSRF `csrf_token` in
+the `form`, updated `topics.html` template to include a listing of all topics,
+created a button going to the `new_topic` view in `topics.html`, added Model
+Meta to `NewTopicForm`, refactored `boards/views.py` to include `form`
+validation, used the Forms API in `new_topic.html`, added the `help_text`
+attribute to the `Textarea` widget in `forms.py`, used `django-widget-tweaks`
+with Bootstrap, implemented Bootstrap validation tags in `new_topic.html`, and
+created a re-usable `form` template.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [CSRF token in Django](https://www.geeksforgeeks.org/csrf-token-in-django/):
-    **_Geeks for Geeks_**
--   [Meta Class in Models – Django](https://www.geeksforgeeks.org/meta-class-in-models-django/):
-    **_Geeks for Geeks_**
--   [help_text – Django Built-in Field Validation](https://www.geeksforgeeks.org/help_text-django-built-in-field-validation/):
-    **_Geeks for Geeks_**
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [CSRF token in Django](https://www.geeksforgeeks.org/csrf-token-in-django/):
+  _Geeks for Geeks_
+- [Meta Class in Models – Django](https://www.geeksforgeeks.org/meta-class-in-models-django/):
+  _Geeks for Geeks_
+- [help_text – Django Built-in Field Validation](https://www.geeksforgeeks.org/help_text-django-built-in-field-validation/):
+  _Geeks for Geeks_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
