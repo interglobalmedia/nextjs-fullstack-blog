@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-30
 date: '2024-11-08T11:20:16.435Z'
-lastModified: '2024-12-18T07:24:16.435Z'
+lastModified: '2026-05-25T03:50:16.435Z'
 title: How to create a fullstack application using Django and Python Part 30
 author: Maria D. Campbell
 excerpt: 'In this section, I place the default Django authentication system related
@@ -25,29 +25,28 @@ isFeatured: false
 
 ![Reception desk](pexels-olly-3771110.jpg)
 
-**_Photo by_** [Andrea Piacquadio](https://www.pexels.com/@olly/) **_on_**
+_Photo by_ [Andrea Piacquadio](https://www.pexels.com/@olly/) **_on_**
 [pexels.com](https://www.pexels.com/photo/reception-desk-with-antique-hotel-bell-3771110/)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Re-organizing the default Django authentication system related templates and URLs](#re-organizing-the-default-django-authentication-system-related-templates-and-urls)
--   [Conclusion](#conclusion)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Re-organizing the default Django authentication system related templates and URLs](#re-organizing-the-default-django-authentication-system-related-templates-and-urls)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 ## Re-organizing the default Django authentication system related templates and URLs
 
-According to `research` I `conducted` after a `couple` _of failed_ `deployments`
-on `Heroku`, I `found` that when `using` the `default` Django
-`authentication system`, the following `URL pattern` should be `added` in our
-`accounts/urls.py` file:
+According to research I conducted after a couple of failed deployments on
+Heroku, I found that when using the default Django authentication system, the
+following URL pattern should be added in our `accounts/urls.py` file:
 
 ```python
 urlpatterns = [
@@ -55,7 +54,7 @@ urlpatterns = [
 ]
 ```
 
-Our `accounts/urls.py` file should now `look like` the `following`:
+Our `accounts/urls.py` file should now look like the following:
 
 ```python
 from django.urls import path
@@ -105,8 +104,8 @@ urlpatterns = [
 ]
 ```
 
-Adding these `default` registration/password reset URLs `results` in the
-`inclusion` of `the` _following_ `URL` patterns:
+Adding these default `registration/password` reset URLs results in the inclusion
+of the following URL patterns:
 
 ```shell
 accounts/login/ [name='login']
@@ -119,11 +118,10 @@ accounts/reset/<uidb64>/<token>/ [name='password_reset_confirm']
 accounts/reset/done/ [name='password_reset_complete']
 ```
 
-`According` to the
+According to the
 [Django authentication system documentation](https://docs.djangoproject.com/en/5.1/topics/auth/default/),
-_the associated_ `templates` should `reside` in a `directory` called
-`registration`. Now our `templates` directory should `look like` the
-`following`:
+the associated templates should reside in a directory called registration. Now
+our templates directory should look like the following:
 
 ```shell
 - templates/
@@ -142,27 +140,26 @@ _the associated_ `templates` should `reside` in a `directory` called
     ...
 ```
 
-`Since` the `signup.html` template is _not included_ in the `list` above, when a
-_new visitor_ `lands` on the `site`, they `see` the `link` to the `sign in`
-(`login`) page _and not_ the `signup` page. _However_, there is a `link` to the
-`sign in` page on the `login` page.
+Since the `signup.html` template is not included in the list above, when a new
+visitor lands on the site, they see the link to the sign in (login) page and not
+the signup page. However, there is a link to the sign in page on the login page.
 
 ## Conclusion
 
 In this section, I placed the default Django authentication system related
 templates into a new directory called registration inside the templates
-directory, I moved the associated URLs into accounts/urls.oy, and added the
-associated default url pattern to django_boards/urls.py. This helped ensure that
-django-boards deployment to Heroku would be successful.
+directory, I moved the associated URLs into `accounts/urls.oy`, and added the
+associated default url pattern to `django_boards/urls.py`. This helped ensure
+that django-boards deployment to Heroku would be successful.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
-    **_mariadcampbell.com_**
--   [Using the Django authentication system](https://docs.djangoproject.com/en/5.1/topics/auth/default/):
-    **_Django documentation_**
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+  _mariadcampbell.com_
+- [Using the Django authentication system](https://docs.djangoproject.com/en/5.1/topics/auth/default/):
+  _Django documentation_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
