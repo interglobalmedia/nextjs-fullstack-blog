@@ -1,7 +1,7 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-32'
 date: '2024-11-24T10:59:44.757Z'
-lastModified: '2025-01-05T11:07:44.757Z'
+lastModified: '2026-05-26T14:19:44.757Z'
 title: 'How to create a fullstack application using Django and Python Part 32'
 author: 'Maria D. Campbell'
 excerpt:
@@ -37,98 +37,95 @@ isFeatured: false
 
 ![After a successful deployment](lala-azizli-8IJ5xNTv1QM-unsplash.jpg)
 
-**_Photo by_** [Lala Azizli](https://unsplash.com/@lazizli) **_on_**
+_Photo by_ [Lala Azizli](https://unsplash.com/@lazizli) **_on_**
 [unsplash.com](https://unsplash.com/photos/man-in-black-framed-eyeglasses-doing-peace-sign-8IJ5xNTv1QM)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Deploying to Render](#deploying-to-render)
--   [Updating an existing Django project for deployment on Render](#updating-an-existing-django-project-for-deployment-on-render)
-    -   [Django Boards directory structure before re-organization for Render](#django-boards-directory-structure-before-re-organization-for-render)
-    -   [Django Boards directory structure after re-organization for Render](#django-boards-directory-structure-after-re-organization-for-render)
--   [Creating a Render account](#creating-a-render-account)
-    -   [Updating an existing Django project](#updating-an-existing-django-project)
-    -   [The DEBUG environment variable in development vs production](#the-debug-environment-variable-in-development-vs-production)
-    -   [Media files configuration in development vs production](#media-files-configuration-in-development-vs-production)
-    -   [Local DATABASES configuration vs production DATABASES configuration](#local-databases-configuration-vs-production-databases-configuration)
-    -   [Local static files configuration vs production staticfiles configuration](#local-static-files-configuration-vs-production-staticfiles-configuration)
-    -   [Configuring the production database settings](#configuring-the-production-database-settings)
-    -   [Adding the whitenoise package to make our static files persist on Render](#adding-the-whitenoise-package-to-make-our-static-files-persist-on-render)
-    -   [Configuring whitenoise in django_boards/settings.py](#configuring-whitenoise-in-django-boards-settingspy)
-    -   [Creating a build script](#creating-a-build-script)
-    -   [Installing Gunicorn and Uvicorn](#installing-gunicorn-and-uvicorn)
--   [Creating a Django project in the Render Dashboard](#creating-a-django-project-in-the-render-dashboard)
--   [Adding the Postgres managed database service on Render](#adding-the-postgres-managed-database-service-on-render)
-    -   [Creating a web service](#creating-a-web-service)
-    -   [Creating the render.yaml file](#creating-the-renderyaml-file)
--   [Creating a persistent disk](#creating-a-persistent-disk)
--   [Creating an SSH key pair locally](#creating-an-ssh-key-pair-locally)
-    -   [Copying the SSH public key](#copying-the-ssh-public-key)
-    -   [Connecting a service with SSH](#connecting-a-service-with-ssh)
-    -   [Adding the SSH key to the ssh-agent](#adding-the-ssh-key-to-the-ssh-agent)
-    -   [Uploading default.jpg to django-boards web service](#uploading-defaultjpg-to-django-boards-web-service)
-    -   [Transferring files using the scp command via SSH](#transferring-files-using-the-scp-command-via-ssh)
--   [Creating a superuser in the Render shell](#creating-a-superuser-in-the-render-shell)
--   [A note about liking a post](#a-note-about-liking-a-post)
--   [Commit associated with this post](#commit-associated-with-this-post)
--   [Adding python-decouple](#adding-python-decouple)
--   [Creating a settings directory to separate development settings from production settings](#creating-a-settings-directory-to-separate-development-settings-from-production-settings)
-    -   [Running the local server using the new settings configuration](#running-the-local-server-using-the-new-settings-configuration)
--   [Updating settings/base.py](#updating-settings-basepy)
-    -   [Defining MEDIA_ROOT development.py, production.py and removing it from base.py](#defining-media-root-developmentpy-productionpy-and-removing-it-from-basepy)
--   [settings directory configuration did not work in production on Render and how I fixed it](#settings-directory-configuration-did-not-work-in-production-on-render-and-how-i-fixed-it)
-    -   [Breaking down the MEDIA_URL related code in django_boards/urls.py](#breaking-down-the-media-url-related-code-in-django-boards-urlspy)
--   [The settings directory code to date](#the-settings-directory-code-to-date)
--   [django_boards/asgi.py to date](#django-boards-asgipy-to-date)
--   [django_boards/wsgi.py to date](#django-boards-wsgipy-to-date)
--   [manage.py to date](#managepy-to-date)
--   [Fine-tuning manage.py so I didn't have to manually switch between development and production](#fine-tuning-managepy-so-i-didnt-have-to-manually-switch-between-development-and-production)
--   [Note regarding likes (again)](#note-regarding-likes-again)
--   [Latest commit for Django Boards on Github](#latest-commit-for-django-boards-on-github)
--   [Running python3 manage.py check](#running-python3-managepy-check)
-    -   [Updating security settings in settings/production.py](#updating-security-settings-in-settings-productionpy)
-    -   [Adding a site to the HSTS preload list](#adding-a-site-to-the-HSTS-preload-list)
--   [Regenerating a SECRET_KEY locally for production on Render](#regenerating-a-secret-key-locally-for-production-on-render)
--   [Conclusion](#conclusion)
--   [Footnotes](#footnotes)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Deploying to Render](#deploying-to-render)
+- [Updating an existing Django project for deployment on Render](#updating-an-existing-django-project-for-deployment-on-render)
+    - [Django Boards directory structure before re-organization for Render](#django-boards-directory-structure-before-re-organization-for-render)
+    - [Django Boards directory structure after re-organization for Render](#django-boards-directory-structure-after-re-organization-for-render)
+- [Creating a Render account](#creating-a-render-account)
+    - [Updating an existing Django project](#updating-an-existing-django-project)
+    - [The DEBUG environment variable in development vs production](#the-debug-environment-variable-in-development-vs-production)
+    - [Media files configuration in development vs production](#media-files-configuration-in-development-vs-production)
+    - [Local DATABASES configuration vs production DATABASES configuration](#local-databases-configuration-vs-production-databases-configuration)
+    - [Local static files configuration vs production staticfiles configuration](#local-static-files-configuration-vs-production-staticfiles-configuration)
+    - [Configuring the production database settings](#configuring-the-production-database-settings)
+    - [Adding the whitenoise package to make our static files persist on Render](#adding-the-whitenoise-package-to-make-our-static-files-persist-on-render)
+    - [Configuring whitenoise in django_boards/settings.py](#configuring-whitenoise-in-django-boards-settingspy)
+    - [Creating a build script](#creating-a-build-script)
+    - [Installing Gunicorn and Uvicorn](#installing-gunicorn-and-uvicorn)
+- [Creating a Django project in the Render Dashboard](#creating-a-django-project-in-the-render-dashboard)
+- [Adding the Postgres managed database service on Render](#adding-the-postgres-managed-database-service-on-render)
+    - [Creating a web service](#creating-a-web-service)
+    - [Creating the render.yaml file](#creating-the-renderyaml-file)
+- [Creating a persistent disk](#creating-a-persistent-disk)
+- [Creating an SSH key pair locally](#creating-an-ssh-key-pair-locally)
+    - [Copying the SSH public key](#copying-the-ssh-public-key)
+    - [Connecting a service with SSH](#connecting-a-service-with-ssh)
+    - [Adding the SSH key to the ssh-agent](#adding-the-ssh-key-to-the-ssh-agent)
+    - [Uploading default.jpg to django-boards web service](#uploading-defaultjpg-to-django-boards-web-service)
+    - [Transferring files using the scp command via SSH](#transferring-files-using-the-scp-command-via-ssh)
+- [Creating a superuser in the Render shell](#creating-a-superuser-in-the-render-shell)
+- [A note about liking a post](#a-note-about-liking-a-post)
+- [Commit associated with this post](#commit-associated-with-this-post)
+- [Adding python-decouple](#adding-python-decouple)
+- [Creating a settings directory to separate development settings from production settings](#creating-a-settings-directory-to-separate-development-settings-from-production-settings)
+    - [Running the local server using the new settings configuration](#running-the-local-server-using-the-new-settings-configuration)
+- [Updating settings/base.py](#updating-settings-basepy)
+    - [Defining MEDIA_ROOT development.py, production.py and removing it from base.py](#defining-media-root-developmentpy-productionpy-and-removing-it-from-basepy)
+- [settings directory configuration did not work in production on Render and how I fixed it](#settings-directory-configuration-did-not-work-in-production-on-render-and-how-i-fixed-it)
+    - [Breaking down the MEDIA_URL related code in django_boards/urls.py](#breaking-down-the-media-url-related-code-in-django-boards-urlspy)
+- [The settings directory code to date](#the-settings-directory-code-to-date)
+- [django_boards/asgi.py to date](#django-boards-asgipy-to-date)
+- [django_boards/wsgi.py to date](#django-boards-wsgipy-to-date)
+- [manage.py to date](#managepy-to-date)
+- [Fine-tuning manage.py so I didn't have to manually switch between development and production](#fine-tuning-managepy-so-i-didnt-have-to-manually-switch-between-development-and-production)
+- [Note regarding likes (again)](#note-regarding-likes-again)
+- [Latest commit for Django Boards on Github](#latest-commit-for-django-boards-on-github)
+- [Running python3 manage.py check](#running-python3-managepy-check)
+    - [Updating security settings in settings/production.py](#updating-security-settings-in-settings-productionpy)
+    - [Adding a site to the HSTS preload list](#adding-a-site-to-the-HSTS-preload-list)
+- [Regenerating a SECRET_KEY locally for production on Render](#regenerating-a-secret-key-locally-for-production-on-render)
+- [Conclusion](#conclusion)
+- [Footnotes](#footnotes)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
-**Update 12.27.24**: I tweaked the `local` vs `production` settings in
-`settings.py` using the `Python` package `python-decouple`. This `decreased` the
-`amount` of `code` that I had to `comment out` or `uncomment` so as to switch
-between `local development` and `production` on `Render`. Please visit the
-`section` entitled [Adding python-decouple](#adding-python-decouple) to
-`learn more`.
+**Update 12.27.24**: I tweaked the local vs production settings in `settings.py`
+using the Python package `python-decouple`. This decreased the amount of code
+that I had to comment out or uncomment so as to switch between local development
+and production on Render. Please visit the section entitled
+[Adding python-decouple](#adding-python-decouple) to learn more.
 
 ## Deploying to Render
 
-We can `deploy` our `Django` application to `render.com`. We `can` also `store`
-our `uploaded` user avatar `images` on a `persistent disk` in our `Django`
-project on `render.com`.
+We can deploy our Django application to `render.com`. We can also store our
+uploaded user avatar images on a persistent disk in our Django project on
+`render.com`.
 
 ## Updating an existing Django project for deployment on Render
 
-**Note**: I `tried` very hard to `deploy` my `Django Boards` project on
-`Heroku`, `but` to `no avail`. It just didn't happen. I `opted` to `try` out
-`Render`, `which` was `suggested` to `me` by `someone` on the
-[Django Forum](https://forum.djangoproject.com), and it `ended up` working like
-a `charm`.
+I tried very hard to deploy my Django Boards project on Heroku, but to no avail.
+It just didn't happen. I opted to try out Render, which was suggested to me by
+someone on the [Django Forum](https://forum.djangoproject.com), and it ended up
+working like a charm.
 
-`Since` I `already had` an `"existing"` Django `project` (`Django Boards`), I
-`opted` for the `"Updating an existing Django project"` option.
+Since I already had an "existing" Django project (Django Boards), I opted for
+the "Updating an existing Django project" option.
 
-I found out the hard way that I `had` to `re-organize` my `project directory` in
-`order` for `Django Boards` to work `properly` on `Render`. In other words, I
-`had` to `make sure` that my `manage.py` file `resided` at the `root` of my
-`project`.
+I found out the hard way that I had to re-organize my project directory in order
+for Django Boards to work properly on Render. In other words, I had to make sure
+that my `manage.py` file resided at the root of my project.
 
 ### Django Boards directory structure before re-organization for Render
 
@@ -155,10 +152,10 @@ I found out the hard way that I `had` to `re-organize` my `project directory` in
     - requirements.txt
 ```
 
-`All` other `files` and `directories` were `specific` to `Heroku` or
-`"experiments"` along the way. `This` is `basically what` you `should have`
-before `reorganizing` your `Django Boards` directory `structure` so that
-`manage.py` resides `at` the `root` of your `project`.
+All other files and directories were specific to Heroku or "experiments" along
+the way. This is basically what you should have before reorganizing your Django
+Boards directory structure so that `manage.py` resides at the root of your
+project.
 
 ### Django Boards directory structure after re-organization for Render
 
@@ -191,38 +188,34 @@ before `reorganizing` your `Django Boards` directory `structure` so that
 
 ## Creating a Render account
 
-First, I `had` to `create` a `Render account`. I `went` to the `render.com`
-**_home page_** and `signed up` for an `account`. `In order` to `save` you
-`time` and avoid `aggravation`, `if` you `want` to `avoid` hosting `images` on a
-`service` like` AWS S3` and `use` a `persistent disk` for your `Django Boards`
-application `instance` instead, don't `select` the `free tier`. Select
-`"Starter"`. It `costs` $7 a `month`. It will `permit` you to `add` a
-`persisted disk` to your `web service`. However, you will `have` to `do` that
-`through` your `render.yaml` file. You will `want` a `render.yaml` file so
-`that` you can `configure` your `Django` application `automatically`. `When` I
-`signed up`, I `chose` the `hobbyist` plan (`which` is `free`), and `changed` to
-the `Starter` plan for my `web` service `instance` via `render.yaml` when I
-`created` it.
+First, I had to create a Render account. I went to the `render.com` home page
+and signed up for an account. In order to save you time and avoid aggravation,
+if you want to avoid hosting images on a service like `AWS S3` and use a
+persistent disk for your Django Boards application instance instead, don't
+select the free tier. Select "Starter". It costs $7 a month. It will permit you
+to add a persisted disk to your web service. However, you will have to do that
+through your `render.yaml` file. You will want a `render.yaml` file so that you
+can configure your Django application automatically. When I signed up, I chose
+the hobbyist plan (which is free), and changed to the Starter plan for my web
+service instance via `render.yaml` when I created it.
 
-`Initially`, I had my `web service` and `database` instances set to `free`
-plans. They had `nothing` to do `with` my `hobbyist` plan. It was `specific` to
-my `django-boards` web `service` and `database service` instances. My `plans`
-were `upgraded` after I had `set up` my `paid` managed
-`Postgres database service` and my `paid` Django `web service` via
-`render.yaml`. We will get to all that soon!
+Initially, I had my web service and database instances set to free plans. They
+had nothing to do with my hobbyist plan. It was specific to my django-boards web
+service and database service instances. My plans were upgraded after I had set
+up my paid managed `Postgres database service` and my paid Django web service
+via `render.yaml`. We will get to all that soon!
 
 ### Updating an existing Django project
 
-`Since` I already `had` an existing `Django` project, I followed the
-`"Updating an existing Django project"` option in the `Render` documentation
-entitled [Deploy a Django App on Render](https://render.com/docs/deploy-django).
-`I` also followed `Nik Tomazic`'s article entitled
+Since I already had an existing Django project, I followed the "Updating an
+existing Django project" option in the Render documentation entitled
+[Deploy a Django App on Render](https://render.com/docs/deploy-django). I also
+followed Nik Tomazic's article entitled
 [Deploying a Django App to Render](https://testdriven.io/blog/django-render/).
-`You` can `access` both `articles` under
-[Related Resources](#related-resources).
+You can access both articles under [Related Resources](#related-resources).
 
-`I` updated my `django_boards/settings.py` file to `work` on `render.com` in
-`production`. `It` consisted `of` the `following`:
+I updated my `django_boards/settings.py` file to work on `render.com` in
+production. It consisted of the following:
 
 ```python
 """
@@ -412,12 +405,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 ```
 
-`It` took a `NUMBER` of `commits` before I `got` it `right`, but this
-`configuration` worked `beautifully`. `Note` my `comments` in the `code` as
-well. I `added` the `comments` so `that` I would `know` what to
-`uncomment/comment` when I `switched` from `production settings` to
-`development settings` and `vice versa`. This also `took` a `lot` of `tries`
-before I `got` it `right`.
+It took a NUMBER of commits before I got it right, but this configuration worked
+beautifully. Note my comments in the code as well. I added the comments so that
+I would know what to "uncomment/comment" when I switched from production
+settings to development settings and vice versa. This also took a lot of tries
+before I got it right.
 
 ### The DEBUG environment variable in development vs production
 
@@ -428,15 +420,14 @@ before I `got` it `right`.
 DEBUG = os.environ.get('DEBUG')
 ```
 
-`DEBUG = os.getenv('DEBUG')` uploads the `DEBUG` environment `variable` from my
-`.env` file for `use` in `development`. There, `DEBUG` is `set` to `True`. I
-`use` the `Python package` called `python-dotenv` to `make` that `happen`.
-Please visit
+`DEBUG = os.getenv('DEBUG')` uploads the `DEBUG` environment variable from my
+`.env` file for use in development. There, `DEBUG` is set to `True`. I use the
+Python package called `python-dotenv` to make that happen. Please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
 to learn more.
 
-`DEBUG = os.environ.get('DEBUG')` `points` to my `environment` on `Render`.com.
-There, `DEBUG` is `set` to `False`.
+`DEBUG = os.environ.get('DEBUG')` points to my environment on `Render.com`.
+There, `DEBUG` is set to `False`.
 
 ### Media files configuration in development vs production
 
@@ -448,10 +439,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = '/opt/render/project/src/mediafiles/'
 ```
 
-Locally, I set `MEDIA_ROOT` to `os.path.join(BASE_DIR, 'media')`. `This` is
-`what` we originally `had` for our `local` development `settings`. I `comment`
-it `out` when `I` push `settings.py` to `GitHub/Render`. `When` I want `to` run
-the `application` locally, I `uncomment` it, `and` comment out
+Locally, I set `MEDIA_ROOT` to `os.path.join(BASE_DIR, 'media')`. This is what
+we originally had for our local development settings. I comment it out when I
+push `settings.py` to `GitHub/Render`. When I want to run the application
+locally, I uncomment it, and comment out
 `MEDIA_ROOT = '/opt/render/project/src/mediafiles/'`.
 
 ### Local DATABASES configuration vs production DATABASES configuration
@@ -471,19 +462,18 @@ DATABASES = {
 }
 ```
 
-`The` commented out `DATABASES` configuration is `my` local `database`. I
-`comment` it `out` when `I` am `using` my `managed database` on `Render`, and
-`make sure` that my `Render` DATABASES `configuration` is `uncommented`. `When`
-I want `to` run my `application` locally, I `uncomment` the `local` DATABASES
-`configuration`, and `comment out` the `Render` DATABASES `configuration`.
+The commented out `DATABASES` configuration is my local database. I comment it
+out when I am using my managed database on Render, and make sure that my Render
+`DATABASES` configuration is uncommented. When I want to run my application
+locally, I uncomment the local `DATABASES` configuration, and comment out the
+Render `DATABASES` configuration.
 
-The `dj-database-url` package is a `Django utility` that `allows us` to
-configure `our` database `settings` using a `URL` string, commonly `stored` in
-an `environment variable` called `DATABASE_URL`. `This` is a `convenient way` to
-`manage` database `configurations`, `especially` in `cloud environments`. I
-`created` a `DATABASE_URL` environment `variable` with the `value` of the
-`Internal Database URL` provided to `me` by `Render` when I `created` my
-`Postgres` managed `database service`.
+The `dj-database-url` package is a Django utility that allows us to configure
+our database settings using a URL string, commonly stored in an environment
+variable called `DATABASE_URL`. This is a convenient way to manage database
+configurations, especially in cloud environments. I created a `DATABASE_URL`
+environment variable with the value of the Internal Database URL provided to me
+by Render when I created my Postgres managed database service.
 
 ### Local static files configuration vs production staticfiles configuration
 
@@ -505,21 +495,21 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 ```
 
-`When` I `run` my `Django` application `locally`, I `use` the `STATICFILES_DIRS`
-variable `along with` the `STATIC_URL` variable. `When` I `run` my
-`Django application` on `Render`, I `comment` out `STATICFILES_DIRS` and
-`uncomment` the `STATIC_ROOT` variable.
+When I run my Django application locally, I use the `STATICFILES_DIRS` variable
+along with the `STATIC_URL` variable. When I run my Django application on
+Render, I comment out `STATICFILES_DIRS` and uncomment the `STATIC_ROOT`
+variable.
 
 ### Configuring the production database settings
 
-Next, I had `to` install `psycopg2-binary` and `dj-database-url`.
+Next, I had to install `psycopg2-binary` and `dj-database-url`.
 
-`psycopg2-binary` is the `most` popular `Python adapter` for `communicating`
-with a `PostgreSQL database`.
+`psycopg2-binary` is the most popular Python adapter for communicating with a
+PostgreSQL database.
 
-`dj-database-url` enables `us` to `specify` our `database details` via the
-`DATABASE_URL` environment `variable`. I `got` my database’s `URL` from the
-`Render Dashboard` when I `created` my managed `Postgres database service`.
+`dj-database-url` enables us to specify our database details via the
+`DATABASE_URL` environment variable. I got my database’s URL from the Render
+Dashboard when I created my managed Postgres database service.
 
 ```shell
 # make sure you run the command from within the directory in which your venv folder resides
@@ -529,7 +519,7 @@ pip install psycopg2-binary
 pip freeze > requirements.txt
 ```
 
-Then I `had` to `make sure` to import `dj-database-url` at the `top` of my
+Then I had to make sure to import `dj-database-url` at the top of my
 `django_boards/settings.py` file:
 
 ```python
@@ -540,18 +530,17 @@ from dotenv import load_dotenv
 ...
 ```
 
-To `learn` more `about` the `psycopg2-binary` package, please visit
-[psycopg2-binary 2.9.10](https://pypi.org/project/psycopg2-binary/2.9.10/). `I`
-currently `have` this version `installed` in my `Django Boards` project.
+To learn more about the `psycopg2-binary` package, please visit
+[psycopg2-binary 2.9.10](https://pypi.org/project/psycopg2-binary/2.9.10/). I
+currently have this version installed in my Django Boards project.
 
 ### Adding the whitenoise package to make our static files persist on Render
 
-Next, I `had` to install `whitenoise`.
+Next, I had to install `whitenoise`.
 
-`In order` to `make sure` that my `static files` would `persist` in `production`
-on `Render`, I `had` to `add` the `whitenoise` package to my `Django Boards`
-application. I `did` this `locally`, `making sure` that my `virtual environment`
-was `activated`:
+In order to make sure that my static files would persist in production on
+Render, I had to add the `whitenoise` package to my Django Boards application. I
+did this locally, making sure that my virtual environment was activated:
 
 ```shell
 pip install 'whitenoise[brotli]'
@@ -559,11 +548,11 @@ pip install 'whitenoise[brotli]'
 pip freeze > requirements.txt
 ```
 
-`Adding` Brotli `support` is `optional`, but `recommended`.
+Adding `Brotli` support is optional, but recommended.
 
 ### Configuring whitenoise in django_boards/settings.py
 
-Next, I `had` to configure `whitenoise` in my `django_boards/settings.py` file:
+Next, I had to configure `whitenoise` in my `django_boards/settings.py` file:
 
 ```python
 MIDDLEWARE = [
@@ -582,14 +571,13 @@ MIDDLEWARE = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # new
 ```
 
-`When` I configured `django_boards/settings.py`, I `went on` to `add` my
-`managed` PostgreSQL database `service`.
+When I configured `django_boards/settings.py`, I went on to add my managed
+PostgreSQL database service.
 
 ### Creating a build script
 
-Next, I `had` to `create` a `build script` called `build.sh` at the `root` of my
-`local` Git `repository` so that, when `pushed`, `would` be `added` to my
-`remote` Git `repository`.
+Next, I had to create a build script called `build.sh` at the root of my local
+Git repository so that, when pushed, would be added to my remote Git repository.
 
 ```shell
 #!/usr/bin/env bash
@@ -605,72 +593,68 @@ python manage.py collectstatic --no-input
 python manage.py migrate
 ```
 
-`Whenever` I `deploy` a `new version` of my `project`, `Render` runs a
-`build command` to prepare `it` for `production`.
+Whenever I deploy a new version of my project, Render runs a `build` command to
+prepare it for production.
 
-`I` also `have` to `make sure` the `build script` is `executable` before
-`adding` it to `version control`. I `do this` from `Terminal` inside the `root`
-of my `django-boards` directory:
+I also have to make sure the `build` script is executable before adding it to
+version control. I do this from Terminal inside the root of my `django-boards`
+directory:
 
 ```shell
 chmod a+x build.sh
 ```
 
-`chmod a+x` means `setting` execute `permissions` for `all`. That `means` for
-the `user` or `file owner` (`u`), `members` of the `file`'s `group` (`g`), and
-`users` who are `neither` the `file`'s `owner` nor `members` of the `file`'s
-`group` (`o`).
+`chmod a+x` means setting execute permissions for all. That means for the user
+or file owner (u), members of the file's group (g), and users who are neither
+the file's owner nor members of the file's group (o).
 
 ### Installing Gunicorn and Uvicorn
 
-Next, I `had` to install `gunicorn` and `uvicorn`. Our `project` is `run` on
-`those` two `packages`.
+Next, I had to install `gunicorn` and `uvicorn`. Our project is run on those two
+packages.
 
-`Uvicorn` is a `lightweight` ASGI `server`. `Gunicorn` is a `WSGI server` which
-`can` be `used` alongside `Uvicorn`. `Django applications` have `both` an
-`asgi.py file` and a `wsgi.py file` inside the `same directory` as our
-`settings.py`.
+`Uvicorn` is a lightweight ASGI server. `Gunicorn` is a WSGI server which can be
+used alongside Uvicorn. Django applications have both an `asgi.py` file and a
+`wsgi.py` file inside the same directory as our `settings.py`.
 
-Next, I `had` to `copy` the `following command` to my `clipboard` for
-`later use`:
+Next, I had to copy the following command to my clipboard for later use:
 
 ```shell
 python -m gunicorn django_boards.asgi:application -k uvicorn.workers.UvicornWorker
 ```
 
-`I` took `django_boards` from my `django_boards/asgi.py` file. `That` is the
-`name` of my `project` (`site`). I added `this` to my `render.yaml` file `and`
-to the `Start Command` field in my `django-boards` web service `Settings` when I
-`created` it.
+I took `django_boards` from my `django_boards/asgi.py` file. That is the name of
+my project (site). I added this to my `render.yaml` file and to the
+`Start Command` field in my `django-boards` web service settings when I created
+it.
 
 ## Creating a Django project in the Render Dashboard
 
-`First` and `foremost`, I `had` to `create` a `Django project` from `within` my
-`dashboard`.
+First and foremost, I had to create a Django project from `within` my dashboard.
 
-`In` my `dashboard`, `I` selected `"Projects"`, then `clicked` on
-`"Create new project"`, and `the` following `appeared`:
+In my dashboard, I selected "Projects", then clicked on "Create new project",
+and the following appeared:
 
 ![Creating a django project](Screenshot-2024-12-22-at-2.38.34-PM.jpg)
 
 _Creating a django project_
 
-I `named` my project `django-boards`, and `named` my environment `Production`.
-`When` I `created` my managed `database service` and my `web service` for my
-`django-boards` project, I `clicked` on the `django-boards project` and then
-`created` the `services` within.
+I named my project `django-boards`, and named my environment `Production`. When
+I created my managed database service and my web service for my `django-boards`
+project, I clicked on the `django-boards` project and then created the services
+within.
 
 ## Adding the Postgres managed database service on Render
 
-Next, I `created` my first `web service` from `within` my `django-boards`
-project. I `went into` my `django-project` in my `Render Dashboard`, and `at`
-the `top right`, `clicked` on `New+`.
+Next, I created my first web service from within my `django-boards` project. I
+went into my `django-project` in my Render Dashboard, and at the top right,
+clicked on New+.
 
 ![Creating a managed Postgres database service](Screenshot-2024-12-22-at-2.04.02-PM.jpg)
 
 _Creating a managed Postgres database service_
 
-`Then` I selected `PostgreSQL`, and the `following` appeared:
+Then I selected PostgreSQL, and the following appeared:
 
 ![Configuring the PostgreSQL managed database service part 2 screenshot](Screenshot-2024-12-22-at-2.12.49-PM.jpg)
 
@@ -684,17 +668,16 @@ _Configuring the PostgreSQL managed database service part 3 screenshot_
 
 _Configuring the PostgreSQL managed database service part 4_
 
-`When` I `created` this `database` for my `django-boards project` (`site`), I
-was `creating` an `"instance"`. `Even though` I had `signed up` for the `hobby`
-(`free`) `plan` when I `registered` with `Render`, I `selected` the
-`basic-256mb plan` for the `PostgreSQL database instance` associated `with` my
-`django-boards` project. I `started` with the `free` tier, but `upgraded` to the
-`basic-256mb plan` when I `created` my `render.yaml` file. `basic-256mb` is the
-`cheapest` managed `database` plan at `$6/month`. `I` also `selected` to
-have`15GB` of `storage` at `$4.50/month`. I `could` always `decrease` that
-`amount` if I `found` I didn't `need` so much.
+When I created this database for my `django-boards` project (site), I was
+creating an "instance". Even though I had signed up for the hobby (free) plan
+when I registered with Render, I selected the basic-256mb plan for the
+PostgreSQL database instance associated with my `django-boards` project. I
+started with the free tier, but upgraded to the `basic-256mb` plan when I
+created my `render.yaml` file. `basic-256mb` is the cheapest managed database
+plan at $6/month. I also selected to have 15GB of storage at $4.50/month. I
+could always decrease that amount if I found I didn't need so much.
 
-I `created` my managed `PostgreSQL database service` in the `following manner`:
+I created my managed PostgreSQL database service in the following manner:
 
 1. **Name**: Provide a custom name. I provided django-boards-db.
 1. **Database**: Leave field empty. Render will generate this for us.
@@ -707,35 +690,33 @@ I `created` my managed `PostgreSQL database service` in the `following manner`:
    because I wanted to add a persistent disk to my web service for user image
    (avatar) uploads, so I selected the cheapest plan: starter plan at $7/month.
 
-As `Nik Tomazic` mentions in his `article`,
+As Nik Tomazic mentions in his article,
 
 > Free PostgreSQL databases get deleted after 90 days if you don't upgrade your
 > account. Render only offers 1 GB of storage for free PostgreSQL databases.
 
-`That` is `why` I primarily `went` with the `basic-256mb` database `plan`. I
-didn't `want` my `database` deleted `after` 90 `days`!
+That is why I primarily went with the `basic-256mb` database plan. I didn't want
+my database deleted after 90 days!
 
-`Nik Tomazic` goes `through` the `steps` for `creating` a `managed` database
-`service` in his `article`
+Nik Tomazic goes through the steps for creating a managed database service in
+his article
 [Deploying a Django App to Render](https://testdriven.io/blog/django-render/).
 
 ### Creating a web service
 
-To `create` my `web service`, I `clicked on` the `New+` button in my
-`django-boards` project `dashboard` and selected `Web Service`. There, I
-`connected` my `Render account` to my `GitHub account`. `If` you use `GitLab` or
-`BitBucket`, you can `connect` your `Render account` to `either` of those
-`accounts`. `Following` the `prompts`, I `granted ` Render `permissions` to my
-`public` django-boards `repository`. `This` then `became` the `repository` I
-`would` automatically `deploy` to `Render`.
+To create my web service, I clicked on the `New+` button in my `django-boards`
+project dashboard and selected `Web Service`. There, I connected my Render
+account to my GitHub account. If you use GitLab or BitBucket, you can connect
+your Render account to either of those accounts as well. Following the prompts,
+I granted Render permissions to my public django-boards repository. This then
+became the repository I would automatically deploy to Render.
 
-`Once` I `connected` to `GitHub`, I `selected` my `repository` of `choice`.
-`Don't` select `"All Repositories"`. `Select` individual `repositories`. `In` my
-`case`, and `yours`, it is `one repository`. To do `it` this way, the
-`repository` has `to` be `public`. Otherwise, it `won't` be `found` for
-`selection`.
+Once I connected to GitHub, I selected my repository of choice. Don't select
+"All Repositories". Select individual repositories. In my case, and yours, it is
+one repository. To do it this way, the repository has to be public. Otherwise,
+it won't be found for selection.
 
-Next, I `entered` the `following`:
+Next, I entered the following:
 
 1. **Name**: A custom name. I named my service django-boards.
 1. **Region**: Make sure it is the same region as your database!
@@ -751,56 +732,54 @@ Next, I `entered` the `following`:
    everything was set up, I added the plan I wanted to my render.yaml and it
    then was reflected in my django-boards web service settings.
 
-**_Next_**, I `opened up` **_the_** `"Advanced"` **_dropdown_** `below`
-**_and_** `added` **_the following_** `environment variables`:
+Next, I opened up the "Advanced" dropdown below and added the following
+environment variables:
 
 1. `PYTHON_VERSION`: 3.13.0. This is the version I use in my Django Boards
    application.
 1. `SECRET_KEY`: Click "Generate" to generate a new SECRET_KEY.
-1. `DEBUG`: False.
-1. `ALLOWED_HOSTS`: `*`.
-1. `DATABASE_URL`: `<your_internal_database_url>`. Go back into your Database
+1. DEBUG: False.
+1. ALLOWED_HOSTS: `*`.
+1. DATABASE_URL: `<your_internal_database_url>`. Go back into your Database
    service settings to grab this value.
 1. `WEB_CONCURRENCY`: 4. Render documentation states to add this environment
    variable and value, so I did.
 
-I `needed` to set `PYTHON_VERSION` since `Render`'s default `Python version` is
-`3.11.11`, `but` I `needed` to use `3.13.0`. I `changed` the `ALLOWED_HOSTS`
-when I `got` my `web service`'s `URL`.
+I needed to set `PYTHON_VERSION` since Render's default Python version is
+3.11.11, but I needed to use 3.13.0. I changed the `ALLOWED_HOSTS` when I got my
+web service's URL.
 
-`WEB_CONCURRENCY` determines the `number` of `worker processes` our
-`web application` will `spawn`,essentially `controlling` how many
-`concurrent requests` our `application` can handle `simultaneously`,
-`allowing us` to `scale` our `application` based on `traffic demands`.
+`WEB_CONCURRENCY` determines the number of worker processes our web application
+will spawn, essentially controlling how many concurrent requests our application
+can handle simultaneously, allowing us to scale our application based on traffic
+demands.
 
-**_Lastly_**, I `clicked` on `"Create Web Service"`.
+Lastly, I clicked on "Create Web Service".
 
-`Render` will `check out` your `source code`, `prepare` the `environment`, run
-`build.sh`, `generate` a `container`, and `deploy` it. Your `Django application`
-will `not` completely `work` yet. `If` you have `configured` your `static files`
-and `whitenoise` configuration `properly`, `you` should `see` your `home` page.
-`But` you `still` `won't` be `able` to `create` a `superuser`. `There` are
-`still` a `few` more `things` to `do` to `make` this `happen`.
+Render will check out your source code, prepare the environment, run `build.sh`,
+generate a container, and deploy it. Your Django application will not completely
+work yet. If you have configured your static files and `whitenoise`
+configuration properly, you should see your home page. But you still won't be
+able to create a `superuser`. There are still a few more things to do to make
+this happen.
 
-I `had` to `wait` a `couple` of `minutes` for the `deployment status` to
-`change` to `"Live"` and `then` I `tested` the `application` by `clicking on`
-the `newly created` site `URL`. My `web app`'s `URL` is `located` under the
-`web service name` at the `top left`.
+I had to wait a couple of minutes for the deployment status to change to "Live"
+and then I tested the application by clicking on the newly created site URL. My
+web app's URL is located under the web service name at the top left.
 
-`Render` automatically `redeploys`our `app` every `time` we `check code` into
-our `remote` repository.
+Render automatically redeploys our app every time we check code into our remote
+repository.
 
-`When` I `got` my `web service` URL, I `replaced` the `*` value of
-`ALLOWED_HOSTS` with m `web service` URL. `Then` I `triggered` a
-`manual deployment` of the `latest commit`. `Then` I `clicked on` my
-`application`'s `URL` to `make sure` that `everything` still `worked`. `And` it
-`did`!
+When I got my web service URL, I replaced the `*` value of `ALLOWED_HOSTS` with
+m web service URL. Then I triggered a manual deployment of the latest commit.
+Then I clicked on my application's URL to make sure that everything still
+worked. And it did!
 
 ### Creating the render.yaml file
 
-Next, I `had` to `create` a `render.yaml file` so that `I` could `configure` my
-interconnected `set` of `services`, `databases`, and `environment groups`.
-`This` is `what` my `render.yaml` file `looks like`:
+Next, I had to create a render.yaml file so that I could configure my
+interconnected set of services, databases, and environment groups. This is what
+my `render.yaml` file looks like:
 
 ```yaml
 databases:
@@ -831,76 +810,70 @@ services:
             value: 4
 ```
 
-`When` I `deployed` my `application` including the `render.yaml` file, my plans
-for my `database` and `web service` instances `upgraded` and were `reflected` in
-my `dashboard`. `Once` this `happened`, `I` was `able` to `create` a
-`persistent Disk`. I `needed` a `persistent Disk` for my `user` avatar `image`
-uploads. Otherwise, they `would` be `lost`. `But` the `biggest reason` for the
-`persistent Disk` was the `need` for the `existence` of a `default.jpg` file
-when `either` a `superuser` or `regular one` was `created`.
+When I deployed my application including the `render.yaml` file, my plans for my
+database and web service instances upgraded and were reflected in my dashboard.
+Once this happened, I was able to create a persistent Disk. I needed a
+persistent Disk for my user avatar image uploads. Otherwise, they would be lost.
+But the biggest reason for the persistent Disk was the need for the existence of
+a `default.jpg` file when either a `superuser` or regular one was created.
 
 ## Creating a persistent disk
 
-`Once` I `saw` that my `django-boards` web service `instance` was `upgraded` to
-the `Starter` plan, I `clicked` on `"Disks"` inside my `django-boards` web
-service `dashboard`, `and` I was `able` to`create` a new `Disk`. `There` were
-`only` two `fields` I `had` to `configure`. My `mount path` and `Disk size`. I
-`added` the `following`:
+Once I saw that my `django-boards` web service instance was upgraded to the
+Starter plan, I clicked on "Disks" inside my `django-boards` web service
+dashboard, and I was able to create a new Disk. There were only two fields I had
+to configure. My mount path and Disk size. I added the following:
 
 1. **Mount path**: /opt/render/project/src/mediafiles
 1. **Size**: Make sure to select the smallest size, which is 1GB. You can always
    increase this, but you can't decrease it!
 
-`Then` I `clicked` on `"Create"`.
+Then I clicked on "Create".
 
-`I` had `created` a `mediafiles` directory in my `Git` repository `before` I
-`had` even `created` the `persistent Disk`. `I` `didn't know` what `I` was
-`doing` yet, and the `documentation` does contain `holes`. `Information` is
-`scattered` all `over` the `place`.
+I had created a `mediafiles` directory in my Git repository before I had even
+created the persistent Disk. I didn't know what I was doing yet, and the
+documentation does contain holes. Information is scattered all over the place.
 
-`The` more `direct` and `easier thing` to `do` is `create` a `mediafiles`
-directory inside your `web service dashboard` shell. `When` your `shell` mounts,
-`run` the following `command`:
+The more direct and easier thing to do is create a `mediafiles` directory inside
+your `web service dashboard` shell. When your shell mounts, run the following
+command:
 
 ```shell
 /opt/render/project/src$ mkdir mediafiles
 ```
 
-Then `run` the `ls` command to `make sure` that it `has` `been` successfully
-`created`. Then, to `test` the `persistence` of the `disk`, `create` an empty
-`text file` inside the `mediafiles` directory, and then `click on` the
-`Manual Deploy button` selecting `"Deploy latest commit"`.
+Then run the ls command to make sure that it has been successfully created.
+Then, to test the persistence of the disk, create an empty text file inside the
+`mediafiles` directory, and then click on the Manual Deploy button selecting
+"Deploy latest commit".
 
 ```shell
 /opt/render/project/src/mediafiles$ touch test.txt
 ```
 
-`Once` the `deploy` has `completed` and the site is `"Live"`, `go back` to the
-`same shell` and `cd`into the `mediafiles` directory to `see` if `test.txt` is
-`still there`. `If` it `is`, `then` you indeed `have` a `working` persistent
-`Disk`, and are `ready` to `upload` your `default.jpg` image into your
-`mediafiles` directory. At first, I `did` not `realize` that `this` is the `way`
-I `had` to add `default.jpg` to the `mediafiles` directory on `Render`. I
-`thought` if I `created` a `mediafiles` directory in my `Git` repository and
-added `default.jpg` to it, it `would` then `be` automatically `reflected` in the
-`mediafiles` directory on `Render`. `But` that was `not` the `case`, `because`
-the `filesystem` on `Render` is `ephemeral`. The `reason` why my `static` files
-`persisted` is `because` of `whitenoise`.
+Once the deploy has completed and the site is "Live", go back to the same shell
+and `cd`into the `mediafiles` directory to see if `test.txt` is still there. If
+it is, then you indeed have a working persistent Disk, and are ready to upload
+your `default.jpg` image into your `mediafiles` directory. At first, I did not
+realize that this is the way I had to add `default.jpg` to the `mediafiles`
+directory on Render. I thought if I created a mediafiles directory in my Git
+repository and added `default.jpg` to it, it would then be automatically
+reflected in the `mediafiles` directory on Render. But that was not the case,
+because the `filesystem` on Render is ephemeral. The reason why my static files
+persisted is because of `whitenoise`.
 
-`After` some `reseach`, I `found` that I `had`to `upload` my `default.jpg` file
-from my `local machine` onto `render.com` inside my `django-boards` web service
-`instance`. This `meant` that I `had` to configure `SSH` on `Render` to `make`
-that `possible`.
+After some reseach, I found that I had to upload my `default.jpg` file from my
+local machine onto `render.com` inside my `django-boards` web service instance.
+This meant that I had to configure `SSH` on Render to make that possible.
 
 ## Creating an SSH key pair locally
 
-First, I `created` a new `SSH` private `and` public `key` that `I` would `use`
-only on `Render`. `I` already `had` several `key pairs` on my `local machine`
-dedicated to `other services`, which `meant` I `had` an `.ssh directory` in my
-`home` (`~`) `directory`.
+First, I created a new `SSH` private and public key that I would use only on
+Render. I already had several key pairs on my local machine dedicated to other
+services, which meant I had an `.ssh directory` in my home (`~`) directory.
 
-To `create` a `new` SSH `key pair`, I `cd` into my `.ssh` directory from within
-`Termninal` and `ran` the following `commands`:
+To create a new `SSH` key pair, I `cd` into my `.ssh` directory from within
+Termninal and ran the following commands:
 
 ```shell
 # replace your_email@example.com with your own email
@@ -911,11 +884,10 @@ Generating public/private ALGORITHM key pair.
 Enter a file in which to save the key (/Users/YOU/.ssh/id_ALGORITHM):
 ```
 
-`Since` I was `also` already `inside` my `.ssh` directory, `all` I `needed` to
-`do` was `write` the `custom-named` SSH `key` after the `colon` and `then` hit
-`return`.
+Since I was also already inside my `.ssh` directory, all I needed to do was
+write the custom-named SSH key after the colon and then hit return.
 
-Next, `at` the `prompt`, I `typed` in a `passphrase`:
+Next, at the prompt, I typed in a `passphrase`:
 
 ```shell
 > Enter passphrase (empty for no passphrase): [Type a passphrase]
@@ -924,8 +896,8 @@ Next, `at` the `prompt`, I `typed` in a `passphrase`:
 
 ### Copying the SSH public key
 
-Next, I `copied` the `id_render.pub` key so `I` could `paste` it on `Render.` I
-`used` the following `command`:
+Next, I copied the `id_render.pub` key so I could paste it on Render. I used the
+following command:
 
 ```shell
 # This assumes I am inside the .ssh directory
@@ -934,42 +906,42 @@ pbcopy < id_render.pub
 pbcopy < ~/.ssh/id_render.pub
 ```
 
-Next, I `had` to `go to` the `Add SSH Public Key` form `in` the
-`Account Settings` dashboard. `Please visit` the `Render` article `entitled`
+Next, I had to go to the `Add SSH Public Key` form in the `Account Settings`
+dashboard. Please visit the Render article entitled
 [Adding an SSH public key to your Render account](https://render.com/docs/ssh-keys),
-`go down` to the `link` called `Add SSH Public Key`, and `click` on `it`. There,
-`name` your `key` (make it as descriptive as possible so you know what you are
-using it for) and `paste` your `public key` in the `Key field`. Then `click on`
-the `Add SSH Public Key` button to `save` your `key`.
+go down to the link called `Add SSH Public Key`, and click on it. There, name
+your key (make it as descriptive as possible so you know what you are using it
+for) and paste your public key in the `Key field`. Then click on the
+`Add SSH Public Key` button to save your key.
 
 ### Connecting a service with SSH
 
-Next, I `had` to `connect` my `web service` with `SSH` so I `could` transfer
-`files` from my `local` Git `reppository` on my `machine` onto my `web service`
-on `Render`. I `went` into `my` django-boards `web service` and `clicked on` the
-`Connect` button, and `then` the `SSH` tab:
+Next, I had to connect my web service with `SSH` so I could transfer files from
+my local Git reppository on my machine onto my web service on Render. I went
+into my `django-boards` web service and clicked on the Connect button, and then
+the SSH tab:
 
 ![Clicking on the Connect button](Screenshot-2024-12-22-at-11.05.26-PM.jpg)
 
 _Clicking on the Connect button_
 
-`Then` I `copied` the `SSH` command to my `clipboard`.
+Then I copied the `SSH` command to my clipboard.
 
-Next, in `Terminal`, I `pasted` the `SSH command`.
+Next, in Terminal, I pasted the `SSH` command.
 
 ### Adding the SSH key to the ssh-agent
 
-Next, I `had` to `add` the `SSH key` to the `ssh-agent`. Otherwise, the
-`next time` I `rebooted` my `computer`, my `SSH key pair` would be `lost`.
+Next, I had to add the SSH key to the `ssh-agent`. Otherwise, the next time I
+rebooted my computer, my SSH key pair would be lost.
 
-`If` you're using `macOS Sierra 10.12.2` or `later`, you will `need` to `modify`
-you `~/.ssh/config` file to `automatically` load `keys` into the `ssh-agent` and
-store `passphrases` in your `keychain`. `I` am on `macOS Sequoia 15.2`, so
-`things` might `work` a bit `differently` regarding `saving passphrases` due to
-`the` new `passwords` app.
+If you're using `macOS Sierra 10.12.2` or later, you will need to modify you
+`~/.ssh/config` file to automatically load keys into the `ssh-agent` and store
+`passphrases` in your `keychain`. I am on macOS Sequoia 15.2, so things might
+work a bit differently regarding saving passphrases due to the new passwords
+app.
 
-`If` I was `not` sure `whether` or `not` I `had` an `SSH` config `file`, I could
-`run` the following `command`:
+If I was not sure whether or not I had an SSH config file, I could run the
+following command:
 
 ```shell
 # This assumes I am in the home directory
@@ -978,15 +950,15 @@ open ~/.ssh/config
 open config
 ```
 
-`If` the `file` didn't `exist`, I would `have` to `create` the `file`:
+If the file didn't exist, I would have to create the file:
 
 ```shell
 # This assumes I am inside .ssh
 touch config
 ```
 
-`Once` my `config` file is `open`, `I` can `add` the `SSH` key pair
-`configuration` for `Render`.
+Once my config file is open, I can add the SSH key pair configuration for
+Render.
 
 ```shell
 Host render.com
@@ -994,44 +966,43 @@ Host render.com
   IdentityFile ~/.ssh/id_render
 ```
 
-To `make sure` that you `have` successfully `added` your `new` SSH `key` to the
-`ssh-agent`, `run` the following `command` in `Termninal`:
+To make sure that you have successfully added your new SSH key to the
+`ssh-agent`, run the following command in Termninal:
 
 ```shell
 ssh-add -l
 ```
 
-`It` will `list` any `keys` you have `added` to the `ssh-agent`. `When` I `ran`
-the `command`, I `got` back `keys` which `I` had `added` to the `ssh-agent`. To
-`make sure` that the `SSH` public `key` I `added` to `Render` was `one` of `the`
-ones `listed`, I `went` to the `Render` article `entitled`
-[Troubleshooting SSH](https://render.com/docs/ssh-troubleshooting) and
-`clicked on` the `link` called `Dashboard`. That's `where` I had `pasted` my
-`SSH public key`. This time, I didn't `paste` my `public key`. I cancelled `out`
-of the `form` and was `taken` to my `Account Settings` page. `That` is `where` I
-can `find` my `Profile`, `Appearance`, `Account Security`, `CLI Tokens`,
-`API Keys`, `SSH Public Keys`, `PR Requests`, and `where` I can `delete` my
-`account`. I `compared` the `SSH key` listed in `Terminal` on my `machine` with
-the `SSH public key` listed in `Account Settings`. They matched.
+It will list any keys you have added to the `ssh-agent`. When I ran the command,
+I got back keys which I had added to the `ssh-agent`. To make sure that the SSH
+public key I added to Render was one of the ones listed, I went to the Render
+article entitled
+[Troubleshooting SSH](https://render.com/docs/ssh-troubleshooting) and clicked
+on the link called Dashboard. That's where I had pasted my SSH public key. This
+time, I didn't paste my public key. I cancelled out of the form and was taken to
+my Account Settings page. That is where I can find my Profile, Appearance,
+Account Security, CLI Tokens, API Keys, SSH Public Keys, PR Requests, and where
+I can delete my account. I compared the SSH key listed in Terminal on my machine
+with the SSH public key listed in Account Settings. They matched.
 
 ### Uploading default.jpg to django-boards web service
 
-Next, `I` uploaded `default.jpg` to `my` django-boards `web service` using `SSH`
-from `Terminal` on my `local machine`.
+Next, I uploaded `default.jpg` to my django-boards web service using SSH from
+Terminal on my local machine.
 
-`I` went `into` my `django-boards` web service `dashboard`, `clicked` on the
-`Connect` button, `selected` the `SSH` tab, `copied` the `SSH` command `there`,
-and then `pasted` it into `Terminal`. `When` I `connected`, it `took` me `into`
-my `django-boards` web service `shell`.
+I went into my `django-boards` web service dashboard, clicked on the Connect
+button, selected the SSH tab, copied the SSH command there, and then pasted it
+into Terminal. When I connected, it took me into my `django-boards` web service
+shell.
 
-I `ran` the following `command` to `upload` my `default.jpg` file into my
-`mediafiles directory` on `Render`:
+I ran the following command to upload my `default.jpg` file into my `mediafiles`
+directory on Render:
 
 ```shell
 ssh YOUR_SERVICE@ssh.YOUR_REGION.render.com
 ```
 
-The `following` was `returned` in `Terminal`:
+The following was returned in Terminal:
 
 ```shell
 The authenticity of host 'render.com (IP_ADDRESS)' can't be established.
@@ -1039,48 +1010,47 @@ ED25519 key fingerprint is (SSH_KEY_FINGERPRINT)
 Are you sure you want to continue connecting (yes/no)?
 ```
 
-I `checked` the `fingerprint` that was `provided` to me `against` the `list` of
-`fingerprints` in the `Render` article `entitled`
-[Connecting with SSH](https://render.com/docs/ssh). It `matched`, so `I` typed
-`yes` and hit `return`. `I` was now `connected` to my `django-boards` web
-service `shell` on `Render`! However, `I` also `received` the following
-`message` before actually `connecting` to the `shell`:
+I checked the fingerprint that was provided to me against the list of
+fingerprints in the Render article entitled
+[Connecting with SSH](https://render.com/docs/ssh). It matched, so I typed yes
+and hit return. I was now connected to my `django-boards` web service shell on
+Render! However, I also received the following message before actually
+connecting to the shell:
 
 ```shell
 client_global_hostkeys_prove_confirm: server gave bad signature for ED25519 key 0: incorrect signature
 ```
 
-`I` am investigating `this` and will `post` about `it` when (and if) I `receive`
-an `answer` from `render.com` community `or` support.
+I am investigating this and will post about it when (and if) I receive an answer
+from `render.com` community `or` support.
 
 ### Transferring files using the scp command via SSH
 
-`Now` that `I` was `set up` to use `SSH` on `Render`, I could `use` the `SCP`
-**[^1]** `command` to transfer `files` to `and` from my `local machine`.
+Now that I was set up to use SSH on Render, I could use the SCP[^1] command to
+transfer files to and from my local machine.
 
-`After` a `failed attempt` to upload `default.jpg` (`I` was `still` in th
-`Render` shell when I `should` not `have been`), I `exited out` of the
-`connection` by typing `exit` followed by `hitting` the `return` key, and then
-`from` inside `Terminal` on my `local machine`, I `entered` something like `the`
-following `command`:
+After a failed attempt to upload `default.jpg` (I was still in the Render shell
+when I should not have been), I exited out of the connection by typing exit
+followed by hitting the return key, and then from inside Terminal on my local
+machine, I entered something like the following command:
 
 ```shell
 scp /Users/mariacam/Python-Development/django-boards/mediafiles/default.jpg
 YOUR_SERVICE@ssh.YOUR_REGION.render.com:/opt/render/project/src/mediafiles
 ```
 
-Replace `YOUR_SERVICE@ssh.YOUR_REGION.render.com` with the `SSH` command you
-`copy` when you `click on` the `Connect` button inside your `django-boards` web
-service's `dashboard` and `select` the `SSH` tab. `Then` hit `return`. If
-`upload` is `successful`, `something` like the `following` will be `returned`:
+Replace `YOUR_SERVICE@ssh.YOUR_REGION.render.com` with the SSH command you copy
+when you click on the Connect button inside your `django-boards` web service's
+dashboard and select the SSH tab. Then hit return. If upload is successful,
+something like the following will be returned:
 
 ```shell
 default.jpg                                   100% 2587    92.6KB/s   00:00
 ```
 
-`When` I `uploaded` my `default.jpg` file, I `exited` the `Render` shell, and
-then `reconnected`. `When` I was `reconnected`, I `checked` to `see` if
-`default.jpg` still `persisted` with the `following command`:
+When I uploaded my `default.jpg` file, I exited the Render shell, and then
+reconnected. When I was reconnected, I checked to see if `default.jpg` still
+persisted with the following command:
 
 ```shell
 cd mediafiles
@@ -1088,73 +1058,68 @@ ls
 default.jpg  test.txt
 ```
 
-`Both` my empty `test.txt` file I `created` in the `Render shell` earlier and
-`default.jpg` persisted. Success! `I` removed `test.txt` because `there` was
-`no longer` any `use` for `it`!
+Both my empty `test.txt` file I created in the Render shell earlier and
+`default.jpg` persisted. Success! I removed `test.txt` because there was no
+longer any use for it!
 
 ## Creating a superuser in the Render shell
 
-`Now` that `default.jpg` existed `in` the `mediafiles` directory on `Render`,
-`I` was `ready` to `create` a `superuser`in the `django-boards` web service
-`shell`:
+Now that `default.jpg` existed in the `mediafiles` directory on Render, I was
+ready to create a `superuser`in the `django-boards` web service shell:
 
 ```shell
 # Make sure to run this command in the directory where manage.py resides
 python manage.py createsuperuser
 ```
 
-`Follow` the `prompts` (you can `skip` providing an `email address`), and if
-`something` like `"superuser created successfully"` is `returned`, `you` now
-`have` a `superuser` you can `login` with, `and` then `go into` the
-`admin interface` and `create` a few `boards`.
+Follow the prompts (you can skip providing an email address), and if something
+like `"superuser created successfully"` is returned, you now have a `superuser`
+you can login with, and then go into the admin interface and create a few
+`boards`.
 
-`After` you have `created` those `boards`, `you` can `go into` the `site` itself
-and `view` them `there`. `Perhaps` you might `want` to `add` a `topic` or `two`
-as `well`.
+After you have created those boards, you can go into the site itself and view
+them there. Perhaps you might want to add a topic or two as well.
 
-In addition, `go to` your `profile` page to `check out` your `default.jpg`
-avatar. Now, `if` you `want`, `you` can replace `default.jpg` with `your` own
-`avatar`!
+In addition, go to your profile page to check out your `default.jpg` avatar.
+Now, if you want, you can replace `default.jpg` with your own avatar!
 
-`You` should `create` at least `one` regular `user` so `you` can start
-`playing around` with `liking` and `unliking` posts by `logging in` and `out`
-between `users`.
+You should create at least one regular user so you can start playing around with
+liking and unliking posts by logging in and out between users.
 
 ## A note about liking a post
 
-`You` have to `double click` on the `like` button `in order` for a `Like` to
-`appear`. `The` same `goes` for `unliking` a `post`. I'm `not` quite `sure` why
-`this` is `happening`, but `we're` not `working` with `React` or `AJAX`, for
-example, `but` it will `have` to `do` for `now`!
+You have to double click on the like button in order for a Like to appear. The
+same goes for unliking a post. I'm not quite sure why this is happening, but
+we're not working with React or AJAX, for example, but it will have to do for
+now!
 
 ## Commit associated with this post
 
-The `latest commit` of `django-boards` on `Github` associated `with` this `post`
-is `commit`
+The latest commit of `django-boards` on Github associated with this post is
+commit
 [3e81039](https://github.com/interglobalmedia/django-boards/commit/3e8103919696b4c107916783070e45d084c5d506).
 
 ## Adding python-decouple
 
-I was `not` completely `satisfied` with my `approach` to `switching` between
-`local development` and `production` on `Render`. I `knew about` the `Python`
-package called `python-decouple`, but `did` not `think` at `first` to `try` it
-`out` to `see` if `it` would `decrease` the `amount` of `code` I would `have` to
-`comment out` and `uncomment` when switching between `local development` and
-`production`.
+I was not completely satisfied with my approach to switching between local
+development and production on Render. I knew about the Python package called
+`python-decouple`, but did not think at first to try it out to see if it would
+decrease the amount of code I would have to comment out and uncomment when
+switching between local development and production.
 
-First, I `had` to install `python-decouple`:
+First, I had to install `python-decouple`:
 
 ```shell
 pip install python-decouple
 ```
 
-Then I `had` to `update` my `requirements.txt` file:
+Then I had to update my `requirements.txt` file:
 
 ```shell
 pip install -r requirements.txt
 ```
 
-Next, I `had` to `import` it into `django_boards/settings.py`:
+Next, I had to import it into `django_boards/settings.py`:
 
 ```python
 import os
@@ -1167,7 +1132,7 @@ dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 ```
 
-Then I `used` it `on` the `SECRET_KEY` environment `variable`:
+Then I used it on the `SECRET_KEY` environment variable:
 
 ```python
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -1176,23 +1141,23 @@ Then I `used` it `on` the `SECRET_KEY` environment `variable`:
 SECRET_KEY = config("SECRET_KEY")
 ```
 
-I `commented out` the `configuration` I `used` with `python-dotenv`, and used
-`python-decouple`'s config `method`. `python-decouple`'s `config` method is
-`used` to retrieve `configuration parameters` from `various sources`, such as
-`environment` variables, `.env` files, or `.ini` files.
+I commented out the configuration I used with `python-dotenv`, and used
+`python-decouple`'s config method. `python-decouple`'s `config` method is used
+to retrieve configuration parameters from various sources, such as environment
+variables, `.env` files, or `.ini` files.
 
-`SECRET_KEY = config('SECRET_KEY')` means that `python-decouple` will `try` to
-`find` the `value` of `SECRET_KEY` in the `following order`:
+`SECRET_KEY = config('SECRET_KEY')` means that `python-decouple` will try to
+find the value of `SECRET_KEY` in the following order:
 
 1. Environment variables
 1. .env file
 1. .ini file (if specified)
 1. Default value (if provided)
 
-`In` my `case`, I `have` both a `SECRET_KEY` environment `variable` in my `.env`
-file and in `production` on `Render`.
+In my case, I have both a `SECRET_KEY` environment variable in my `.env` file
+and in production on Render.
 
-Next, I used `python-decouple` on the `DEBUG` environment `variable`:
+Next, I used `python-decouple` on the DEBUG environment variable:
 
 ```python
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -1202,14 +1167,12 @@ Next, I used `python-decouple` on the `DEBUG` environment `variable`:
 DEBUG = config("DEBUG", default=False, cast=bool)
 ```
 
-Here, I `set` a `default value` of `"False"` for `DEBUG`, `but` I also `added`
-the `cast attribute` with a `value` of `bool` (`Boolean`). The `cast attribute`
-specifies the `type` to `which` the retrieved `configuration` `value` should be
-`converted`. `In` this `case`, the `value` of `"False"`. And `"False"`is of type
-`"Boolean"`.
+Here, I set a default value of `False` for `DEBUG`, but I also added the `cast`
+attribute with a value of `bool` (Boolean). The `cast` attribute specifies the
+type to which the retrieved configuration value should be converted. In this
+case, the value of `False`. And `False` is of type `Boolean`.
 
-`Then` I used `python-decouple`'s config `method` on the\* `ALLOWED_HOSTS`
-variable:
+Then I used `python-decouple`'s `config` method on the `ALLOWED_HOSTS` variable:
 
 ```python
 # Local only
@@ -1220,62 +1183,59 @@ variable:
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 ```
 
-Locally, in my `.env` file, my `ALLOWED_HOSTS` variable is `set` to
+Locally, in my `.env` file, my `ALLOWED_HOSTS` variable is set to
 `.localhost,127.0.0.1`:
 
 ```shell
 ALLOWED_HOSTS=.localhost,127.0.0.1
 ```
 
-However, in `production`, it is `set` to `https://django-boards.onrender.com`.
-`But` with `python-decouple`, I can just set it to
+However, in `production`, it is set to `https://django-boards.onrender.com`. But
+with `python-decouple`, I can just set it to
 `config("ALLOWED_HOSTS", cast=Csv())`.
 
-`cast=Csv()` tells `config` to `use` the `Csv helper` to `parse` the `value` of
-the `environment variable`. `ALLOWED_HOSTS` variable will now `hold` a
-`Python list` of `strings`, `containing` the `values` from the `comma-separated`
-environment `variable`.
+`cast=Csv()` tells `config` to use the Csv helper to parse the value of the
+environment variable. `ALLOWED_HOSTS` variable will now hold a Python list of
+strings, containing the values from the comma-separated environment variable.
 
-Locally, `ALLOWED_HOSTS` will `contain` the following `value`:
+Locally, `ALLOWED_HOSTS` will contain the following value:
 
 ```python
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 ```
 
-In `production`, it will `contain` the `following`:
+In production, it will contain the following:
 
 ```python
 ALLOWED_HOSTS = ['https://django-boards.onrender.com']
 ```
 
-`These` code `changes` in `settings.py` can be `found` in the following commit
-on django-boards' remote `repository` on `GitHub`:
+These code changes in `settings.py` can be found in the following commit on
+django-boards' remote repository on GitHub:
 [40c5b08](https://github.com/interglobalmedia/django-boards/tree/40c5b08b6928eb0e26d7bb50fefda5901fd15e57).
 
-`I` didn't `think` it made `sense` to use `python-decouple` with `variables`
-such as `MEDIA_ROOT` or `STATIC_ROOT`, `given` that `part` of the `value`
-consisted of `the` variable `BASE_DIR`.
+I didn't think it made sense to use `python-decouple` with variables such as
+`MEDIA_ROOT` or `STATIC_ROOT`, given that part of the value consisted of the
+variable `BASE_DIR`.
 
 ## Creating a settings directory to separate development settings from production settings
 
-Since `python-decouple` took `care` of `differentiating` between
-`local development` and `production`, and `there` was `not` much `else` to
-`comment out` or `uncomment`, I `thought` I would give `creating` a `settings`
-directory `containing` a `base.py`, `development.py`, and `production.py` file
-`in` lieu `of` a `settings.py` file.
+Since `python-decouple` took care of differentiating between local development
+and production, and there was not much else to comment out or uncomment, I
+thought I would give creating a `settings` directory containing a `base.py`,
+`development.py`, and `production.py` file in lieu of a `settings.py` file.
 
-`I` came `across` an `article` by `Victor Freitas` entitled
+I came across an article by Victor Freitas entitled
 [Django Tips #20 Working With Multiple Settings Modules](https://simpleisbetterthancomplex.com/tips/2017/07/03/django-tip-20-working-with-multiple-settings-modules.html).
-`It` made `creating` this `settings` directory `quite simple`. `The` only
-`thing` that `was` not `mentioned` was the `fact` that the `settings` were `now`
-inside a `directory` and `no longer` inside the `django_boards` directory where
-`manage.py` resides. `That`'s the `main reason` why `I` didn't `succeed` with
-this `approach` the `first time`. I did `not` take `that` into `account`. `But`
-this `time` I `did`.
+It made creating this settings directory quite simple. The only thing that was
+not mentioned was the fact that the settings were now inside a directory and no
+longer inside the `django_boards` directory where `manage.py` resides. That's
+the main reason why I didn't succeed with this approach the first time. I did
+not take that into account. But this time I did.
 
-First, `I` did `not` immediately `get` rid `of` the `django_boards/settings.py`
-file. I `commented out` all the `code`. `As` for the `settings` directory, I
-`created` the `following files` inside `it`:
+First, I did not immediately get rid of the `django_boards/settings.py` file. I
+commented out all the code. As for the `settings` directory, I created the
+following files inside it:
 
 ```shell
 # django_boards/settings/
@@ -1287,7 +1247,7 @@ file. I `commented out` all the `code`. `As` for the `settings` directory, I
     - production.py
 ```
 
-`Then` inside `base.py`:
+Then inside `base.py`:
 
 ```python
 """
@@ -1478,18 +1438,16 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 ```
 
-`This` is the `file` which `contains` the `settings` common `to` both
-`development` and `production`. It `helped` to go `through` the `steps` of
-`commenting out` and `uncommenting` code `based` on `environment`. This `made`
-it `easy` to populate `development.py` and `production.py`, and `know` what to
-`comment out` in `base.py`.
+This is the file which contains the `settings` common to both development and
+production. It helped to go through the steps of commenting out and uncommenting
+code based on environment. This made it easy to populate `development.py` and
+`production.py`, and know what to comment out in `base.py`.
 
-**Note**: `Originally` I `included` the `ALLOWED_HOSTS` environment `variable`
-in `base.py` only. `However`, when I `deployed` to `GitHub`, it `resulted` in a
-`400` status `code` on the `site`. I `had` to `redefine` it `in` both
-`development.py` and `production.py`. `In` local `development`, `it` pointed to
-`.env`. In `production`, it `pointed` to the `production` environment `variable`
-on `Render`.
+**Note**: Originally I included the `ALLOWED_HOSTS` environment variable in
+`base.py` only. However, when I deployed to GitHub, it resulted in a 400 status
+code on the site. I had to redefine it in both `development.py` and
+`production.py`. In local development, it pointed to `.env`. In production, it
+pointed to the production environment variable on Render.
 
 `.env`:
 
@@ -1497,16 +1455,16 @@ on `Render`.
 ALLOWED_HOSTS=.localhost,127.0.0.1,django-boards.onrender.com
 ```
 
-In `production`:
+In production:
 
 ```shell
 ALLOWED_HOSTS=django-boards.onrender.com
 ```
 
-`Make sure` that the `production values` in `.env` and in `production` are
-`exactly` the `same`. `My` site `URL` is `https://django-boards.onrender.com`,
-so I `removed` the `https` and `just` added `django-boards.onrender.com` in
-`both cases`. Then, `when` I `redeployed`, I `got` a `200` status `cade`. Yay!
+Make sure that the production values in `.env` and in production are exactly the
+same. My site URL is `https://django-boards.onrender.com`, so I removed the
+https and just added `django-boards.onrender.com` in both cases. Then, when I
+redeployed, I got a 200 status cade. Yay!
 
 Inside `development.py`:
 
@@ -1531,11 +1489,11 @@ STATICFILES_DIRS = [
 ]
 ```
 
-`Note` how I `had` to add `../` in `front` of `db.sqlite3`. `That`'s because
-`development.py` does not `reside` in `the` same `directory` as `manage.py`. I
-`have` to `go up` one `directory` (`..`) `in order` to be `in` the
-`same directory`. `Same` with `static`. `It` no `longer` is `in` the
-`same directory` as `manage.py`, so I `had` to add `../` in `front` of `it`.
+Note how I had to add `../` in front of `db.sqlite3`. That's because
+`development.py` does not reside in the same directory as `manage.py`. I have to
+go up one directory (`..`) in order to be in the same directory. Same with
+`static`. It no longer is in the same directory as `manage.py`, so I had to add
+`../` in front of it.
 
 Inside `production.py`:
 
@@ -1556,23 +1514,23 @@ DATABASES = {
 STATIC_ROOT = BASE_DIR / '../staticfiles'
 ```
 
-**A note**: I added `import dj_database_url` to `base.py` so I `wouldn't` have
-to `import` it in `production.py`.
+**A note**: I added `import dj_database_url` to `base.py` so I wouldn't have to
+import it in `production.py`.
 
-`Note` again `that` I added `../` in `front` of `staticfiles`. `production.py`
-is `not` in the `same directory` as `staticfiles`. I `have` to `go up` one
-`directory` (`../`) `in order` to `gain access` to `it`.
+Note again that I added `../` in front of `staticfiles`. `production.py` is not
+in the same directory as staticfiles. I have to go up one directory (`../`) in
+order to gain access to it.
 
 ### Running the local server using the new settings configuration
 
-`In order` to `run` the `server` in `local development` using `the` new
-`settings` directory, I `ran` the `following command` in `Terminal`:
+In order to run the server in local development using the new `settings`
+directory, I ran the following command in Terminal:
 
 ```shell
 python3 manage.py runserver --settings=django_boards.settings.development
 ```
 
-However, I `needed` to `make` a `change` in my `django-boards/manage.py` file:
+However, I needed to make a change in my `django-boards/manage.py` file:
 
 ```python
 #!/usr/bin/env python
@@ -1599,37 +1557,34 @@ if __name__ == '__main__':
     main()
 ```
 
-I `had` to append `.development` to `django_boards.settings`. `I` also `had` to
-`make sure` to `change it` to `'django_boards.settings.production'` before
-`pushing` my `changes` to `GitHub`!
+I had to append `.development` to `django_boards.settings`. I also had to make
+sure to change it to `'django_boards.settings.production'` before pushing my
+changes to GitHub!
 
-`I` also `had` to `make sure` that I `made` the `same changes` to my
-`django_baords/asgi.py` file `for` the `new configuration` to `work` on
-`Render`!
+I also had to make sure that I made the same changes to my
+`django_baords/asgi.py` file for the new configuration to work on Render!
 
-To `see` the `code` for the `commit` associated `with` appending `.production`
-inside `django_boards/asgi.py` file, please visit
+To see the code for the commit associated with appending `.production` inside
+`django_boards/asgi.py` file, please visit
 [42d76e2](https://github.com/interglobalmedia/django-boards/tree/42d76e2c6fb96070e505aa257d491465800d5bbf).
 
-To `see` the `code` for the `commit` associated `with` removing `ALLOWED_HOSTS`
-from `base.py` and `adding` it to `development.py` and `production.py`, please
-visit
+To see the code for the commit associated with removing `ALLOWED_HOSTS` from
+`base.py` and adding it to `development.py` and `production.py`, please visit
 [55f5028](https://github.com/interglobalmedia/django-boards/tree/55f5028fc67820565a76f0cd22ac692d96a48415).
 
-To `see` the `code` for the `commit` associated `with` placing `ALLOWED_HOSTS`
-at the `top` of the `code` in `development.py` and `production.py`, please visit
+To see the code for the commit associated with placing `ALLOWED_HOSTS` at the
+top of the code in `development.py` and `production.py`, please visit
 [5f53031](https://github.com/interglobalmedia/django-boards/tree/5f5303125d632148203fa5f052ea34a6e7604804).
-`I` just `wanted` to `follow` the `original` settings `sequence`.
+I just wanted to follow the original settings sequence.
 
-To `see` the `commit` associated with `removing` commented out `code` from
-`base.py`, please visit
+To see the commit associated with removing commented out code from `base.py`,
+please visit
 [ddaccc9](https://github.com/interglobalmedia/django-boards/tree/ddaccc9fa455818e1ccb37d9fbdb7b75243f0bf9).
 
 ## Updating settings/base.py
 
-`When` I `removed` all the `commented` out `code` that `related` either
-`specifically` to `development` or `production`, my `settings/base.py` looked
-`like` the `following`:
+When I removed all the commented out code that related either specifically to
+development or production, my `settings/base.py` looked like the following:
 
 ```python
 # settings/base.py
@@ -1785,14 +1740,13 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 ```
 
-To `see` the `commit` associated `with` the above `code` for `base.py`, please
-visit
+To see the commit associated with the above code for `base.py`, please visit
 [56b8be1](https://github.com/interglobalmedia/django-boards/tree/56b8be129f26fb59febc6ed597334e533ea75ea1).
 
 ### Defining MEDIA_ROOT development.py, production.py and removing it from base.py
 
-`As` you can `see`, I removed `MEDIA_ROOT` from `base.py` (`first` I `commented`
-it `out`) and `defined` it in `development.py`:
+As you can see, I removed `MEDIA_ROOT` from `base.py` (first I commented it out)
+and defined it in `development.py`:
 
 ```python
 # settings/development.py
@@ -1830,24 +1784,24 @@ STATICFILES_DIRS = [
 ]
 ```
 
-I `also` had `to` add `MEDIA_ROOT` to my `.env` file:
+I also had to add `MEDIA_ROOT` to my `.env` file:
 
 ```shell
 MEDIA_ROOT=media/
 ```
 
-`Then` I `had` to `make sure` to `export` it `so that` it was `recognized` in my
-`development` environment. I `ran` the following `command` inside the `root`
-django-boards `directory`:
+Then I had to make sure to export it so that it was recognized in my development
+environment. I ran the following command inside the root `django-boards`
+directory:
 
 ```shell
 export MEDIA_ROOT=media/
 ```
 
-`Then`, when `I` ran `export`, `MEDIA_ROOT` appeared `as` one `of` the
-`accessible` environment `variables`.
+Then, when I ran export, `MEDIA_ROOT` appeared as one of the accessible
+environment variables.
 
-`Next`, I `added` the `following` to `settings/production.py`:
+Next, I added the following to `settings/production.py`:
 
 ```python
 # settings/production.py
@@ -1877,34 +1831,32 @@ DATABASES = {
 STATIC_ROOT = BASE_DIR / '../staticfiles'
 ```
 
-`Because` I was `differentiating` between my `MEDIA_ROOT` in `local development`
-and `production`, I didn't `have` to use `python-decouple`. I used
-`os.environ.get()` instead, which `grabs` the `MEDIA_ROOT` environment
-`variable` from `production` on `Render`.
+Because I was differentiating between my `MEDIA_ROOT` in local development and
+production, I didn't have to use `python-decouple`. I used `os.environ.get()`
+instead, which grabs the `MEDIA_ROOT` environment variable from production on
+Render.
 
-I removed `DEBUG` and `MEDIA_ROOT` related `commented` out `code` that `I` no
-longer `needed` from `settings/base.py`. `I` also `added` more helpful
-`comments`.
+I removed `DEBUG` and `MEDIA_ROOT` related commented out code that I no longer
+needed from `settings/base.py`. I also added more helpful comments.
 
-To `see` the associated `version` (`commit`) of `settings/base.py`,
+To see the associated version (commit) of `settings/base.py`,
 `settings/development.py`, and `settings/production.py`, please visit
 [26245bb](https://github.com/interglobalmedia/django-boards/tree/26245bb6180675296a05d04691a0e71979f27d67).
 
 ## settings directory configuration did not work in production on Render and how I fixed it
 
-The `settings` directory `configuration` did `not` work in `production` on
-`Render`. `Because` I `no longer` was `using` the default `settings.py` which
-`resided` in the `same directory` as `manage.py` AND my `presisted` mediafiles
-`directory` which `contained` my `user uploaded` avatar `images`, `Django` no
-longer `knew` how to `retrieve` (production) `settings`.
+The settings directory configuration did not work in production on Render.
+Because I no longer was using the default `settings.py` which resided in the
+same directory as `manage.py` AND my presisted mediafiles directory which
+contained my user uploaded avatar images, Django no longer knew how to retrieve
+(production) settings.
 
-`It` took `me` a `little while` to `figure out` how to `point` to my
-`production.py` file on `Render`, but `with` a little `push` in the
-`right direction` from `fellow` Django Forum `member` @JRO_Cambria `and` a
-`couple` of `threads` I `found` on `stackoverflow`, I `figured out` how to
-`reconnect` with my `images` on `Render`.
+It took me a little while to figure out how to point to my `production.py` file
+on Render, but with a little push in the right direction from fellow Django
+Forum member @JRO_Cambria and a couple of threads I found on stackoverflow, I
+figured out how to reconnect with my images on Render.
 
-I `had` to `add` the `following` in my `django_boards/urls.py` file:
+I had to add the following in my `django_boards/urls.py` file:
 
 ```python
 from django.contrib import admin
@@ -1929,24 +1881,21 @@ if development:
     urlpatterns += static(base.MEDIA_URL, document_root=development.MEDIA_ROOT)
 ```
 
-I `didn't realize` that it `was` in `django_boards/urls.py` where `I` would
-`define` my `environments`. `@JRO_Cambria` suggested `that` I would `have` to
-`add` some `kind` of `URL` that would `point` to my MEDIA_URL `/media/`. I had
-`never` encountered this `before`, but `after` our `online session`, I
-`researched` it. I `came across` TWO `stackoverflow threads` which `contained`
-the `same code` specific to `Render`, so I `thought` I'd `try` it `out`. `And`
-guess` what`, it `worked`!
+I didn't realize that it was in `django_boards/urls.py` where I would define my
+environments. `@JRO_Cambria` suggested that I would have to add some kind of URL
+that would point to my MEDIA_URL `/media/`. I had never encountered this before,
+but after our online session, I researched it. I came across TWO stackoverflow
+threads which contained the same code specific to Render, so I thought I'd try
+it out. And guess what, it worked!
 
-To `view` the `thread` I `used` as the `solution` to my `MEDIA_URL` issue,
-please visit
+To view the thread I used as the solution to my `MEDIA_URL` issue, please visit
 [Django Media Files Not Found (404) on Render Deployment](https://stackoverflow.com/questions/78657603/django-media-files-not-found-404-on-render-deployment/78680109#78680109).
 
 ### Breaking down the MEDIA_URL related code in django_boards/urls.py
 
-`First` I imported `re_path` from `django.urls`. `re_path` is `used` to define
-`URL patterns` using `regular expressions`. It `provides` more `flexibility` and
-`control` over `URL matching` compared to `path()`, `which` uses `string-based`
-matching.
+First I imported `re_path` from `django.urls`. `re_path` is used to define URL
+patterns using regular expressions. It provides more flexibility and control
+over URL matching compared to `path()`, which uses string-based matching.
 
 Syntax:
 
@@ -1954,74 +1903,71 @@ Syntax:
 re_path(route, view, kwargs=None, name=None)
 ```
 
-The `route` is a `regular` expression `string` defining the `URL pattern`.
+The route is a regular expression string defining the URL pattern.
 
-The `view` is the `view function` (or `class-based view`) to `call` when the
-`pattern` matches.
+The view is the view function (or class-based view) to call when the pattern
+matches.
 
-`kwargs` is an `optional` keyword `argument` to `pass` to the `view` function.
-`kwargs` (keyword arguments) `are` a `way` to `pass` an undetermined `number` of
-`named arguments` to a `function`.
+`kwargs` is an optional keyword argument to pass to the view function. `kwargs`
+(keyword arguments) are a way to pass an undetermined number of named arguments
+to a function.
 
-`name` is the `name` of the `URL pattern`, `used` for `reverse` URL
-`resolution`. This `means` that we `refer` to the `URL` only `by` its `name`
-attribute. `If` we `want` to `change` the `URL` itself or the `view` it `refers`
-to, `we` can do `this` by `editing` in one `place` only, `urls.py`.
+name is the name of the URL pattern, used for reverse URL resolution. This means
+that we refer to the URL only by its `name` attribute. If we want to change the
+URL itself or the view it refers to, we can do this by editing in one place
+only, `urls.py`.
 
-`In` my `media` URL `pattern`, `(?P<path>.*)` is a `named group`. A
-`named group` captures a `specific part` of the `URL` and `passes it` as a
-`keyword argument` to the `view`.
+In my media URL pattern, `(?P<path>.*)` is a named group. A named group captures
+a specific part of the URL and passes it as a keyword argument to the view.
 
-In `Django Boards`, the `named group` that follows `media/` is `(?P<path>.*)` .
-`<path>` defines a `named capturing group` within my `re_path` regular
-`expression`. `The` path `part` that foloows `media/` is `profile_images`, which
-`resides` inside the `mediafiles` directory `at` the `root` of my `application`
-on `Render`. That's `where` the `user` uploaded avatars `reside`.
+In Django Boards, the named group that follows `media/` is `(?P<path>.*)` .
+`<path>` defines a named capturing group within my `re_path` regular expression.
+The path part that follows `media/` is `profile_images`, which resides inside
+the `mediafiles` directory at the root of my application on Render. That's where
+the user uploaded avatars reside.
 
-The `default.jpg` image `resides` at the `root` of the `mediafiles` directory,
-`which` is the `directory` that the `media/` URL `points` to. `default.jpg`
-bypasses `profile_images`. `It` is `loaded` by `default` when a `user` registers
-`and` already `exists` in the `directory`. `When` a user `registers`, `they` do
-not `upload` an `avatar` during `registration`.
+The `default.jpg` image resides at the root of the `mediafiles` directory, which
+is the directory that the `media/` URL points to. `default.jpg` bypasses
+`profile_images`. It is loaded by default when a user registers and already
+exists in the directory. When a user registers, they do not upload an avatar
+during registration.
 
 `/opt/render/project/src/mediafiles/` is the `mount path` of my `django-boards`
-web service `instance`'s `persistent disk` mount `path`.
+web service instance's persistent disk mount path.
 
-`?P` means `that` the `regex` between the `parentheses` is a
-`named capturing group`.
+`?P` means that the `regex` between the parentheses is a named capturing group.
 
-`.*` in `regex` means the `following`: a `.` (dot) `means` any `character`, and
-`*` means `"0 or more instances of the preceding regex token"` (or `character`).
+`.*` in `regex` means the following: a `.` (dot) means any character, and `*`
+means "0 or more instances of the preceding regex token" (or character).
 
-`django.conf.urls.static` module is `used` to `serve` static `files` during
-`development`.
+`django.conf.urls.static` module is used to serve static files during
+development.
 
-`serve` s a `function` within the `django.conf.urls.static` module that allows
-`us` to `serve` static `files` like `images`, `CSS`, and `JavaScript` directly
-`from` our `Django` project during `development`.
+serve s a function within the `django.conf.urls.static` module that allows us to
+serve static files like images, CSS, and JavaScript directly from our Django
+project during development.
 
-The `serve` function `serves` the `file/image` from `MEDIA_ROOT` if it `matches`
-the `pattern`.
+The serve function serves the `file/image` from `MEDIA_ROOT` if it matches the
+pattern.
 
-`If` I `wanted` to `limit` image `uploads` to `jpg`, `jpeg`, `png`, or `gif`, I
-`would` do the `following`:
+If I wanted to limit image uploads to jpg, `jpeg`, `png`, or `gif`, I would do
+the following:
 
 ```python
 re_path(r'^media/(?P<path>.*\.jpg|.*\.jpeg|.*\.png|.*\.gif)$', serve, {'document_root': production.MEDIA_ROOT}),
 ```
 
-`This` is `exactly` what I `ended` up `adding`. `*` before `.\` (dot)
-`represents` the `name` of the `image` file. The `backslash` escapes the `.`
-(dot) `so that` it `has` no `special meaning`. `It` is `just` a `.` (dot).
+This is exactly what I ended up adding. `*` before `.\` (dot) represents the
+name of the image file. The backslash escapes the `.` (dot) so that it has no
+special meaning. It is just a `.` (dot).
 
-`document_root` is `configuration directive` for `web servers`, `specifying` the
-`directory/file` from `which` they `should` serve `files`. `In` the `re_path`
-URL `pattern`, it `points` to `settings/production.py`. `Since` I imported
-`production` from `django_boards.settings` (the `settings` directory inside
-`django_boards`), `I` only `have` to add `production.MEDIA_ROOT`, which
-`represents` the `MEDIA_ROOT` environment `variable` inside `production.py`.
-`This` URL `pattern`, and especially `production.MEDIA_ROOT`, `is` the
-`secret sauce` that `fixed` my `mediafiles` issue!
+`document_root` is configuration directive for web servers, specifying the
+`directory/file` from which they should serve files. In the `re_path` URL
+pattern, it points to `settings/production.py`. Since I imported production from
+`django_boards.settings` (the settings directory inside `django_boards`), I only
+have to add `production.MEDIA_ROOT`, which represents the `MEDIA_ROOT`
+environment variable inside `production.py`. This URL pattern, and especially
+`production.MEDIA_ROOT`, is the secret sauce that fixed my `mediafiles` issue!
 
 ## The settings directory code to date
 
@@ -2266,7 +2212,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_boards.settings.producti
 application = get_asgi_application()
 ```
 
-`Render` uses `ASGI`, so `DJANGO_SETTINGS_MODULE` should `always` be `set` to
+Render uses ASGI, so `DJANGO_SETTINGS_MODULE` should always be set to
 `django_boards.settings.production`.
 
 ## django_boards/wsgi.py to date
@@ -2292,7 +2238,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_boards.settings.developm
 application = get_wsgi_application()
 ```
 
-`Since` I `only` use `django_boards/wsgi.py` in `development`, I keep
+Since I only use `django_boards/wsgi.py` in development, I keep
 `DJANGO_SETTINGS_MODULE` set to `django_boards.settings.development`.
 
 ## manage.py to date
@@ -2324,17 +2270,16 @@ if __name__ == '__main__':
     main()
 ```
 
-`Since` I manually `set` my `environment` via the `Command Line` anyway, I keep
-`DJANGO_SETTINGS_MODULE` set to `django_boards.settings.production`. To `view`
-the `latest changes` to the `Django Boards` application `code`, please
+Since I manually set my environment via the Command Line anyway, I keep
+`DJANGO_SETTINGS_MODULE` set to `django_boards.settings.production`. To view the
+latest changes to the Django Boards application code, please
 
 visit
 [7b55bad](https://github.com/interglobalmedia/django-boards/tree/7b55bada05e5c9b503250f7dd917dba0e90a154b)
 
 ### Fine-tuning manage.py so I didn't have to manually switch between development and production
 
-`I` made `these changes` later `on`, `but` thought `it` appropriate to `share`
-here:
+I made these changes later on, but thought it appropriate to share here:
 
 ```python
 # manage.py
@@ -2375,60 +2320,54 @@ if __name__ == "__main__":
     main()
 ```
 
-I added `ENVIRONMENT=django_boards.settings.development` to `.env`, and
-`made sure` to `export` it `so` it `would` be `added` to my `local` global
-`environment` variables. `Again`, I used `os.getenv()` to `get` the
-`ENVIRONMENT` environment `variable` locally, and `os.environ.get()` to `get`
-THE `ENVIRONMENT` variable in `production`. I `also` made `sure` to `export` it
-in `Render`'s `shell`. This way, I `did` not `have` to `worry` about
-`switching manually` between `django_boards.settings.development` and
-`django_boards.settings.production` as the `value` of the
-`DJANGO_SETTINGS_MODULE`. I defined `DJANGO_SETTINGS_MODULE` in `production` to
-`django_boards.settings.production` and `exported` it `there`.
+I added `ENVIRONMENT=django_boards.settings.development` to `.env`, and made
+sure to export it so it would be added to my local global environment variables.
+Again, I used `os.getenv()` to get the `ENVIRONMENT` environment variable
+locally, and `os.environ.get()` to get THE `ENVIRONMENT` variable in production.
+I also made sure to export it in Render's shell. This way, I did not have to
+worry about switching manually between `django_boards.settings.development` and
+`django_boards.settings.production` as the value of the
+`DJANGO_SETTINGS_MODULE`. I defined `DJANGO_SETTINGS_MODULE` in production to
+`django_boards.settings.production` and exported it `there`.
 
-The `commit` associated `with` the above `manage.py` code on `Github` is
+The commit associated with the above `manage.py` code on Github is
 [73038bc](https://github.com/interglobalmedia/django-boards/tree/73038bccf2a295c959ce925b1b07ea4ecb7f3062).
 
 ## Note regarding likes (again)
 
-**Note 12.31.24**: The `likes` performance `differs drastically` in `production`
-vs `local development`. In `local development`, because I `use` the `WSGI`
-development `server`, `which` is `synchronous`, `liking` and `unliking` a `post`
-is `instantaneous`. `However`, in `production`, which `runs` on an
-`asynchronous` ASGI `server`, `liking` and `unliking` a `post` is NOT
-`instantaneous`. I `should` clock how `long` it `takes` when `first landing` on
-a `topic post`, and `how long` it `takes` for a `like` or `unlike` to
-`register`. It `definitely` can be `up` to `several seconds`. `After` a
-`little bit`, `liking` and `unliking` a `post` works `much better`, `but` the
-`behavior` can be `erratic`.
+**Note 12.31.24**: The `likes` performance differs drastically in production vs
+local development. In local development, because I use the WSGI development
+server, which is synchronous, liking and unliking a post is instantaneous.
+However, in production, which runs on an asynchronous ASGI server, liking and
+unliking a post is NOT instantaneous. I should clock how long it takes when
+first landing on a topic post, and how long it takes for a like or unlike to
+register. It definitely can be up to several seconds. After a little bit, liking
+and unliking a post works much better, but the behavior can be erratic.
 
-`Another thing` that `might` have `improved` the `performance` of `liking` and
-`unliking` posts is the `removal` of `window.location` in in the `like/unlike`
-related `JavaScript` code in `base.html`. It `resided` above `history.go(0)`,
-`which` is `still there`. To `view` that `committed change` on `GitHub`, please
-visit
+Another thing that might have improved the performance of liking and unliking
+posts is the removal of `window.location` in in the `like/unlike` related
+JavaScript code in `base.html`. It resided above `history.go(0)`, which is still
+there. To view that committed change on GitHub, please visit
 [025316f](https://github.com/interglobalmedia/django-boards/tree/025316f73bbbb63dc6ebf073d7b854879213a526).
 
-`I` can `run` an `asynchronous` ASGI `server` called `daphne` in `development`,
-`but` right `now`, `daphne 4.1.2` does `not` support `Python 3.13.0`, `which` is
-`what` I am `using`. `Upcoming` daphne `4.2` WILL support `Python 3.13.0`. My
-`virtual environment` recognizes my `daphne` install, `but` my
-`requirements.txt` does `not` include `daphne`, and `therefore` my
-`production environment` on `Render` does `not` either. It `results` in a
-`failed build`. I will `talk` about `how` to `set up` an ASGI `server` locally
-when `daphne 4.2` is `released`.
+I can run an asynchronous ASGI server called `daphne` in development, but right
+now, `daphne 4.1.2` does not support Python 3.13.0, which is what I am using.
+Upcoming `daphne 4.2` WILL support Python 3.13.0. My virtual environment
+recognizes my `daphne` install, but my `requirements.txt` does not include
+`daphne`, and therefore my production environment on Render does not either. It
+results in a failed build. I will talk about how to set up an ASGI server
+locally when `daphne 4.2` is released.
 
 ## Latest commit for Django Boards on Github
 
-To `view` the `latest commit` for `Django Boards` on `Github`, please visit
+To view the latest commit for Django Boards on Github, please visit
 [56b8be1](https://github.com/interglobalmedia/django-boards/tree/56b8be129f26fb59febc6ed597334e533ea75ea1).
 
 ## Running python3 manage.py check
 
-`I` just `learned about` the `python3 manage.py check` command (`1.4.25`), so I
-`decided` to `run it` on `Django Boards` locally to `make sure` I `had`
-everything `configured` correctly. `This` is `what` it `initially returned` in
-`Terminal`:
+I just learned about the `python3 manage.py check` command (1.4.25), so I
+decided to run it on Django Boards locally to make sure I had everything
+configured correctly. This is what it initially returned in Terminal:
 
 ```shell
 media/ media root in development
@@ -2528,11 +2467,11 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'DEVELOPMENT_ENVIRONMENT'
 ```
 
-`There` was `something wrong` with my `code` in `manage.py`. Then I added
-`DEVELOPMENT_ENVIRONMENT` to `.env` setting `ENVIRONMENT` as its `value`. `That`
-also `did` not `work`.
+There was something wrong with my code in `manage.py`. Then I added
+`DEVELOPMENT_ENVIRONMENT` to `.env` setting `ENVIRONMENT` as its value. That
+also did not work.
 
-`Next`, I changed `manage.py` to the `following`:
+Next, I changed `manage.py` to the following:
 
 ```python
 # manage.py
@@ -2570,8 +2509,7 @@ if __name__ == "__main__":
     main()
 ```
 
-`This time` it `worked` in `development`. The `following` was `returned` in
-`Terminal`:
+This time it worked in development. The following was returned in Terminal:
 
 ```shell
 media/ media root in development
@@ -2580,7 +2518,7 @@ media/ media root
 System check identified no issues (0 silenced).
 ```
 
-`Then` I `committed` the `changes` and `pushed` to `GitHub/production`.
+Then I committed the changes and pushed to GitHub/production.
 
 ```python
 python manage.py check --settings=django_boards.settings.production --deploy
@@ -2596,14 +2534,13 @@ WARNINGS:
 ?: (security.W016) You have 'django.middleware.csrf.CsrfViewMiddleware' in your MIDDLEWARE, but you have not set CSRF_COOKIE_SECURE to True. Using a secure-only CSRF cookie makes it more difficult for network traffic sniffers to steal the CSRF token.
 ```
 
-`I` also `had` to `change` the line `DEBUG = os.environ.get('DEBUG')` in
+I also had to change the line `DEBUG = os.environ.get('DEBUG')` in
 `setttings/production.py` explicitly to `DEBUG=False`. Using `os.environ.get()`
-still `pointed` to `DEBUG=True` in my `.env`. That `meant` I should `explicitly`
-set `DEBUG=True` in `settings/development.py` as well.
+still pointed to `DEBUG=True` in my `.env`. That meant I should explicitly set
+`DEBUG=True` in `settings/development.py` as well.
 
-I `have` made `sure` that my `production site` has `Maintenance` mode `enabled`
-until `I` have `completed` my `security settings` and `added` a `backend` email
-`service`.
+I have made sure that my production site has Maintenance mode enabled until I
+have completed my security settings and added a backend email service.
 
 ### Updating security settings in settings/production.py
 
@@ -2642,27 +2579,26 @@ DATABASES = {
 STATIC_ROOT = BASE_DIR / '../staticfiles'
 ```
 
-`The` only other `thing`, `according` to `Render`, `is` to `add` the
-`SECURE_HSTS_SECONDS` setting. `According` to `Render`,
+The only other thing, according to Render, is to add the `SECURE_HSTS_SECONDS`
+setting. According to Render,
 
 > Render automatically creates and renews TLS certificates for all custom
 > domains, including wildcard domains. All HTTP traffic to a custom domain is
 > automatically redirected to HTTPS.
 
-`This` tells `me` that `I` should `have` no problem `setting` my
-S`ECURE_HSTS_SECONDS` setting to a `non-zero` value. As I later `mention` in
-`part 33`, my `certificate`(s) for my `custom domain` was `successfully issued`.
+This tells me that I should have no problem setting my `SECURE_HSTS_SECONDS`
+setting to a non-zero value. As I later mention in part 33, my certificate(s)
+for my custom domain was successfully issued.
 
-`Initially`, I set `SECURE_HSTS_SECONDS=60` just to `make sure` that
-`everything` is `working`. It is. `I` was `able` to `access` the `site` and even
-`log in`.
+Initially, I set `SECURE_HSTS_SECONDS=60` just to make sure that everything is
+working. It is. I was able to access the site and even log in.
 
-`Then` I `increased` it to `5 minutes`. `I` was still `able` to `access` the
-`site` and `log in`. `I` will i`ncrease` the `time` even `more` when the
-`backend email service` has been `resolved`.
+Then I increased it to 5 minutes. I was still able to access the site and log
+in. I will increase the time even more when the backend email service has been
+resolved.
 
-In addition, if I `wanted` to (it is `optional` but `recommended`), I `could`
-set `SECURE_HSTS_INCLUDE_SUBDOMAINS=True` and `SECURE_HSTS_PRELOAD=True`.
+In addition, if I wanted to (it is optional but recommended), I could set
+`SECURE_HSTS_INCLUDE_SUBDOMAINS=True` and `SECURE_HSTS_PRELOAD=True`.
 
 ```python
 # would be placed in settings/production.py
@@ -2670,41 +2606,40 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS=True
 SECURE_HSTS_PRELOAD=True # Enable HSTS preloading (requires registration)
 ```
 
-`To recap`, `in order` for `SECURE_HSTS_SECONDS` to `work` properly (and `not`
-break my `site`), I `have` to `make sure` HTTPS is `working`:
+To recap, in order for `SECURE_HSTS_SECONDS` to work properly (and not break my
+site), I have to make sure HTTPS is working:
 
-1. I `have` to `make sure` my `Django site` is `configured` to use `HTTPS`, and
-   `that` my `SSL certificate` is `valid`.
-1. `SECURE_HSTS_SECONDS` sets the `duration` (`in seconds`) `that` the `browser`
-   should `remember` to only `access` my `site` over `HTTPS`.
-1. If `SECURE_HSTS_INCLUDE_SUBDOMAIN` is `set` to `True`, `HSTS` will `also` be
-   `enforced` for all `subdomains` of my `site`.
-1. If `SECURE_HSTS_PRELOAD` is `set` to `True`, my `site` can be `submitted` to
-   the `HSTS preload list` maintained by `major browsers`. This `ensures` that
-   the `site` is `always accessed` over `HTTPS`, `even` for
-   `first-time visitors`.
+1. I have to make sure my Django site is configured to use HTTPS, and that my
+   `SSL certificate` is valid.
+1. `SECURE_HSTS_SECONDS` sets the duration (in seconds) that the browser should
+   remember to only access my site over HTTPS.
+1. If `SECURE_HSTS_INCLUDE_SUBDOMAIN` is set to `True`, `HSTS` will also be
+   enforced for all subdomains of my site.
+1. If `SECURE_HSTS_PRELOAD` is set to `True`, my site can be submitted to the
+   HSTS preload list maintained by major browsers. This ensures that the site is
+   always accessed over HTTPS, even for first-time visitors.
 
 ### Adding a site to the HSTS preload list
 
-To `add` my `site` to the `HSTS preload list`, I `should`:
+To add my site to the HSTS preload list, I should:
 
-1. `Ensure` my `site` meets the `following requirements`:
-    - `Serves` a `valid certificate`
-    - `Redirects` from `HTTP` to `HTTPS` on the `same host`
-    - `Serves` all `subdomains` over `HTTPS`
-    - Supports `HTTPS` for the `www subdomain`
-    - The `max-age directive` in the `HSTS header` is `at least` 31536000
-      `seconds` (1 year)
-    - The `includeSubDomains directive` is `specified`
-    - The `preload directive` is `specified`
-1. `Submit` my `domain` using the `form` on the
+1. Ensure my site meets the following requirements:
+    - Serves a valid certificate
+    - Redirects from HTTP to HTTPS on the same host
+    - Serves all subdomains over HTTPS
+    - Supports HTTPS for the `www subdomain`
+    - The max-age directive in the HSTS header is at least 31536000 seconds (1
+      year)
+    - The `includeSubDomains directive` is specified
+    - The preload directive is specified
+1. Submit my domain using the form on the
    [HSTS preload list﻿ website](https://hstspreload.org)
-1. `Check` the `status` of my `request` by:
-    - `Entering` the `domain` name `again` in the `form`
+1. Check the status of my request by:
+    - Entering the domain name again in the form
     - Visiting `chrome://net-internals/#hsts` in my `Chrome browser`
 
-`When` I add `hrome://net-internals/#hsts` to the `Chrome address bar`, the
-`following appears`:
+When I add `hrome://net-internals/#hsts` to the Chrome address bar, the
+following appears:
 
 ![Checking status of HSTS preload list](Screenshot-2025-01-04-at-2.49.17-PM.jpg)
 
@@ -2712,18 +2647,17 @@ _Checking status of HSTS preload list_
 
 ## Regenerating a SECRET_KEY locally for production on Render
 
-`According` to the `check` command, `Render` did not `generate` a `secure`
-enough `SECRET_KEY` for me. `I` should have `run` the `command` for `generating`
-a `long`, `random` key `locally` and then `added` it `as` the `value` of my
-`SECRET_KEY` environment `variable` on `Render`. `I` finally `did`, `and` I
-`executed` the `following` to `generate` the `secure`, `long`, and `randomly`
-generated `SECRET_KEY` in `Terminal`:
+According to the `check` command, Render did not generate a secure enough
+`SECRET_KEY` for me. I should have run the command for generating a long, random
+key locally and then added it as the value of my `SECRET_KEY` environment
+variable on Render. I finally did, and I executed the following to generate the
+secure, long, and randomly generated `SECRET_KEY` in Terminal:
 
 ```shell
 python manage.py shell
 ```
 
-This `returned` the `following`:
+This returned the following:
 
 ```shell
 media/ media root in development # returned from a print() function
@@ -2735,7 +2669,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 
-`Then` I `ran` the `following`:
+Then I ran the following:
 
 ```shell
 >>> import secrets
@@ -2744,10 +2678,10 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> generated SECRET_KEY
 ```
 
-`Then` I `copied` the `newly generated` 100 character `SECRET_KEY` and
-`pasted it` as the `value` of my `SECRET_KEY` in `production`. `When` I ran
+Then I copied the newly generated 100 character `SECRET_KEY` and pasted it as
+the value of my `SECRET_KEY` in production. When I ran
 `python manage.py check --settings=django_boards.settings.production --deploy`
-again in `production`, I `no` longer `got` a `warning` regarding `SECRET_KEY`.
+again in production, I no longer got a warning regarding `SECRET_KEY`.
 
 To view the Django Boards latest commit up to and including changes made after I
 ran
@@ -2757,70 +2691,68 @@ on Render, please visit
 
 ## Conclusion
 
-`In` this `section`, I `prepared` my django-boards `application` for
-`deployment` to `Render`. I` updated` my `existing project` for `deployment` to
-`Render`, `created` a `Render account`, `created` a `DEBUG` environment
-`variable` for `production`, `configured` my `media files` for `production`,
-`configured` my `static files` for `production`, `configured` my
-`database settings` for `production`, `added` the `whitenoise` package to `make`
-my `static files` persist on `Render`, `created` a `build script` for
-`deployment` on `Render`, installed `Gunicaon` and `Uvicorn`, `created` a
-`Django project` in the `Render dashboard`, `added` the `Postgres` managed
-database `service`, `created` a `web service`, `created` a `render.yaml` file,
-`created` a `persistent Disk` for my `web service`'s `media files`, `created` an
-`SSH key pair` locally, `connected` to my `Render` web `service` with `SSH`,
-`added` my `SSH key pair` to the `ssh-agent` on my `local machine`, uploaded
-`default.jpg` to my `django-boards web service`, transfered `default.jpg` to
-`Render` using the `scp command` via `SSH`, and `created` a `superuser` in the
-`Render shell`. `Later` I `came back` and `created` a new `settings directory`
-where I `separated` my `local` development `environment` from my
-`production environment`.
-
-## Footnotes
-
-**[^1]**: [SCP](https://man.openbsd.org/scp), or OpenSSH secure file copy,
-copies files between hosts on a network. scp uses the SFTP protocol over a
-ssh(1) connection for data transfer, and uses the same authentication and
-provides the same security as a login session. To learn more, visit the
-[SCP man page](https://man.openbsd.org/scp).
+In this section, I prepared my `django-boards` application for deployment to
+Render. I updated my existing project for deployment to Render, created a Render
+account, created a `DEBUG` environment variable for production, configured my
+media files for production, configured my static files for production,
+configured my database settings for production, added the `whitenoise` package
+to make my static files persist on Render, created a `build` script for
+deployment on Render, installed `Gunicorn` and `Uvicorn`, created a Django
+project in the Render dashboard, added the `Postgres` managed database service,
+created a `web service`, created a `render.yaml` file, created a
+`persistent Disk` for my web service's media files, created an `SSH` key pair
+locally, connected to my Render web service with `SSH`, added my `SSH` key pair
+to the `ssh-agent` on my local machine, uploaded `default.jpg` to my
+`django-boards` web service, transfered `default.jpg` to Render using the `scp`
+command via SSH, and created a `superuser` in the Render shell. Later I came
+back and created a new `settings directory` where I separated my local
+development environment from my production environment.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
-    mariadcampbell.comma
--   [Deploying a Django App to Render](https://testdriven.io/blog/django-render/):
-    testdriven.io, Nik Tomazic
--   [Deploy a Django App on Render](https://render.com/docs/deploy-django):
-    Render documentation
--   [Blueprint YAML Reference](https://render.com/docs/blueprint-spec): Render
-    documentation
-    -   [Deploy a Django App on Render](https://render.com/docs/deploy-django#:~:text=Deploying%20to%20Render,your%20services%20using%20the%20dashboard.):
-        Render documentation
--   [Render Blueprints (IaC)](https://render.com/docs/infrastructure-as-code):
-    Render documentation
--   [Generating a new SSH key and adding it to the ssh-agent](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent):
-    GitHub documentation
--   [Adding an SSH public key to your Render account](https://render.com/docs/ssh-keys):
-    Render documentation
--   [Connecting with SSH](https://render.com/docs/ssh): Render documentation
--   [Troubleshooting SSH](https://render.com/docs/ssh-troubleshooting): Render
-    documentation
--   [Persistent Disks](https://render.com/docs/disks): Render documentation
--   [SCP man page](https://man.openbsd.org/scp)
--   [Django Tips #20 Working With Multiple Settings Modules](https://simpleisbetterthancomplex.com/tips/2017/07/03/django-tip-20-working-with-multiple-settings-modules.html):
-    Victor Freitas, `simpleisbetterthancomplex.com`
--   [Django - How to keep secrets safe with python-dotenv](https://dev.to/earthcomfy/django-how-to-keep-secrets-safe-with-python-dotenv-5811):
-    Hana Belay, dev.to
--   [Using Py Dotenv (python-dotenv) Package to Manage Env Variables](https://configu.com/blog/using-py-dotenv-python-dotenv-package-to-manage-env-variables/):
-    Configu
--   [django.urls functions for use in URLconfs¶ path()](https://docs.djangoproject.com/en/5.1/ref/urls/):
-    Django documentation
--   [How to Score A+ for Security Headers on Your Django Website](https://adamj.eu/tech/2019/04/10/how-to-score-a+-for-security-headers-on-your-django-website/):
-    Adam Johnson
--   [Security in Django](https://docs.djangoproject.com/en/5.1/topics/security/):
-    Django documentation
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards):
+  _interglobalmedia_
+- [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+  _mariadcampbell.com_
+- [Deploying a Django App to Render](https://testdriven.io/blog/django-render/):
+  _testdriven.io, Nik Tomazic_
+- [Deploy a Django App on Render](https://render.com/docs/deploy-django):
+  _Render documentation_
+- [Blueprint YAML Reference](https://render.com/docs/blueprint-spec): _Render
+  documentation_
+    - [Deploy a Django App on Render](https://render.com/docs/deploy-django#:~:text=Deploying%20to%20Render,your%20services%20using%20the%20dashboard.):
+      _Render documentation_
+- [Render Blueprints (IaC)](https://render.com/docs/infrastructure-as-code):
+  _Render documentation_
+- [Generating a new SSH key and adding it to the ssh-agent](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent):
+  _GitHub documentation_
+- [Adding an SSH public key to your Render account](https://render.com/docs/ssh-keys):
+  _Render documentation_
+- [Connecting with SSH](https://render.com/docs/ssh): Render documentation
+- [Troubleshooting SSH](https://render.com/docs/ssh-troubleshooting): _Render
+  documentation_
+- [Persistent Disks](https://render.com/docs/disks): _Render documentation_
+- [SCP man page](https://man.openbsd.org/scp)
+- [Django Tips #20 Working With Multiple Settings Modules](https://simpleisbetterthancomplex.com/tips/2017/07/03/django-tip-20-working-with-multiple-settings-modules.html):
+  _Victor Freitas, simpleisbetterthancomplex.com_
+- [Django - How to keep secrets safe with python-dotenv](https://dev.to/earthcomfy/django-how-to-keep-secrets-safe-with-python-dotenv-5811):
+  _Hana Belay, dev.to_
+- [Using Py Dotenv (python-dotenv) Package to Manage Env Variables](https://configu.com/blog/using-py-dotenv-python-dotenv-package-to-manage-env-variables/):
+  _Configu_
+- [django.urls functions for use in URLconfs¶ path()](https://docs.djangoproject.com/en/5.1/ref/urls/):
+  _Django documentation_
+- [How to Score A+ for Security Headers on Your Django Website](https://adamj.eu/tech/2019/04/10/how-to-score-a+-for-security-headers-on-your-django-website/):
+  _Adam Johnson_
+- [Security in Django](https://docs.djangoproject.com/en/5.1/topics/security/):
+  _Django documentation_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+
+[^1]:
+    [SCP](https://man.openbsd.org/scp), or OpenSSH secure file copy, copies
+    files between hosts on a network. scp uses the SFTP protocol over a ssh(1)
+    connection for data transfer, and uses the same authentication and provides
+    the same security as a login session. To learn more, visit the
+    [SCP man page](https://man.openbsd.org/scp).
