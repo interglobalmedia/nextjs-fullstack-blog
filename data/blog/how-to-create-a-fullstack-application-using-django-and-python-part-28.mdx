@@ -1,7 +1,7 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-28'
 date: '2024-10-12T13:49:36.847Z'
-lastModified: '2024-12-18T07:23:36.847Z'
+lastModified: '2026-05-18T03:30:36.847Z'
 title: 'How to create a fullstack application using Django and Python Part 28'
 author: 'Maria D. Campbell'
 excerpt:
@@ -21,41 +21,41 @@ isFeatured: false
 
 ![Scrabble likes](pexels-pixabay-267355.jpg)
 
-**_Photo by_** [Pixabay](https://www.pexels.com/@pixabay/) **_on_**
+_Photo by_ [Pixabay](https://www.pexels.com/@pixabay/) **_on_**
 [pexels.com](https://www.pexels.com/photo/like-printed-on-brown-wooden-scrabble-267355/)
 
-**Important Note**: `Before` committing `anything` to `Git` or `pushing`
-anything to `remote`, please visit
+**Important Note**: Before committing anything to Git or pushing anything to
+remote, please visit
 [How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-`where` I `discuss` how to `add` the `python-dotenv` package to the `Django`
-site and `why` it is `crucial` to `do it`. This article `assumes` you have a
-`working knowledge` of `Git`.
+where I discuss how to add the python-dotenv package to the Django site and why
+it is crucial to do it. This article assumes you have a working knowledge of
+Git.
 
 ## Table of Contents
 
--   [Adding a like button to topic posts](#adding-a-like-button-to-topic-posts)
-    -   [Adding a likes field to the Post model](#adding-a-likes-field-to-the-post-model)
-    -   [Running python3 manage.py dbshell](#running-python3-managepy-dbshell)
-    -   [Creating the like_post function based view in boards/views.py](#creating-the-like-post-function-based-view-in-boards-viewspy)
-        -   [get_object_or_404()](#get-object-or-404)
-        -   [Toggling the like status with an if else statement](#toggling-the-like-status-with-an-if-else-statement)
-        -   [The role of JsonResponse](#the-role-of-jsonresponse)
-    -   [Creating the JavaScript for the like button](#creating-the-javascript-for-the-like-button)
-        -   [history.go(0)](#historygo0)
-        -   [Adding post.likes to templates/post_detail.html](#adding-postlikes-to-templates-post-detailhtml)
-        -   [Adding the like URL to boards/urls.py](#adding-the-like-url-to-boards-urlspy)
--   [Conclusion](#conclusion)
--   [Footnotes](#footnotes)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [Adding a like button to topic posts](#adding-a-like-button-to-topic-posts)
+    - [Adding a likes field to the Post model](#adding-a-likes-field-to-the-post-model)
+    - [Running python3 manage.py dbshell](#running-python3-managepy-dbshell)
+    - [Creating the like_post function based view in boards/views.py](#creating-the-like-post-function-based-view-in-boards-viewspy)
+        - [get_object_or_404()](#get-object-or-404)
+        - [Toggling the like status with an if else statement](#toggling-the-like-status-with-an-if-else-statement)
+        - [The role of JsonResponse](#the-role-of-jsonresponse)
+    - [Creating the JavaScript for the like button](#creating-the-javascript-for-the-like-button)
+        - [history.go(0)](#historygo0)
+        - [Adding post.likes to templates/post_detail.html](#adding-postlikes-to-templates-post-detailhtml)
+        - [Adding the like URL to boards/urls.py](#adding-the-like-url-to-boards-urlspy)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
+- [Footnotes](#footnotes)
 
 ## Adding a like button to topic posts
 
-We're _finally_ `adding` a `like` button to our `topic posts`!
+We're finally adding a `like` button to our topic posts!
 
 ### Adding a likes field to the Post model
 
-_First_, we have to `add` the `following` to our `Post` model:
+First, we have to add the following to our Post model:
 
 ```python
 #boards/models.py
@@ -107,8 +107,8 @@ class Post(models.Model):
         return mark_safe(rendered_content)
 ```
 
-_Next_, we `have` _to run_ `python3 makemigrations` _and then_
-`python3 manage.py migrate`, because we just `made` a `change` to a `model` in
+Next, we have to run `python3 makemigrations` and then
+`python3 manage.py migrate`, because we just made a change to a model in
 `models.py`.
 
 _For me_:
@@ -131,15 +131,15 @@ Running migrations:
   Applying boards.0005_post_likes_delete_like... OK
 ```
 
-`Mine` will probably be a bit `different` from `yours`, `because` I `removed` a
-`Like` Model and will be implementing likes differently. `More like` I did
-`previously`, `because` I have `reverted back` to `ManyToMany`.
+Mine will probably be a bit different from yours, because I removed a Like Model
+and will be implementing likes differently. More like I did previously, because
+I have reverted back to `ManyToMany`.
 
 ### Running python3 manage.py dbshell
 
-_Next_, we can `peek` into our `db.sqlite3` database with the
+Next, we can `peek` into our `db.sqlite3` database with the
 `python3 manage.py dbshell` command. When I run `python3 manage.py dbshell`, the
-_following_ is `returned`:
+following is returned:
 
 ```shell
 python3 manage.py dbshell
@@ -148,14 +148,13 @@ Enter ".help" for usage hints.
 sqlite>
 ```
 
-If I want to `see` what `tables` I `have` in the `database`, I `run` the
-`following`;
+If I want to see what tables I have in the database, I run the following;
 
 ```shell
 sqlite> .tables
 ```
 
-Which `returns` the `following`:
+Which returns the following:
 
 ```shell
 accounts_profile            boards_board
@@ -169,10 +168,10 @@ avatar_avatar               django_session
 sqlite>
 ```
 
-We now `have` a `boards_post_likes` table. This was `created` because of our
+We now have a `boards_post_likes` table. This was created because of our
 `ManyToMany` associations.
 
-We `can` _look inside_ `boards_post_likes` by `running` the `following`:
+We can look inside `boards_post_likes` by running the following:
 
 ```shell
 sqlite>.table
@@ -211,11 +210,11 @@ CREATE INDEX "boards_post_likes_user_id_15ddce36" ON "boards_post_likes"(
 sqlite>
 ```
 
-`.table` and `.tables` lists all tables. `.table boards_post_likes` _returned
-the_ table `boards_post_likes`. And `.schema --indent boards_post_likes`
-`returned` the `schema` of the `boards_post_likes` table.
+`.table` and `.tables` lists all tables. `.table boards_post_likes` returned the
+table `boards_post_likes`. And `.schema --indent boards_post_likes` returned the
+schema of the `boards_post_likes` table.
 
-I `also` _could have_ `done`:
+I also _could have_ done:
 
 ```shell
 .header on
@@ -257,65 +256,61 @@ def like_post(request, post_id):
 
 ### get_object_or_404()
 
-`get_object_or_404()` is a `shortcut` function that `attempts` to `retrieve` an
-`object` from the `database` based on the `given` _query_ `parameters`. If the
-`object` is `found`, it is `returned`. If the `object` _does not_ `exist`, it
-`raises` an `Http404` exception, which `results` in a `404 Not Found` error page
-being `displayed` to the `user`.
+`get_object_or_404()` is a shortcut function that attempts to retrieve an object
+from the database based on the given query parameters. If the object is found,
+it is returned. If the object does not exist, it raises an `Http404` exception,
+which results in a `404 Not Found` error page being displayed to the user.
 
-`First` we `import` the `get_object_or_404` function from `django.shortcuts`.
+First we import the `get_object_or_404` function from `django.shortcuts`.
 
-`Then` we `specify` the `model` we want to `query` (`Post`).
+Then we specify the model we want to query (Post).
 
-`Then` we `provide` the `lookup` parameters to `identify` the `object` we are
-`searching` for (`id=post_id` to `find` the `post` with the `specified id`).
+Then we provide the lookup parameters to identify the object we are searching
+for (`id=post_id` to find the post with the specified id).
 
-If the `object` is `found`, it is `returned`. _If not_, an `Http404` exception
-is `raised`, `triggering` a `404` _error_ `page`.
+If the object is found, it is returned. If not, an `Http404` exception is
+raised, triggering a `404` error page.
 
-The `benefits` of using `get_object_or_404()` are the `following`:
+The benefits of using `get_object_or_404()` are the following:
 
-1. `get_object_or_404()` _simplifies the_ `common pattern` of `fetching` an
-   `object` and `handling` the `case` where it `doesn't exist`.
-1. `get_object_or_404()` _makes our_ `code` more `readable` _by clearly_
-   `indicating` the `intent` of `retrieving` an `object` or `raising` a `404`
-   error.
-1. `get_object_or_404()` _provides_ a _built-in_ `mechanism` for `handling`
-   _missing_ `objects`, `ensuring` that our `application` _responds_
-   `appropriately` to `user requests`.
+1. `get_object_or_404()` simplifies the common pattern of fetching an object and
+   handling the case where it doesn't exist.
+1. `get_object_or_404()` makes our code more readable by clearly indicating the
+   intent of retrieving an object or raising a 404 error.
+1. `get_object_or_404()` provides a built-in mechanism for handling missing
+   objects, ensuring that our application responds appropriately to user
+   requests.
 
 ### Toggling the like status with an if else statement
 
-_Next_, we `toggle` the `like status` with an `if else` statement. If the
-`request.user` is `already` in `any` of the `post likes` (`post.likes.all()`),
-then `remove` a `like` (`post.likes.remove(request.user`), otherwise, add a like
+Next, we toggle the like status with an if else statement. If the `request.user`
+is already in any of the post likes (`post.likes.all()`), then remove a like
+(`post.likes.remove(request.user`), otherwise, add a like
 (`post.likes.add(request.user)`).
 
 ### The role of JsonResponse
 
-1. `JsonResponse` is a `subclass` of `HttpResponse` _specifically_ `designed`
-   _for returning_ `JSON-formatted` data. It `simplifies` the `process` of
-   _creating_ `responses` _that contain_ `JSON` data.
+1. `JsonResponse` is a subclass of `HttpResponse` specifically designed for
+   returning `JSON-formatted` data. It simplifies the process of creating
+   responses that contain `JSON` data.
 
-1. `JsonResponse` _automatically serializes_ `Python` data structures
-   (`dictionaries`, `lists`, etc.) _into_ `JSON` format, `eliminating` the
-   `need` to `manually` use `json.dumps()` **[^1]**.
+1. `JsonResponse` automatically serializes Python data structures (dictionaries,
+   lists, etc.) into JSON format, eliminating the need to manually use
+   `json.dumps()`[^1].
 
-1. `JsonResponse` _sets the_ `Content-Type` header of the `response` to
-   `application/json`, `informing` the `client` that the `response` _contains_
-   `JSON` data. When we `use` the `fetch` method/api, `the` _returned_ `data`
-   _contains_ `JSON`.
+1. `JsonResponse` sets the `Content-Type` header of the response to
+   `application/json`, informing the client that the response contains JSON
+   data. When we use the fetch method/api, the returned data contains JSON.
 
-1. The `safe` parameter in `JsonResponse` _allows_ `us` to `control` whether
-   _non-dictionary_ `objects` can be `serialized`. _By default_, it's `set` to
-   `True`, `which` _means only_ `dictionaries` can `be` _directly_ `passed` to
-   `JsonResponse`.
+1. The safe parameter in `JsonResponse` allows us to control whether
+   non-dictionary objects can be serialized. By default, it's set to `"True"`,
+   which means only dictionaries can be directly passed to `JsonResponse`.
 
-1. In `Django`, `JsonResponse` is a `convenient way` _to return_
-   `JSON-formatted` _data_ `from` our `views`. It `handles` the `serialization`
-   process for us, `converting` _Python_ `objects` into `JSON` strings.
+1. In Django, `JsonResponse` is a convenient way to return JSON-formatted data
+   from our views. It handles the serialization process for us, converting
+   Python objects into JSON strings.
 
-`In` our `code`, we are `passing` a `dictionary` to `JsonResponse`:
+In our code, we are passing a dictionary to `JsonResponse`:
 
 ```python
 return JsonResponse({'likes_count': post.likes.count(), 'liked': liked})
@@ -323,8 +318,7 @@ return JsonResponse({'likes_count': post.likes.count(), 'liked': liked})
 
 ### Creating the JavaScript for the like button
 
-_Next_, I `created` the `JavaScript` for the `topic post` _like_ `button`
-functionality:
+Next, I created the JavaScript for the topic post like button functionality:
 
 ```django
 <!-- templates/base.html -->
@@ -364,17 +358,16 @@ functionality:
 
 ### history.go(0)
 
-I use `history.go(0)` _instead of_ `window.location.reload()`. `They` _both_
-`refresh` the `page`, but `window.location.reload()` is `invasive`. `Both`
-_methods_ `result` in `scrolling` to the `top` of the `page`, but
-`window.location.reload()` also `results` in the `movement` of `elements` on the
-`page` (i.e., the `copy` and `like` buttons). `history.go(0)` _does_ `not`. To
-`learn more` about `history.go(0)`, _please visit_
+I use `history.go(0)` instead of `window.location.reload()`. They both refresh
+the page, but `window.location.reload()` is invasive. Both methods result in
+scrolling to the top of the page, but `window.location.reload()` also results in
+the movement of elements on the page (i.e., the copy and like buttons).
+`history.go(0)` does not. To learn more about `history.go(0)`, please visit
 [indow history.go()](<https://www.w3schools.com/jsref/met_his_go.asp#:~:text=history.go(0)%20reloads,back()%20.>)
-on `w3schools`.
+on w3schools.
 
-`When` the `topic` _post_ `page` is `reloaded` after the `like button` _has
-been_ `clicked`, the `number` of `likes` is `updated`.
+When the topic post page is reloaded after the like button has been clicked, the
+number of likes is updated.
 
 ### Adding post.likes to templates/post_detail.html
 
@@ -411,37 +404,34 @@ been_ `clicked`, the `number` of `likes` is `updated`.
 path('like/<int:post_id>/', views.like_post, name='like_post'),
 ```
 
-`When` I `click` on the `like` button, I `remain` on the `same page`, and the
-`URL` _does_ `not` _even_ `change`. It `remains` at `the` _particular_
-`/detail/` URL.
+When I click on the like button, I remain on the same page, and the URL does not
+even change. It remains at the particular `/detail/` URL.
 
 ## Conclusion
 
-In this section, I `added` a `like` button to the `post_detail.html` template. I
-`added` a `likes` field to my `Post` model, `created` a `function` based
-`like_post` view in `boards/views.py`, _created_ `JavaScript` using the
-`fetch()` method for the `Like` button `functionality` on the `client` side,
-_implemented_ `history.go(0)` in the `JavaScript` to `reload` the `page` after
-the `Like` button is `clicked` to `update` the `number` of `likes`, `created` a
-`like` URL in `boards/urls.py`, _and added_ `post.likes` to
+In this section, I added a like button to the `post_detail.html` template. I
+added a likes field to my Post model, created a function based `like_post` view
+in `boards/views.py`, created JavaScript using the `fetch()` method for the Like
+button functionality on the client side, implemented `history.go(0)` in the
+JavaScript to reload the page after the Like button is clicked to update the
+number of likes, created a like URL in `boards/urls.py`, and added post.likes to
 `templates/post_detail.html`.
-
-## Footnotes
-
-**[^1]**: In Django, we can use `json.dumps()` _to serialize_ `Python` objects
-into `JSON` strings. We can use `json.dumps()` _to convert_ `data` into a
-`format` that can be easily `consumed `by `JavaScript` code in our `templates`.
 
 ## Related Resources
 
--   [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
--   [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
-    **_mariadcampbell.com_**
--   [django-admin and manage.py](https://docs.djangoproject.com/en/5.1/ref/django-admin/):
-    **_Django docs_**
--   [Window history.go()](<https://www.w3schools.com/jsref/met_his_go.asp#:~:text=history.go(0)%20reloads,back()%20.>):
-    **_w3schools_**
+- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
+  _mariadcampbell.com_
+- [django-admin and manage.py](https://docs.djangoproject.com/en/5.1/ref/django-admin/):
+  _Django docs_
+- [Window history.go()](<https://www.w3schools.com/jsref/met_his_go.asp#:~:text=history.go(0)%20reloads,back()%20.>):
+  _w3schools_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+
+[^1]:
+    In Django, we can use `json.dumps()` to serialize Python objects into JSON
+    strings. We can use `json.dumps()` to convert data into a format that can be
+    easily consumed by JavaScript code in our templates.
