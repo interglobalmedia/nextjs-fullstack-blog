@@ -1,10 +1,14 @@
 ---
 slug: how-to-create-new-lines-inside-text-prop-values-in-nextjs-and-javascript-in-general
 date: '2022-07-25T22:34:29.230Z'
-lastModified: '2022-07-25T22:34:29.230Z'
-title: How to Create New Lines Inside Text Prop Values in Next.js and JavaScript in General
+lastModified: '2026-05-26T21:45:29.230Z'
+title:
+    How to Create New Lines Inside Text Prop Values in Next.js and JavaScript in
+    General
 author: Maria D. Campbell
-excerpt: How to create new lines inside text prop values in Next.js and JavaScript in general.
+excerpt:
+    How to create new lines inside text prop values in Next.js and JavaScript in
+    general.
 image: pexels-skyler-ewing-5753208.webp
 tags: ['react', 'props', 'new lines', 'javascript']
 isPublished: true
@@ -13,17 +17,20 @@ isFeatured: false
 
 ![How to Create New Lines Inside Text Prop Values in Next.js and JavaScript in General](pexels-skyler-ewing-5753208.webp)
 
-***Photo by*** [Skyler Ewing](https://www.pexels.com/@skyler-ewing-266953/) ***on*** [pexels.com](https://www.pexels.com/photo/small-gray-sparrows-on-fresh-white-snow-5753208/)
+_Photo by_ [Skyler Ewing](https://www.pexels.com/@skyler-ewing-266953/) _on_
+[pexels.com](https://www.pexels.com/photo/small-gray-sparrows-on-fresh-white-snow-5753208/)
 
-I just finished **_creating_** my own version of `static tweets` ( I call them `StaticTextTweets` as **_opposed_** to `tweets` with `images`, which, if I **_ever_** create those, would be called **_something like_**
-`StaticImageTweets`), and **_during_** the **process**, one of the `prop`
-**values** was the `tweet` **text**. **_However_**, **_many_** `tweets`
-**_contain_** `paragraphs` of `text`, **_not_** just `one block` of `text`. So **_how_** was I **_going_** to **_achieve this_**?
+I just finished creating my own version of static tweets ( I call them
+`StaticTextTweets` as opposed to tweets with images, which, if I ever create
+those, would be called something like `StaticImageTweets`), and during the
+process, one of the prop values was the tweet text. However, many tweets contain
+paragraphs of text, not just one block of text. So how was I going to achieve
+this?
 
-It is actually **_quite simple_** with the `help` of some **_good old_**
-`CSS/SCSS`. For **_example_**, in my `StaticTextTweet.js` **file**, which
-**_contains_** the `JSX` and `destructured props` for my `TextTweetEmbed`
-**component** **_residing_** in a `file` called `TextWeetEmbed.js`, I **_have_** the **_following_**:
+It is actually quite simple with the help of some good old CSS/SCSS. For
+example, in my `StaticTextTweet.js` file, which contains the JSX and
+destructured props for my TextTweetEmbed component residing in a file called
+`TextWeetEmbed.js`, I have the following:
 
 ```javascript
 import SocialIcon from '../social-icons'
@@ -171,8 +178,9 @@ const StaticTextTweet = ({
 export default StaticTextTweet
 ```
 
-But the line to **_specifically_** look out for is `<p className="static-text-tweet-text">{text}</p>`. And the **_corresponding_**
-`CSS` (`SCSS` in **_my case_**) is the **_following_**:
+But the line to specifically look out for is
+`<p className="static-text-tweet-text">{text}</p>`. And the corresponding CSS
+(SCSS in my case) is the following:
 
 ```scss
 .static-text-tweet-text {
@@ -181,11 +189,14 @@ But the line to **_specifically_** look out for is `<p className="static-text-tw
 }
 ```
 
-`white-space: pre-wrap` **_allows us_** to use `\n` in `JS` **template
-strings**, which would then **_result_** in `new lines`! I found this **_neat_** little `piece` of `information` on [stackoverflow](https://stackoverflow.com/questions/50229792/adding-a-new-line-in-a-jsx-string-inside-a-paragraph-react)
-in the `thread` **_entitled_** [Adding a new line in a JSX string inside a paragraph - React](https://stackoverflow.com/questions/50229792/adding-a-new-line-in-a-jsx-string-inside-a-paragraph-react).
-I did not exactly follow the suggestions there. It was not necessary for my use case. I did the **_following_** inside my **_parent_** `TextTweetEmbed`
-**component** `embedded` in my `mdx post`(`s`):
+`white-space: pre-wrap` allows us to use `\n` in JS template strings, which
+would then result in new lines! I found this neat little piece of information on
+[stackoverflow](https://stackoverflow.com/questions/50229792/adding-a-new-line-in-a-jsx-string-inside-a-paragraph-react)
+in the thread entitled
+[Adding a new line in a JSX string inside a paragraph - React](https://stackoverflow.com/questions/50229792/adding-a-new-line-in-a-jsx-string-inside-a-paragraph-react).
+I did not exactly follow the suggestions there. It was not necessary for my use
+case. I did the following inside my parent `TextTweetEmbed` component embedded
+in my mdx post(s):
 
 ```jsx
 <TextTweetEmbed
@@ -195,9 +206,10 @@ I did not exactly follow the suggestions there. It was not necessary for my use 
 />
 ```
 
-And it **_works_** like a **charm**. To **_view_** this in **_action_**, please **_visit_** my `post` **_entitled_** [“Why You Should Use the NPKill Node Module“](https://www.interglobalmedianetwork.com/blog/why-you-should-use-the-npkill-node-module).
+And it works like a charm. To view this in action, please visit my post entitled
+[“Why You Should Use the NPKill Node Module“](https://www.interglobalmedianetwork.com/blog/why-you-should-use-the-npkill-node-module).
 
 ## Related Resources
 
 - [Adding a new line in a JSX string inside a paragraph - React](https://stackoverflow.com/questions/50229792/adding-a-new-line-in-a-jsx-string-inside-a-paragraph-react):
-on **_stackoverflow_**
+  _stackoverflow_
