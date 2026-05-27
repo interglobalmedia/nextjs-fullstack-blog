@@ -1,7 +1,7 @@
 ---
 slug: how-to-measure-test-coverage-in-django
 date: '2024-09-18T14:10:00.775Z'
-lastModified: '2024-09-18T21:14:00.775Z'
+lastModified: '2026-05-27T10:39:00.775Z'
 title: How to measure test coverage in Django
 author: Maria D. Campbell
 excerpt:
@@ -28,46 +28,43 @@ isFeatured: true
 ![Man Holding Microphone While Talking to Another Man
 and covering a story](pexels-mjlo-2872418.jpg)
 
-**_Photo by_** [Mido Makasardi](https://www.pexels.com/@mjlo/) **_on_**
+_Photo by_ [Mido Makasardi](https://www.pexels.com/@mjlo/) **_on_**
 [pexels.com](https://www.pexels.com/photo/man-holding-microphone-while-talking-to-another-man-2872418/)
 
 ## Table of Contents
 
--   [What is test coverage in Django?](#what-is-test-coverage)
--   [Tools for measuring coverage in Django](#tools-for-measuring-coverage-in-django)
--   [Installing Coverage.py](#installing-coveragepy)
--   [The C extension](#the-c-extension)
--   [Checking for coverage's version](#checking-for-coverages-version)
--   [Running the coverage command](#running-the-coverage-command)
--   [Coverage report](#coverage-report)
--   [Coverage html](#coverage-html)
--   [Conclusion](#conclusion)
--   [Related Resources](#related-resources)
--   [Related Posts](#related-posts)
+- [What is test coverage in Django?](#what-is-test-coverage)
+- [Tools for measuring coverage in Django](#tools-for-measuring-coverage-in-django)
+- [Installing Coverage.py](#installing-coveragepy)
+- [The C extension](#the-c-extension)
+- [Checking for coverage's version](#checking-for-coverages-version)
+- [Running the coverage command](#running-the-coverage-command)
+- [Coverage report](#coverage-report)
+- [Coverage html](#coverage-html)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 ## What is test coverage in Django?
 
-When we have `written` some `tests` for our `Django` applications, we
-`might wonder` whether or `not` we `wrote` enough `tests` and `for` the
-`right things`. `One way` we can `determine` this is by `measuring` the
-`coverage` of our `tests`. In other words, `how thoroughly` our `tests`
-encompass our `application`'s `code`.
+When we have written some tests for our Django applications, we might wonder
+whether or not we wrote enough tests and for the right things. One way we can
+determine this is by measuring the coverage of our tests. In other words, how
+thoroughly our tests encompass our application's code.
 
 ## Tools for measuring coverage in Django
 
-Probably the most `popular tool` _for measuring_ `coverage` in `Python` is the
-[Coverage.py](https://coverage.readthedocs.io/en/7.6.1/) tool. It _monitors_
-`Python` programming, noting `which parts` of the `code` have been `executed`,
-then `analyzes` the `source` _to identify_ `code` that `could have` been
-`executed` _but was_ `not`.
+Probably the most popular tool for measuring coverage in Python is the
+[Coverage.py](https://coverage.readthedocs.io/en/7.6.1/) tool. It monitors
+Python programming, noting which parts of the code have been executed, then
+analyzes the source to identify code that could have been executed but was not.
 
 ## Installing Coverage.py
 
-To install `coverage.py`, `run` the `command` below in the `root directory` of
-your `project` (in my case, the `django-boards` directory (as opposed to
-`django_boards` directory)) where the `venv` directory `resides`. Also make sure
-that your `virtual environment` has been `activated` _before_ `installing` the
-`coverage` package.
+To install `coverage.py`, run the command below in the root directory of your
+project (in my case, the django-boards directory (as opposed to django\*boards
+directory)) where the venv directory resides. Also make sure that your virtual
+environment has been activated before installing the `coverage` package.
 
 ```shell
 python3 -m pip install coverage
@@ -85,46 +82,44 @@ According to
 
 ## Checking for coverage's version
 
-In order to `find out` what `version` of `coverage` we have `installed`, we can
-`run` the `following command` in `Terminal` inside our `Django project` with
-`venv` _activated_:
+In order to find out what version of `coverage` we have installed, we can run
+the following command in Terminal inside our Django project with venv activated:
 
 ```shell
 coverage --version
 ```
 
-When I ran `coverage --version` at the `django-boards` _root directory_, I
-`got back` the `following`:
+When I ran `coverage --version` at the django-boards root directory, I got back
+the following:
 
 ```shell
 Coverage.py, version 7.6.1 with C extension
 Full documentation is at https://coverage.readthedocs.io/en/7.6.1
 ```
 
-My `coverage` _installation_ does `come` with the `C extension`.
+My `coverage` installation does come with the C extension.
 
 ## Running the coverage command
 
-In order to _implement_ `Coverage.py`, we `run` the `following command` in the
-`directory` where our `manage.py` file `resides`:
+In order to implement `Coverage.py`, we run the following command in the
+directory where our `manage.py` file resides:
 
 ```shell
 coverage run manage.py test
 ```
 
-This `command` _will include_ ALL our `project` tests: _both_ in `accounts` and
-`boards`.
+This command will include ALL our project tests: both in accounts and boards.
 
 ## Coverage report
 
-_After running_ `coverage run manage.py test`, we can `generate` a
-`coverage report` with the `following command` in the _same directory_:
+After running `coverage run manage.py test`, we can generate a `coverage report`
+with the following command in the same directory:
 
 ```shell
 coverage report
 ```
 
-_For me_, the `following report` was _generated_:
+For me, the following report was generated:
 
 | Name                                                                           | Stmts   | Miss  | Cover   |
 | ------------------------------------------------------------------------------ | ------- | ----- | ------- |
@@ -170,41 +165,41 @@ _For me_, the `following report` was _generated_:
 
 ## Coverage html
 
-If I `want` to `generate` an `html document` of my `coverage report` (`produce`
-annotated `HTML` listings with `coverage` results), I _can run_ `coverage html`
-in `Terminal`, and the `following` is `returned`:
+If I want to generate an html document of my `coverage report` (produce
+annotated HTML listings with coverage results), I can run coverage html in
+Terminal, and the following is returned:
 
 ```shell
 Wrote HTML report to htmlcov/index.html
 ```
 
-I `add` the `htmlcov` directory to my `.gitignore` file, and I also `add` the
-`.coverage` file that was `created` when I ran `coverage run manage.py test`.
+I add the `htmlcov` directory to my `.gitignore` file, and I also add the
+`.coverage` file that was created when I ran `coverage run manage.py test`.
 
 ## Conclusion
 
-In this post, I went over the `basics` of `Coverage.py` and `how` to `determine`
-the `percentage` of a `Django` application my `tests` have `covered` using the
-`coverage` command. There is _much more_ to `Coverage.py`, and more
-`Command Line` usage `available`, but _this_ is a _great start_.
+In this post, I went over the basics of `Coverage.py` and how to determine the
+percentage of a Django application my tests have covered using the `coverage`
+command. There is much more to `Coverage.py`, and more Command Line usage
+available, but this is a great start.
 
 ## Related Resources
 
--   [Measuring Coverage](https://django-testing-docs.readthedocs.io/en/latest/coverage.html):
-    **_Django testing docs_**
--   [Coverage.py installation](https://coverage.readthedocs.io/en/latest/install.html):
-    **_Coverage read the docs_**
--   [Coverage.py command line usage](https://coverage.readthedocs.io/en/latest/cmd.html):
-    **_Coverage read the docs_**
+- [Measuring Coverage](https://django-testing-docs.readthedocs.io/en/latest/coverage.html):
+  _Django testing docs_
+- [Coverage.py installation](https://coverage.readthedocs.io/en/latest/install.html):
+  _Coverage read the docs_
+- [Coverage.py command line usage](https://coverage.readthedocs.io/en/latest/cmd.html):
+  _Coverage read the docs_
 
--   [Testing in Django](https://dev.to/ifihan/testing-in-django-26e5): **_by
-    Ifihan Olusheye, dev.to_**
--   [A Beginners Guide to Unit Testing in Django](https://ctrlzblog.com/a-beginners-guide-to-unit-testing-in-django?x-host=ctrlzblog.com):
-    **_by Alice Ridgway_**
+- [Testing in Django](https://dev.to/ifihan/testing-in-django-26e5): _by Ifihan
+  Olusheye, dev.to_
+- [A Beginners Guide to Unit Testing in Django](https://ctrlzblog.com/a-beginners-guide-to-unit-testing-in-django?x-host=ctrlzblog.com):
+  _by Alice Ridgway_
 
--   [How to Test Django Models (with Examples)](https://ctrlzblog.com/how-to-test-django-models-with-examples?x-host=ctrlzblog.com):
-    **_by Alice Ridgway_**
+- [How to Test Django Models (with Examples)](https://ctrlzblog.com/how-to-test-django-models-with-examples?x-host=ctrlzblog.com):
+  _by Alice Ridgway_
 
 ## Related Posts
 
--   [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
