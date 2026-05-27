@@ -1,7 +1,7 @@
 ---
 slug: how-to-properly-configure-husky-pre-commits-with-lint-staged
 date: '2024-07-08T15:57:34.846Z'
-lastModified: '2024-07-08T17:3:34.846Z'
+lastModified: '2026-05-27T11:20:34.846Z'
 title: How to properly configure husky pre-commits with lint-staged
 author: Maria D. Campbell
 excerpt: How to properly configure husky pre-commits with lint-staged.
@@ -13,13 +13,13 @@ isFeatured: false
 
 ![Hooked fish](kasia-derenda-Ek0rfaRcnDA-unsplash.jpg)
 
-**_Photo by_** [Kasia Derenda](https://unsplash.com/@kasiade) **_on_**
+_Photo by_ [Kasia Derenda](https://unsplash.com/@kasiade) _on_
 [unsplash.com](https://unsplash.com/photos/a-fish-hanging-from-a-hook-in-the-water-Ek0rfaRcnDA)
 
-Recently I updated the husky pre-commit hook I use in my JavaScript workflows,
+Recently I updated the husky `pre-commit` hook I use in my JavaScript workflows,
 including React and Next.js. Why? Because the way I had it set up, linting was
 happening AFTER I git committed my files, and not before. So that meant that a
-lot of code was output to Terminal before reaching the git commmit message in
+lot of code was output to Terminal before reaching the `git commit` message in
 VIM.
 
 Originally, I had the following in my husky pre-commit file:
@@ -56,9 +56,9 @@ The top level script used in the pre-commit file was `validate`, and it ran the
 `git commit` a file. And I did not want to do that! It wasted a lot of time and
 looked messy!
 
-This meant that I both had to reconfigure lint-staged and change the script I
-added to the husky pre-commit file. Originally, I had the following lint-staged
-related json in my package.json file:
+This meant that I both had to reconfigure `lint-staged` and change the script I
+added to the husky `pre-commit` file. Originally, I had the following
+lint-staged related json in my `package.json` file:
 
 ```json
 "lint-staged": {
@@ -83,9 +83,9 @@ like the following:
 }
 ```
 
-I added scripts for `eslint`, `prettier` and `stylelint`. I also added a `jest`
-script because I had created some `tests`. And I use the `--passWithNoTests` to
-bypass any potential errors when`git committing`.
+I added scripts for eslint, prettier and stylelint. I also added a `jest` script
+because I had created some tests. And I use the `--passWithNoTests` to bypass
+any potential errors when git committing.
 
 Last, but not least, I changed the script in the husky pre-commit hook. The
 content of the file looks like the following:
@@ -124,4 +124,4 @@ having to permanently install it), it in turn runs the `eslint`, `stylelint`,
 
 ## Related Resources
 
--   [mariadcampbell.com repository on Github](https://github.com/interglobalmedia/nextjs-fullstack-blog)
+- [mariadcampbell.com repository on Github](https://github.com/interglobalmedia/nextjs-fullstack-blog)
