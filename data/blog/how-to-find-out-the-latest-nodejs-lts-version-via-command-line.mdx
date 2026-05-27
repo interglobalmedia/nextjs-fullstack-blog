@@ -1,7 +1,7 @@
 ---
 slug: how-to-find-out-the-latest-nodejs-lts-version-via-command-line
 date: '2024-09-03T05:26:40.014Z'
-lastModified: '2024-09-03T05:26:40.014Z'
+lastModified: '2026-05-27T10:22:40.014Z'
 title: How to find out the latest Node.js LTS version via Command Line
 author: Maria D. Campbell
 excerpt:
@@ -35,50 +35,45 @@ isFeatured: false
 
 ## Table of Contents
 
--   [Finding out the latest LTS version of Node.js via Command Line](#finding-out-the-latest-lts-version-of-nodejs-via-command-line)
+- [Finding out the latest LTS version of Node.js via Command Line](#finding-out-the-latest-lts-version-of-nodejs-via-command-line)
 
--   [Using the nvm command](#using-the-nvm-command)
+- [Using the nvm command](#using-the-nvm-command)
+    - [Using nvm ls-remote --lts](#using-nvm-ls-remote-lts)
+    - [Piping nvm ls-remote to the grep command version 1](#piping-nvm-ls-remote-to-the-grep-command-version-1)
+    - [Piping nvm ls-remote to the grep command version 2](#piping-nvm-ls-remote-to-the-grep-command-version-2)
 
-    -   [Using nvm ls-remote --lts](#using-nvm-ls-remote-lts)
-    -   [Piping nvm ls-remote to the grep command version 1](#piping-nvm-ls-remote-to-the-grep-command-version-1)
-    -   [Piping nvm ls-remote to the grep command version 2](#piping-nvm-ls-remote-to-the-grep-command-version-2)
+- [Bonus: finding the current version of Node.js](#bonus-finding-the-current-version-of-nodejs)
+    - [Using nvm ls-remote](#using-nvm-ls-remote)
+    - [Piping nvm ls-remote to grep -v](#piping-nvm-ls-remote-to-grep-v)
 
--   [Bonus: finding the current version of Node.js](#bonus-finding-the-current-version-of-nodejs)
+    - [Returning only the latest (last) Node.js Current version returned from nvm ls-remote](#returning-only-the-latest-last-nodejs-current-version-returned-from-nvm-ls-remote)
+        - [Piping nvm ls-remote to grep and tail](#piping-nvm-ls-remote-to-grep-and-tail)
+        - [Piping nvm ls-remote to tail only](#piping-nvm-ls-remote-to-tail-only)
+        - [The tail -n 1 command](#the-tail-n-1-command)
 
-    -   [Using nvm ls-remote](#using-nvm-ls-remote)
-    -   [Piping nvm ls-remote to grep -v](#piping-nvm-ls-remote-to-grep-v)
+    - [Should I use Node.js LTS or Current?](#should-i-use-nodejs-lts-or-current)
 
-    -   [Returning only the latest (last) Node.js Current version returned from nvm ls-remote](#returning-only-the-latest-last-nodejs-current-version-returned-from-nvm-ls-remote)
-
-        -   [Piping nvm ls-remote to grep and tail](#piping-nvm-ls-remote-to-grep-and-tail)
-        -   [Piping nvm ls-remote to tail only](#piping-nvm-ls-remote-to-tail-only)
-        -   [The tail -n 1 command](#the-tail-n-1-command)
-
-    -   [Should I use Node.js LTS or Current?](#should-i-use-nodejs-lts-or-current)
-
--   [Conclusion](#conclusion)
+- [Conclusion](#conclusion)
 
 ## Finding out the latest LTS version of Node.js via Command Line
 
-I don't know about you, but I am `finding` the `new layout` on the `Node.js`
-website a bit `confusing`. It is `virtually impossible` to `find out` what the
-`latest Node.js LTS` (`Long Term Support`) `version` is `these days`. So I
-`decided` to `find` it `out` via `Command Line` using
-[NVM](https://github.com/nvm-sh/nvm) (`Node Version Manager`).
+I don't know about you, but I am finding the new layout on the Node.js website a
+bit confusing. It is virtually impossible to find out what the latest Node.js
+LTS (Long Term Support) version is these days. So I decided to find it out via
+Command Line using [NVM](https://github.com/nvm-sh/nvm) (Node Version Manager).
 
 ### Using the nvm command
 
 ### Using nvm ls-remote --lts
 
-NVM (`Node Version Manager`) has a `command` that `checks` for all the remote
-`LTS` and `Latest: LTS` versions of `Node.js` available for `install`. It is the
-`following`:
+NVM (Node Version Manager) has a command that checks for all the remote LTS and
+Latest: LTS versions of Node.js available for install. It is the following:
 
 ```shell
 nvm ls-remote --lts
 ```
 
-And it `returns` the `following` in `Terminal`:
+And it returns the following in Terminal:
 
 ```shell
 v4.2.0   (LTS: Argon)
@@ -317,14 +312,14 @@ v4.2.0   (LTS: Argon)
 
 ### Piping nvm ls-remote to the grep command version 1
 
-`In order` to `only return` the `latest LTS versions` of `Node.js` that contain
-`'(Latest LTS:'`, I `run` the `following`:
+In order to only return the latest LTS versions of Node.js that contain
+`'(Latest LTS:'`, I run the following:
 
 ```shell
 nvm ls-remote --lts | grep '(Latest LTS:'
 ```
 
-Which `returns`:
+Which returns:
 
 ```shell
 v4.9.1   (Latest LTS: Argon)
@@ -338,19 +333,19 @@ v4.9.1   (Latest LTS: Argon)
        v20.17.0   (Latest LTS: Iron)
 ```
 
-`Much better`, right? We `see` more `quickly` that the `latest LTS version` of
-`Node.js` is `v20.17.0`!
+Much better, right? We see more quickly that the latest LTS version of Node.js
+is v20.17.0!
 
 ### Piping nvm ls-remote to the grep command version 2
 
-`Conversely`, if I only `wanted` to `return` all `"LTS"` versions of `Node.js`,
-excluding `"latest LTS versions"`, I could `run` the `following`:
+Conversely, if I only wanted to return all "LTS" versions of Node.js, excluding
+"latest LTS versions", I could run the following:
 
 ```shell
 nvm ls-remote --lts | grep '(LTS:'
 ```
 
-Which `returns`:
+Which returns:
 
 ```shell
 v4.2.0   (LTS: Argon)
@@ -578,23 +573,23 @@ v4.2.0   (LTS: Argon)
        v20.16.0   (LTS: Iron)
 ```
 
-If you `want` to `list only` the `"latest" LTS versions` that are the `"latest"`
-latest `LTS versions` of `Node.js`, `filtering out` the `versions` that are only
-`"LTS"`, you can `use `the `nvm ls-remote --lts | grep '(Latest LTS:'` command
-`instead` of just `nvm ls-remote --lts`.
+If you want to list only the "latest" LTS versions that are the "latest" latest
+LTS versions of Node.js, filtering out the versions that are only "LTS", you can
+use the `nvm ls-remote --lts | grep '(Latest LTS:'` command instead of just
+`nvm ls-remote --lts`.
 
 ## Bonus: finding the current version of Node.js
 
 ### Using nvm ls-remote
 
-_If instead_, I `want` to `find` the `latest` (`Current`) `version` of
-`Node,js`, I `run` the `following command` in `Terminal`:
+If instead, I want to find the latest (Current) version of Node,js, I run the
+following command in Terminal:
 
 ```shell
 nvm ls-remote
 ```
 
-Which `returns`:
+Which returns:
 
 ```shell
  v0.1.14
@@ -1392,27 +1387,26 @@ Which `returns`:
         v22.7.0
 ```
 
-`nvm ls-remote` lists `all` remote `versions` available for `install`: `'LTS'`,
-`'Latest: LTS'`, and `'Current'`.
+`nvm ls-remote` lists all remote versions available for install: 'LTS', 'Latest:
+LTS', and 'Current'.
 
 ### Piping nvm ls-remote to grep -v
 
-The `best` I `can` do `here` (s*o far*) to `reduce` the `length` of the `list`,
-is to `exclude` any `versions` with '(Latest LTS:' or 'LTS' or '^\d\*[02468]$'.
+The best I can do here (s*o far*) to reduce the length of the list, is to
+exclude any versions with `'(Latest LTS:' or 'LTS' or '^\d\*[02468]$'`.
 
-The regex `'^\d\*[02468]$'` means `all` versions `ending` in an `even number`.
-But we are `excluding` them `since` we are running `grep -v '^\d*[02468]$'`.
-grep -v followed by a `regex pattern` or `string pattern` means to
-`exclude anything` that `matches` that `pattern` in the `search results`. As you
-will `see` in the `below output`, the `first`, `second`, or `last number`
-(v`x`.`x`.`x`) in the `versions` returned `from` the `command` end in
-`odd numbers`.
+The regex `'^\d\*[02468]$'` means all versions ending in an even number. But we
+are excluding them since we are running `grep -v '^\d*[02468]$'`. `grep -v`
+followed by a regex pattern or string pattern means to exclude anything that
+matches that pattern in the search results. As you will see in the below output,
+the first, second, or last number (vx.x.x) in the versions returned from the
+command end in odd numbers.
 
 ```shell
 nvm ls-remote | grep -v '(Latest LTS:' | grep -v  'LTS' | grep -v '^\d*[02468]$'
 ```
 
-Returns`:
+Returns:
 
 ```shell
 v0.1.14
@@ -1978,18 +1972,16 @@ v0.1.14
         v22.7.0
 ```
 
-And the `latest` Node.js `Current` is `v22.7.0`.
+And the latest Node.js Current is v22.7.0.
 
-With the `nvm ls-remote` command, `792 versions` (`793 -1` because the
-`last line` is an `empty` next line) are `returned`, the `last` one `being` the
-_latest_ `Current` version of `Node.js` (`22.7.0`), and `560` versions (`561-1`)
-are `returned` using the
+With the `nvm ls-remote` command, 792 versions (793 -1 because the last line is
+an empty next line) are returned, the last one being the latest current version
+of Node.js (22.7.0), and 560 versions (561-1) are returned using the
 `nvm ls-remote | grep -v '(Latest LTS:' | grep -v 'LTS' | grep -v "^\d*[02468]$"`
-command, the `last` one `being` the latest `Current` version of `Node.js`
-(`22.7.0`) as well. How did I get those numbers? By appending `| wc -l` to
-either
+command, the last one being the latest current version of Node.js (22.7.0) as
+well. How did I get those numbers? By appending `| wc -l` to either
 `nvm ls-remote | grep -v '(Latest LTS:' | grep -v 'LTS' | grep -v "^\d*[02468]$"`
-or `nvm ls-remote`. `Like` the `following`:
+or `nvm ls-remote`. Like the following:
 
 ```shell
 nvm ls-remote | grep -v '(Latest LTS:' | grep -v  'LTS' | grep -v "^\d*[02468]$" | wc -l # shorter version
@@ -2001,34 +1993,33 @@ nvm ls-remote | wc -l # long version
 
 ### Piping nvm ls-remote to grep and tail
 
-**_However_**, I can `take` it `even` a `step further` and just `return` the
-`latest` (`last`) Node.js `Current` with the `following command`:
+However, I can take it even a step further and just return the latest (last)
+Node.js Current with the following command:
 
 ```shell
 nvm ls-remote | grep -v '(Latest LTS:' | grep -v 'LTS' | grep -v '^\d*[02468]$' | tail -n 1
 ```
 
-Which `returns`:
+Which returns:
 
 ```shell
 v22.8.0
 ```
 
-I can `double check` to `make sure` this is `right` (`at first` I `thought` it
-`wasn't` because` earlier` the `latest` Node.js `Current` was `22.7.0`) by
-`running` the `nvm ls-remote` command `again`. This time, `v22.8.0` WAS the
-`latest` Node.js `Current`!
+I can double check to make sure this is right (at first I thought it wasn't
+because earlier the latest Node.js Current was 22.7.0) by running the
+`nvm ls-remote` command again. This time, v22.8.0 WAS the latest Node.js
+Current!
 
 ### Piping nvm ls-remote to tail only
 
-I can also `make` the `above command` much `more succinct` by `running` the
-`following`:
+I can also make the above command much more succinct by running the following:
 
 ```shell
 nvm ls-remote | tail -n 1
 ```
 
-`Which` ALSO `returns`:
+Which ALSO returns:
 
 ```shell
 v22.8.0
@@ -2036,44 +2027,42 @@ v22.8.0
 
 ### The tail -n 1 command
 
-The `tail -n 1` command `displays` the `last line` of the `matches returned` by
-`nvm ls-remote`. The `nvm ls-remote` command is `piped` to the `tail -n 1`
-command, which `means` that `only` the `last` Node.js `Current` (`version`)
-`returned` from the `nvm ls-remote` command is `displayed`.
+The `tail -n 1` command displays the last line of the matches returned by
+`nvm ls-remote`. The `nvm ls-remote` command is piped to the `tail -n 1`
+command, which means that only the last Node.js Current (version) returned from
+the `nvm ls-remote` command is displayed.
 
-`Since` I was `able` to use tail -n 1 with `nvm ls-remote`, I `should` be `able`
-to `use` it with `nvm ls-remote --lts`:
+Since I was able to use tail -n 1 with `nvm ls-remote`, I should be able to use
+it with `nvm ls-remote --lts`:
 
 ```shell
 nvm ls-remote --lts | grep '(Latest LTS:' | tail -n 1
 ```
 
-Which `returned` the `following`:
+Which returned the following:
 
 ```shell
 v20.17.0   (Latest LTS: Iron)
 ```
 
-`Success`! I `was` also `able` to use `tail -n 1` with `nvm ls-remote --lts` to
-display only the latest 'Latest LTS:' version of Node.js.
+Success! I was also able to use `tail -n 1` with `nvm ls-remote --lts` to
+display only the latest `'Latest LTS:'` version of Node.js.
 
 ## Should I use Node.js LTS or Current?
 
-`Node.js LTS` contains `stable` and `safe features` for `long term support`
-(`LTS`). `Node.js Current` includes an `experimental phase` with a
-`high probability` of `bugs` and `errors`, so `should` only be `used` in
-`local development`. It is `always better` to `use` the (`latest`) `LTS`
-version, because `a lot` of `experimental features` in `Node.js Current` are
-`removed` in `LTS` versions.
+Node.js LTS contains stable and safe features for long term support (LTS).
+Node.js Current includes an experimental phase with a high probability of bugs
+and errors, so should only be used in local development. It is always better to
+use the (latest) LTS version, because a lot of experimental features in Node.js
+Current are removed in LTS versions.
 
 ## Conclusion
 
-`In` this `article`, I `showed` the `steps` I `took` to `figure out` how to
-`return` only the _latest_ `'Latest: LTS'` version of `Node.js` and `only` the
-_latest_ `Node.js Current` (`version`) `using` the `nvm`, `grep`, and `tail`
-commands `in conjunction` with the `pipe` (`|`) `operator`. `By using` these
-`commands`, I `no longer` have to `depend` on `going` onto the `Node.js` website
-to `find out` the _latest_ `LTS: Latest` and _latest_ `Node Current` versions,
-`or` to `scroll` through `hundreds` of `versions` to `get` to the `bottom` of
-the `output` of `nvm ls-remote` or `nvm ls-remote --lts` to `find out` what
-those `versions` are!
+In this article, I showed the steps I took to figure out how to return only the
+latest `'Latest: LTS'` version of Node.js and only the latest Node.js Current
+(version) using the `nvm`, `grep`, and `tail` commands in conjunction with the
+pipe (`|`) operator. By using these commands, I no longer have to depend on
+going onto the Node.js website to find out the latest `LTS: Latest` and latest
+`Node Current` versions, or to scroll through hundreds of versions to get to the
+bottom of the output of `nvm ls-remote` or `nvm ls-remote --lts` to find out
+what those versions are!
