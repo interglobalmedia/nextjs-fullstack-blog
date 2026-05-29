@@ -1,14 +1,14 @@
 ---
 slug: 'making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux'
 date: '2024-08-12T17:28:56.106Z'
-lastModified: '2024-08-16T23:56:56.106Z'
+lastModified: '2026-05-29T14:08:56.106Z'
 title:
     'Making and verifying a cleartext digital signature using a PGP key pair in
     Linux'
 author: 'Maria D. Campbell'
 excerpt:
-    'Making and verifying a cleartext digital signature using a PGP key pair in
-    Linux.'
+    'How to make and verify a cleartext digital signature using a PGP key pair
+    in Linux.'
 image: pexels-cottonbro-5473951.jpg
 tags:
     [
@@ -28,33 +28,32 @@ isFeatured: false
 
 ![Binary code](pexels-cottonbro-5473951.jpg)
 
-**_Photo by_** [cottonbro studio](https://www.pexels.com/@cottonbro/) **_on_**
+_Photo by_ [cottonbro studio](https://www.pexels.com/@cottonbro/) _on_
 [pexels.com](https://www.pexels.com/photo/green-and-white-lights-5473951/)
 
 ## Table of Contents
 
--   [What is the gpg --clear-sign option?](#what-is-the-gpg-clear-sign-option)
--   [Creating a cleartext digital signature with the --clear-sign option](#creating-a-cleartext-digital-signature-with-the-clear-sign-option)
--   [Verifying the cleartext signature](#verifying-the-cleartext-signature)
--   [detached signatures vs cleartext signatures](#detached0-signatures-vs-cleartext-signatures)
--   [Footnotes](#footnotes)
--   [Related Resources](#related-resources)
--   [Asymmetric encryption and decryption series](#asymmetric-encryption-and-decryption-series)
+- [What is the gpg --clear-sign option?](#what-is-the-gpg-clear-sign-option)
+- [Creating a cleartext digital signature with the --clear-sign option](#creating-a-cleartext-digital-signature-with-the-clear-sign-option)
+- [Verifying the cleartext signature](#verifying-the-cleartext-signature)
+- [detached signatures vs cleartext signatures](#detached0-signatures-vs-cleartext-signatures)
+- [Related Resources](#related-resources)
+- [Asymmetric encryption and decryption series](#asymmetric-encryption-and-decryption-series)
+- [Footnotes](#footnotes)
 
 ## What is the gpg --clear-sign option?
 
-The `--clear-sign` or `--clearsign` option `creates` a `cleartext` digital
-signature and is `readable` without any `special software`. `OpenPGP` software
-is `only needed` to `verify` the `signature`. `cleartext` signatures may
-`modify` end-of-line `whitespace` for `platform independence` and are
-`not intended` to be `reversible`. The `signing key` is `chosen` by `default` or
-`can` be `set` explicitly `using` the `--local-user` and `--default-key`
-options.
+The `--clear-sign` or `--clearsign` option creates a cleartext digital signature
+and is readable without any special software. OpenPGP software is only needed to
+verify the signature. cleartext signatures may modify end-of-line whitespace for
+platform independence and are not intended to be reversible. The signing key is
+chosen by default or can be set explicitly using the `--local-user` and
+`--default-key` options.
 
 ## Creating a cleartext digital signature with the --clear-sign option
 
-In `order` to `create` a `cleartext` signature, I `run` the `following command`
-in `Terminal`:
+In order to create a cleartext signature, I run the following command in
+Terminal:
 
 ```shell
 # first I create a .txt file called clear_text.txt to use when creating my --clear-sign signature
@@ -65,10 +64,10 @@ gpg --clear-sign clear_text.txt
 clear_text.txt.asc
 ```
 
-I still am `prompted` to `provide` the `passphrase/password` for the
-`PGP key pair` I am `using`.
+I still am prompted to provide the passphrase/password for the PGP key pair I am
+using.
 
-When I run `open clear_text.txt.asc`, it `contains` the `following`:
+When I run `open clear_text.txt.asc`, it contains the following:
 
 ```shell
 -----BEGIN PGP SIGNED MESSAGE-----
@@ -91,21 +90,20 @@ nThGPWz9/SFpuYgraJWf3n4b8oPomGP8KI7MMcCH/z+B5ebYeTCF4PTfjmI6dnOV
 -----END PGP SIGNATURE-----
 ```
 
-The `text content` itself is `not encrypted` in any way and `gpg` is
-`not needed` to `decrypt` the `file text`. And the `signature` is `added` as
-`readable text` (a `base64 ascii-armor` signature). `That` is `why` the `.asc`
-extension.
+The text content itself is not encrypted in any way and `gpg` is not needed to
+decrypt the file text. The signature is added as readable text (a
+`base64 ascii-armor` signature). That is why the `.asc` extension.
 
 ## Verifying the cleartext signature
 
-To `verify` a `cleartext` signature, I (or a `real world recipient` of the
-`file`) `run`(s) the `following` in `Terminal`:
+To verify a cleartext signature, I (or a real world recipient of the file) runs
+the following in Terminal:
 
 ```shell
 gpg --verify clear_text.txt.asc
 ```
 
-And the `following` is `stdout` in `Terminal`:
+And the following is `stdout` in Terminal:
 
 ```shell
 gpg: Signature made Mon 12 Aug 2024 09:52:43 AM EDT
@@ -114,32 +112,31 @@ gpg: Good signature from "Maria (GPG key pair for local testing with correct ema
 gpg: WARNING: not a detached signature; file 'clear_text.txt' was NOT verified!
 ```
 
-The `recipient` of the `clear_text.txt.asc` file `verifying` it `gets` the
-warning `not a detached signature; file 'clear_text.txt' was NOT verified!`
-because I verified `clear_text.txt.asc` which `resulted from` the `creation` of
-the `cleartext` signature, but the original `clear_text.txt` file itself was
-`not recognized` as being `verified`.
+The recipient of the `clear_text.txt.asc` file verifying it gets the warning
+`not a detached signature; file 'clear_text.txt' was NOT verified!` because I
+verified `clear_text.txt.asc` which resulted from the creation of the cleartext
+signature, but the original `clear_text.txt` file itself was not recognized as
+being verified.
 
-To `rectify` this, I `could make` the `clear_text.txt` a `detached signature`
-instead:
+To rectify this, I could make the `clear_text.txt` a detached signature instead:
 
 ```shell
 gpg -b clear_text.txt
 ```
 
-And the `following file` is `created` as a `result`:
+And the following file is created as a result:
 
 ```shell
 clear_text.txt.sig
 ```
 
-`And` then I `run` the `following command` to `verify` the `detached signature`:
+And then I run the following command to verify the detached signature:
 
 ```shell
 gpg --verify clear_text.txt.sig
 ```
 
-Which `returns` the `following`:
+Which returns the following:
 
 ```shell
 gpg: assuming signed data in 'clear_text.txt'
@@ -148,64 +145,60 @@ gpg:                using RSA key xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 gpg: Good signature from "Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>" [ultimate]
 ```
 
-But if I `delete` the original `clear_text.txt` file, and run
-`gpg --verify clear_text.txt.sig` again, the `following` is `returned` in
-`Terminal`:
+But if I delete the original `clear_text.txt` file, and run
+`gpg --verify clear_text.txt.sig` again, the following is returned in Terminal:
 
 ```shell
 gpg: no signed data
 gpg: can't hash datafile: No data
 ```
 
-This `confirms` that the `recipient` of the `detached signature` must receive
-`both` the `original` clear_text.txt `file` AND `clear_text.txt.sig` file
-`in order` for the `detached signature` verification to `work`.
+This confirms that the recipient of the detached signature must receive both the
+original `clear_text.txt` file AND `clear_text.txt.sig` file in order for the
+detached signature verification to work.
 
-If I `create` a `cleartext signature`, then `delete` the `original` text `file`,
-`just keeping` the `.asc` file, it `makes` no `difference`. The `original` text
-`file contents` in `text format` make up `part` of the `.asc` file.
+If I create a cleartext signature, then delete the original text file, just
+keeping the `.asc` file, it makes no difference. The original text file contents
+in text format make up part of the `.asc` file.
 
 ## detached signatures vs cleartext signatures
 
-With `detached signatures`, the `original data` (`file`) is `not modified`, and
-the `signature` itself is `stored` as a `standalone file` with a `.sig`
-extension. And the `.sig` file contains `binary data`.
+With detached signatures, the original data (file) is not modified, and the
+signature itself is stored as a standalone file with a `.sig` extension. And the
+`.sig` file contains binary data.
 
-A `detached signature` file (`.sig`) `can` be distributed `alongside` or
-`independent` of the `original data`. The `authenticity` and `integrity` of the
-`original` data `file` can be verified by using the detached signature file, but
-the original text file is `required` as `well` for the `verification process` to
-`work`.
+A detached signature file (`.sig`) can be distributed alongside or independent
+of the original data. The authenticity and integrity of the original data file
+can be verified by using the detached signature file, but the original text file
+is required as well for the verification process to work.
 
-The `detached signature` format is `especially useful` for signing
-`software releases` and `other files` where it is `imperative` that the content
-remains `unaltered` during the `signing process`.
+The detached signature format is especially useful for signing software releases
+and other files where it is imperative that the content remains unaltered during
+the signing process.
 
-With `cleartext signatures`, `even though` they are `popular`, they `have` their
-`limitations` and are `considered` a `legacy method`. `cleartext` digital
-`signatures` are `incompatible` with `semantically meaningful whitespace` [^1],
-they don't `work well` with `very large messages`, and an `attacker` can include
-`additional text` in the `Hash header`, which may` mislead` the `user` into
-`thinking` it is `part` of the `signed text`. `Given` these `limitations` and
-`issues`, it is `better` to `either` use a `complete` (aka `inline`)
-`digital signature` or a `detached signature`.
-
-## Footnotes
-
-**[^1]**: Semantically meaningful whitespace is a means of standardizing code
-layout, as in Python, for example.
+With cleartext signatures, even though they are popular, they have their
+limitations and are considered a legacy method. cleartext digital signatures are
+incompatible with semantically meaningful whitespace[^1], they don't work well
+with very large messages, and an attacker can include additional text in the
+Hash header, which may mislead the user into thinking it is part of the signed
+text. Given these limitations and issues, it is better to either use a complete
+(aka inline) digital signature or a detached signature.
 
 ## Related Resources
 
--   [7. Signatures over data](https://openpgp.dev/book/signing_data.html):
-    **_OpenPGP for application developers_**
+- [7. Signatures over data](https://openpgp.dev/book/signing_data.html):
+  _OpenPGP for application developers_
 
 ## Asymmetric encryption and decryption series
 
--   [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux)
--   [Making and verifying a detached signature using a PGP key pair in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
--   [Making and verifying a clear text signature using a PGP key pair in Linux](/blog/making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux)
--   [Using a specific PGP key pair for digital signing](/blog/using-a-specific-pgp-key-pair-for-digital-signing)
--   [Exchanging public keys using a PGP key pair](/blog/exchanging-keys-using-a-pgp-key-pair)
--   [Setting up and using the mutt email client in Linux](http://localhost:3000/blog/setting-up-and-using-the-mutt-email-client-in-linux)
--   [Sending encrypted emails and decrypting received emails using GnuPG](/blog/sending-encrypted-emails-and-decrypting-received-emails-using-gnupg)
+- [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux)
+- [Making and verifying a detached signature using a PGP key pair in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
+- [Making and verifying a clear text signature using a PGP key pair in Linux](/blog/making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux)
+- [Using a specific PGP key pair for digital signing](/blog/using-a-specific-pgp-key-pair-for-digital-signing)
+- [Exchanging public keys using a PGP key pair](/blog/exchanging-keys-using-a-pgp-key-pair)
+- [Setting up and using the mutt email client in Linux](http://localhost:3000/blog/setting-up-and-using-the-mutt-email-client-in-linux)
+- [Sending encrypted emails and decrypting received emails using GnuPG](/blog/sending-encrypted-emails-and-decrypting-received-emails-using-gnupg)
+
+[^1]:
+    Semantically meaningful whitespace is a means of standardizing code layout,
+    as in Python, for example.
