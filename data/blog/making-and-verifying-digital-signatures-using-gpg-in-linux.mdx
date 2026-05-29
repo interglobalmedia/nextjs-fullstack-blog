@@ -1,10 +1,10 @@
 ---
 slug: making-and-verifying-digital-signatures-using-gpg-in-linux
 date: '2024-08-09T16:02:09.360Z'
-lastModified: '2024-08-16T23:58:09.360Z'
+lastModified: '2026-05-29T17:50:09.360Z'
 title: Making and verifying digital signatures using GPG in Linux
 author: Maria D. Campbell
-excerpt: Making and verifying digital signatures using GPG in Linux.
+excerpt: How to make and verify digital signatures using GPG in Linux.
 image: pexels-pixabay-326616.jpg
 tags:
     [
@@ -30,70 +30,64 @@ isFeatured: false
 **_Photo by_** [Pixabay](https://www.pexels.com/@pixabay/) **_on_**
 [pexels.com](https://www.pexels.com/photo/close-up-of-figurine-326616/)
 
-`In` this `article`, I `discuss` how to `make` and `verify` digital `signatures`
-using `GPG` in Linux, and `I` also `discuss` WHY we would `want` to `use` a
-`digital signature` in the `first place`.
+In this article, I discuss how to make and verify digital signatures using GPG
+in Linux, and I also discuss WHY we would want to use a digital signature in the
+first place.
 
 ## Table of Contents
 
--   [So what is a digital signature?](#so-what-is-a-digital-signaturet)
--   [Why digital signatures?](#why-digital-signatures)
--   [The digital signature process](#the-digital-signature-process)
--   [Why digital signatures should be used with PGP (or PKI)](#why-digital-signatures-should-be-used-with-pgp-or-pki)
--   [Creating a digital signature using PGP](#creating-a-digital-signature-using-pgp)
-    -   [Creating the PGP key pair](#creating-the-pgp-key-pair)
-    -   [Editing the PGP public key](#editing-the-PGP-public-key)
-    -   [Listing the PGP public keys](#listing-the-pgp-public-keys)
-    -   [Deleting a PGP public key uid](#deleting-a-pgp-public-key-uid)
-    -   [Creating a revocation certificate for PGP key pair](#creating-a-revocation-certificate-for-pgp-key-pair)
-    -   [Making a signature](#making-a-signature)
-        -   [Verifying the signature](#verifying-the-signature)
--   [Conclusion](#conclusion)
--   [Footnotes](#footnotes)
--   [Related Resources](#related-resources)
--   [Asymmetric encryption and decryption series](#asymmetric-encryption-and-decryption-series)
+- [So what is a digital signature?](#so-what-is-a-digital-signaturet)
+- [Why digital signatures?](#why-digital-signatures)
+- [The digital signature process](#the-digital-signature-process)
+- [Why digital signatures should be used with PGP (or PKI)](#why-digital-signatures-should-be-used-with-pgp-or-pki)
+- [Creating a digital signature using PGP](#creating-a-digital-signature-using-pgp)
+    - [Creating the PGP key pair](#creating-the-pgp-key-pair)
+    - [Editing the PGP public key](#editing-the-PGP-public-key)
+    - [Listing the PGP public keys](#listing-the-pgp-public-keys)
+    - [Deleting a PGP public key uid](#deleting-a-pgp-public-key-uid)
+    - [Creating a revocation certificate for PGP key pair](#creating-a-revocation-certificate-for-pgp-key-pair)
+    - [Making a signature](#making-a-signature)
+        - [Verifying the signature](#verifying-the-signature)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Asymmetric encryption and decryption series](#asymmetric-encryption-and-decryption-series)
+- [Footnotes](#footnotes)
 
 ## So what is a digital signature?
 
-A `digital signature`, which is a `type` of `electronic signature`, is a
-`mathematical algorithm` used to `validate` the `authenticity` and `integrity`
-of a `message` (i.e., `email`, `credit card` transaction, or
-`digital document`).
+A digital signature, which is a type of electronic signature, is a mathematical
+algorithm used to validate the authenticity and integrity of a message (i.e.,
+email, credit card transaction, or digital document).
 
 According to
-[CISA](https://www.cisa.gov/news-events/news/understanding-digital-signatures)
-**[^1]**,
+[CISA](https://www.cisa.gov/news-events/news/understanding-digital-signatures)[^1],
 
-> `Digital signatures` create a `virtual fingerprint` that is `unique` to a
-> `person` or `entity` and are `used` to `identify users` and
-> `protect information` in `digital messages` or `documents`. In `emails`, the
-> `email content` itself `becomes part` of the `digital signature`.
-> `Digital signatures` are `significantly` more `secure` than `other forms` of
-> `electronic signatures`.
+> Digital signatures create a virtual fingerprint that is unique to a person or
+> entity and are used to identify users and protect information in digital
+> messages or documents. In emails, the email content itself becomes part of the
+> digital signature. Digital signatures are significantly more secure than other
+> forms of electronic signatures.
 
 ## Why digital signatures?
 
-`Digital signatures` **_prove_** that a `digital message` or `document` was
-`not` modified (`intentionally` or `unintentionally`) `from when` it was
-`signed`.
+Digital signatures prove that a digital message or document was not modified
+(intentionally or unintentionally) from when it was signed.
 
-`Digital signatures` **_verify_** the `integrity` of `data` by `generating` a
-`unique hash` of the `message` or `document` in `question` and `encrypting` it
-`using` the `sender`'s `private key` **[^2]**. The `hash generated` is `unique`
-to the `message` or `document`, and `changing` any `part` of it `will`
-completely `change` the `hash`.
+Digital signatures verify the integrity of data by generating a unique hash of
+the message or document in question and encrypting it using the sender's private
+key[^2]. The hash generated is unique to the message or document, and changing
+any part of it will completely change the hash.
 
 ## The digital signature process
 
-When we have `finished creating` our `message` or `document` that we `want` to
-`secure`, we `digitally sign` it and `send` it to the `recipient`. The
-`recipient` then `generates` their own `hash` of the `message` or
-`digital document` and `decrypts` the `sender`'s hash (`included` in the
-`original message`) `using` the `sender`'s `public key` **[^2]**.
+When we have finished creating our message or document that we want to secure,
+we digitally sign it and send it to the recipient. The recipient then generates
+their own hash of the message or digital document and decrypts the sender's hash
+(included in the original message) using the sender's public key[^3].
 
-The `recipient` **_compares_** the `hash` they `generate` against the `sender`'s
-`decrypted hash`. `If` they `match`, the `integrity` of the `message` or
-`digital document` has been `verified` and the `sender` is `authenticated`.
+The recipient compares the hash they generate against the sender's decrypted
+hash. If they match, the integrity of the message or digital document has been
+verified and the sender is authenticated.
 
 According to
 [CISA](https://www.cisa.gov/news-events/news/understanding-digital-signatures),
@@ -113,72 +107,66 @@ According to
 
 ## Why digital signatures should be used with PGP (or PKI)
 
-Using `digital signatures` with
+Using digital signatures with
 [PGP](https://www.encryptionconsulting.com/how-to-generate-pgp-key-pair/) or
 [PKI (public key infrastructure)](<https://www.keyfactor.com/education-center/what-is-pki/#:~:text=Public%20key%20infrastructure%20(PKI)%20governs,end%2Dto%2Dend%20communications.>)
-`key pairs` strengthens the `digital signatures` and `reduces` possible
-`security issues` **_related_** to **_transmitting_** `public keys` by
-`validating` that the `key` **_belongs_** to the `sender` and `verifying` the
-`identity` of the `sender`. The `security` of a `digital signature`
-**_depends_** on `how strong` the `protection` of the `private key` is.
-**_Without_** `PGP` (or `PKI`), `verifying` someone's `identity` or `revoking` a
-`compromised key` is `impossible`. This **_means_** `malicious actors` could
-`impersonate someone` without any `means` of `confirmation`.
+key pairs strengthens the digital signatures and reduces possible security
+issues related to transmitting public keys by validating that the key belongs to
+the sender and verifying the identity of the sender. The security of a digital
+signature depends on how strong the protection of the private key is. Without
+PGP (or PKI), verifying someone's identity or revoking a compromised key is
+impossible. This means malicious actors could impersonate someone without any
+means of confirmation.
 
-`Understanding` and `using` digital `signatures` permits us to `better protect`
-our `information`, `documents`, and `transactions` in the `digital age`.
+Understanding and using digital signatures permits us to better protect our
+information, documents, and transactions in the digital age.
 
 ## Creating a digital signature using PGP
 
-`Since` I `already` have written `articles` touching upon `PGP`,
+Since I already have written articles touching upon PGP,
 [Encrypting and decrypting a file with GPG in Linux](http://localhost:3000/blog/encrypting-and-decrypting-a-file-with-gpg-in-linux)
 and
 [Encrypting and Decrypting Files and Strings](http://localhost:3000/blog/encrypting-and-decrypting-files-and-strings),
-`in` this `article` I will `show how` to `create` a `digital signature` using
-`PGP`.
+in this article I will show how to create a digital signature using PGP.
 
 ### Creating the PGP key pair
 
-A `PGP key pair` is an `example` of `asymmetric encryption`.
-`Asymmetric encryption` is the `process` of `using` a `public key` from a
-`public/private` key `pair` to `encrypt` plaintext, and then` using` the
-corresponding `private key` to `decrypt` the ciphertext. `In` other `words`,
-`asymmetric encryption` uses `two` different `keys` to `encrypt` and `decrypt`
-each `file`, then `two` more `keys` to `sign` and `verify` each `file`. Both
-parties – `sender` and `recipient` – `need` to `exchange` their `public keys`
-before `any transfer` can `take place`.
+A PGP key pair is an example of asymmetric encryption. Asymmetric encryption is
+the process of using a public key from a public/private key pair to encrypt
+plaintext, and then using the corresponding private key to decrypt the
+ciphertext. In other words, asymmetric encryption uses two different keys to
+encrypt and decrypt each file, then two more keys to sign and verify each file.
+Both parties – sender and recipient – need to exchange their public keys before
+any transfer can take place.
 
-The `sender encrypts` the `file` using the `recipient`’s `public key`. The
-`recipient decrypts` the `file` using their `private key`.
+The sender encrypts the file using the recipient’s public key. The recipient
+decrypts the file using their private key.
 
-`Asymmetric encryption` is `considered` more `secure` due to the `use` of `two`
-separate `keys`, `making` it `harder` for `attackers` to `compromise` the
-`system`. And we are `dealing` with `asymmetric encryption` here.
+Asymmetric encryption is considered more secure due to the use of two separate
+keys, making it harder for attackers to compromise the system. And we are
+dealing with asymmetric encryption here.
 
-`PGP` itself provides `end-to-end encryption`, `integrity checking` and
-`authentication`. It is `commonly used` for `encrypting` and `decrypting` texts,
-files, directories and whole disk partitions.
+PGP itself provides end-to-end encryption, integrity checking and
+authentication. It is commonly used for encrypting and decrypting texts, files,
+directories and whole disk partitions.
 
-I `also wrote` an `article` a `while back` regarding `symmetric encryption`
-entitled
+I also wrote an article a while back regarding symmetric encryption entitled
 [Encrypting and Decrypting Files and Strings](http://localhost:3000/blog/encrypting-and-decrypting-files-and-strings)
-where I discuss `symmetric encryption`. `Symmetric encryption` is `not` as
-`secure` by the `nature` of `how` it `works`, and also `more limiting`.
-`Symmetric encryption` is also known as a `private-key encryption`. It is called
-`symmetric` because, it `makes use` of the `same key` for both `encryption` of
-`plain text` (`sending message`) and `decryption` of `cipher text`
-(`received message`).
+where I discuss symmetric encryption. Symmetric encryption is not as secure by
+the nature of how it works, and also more limiting. Symmetric encryption is also
+known as a private-key encryption. It is called symmetric because, it makes use
+of the same key for both encryption of plain text (sending message) and
+decryption of cipher text (received message).
 
-`In order` to `be able` to `sign` a `message` or `document`, for example, one
-`first` has to `create` a `PGP private` and `public` key pair`:
+In order to be able to sign a message or document, for example, one first has to
+create a PGP private and public key pair`:
 
 ```shell
 gpg --full-generate-key
 ```
 
-The `--full-generate-key` flag as `opposed` to `gpg --gen-key`, `provides` a
-`full featured` key generation `dislog`. It `returns` something like the
-`following`:
+The `--full-generate-key` flag as opposed to `gpg --gen-key`, provides a full
+featured key generation dislog. It returns something like the following:
 
 ```shell
 gpg (GnuPG) 2.4.4: Copyright (C) 2024 g10 Code GmbH
@@ -223,13 +211,13 @@ public and secret key created and signed.
 
 ## Editing the PGP public key
 
-I had `created` a `revocation certificate` previously. Ideally, you `create` it
-`right after` creating your` PGP key pair`. `However`, I `noticed` that I
-`entered` the `wrong` local `email address`. So I `did` the `following` to
-`change` my `local email address` to the `correct one`:
+I had created a revocation certificate previously. Ideally, you create it right
+after creating your PGP key pair. However, I noticed that I entered the wrong
+local email address. So I did the following to `change` my local email address
+to the correct one:
 
-`First` I ran `gpg --edit Maria` (the `name` of my `key pair` is the `real name`
-I `provided` at the `beginning`), and the `following appeared`:
+First I ran `gpg --edit Maria` (the name of my key pair is the real name I
+provided at the beginning), and the following appeared:
 
 ```shell
 gpg (GnuPG) 2.4.4; Copyright (C) 2024 g10 Code GmbH
@@ -248,8 +236,8 @@ ssb   rsa3072/xxxxxxxxxxxxxxxxx
 gpg> uuid
 ```
 
-It is `not` noted `anywhere`, `but` I `had` to `type` `"uuid"` in the `gpg>`
-prompt. Then the `following appeared` after I `hit` the `Return` key:
+It is not noted anywhere, but I had to type "uuid" in the `gpg>` prompt. Then
+the following appeared after I hit the Return key:
 
 ```shell
 Real name: Maria
@@ -262,14 +250,13 @@ gpg> # here i hit Control + D key to exit
 Save changes? (y/N) y
 ```
 
-`During` this `process` I am `also prompted` for `my passphrase` I `had created`
-when I `originally created` the `PGP key pair`.
+During this process I am also prompted for my passphrase I had created when I
+originally created the PGP key pair.
 
 ## Listing the PGP public keys
 
-Next, I can `check` to `make sure` that `everything` was `successfully updated`
-by running `gpg --list-keys`, and `something like` the `following` is
-`returned`:
+Next, I can check to make sure that everything was successfully updated by
+running `gpg --list-keys`, and something like the following is returned:
 
 ```shell
 /home/maria/.gnupg/pubring.kbx
@@ -284,14 +271,14 @@ sub   rsa3072 2024-08-09 [E]
 
 ## Deleting a PGP public key uid
 
-`As` you `can see`, I have `two uids`. I `want` to `get rid` of `the one` that
-is `not` correct (the `second one`). So I `run` the `following`:
+As you can see, I have two uids. I want to get rid of the one that is not
+correct (the second one). So I run the following:
 
 ```shell
 gpg --edit-key Maria
 ```
 
-`And` it `returns` the `following`:
+And it returns the following:
 
 ```shell
 gpg --edit-key Maria
@@ -333,26 +320,24 @@ gpg>
 Save changes? (y/N) y
 ```
 
-`When` I `get` the first `gpg>` prompt, I type `uid 2` because `that` is the
-`uuid` I `want` to `delete` and `that` has the `incorrect` local
-`email address`. Then, `with` the second `gpg>` prompt I `get`, I type `deluid`,
-because I want to delete `uid 2`. Then it `prompts me` if I
-`Really remove this user ID? (y/N)` and I type `y`. And `finally`, with the last
-`gpg>` prompt, I `indicate` I `want` to `save` my `changes` by typing `y`.
+When I get the first `gpg>` prompt, I type uid 2 because that is the uuid I want
+to delete and that has the incorrect local email address. Then, with the second
+`gpg>` prompt I get, I type deluid, because I want to delete uid 2. Then it
+prompts me if I Really remove this user ID? (y/N) and I type `y`. And finally,
+with the last `gpg>` prompt, I indicate I want to save my changes by typing `y`.
 
-Now I can `check` to `make sure` the `edit` was `successful` by running
-`gpg --list-keys` again. And if `uid 1` is `no longer` listed `there`, I `know`
-that my `edit` was `successful`!
+Now I can check to make sure the edit was successful by running
+`gpg --list-keys` again. And if uid 1 is no longer listed there, I know that my
+edit was successful!
 
 ## Creating a revocation certificate for PGP key pair
 
-Next, I `want` to `make sure` that I `create` a `revocation certificate` for my
-`PHP key pair` in `case` if I `lose` my `keys` or if they have been
-`compromised`. One `should` do `this` before `actually starting` to `use` the
-`PGP keys`.
+Next, I want to make sure that I create a revocation certificate for my PHP key
+pair in case if I lose my keys or if they have been compromised. One should do
+this before actually starting to use the PGP keys.
 
-In `order` to `create` a `revocation certificate` associate with my `Maria` PGP
-key pair, I `do` the `following`:
+In order to create a revocation certificate associate with my Maria PGP key
+pair, I do the following:
 
 ```shell
 # command to create a revocation certificate
@@ -389,25 +374,24 @@ your machine might store the data and make it available to others!
 
 There are several ways of signing a file: sign, check, encrypt, decrypt.
 
--   The `--sign` or -s flag is used to sign a message/make a signature.
--   The `--clear-sign`flag is used to make a clear text signature.
--   The `--detach-sign` or `-b` flag is used to make a detached signature.
--   The `--verify` flag is used to verify a signature.
+- The `--sign` or -s flag is used to sign a message/make a signature.
+- The `--clear-sign`flag is used to make a clear text signature.
+- The `--detach-sign` or `-b` flag is used to make a detached signature.
+- The `--verify` flag is used to verify a signature.
 
-`In` this `article`, I `focus` on a (complete) `signature` created `with` the
-`--sign` or `-s` option.
+In this article, I focus on a (complete) signature created with the `--sign` or
+`-s` option.
 
-`When` we `use` the `--sign` or `s` flag on a `file`, the `file` is effectively
-`encrypted` with the `private key`. The `signature` is `created` using the
-`private key` of the `signer`, and the `signature` is `verified` using the
-corresponding `public key`. `As` mentioned `earlier`, the `public key` is
-`required` to `view` the `contents` of the `file`. This `forces` the `recipient`
-to `verify` the `origin` and `removes` any `clear text` content **[^4]** from
-transit. It is `not` private since `anyone` with the `public key` can `decrypt`
-the `file`.
+When we use the `--sign` or `s` flag on a file, the file is effectively
+encrypted with the private key. The signature is created using the private key
+of the signer, and the signature is verified using the corresponding public key.
+As mentioned earlier, the public key is required to view the contents of the
+file. This forces the recipient to verify the origin and removes any clear text
+content[^4] from transit. It is not private since anyone with the public key can
+decrypt the file.
 
-To `make` a `signature` on a `file` called `make_signature.txt` that `contains`
-the `following text`:
+To make a signature on a file called `make_signature.txt` that contains the
+following text:
 
 ```shell
 # command I used to both create the file and the file content:
@@ -422,13 +406,13 @@ gpg -s make_signature.txt
 
 ### Verifying the signature
 
-To `verify only` the `signature`, I `run` the `following command`:
+To verify only the signature, I run the following command:
 
 ```shell
 gpg --verify make_signature.txt.gpg
 ```
 
-Which `returns` the `following` in `Terminal`:
+Which returns the following in Terminal:
 
 ```shell
 gpg: Signature made Sat 10 Aug 2024 12:21:35 PM EDT
@@ -436,8 +420,8 @@ gpg:                using RSA key .......
 gpg: Good signature from "Maria (GPG key pair for local testing with correct email) <maria@maria-VirtualBox>" [ultimate]
 ```
 
-To `view` the `contents` AND `show` the `signature verification`, I `use` the
-`--decrypt` option:
+To view the contents AND show the signature verification, I use the `--decrypt`
+option:
 
 ```shell
 gpg --decrypt make_signature.txt.gpg
@@ -450,68 +434,66 @@ gpg: Good signature from "Maria (GPG key pair for local testing with correct ema
 
 ## Conclusion
 
-`In` this `article`, we `went over`:
+In this article, we went over:
 
--   what a digital signature is, why use them,
--   the digital signature process,
--   why they should be used with PGP (or PKI, but that is outside the scope of
-    this article),
--   how to create a digital signature using a PGP key pair (a form of asymmetric
-    encryption),
--   why asymmetric encryption is more secure than symmetric encryption,
--   how to edit a public PGP key, how to list the public PGP keys,
--   how to delete a PGP public key uid,
--   how to create a revocation certificate for a PGP key pair and why you should
-    have one,
--   how to make a signature, and how to verify it.
+- what a digital signature is, why use them,
+- the digital signature process,
+- why they should be used with PGP (or PKI, but that is outside the scope of
+  this article),
+- how to create a digital signature using a PGP key pair (a form of asymmetric
+  encryption),
+- why asymmetric encryption is more secure than symmetric encryption,
+- how to edit a public PGP key, how to list the public PGP keys,
+- how to delete a PGP public key uid,
+- how to create a revocation certificate for a PGP key pair and why you should
+  have one,
+- how to make a signature, and how to verify it.
 
-In my `next post` regarding `digital signatures`, I will `discuss` how to `make`
-a `detached signature` using a `PGP key pair` and `how` it differs from a
-complete `digital signature` using a `PGP key pair`. Stay tuned!
-
-## Footnotes
-
-**[^1]**: `CISA` stands for `Cybersecurity and Infrastructure Security Agency`.
-
-**[^2]**: When we create a `PGP` key, a `key pair` containing a `public key` and
-`private key` is `generated`. `We` can `share` the `public key` with `anyone`
-who `wishes` to `send` us `encrypted messages` or `files`, but the `private key`
-must be `known only` to `us` and is `used` to `decrypt` received `messages`.
-
-**[^3]**: According to
-[Wikipedia](https://en.wikipedia.org/wiki/Public_key_infrastructure),
-
-> `PKI`, or `Public Key Infrastructure`, is a set of roles, policies, hardware,
-> software and procedures needed to create, manage, distribute, use, store and
-> revoke digital certificates and manage public-key encryption.
->
-> The `purpose` of a `PKI` is to facilitate the secure electronic transfer of
-> information for a range of network activities such as e-commerce, internet
-> banking and confidential email. It is required for activities where simple
-> passwords are an inadequate authentication method and more rigorous proof is
-> required to confirm the identity of the parties involved in the communication
-> and to validate the information being transferred.
-
-**[^4]**: `Clear text` content means information or data that is transmitted or
-stored without any encryption or obfuscation.
+In my next post regarding digital signatures, I will discuss how to make a
+detached signature using a PGP key pair and how it differs from a complete
+digital signature using a PGP key pair. Stay tuned!
 
 ## Related Resources
 
--   [Public-key (asymmetric) Cryptography using GPG](https://medium.com/@GalarnykMichael/public-key-asymmetric-cryptography-using-gpg-5a8d914c9bca):
-    **_by Michael Galarnyk, medium.com_**
--   [How To Use GPG to Encrypt and Sign Messages](https://www.digitalocean.com/community/tutorials/how-to-use-gpg-to-encrypt-and-sign-messages):
-    **_by Justin Ellingwood, Digital Ocean_**
--   [Pretty Good Privacy (PGP) and Digital Signatures](https://www.linuxjournal.com/content/pretty-good-privacy-pgp-and-digital-signatures):
-    **_by Ankur Kothiwalm Linux Journal_**
--   [Making and verifying signatures](https://www.gnupg.org/gph/en/manual/x135.html):
-    **_The GNU Privacy Handbook_**
+- [Public-key (asymmetric) Cryptography using GPG](https://medium.com/@GalarnykMichael/public-key-asymmetric-cryptography-using-gpg-5a8d914c9bca):
+  _by Michael Galarnyk, medium.com_
+- [How To Use GPG to Encrypt and Sign Messages](https://www.digitalocean.com/community/tutorials/how-to-use-gpg-to-encrypt-and-sign-messages):
+  _by Justin Ellingwood, Digital Ocean_
+- [Pretty Good Privacy (PGP) and Digital Signatures](https://www.linuxjournal.com/content/pretty-good-privacy-pgp-and-digital-signatures):
+  _by Ankur Kothiwalm Linux Journal_
+- [Making and verifying signatures](https://www.gnupg.org/gph/en/manual/x135.html):
+  _The GNU Privacy Handbook_
 
 ## Asymmetric encryption and decryption series
 
--   [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
--   [Making and verifying a detached signature using a PGP key pair in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
--   [Making and verifying a cleartext digital signature using a PGP key pair in Linux](http://localhost:3000/blog/making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux)
--   [Using a specific PGP key pair for digital signing](/blog/using-a-specific-pgp-key-pair-for-digital-signing)
--   [Exchanging public keys using a PGP key pair](/blog/exchanging-keys-using-a-pgp-key-pair)
--   [Setting up and using the mutt email client in Linux](http://localhost:3000/blog/setting-up-and-using-the-mutt-email-client-in-linux)
--   [Sending encrypted emails and decrypting received emails using GnuPG](/blog/sending-encrypted-emails-and-decrypting-received-emails-using-gnupg)
+- [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
+- [Making and verifying a detached signature using a PGP key pair in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
+- [Making and verifying a cleartext digital signature using a PGP key pair in Linux](http://localhost:3000/blog/making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux)
+- [Using a specific PGP key pair for digital signing](/blog/using-a-specific-pgp-key-pair-for-digital-signing)
+- [Exchanging public keys using a PGP key pair](/blog/exchanging-keys-using-a-pgp-key-pair)
+- [Setting up and using the mutt email client in Linux](http://localhost:3000/blog/setting-up-and-using-the-mutt-email-client-in-linux)
+- [Sending encrypted emails and decrypting received emails using GnuPG](/blog/sending-encrypted-emails-and-decrypting-received-emails-using-gnupg)
+
+[^1]: CISA stands for "Cybersecurity and Infrastructure Security Agency".
+
+[^2]:
+    When we create a PGP key, a key pair containing a public key and private key
+    is generated. We can share the public key with anyone who wishes to send us
+    encrypted messages or files, but the private key must be known only to us
+    and is used to decrypt received messages.
+
+[^3]:
+    PKI, or Public Key Infrastructure, is a set of roles, policies, hardware,
+    software and procedures needed to create, manage, distribute, use, store and
+    revoke digital certificates and manage public-key encryption. The purpose of
+    a PKI is to facilitate the secure electronic transfer of information for a
+    range of network activities such as e-commerce, internet banking and
+    confidential email. It is required for activities where simple passwords are
+    an inadequate authentication method and more rigorous proof is required to
+    confirm the identity of the parties involved in the communication and to
+    validate the information being transferred. --
+    [Wikipedia](https://en.wikipedia.org/wiki/Public_key_infrastructure)
+
+[^4]:
+    Clear text content means information or data that is transmitted or stored
+    without any encryption or obfuscation.
