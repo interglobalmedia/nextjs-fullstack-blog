@@ -1,24 +1,79 @@
 ---
 slug: narrowly-escaping-the-need-to-remove-giscus
 date: '2022-07-23T10:08:27.679Z'
-lastModified: '2022-07-23T10:08:27.679Z'
+lastModified: '2026-05-31T12:57:27.679Z'
 title: Narrowly Escaping the Need to Remove Giscus
 author: Maria D. Campbell
-excerpt: Narrowly escaping the need to remove Giscus.
+excerpt:
+    'How a CSP conflict between Giscus and Twitter tweet embeds in Next.js led
+    me to discover static tweets as a better solution.'
 image: raphael-biscaldi-XvnpKTPOplg-unsplash.webp
-tags: ['giscus', 'nextjs', 'static tweets', 'tweet embeds']
+tags: ['csp', 'giscus', 'nextjs', 'static tweets', 'tweet embeds']
 isPublished: true
 isFeatured: false
 ---
 
-![Narrowly Escaping the Need to Remove Giscus](raphael-biscaldi-XvnpKTPOplg-unsplash.webp)
+![A dark, narrow, inclined path encompassed by a row of buildings on either side leading to the light of day by Raphael Biscaldi](raphael-biscaldi-XvnpKTPOplg-unsplash.webp)
 
-***Photo by*** [Raphael Biscaldi](https://unsplash.com/@les_photos_de_raph) ***on*** [unsplash.com](https://unsplash.com/@les_photos_de_raph)
+_[Photo by](https://unsplash.com/photos/brown-concrete-buildings-XvnpKTPOplg)_
+[Raphael Biscaldi](https://unsplash.com/@les_photos_de_raph) _on_
+[unsplash.com](https://unsplash.com/)
 
-`Two` of my `posts`, one from several years ago, and one very recent,
-**_contain_** `tweets`. However, I was **_not_** initially **_able_** to
-`embed tweets` due to the `CSP` **_defined_** in my `next.config.js` file.
-**_Initially_**, it **consisted** of the **_following_** (and **_still does_**):
+## Table of Contents
+
+- [What is CSP and what is its role in relation to Next.js?](#what-is-csp-and-what-is-its-role-in-relation-to-nextjs)
+- [Key CSP fetch directives used in Next.js](#key-csp-fetch-directives-used-in-nextjs)
+- [Content Security Policy and Next.js](#content-security-policy-and-nextjs)
+- [Adding the frame-src fetch directive to ContentSecurityPolicy](#adding-the-frame-src-fetch-directive-to-contentsecuritypolicy)
+- [Static tweets without blockquotes](#static-tweets-without-blockquotes)
+- [React static tweets](#react-static-tweets)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
+
+**Note 5.31.26:** This post refers to a former blog I created with Next.js and a
+blog starter called Tailwind Next.js Starter Blog. I no longer have it hosted on
+GitHub. But the starter is still there if you are interested in checking it out.
+Be aware, however, that it has undergone quite a few changes since I wrote this
+post. To compare v1 code (which was released in January 2021) to v2 code (which
+was released in September 2023) please visit
+[Tailwind Next.js Starter Blog v1](https://github.com/timlrx/tailwind-nextjs-starter-blog/tree/9a6f4efbb8aefbcbb3df200026b099c1161e8dc5)
+and
+[Tailwind Next.js Starter Blog v2](https://github.com/timlrx/tailwind-nextjs-starter-blog/tree/fef559b2470b84d53f525eb526df73a039ea2168)
+on GitHub.
+
+## What is CSP and what is its role in relation to Next.js?
+
+In order to understand why Twitter tweet embeds were problematic and potentially
+didn't work at all in Next.js, I had to have a better understanding of the
+Content Security Policy (CSP) header and its role in Next.js.
+
+Content Security Policy (CSP) is crucial to Next.js security. It lets me control
+exactly what my pages can load, which is the main defense against XSS attacks.
+
+## Key CSP fetch directives used in Next.js
+
+| Fetch Directive | Description                                                     |
+| --------------- | --------------------------------------------------------------- |
+| default-src     | Default source for all content types                            |
+| connect-src     | Restricts the URLs which can be loaded using script interfaces. |
+| script-src      | Specifies valid sources for JavaScript.                         |
+| img-src         | Defines allowed sources for images.                             |
+| style-src       | Controls where styles can be loaded from.                       |
+
+To view the full list of CSP fetch directives and what each does, please visit
+[Content-Security-Policy (CSP) header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy#fetch_directives)
+in the MDN documentation.
+
+## Content Security Policy and Next.js
+
+I had to get better acquainted with CSP as it relates to Next.js when I wanted
+to add Twitter tweet embeds to my `.mdx` posts.
+
+Two of my posts, one from several years ago, and one very recent, contain
+tweets. However, I was not initially able to embed tweets due to the CSP defined
+in my `next.config.js` file for my Next.js site. Initially, it consisted of the
+following (and still does):
 
 ```js
 const ContentSecurityPolicy = `
@@ -31,12 +86,92 @@ const ContentSecurityPolicy = `
 `
 ```
 
-But I **_wanted_** to **be able** to `embed tweets` using
-`platform.twitter.com/widjets.js`. Because of `CSP`, I was **_not able_** to do so **_out of_** the **_box_**. I **_had heard_** that `tweet embeds` did **_not_** perform well with `Next.js` (and **_in general_**), and I **_wanted_** to **_see_** for **myself** what that **_entailed_**, **_before_** I went down **_another route_**.
+`script-src 'self'` indicates where scripts can be loaded from. It allows
+scripts from same origin ('self' aka the site). `'unsafe-eval'` allows for the
+execution of JavaScript code from strings, such as using the `eval()` function.
+`'unsafe-inline'` allows for inline scripts, and `plausible.io giscus.app;`
+allows for scripts from `plausible.io` and `giscus.app`.
 
-It **_took_** some **_trial_** and **_error_** to **figure out** how to
-**_enable_** `tweet embeds` using `platform.twitter.com/widjets.js`, but I
-**_did_** end up **_being successful_**. This **_meant_**, **however**, that I **_had_** to **_remove_** `Giscus` from my `site` **_as well_**. My `CSP` **config** ended up (**_temporarily_**) being the **_following_**:
+Technically, including 'unsafe-eval' and 'unsafe-inline' is risky, but necessary
+if I wanted to connect to either `plausible.io` for site analytics and
+`giscus.app` for GitHub-hosted blog post comments.
+
+`img-src *` means that images can be loaded from any source (represented by the
+`*` aka wildcard). `blob:` means that images can be loaded from blob URLS
+(images that are created in memory). `data:` means that images can be loaded
+from data URLS (images embedded in HTML). This directive allows me to link to
+external images on sites such as `pexels.com`, `unsplash.com`, and
+`pixabay.com`.
+
+`media-src 'none';` means that no media files can be loaded on the Next.js site.
+Preventing any media files from being loaded or displayed blocks unauthorized
+media content and bolsters site security.
+
+`connect-src *;` means my Next.js application could connect to any URL to fetch
+resources such as APIs or WebSockets. Allowing for unrestricted connections
+potentially poses security risks, but again, I wanted to be able to connect to
+various APIs and WebSockets. In hindsight, it would have been better if I had
+done `connect-src 'self'` followed by something like the following:
+
+```js
+const ContentSecurityPolicy = `
+  // Include individual api URLs or websockets
+  connect-src 'self' https://api.example.com;
+`
+```
+
+`font-src 'self';` means that only fonts loaded from origin (the site itself)
+can be used which prevents font loading from unauthorized sources. This worked
+well as I configured font loads from `'next/font/google'` in the `_app.js` file.
+I follow the same approach for fonts on this current site. I do the following in
+`_app.js`:
+
+```js
+import { Inconsolata, Oswald } from 'next/font/google'
+
+const inconsolata = Inconsolata({
+	weight: ['300', '400', '700'],
+	subsets: ['latin'],
+	display: 'optional',
+})
+
+const oswald = Oswald({
+	weight: ['300', '400', '700'],
+	subsets: ['latin'],
+	display: 'optional',
+	variable: '--oswald-font',
+})
+```
+
+`next/font` is part of the `next` dependency and was developed to improve font
+management and performance in Next.js. Normally, when I would import external
+Google fonts into either my JS/CSS/HTML or React applications and then ran
+Lighthouse audits, external Google fonts did not load quickly. This hurt site
+performance.
+
+`frame-src` indicates which sources can be used for embedding frames (i.e.,
+iframes) in Next.js markdown. As for `giscus.app`, I needed to add it to the
+`frame-src` directive so that Giscus comments would load properly. However, I
+also needed to add it to the `script-src` directive along with 'unsafe-eval' and
+'unsafe-inline' in order to be able to load the `plausible.io` and `giscus.app`
+scripts, also necessary for the proper implementation of Plausible analytics and
+Giscus comments.
+
+I also wanted to be able to embed tweets using
+`platform.twitter.com/widgets.js`[^1]. Because of CSP, I was not able to do so
+out of the box. I had heard that tweet embeds did not perform well with Next.js
+(and in general), and I wanted to see for myself what that entailed, before I
+went down another route.
+
+## Adding the frame-src fetch directive to ContentSecurityPolicy
+
+In order for a Twitter tweet embed to even have a chance to work in Next.js, I
+would have to add some kind of CSP fetch directive to my `next.config.js` file.
+
+It took some trial and error to figure out how to enable tweet embeds using
+`platform.twitter.com/widgets.js`, but I did end up being somewhat successful.
+This meant, however, that I had to remove `Giscus` from my site. My CSP config
+ended up (temporarily) being the following:
 
 ```js
 const ContentSecurityPolicy = `
@@ -49,40 +184,127 @@ const ContentSecurityPolicy = `
 `
 ```
 
-The `performance` of my `Twitter` **_tweet embeds_** was `terrible`, just as I had heard. Originally I had **_styled_** the `text` and `links` with a
-`blockquote`, and that is **_also_** the `markup` for the` Twitter` **_tweet
-embeds_**. So when I would **_land_** on a `post` that **_contained_** a
-`tweet embed`, it **_looked like_** one of **_my blockquotes_** and **_not_** a `Twitter` **tweet embed**! I had to **_reload_** the `page` in order for the `embed` to **_render_**. **_What_** was the **_point_** in **_sacrificing_** `Giscus` for a `tweet embed` that **_looked exactly_** `like` my `hack`?
+The performance of my Twitter tweet embeds was terrible, just as I had heard.
+Originally I had styled the text and links with a blockquote, and that is also
+the markup for the Twitter tweet embeds. So when I would land on a post that
+contained a tweet embed, it looked like one of my blockquotes and not a tweet
+embed. I had to reload the page in order for the embed to render properly. What
+was the point in sacrificing `Giscus` for a tweet embed that looked exactly like
+my hack?
 
-I **_reverted back_** to my **_original_** `CSP` **config**. Then I **_went
-on_** to **_research_** my `tweet embed` **_issue_** further.
+I reverted back to my original CSP config. Then I went on to research my tweet
+embed issue further.
 
-After some research, I `came across` **_another solution_**: to **_add tweets_** to my `mdx` **posts** in the **_form_** of `static tweets`: `tweets` **_without_** the **use** of `JavaScript`, or **_more precisely_**, **_inline_** `script tags` **_inside_** my `mdx` **posts**.
+## Static tweets without blockquotes
 
-**_First_** I **came across** an **approach** in which I would **_basically_** be **_creating_** the **_equivalent_** of **_my own_** `static tweet` **plugin**, which **_also happened_** to be **_built_** with `Typescript`, which I do NOT use in my `Next.js` **site**. I **_tried_** to **_refactor_** the `Typescript React` into `JavasScript React`, but **_hit_** a **_wall_** at one point. **_In addition_**, the `structural approach` of `Maxime Heckel`’s `site` **_differed somewhat_** from **_mine_**, so it would have taken **_even longer_** to **_decipher_**. Were **_authentic looking_** `tweet embeds` THAT IMPORTANT to me to **_spend_** so much time on **_at this point_** in the **game**? Honestly, **_no_**. I also had **_too many_** other **_things_** on **_my plate_** to **_deal with_**. I was **_going_** to **_leave_** that `implementation` to **_another_** and **_more propitious_** `time`.
+After some research, I came across another solution: to add tweets to my mdx
+posts in the form of `static tweets`: tweets without the use of JavaScript, or
+more precisely, inline script tags inside my mdx posts (which wasn't a good idea
+anyway).
 
-But **_then_** I came across an `npm module` called ‘react-static-tweets’`, and **_decided_** to **give it** a **_shot_**. It DOES work. On **_initial load_**, in a `post` that contains **_only one_** `tweet embed`, the `tweet` takes a **_half_** a **_second_** to a **_full second_** to **load**. After that, it will **_always appear_** during the **_current_** `site visit`. **_However_**, on the `post` in which I have **_several_** `tweet embeds`, for **_all_** of **_them_** to **load**, it **_takes longer_** on **_first load_**. After that, they **_always appear_** for the **_current_** `site visit`. The **_same_** delayed process **_occurs_** with **_each_** `site visit` for **_multiple_** `tweet embeds` on **_one page_**.
+I came across an approach in which I would basically be creating the equivalent
+of my own static tweet plugin. It also happened to be built with TypeScript,
+which I did not end up using. I use JavaScript in my Next.js projects. I tried
+to refactor the TypeScript React into JavaScript React but hit a wall. In
+addition, the structural approach of the developer's site (Maxime Heckel[^2])
+differed somewhat from mine, so it would have taken even longer to decipher.
 
-No, it is **_not perfect_**. Yes, I **_will have_** to **mention** something
-about it in my `FAQs` **page**. Will I be **_revisiting_** this? Yes. When
-`tweet embeds`**_become_** more `predominant/important` on my `site`. But **_for now_**, this **approach** will **_have_** to **_do_**. And the `performance` of the **_single_** `tweet embed` in the **_recent post_** is **_quick enough_**. I am **_glad_**, however, that I did **_not_** have to **_give up_** `Giscus` for **_actual_** `Twitter` **_tweet embeds_** using
-`platform.twitter.com/widgets.js`, **which have** such **_poor performance_**!
+Were authentic looking tweet embeds THAT IMPORTANT to me to spend so much time
+on at this point in the game? Honestly, no. I also had too many other things on
+my plate to deal with. I was going to leave that implementation to a better
+time.
 
-**Note**: It **_will_** be worth **_revisiting_** Maxime’s `code`, because his `tweets` are **_already rendered_** to the **page** when you **_land_** on it. There is **_no delay_** whatsoever. He really **_did do_** a **beautiful job** of **_creating_** `static tweets`.
+## React static tweets
 
-`react-static-tweets` **_also provides_** an `SSR` (`server side rendering`)
-**approach**, which **_might_** be worth **_testing out_**.
+Then I came across an npm module called `react-static-tweets`[^3], and decided
+to give it a shot. It DOES work...kind of. On initial load, in a post that
+contains only one tweet embed, the tweet takes a half a second to a full second
+to load. After that, it always appears correctly during the current site visit.
+However, in the post in which I have several tweet embeds, for all of them to
+load, it takes much longer on first load. After that, they always appear
+correctly for the current site visit. The same delayed process occurs with each
+site visit for multiple tweet embeds on one page.
+
+No, it is not perfect. Will I be revisiting this? Yes. When tweet embeds become
+more predominant/important on my site. But for now, the blockquote approach will
+have to do. I am glad, however, that I did not have to give up Giscus for
+Twitter tweet embeds using `platform.twitter.com/widgets.js`, which perform so
+poorly!
+
+It would be worth revisiting Maxime’s code[^4], because his tweets are already
+rendered to the page when you land on it. There is no delay whatsoever because
+there is no dynamic code involved. He really did do a beautiful job of creating
+static tweets.
+
+Even though I decided not to go with `react-static-tweets`, it does also provide
+an SSR (server side rendering) approach, which might be worth testing out one
+day.
+
+## Conclusion
+
+In this post, I discuss the pros and cons of selecting one risky feature such as
+Twitter tweet embeds which could present security vulnerabilities to my Next.js
+site over another such as Giscus comments, and whether pursuing yet another safe
+but more complex feature such as Maxime Heckel's static tweets were worth the
+time and energy. In the end, I decided it wasn't worth using a risky feature
+such as Twitter tweet embeds that hurt my Next.js site's performance. I also
+decided it wasn't worth trying to adapt code which I couldn't completely
+decipher, so I stuck with my Twitter tweet blockquotes and Giscus comments.
+Sometimes it is best and most efficient to go with a known entity that works
+instead of a mediocre or lesser known one.
 
 ## Related Resources
 
--   [Static Tweets with MDX and Next.js](https://blog.maximeheckel.com/posts/static-tweets-with-mdx-nextjs/): by **_Maxime Heckel_**
+- [Static Tweets with MDX and Next.js](https://blog.maximeheckel.com/posts/static-tweets-with-mdx-nextjs/):
+  by _Maxime Heckel_
 
--   [react-static-tweets](https://www.npmjs.com/package/react-static-tweets): on the **_NPM Registry_**
+- [react-static-tweets](https://www.npmjs.com/package/react-static-tweets): on
+  the _NPM Registry_
 
--   [Why You Should Use the NPKill Node Module](/blog/why-you-should-use-the-npkill-node-module): ***mariadcampbell.com***
+- [Embedded tweets take a toll on your website performances!](https://www.indiehackers.com/post/embedded-tweets-take-a-toll-on-your-website-performances-df0515e807):
+  _by Guillaume_
 
--   [Embedded tweets take a toll on your website performances!](https://www.indiehackers.com/post/embedded-tweets-take-a-toll-on-your-website-performances-df0515e807): 
-***by Guillaume***
+- [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP):
+  _MDN documentation_
+- [Content-Security-Policy (CSP) header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy#fetch_directives):
+  _MDN documentation_
 
+[^1]:
+    Twitter is now called X, owned by Elon Musk, and X's embed infrastructure
+    and API have significantly changed since 2022.
 
+[^2]:
+    Maxime Heckel developed a Twitter static tweet using TypeScript React and
+    wrote about it in a post entitled
+    [Static Tweets with MDX and Next.js](https://blog.maximeheckel.com/posts/static-tweets-with-mdx-nextjs/).
+    His post is included in the [Related Resources](#related-resources) section
+    above.
 
+[^3]:
+    The `react-static-tweets` has been deprecated, replaced by `react-tweet`,
+    developed and maintained by Vercel, creator of Next.js. Purportedly it is
+    still actively maintained by Vercel on
+    [GitHub](https://github.com/vercel/react-tweet) followed by documentation on
+    the [react-tweet demo site](https://react-tweet.vercel.app). Vercel did
+    upgrade `react-tweet` dependencies in December 2025, but the last major
+    release before that was in 2023. And when I clicked on the link to the
+    react-tweet demo, I got the following:
+
+    ![Screenshot of a deployed embedded tweet which could not be found](Screenshot-2026-05-31-at-3.45.54-AM.webp)
+
+    _Image of an embedded tweet not found on the react-tweet demo site hosted on
+    vercel.com_
+
+    Given the sparse maintenance of the `react-tweet` package and limited
+    documentation, I personally would not pursue implementing `react-tweet`.
+
+[^4]:
+    I ended up creating my own static tweet by adapting a custom figure element
+    component I had created for my post images to static tweets on my Tailwind
+    Next.js Starter Blog site, and it worked very well. However, it is not
+    possible to replicate that here. I would have to do some major refactoring
+    of the site to make that happen. I might add that feature in future,
+    depending on how important I think it is to implement. To read my post
+    regarding creating a static tweet component from a figure element component,
+    please visit
+    [Applying How I created a Figure element component to creating a Static Text Tweet component](/blog/applying-how-i-created-a-figure-element-component-to-creating-a-static-text-tweet-component).
