@@ -140,3 +140,9 @@ blockquote {
 .dark .content table {
 	color: $white;
 }
+
+/* Footnote number styling */
+
+p sup a {
+	font-size: 1rem;
+}
