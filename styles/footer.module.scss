@@ -1,6 +1,7 @@
 /* color variables 2 */
 $peppermint-blush-white: #f2ebe3;
 $tailwind-peppermint-green: #14b8a6;
+
 /* @use functions */
 @use 'sass:color';
 
@@ -110,7 +111,10 @@ $tailwind-peppermint-green: #14b8a6;
 	width: 14rem;
 
 	&:hover {
-		background: color.adjust($tailwind-peppermint-green, $lightness: -12.5%);
+		background: color.adjust(
+			$tailwind-peppermint-green,
+			$lightness: -12.5%
+		);
 		transition: background-color 1.5s ease-in-out;
 	}
 }
