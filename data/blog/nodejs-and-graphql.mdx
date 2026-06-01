@@ -4,38 +4,55 @@ date: '2019-07-30T09:38:26.861Z'
 lastModified: '2024-06-24T09:38:26.861Z'
 title: Nodejs and graphql
 author: Maria D. Campbell
-excerpt: I first learned about and started using graphql with GatsbyS, and I loved it, but I really got to know more about it when I learned how to use it for the backend with Nodejs.
+excerpt:
+    I first learned about and started using graphql with GatsbyS, and I loved
+    it, but I really got to know more about it when I learned how to use it for
+    the backend with Nodejs.
 image: kristopher-roller-PC_lbSSxCZE-unsplash.webp
 tags: ['graphql', 'nodejs', 'backend development']
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
 ![Nodejs and graphql](kristopher-roller-PC_lbSSxCZE-unsplash.webp)
 
-***Photo by*** [Kristopher Roller](https://unsplash.com/@krisroller) ***on*** [unsplash.com](https://unsplash.com/photos/PC_lbSSxCZE)
+**_Photo by_** [Kristopher Roller](https://unsplash.com/@krisroller) **_on_**
+[unsplash.com](https://unsplash.com/photos/PC_lbSSxCZE)
 
 I first learned about and started using [graphql](https://graphql.org/) with
-[GatsbyJS](gatsbyjs.org/). I loved it. But I really got to know more about it when I learned how to use it for the backend with [Nodejs](https://nodejs.org/en/).
+[GatsbyJS](gatsbyjs.org/). I loved it. But I really got to know more about it
+when I learned how to use it for the backend with
+[Nodejs](https://nodejs.org/en/).
 
-Natively, [graphql](https://graphql.org/) is used as a backend tool to send data quickly and seamlessly to the frontend. When used with [Nodejs](https://nodejs.org/en/) in the backend, it works somewhat differently than when used with [GatsbyJS](gatsbyjs.org/), for example. [GatsbyJS](gatsbyjs.org/) does use [Nodejs](https://nodejs.org/en/) behind the
-scenes, and in some ways it may even look similar to the way it is used directly with [Nodejs](https://nodejs.org/en/), but there are **_definitely_** **differences**. However, I will leave that comparison for another post.
+Natively, [graphql](https://graphql.org/) is used as a backend tool to send data
+quickly and seamlessly to the frontend. When used with
+[Nodejs](https://nodejs.org/en/) in the backend, it works somewhat differently
+than when used with [GatsbyJS](gatsbyjs.org/), for example.
+[GatsbyJS](gatsbyjs.org/) does use [Nodejs](https://nodejs.org/en/) behind the
+scenes, and in some ways it may even look similar to the way it is used directly
+with [Nodejs](https://nodejs.org/en/), but there are **_definitely_**
+**differences**. However, I will leave that comparison for another post.
 
 According to [graphql.org](https://graphql.org/),
 
 > GraphQL is a query language for APIs and a runtime for fulfilling those
-queries with your existing data. GraphQL provides a complete and
-understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolven APIs over time, and enables powerful developer tools.
+> queries with your existing data. GraphQL provides a complete and
+> understandable description of the data in your API, gives clients the power to
+> ask for exactly what they need and nothing more, makes it easier to evolven
+> APIs over time, and enables powerful developer tools.
 
 In addition,
 
-> traditional APIs requiring loading from multiple urls, graphql APIs get all the data one needs in a single request.
+> traditional APIs requiring loading from multiple urls, graphql APIs get all
+> the data one needs in a single request.
 
-For example, in my first [Nodejs](https://nodejs.org/en/), [MongoDB](https://www.mongodb.com/), [React](https://reactjs.org/), and
-[graphql](https://graphql.org/) app I just completed recently, I got all the data I needed from the backend in the frontend using a graphql middleware which I set up via the npm package `express-graphql`. The
-only `"POST"` request made is to a `/graphql` endpoint set up via the
-**middleware** and made possible with the use of `express-graphql` and
-`expressjs`.
+For example, in my first [Nodejs](https://nodejs.org/en/),
+[MongoDB](https://www.mongodb.com/), [React](https://reactjs.org/), and
+[graphql](https://graphql.org/) app I just completed recently, I got all the
+data I needed from the backend in the frontend using a graphql middleware which
+I set up via the npm package `express-graphql`. The only `"POST"` request made
+is to a `/graphql` endpoint set up via the **middleware** and made possible with
+the use of `express-graphql` and `expressjs`.
 
 ```js
 // server.js
@@ -504,16 +521,29 @@ class Feed extends Component {
 export default Feed
 ```
 
-Basically, the **frontend**, or **client**, sends a `request` to the **server** (or backend) for data. It fetches that data via the single `/graphql` **endpoint** defined on the backend and placed in my case, in a
+Basically, the **frontend**, or **client**, sends a `request` to the **server**
+(or backend) for data. It fetches that data via the single `/graphql`
+**endpoint** defined on the backend and placed in my case, in a
 `fetchAPI POST request` on the **frontend**. The data is rendered on the
 frontend thanks to `graphql queries` which are **defined** right before each
-related `fetch() request` and then passed into the `React JSX` which does the actual rendering of the `graphql data` to the page. For those of you familiar with [GatsbyJS](https://www.gatsbyjs.org/), this process would not be unfamiliar to you.
+related `fetch() request` and then passed into the `React JSX` which does the
+actual rendering of the `graphql data` to the page. For those of you familiar
+with [GatsbyJS](https://www.gatsbyjs.org/), this process would not be unfamiliar
+to you.
 
 There is much more to this than I am discussing today, but my whole point is
 that I am very excited about what [graphql](https://graphql.org/) does for
-**full stack development**. It definitely makes the **backend developer**'s life much easier, it makes the **frontend developer**'s life much easier, it makes the connection between the **front** and **backend** more seamless because of their **independence** from each other, and therefore allows for **development decoupling** of the **back** and **frontend**. If done correctly, and everyone is on the same page as to what kind of data to define, the **frontend** no longer has to wait for the **backend** to develop its code in order to start development on the **frontend**, and vice versa.
+**full stack development**. It definitely makes the **backend developer**'s life
+much easier, it makes the **frontend developer**'s life much easier, it makes
+the connection between the **front** and **backend** more seamless because of
+their **independence** from each other, and therefore allows for **development
+decoupling** of the **back** and **frontend**. If done correctly, and everyone
+is on the same page as to what kind of data to define, the **frontend** no
+longer has to wait for the **backend** to develop its code in order to start
+development on the **frontend**, and vice versa.
 
-Last of all, [graphql](https://graphql.org/) has a powerful **developer tool** called `graphiql` which is the `in-browser IDE` for **testing** your
+Last of all, [graphql](https://graphql.org/) has a powerful **developer tool**
+called `graphiql` which is the `in-browser IDE` for **testing** your
 `graphql queries`. That is also the link we are provided with when running
 `npx gatsby develop` with [GatsbyJS](https://www.gatsbyjs.org/) as well. If
 using [GatsbyJS](https://www.gatsbyjs.org/), it would be:
@@ -523,7 +553,8 @@ http://localhost:8000/graphql
 ```
 
 In my **app** in `server.js`, I set the property `graphiql: true,` in the
-`express-graphql` **middleware**. It has to be **set** to `true` in order to be able to access this `graphql IDE`. Not quite sure how it is done with
+`express-graphql` **middleware**. It has to be **set** to `true` in order to be
+able to access this `graphql IDE`. Not quite sure how it is done with
 [GatsbyJS](https://graphql.org/), but I am sure that there must be a way of
 finding that out!
 
@@ -532,11 +563,15 @@ Using [GraphQL](https://graphql.org/) with [Nodejs](https://nodejs.org/en/),
 [MongoDB](https://www.mongodb.com/) differs (of course) from the
 [GraphQL](https://graphql.org/) experience in
 [GatsbyJS](https://www.gatsbyjs.org/) since the former is working with
-**_dynamic_**, persistent data retrieved from a backend database and which can be added, edited (or updated), and deleted, whereas
+**_dynamic_**, persistent data retrieved from a backend database and which can
+be added, edited (or updated), and deleted, whereas
 [GatsbyJS](https://www.gatsbyjs.org/) is a **_frontend_** **static site
 generator** which uses `Static Queries` also known by the `<StaticQuery>`
-component, or since [GatsbyJS](https://www.gatsbyjs.org/) version `2.1.0`, the `<useStaticQuery>` component. The only way one could **_change_** this static data is either by introducing **_new_** static properties to the
-`graphql queries` or removing existing ones! But once added, they do not change, because, of course, they are static!
+component, or since [GatsbyJS](https://www.gatsbyjs.org/) version `2.1.0`, the
+`<useStaticQuery>` component. The only way one could **_change_** this static
+data is either by introducing **_new_** static properties to the
+`graphql queries` or removing existing ones! But once added, they do not change,
+because, of course, they are static!
 
 To learn more about pure [graphql](https://graphql.org/) outside of
 [GatsbyJS](https://www.gatsbyjs.org/), visit
@@ -544,5 +579,4 @@ To learn more about pure [graphql](https://graphql.org/) outside of
 
 ## Related Resources
 
--   [graphql.org](https://graphql.org/)
-
+- [graphql.org](https://graphql.org/)
