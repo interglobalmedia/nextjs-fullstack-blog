@@ -1,7 +1,7 @@
 ---
 slug: nextjs-environment-variable-support-and-the-envlocal-file
 date: '2023-02-19T12:04:21.055Z'
-lastModified: '2023-02-20T13:14:21.055Z'
+lastModified: '2026-06-01T11:24:21.055Z'
 title: Next.js Environment Variable Support and the .env.local File
 author: Maria D. Campbell
 excerpt: Next.js environment variable support and the .env.local file.
@@ -13,30 +13,83 @@ isFeatured: false
 
 ![Tree supported by large wooden hand](neil-thomas-SIU1Glk6v5k-unsplash.jpg)
 
-***Photo by*** [Neil Thomas](https://unsplash.com/@finleydesign) ***on*** [Unsplash](https://unsplash.com/photos/SIU1Glk6v5k)
+_[Photo](https://unsplash.com/photos/SIU1Glk6v5k) by_
+[Neil Thomas](https://unsplash.com/@finleydesign) _on_
+[Unsplash](https://unsplash.com/)
 
-***Previously***, I had ***written*** a `post` about ***using*** `dotenv` with `Next.js`, and ***also adding*** the `NEXT_PUBLIC` ***prefix*** in ***front*** of `environment variable` ***names***. ***Adding*** `NEXT_PUBLIC` and then ***placing*** `process.env` ***in front*** of the `environment variable` ***name*** and ***using*** it ***directly*** like that in your code will ***expose*** it to the `browser`. And you ***have*** to ***add*** `NEXT_PUBLIC` in ***order*** for ***that*** to ***happen***.  So ***something*** like the ***following***:
+## Table of Contents
+
+- [Why the NEXT_PUBLIC prefix and process.env are used with environment variables in Next.js recap](#why-the-next-public-prefix-and-processenv-are-used-with-environment-variables-in-nextjs-recap)
+- [The importance of the env.local file](#the-importance-of-the-envlocal-file)
+- [Next.js provides us with three different environments](#nextjs-provides-us-with-three-different-environments)
+- [Environment variable naming](#environment-variable-naming)
+- [Related Resources](#related-resources)
+- [Conclusion](#conclusion)
+
+**Note 5.31.26:** The current version of Next.js has changed since the original
+publication of this post. When it was published in February 2023,
+`Next.js 13+ < 13.4` was the current version. `Next.js 13.4` was released in
+May 2023. Now I am at `Next.js 16.2.6`. Environment variables are still
+supported, but the way they are loaded and accessed has changed. These changes
+were introduced in Next.js 15 which was released in October 2024. The biggest
+change was the introduction of` @next/env`, which replaced `next/env`.
+`next/env` was introduced in Next.js 12 which was released October 26, 2021.I
+built my `interglobalmedia-tailwind-nextjs` application with it. I had to use
+environment variables in my `interglobalmedia-tailwind-nextjs` application
+because I used Plausible analytics, Giscus comments, and ConvertKit, all of
+which needed to be exposed in the browser in order to work. I did not need to
+use environment variables to store any sensitive information. I am currently not
+using any environment variables here. To learn more about the newer `@next/env`
+introduced in Next.js 15, please visit the
+[Related Resources](#related-resources) section of this post.
+
+## Why the NEXT_PUBLIC prefix and process.env are used with environment variables in Next.js recap
+
+Previously, I had written a post entitled
+[Why being able to use dotenv with Next.js is so huge](/blog/why-being-able-to-use-dotenv-with-nextjs-is-so-huge)
+about using the `dotenv` npm package with `Next.js`, and why we add the
+`NEXT_PUBLIC` prefix in front of environment variable names. Adding
+`NEXT_PUBLIC`, then placing `process.env` in front of the environment variable
+name and using it directly in your code will expose it to the browser. You have
+to add `NEXT_PUBLIC` to make it happen. Something like the following:
 
 ```js
 const data = { email, api_key: process.env.NEXT_PUBLIC_CONVERTKIT_API_KEY }
 ```
 
-would be ***exposed*** to the `browser`. ***However***, the ***following***:
+would be exposed to the browser. However, the following:
 
 ```js
 const API_KEY = process.env.NEXT_PUBLIC_CONVERTKIT_API_KEY
 const data = { email, api_key: API_KEY }
 ```
 
-***would not***, ***because*** it is ***saved*** as the `value` of a `variable`. And ***that*** is the ***way*** I have ***always*** ***approached*** my `environment variables`, ***especially*** when using `dotenv`. ***Which*** is ***what*** I ***do*** in the ***case*** of my `business site`. 
+would not, because it is saved as the value of a variable. And that is the way I
+have always approached my environment variables, especially when using `dotenv`.
 
-***However***, I ***found out*** later, that ***this*** is `redundant` with `Next.js`. It is ***not necessary*** to ***use*** `dotenv` in ***order*** to ***be able*** to ***extract*** one’s `environment variable` ***values*** from the `.env.local` ***file***. 
+However, I found out later, that using the `dotenv` package is redundant with
+Next.js. It is not necessary to use `dotenv` in order to be able to extract
+one’s environment variable values from the `.env.local` file.
 
-It is ***important*** to ***note*** that you ***have*** to ***save*** your `environment variables` in your `.env.local` ***file***. ***That*** is ***where*** `Next.js` ***expects*** you to ***keep*** your `secrets`. 
+## The importance of the env.local file
 
-It is ***also*** (***most***) ***important*** to ***note*** that you ***have*** to ***add*** your `.env.local` ***file*** to your `.gitignore` ***file*** ***immediately*** `upon creation` of your ***project*** ***before*** having `committed` and `pushed` any ***changes*** to ***remote***. This is ***both*** so you ***don't forget*** to do so ***later***, and to ***ensure*** that your `sensitive information` ***stored*** as the `values` of your `variables` are ***never exposed*** on `Github` or ***wherever else***. `Next.js'` `create-next-app` ***does create*** a `.gitignore` ***file*** for you, and ***does include*** the `.env*.local` file ***there*** for you ***already***, ***but*** if you are ***new*** to ***all this***, it is ***good practice*** to ***double check*** the ***file***. The `.env` ***file*** is NOT ***added there***. That is ***meant*** for ***non-sensitive***, ***default*** `env var` ***values***, and ***therefore*** does ***not need*** to be ***included*** in `.gitignore`.
+It is important to note that you have to save your environment variables in your
+`.env.local` file. That is where Next.js expects you to keep your secrets.
 
-***Below*** is ***what*** I ***have*** in my `next.config.js` ***file*** for my `Next Blog` which I am ***in*** the ***process*** of ***building***, and ***in which*** I ***have*** set up ***both*** `environment variables` for `development` and `production`:
+It is also (most) important to note that you have to add your `.env.local` file
+to your `.gitignore` file immediately upon creation of your project and before
+committing and pushing any changes to remote. This is both so you don't forget
+to do so later, and to ensure that your sensitive information stored as the
+values of your variables are never exposed on Github or wherever else. Next.js'
+`create-next-app` does create a `.gitignore` file for you which includes the
+`.env.local` file, but if you are new to all this, it is good practice to double
+check that the file is there and populated. The `.env` file is NOT included.
+`.env` is meant for non-sensitive, default `env var` values, and therefore does
+not need to be included in `.gitignore`.
+
+Below is what I have in my `next.config.js` file for my `Next Blog` which I am
+in the process of building, and in which I have set up both environment
+variables for development and production:
 
 ```js
 const webpack = require('webpack')
@@ -61,10 +114,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 		}
 
 		if (isServer) {
-			require("./scripts/generate-sitemap");
+			require('./scripts/generate-sitemap')
 		}
 		if (!isServer) {
-			require("./scripts/compose")
+			require('./scripts/compose')
 		}
 
 		return config
@@ -82,28 +135,66 @@ const nextConfig = {
 module.exports = withBundleAnalyzer(nextConfig)
 ```
 
-***No evidence*** of `env vars`. ***No evidence*** of `dotenv`.
+No evidence of `env vars`. No evidence of `dotenv`.
 
-By ***default***, `Next.js` ***provides*** us with ***3 different*** `environments`. The `environments` ***available*** through `Next.js` by ***default*** are `development`, `production`, and `test`. 
+## Next.js provides us with three different environments
 
-The ***way*** that I can ***differentiate between*** and even ***use*** both `development` and `production` `environments` ***locally*** , is I ***create*** an `.env.development.local` ***file*** for my `development` ***env vars*** (***short*** for `environment variables`), ***and*** an `.env.production.local` ***file*** for my `production` ***env vars***. I ***do this*** to ***test*** my `production` environment/build ***before*** I `push` to `remote` to ***avoid*** `unexpected surprises`.
+By default, `Next.js` provides us with 3 different environments. The
+environments available through Next.js by default are `development`,
+`production`, and `test`.
 
-***However***, and this is `very important`, I ***keep*** the `env var` ***names*** the ***same across*** `environments` ***and*** in the `code`. ***Otherwise***, ***only one*** `environment`, the one ***defined*** in the `code` ***using*** ONE SET of `env vars`, ***will work***. 
+The way I can differentiate between and even use both development and production
+environments locally is to create an `.env.development.local` file for my env
+vars (short for environment variables) in development and an
+`.env.production.local` file for my env vars in local production. Then I am able
+to test my production environment/build to avoid unexpected surprises before I
+push to remote.
 
-AND, ***also*** `very important`, the `env var` ***names*** have to `match` on `vercel.com` ***as well***. So if I ***name*** my `env var` for my `MongoDB database` `MONGODB_DATABASE` in the `code`, then it ***has*** to be ***defined*** as `MONGODB_DATABASE` in ***both*** the `.env.development.local` ***file*** AND the `.env.production.local` ***file***. ***Just*** the `values` are ***different***. And ***these*** `two files` are what I ***use*** on my `local machine` to ***switch between*** `development` and `production`. 
+## Environment variable naming
 
-When I ***run*** `npm run dev`, the `env vars` in `.env.development.local` are ***extracted***. And when I ***run*** `npm start` AFTER running `npm run build` to `build` my `application`'s `production code`, then tbe `env vars` in `.env.production.local` are ***extracted***. 
+However, and this is very important, I keep the `env var` names the same across
+environments and in the code. Otherwise, only one environment, the one defined
+in the code using ONE SET of `env vars`, will work.
 
-***Lastly***, I have to ***add*** my `env vars` to my `project` on `vercel.com`. ***There***, I ***also have*** to `name` the `env var` `MONGODB_DATABASE`, and ***add*** the `value` I ***want*** for `production` there. THEN ***everything works*** as ***expected*** both on my `local machine` AND on my `remote server`.
+Also very important, is that the `env var` names have to match on `vercel.com`
+as well. If I name my `env var` for my MongoDB database `MONGODB_DATABASE` in
+the code, it has to be defined as `MONGODB_DATABASE` in both the
+`.env.development.local` AND `.env.production.local` files. Just the values are
+different. These two files are also what I use on my local machine to switch
+between development and production.
 
-***No need*** to `require` and `call` `dotenv` as I ***had done*** in the ***past***. This was ***not wrong***, but it means ***one less dependency*** to ***include***, which is good for `application optimization`.
+When I run `npm run dev`, the `env vars` in `.env.development.local` are
+extracted. And when I run `npm start` AFTER running `npm run build` to build my
+application's production code, then tbe `env vars` in `.env.production.local`
+are extracted.
 
-The `Next.js` ***documentation*** regarding `support` for `environment variables` is ***pretty good***, and if you ***already*** have been ***using*** `environment variables` with `dotenv` in your `Node.js` ***projects*** in the ***past***, it will be ***fairly easy*** to ***follow***. I will be ***including*** `reference` to the `Next.js` ***documentation*** at the ***end*** of the `post` ***under*** `Related Resources`.
+Lastly, I have to add my `env vars` to my project on `vercel.com`. There, I also
+have to name the `env var` MONGODB_DATABASE, for example, and add the value I
+want for production there. THEN everything works as expected both on my local
+machine AND on my remote server.
 
-*Happy Next.js developing with env vars!*
+No need to require and call `dotenv` as I had done in the past. This was not
+wrong, but it means one less dependency to include, which is good for
+application optimization.
+
+## Conclusion
+
+The Next.js documentation regarding support for environment variables is pretty
+good, and if you already have been using environment variables with `dotenv` in
+your Node.js projects in the past, it will be fairly easy to follow. I am
+including reference to the Next.js documentation at the end of the post under
+[Related Resources](#related-resources).
 
 ## Related Resources
 
-- [How to use different .env files with nextjs?](https://stackoverflow.com/questions/59462614/how-to-use-different-env-files-with-nextjs/61750672#61750672): ***stackoverflow***
+- [How to use different .env files with nextjs?](https://stackoverflow.com/questions/59462614/how-to-use-different-env-files-with-nextjs/61750672#61750672):
+  _stackoverflow_
 
-- [Environment Variables](https://nextjs.org/docs/basic-features/environment-variables): ***Next.js docs***
+- [Environment Variables](https://nextjs.org/docs/basic-features/environment-variables):
+  _Next.js docs_
+
+- [How to configure Next.js environmental variables](https://blog.logrocket.com/configure-environment-variables-next-js):
+  _by Joseph Mawa, LogRocket_
+
+- [Next.js Environment Variables: Complete Guide](https://env.dev/guides/nextjs-env-variables):
+  _env.dev_
