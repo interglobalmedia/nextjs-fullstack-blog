@@ -7,20 +7,25 @@ author: Maria D. Campbell
 excerpt: React Portal in Next.js and the Sticky Footer.
 image: ivan-aleksic-16YxCJSoAek-unsplash.webp
 tags: ['sticky footer', 'nextjs', 'react', 'react portal']
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
 ![Portal in Belgrade Fortress, Serbia](ivan-aleksic-16YxCJSoAek-unsplash.webp)
 
-***Photo by*** [Ivan Aleksic](https://unsplash.com/@ivalex) ***on*** [unsplash.com](https://unsplash.com/photos/16YxCJSoAek)
+_Photo by_ [Ivan Aleksic](https://unsplash.com/@ivalex) _on_
+[unsplash.com](https://unsplash.com/photos/16YxCJSoAek)
 
-**_Anyone_** who has been **_following_** my `posts` **_knows_** that I
-**_have_** a **_thing_** about `sticky footers`, and that I have **_applied_** `various techniques` **_over_** the **_years_** in **_various situations_**. Well, I **_came across_** a **_new situation_** working with `Next.js`.
+Anyone who has been following my posts knows that I have a thing about
+`sticky footers`, and that I have applied various techniques over the years in
+various situations. Well, I came across a new situation working with Next.js.
 
-For my **_revamp_** of my **_personal site_** (this one), [mariadcampbell.com](https://www.mariadcampbell.com), I created a `React Portal` for my `notification` component which **_sends_** a `message` regarding the
-`status` of their `contact form` **_submission_**. There, I **_place_** the
-`notification` component **_below_** the `contact form` **_element_** inside the `contact-form.js` file of the `ContactForm` component. The `notification` markup **_consists_** of the **_following_**:
+For my revamp of my personal site (this one),
+[mariadcampbell.com](https://www.mariadcampbell.com), I created a React Portal
+for my notification component which sends a message regarding the status of
+their contact form submission. There, I place the notification component below
+the contact `form` element inside the `contact-form.js` file of the ContactForm
+component. The `notification` markup consists of the following:
 
 ```jsx
 return (
@@ -123,7 +128,10 @@ And the **_returned_** `jsx` of the `ContactForm` **_component_** is the
 </section>
 ```
 
-This `markup` is **_not_** `quite right` as far as `HTML` **_structure_** goes. I **_ended up_** getting `hydration` **_errors_** as a **_result_**. So to **_avoid_** this, I **_created_** a `React Portal` for my `Notification` **_component_**. **_Like_** the **_following_**:
+This `markup` is **_not_** `quite right` as far as `HTML` **_structure_** goes.
+I **_ended up_** getting `hydration` **_errors_** as a **_result_**. So to
+**_avoid_** this, I **_created_** a `React Portal` for my `Notification`
+**_component_**. **_Like_** the **_following_**:
 
 ```jsx
 import { createPortal } from 'react-dom'
@@ -157,8 +165,12 @@ function Notification(props) {
 export default Notification
 ```
 
-But **_THEN_**, **_when_** I **_wanted_** to **_add_** my `sticky footer` as I **_did_** in the **_past_**, I **_ended up_** getting a `hydration` **_error_** in `development`. Please **_visit_** my `post` **_entitled_**
-[The sticky footer and Next.js 13](/blog/the-sticky-footer-and-nextjs-13) to **_learn more_**. So I **_created_** a `React Portal` for my `Footer` **_component_**. I **_did_** the **_following_**:
+But **_THEN_**, **_when_** I **_wanted_** to **_add_** my `sticky footer` as I
+**_did_** in the **_past_**, I **_ended up_** getting a `hydration` **_error_**
+in `development`. Please **_visit_** my `post` **_entitled_**
+[The sticky footer and Next.js 13](/blog/the-sticky-footer-and-nextjs-13) to
+**_learn more_**. So I **_created_** a `React Portal` for my `Footer`
+**_component_**. I **_did_** the **_following_**:
 
 ```jsx
 function Footer() {
@@ -254,7 +266,12 @@ function Footer() {
 export default Footer
 ```
 
-**_Why_** the `if` **_check_**? Because **_sometimes_** the `React Portal` does **_not behave_** as **_expected_** when there is **_more_** than **_one_** `React Portal`. And **_since_** we **_use_** `document.getElementById()` when **_creating_** a `React Portal`, I **_added_** the `if` **_check_** to **_check_** whether or **_not_** the `document object` **_exists_**. This **_fixed_** the **_issue_** for me!
+**_Why_** the `if` **_check_**? Because **_sometimes_** the `React Portal` does
+**_not behave_** as **_expected_** when there is **_more_** than **_one_**
+`React Portal`. And **_since_** we **_use_** `document.getElementById()` when
+**_creating_** a `React Portal`, I **_added_** the `if` **_check_** to
+**_check_** whether or **_not_** the `document object` **_exists_**. This
+**_fixed_** the **_issue_** for me!
 
 **_Then_**, **_inside_** `Next.js`’ `_document.js`, I **_did_** the
 **_following_**:
@@ -281,10 +298,15 @@ export default function Document() {
 }
 ```
 
-I **_got away_** with my **_previous_** `implementation` of the `sticky footer` by simply **_manipulating_** `_document.js`, but **_here_**, **_and_** in the **_future_**, I **_will create_** a `React Portal` for the `sticky footer` so as to **_avoid_** `hydration` **_issues_** and have **_clean_** `React JSX` **_markup_**. **_All_** the **_other_** `divs` **_containing_** `ids` **_point_** to `React Portals` **_as well_**.
+I **_got away_** with my **_previous_** `implementation` of the `sticky footer`
+by simply **_manipulating_** `_document.js`, but **_here_**, **_and_** in the
+**_future_**, I **_will create_** a `React Portal` for the `sticky footer` so as
+to **_avoid_** `hydration` **_issues_** and have **_clean_** `React JSX`
+**_markup_**. **_All_** the **_other_** `divs` **_containing_** `ids`
+**_point_** to `React Portals` **_as well_**.
 
 **_Happy React Portaling!_**
 
 ## Related Resources
 
--   [mariadcampbell.com Github repository](https://github.com/interglobalmedia/nextjs-fullstack-blog)
+- [mariadcampbell.com Github repository](https://github.com/interglobalmedia/nextjs-fullstack-blog)
