@@ -4,22 +4,60 @@ date: '2019-06-29T10:36:49.457Z'
 lastModified: '2019-06-29T10:36:49.457Z'
 title: Outdated JavaScript tooling, vulnerabilities and security
 author: Maria D. Campbell
-excerpt: Node Security/npm audit appeared for the first time in my Terminal window in March of last year (2018).
+excerpt:
+    Why it is important to update outdated JavaScript tooling to eliminate
+    vulnerabilities thereby bolstering the security of software applications.
 image: spenser-OxJxV4qakx0-unsplash.webp
-tags: ['node security', 'outdated tooling', 'open source software']
-isPublished: true
+tags:
+    [
+        'node security',
+        'outdated tooling',
+        'open source software',
+        'security vulnerabilities',
+    ]
+isPublished: false
 isFeatured: false
 ---
 
-![Outdated JavaScript tooling, vulnerabilities and security](spenser-OxJxV4qakx0-unsplash.webp)
+![Policemen wearing helmets and holding clear fiber glass shields](spenser-OxJxV4qakx0-unsplash.webp)
 
-***Photo by*** [Spenser H](https://unsplash.com/@spenserh) ***on*** [unsplash.com](https://unsplash.com/photos/OxJxV4qakx0)
+_[Photo by](https://unsplash.com/photos/OxJxV4qakx0)_
+[Spenser H](https://unsplash.com/@spenserh) _on_
+[unsplash.com](https://unsplash.com/)
 
-I have written about this topic before, but feel the need to
-re-address it.
+## Table of Contents
 
-[Node Security/npm audit](https://blog.npmjs.org/post/175511531085/the-node-security-platform-service-is-shutting) **_appeared_** for the **first time** in my **_Terminal window_** in **March of last year** (**2018**). I had read that it was a **_new feature_** in **npm**
-created by **Node Security**, and was excited about the prospect of knowing more about what was going on under the hood with my **npm packages** and how that all boded for **Web/Software Development** and **Individual Machine(s) Security**. Previously, many of us were under the false impression that everything in our code, in our workflows using third party plugins and packages passed muster. But the minute npm audit came along and we downloaded various npm packages, added libraries and frameworks using those packages, or simply learned from other code using the tooling etc, if there were "known" vulnerabilities in any of the code, **Node Security** (now part of **npmjs**) would print out something like this:
+- [ The importance of npm audit regarding outdated JavaScript tooling, vulnerabilities and security](#the-importance-of-npm-audit-regarding-outdated-javascript-tooling-vulnerabilities-and-security)
+- [Node security after the Node Security Platform shutdown](#node-security-after-the-node-security-platform-shutdown)
+- [Best practices for bolstering security with npm post Node Security](#best-practices-for-bolstering-security-with-npm-post-node-security)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
+
+## The importance of npm audit regarding outdated JavaScript tooling, vulnerabilities and security
+
+`npm audit` is a security tool which was introduced in `npm 6` and is integrated
+into npm 6 and later.
+
+The command line command `npm audit` first appeared in our terminal windows with
+the release of `npm 6` in April 2018. When I ran `npm audit` in `npm 6`, it
+scanned my Node.js project dependencies for known vulnerabilities and, if
+present, identified them. This way it pointed out potential security risks in
+the project.
+
+I have written about this topic before, but feel the need to re-address it.
+
+[Node Security/npm audit](https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities)
+appeared for the first time in my Terminal window in April of last year (2018).
+I had read that it was a new feature in npm created by Node Security[^1], and
+was excited about the prospect of knowing more about what went on under the hood
+with my npm packages and how that boded for "web/software development" and
+"individual machine security". Previously, many of us were under the false
+impression that everything in our code and workflows using third party plugins
+and packages passed muster. But the minute `npm audit` came along and we
+downloaded npm packages and added libraries and frameworks using those packages,
+if there were "known" vulnerabilities, Node Security (now part of npmjs) would
+print out something like the following:
 
 ```shell
 ॐ  ~/development/testing-javascript/js_mocking_fundamentals/1_override_object_props_monkey_patching_js:
@@ -50,25 +88,125 @@ found 1 low severity vulnerability in 864568 scanned packages
   1 vulnerability requires manual review. See the full report for details.
 ```
 
-The first time I had done this, I was in a **_full stack JS_** class (**_not_** the boot camp by the same name, another school which has since then closed down), and we were told to clone a repo which had been created 2 YEARS before. We all did so, and I **received** a **_message_** in **Terminal** from **Node Security** on download, that there were around 1,000 vulnerabilities in the project. I mentioned it to the teacher, but he looked at me as if I had three heads. That was a little over a year ago. March, 2018, to be more exact.
+The first time I encountered `npm audit`, I was in a full stack JS class, and we
+were told to clone a repository which had been created TWO YEARS before. This
+happened right after npm6 had been released. We all did so, and I received a
+message in Terminal from Node Security that there were approximately 1,000
+vulnerabilities in the project. I mentioned it to the teacher, but he looked at
+me as if I had three heads. That was a little over a year ago. April 2018, to be
+exact.
 
-You know what? It seems that there are still people in "teaching" positions who don't bother to check their repos, even though, most probably, **Github** is sending them security alerts regarding such vulnerabilities.
+You know what? It seems that there are still people in "teaching" positions who
+don't bother to check their repositories, even though, most probably, GitHub is
+sending them security alerts all the time. I know I do.
 
-So **_this podcast_** is for those who might be **_new_** to the **JavaScript Developer** **_ecosystem_**, and might see similar warnings when cloning or downloading courses they have paid for and want to learn the **_best_** and **_latest_** **practices** from. Apparently, many teachers of courses don't bother to share this kind of information because it just is **_"not relevant"_** to their **subject matter**. You'd better bet your bottom dollar it is. It is relevant to **_everything_** **JavaScript**, and **_everything_** **all other programming languages**.
+This post is for those who might be new to the JavaScript Developer ecosystem,
+and might see similar warnings when cloning or downloading courses they have
+paid for and from which they want to learn the best and latest practices.
+Apparently, many teachers don't bother to share this kind of information because
+it just is "not relevant" to their subject matter. You'd better bet your bottom
+dollar it is. It is relevant to everything JavaScript, and everything all other
+programming languages too.
 
-If, when you clone or download something from a repository, and then run `npm i` (assuming there is a `package.json` present), and there is a message
-(**correction: npmjs and not Node Security**) stating that it has detected
-vulnerabilities in your package(s), follow their instructions to **_run_**
-`npm audit`.
+If, when you clone or download something from a GitHub repository, for example,
+and then run `npm i` (assuming there is a `package.json` present), followed by a
+message stating that vulnerabilities have been detected in your package(s),
+follow the instructions on running `npm audit`.
 
-Oftentimes, there is already a **remediation/patch/package** update that will **_remove_** the **vulnerabilities**. Follow the instructions you **_receive_** in **Terminal** after running `npm audit`. Sometimes there is no remediation yet, or it might be difficult for you to do manually. That's when you should contact the creator/maintainer of the repository or package.
+Oftentimes, there is already a remediation/patch/package update that removes the
+vulnerabilities. Follow the instructions you receive in Terminal. Sometimes
+there is no remediation yet, or it might be difficult to do manually. That's
+when you should contact the creator/maintainer of the repository or package.
 
-Sometimes things take a little while. After all, these packages are open source. Sometimes, however, it is not a matter of fixing the vulnerabilities in a current version of a package by simply updating to the latest version, but updating one that **results in** **_breaking changes_**. That's when things get a bit ugly. Sometimes developers are too lazy to have to do a complete overhaul of their workflows associated with those breaking changes, and this results in vulnerabilities in the current package(s) version(s) that won't go away. This is especially NOT COOL when it happens within course code that you have paid good money for. If the creator of the course has not updated the code/curriculum in more than 6 months or even 3 months (things these days are changing daily),
-think twice before signing up for it. Do a bit of **detective work** regarding the **_dependencies_** and **_devDependencies_** in the `package.json` before making your final decision. Of course, sometimes we don't have access to this information until we have actually paid for it. I don't have an answer for that.
+Sometimes things take a little while. After all, these packages are open source.
+Sometimes, however, it is not a matter of fixing the vulnerabilities in a
+current version of a package by simply updating to the latest version, but
+updating one that results in breaking changes. That's when things get a bit
+ugly.
 
-**Note:** Be sure to do the same in your own open source repositories. It is
-hard to keep up with **Github** **_security alerts_**, but just do your best to do so as you can. The longer you wait, the more complicated the remediation.
+Sometimes developers are too lazy (or don't have the time) to do a complete
+overhaul of their workflows associated with those breaking changes, and this
+results in vulnerabilities in the current package version(s) that won't go away.
+This is especially NOT COOL when it happens within course code that you have
+paid good money for. If the creator of the course has not updated the
+code/curriculum in more than 6 months or even 3 months (things these days are
+changing daily), think twice before signing up for it. Do a bit of detective
+work regarding the `dependencies` and `devDependencies` in the `package.json`
+before making your final decision. Sometimes, of course, we don't have access to
+this information until we have actually paid for it. I don't have an answer for
+that.
+
+Be sure to do the same in your own open source repositories. It is hard to keep
+up with GitHub security alerts, but just do your best to do it when you can. The
+longer you wait, the more complicated the remediation.
+
+## Node security after the Node Security Platform shutdown
+
+Post Node Security, Node.js integrated security features directly into npm,
+which includes `npm audit` and vulnerability scanning. This was meant to
+strengthen the security of JavaScript applications and provide developers with
+essential tools to effectively manage vulnerabilities.
+
+Every npm package install request (`npm i`) is followed by an automatic review
+against the GitHub advisory database[^2]. I also include linter tools such as
+ESLint in my development workflow to identify problems in my code including
+potential security vulnerabilities.
+
+### Best practices for bolstering security with npm post Node Security
+
+1. We should conduct regular code reviews. Conducting regular code reviews can
+   help to catch code vulnerabilities and improve code quality.[^3]
+1. We should update our npm packages often to make sure we have the latest
+   security fixes. I am constantly checking for updates in my active
+   repositories.
+1. We should only include well-maintained packages that are also widely used.
+   This helps minimize the risk of vulnerabilities. If I see that a package is
+   not continually maintained, I tend to shy away from it. A while back I was
+   looking into packages that implemented static tweets, and I came across the
+   `react-tweet` npm package maintained by Vercel. It didn't look like it was
+   frequently maintained, so I passed on it.
+
+## Conclusion
+
+In this post, I discuss the importance of `npm audit` in relation to outdated
+JavaScript tooling used in development workflows and how it helps mitigate the
+risk of using or committing vulnerable code. I also discuss how important it is
+to learn about security tools early on in software development education. We
+should adopt good habits and best practices from the start. In addition, the
+integration of the Node Security Platform into the npm ecosystem resulted in a
+stronger and more secure npm framework. Utilizing its built-in tools has allowed
+developers like myself to proactively manage vulnerabilities in our code thereby
+ensuring coding best practices.
 
 ## Related Resources
 
--   [The Node Security Platform service is shutting down 9/30](https://blog.npmjs.org/post/175511531085/the-node-security-platform-service-is-shutting): ***on npmjs.org***
+- [The New NPM Audit with 6 > npm](/blog/the-new-npm-audit-with-6-npm):
+  _mariadcampbell.com_
+- [The Node Security Platform service is shutting down 9/30](https://blog.npmjs.org/post/175511531085/insert-title-here):
+  _npmjs.org_
+- [What is the GitHub advisory database, and how does it help you secure dependencies?](https://github.blog/security/github-advisory-database-by-the-numbers-known-security-vulnerabilities-and-what-you-can-do-about-them/):
+  _by Jonathan Evans, GitHub blog_
+- [The New NPM Audit with 6 > npm](/blog/the-new-npm-audit-with-6-npm):
+  _mariadcampbell.com_
+
+[^1]:
+    The Node Security Platform was a service which provided vulnerability
+    scanning and security features for Node.js applications. It was shut down in
+    April 2018 when it was acquired by npm inc.
+
+[^2]:
+    The Node Security Platform (NSP) Vulnerability Database was a repository
+    that tracked vulnerabilities in software and systems, similar to the
+    [National Vulnerability Database](https://nvd.nist.gov) (NVD). It provided
+    information on known security flaws, their severity, and potential impacts
+    to help organizations manage and mitigate risks. It was integrated into the
+    [GitHub Advisory Database](https://github.com/github/advisory-database) in
+    2018, which is a "security vulnerability database inclusive of CVEs (Common
+    Vulnerabilities and Exposures) and GitHub originated security advisories
+    from the world of open source software." -- _from the GitHub Advisory
+    Database repository._
+
+[^3]:
+    With the advent of AI assistants such as Claude.ai, solo practitioners such
+    as I can use them to conduct code reviews. In the past, we did not come
+    across such opportunities easily.
