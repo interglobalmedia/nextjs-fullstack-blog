@@ -12,6 +12,7 @@ import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json'
 import md from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown'
 import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx'
 import scss from 'react-syntax-highlighter/dist/cjs/languages/prism/scss'
+import sql from 'react-syntax-highlighter/dist/cjs/languages/prism/sql'
 import dynamic from 'next/dynamic'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
@@ -35,6 +36,7 @@ SyntaxHighlighter.registerLanguage('json', json)
 SyntaxHighlighter.registerLanguage('md', md)
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 SyntaxHighlighter.registerLanguage('scss', scss)
+SyntaxHighlighter.registerLanguage('sql', sql)
 
 const DynamicPostHeader = dynamic(() => import('./post-header'))
 const DynamicSocialShareIcon = dynamic(
