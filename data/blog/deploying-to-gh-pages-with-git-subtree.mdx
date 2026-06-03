@@ -1,7 +1,7 @@
 ---
 slug: deploying-to-gh-pages-with-git-subtree
-date: '2022-07-15T17:45:07.341Z'
-lastModified: '2022-07-15T17:45:07.341Z'
+date: '2019-05-21T11:00:07.341Z'
+lastModified: '2026-06-03T09:21:07.341Z'
 title: Deploying to gh-pages with git subtree
 author: Maria D. Campbell
 excerpt: Deploying to gh-pages with git subtree.
@@ -16,20 +16,27 @@ isFeatured: false
 **_photo by_** [Faye Cornish](https://unsplash.com/@fcornish) **_on_**
 [unsplash.com](https://unsplash.com/photos/ywRNdDfvMWs)
 
-**Note 5.21.19:** Some information here might be a bit outdated, but deploying
-to `gh-pages` with git subtree is not. So I decided to bring this gem back to
-the blog here.
+**Note 6.3.26:** The `git subtree` command described in this post is still
+relevant and used today. To view a GitHub gist describing the command along with
+comments from GitHub users, please visit
+[publish-ghpages.md](publish-ghpages.md).
 
-So I just completed a todo app the other day using React. However, I kept on
+**Note 5.21.19:** I originally published a post about `git subtree` in 2017 on
+another blog of mine. Then I applied that knowledge to the React application in
+question here. Some information might be a bit outdated, but deploying to
+`gh-pages` with git subtree is not.
+
+I just completed a todo app the other day using React. However, I kept on
 encountering errors in the console using `create-react-app.` Probably some of
 them were due to errors on my part, but some definitely related to
 `create-react-app.` And the thing is, I wasn't able to figure out what the issue
 was without running the `eject` command to see what was under the hood. And if I
-had done that, there was no going back! Well, that just didn't sit well with me.
+had done that, there was no going back! That just didn't sit well with me.
+
 I decided to learn more about Webpack 2+ so that I could start using the new
 features it had to offer to create my own React workflow, thereby only adding
 features that I needed. I love creating my own automation processes for my
-workflows. I have worked hard at creating seamless processes for regular ES6+
+workflows. I have worked hard at creating seamless workflows for regular ES6+
 JavaScript applications using Gulp, templating engines, and Webpack. Call me
 nerdy, but I find it a lot of fun and extremely useful! I am yet to take a deep
 dive into a more complex workflow for Hugo (this site is built on it), but that
@@ -106,7 +113,7 @@ instance of the Terminal window with the command `ctrl + c` on your keyboard. It
 exits the prompt `>` that appears when you haven't added a closing quote.
 However, `Bash/zsh` does allow you to enter the closing quote after the `>`
 prompt. Then hit return. To learn more about exiting your git commit message,
-please visit this **StackOverflow** thread:
+please visit this stackOverflow thread:
 [How do I exit my git commit message?](https://stackoverflow.com/questions/26228848/how-do-i-exit-my-git-commit-message-im-not-in-the-vim-i-used-the-commit-m).
 
 Now you are ready to push these changes to your remote `gh-pages` branch. You
@@ -126,10 +133,6 @@ time saver. So our crucial `git` command which we run next is:
 ```shell
 git push origin `git subtree --split --prefix dist gh-pages`:gh-pages --force
 ```
-
-(A backtick is needed before `git subtree` and after `dist gh-pages`. Due to
-markdown, it does not show up here. Please refer to the related articles below
-for further clarification if necessary.)
 
 Now what does this all mean? First of all, a `git subtree` allows you to insert
 any repository as a subdirectory of another one. It allows sub-projects to be
@@ -176,8 +179,6 @@ important it is to master Git AND to master the Command Line in Terminal. Git
 for the distributed version control, and Command Line so that you never have to
 leave the Terminal window. A great time saver. Lastly, practice makes perfect!
 Or at least ... nearly so!
-
-Happy coding!
 
 ## Related Resources
 
