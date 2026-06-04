@@ -1,39 +1,77 @@
 ---
 slug: reinstalling-git-with-homebrew-to-get-the-latest-version
 date: '2022-07-14T10:59:04.294Z'
-lastModified: '2022-07-14T10:59:04.294Z'
+lastModified: '2026-06-04T06:37:04.294Z'
 title: Reinstalling Git with Homebrew to Get the Latest Version
 author: Maria D. Campbell
-excerpt: Reinstalling Git with Homebrew to get the latest version.
+excerpt:
+    "Installing Git with Homebrew on macOS gives you faster, easier updates than
+    relying on Xcode. Here's how to do it using the Git alias command."
 image: pexels-brett-sayles-7146867-2.webp
-tags: ['homebrew', 'git', 'reinstalling git', 'latest version']
+tags:
+    [
+        'command line',
+        'homebrew',
+        'git',
+        'git upgrade',
+        'macOS',
+        'macOS tahoe',
+        'sip',
+        'system integrity protection',
+        'Xcode',
+    ]
 isPublished: true
 isFeatured: false
 ---
 
-![Reinstalling Git with Homebrew to Get the Latest Version](pexels-brett-sayles-7146867-2.webp)
+![Close-up of a black industrial fire hydrant with red caps on a concrete wall](pexels-brett-sayles-7146867-2.webp)
 
-***Photo by*** [Brett Sayles](https://www.pexels.com/@brett-sayles/) ***on*** [pexels.com](https://www.pexels.com/photo/fire-extinguishing-equipment-with-water-distribution-system-7146867/)
+_Photo by_ [Brett Sayles](https://www.pexels.com/@brett-sayles/) _on_
+[pexels.com](https://www.pexels.com/photo/fire-extinguishing-equipment-with-water-distribution-system-7146867/)
 
-**Note**: You have to already have `Homebrew` [installed](https://brew.sh/) in order to install `Git` with `Homebrew`.
+## Table of Contents
 
-Yesterday I **_updated_** `Xcode` on `macOS Monterey`, and **_found out_** that it did **_not include_** the **_latest version_** of `Git`. So I **_decided_** to **_re-install_** it with `Homebrew`, if I **_could_**.
+- [Using the git alias command when installing Git with Homebrew](#using-the-git-alias-command-when-installing-git-with-homebrew)
+- [Installing Git with Homebrew in macOS Tahoe (6.4.26)](#installing-git-with-homebrew-in-macos-tahoe-6426)
+- [Checking how Git was installed on your macOS (6.4.26)](#checking-how-git-was-installed-on-your-macos-6426)
+- [The primary reason behind executing the Git alias command](#the-primary-reason-behind-executing-the-git-alias-command)
+- [Why it is better to install Git using Homebrew vs Xcode (6.4.26)](#why-it-is-better-to-install-git-using-homebrew-vs-xcode-6426)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
 
-I **_could_**, and I **_did_**, but it **_involved_** a **_bit_** of a
-**_hack_**. Since `macOS El Capitan`, we are **_not able_** to **_make
-changes_** to the `bin` **folder** due to `SIP` (`System Integration Protection`) on our `Macs`. We have to **_disable_** it and
-then **_re-enable_** it **_after making_** the `changes` we **_need_** to
-`make`. I did **_not want_** to **_have_** to **_go through_** the `process` of **_doing this_** if I could **_avoid_** it, and it would **_have meant_** more time in **_doing so_**. **_Instead_**, **_before_** I **_re-installed_** `Git` with `Homebrew`, I **_created_** an `alias`:
+_This post was originally published in July 2022 and updated in June 2026 with
+current Git and Xcode version information._
+
+**Note**: You have to already have Homebrew [installed](https://brew.sh/) in
+order to install Git with Homebrew.
+
+## Using the git alias command when installing Git with Homebrew
+
+Yesterday I updated Xcode on macOS Monterey, and found out that it did not
+include the latest version of Git. So I decided to re-install it with Homebrew,
+if I could.
+
+I could, and I did, but it involved a bit of a hack. Since macOS El Capitan, we
+are not able to make changes to the `bin` folder due to SIP (System Integrity
+Protection)[^1] on our Macs. We have to disable it and then re-enable it after
+making the changes we need to make. I did not want to have to go through the
+process of doing this if I could avoid it, and it would have meant more time in
+doing so. Instead, before I re-installed Git with Homebrew, I created an alias
+by running the following command in Terminal:
 
 ```shell
 alias git='/usr/local/bin/git'
 ```
 
-I **_ran_** the **_above_** `command` in `Terminal`. Then I `"re-installed"`
-**Git** with `Homebrew`. I **_came across_** the **_steps_** to **_do so_** in a `Github Gist`, and the `alias` **_workaround_** as **_well_**. To **_read through_** this `Gist`, please **_visit_** [Re-installing Git on Mac OSX with Brew](https://gist.github.com/brandonsimpson/54d9e085c9fde5e6ad3a) on `Github`. I **_found_** the `alias` **_suggestion_** from **_within_** the
-`comments`.
+Then I re-installed Git with Homebrew. I came across the steps toward
+installation in a GitHub Gist, as well as the `git alias` workaround. To read
+through this Gist, please visit
+[Re-installing Git on Mac OSX with Brew](https://gist.github.com/brandonsimpson/54d9e085c9fde5e6ad3a)
+on GitHub. I found the alias suggestion from within the comments.
 
-The `alias` **_worked_** for me and was **_much quicker_** to **_implement_**, so I **_stuck_** with it. I **_ran_** the **_following_** `commands` to **_install_** `Git` with `Homebrew`:
+The `git alias` worked for me and was much quicker to implement, so I stuck with
+it. I ran the following commands to install Git with Homebrew:
 
 ```shell
 brew uninstall git
@@ -41,12 +79,145 @@ brew update
 brew install git
 ```
 
-The **_first_** `command` did **_nothing_** for me, **_because_** I did
-**_not_** previously install `Git` with `Homebrew`. I **_ran_** the **_second_** `command` to **_update_** `Homebrew` (**_always recommended_** before installing something with `Homebrew`). And the **_third_** `command` **_actually installed_** `Git` with `Homebrew`.
+The first command did nothing for me, because I had not previously installed Git
+with Homebrew. I ran the second command to update Homebrew (always recommended
+before installing something with Homebrew). And the third command actually
+installed Git with Homebrew.
 
-**_Happy_** `distributed version control` with `Git`!
+## Installing Git with Homebrew in macOS Tahoe (6.4.26)
+
+I no longer have to use the `git alias` command to install Git with Homebrew in
+macOS Tahoe. Now, when Homebrew installs Git, it automatically manages
+installation and path configuration without risk of multiple conflicting Git
+installs. This means no need for setting an alias. Now all I have to do is run
+`brew install git`.
+
+As a matter of fact, I checked to see if I still had
+`alias git='/usr/local/bin/git'` among my list of git aliases by running the
+`git config --get-regexp alias.` command which shows all the aliases I have
+created in my Git config. For me, it returned
+
+```shell
+alias.st status
+alias.ci commit
+alias.br branch
+alias.co checkout
+alias.df diff
+... # (abbreviated)
+```
+
+And no `alias git='/usr/local/bin/git'` was listed!
+
+## Checking how Git was installed on your macOS (6.4.26)
+
+Today, I was curious as to how my current version of Git was installed, so I ran
+`which git` which returned `/opt/homebrew/bin/git`.
+
+Then I ran `git -v` and the output was `git version 2.54.0`. This was the latest
+version of Git at the time of this update (6.4.26).
+
+## The primary reason behind executing the Git alias command
+
+When I executed the Git alias command `alias git='/usr/local/bin/git'`, it made
+sure that the version of Git installed in the `/usr/local/bin/git` path is the
+one used in Command Line and not any other version that MAY be installed on the
+machine[^2]. For example, the version of Git installed with Xcode.
+
+## Why it is better to install Git using Homebrew vs Xcode (6.4.26)
+
+I prefer installing Git with Homebrew because Git does not update automatically
+with Xcode. It only updates when you either update Xcode or Command Line Tools,
+which is a lengthier process. In order to update Git with Homebrew, simply run
+the commands:
+
+```shell
+# this makes sure Homebrew is up to date
+brew update
+# upgrades Git to the latest version
+brew upgrade git
+# then make sure to restart Terminal to apply the version change.
+```
+
+To confirm your Git upgrade, run the following command in Terminal:
+
+```shell
+git -v
+```
+
+For me, it returns:
+
+```shell
+# the latest version of Git at the time of this update (6.4.26).
+git version 2.54.0
+```
+
+On the other hand, to get the latest version of Git via Xcode, you would first
+have to make sure you have the latest available version of Xcode. In order to do
+that, you have to go to [developer.apple.com](https://developer.apple.com) and
+check for the latest version of Xcode. For example, today I logged into
+developer.apple.com to see what the latest version of Xcode is, and it is
+`26.5`. I ran the following command in Terminal to find out what version I have
+installed:
+
+```shell
+xcodebuild -version
+```
+
+which returned:
+
+```shell
+Xcode 26.4
+Build version 17E192
+```
+
+To install the latest version of Xcode, I would have to download it from
+developer.apple.com, delete the previous install of Xcode located in the
+Applications directory, and then drag the latest version from the Downloads
+directory into Applications. You can read my slide deck entitled
+[Installing Xcode and/or Command Line Tools on Your Mac](https://interglobalmedia.github.io/adding-xcode-command-line-tools/#/),
+which covers the steps to upgrading to the latest version of Xcode and CLT. As I
+mentioned earlier, this is a much lengthier process than upgrading to the latest
+version of Git using Homebrew.
+
+## Conclusion
+
+Installing Git with Homebrew is faster and simpler than relying on Xcode. If I
+were to depend on the Git integrated install that comes with Xcode, I would have
+to login to the developer.apple.com website, download the latest version of
+Xcode, delete the previous version from the Applications folder on my desktop
+and drag the new downloaded version into the Applications folder. However, even
+updating to the latest version of Xcode still might not guarantee the latest
+version of Git. Xcode's Command Line Tools can sometimes include older versions
+of Git, so using Homebrew may deliver a more up-to-date version.
 
 ## Related Resources
 
--   [Re-installing Git on Mac OSX with Brew](https://gist.github.com/brandonsimpson/54d9e085c9fde5e6ad3a): ***by Brandon Simpson on Github***
+- [Git Homebrew Formulae](https://formulae.brew.sh/formula/git)
+- [Re-installing Git on Mac OSX with Brew](https://gist.github.com/brandonsimpson/54d9e085c9fde5e6ad3a):
+  _by Brandon Simpson on GitHub_
+- [About System Integrity Protection on your Mac](https://support.apple.com/en-us/102149):
+  _Apple documentation_
 
+[^1]:
+    System Integrity Protection (SIP) is a crucial security feature introduced
+    in OS X El Capitan. It is meant to protect the OS from unauthorized
+    modifications. SIP restricts access to system files and directories,
+    ensuring that only processes with specific privileges can modify them. It
+    limits root user actions, which had unrestricted access to all system files
+    prior to El Capitan. Only software signed by Apple or with special
+    privileges can make changes to shielded areas. SIP protects the following
+    directories by default:
+
+    `/System`: Where core system files and directories reside
+
+    `/sbin`: Where system binaries for administrative tasks reside
+
+    `/bin`: Where essential command-line utilities reside
+
+    `/usr`: Where user system files (except /usr/local) reside
+
+    `/Applications`: Where pre-installed applications reside
+
+[^2]:
+    `/usr/local/bin/git` refers to the macOS Apple Intel path, which applied to
+    Intel Macs. On Apple Silicon, Homebrew installs to `/opt/homebrew/bin/git`.
