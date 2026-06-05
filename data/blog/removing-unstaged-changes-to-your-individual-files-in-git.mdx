@@ -1,78 +1,126 @@
 ---
 slug: removing-unstaged-changes-to-your-individual-files-in-git
 date: '2022-08-15T11:08:01.251Z'
-lastModified: '2022-08-15T11:08:01.251Z'
+lastModified: '2026-06-05T14:04:01.251Z'
 title: Removing unstaged changes to your individual files in Git
 author: Maria D. Campbell
-excerpt: Removing unstaged changes to your individual files in Git.
+excerpt:
+    'Learn how to use git checkout and git restore to discard unstaged changes
+    to individual files without resetting your entire working directory.'
 image: praveen-thirumurugan-KPAQpJYzH0Y-unsplash.webp
-tags: ['git', 'git checkout', 'git staging', 'git index']
+tags:
+    [
+        'git',
+        'git checkout',
+        'git restore',
+        'git staging',
+        'git switch',
+        'git index',
+    ]
 isPublished: true
 isFeatured: false
 ---
 
-![Removing unstaged changes to your individual files in Git](praveen-thirumurugan-KPAQpJYzH0Y-unsplash.webp)
+![Groot and Octocat reading a newspaper](praveen-thirumurugan-KPAQpJYzH0Y-unsplash.webp)
 
-***Photo by*** [Praveen Thirumurugan](https://unsplash.com/@praveentcom) ***on*** [unsplash.com](https://unsplash.com/photos/KPAQpJYzH0Y)
+_[Photo by](https://unsplash.com/photos/KPAQpJYzH0Y)_
+[Praveen Thirumurugan](https://unsplash.com/@praveentcom) _on_
+[unsplash.com](https://unsplash.com/)
 
-Have you **_ever worked_** on **_project files_**, made **_changes_** which you have **_not_** yet **_committed_**, and then **_wanted_** to **_revert back_** to the **_version_** of the `file` **_before_** you **_had made_** those **_changes_**? I **_know_** I **_have_**!
+## Table of Contents
 
-**_Removing_** the `unstaged changes` to your **_individual files_** is actually a **_simple process_**. Because **_perhaps_** you **_don’t want_** to `git reset` **_all_** your **_modified files_**. Perhaps you **_just want_** to **_revert_** the files **_individually_**.
+- [Reverting to a version of a file before it was modified using git checkout prior to Git 2.23](#reverting-to-a-version-of-a-file-before-it-was-modified-using-git-checkout-prior-to-git-223)
+- [The meaning of "Updated 2 paths from the index"](#the-meaning-of-updated-2-paths-from-the-index)
+- [The two mode bits in Git](#the-two-mode-bits-in-git)
+- [Stage numbers in Git](#stage-numbers-in-git)
+- [Reverting to a version of a file before it was modified using git restore](#reverting-to-a-version-of-a-file-before-it-was-modified-using-git-restore)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
 
-Let’s say I **_made changes_** in a project, and I **_wanted_** to **_revert
-back_** to the **_latest version_** of a file **_before_** I **_had made_** the _**current changes**_ to it, and my _**targeted**_ `file name` is `index.html`, and it is _**located**_ at the _**root**_ of my _**project**_, which we _**can call**_ `example-portfolio-site-namecheap`. I _**make**_ some _**markup changes**_ to `index.html`, and _**get**_ the _**following**_ back in the `Terminal console` _**after making**_ the _**changes**_:
+_This post was originally published in August 2022 and updated in June 2026 with
+current Git information._
+
+## Reverting to a version of a file before it was modified using git checkout prior to Git 2.23
+
+Have you ever worked on project files, made changes which you have not yet
+committed, and then wanted to revert to the version of the file before you had
+made those changes? I know I have!
+
+Removing the unstaged changes to your individual files is actually a simple
+process. Perhaps you don’t want to `git reset` all your modified files. Perhaps
+you just want to revert the files individually.
+
+Let’s say I made changes in a project, and I wanted to revert to the latest
+version of a file before I had made the current changes to it. My targeted file
+name is "index.html", and it is located at the root of my project, which we can
+call "example-portfolio-site-namecheap". I make some markup changes to
+"index.html", and get something like the following back in the Terminal console
+after making the changes:
 
 ```shell
 git status
-On branch main
-Your branch is up to date with 'origin/main'.
+On branch master
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        modified:   index.html
 
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
+
         modified:   index.html
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        portfolio.html
 ```
 
-Then, **_before_** actually `staging` that **_file_** or `committing` those
-**_changes_**, I **_want_** to **_revert back_** to its **_previous state_**
-(**_before making_** those **_changes_**). I **_would_** simply do the
-**_following command_**:
+Then, before actually staging that file or committing those changes, if I want
+to revert to its previous state (before those changes were made), I would simply
+run the following command:
 
 ```shell
 git checkout index.html
 ```
 
-And the **_following_** would be **_returned_** in the `Terminal console` after **_running_** the **_command_**:
+Checking out "index.html" results in "index.html" file restoration. This means
+that "index.html" would be restored to its last committed state.
+
+If I checked to see if the file reverted to its previous state by running
+`git status`, I would get something like the following back:
 
 ```shell
-Updated 1 path from the index
-```
-
-And when I go to **_check_** the **_file_** to **_see_** if it **_reverted
-back_** to its **_previous state_**, it **_did_**! And when I **_run_** the
-**git command** `git status`, I **_get_** the **_following back_** in the
-`Terminal console`:
-
-```shell
-On branch main
-Your branch is up to date with 'origin/main'.
+On branch master
+Your branch is up to date with 'origin/master'.
 
 nothing to commit, working tree clean
 ```
 
-If I **_made changes_** in **_several_** files, and **_wanted_** to **_revert back_** to the **_previous state_** of **_more_** than **_one_** of those **_files_**, I could do the following:
+If I made changes in several files, and wanted to revert to the previous state
+of more than one file, I could do the following:
 
 ```shell
 git checkout index.html join.html
 
-And I get back the following in the Terminal console:
+# I get back the following in the Terminal console:
 
 Updated 2 paths from the index
 ```
 
-**_Here_**, I am **_removing_** the **_unstated changes_** from the files called `index.html` and `join.html` **_all_** at **_once_**.
+Here, I removed the unstaged changes from the files called "index.html" and
+"join.html" all at once.
 
-But**_what_** does `Updated 2 paths from the index` **_mean_**? There actually is **_something_** called a **Git** `index`, and it is a **_binary file_** (**_usually residing_** in `.git/index`), **_containing_** a **_sorted list_** of `path names`, **_each_** with `permissions` and the `SHA1` of a **_blob object_** (file). For **_example_**, in my **_local_** (and **_remote_**) **_repository_** called `example-portfolio-site-namecheap`, I have the **_following content_** inside my `.git` **_folder_**:
+## The meaning of "Updated 2 paths from the index"
+
+But what does "Updated 2 paths from the index" mean? There actually is something
+called a Git "index", a binary file residing in ".git/index" with a sorted list
+of path names, each including permissions and the SHA-1 of a blob object (file).
+For example, in my local (and remote) repository called
+"example-portfolio-site-namecheap", I have the following content inside my
+".git" folder:
 
 ```shell
 .              HEAD           description    info           refs
@@ -80,11 +128,15 @@ But**_what_** does `Updated 2 paths from the index` **_mean_**? There actually i
 COMMIT_EDITMSG config         index          objects
 ```
 
-As you **_can see_**, the `.git` folder **_contains_** a **_file_** called
-`index` (`.git/index`). And if you **_want_** to **_view_** the **_contents_** of the `index` in a **_human-readable way_**, you **_would run_** the `git ls-files` command. `git ls-files` **_simply outputs_** the **_file names_** of the **_project_**. Fo **_example_**, `git ls-files` **_outputs_** the **_following_** for my `example-portfolio-site-namecheap` **index**:
+The ".git" folder contains a file called "index" (".git/index"). If you want to
+view the contents of "index" in a human-readable way, you would run the
+`git ls-files` command. `git ls-files` simply outputs the file names of the
+project. `git ls-files` outputs the following for my
+"example-portfolio-site-namecheap" index:
 
 ```shell
-git ls-files
+# git ls-files
+
 .gitignore
 .stylelintrc
 about.html
@@ -135,50 +187,149 @@ styles/quote-cloud.css
 styles/resume.css
 ```
 
-The `index` **_lists_** what is being **_tracked_** in the **_repository_**
-(**_project_**). And the git command `git ls-files -s` lists **_all_** files
-**_tracked_**, **_including_** `object name`, `mode bits`, and `stage number` in the **_output_**. For **_example_**:
+The "index" lists what is being tracked in the repository (project). And the
+`git ls-files -s` command lists all files tracked, including object name, mode
+bits, and stage number in the output. For example:
 
 ```shell
 100644 e86d016a35847caa2d33f921aa78d1b4d6b18f6c 0       .gitignore
 ```
 
-The **_number_** `100644` is the `mode bit`,
-`e86d016a35847caa2d33f921aa78d1b4d6b18f6c` is the **_latest_** `SHA1`
-(`commit hash`) that the `.gitignore` file is **_part of_**, `0` is the
-`stage number`, and `.gitignore` is the `file` (`object`) `name`.
+The number 100644 is the mode bit, e86d016a35847caa2d33f921aa78d1b4d6b18f6c is
+the latest SHA-1 (blob object hash)[^1] that the ".gitignore" file is part of, 0
+is the stage number, and ".gitignore" is the file (object) name.
 
-There are **_two_** `mode bits` in `Git`. **_One_** is **_represented_** by
-`644`, and the **_other_** by `755`. They **_represent_** `unix permissions`. **_Just like_** we have **_permissions_** for **_users_** on our `macOS` with **_these values_**. `644` **_means_** the **_owner_** (of the file) **_can_** `read/write`, **_group/others_** can `read only`, and `755`  **_means_** `read` and `execute` **_access_** for **_everyone_** and **_also_** `write` **_access_** for the **_owner_** of the **_file_**. In **_my project_**, I have **_all_** `644` **_permissions_**.
+## The two mode bits in Git
 
-The `stage numbers`, \***_represented here_** by `0`, are **_used_** for
-**_handling_** `merge conflicts`. **_According_** to the **_article_**
-[Git: Understanding the Index File](https://mincong.io/2018/04/28/git-index/) by **_Mincing Huang_** (this **_information_** was **_very difficult_** to **_find_**),
+There are two mode bits in Git. One is represented by 644, and the other by 755.
+They represent unix permissions. Just like we have permissions for users on our
+macOS with these values. 644 means the owner of the file can read/write,
+group/others can read only, and 755 means read and execute access for everyone
+and also write access for the owner of the file. In my project, I have only 644
+permissions.
 
-```markdown
--   Slot 0: “normal”, un-conflicted, all-is-well entry.
--   Slot 1: “base”, the common ancestor version.
--   Slot 2: “ours”, the target (HEAD) version.
--   Slot 3: “theirs”, the being-merged-in version.
+## Stage numbers in Git
+
+The stage numbers, represented here by 0, are used for handling merge conflicts.
+According to the article
+[Git: Understanding the Index File](https://mincong.io/2018/04/28/git-index/) by
+Mincing Huang (this information was very difficult to find),
+
+> Slot 0: “normal”, un-conflicted, all-is-well entry.
+>
+> Slot 1: “base”, the common ancestor version.
+>
+> Slot 2: “ours”, the target (HEAD) version.
+>
+> Slot 3: “theirs”, the being-merged-in version.
+
+So a stage number of 0 is good!
+
+And ".gitignore" is self-explanatory. The name of the file.
+
+## Reverting to a version of a file before it was modified using git restore
+
+As of version 2.23, Git introduced the `git restore` and `git switch` commands.
+Together they were meant to take over some of `git checkout`'s multi-tasking.
+Prior to Git 2.23, `git checkout` would update the working directory to match
+the version of a file in the `index` or the file's last commit in the current
+branch. This command did not switch branches and only targeted the specified
+file. What was good about `git checkout` is that it only restored specific files
+without affecting the rest of the current branch or other files in the working
+directory.[^2]
+
+What wasn't good about `git checkout` was that it handled multiple tasks with
+the same command. It switched branches, i.e. `git checkout <branch-name>`,
+restored files, i.e. `git checkout index.html`, or restored files from a
+specific commit, i.e. `git checkout <commit-hash> -- <file>`.
+
+Git 2.23 introduced the `git restore` and `git switch` commands to address the
+ambiguity of the `git checkout` command.
+
+`git switch` is specifically used to switch from one branch to another. I
+personally have never used this command. I still use
+`git checkout remove-excess-backticks-mdx-format-other-file-types`, for example.
+
+If I were to use `git switch` instead, I would run
+`git switch remove-excess-backticks-mdx-format-other-file-types`, for example.
+
+If I wanted to create a new branch called "fix-projects-page-structure" and then
+switch into it, I would run `git switch -c fix-projects-page-structure`. With
+`git checkout`, I would run `git checkout -b fix-projects-page-structure`.
+
+Both commands have names that explicitly describe their purpose. `git checkout`
+did not. It was pretty vague.
+
+These days, when I run the `git status` command after making changes in my
+working directory, something like the following is returned:
+
+```shell
+git status
+On branch remove-excess-backticks-mdx-format-other-file-types
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+    modified:   data/blog/removing-unstaged-changes-to-your-individual-files-in-git.mdx
+
+no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
-So a `stage number` of `0` is **_good_**!
+`git commit -a` stages and commits all modified and deleted tracked files in one
+fell swoop before committing. However, `-a` does not stage new, untracked files.
+So you have to explicitly `git add` new files first so `git commit -a` can
+include them in the commit.
 
-And `.gitignore` is **_self-explanatory_**. The **_name_** of the **_file_**.
+But if I want to restore
+"data/blog/removing-unstaged-changes-to-your-individual-files-in-git.mdx" to its
+previous commit before any of the current changes were made, as indicated above,
+I could use the
+`git restore data/blog/removing-unstaged-changes-to-your-individual-files-in-git.mdx`,
+and "data/blog/removing-unstaged-changes-to-your-individual-files-in-git.mdx" no
+longer would appear under "Changes not staged for commit".
 
-And **_that_** is **_it_**!
+## Conclusion
+
+Prior to Git 2.23, users such as myself used the `git checkout` command for a
+variety of purposes: switching branches, restoring individual modified files in
+the current working directory or specific commit, or even creating new branches
+with the `-b` option before checking out into them. Git 2.23 made things clearer
+and simpler. It introduced the `git restore` and `git switch` commands.
+`git restore` restores a modified file to its previous commit state.
+`git switch` switches from one branch to another. Both commands were named to
+clearly convey their intent.
 
 ## Related Resources
 
-[What does the git index contain EXACTLY?](https://stackoverflow.com/questions/4084921/what-does-the-git-index-contain-exactly): **_stackoverflow.com_**
+- [What does the git index contain EXACTLY?](https://stackoverflow.com/questions/4084921/what-does-the-git-index-contain-exactly):
+  _stackoverflow.com_
 
-[Git: Understanding the Index File](https://mincong.io/2018/04/28/git-index/): **_mincong.io_**
+- [Git: Understanding the Index File](https://mincong.io/2018/04/28/git-index/):
+  _mincong.io_
 
-[git-lis-files](https://git-scm.com/docs/git-ls-files): **_git-scm.com_**
+- [git-ls-files](https://git-scm.com/docs/git-ls-files): _git-scm.com_
 
-[Understanding File Permissions](https://www.multacom.com/faq/password_protection/file_permissions.htm): **_MULTACOM_**
+- [File permission with six bytes in git. What does it mean?](https://unix.stackexchange.com/questions/450480/file-permission-with-six-bytes-in-git-what-does-it-mean):
+  _stackexchange.com_
 
-[File permission with six bytes in git. What does it mean?](https://unix.stackexchange.com/questions/450480/file-permission-with-six-bytes-in-git-what-does-it-mean): **_stackoverflow.com_**
+- [Git - finding the SHA-1 of an individual file in the index](https://stackoverflow.com/questions/460297/git-finding-the-sha1-of-an-individual-file-in-the-index):
+  _stackoverflow.com_
 
-[Git - finding the SHA1 of an individual file in the index](https://stackoverflow.com/questions/460297/git-finding-the-sha1-of-an-individual-file-in-the-index): **_stackoverflow.com_**
+- [What is the difference between "git checkout" vs. "git restore" for reverting uncommitted file changes?](https://stackoverflow.com/questions/61130412/what-is-the-difference-between-git-checkout-vs-git-restore-for-reverting-un#61130521):
+  _stackoverflow_
 
+- [What does git checkout do?](https://stackoverflow.com/questions/69826597/what-does-git-checkout-do#69832465):
+  _stackoverflow_
+
+- [How to fix no changes added to commit (use "git add" and/or "git commit -a") in Git](https://deverrors.com/errors/git-commit-no-changes-added):
+  _deverrors.com_
+
+[^1]:
+    SHA-1 stands for Secure Hash Algorithm 1. In the context of Git 2.23, it is
+    a cryptographic hash function which creates unique identifiers for objects
+    within Git repositories.
+
+[^2]:
+    In Git, the working directory refers to the local directory where a project
+    tracked by Git resides. It acts as a workspace where I edit, add, or delete
+    files before staging and committing them to the local directory's
+    repository.
