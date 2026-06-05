@@ -17,90 +17,129 @@ tags:
         'osx',
         'renaming git repositories',
         'unix',
-        'zshell'
+        'zshell',
     ]
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
 ![Mont Blanc](ronan-dorard-mVwNe219tQY-unsplash.jpg)
 
-***Photo by*** [Ronan Dorard](https://unsplash.com/@ronan_el_dl) ***on*** [Unsplash](https://unsplash.com/photos/mVwNe219tQY)
+**_Photo by_** [Ronan Dorard](https://unsplash.com/@ronan_el_dl) **_on_**
+[Unsplash](https://unsplash.com/photos/mVwNe219tQY)
 
-***Today*** I was ***going through*** and ***re-organizing*** my `JavaScript30` ***projects*** and ***adding*** `Github Wiki pages` to them. I ***came across*** ***one*** `repository` which I ***wanted*** to ***rename***, because it ***did not*** `mirror` the `name` in the `JavaScript30` ***repository***! ***In addition***, I ***wanted*** to ***rename*** the `local repository` to ***mirror*** the ***name*** of my
-***remote*** `repository`.
+**_Today_** I was **_going through_** and **_re-organizing_** my `JavaScript30`
+**_projects_** and **_adding_** `Github Wiki pages` to them. I **_came across_**
+**_one_** `repository` which I **_wanted_** to **_rename_**, because it **_did
+not_** `mirror` the `name` in the `JavaScript30` **_repository_**! **_In
+addition_**, I **_wanted_** to **_rename_** the `local repository` to
+**_mirror_** the **_name_** of my **_remote_** `repository`.
 
-***First*** I ***renamed*** the `local repository`. I was ***already*** in the ***repository*** which I ***wanted*** to ***rename***, `array-cardio`s. I ***wanted*** to ***rename*** it to `array-cardio-day-1`. In `CLI` (`Command Line Interface`) I ***typed***
+**_First_** I **_renamed_** the `local repository`. I was **_already_** in the
+**_repository_** which I **_wanted_** to **_rename_**, `array-cardio`s. I
+**_wanted_** to **_rename_** it to `array-cardio-day-1`. In `CLI`
+(`Command Line Interface`) I **_typed_**
 
 ```shell
 mv ~/development/array-cardio ~/development/array-cardio-day-1
 ```
 
-That ***renamed*** `array-cardio` to `array-cardio-day-1`. ***However***, the `mv` ***command*** can ***also*** be ***used*** to ***move*** `files` and `directories`. If I ***wanted*** to ***move*** my `cardio1.js` ***file*** into my `~/development` ***folder*** where I ***have*** all my ***projects***, ***for example***, I ***would type***
+That **_renamed_** `array-cardio` to `array-cardio-day-1`. **_However_**, the
+`mv` **_command_** can **_also_** be **_used_** to **_move_** `files` and
+`directories`. If I **_wanted_** to **_move_** my `cardio1.js` **_file_** into
+my `~/development` **_folder_** where I **_have_** all my **_projects_**, **_for
+example_**, I **_would type_**
 
 ```shell
 mv cardio1.js ~/development/
 ```
 
-and `cardio1.js` which was ***residing in***
+and `cardio1.js` which was **_residing in_**
 
 ```shell
 ~/development/array-cardio-day-1
 ```
 
-would ***now*** be ***residing in*** the
+would **_now_** be **_residing in_** the
 
 ```
 ~/development/
 ```
 
-`development` ***folder*** (aka **_directory_**) itself. If I ***wanted*** to ***move*** it ***back*** to the `array-cardio-day-1` ***directory*** and ***within*** the `scripts` ***directory*** in `array-cardio-day-1`, I ***would type***
+`development` **_folder_** (aka **_directory_**) itself. If I **_wanted_** to
+**_move_** it **_back_** to the `array-cardio-day-1` **_directory_** and
+**_within_** the `scripts` **_directory_** in `array-cardio-day-1`, I **_would
+type_**
 
 ```shell
 mv cardio1.js array-cardio-day-1/scripts/
 ```
 
-***from within*** the `~/development` ***folder***. So ***in other words***, I would ***make sure*** that I was ***first within*** the `~/development` ***folder***, and ***then*** I ***would type*** the `command`. I ***don’t*** have to ***append*** `~/development` to the ***beginning*** of the `destination path`, ***because*** I am ***already there***.
+**_from within_** the `~/development` **_folder_**. So **_in other words_**, I
+would **_make sure_** that I was **_first within_** the `~/development`
+**_folder_**, and **_then_** I **_would type_** the `command`. I **_don’t_**
+have to **_append_** `~/development` to the **_beginning_** of the
+`destination path`, **_because_** I am **_already there_**.
 
-***Then*** I ***checked*** to ***make sure*** I ***had done*** it ***right*** and `cd`(ed) ***into*** the `project` by ***typing***:
+**_Then_** I **_checked_** to **_make sure_** I **_had done_** it **_right_**
+and `cd`(ed) **_into_** the `project` by **_typing_**:
 
 ```shell
 array-cardio-day-1
 ```
 
-while ***still in*** the `~/development` ***folder***. It ***took*** me ***right*** to it. This is just ***one*** of the ***features*** that ***attracted*** me to `Oh my zsh`. I ***didn’t have*** to ***type*** `cd array-cardio-day-1`, ***just*** `array-cardio-day-1`.
+while **_still in_** the `~/development` **_folder_**. It **_took_** me
+**_right_** to it. This is just **_one_** of the **_features_** that
+**_attracted_** me to `Oh my zsh`. I **_didn’t have_** to **_type_**
+`cd array-cardio-day-1`, **_just_** `array-cardio-day-1`.
 
-***Another great*** little thing that ***I have*** with my `Oh my zsh` ***install***, is that I can ***type*** `development` ***lowercase*** or `Development` ***uppercase***. The ***folder*** was actually ***created*** with an ***uppercase*** `D`, `Development`. ***But*** I ***can type*** either `development` or `Development` to `cd` ***into*** the ***folder***, or ***use either*** in ***commands***. As
-shown above, I ***used*** the ***lowercase*** `d` for ***speed***, ***ease*** of ***convenience***. What’s ***even more*** `interesting` is that ***when*** I ***type***
+**_Another great_** little thing that **_I have_** with my `Oh my zsh`
+**_install_**, is that I can **_type_** `development` **_lowercase_** or
+`Development` **_uppercase_**. The **_folder_** was actually **_created_** with
+an **_uppercase_** `D`, `Development`. **_But_** I **_can type_** either
+`development` or `Development` to `cd` **_into_** the **_folder_**, or **_use
+either_** in **_commands_**. As shown above, I **_used_** the **_lowercase_**
+`d` for **_speed_**, **_ease_** of **_convenience_**. What’s **_even more_**
+`interesting` is that **_when_** I **_type_**
 
 ```shell
 development
 ```
 
-and ***hit*** `return`, this is ***how*** the `path` I ***receive*** looks in `iTerm2`
+and **_hit_** `return`, this is **_how_** the `path` I **_receive_** looks in
+`iTerm2`
 
 ```shell
 ~/development:
 ```
 
-***When*** I ***type***
+**_When_** I **_type_**
 
 ```shell
 Development
 ```
 
-and ***hit*** `return`, this is ***how*** the `path` I ***receive*** looks in `iTerm2`
+and **_hit_** `return`, this is **_how_** the `path` I **_receive_** looks in
+`iTerm2`
 
 ```shell
 ~/Development:
 ```
 
-***As*** I ***mentioned earlier***, I ***wanted*** to ***rename*** my ***remote*** `git repository`. ***After renaming*** my ***local*** `git repository`, I ***went*** to `Github` to ***rename*** my ***remote*** `repository`.
+**_As_** I **_mentioned earlier_**, I **_wanted_** to **_rename_** my
+**_remote_** `git repository`. **_After renaming_** my **_local_**
+`git repository`, I **_went_** to `Github` to **_rename_** my **_remote_**
+`repository`.
 
-I ***first*** went ***into*** the `Settings` ***tab*** of the `array-cardio` (it’s original name) ***repository***, and ***at*** the ***top*** was the ***option*** `Repository Name`. ***Underneath that***, I just ***typed*** in the ***name*** I ***wanted*** to ***change*** the `repository` to, and then ***hit*** the
-`rename` ***button***. ***Now*** `array-cardio-day-1` ***appeared*** as the ***name*** of the ***repo***. ***Next***, I ***exited settings*** and ***clicked*** on the `repository name` to ***access*** the `clone` or
-`download` ***button***. I **_copied_** the `new path` to the `repository` ***using***
-`SSH`, and ***did*** the ***following*** in `CLI`:
+I **_first_** went **_into_** the `Settings` **_tab_** of the `array-cardio`
+(it’s original name) **_repository_**, and **_at_** the **_top_** was the
+**_option_** `Repository Name`. **_Underneath that_**, I just **_typed_** in the
+**_name_** I **_wanted_** to **_change_** the `repository` to, and then
+**_hit_** the `rename` **_button_**. **_Now_** `array-cardio-day-1`
+**_appeared_** as the **_name_** of the **_repo_**. **_Next_**, I **_exited
+settings_** and **_clicked_** on the `repository name` to **_access_** the
+`clone` or `download` **_button_**. I **_copied_** the `new path` to the
+`repository` **_using_** `SSH`, and **_did_** the **_following_** in `CLI`:
 
 ```shell
 git remote rm origin
@@ -113,14 +152,25 @@ typed
 git remote add origin git@github.com:interglobalmedia/array-cardio-day-1.git
 ```
 
-This ***added*** the **_new_** `remote origin` ***path*** to the `local repo`. ***Remember how*** you ***always*** type in this ***second line*** when ***pushing*** your ***local*** `repository` to your ***remote*** `repository` on `Github` for the ***first time***? Well, it’s the ***same thing*** here ***after*** you have ***renamed*** your ***remote repo***. You are ***adding*** a ***new*** `name/path` to your ***local*** `repository`. If you ***want*** to be ***really anal*** about it, the ***next time*** you ***push*** to the ***remote repo***, you can ***type***
+This **_added_** the **_new_** `remote origin` **_path_** to the `local repo`.
+**_Remember how_** you **_always_** type in this **_second line_** when
+**_pushing_** your **_local_** `repository` to your **_remote_** `repository` on
+`Github` for the **_first time_**? Well, it’s the **_same thing_** here
+**_after_** you have **_renamed_** your **_remote repo_**. You are **_adding_**
+a **_new_** `name/path` to your **_local_** `repository`. If you **_want_** to
+be **_really anal_** about it, the **_next time_** you **_push_** to the
+**_remote repo_**, you can **_type_**
 
 ```shell
 git push -u origin master
 ```
 
-to ***make sure*** that ***local*** and ***remote repos*** are ***keeping track*** of ***each other***. `-u` is ***shorthand*** for `-upstream`. `git push -u origin master` is what you would ***type*** when **_pushing_** a `local repo` to **Github** for the ***first time***.
+to **_make sure_** that **_local_** and **_remote repos_** are **_keeping
+track_** of **_each other_**. `-u` is **_shorthand_** for `-upstream`.
+`git push -u origin master` is what you would **_type_** when **_pushing_** a
+`local repo` to **Github** for the **_first time_**.
 
-***How*** do ***things work*** for you ***using*** `Oh my zsh`? I ***would love*** to ***know***!
+**_How_** do **_things work_** for you **_using_** `Oh my zsh`? I **_would
+love_** to **_know_**!
 
-*Have fun* `commanding` with *Oh my Zsh*!
+_Have fun_ `commanding` with _Oh my Zsh_!
