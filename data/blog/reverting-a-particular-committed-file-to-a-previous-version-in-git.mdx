@@ -7,77 +7,79 @@ author: Maria D. Campbell
 excerpt: Reverting a particular committed file to a previous version in Git.
 image: maarten-van-den-heuvel-8EzNkvLQosk-unsplash.webp
 tags: ['git', 'git reset', 'git checkout', 'git log', 'git status']
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
 ![Reverting a particular committed file to a previous version in Git](maarten-van-den-heuvel-8EzNkvLQosk-unsplash.webp)
 
-***Photo by*** [Maarten van den Heuvel](https://unsplash.com/@mvdheuvel) ***on*** [unsplash.com](https://unsplash.com/photos/8EzNkvLQosk)
+_Photo by_ [Maarten van den Heuvel](https://unsplash.com/@mvdheuvel) _on_
+[unsplash.com](https://unsplash.com/photos/8EzNkvLQosk)
 
-I **_just made_** some **_changes_** to a `file` and then **_committed them_** so I **_could have_** a **_reference_** of those **_changes_** in my `Git` **_history_**, but I **_knew_** that I **_wanted_** to **_revert back_** to the **_prior version_** of the `file`.
+I just made some changes to a file and then committed them so I could have a
+reference of those changes in my Git history, but I knew that I wanted to revert
+back to the prior version of the file.
 
-I **_knew_** that I **_needed_** the `object id` of the `file` from the **_last commit_** I had **_made_**, but **_how_** was I to **_get_** it?
+I knew that I needed the object id of the file from the last commit I had made,
+but how was I to get it?
 
-It was **_really simple_**. The **_following_** is the **_command_** I
-**_ran_**:
+It was really simple. I ran:
 
 ```shell
 git rev-parse where-to-put-our-logic:src/components/Shop/ProductItem.js
 ```
 
-And the `command` **_returned_** the **_following_**:
+And the following was returned:
 
 ```shell
 243d68e5d39018d368391ffdff9ea886484e13da
 ```
 
-which was the `hash` for that **_particular_** `file` in the `commit` I had
-**_previously made_** in the `where-to-put-our-logic` **_branch_**.
+This was the hash for that particular file in the commit I had previously made
+in the "where-to-put-our-logic" branch.
 
-`git rev-parse` is the `command`. `where-to-put-our-logic` is the **_name_** of the `branch`, and **_where_** I **_made_** the `commit`.
-`src/components/Shop/ProductItem.js` is the **_relative path_** to the `file` I **_needed_** the `object id` of.
+`git rev-parse` is the command. "where-to-put-our-logic" is the name of the
+branch where I made the commit. "src/components/Shop/ProductItem.js" is the
+relative path to the file I needed the object id of.
 
-**_However_**, I **_wanted_** to **_get_** the **_latest_** `id` of the `file` in the `master` **_branch_**, which is **_where_** I **_merged_** the **_latest commits_** into. So I **_needed_** to **_get_** the `hash` of the **_latest_** `commit` which **_contained_** the **_version_** of the `file` I **_wanted_**.
+However, I wanted to get the latest id of the file in the master branch, which
+is where I merged the latest commits into. I needed to get the hash of the
+latest commit which contained the version of the file I wanted.
 
-**_First_** I **_ran_** the `git log --oneline` command. This **_logs_** a
-**_list_** of **_all_** the `commits` made in the `local repository`.
+First I ran the `git log --oneline` command. This logs a list of all the commits
+made in the local repository.
 
-`git log` **_shows_** a `list` of **_all_** the `commits` **_made_** to a
-`repository`. **_There_**, we can **_see_** the `hash` of **_each_** `Git`
-**_commit_**, the `message` **_associated_** with **_each_** `commit` (one
-**_reason_** why **_good_** `commit` **_messages_** are **_important_**, to
-**_remind us_** what we **_did_** with the `code`, for **_example_**, in
-**_that_** `commit`), and **_more_** `metadata`. This `command` is **_useful_** for **_displaying_** the `history` of a `repository`.
+`git log` shows a list of all the commits made to a repository. There, we can
+see the hash of each Git commit, the message associated with each commit (one
+reason why good commit messages are important, to remind us what we did with the
+code, for example, in that commit), and more metadata. This command is useful
+for displaying the history of a repository.
 
-**_Below_** is the `--oneline` I was **_looking_** for in the `results`
-**_returned_** from **_running_** the `git log —online` command:
+Below is the `--oneline` I was looking for in the results returned from
+`git log —online`:
 
 ```shell
 e5f52f0 (origin/main, main) Merge branch 'refresher-practice-2'
 ```
 
-The `message` here **_refers_** to the **_fact_** that I had **_merged_** the `refreshed-practice-2` **_branch_** into the `main` **_branch_**, so **_even though_** it was a **_default message_**, it **_still_** was **_informative_**, and the `commit hash` I **_wanted_**. Then, **_in order_** to **_revert_** the **_content_** of the `file` to **_that_** `commit`, I **_ran_** the **_following_** `command`:
+The message here refers to the fact that I had merged the "refreshed-practice-2"
+branch into the "main" branch, so even though it was a default message, it still
+was informative, and the commit hash I wanted. Then, in order to revert the
+content of the file to that commit, I ran the following:
 
 ```shell
 git reset e5f52f0 src/components/Shop/ProductItem.js
 ```
 
-And the **_following_** was **_returned_** in the `Terminal console`:
+And the following was returned:
 
 ```shell
 Unstaged changes after reset:
 M       src/components/Shop/ProductItem.js
 ```
 
-Then I **_ran_** `git status` to **_see_** what the **_status_** was of that
-`file`:
-
-```shell
-git status
-```
-
-And I **_got back_** the **_following_** in the `Terminal console`:
+Then I ran `git status` to see what the status was of that file and I got back
+the following:
 
 ```shell
 git status
@@ -92,20 +94,13 @@ Changes not staged for commit:
         modified:   src/components/Shop/ProductItem.js
 ```
 
-Then I **_ran_** the **_following_** `command`:
-
-```shell
-git checkout src/components/Shop/ProductItem.js
-```
-
-And **_got_** the **_following_** back in the `Terminal console`:
+Then I ran `git checkout src/components/Shop/ProductItem.js` and got back:
 
 ```shell
 Updated 1 path from the index
 ```
 
-Then **_again_**, I **_ran_** `git status`, and **_got back_** the
-**_following_** in the `Terminal console`:
+Then again, I ran `git status`, and got back:
 
 ```shell
 git status
@@ -115,13 +110,15 @@ Changes to be committed:
         modified:   src/components/Shop/ProductItem.js
 ```
 
-So I **_staged_** the **_reverted changes_** of the `file`. I was **_not sure_** whether I **_wanted_** to **_do that_** or **_not_**, but I **_ran_** the **_following_** `command`:
+So I staged the reverted changes of the file. I was not sure whether I wanted to
+do that or not, but I ran the following:
 
 ```shell
 git restore --staged src/components/Shop/ProductItem.js
 ```
 
-As **_prompted_** by the `information` **_returned_** to the `Terminal console` when I **_ran_** `git status` (right above). Then I **_ran_** `git status` **_again_**, and **_got_** the **_following_** back:
+As prompted by the information returned when I ran `git status` right above.
+Then I ran `git status` again, and got the following back:
 
 ```shell
 On branch where-to-put-our-logic
@@ -133,25 +130,29 @@ Changes not staged for commit:
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
-Since the **_content_** of the `file` was the **_same_** when I had **_staged_** the **_reverted changes_** and **_now_**, when I had **_unstaged_** those **_changes_**, but they were **_still present_**, I **_could have_** just **_skipped_**
+Since the content of the file was the same when I had staged the reverted
+changes and now, when I had unstaged those changes, I could have just skipped
 
 ```shell
 git restore --staged src/components/Shop/ProductItem.js
 ```
 
-and just **_committed_** the **_changes_**. But **_since_** I had **_unstaged_** the **_reverted changes_**, I **_had_** to **_do_** the **_following_**:
+and just committed the changes.
+
+Since I had unstaged the reverted changes, I had to do the following:
 
 ```shell
 git add src/components/Shop/ProductItem.js
 ```
 
-And **_then_**:
+And then:
 
 ```shell
 git commit
 ```
 
-And the **_following_** was **_returned_** to the `Terminal console` **_after_** I **_created_** my `commit message` in `VIM` and was **_taken back_** to my `where-to-put-our-logic` **_branch_**:
+And the following was returned after I created my commit message in VIM and was
+taken back to my `where-to-put-our-logic` branch:
 
 ```shell
 git commit
@@ -159,31 +160,33 @@ git commit
  1 file changed, 13 insertions(+), 49 deletions(-)
 ```
 
-`[where-to-put-our-logic aa33ca2]` **_refers_** to the `branch` I am on
-**_followed_** by the `hash` of the **_new_** `commit` I just **_made_**. And `Add back original code` is the `commit message` I **_created_** in `VIM`.
+"[where-to-put-our-logic aa33ca2]" refers to the branch I am on followed by the
+hash of the new commit I just made. `Add back original code` is the commit
+message I created in VIM.
 
-`1 file changed, 13 insertions(+), 49 deletions(-)` just **_lets_** me
-**_know_** that `1 file` was **_changed_**, `13` **_additions_** and `49`
-**_deletions made_** to the `file`.
+"1 file changed, 13 insertions(+), 49 deletions(-)" just lets me know that 1
+file was changed, 13 additions and 49 deletions made to the file.
 
-I had a **_second_** `file` in the **_same project_** that I **_wanted_** to
-**_revert back_** to the `version` in the **_same_** (**_previous_**) `commit`, so I **_followed_** the **_steps_** I **_made_** the **_first_** `time around`.
+I had a second file in the same project that I wanted to revert to the version
+in the same previous commit, so I followed the steps I made the first time
+around.
 
-I **_wanted_** to **_revert back_** to the **_previous version_** of a `file` with the **_relative path_** `src/store/cart-slice.js`, so I **_first ran_** the **_following_** `command` in `Terminal` **_inside_** the **_root_** of the `project`:
+I wanted to revert to the previous version of a file with the relative path
+"src/store/cart-slice.js", so I first ran the following inside the root of the
+project:
 
 ```shell
 git reset e5f52f0 src/store/cart-slice.js
 ```
 
-And when I **_hit_** `return`, I **_got_** the **_following_** back in the
-`Terminal console`:
+And when I hit "return", I got the following back:
 
 ```shell
 Unstaged changes after reset:
 M       src/store/cart-slice.js
 ```
 
-Then I **_ran_** `git status`, and the **_following_** was **_returned_** in the `Terminal console`:
+Then I ran `git status`, and got back the following:
 
 ```shell
 git status
@@ -198,19 +201,20 @@ Changes not staged for commit:
         modified:   src/store/cart-slice.js
 ```
 
-And when I **_checked_** at **_this point_** to **_see_** if the `file`
-**_content_** had **_changed_** yet, it **_had not_**. So then I **_knew_** I **_had_** to **_go through_** all the **_steps_** I **_had taken_** with the **_previous_** `file`.
+And when I checked at this point to see if the file content had changed yet, it
+had not. So then I knew I had to go through all the steps I had taken with the
+previous file.
 
-So **_next_**, **_as before_**, I **_ran_**
+Next, as before, I ran
 
 ```shell
 git checkout src/store/cart-slice.js
 ```
 
-And it is with **_this_** `command` that the **_content_** of the `file`
-**_reverted back_** to the **_version_** in the `commit` with the `hash` of
-`e5f52f0`. So **_what_** is **_happening_** here, is I **_removed_** all the
-`pre-commit` **_changes_** that had been **_made_** to the `file`, **_after_** I had **_reset_** it to the `commit` I **_wanted_**. And the **_following_** was **_returned_** to the `Terminal console`:
+And it is with this `ommand that the content of the file reverted to the version
+in the commit with the hash of e5f52f0. So what happened here, is I removed all
+the pre-commit changes that had been made to the file, after I had reset it to
+the commit I wanted. And the following was returned to the Terminal console:
 
 ```shell
 git status
@@ -220,30 +224,35 @@ Changes to be committed:
         modified:   src/store/cart-slice.js
 ```
 
-So **_checking out_** the `file` **_staged_** it, and with the **_version_** of the `code` that I **_wanted_**. So **_then_** I **_ran_** the **_following_** `command` in `Terminal`:
+Checking out the file staged it, and with the version of the code that I wanted.
+Then I ran the following in Terminal:
 
 ```shell
 git commit
 ```
 
-And I was **_taken_** into `VIM` to **_write_** my `commit message`. And when I **_returned_** to the `where-to-put-our-logic` **_branch_**, and **_ran_** `git status`, I **_got back_** the **_following_**:
+I was taken into VIM to write my commit message. And when I returned to the
+"where-to-put-our-logic" branch, and ran `git status`, I got back:
 
 ```shell
 On branch where-to-put-our-logic
 nothing to commit, working tree clean
 ```
 
-Which is **_exactly_** what I **_wanted_**! I **_found_** that I did **_not_** have to **_run_** the `git restore` **command**. That was **_overkill_**.
+This is exactly what I wanted! I found that I did not have to run the
+`git restore` command. That was overkill.
 
-I **_also wrote_** a `post` **_entitled_** [Removing unstaged changes to your individual files in Git](https://www.interglobalmedianetwork.com/blog/removing-unstaged-changes-to-your-individual-files-in-git),
-which you **_might want_** to **_check out_** as well.
-
-**_Happy_** `Git` **_version control_**!
+I also wrote a post entitled
+[Removing unstaged changes to your individual files in Git](https://www.interglobalmedianetwork.com/blog/removing-unstaged-changes-to-your-individual-files-in-git),
+which you might want to check out as well.
 
 ## Related Resources
 
--   [How to get object ID of a file at a specific commit?](https://stackoverflow.com/questions/47542529/how-to-get-object-id-of-a-file-at-a-specific-commit): **_stackoverflow_**
+- [How to get object ID of a file at a specific commit?](https://stackoverflow.com/questions/47542529/how-to-get-object-id-of-a-file-at-a-specific-commit):
+  _stackoverflow_
 
--   [Git Log: How to Use It](https://careerkarma.com/blog/git-log/): **_career karma_**
+- [Git Log: How to Use It](https://careerkarma.com/blog/git-log/): _career
+  karma_
 
--   [Removing unstaged changes to your individual files in Git](/blog/removing-unstaged-changes-to-your-individual-files-in-git): **_mariadcampbell.com_**
+- [Removing unstaged changes to your individual files in Git](/blog/removing-unstaged-changes-to-your-individual-files-in-git):
+  _mariadcampbell.com_
