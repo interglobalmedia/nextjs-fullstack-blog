@@ -6,44 +6,48 @@ title: Setting your default browser via Command Line in macOS
 author: Maria D. Campbell
 excerpt: Setting your default browser via Command Line in macOS.
 image: pexels-designecologist-1779487.jpg
-tags: ['command line', 'macOS', 'defaultbrowser', 'homebrew']
-isPublished: true
+tags: ['applescript', 'command line', 'macOS', 'defaultbrowser', 'homebrew']
+isPublished: false
 isFeatured: false
 ---
 
 ![macOS default browser](pexels-designecologist-1779487.jpg)
 
-**_Photo by_** [Designecologist](https://www.pexels.com/@designecologist/)
-**_on_**
+_Photo by_ [Designecologist](https://www.pexels.com/@designecologist/) _on_
 [pexels.com](https://www.pexels.com/photo/silver-imac-displaying-collage-photos-1779487/)
 
 ## Table of Contents
 
--   [Installing the Homebrew package defaultbrowser](#installing0-the-homebrew-package-defaultbrowser)
--   [brew install defaultbrowser](#brew-install-defaultbrowser)
--   [Running the defaultbrowser safari command](#running-the-defaultbrowser-safari-command)
+- [Installing the Homebrew package defaultbrowser](#installing0-the-homebrew-package-defaultbrowser)
+- [brew install defaultbrowser](#brew-install-defaultbrowser)
+- [Running the defaultbrowser safari command](#running-the-defaultbrowser-safari-command)
+- [Limitations of defaultbrowser](#limitations-of-defaultbrowser)
+- [Using AppleScript as a workaround to set a default browser](#using-applescript-as-a-workaround-to-set-a-default-browser)
+- [Using the defaultbrowser package or AppleScripts unnecessary with Monterey 12.3 and after](#using-the-defaultbrowser-package-or-appleScripts-unnecessary-with-monterey-123-and-after)
+- [Conclusion](#conclusion)
+
+_This post was originally published in August 2024 and updated in June 2026 with
+current default browser information._
 
 ## Installing the Homebrew package defaultbrowser
 
-`In order` to `set` my `default browser` in `macOS` via `Command Line`, I first
-`had` to `install` the `Homebrew` package called `defaultbrowser`.
+In order to set my default browser in macOS via Command Line, I first had to
+`install the Homebrew package called "defaultbrowser".
 
-`First`, I `ran` the `following commands`, one `after` the `other`:
+First, I ran the following commands, one after the other`:
 
 ```shell
 brew update
 brew upgrade
 ```
 
-This is `similar` to `what` we `do` in `Linux Mint` when we run
-`sudo apt update` and `sudo apt upgrade` to `make sure` that `all` our
-`packages` are `up` to `date` before `installing` a `new one`. We `have` to `do`
-the `same` with `Homebrew`.
+This is similar to what we do in Linux Mint when we run `sudo apt update` and
+`sudo apt upgrade` to make sure that all our packages are up to date before
+installing a new one. We have to do the same with Homebrew.
 
 ## brew install defaultbrowser
 
-`Next`, I `run` the `following command` to `install` the `defaultbrowser`
-package:
+Next, I run the following command to install the defaultbrowser package:
 
 ```shell
 brew install defaultbrowser
@@ -51,16 +55,148 @@ brew install defaultbrowser
 
 ## Running the defaultbrowser safari command
 
-`After` it was `successfully installed`, I `quit` the active `Terminal` window
-and `opened` up a `new instance`. And there, I `ran` the `following command` to
-make `Safari` my `default browser`:
+After it was successfully installed, I quit the active Terminal window and
+opened up a new instance. And there, I ran the following command to make Safari
+my default browser:
 
 ```shell
 defaultbrowser safari
 ```
 
-And that was it!
+Chances are that the `defaultbrowser` command will be able to change my default
+web browser as long as the target browser is installed on my machine. Currently
+I have the following browsers installed, and I can set any of them as my default
+browser:
 
-`No` more `need` to `go` into `browser` settings `searching` for the `location`
-where to `set` a `particular browser` as your `default browser`. `You` can just
-`set` it by `typing` a `simple` two word `command` in `Terminal`!
+```shell
+Firefox Developer Edition.app
+Firefox Nightly.app
+Firefox.app
+Google Chrome.app
+Microsoft Edge.app
+Opera.app
+Safari.app
+Vivaldi.app
+```
+
+## Limitations of defaultbrowser
+
+|                               | Limitations of defaultbrowser                                                                                                                                                                            |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Compatibility Issues**      | **defaultbrowser** may not support all web browsers. Users should verify if their preferred browser is compatible.                                                                                       |
+|                               | **defaultbrowser** may not be compatible with all versions of macOS. Users should check if their macOS version is compatible with the **defaultbrowser** package.                                        |
+| **User account restrictions** | **defaultbrowser** may not work well in environments with multiple user accounts. Homebrew's permission model can restrict access, making it difficult for different users to set their default browser. |
+| **Installation requirements** | Users must have Homebrew installed to use **defaultbrowser**, which adds an extra step for those unfamiliar with package managers and Command Line.                                                      |
+| **Command limitations**       | While the `defaultbrowser` command is simple, users still need to be familiar with Command Line, which could be an obstacle for some.                                                                    |
+
+### Creating a shell script file with a ".sh" extension
+
+To set Mozilla Firefox as my default browser using AppleScript, I would first
+create a "set_default_browser.sh" file, save it to my folder called
+"macos_scripting" located in my home directory (~), then add the script to
+"set_default_browser.sh" using the VIM editor. In order to add content to a file
+using VIM, I use the following command:
+
+```shell
+VIM set_default_browser.sh
+```
+
+A file with a ".sh" can either be a bash or zsh shell script file. Both use the
+".sh" extension.
+
+from within the directory where the file is located. For me, it's
+`~/macos-scripting`. I can check where I am in Terminal by running the `pwd`
+command.
+
+### Adding content to the ".sh" file using the VIM editor
+
+When I have executed the `VIM set_default_browser.sh` command, it takes me into
+VIM, and I can add the following code to the file:
+
+```shell
+#!/bin/zsh
+osascript -e 'tell application "System Events" to set default application to "Firefox"'
+```
+
+The problem with using AppleScript and osascript to set the default browser in
+macOS (at least in macOS Tahoe, i.e.), is that macOS requires user confirmation.
+So the default browser will NOT change until the user has both confirmed setting
+the default browser when opening up the selected browser and when Apple system
+settings prompts for confirmation of that change.
+
+**Note:** In order to edit the file, I must first press the "i" key to enter
+insert mode. In order to exit the file and save the changes, I press the "esc"
+key followed By Shift + Colon key and then pressing the "x" key. This takes me
+back to the Terminal command prompt.
+
+### Checking for the permissions set on a file
+
+Next, I have to change the permissions for the "set_default_browser.sh" file. By
+default, when an `.sh` file is created, it has read and write permissions for
+the owner of the file, and read permissions for everyone else. To find out what
+are the permissions for "set_default_browser.sh" after it has been created, I
+could run `ls -l set_default_browser.sh` inside the "macos-scripting" directory,
+and would get back the following:
+
+```shell
+-rw-r--r--  1 mariacam  staff  0 Jun  6 10:21 set_default_browser.sh
+```
+
+The above tells me that the owner of the file has read and write permissions,
+and groups and other have read permissions.
+
+### Adding execute permissions to a file using the chmod command
+
+In order to be useful, the owner has to have execute permissions as well. In
+order to add execute owner permissions to "set_default_browser.sh", I run the
+following command:
+
+```shell
+chmod 744 set_default_browser.sh
+```
+
+And now when I run `ls -l set_default_browser.sh`, I get back the following:
+
+```shell
+-rwxr--r--  1 mariacam  staff  0 Jun  6 10:21 set_default_browser.sh
+```
+
+Now the owner of the file has read, write, and execute permissions, and groups
+and other only have read permissions.
+
+## Running an AppleScript to change the defaultbrowser with Monterey 12.3 and after
+
+In Monterey 12.3 and later, Apple enforced
+
+## Running the defaultbrowser command with Monterey 12.3 and after
+
+Monterey 12.3 introduced the requirement for users to confirm their desire to
+switch their default browser from Safari to something else. Now, if I run the
+`defaultbrowser` command in Terminal to switch away from Safari as my default
+browser OR switch back to it, I receive something like the following prompt:
+
+![macOS prompt requiring a user to confirm their desire to switch their default browser](Screenshot-2026-06-06-at-11.11.34-AM.jpg)
+
+_Screenshot of macOS prompt requiring a user to confirm their desire to switch
+their default browser_
+
+This prompt appears whether I am using the `defaultbrowser` command in Terminal
+or open a web browser which is NOT my default browser. It does not happen when I
+run a shell script. In fact, nothing happens. When I open the browser I have set
+to my default using the script, I still have to confirm the switch. And then I
+also have to confirm the switch with macOS!
+
+## Conclusion
+
+For those of us who primarily use Safari, Mozilla Firefox, Google Chrome or
+Microsoft Edge, we no longer need to go into browser settings searching for
+where to set a browser as our default browser. We can just set it by typing a
+simple two word command in Terminal with the defaultbrowser Homebrew package. As
+for setting other browsers to our default, we can use AppleScript!
+
+## Related Resources
+
+- [Creating a shell script from an AppleScript targeting the macOS Music app](/blog/creating-a-shell-script-from-an-applescript-targeting-the-macos-music-app):
+  _mariadcampbell.com_
+
+[^1]: osascript
