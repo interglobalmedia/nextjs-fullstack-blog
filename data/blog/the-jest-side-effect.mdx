@@ -15,21 +15,32 @@ tags:
         'test driven development',
         'webpack',
     ]
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
 ![Open botle of spilled pills](lance-reis-j_jjDh1wJaQ-unsplash.jpg)
 
-***Photo by*** [Lance Reis](https://unsplash.com/@lancereis) ***on*** [Unsplash](https://unsplash.com/photos/j_jjDh1wJaQ)
+**_Photo by_** [Lance Reis](https://unsplash.com/@lancereis) **_on_**
+[Unsplash](https://unsplash.com/photos/j_jjDh1wJaQ)
 
-In my ***last post***, I ***discussed*** the ***changes*** I ***had*** to ***make*** in my `Jest` ***configuration*** so that `Jest` could `mock out` ***image imports*** in my `React` ***components***. Then my `Jest` ***tests*** would ***pass***. I ***made*** the ***necessary adjustments*** `following` the `suggestions` ***made*** in the `Jest` ***documentation*** (***several approaches*** were ***provided***), and my `tests`
-***did pass***.
+In my **_last post_**, I **_discussed_** the **_changes_** I **_had_** to
+**_make_** in my `Jest` **_configuration_** so that `Jest` could `mock out`
+**_image imports_** in my `React` **_components_**. Then my `Jest` **_tests_**
+would **_pass_**. I **_made_** the **_necessary adjustments_** `following` the
+`suggestions` **_made_** in the `Jest` **_documentation_** (**_several
+approaches_** were **_provided_**), and my `tests` **_did pass_**.
 
-But there was a ***side effect*** to this ***modification***. I ***no longer*** could ***use*** the (***proposed***) `class properties` in ***my*** `components` ***even though*** I ***had taken*** them ***into account*** in my `Babel 7` ***configuration***!
+But there was a **_side effect_** to this **_modification_**. I **_no longer_**
+could **_use_** the (**_proposed_**) `class properties` in **_my_** `components`
+**_even though_** I **_had taken_** them **_into account_** in my `Babel 7`
+**_configuration_**!
 
-***Indeed*** there was a ***bit*** of `conflict` ***amongst*** the ***playmates***. I will be ***looking into*** `this matter` ***further*** so I can ***make*** `class properties` ***work again***. It’s ***nice*** to ***reduce*** the ***number*** of `lines` of `code` in a `component`, ***even if*** by `2` or `three lines`.
-***Without*** `class properties`:
+**_Indeed_** there was a **_bit_** of `conflict` **_amongst_** the
+**_playmates_**. I will be **_looking into_** `this matter` **_further_** so I
+can **_make_** `class properties` **_work again_**. It’s **_nice_** to
+**_reduce_** the **_number_** of `lines` of `code` in a `component`, **_even
+if_** by `2` or `three lines`. **_Without_** `class properties`:
 
 ```js
 class Text extends Component {
@@ -41,7 +52,7 @@ class Text extends Component {
     }
 ```
 
-***With*** `class properties`:
+**_With_** `class properties`:
 
 ```js
 class Text extends Component {
@@ -50,9 +61,10 @@ class Text extends Component {
         }
 ```
 
-It just ***would*** be ***nice*** to ***get back*** what I ***had before*** `"just because"`!
+It just **_would_** be **_nice_** to **_get back_** what I **_had before_**
+`"just because"`!
 
-*The Jest side effect* `...`.
+_The Jest side effect_ `...`.
 
 ## Related Resources
 

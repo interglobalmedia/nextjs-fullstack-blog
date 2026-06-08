@@ -15,7 +15,7 @@ tags:
         'test driven development',
         'web development workflows',
     ]
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
@@ -26,36 +26,36 @@ _Photo of
 on
 [npmjs.com](https://www.npmjs.com/package/babel-jsx-pragma-module-auto-import)_
 
-**Update December 3, 2018:** There were some **_issues_** along the way **_due
-to_** `breaking changes`in `Babel 7`, which **_affected_** `Jest`, `React`, and
-`ESLint`. **_Unless_** you are **_using_** `create-react-app`, your `workflow`
-might **_have_** to **_be adjusted_**, **_depending_** on **_what support_** you
-**_want_** to **_provide_** in **_any given_** `application`. I have
-brought **_all resources together_** in the `repository` for the **_second
-edition_** of my **_custom_** `React Workflow` on `Github`. **_Please
-visit_** [the the slide deck's issues](https://github.com/interglobalmedia/react-workflow-updated-2018/issues/1) to
+**Update December 3, 2018:** There were some ***issues*** along the way ***due
+to*** `breaking changes`in `Babel 7`, which ***affected*** `Jest`, `React`, and
+`ESLint`. ***Unless*** you are ***using*** `create-react-app`, your `workflow`
+might **_have_** to **_be adjusted_**, ***depending*** on ***what support*** you
+**_want_** to ***provide*** in ***any given*** `application`. I have
+brought ***all resources together*** in the `repository` for the ***second
+edition*** of my ***custom*** `React Workflow` on `Github`. ***Please
+visit*** [the the slide deck's issues](https://github.com/interglobalmedia/react-workflow-updated-2018/issues/1) to
 **_learn more_**.
 
 For the **_last day_** or so, I have been **_working on_** making `Jest` **_play
 nice_** with the **_new_** `Babel 7`. It was **_quite_** the **_journey_**, but
 I **_finally_** got **_there_**. **_So far_**!
 
--   **_First_** I created an `application` with my **_updated_** **_custom_**
-    `React workflow` that **_only supported_** `favicons`, and **_no_**
-    `images`. That **_worked fine_**.
+- **_First_** I created an `application` with my **_updated_** **_custom_**
+  `React workflow` that **_only supported_** `favicons`, and **_no_** `images`.
+  That **_worked fine_**.
 
--   **_Now_** I am **_working_** on **_another_** `application` that is
-    **_supposed to_** support **_both_** `favicons` **_and_** `images` (`jpgs`).
-    I **_immediately_** encountered **_issues_** with `Jest`
-    (`unexpected token import`) and **_had_** to **_reconfigure_** it. Then it
-    `worked fine` **_temporarily_**.
+- **_Now_** I am **_working_** on **_another_** `application` that is
+  **_supposed to_** support **_both_** `favicons` **_and_** `images` (`jpgs`). I
+  **_immediately_** encountered **_issues_** with `Jest`
+  (`unexpected token import`) and **_had_** to **_reconfigure_** it. Then it
+  `worked fine` **_temporarily_**.
 
--   It **_ended up_** that I **_had_** to **_change_** my `Babel 7`
-    **_configuration file_** from `.babelrc` to `babel.config.js`. `Babel 7`
-    **_no longer_** automatically **_loads_** `.babelrc`. **_New_** to `Babel`
-    in `7`, is the **_concept_** of a `"root"` **_directory_**. For
-    **_project-wide_** `configuration`, `Babel` will **_automatically search_**
-    for a `"babel.config.js"` in this `root` **_directory_**:
+- It **_ended up_** that I **_had_** to **_change_** my `Babel 7`
+  **_configuration file_** from `.babelrc` to `babel.config.js`. `Babel 7` **_no
+  longer_** automatically **_loads_** `.babelrc`. **_New_** to `Babel` in `7`,
+  is the **_concept_** of a `"root"` **_directory_**. For **_project-wide_**
+  `configuration`, `Babel` will **_automatically search_** for a
+  `"babel.config.js"` in this `root` **_directory_**:
 
 > Because project-wide config files are separated from the physical location of
 > the config file, they can be ideal for configuration that must apply broadly,
@@ -64,8 +64,8 @@ I **_finally_** got **_there_**. **_So far_**!
 > in Babel 6.x. –
 > [Babel Docs](https://babeljs.io/docs/en/next/config-files#project-wide-configuration)
 
--   I **_created_** a **_new_** `babel.config.js` in the **_root_** of my
-    `project`:
+- I **_created_** a **_new_** `babel.config.js` in the **_root_** of my
+  `project`:
 
 ```js
 module.exports = {
@@ -113,4 +113,5 @@ in the [ESLint](https://eslint.org/docs/user-guide/configuring) **_docs_** and
 
 ## Related Resources
 
--   [Babel7 Jest unexpected token export](https://stackoverflow.com/questions/52387820/babel7-jest-unexpected-token-export): ***stackoverflow***
+- [Babel7 Jest unexpected token export](https://stackoverflow.com/questions/52387820/babel7-jest-unexpected-token-export):
+  **_stackoverflow_**

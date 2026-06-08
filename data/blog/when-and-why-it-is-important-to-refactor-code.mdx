@@ -16,17 +16,32 @@ tags:
         'react',
         'web development workflows',
     ]
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
 ![Construction worker fixing a window frame](erik-mclean-RfkaDKptt-A-unsplash.jpg)
 
-***Photo by*** [Erik McLean](https://unsplash.com/@introspectivedsgn) ***on*** [Unsplash](https://unsplash.com/photos/RfkaDKptt-A)
+**_Photo by_** [Erik McLean](https://unsplash.com/@introspectivedsgn) **_on_**
+[Unsplash](https://unsplash.com/photos/RfkaDKptt-A)
 
-This post is about why I ***refactored*** the `code` for my `app` ***called*** `The Cat Whisperer`, and what I ***learned*** from the ***experience*** regarding ***future developments*** for the `application`.
+This post is about why I **_refactored_** the `code` for my `app` **_called_**
+`The Cat Whisperer`, and what I **_learned_** from the **_experience_**
+regarding **_future developments_** for the `application`.
 
-The `Cat Whisperer App`, ***available*** for ***viewing*** on **Github** **_gh-pages_** and on my **portfolio site** there, is a little app I created so that cat lovers could be inspired to write about their cats using the `Speech Synthesis API` while being inspired by the app’s `cat image fader slideshow`. There is ***also*** `music` if one ***wants*** to ***listen*** while `writing`. The ***user’s*** `text` is **_saved_** to `session storage`. If he/she ***does reach*** the `5mb limit`, the `user` can ***save*** it to a `.txt` file and ***download*** it on ***his/her*** `desktop`. In `iOS` **_mobile_**, the `user` can ***save*** it to an `app`. I ***save*** it to  my **Wunderlist** app, for example. In `iOS`, ***however***, ***downloading*** the `session storage` text **_only works_** (interestingly enough) in **Safari**. It does **_not work_** in **Chrome** or **Firefox**. **Firefox** is **_no longer supported_** by `iOS` anyway.
+The `Cat Whisperer App`, **_available_** for **_viewing_** on **Github**
+**_gh-pages_** and on my **portfolio site** there, is a little app I created so
+that cat lovers could be inspired to write about their cats using the
+`Speech Synthesis API` while being inspired by the app’s
+`cat image fader slideshow`. There is **_also_** `music` if one **_wants_** to
+**_listen_** while `writing`. The **_user’s_** `text` is **_saved_** to
+`session storage`. If he/she **_does reach_** the `5mb limit`, the `user` can
+**_save_** it to a `.txt` file and **_download_** it on **_his/her_** `desktop`.
+In `iOS` **_mobile_**, the `user` can **_save_** it to an `app`. I **_save_** it
+to my **Wunderlist** app, for example. In `iOS`, **_however_**,
+**_downloading_** the `session storage` text **_only works_** (interestingly
+enough) in **Safari**. It does **_not work_** in **Chrome** or **Firefox**.
+**Firefox** is **_no longer supported_** by `iOS` anyway.
 
 ## The Original App (in brief):
 
@@ -40,38 +55,84 @@ The `Cat Whisperer App`, ***available*** for ***viewing*** on **Github** **_gh-p
 
 **dependencies:** `jquery`, `normalize.css`, `picturefill`
 
-***Originally*** I used **local storage** as a ***means*** for the `user` to ***save*** his/her `data` to a `computer/mobile device` and to a `.txt` file which the `user` could ***download*** and ***take away***. I ***also used*** the `speechSynthesis API` for **_text-to-speech_** `functionality`, a `CSS slider` for ***entertainment***, ***accompanied*** by `music` ***when*** the `user` ***either*** `hovered` over the `image` ***or*** `clicked` on a `play button`. There was ***also*** the ***ability*** for the `user` to `clear/empty` the `local storage` on their `machine`.
+**_Originally_** I used **local storage** as a **_means_** for the `user` to
+**_save_** his/her `data` to a `computer/mobile device` and to a `.txt` file
+which the `user` could **_download_** and **_take away_**. I **_also used_** the
+`speechSynthesis API` for **_text-to-speech_** `functionality`, a `CSS slider`
+for **_entertainment_**, **_accompanied_** by `music` **_when_** the `user`
+**_either_** `hovered` over the `image` **_or_** `clicked` on a `play button`.
+There was **_also_** the **_ability_** for the `user` to `clear/empty` the
+`local storage` on their `machine`.
 
-I ***used*** `POSTCSS` ***instead*** of `SCSS` at the time because I thought it was **_so cool_** to ***be able*** to ***style*** my `apps` with ***something*** that was itself **_created_** with `JS`. `POSTCSS` can ***only work*** with `apps` **_driven by_** `npm`.
+I **_used_** `POSTCSS` **_instead_** of `SCSS` at the time because I thought it
+was **_so cool_** to **_be able_** to **_style_** my `apps` with **_something_**
+that was itself **_created_** with `JS`. `POSTCSS` can **_only work_** with
+`apps` **_driven by_** `npm`.
 
 ## The App Today (in brief):
 
 ### ✍️ The workflow tools:
 
-**devDependencies:** `@babel/core`, `@babel/core`, `@babelplugin-proposal-export-namespace-from`,
-`@babel/plugin-proposal-object-rest-spread`, `@babel/plugin-proposal-throw-expressions, @babel/plugin-syntax-dynamic-import`, `@babel/plugin-transform-modules-commonjs, @babel/plugin-transform-object-assign`, `@babel/preset-env`, `babel-core, babel-eslint`, `babel-loader`, `clean-webpack-plugin`, `copy-webpack-plugin`, `css-loader`, `eslint` `eslint-cli`, `eslint-config-prettier`, `eslint-loader`, `eslint-plugin-import`, `eslint-plugin-prettier`, `file-loader`, `html-webpack-plugin`, `htmlhint`, `lint-staged`, `mini-css-extract-plugin`, `node-sass`, `optimize-css-assets-webpack-plugin`, `postcss`, `postcss-loader`, `prettier`, `rimraf`, `sass-loader`, `style-loader`, `uglifyjs-webpack-plugin`, `url-loader, webpack`, `webpack-cli`, `webpack-dev-server`, `webpack-merge`, `workbox-webpack-plugin`
+**devDependencies:** `@babel/core`, `@babel/core`,
+`@babelplugin-proposal-export-namespace-from`,
+`@babel/plugin-proposal-object-rest-spread`,
+`@babel/plugin-proposal-throw-expressions, @babel/plugin-syntax-dynamic-import`,
+`@babel/plugin-transform-modules-commonjs, @babel/plugin-transform-object-assign`,
+`@babel/preset-env`, `babel-core, babel-eslint`, `babel-loader`,
+`clean-webpack-plugin`, `copy-webpack-plugin`, `css-loader`, `eslint`
+`eslint-cli`, `eslint-config-prettier`, `eslint-loader`, `eslint-plugin-import`,
+`eslint-plugin-prettier`, `file-loader`, `html-webpack-plugin`, `htmlhint`,
+`lint-staged`, `mini-css-extract-plugin`, `node-sass`,
+`optimize-css-assets-webpack-plugin`, `postcss`, `postcss-loader`, `prettier`,
+`rimraf`, `sass-loader`, `style-loader`, `uglifyjs-webpack-plugin`,
+`url-loader, webpack`, `webpack-cli`, `webpack-dev-server`, `webpack-merge`,
+`workbox-webpack-plugin`
 
 **dependencies:** `autoprefixer`, `gh-pages`
 
-***Today***, there are ***many more*** `devDependencies` ***than before***, but the ***actual*** `code` it ***takes*** to ***create*** the `workflow` is ***much more*** `terse`. It is ***also*** the ***latest*** and ***greatest*** in `Open Source` that is so ***very well*** `maintained`! With the **_advent_** of `Node Security` ***mid*** `last year`, `maintainers` ***can’t hide*** `behind` a `curtain` ***anymore***. If there are `vulnerabilities` or `security issues`, we `developers` ***find out*** about them ***immediately***. Something ***may pass*** as `secure` ***one week***, and ***as soon as*** the ***next*** may ***reveal*** a `vulnerability`. They ***range*** from ***very low*** to ***critical***!
+**_Today_**, there are **_many more_** `devDependencies` **_than before_**, but
+the **_actual_** `code` it **_takes_** to **_create_** the `workflow` is **_much
+more_** `terse`. It is **_also_** the **_latest_** and **_greatest_** in
+`Open Source` that is so **_very well_** `maintained`! With the **_advent_** of
+`Node Security` **_mid_** `last year`, `maintainers` **_can’t hide_** `behind` a
+`curtain` **_anymore_**. If there are `vulnerabilities` or `security issues`, we
+`developers` **_find out_** about them **_immediately_**. Something **_may
+pass_** as `secure` **_one week_**, and **_as soon as_** the **_next_** may
+**_reveal_** a `vulnerability`. They **_range_** from **_very low_** to
+**_critical_**!
 
-***Speaking*** of `security issues` and `vulnerabilities`, ***after noting*** that
-the `local storage` of a ***couple*** of of my `apps`, ***this one*** being ***one*** of ***them***, **_shared data_** with ***each other*** on ***my*** `machine`, I ***decided*** to **_bag_** `local storage` and **_replace_** it with `session storage`. ***So now*** `users` can ***save*** their `cat story data` ***during*** an `app session`, but ***once*** they ***close out*** on it, the `data` ***does not*** `persist` in `storage` and is ***lost***. The **_best of both worlds_** that way.
+**_Speaking_** of `security issues` and `vulnerabilities`, **_after noting_**
+that the `local storage` of a **_couple_** of of my `apps`, **_this one_** being
+**_one_** of **_them_**, **_shared data_** with **_each other_** on **_my_**
+`machine`, I **_decided_** to **_bag_** `local storage` and **_replace_** it
+with `session storage`. **_So now_** `users` can **_save_** their
+`cat story data` **_during_** an `app session`, but **_once_** they **_close
+out_** on it, the `data` **_does not_** `persist` in `storage` and is
+**_lost_**. The **_best of both worlds_** that way.
 
-***When*** I ***learned*** that `POSTCSS` ***did not*** `offer` the ***wide range*** of `features` ***provided*** by `SCSS/SASS`, I ***switched back*** to `SCSS`. I ***use it*** in my
-`React`, `Vanilla JS`, and `Node apps`. And it **_works seamlessly_** now with `Webpack`. That ***was not*** `always` the `case` in ***the past***.
+**_When_** I **_learned_** that `POSTCSS` **_did not_** `offer` the **_wide
+range_** of `features` **_provided_** by `SCSS/SASS`, I **_switched back_** to
+`SCSS`. I **_use it_** in my `React`, `Vanilla JS`, and `Node apps`. And it
+**_works seamlessly_** now with `Webpack`. That **_was not_** `always` the
+`case` in **_the past_**.
 
 ## What I would do differently:
 
-I ***would build*** this `application` ***using*** a `framework` or `library`. The ***first*** that ***comes*** to ***mind*** for me is `React`. As far as `performance optimization` ***regarding*** `images`, I ***would not*** necessarily ***simply look*** to
-`compression` or ***different*** `image sizes` for ***different*** `screen widths` ***embedded*** in **_non_** `JSX html` as my ***answer*** to `image upload optimization`. Some `compression` is ***necessary*** in the `workflow`, but `dynamic imports` of `images` into
-`JS` files and `Webpack code splitting` are ***definitely*** the ***way*** to ***go***.
-I will be `developing` ***this app*** `further`, and ***those changes*** are ***on*** the ***horizon***!
+I **_would build_** this `application` **_using_** a `framework` or `library`.
+The **_first_** that **_comes_** to **_mind_** for me is `React`. As far as
+`performance optimization` **_regarding_** `images`, I **_would not_**
+necessarily **_simply look_** to `compression` or **_different_** `image sizes`
+for **_different_** `screen widths` **_embedded_** in **_non_** `JSX html` as my
+**_answer_** to `image upload optimization`. Some `compression` is
+**_necessary_** in the `workflow`, but `dynamic imports` of `images` into `JS`
+files and `Webpack code splitting` are **_definitely_** the **_way_** to
+**_go_**. I will be `developing` **_this app_** `further`, and **_those
+changes_** are **_on_** the **_horizon_**!
 
 ### ✍️ Project Related Resources
 
--   [View The Cat Whisperer App on Github](https://interglobalmedia.github.io/the-cat-whisperer/)
+- [View The Cat Whisperer App on Github](https://interglobalmedia.github.io/the-cat-whisperer/)
 
--   [Cat Whisperer App Source Code](https://github.com/interglobalmedia/the-cat-whisperer)
+- [Cat Whisperer App Source Code](https://github.com/interglobalmedia/the-cat-whisperer)
 
--   [Refactoring your JS workflow when your images are in your CSS only](/blog/refactoring-your-js-workflow-when-your-images-are-in-your-css-only)
+- [Refactoring your JS workflow when your images are in your CSS only](/blog/refactoring-your-js-workflow-when-your-images-are-in-your-css-only)
