@@ -1,10 +1,12 @@
 ---
 slug: setuid-setgid-and-sticky-bit-in-linux-and-unix-macos
 date: '2024-07-21T09:59:34.401Z'
-lastModified: '2024-07-23T15:57:34.401Z'
+lastModified: '2026-06-08T23:10:34.401Z'
 title: setuid, setgid, and sticky bit in Linux and Unix (macOS)
 author: Maria D. Campbell
-excerpt: setuid, setgid, and sticky bit in Linux and Unix (macOS).
+excerpt:
+    'Learn how setuid, setgid, and sticky bit work in Linux and macOS — what
+    they do, how to set and remove them with chmod, and when to use each one.'
 image: pexels-joaojesusdesign-2480072.jpg
 tags:
     [
@@ -20,7 +22,7 @@ tags:
         'setgid',
         'sticky bit',
     ]
-isPublished: false
+isPublished: true
 isFeatured: false
 ---
 
@@ -43,6 +45,7 @@ _[Photo by](https://www.pexels.com/photo/selective-focus-photo-of-a-red-tulip-fl
 - [So what is sticky bit?](#so-what-is-sticky-bit)
 - [Setting special permissions (setuid, setgid, and sticky bit) in numeric mode](#setting-special-permissions-setuid-setgid-and-sticky-bit-in-numeric-mode)
 - [Removing special permissions (setuid, setgid, and sticky bit) in numeric mode](#removing-special-permissions-setuid-setgid-and-sticky-bit-in-numeric-mode)
+- [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 
 In previous posts I discussed changing file and directory permissions. In this
@@ -297,7 +300,7 @@ which returns:
 /usr/bin/crontab
 ```
 
-And if I run `ls -l /usr/bin/crontab` in `Terminal`, the following is returned:
+And if I run `ls -l /usr/bin/crontab` in Terminal, the following is returned:
 
 ```shell
 -rwxr-sr-x 1 root crontab 39568 Mar 23 2022 /usr/bin/crontab
@@ -332,8 +335,8 @@ ls -l setgid-file.txt
 -rw-rwSr-- 1 maria maria 0 Jul 15:07 setgid-file.txt
 ```
 
-Since an uppercase `S` is `returned`, I know that `setgid-file.txt` does not
-have execute permissions, which is necessary. So next, I run the following:
+Since an uppercase `S` is returned, I know that `setgid-file.txt` does not have
+execute permissions, which is necessary. So next, I run the following:
 
 ```shell
 # First I set execute permissions on setgid for setgid-file.txt
@@ -353,7 +356,9 @@ analogous to the
 [principle of least privilege](https://www.cyberark.com/what-is/least-privilege/),
 where a user is given minimum levels of access or permissions needed to perform
 his/her job. It is important to note again that this relates to executable files
-(executables).
+(executables). One use of setuid is the passwd command, which uses it to allow
+users like myself to change passwords — an operation that requires root
+privileges.
 
 Again, the `setgid` example above is for demonstration purposes only.
 Executables are set to `setuid` and `setgid` by default in the Linux OS, in my
@@ -458,9 +463,9 @@ rm: cannot remove 'stickybit-directory/stickybit-file1.txt': Permission denied
 
 ## Setting special permissions (setuid, setgid, and sticky bit) in numeric mode
 
-Not only can we set special permissions in
+Not only can I set special permissions in
 [symbolic mode](/blog/changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos),
-but we can also set them in
+but I can also set them in
 [numeric mode](/blog/changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos).
 
 Let's say I create a file called `setuid-numeric-mode-file.txt` and then set
@@ -486,6 +491,15 @@ chmod 4764 setuid-numeric-mode-file.txt
 
 `4` represents `setuid` in numeric mode.
 
+And when I run the `ls -l setuid-numeric-mode-file.txt` command, it returns the
+following:
+
+```shell
+-rwsrw-r--  1 mariacam  staff  0 Jun  8 16:24 setuid-numeric-mode-file.txt
+```
+
+The lowercase "s" represents the `setuid`.
+
 Now let's say I create a file called `setgid-numeric-mode-file.txt` and then set
 file permissions using `chmod`:
 
@@ -503,7 +517,7 @@ And since the `S` is uppercase, I know that the file does not have execute
 permissions, so I also have to run the following to make that happen:
 
 ```shell
-chmod g+x setgid-numeric-mode-file.txt
+chmod 2774 setgid-numeric-mode-file.txt
 ```
 
 Then I run `ls -l setgid-numeric-mode-file.txt` again and the following is
@@ -524,7 +538,7 @@ And when I run `ls -ld stickybit-numeric-mode-directory` in Terminal, the
 following is returned:
 
 ```shell
--rwxrw-r-T maria maria 0 Jul 22 20:54 stickybit-numeric-mode-directory
+drwxrw-r-T maria maria 0 Jul 22 20:54 stickybit-numeric-mode-directory
 ```
 
 I know that `stickybit` does not have execute permissions because the `T` that
@@ -532,14 +546,14 @@ represents it is uppercase. So I run the following command in Terminal to fix
 that:
 
 ```shell
-chmod +x stickybit-numeric-mode-directory
+chmod 1765 stickybit-numeric-mode-directory
 ```
 
-This time when I run `ls -ld stickybit-numeric-mode-directory` the `following`
-is returned:
+This time when I run `ls -ld stickybit-numeric-mode-directory` the following is
+returned:
 
 ```shell
-drwxrwxr-t  2 maria maria 4096 Jul 22 21:01 stickybit-numeric-mode-directory
+drwxrw-r-t  2 maria maria 4096 Jul 22 21:01 stickybit-numeric-mode-directory
 ```
 
 ## Removing special permissions (setuid, setgid, and sticky bit) in numeric mode
@@ -548,40 +562,119 @@ If I want to remove special `setuid` permissions in numeric mode, I would do the
 following:
 
 ```shell
+chmod 04764 setuid-numeric-mode-file.txt
+```
+
+It returns:
+
+```shell
+-rwsrw-r--  1 mariacam  staff  0 Jun  8 16:24 setuid-numeric-mode-file.txt
+```
+
+The chmod command fails to remove the `setuid` in numeric mode. However, if I
+run:
+
+```shell
+chmod 0644  setuid-numeric-mode-file.txt
+```
+
+I get back the following:
+
+```shell
+-rw-r--r--  1 mariacam  staff  0 Jun  8 16:24 setuid-numeric-mode-file.txt
+```
+
+The user has no execute permissions, but the `setuid` has been removed. In order
+to remove the setuid, I had to downgrade the user permissions from "7" to "6".
+
+If I wanted to maintain execute permissions on the file for the user, I would
+have to do the following:
+
+```shell
 chmod u-s setuid-numeric-mode-file.txt
 ```
+
+This returns:
+
+```shell
+-rwxrw-r--  1 mariacam  staff  0 Jun  8 16:24 setuid-numeric-mode-file.txt
+```
+
+The "s" is replaced by an "x", so this way the user maintains execute
+permissions.
 
 If I want to remove special `setgid` permissions in numeric mode, I could not. I
 could only do it in symbolic mode. I would do the following:
 
 ```shell
-chmod g-s setgid-numeric-mode-file.txt
+chmod 0774 setgid-numeric-mode-file.txt
 ```
+
+Which returns:
+
+```shell
+-rwxrwxr--  1 mariacam  staff  0 Jun  8 15:30 setgid-numeric-mode-file.txt
+```
+
+Note that the "s" is replaced by an "x". `setgid` has been removed.
 
 If I want to remove special `sticky bit` permissions in numeric mode, I would do
 the following in Terminal:
 
 ```shell
-chmod -t stickybit-numeric-mode-directory
+chmod 0775 stickybit-numeric-mode-directory
 ```
+
+Which returns:
+
+```shell
+-rwxrwxr-x  1 mariacam  staff  0 Jun  8 15:36 stickybit-numeric-mode-directory
+```
+
+The "t" has been replaced by an "x". `sticky bit` has been removed.
 
 Now let's try to delete a file with `sticky bit` permissions:
 
 ```shell
-# hello_world.sh file permissions
--rwxrwxr-T magdala magdala 0 Jul 23 11:34 hello_world.sh
+# hello.sh file permissions
+-rwxrwxr-T magdala magdala 0 Jul 23 11:34 hello.sh
 # maria user tries to delete hello-world.sh
-rm hello_world.sh
+rm hello.sh
 # which returns:
-rm: remove write-protected regular empty file 'hello_world.sh'? y # what I type for "yes"
-rm: cannot remove 'hello_world.sh': Permission denied
+rm: remove write-protected regular empty file 'hello.sh'? y # what I type for "yes"
+rm: cannot remove 'hello.sh': Permission denied
 whoami # I check to make sure who I am logged in as is as myself and not user magdala
 maria
 ```
 
 It is important to note that I would not have been able to delete this shell
-script file even if I did not set `sticky bit` to `hello_world.sh`, because it
-is owned by another user. Only the actual `root` user would be able to do that.
+script file even if I did not set `sticky bit` to `hello.sh`, because it is
+owned by another user. Only the actual `root` user would be able to do that.
+
+## Conclusion
+
+In both Linux and Unix systems, there are various reasons to use `setuid`,
+`setgid`, and `sticky bits`. In Linux, a common use case for `setuid`, for
+example, is the `passwd` program. The `passwd` program needs to be able to
+update the root-owned `passwd` file, where the users' passwords reside. By
+setting `setuid` on the passwd binary and making it owned by root, a normal user
+like myself can change my password without having full root access. I actually
+found that so much easier to execute than in present-day macOS. In macOS Tahoe,
+I can use `setuid` to execute programs with the permissions of the file's owner,
+usually to perform tasks that require elevated privileges without being granted
+permanent access. This helps bolster security by limiting risks associated with
+elevated access. It also eliminates the need for me to act as root via the
+`sudo` command or even as actual root. However, with the advent of System
+Integrity Protection, important parts of the OS are safeguarded from
+modification, even from root. No use cases even leap out at me in modern,
+strictly protected macOS. In Linux, on the other hand, I am provided with much
+more flexibility in managing file permissions, and I can even access the root
+user much more easily. `setuid`, `setgid`, and `sticky bit` allow me to execute
+files with elevated privileges, control group ownership for new files, and
+restrict file deletion in shared directories, enhancing both the functionality
+and security of the OS. What I was especially surprised by was the ease with
+which I could switch between a standard user and root, and how much control root
+had over the OS as opposed to in macOS.
 
 ## Related Resources
 
@@ -596,3 +689,12 @@ is owned by another user. Only the actual `root` user would be able to do that.
 
 - [Chmod Numeric Permissions Notation Linux / Unix](https://www.cyberciti.biz/faq/unix-linux-bsd-chmod-numeric-permissions-notation-command/):
   _by Vivek Gite, cyberciti.biz_
+
+- [Understanding UNIX permissions and file types](https://unix.stackexchange.com/questions/183994/understanding-unix-permissions-and-file-types):
+  _Unix & Linux StackExchange_
+
+- [12 Questions and Answers About Setuid and Setgid](https://www.securityscientist.net/blog/12-questions-and-answers-about-setuid-and-setgid/):
+  _Security Scientist_
+
+- [About System Integrity Protection on your Mac](https://support.apple.com/en-us/102149):
+  _Apple Support_
