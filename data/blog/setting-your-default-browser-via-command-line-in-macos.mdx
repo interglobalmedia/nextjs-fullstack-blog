@@ -1,43 +1,56 @@
 ---
 slug: setting-your-default-browser-via-command-line-in-macos
 date: '2024-08-18T00:36:02.712Z'
-lastModified: '2024-08-18T00:36:02.712Z'
+lastModified: '2026-06-08T06:54:02.712Z'
 title: Setting your default browser via Command Line in macOS
 author: Maria D. Campbell
-excerpt: Setting your default browser via Command Line in macOS.
-image: pexels-designecologist-1779487.jpg
-tags: ['applescript', 'command line', 'macOS', 'defaultbrowser', 'homebrew']
-isPublished: false
+excerpt:
+    'Learn how to use the defaultbrowser Homebrew package to set your default
+    browser from the macOS command line, and why AppleScript-based approaches
+    stopped working in Ventura.'
+image: pexels-designecologist-1779487.webp
+tags:
+    [
+        'applescript',
+        'command line',
+        'macOS',
+        'default browser',
+        'homebrew',
+        'terminal',
+    ]
+isPublished: true
 isFeatured: false
 ---
 
-![macOS default browser](pexels-designecologist-1779487.jpg)
+![Modern desk setup with neon lighting and a desktop computer displaying colorful images.](pexels-designecologist-1779487.webp)
 
-_Photo by_ [Designecologist](https://www.pexels.com/@designecologist/) _on_
-[pexels.com](https://www.pexels.com/photo/silver-imac-displaying-collage-photos-1779487/)
+_[Photo by](https://www.pexels.com/photo/silver-imac-displaying-collage-photos-1779487/)_
+[Designecologist](https://www.pexels.com/@designecologist/) _on_
+[pexels.com](https://www.pexels.com/)
 
 ## Table of Contents
 
-- [Installing the Homebrew package defaultbrowser](#installing-the-homebrew-package-defaultbrowser)
-- [Installing defaultbrowser with Homebrew](#installing-defaultbrowser-wth-homebrew)
+- [Installing the Homebrew defaultbrowser package](#installing-the-homebrew-defaultbrowser-package)
 - [Running the defaultbrowser command](#running-the-defaultbrowser-command)
 - [Running defaultbrowser without any arguments](#running-defaultbrowser-without-any-arguments)
 - [Limitations of defaultbrowser](#limitations-of-defaultbrowser)
-- [Using AppleScript as a workaround to set a default browser prior to macOS Ventura](#using-applescript-as-a-workaround-to-set-a-default-browser-prior-to-macos-ventura)
-- [Running the defaultbrowser command with Monterey 12.3 and beyond](#running-the-defaultbrowser-command-with-monterey-123-and-beyond)
-- [AppleScripts to set default browsers don't work with macOS Ventura and after](#applescripts-to-set-default-browsers-don't-work-with-macos-ventura-and-after)
-- [defaultbrowser works because it does things the "right way"](#defaultbrowser-works-because-it-does-things-the-right-way)
+- [Running the defaultbrowser command with macOS Monterey and beyond](#running-the-defaultbrowser-command-with-macos-monterey-and-beyond)
+- [System Preferences became System Settings in macOS Ventura and why that was significant](#system-preferences-became-system-settings-in-macos-ventura-and-why-that-was-significant)
+- [Why defaultbrowser continued to work despite breaking macOS changes](#why-defaultbrowser-continued-to-work-despite-breaking-macos-changes)
 - [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
 
 _This post was originally published in August 2024 and updated in June 2026 with
 current default browser information._
 
-## Installing the Homebrew package defaultbrowser
+## Installing the Homebrew defaultbrowser package
 
-In order to set my default browser in macOS via Command Line, I first had to
-`install the Homebrew package called "defaultbrowser".
+When I’m working on my MacBook Pro, I prefer to stay inside Terminal as much as
+possible. So when I wanted to change my default browser using Command Line, I
+decided to go with the Homebrew `defaultbrowser` package.
 
-First, I ran the following commands, one after the other`:
+First, I ran the following commands, one after the other:
 
 ```shell
 brew update
@@ -48,9 +61,7 @@ This is similar to what we do in Linux Mint when we run `sudo apt update` and
 `sudo apt upgrade` to make sure that all our packages are up to date before
 installing a new one. We have to do the same with Homebrew.
 
-## Installing defaultbrowser with Homebrew
-
-Next, I run the following command to install the defaultbrowser package:
+Next, I ran the following command to install the `defaultbrowser` package:
 
 ```shell
 brew install defaultbrowser
@@ -58,9 +69,9 @@ brew install defaultbrowser
 
 ## Running the defaultbrowser command
 
-After it is successfully installed, I quit the active Terminal window and open
-up a new instance. And there, I run the following command to make Safari my
-default browser:
+After it was successfully installed, I quit the active Terminal window and
+opened up a new instance. And there, I ran the following command to make Safari
+my default browser:
 
 ```shell
 defaultbrowser safari
@@ -71,15 +82,15 @@ web browser as long as the target browser is installed on my machine. Currently
 I have the following browsers installed, and I can set any of them as my default
 browser:
 
-```shell
+```text
 Firefox Developer Edition.app
-Firefox Nightly.app
-Firefox.app
 Google Chrome.app
 Microsoft Edge.app
 Opera.app
+Firefox.app
 Safari.app
 Vivaldi.app
+Firefox Nightly.app
 ```
 
 ## Running defaultbrowser without any arguments
@@ -94,48 +105,76 @@ purely browser apps but might contain some kind of browser functionality.
 |                               | Limitations of defaultbrowser                                                                                                                                                                                             |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Compatibility Issues**      | **defaultbrowser** may not support all web browsers. You should verify if your preferred browser is compatible.                                                                                                           |
-|                               | **defaultbrowser** may not be compatible with all versions of macOS.You should check if your macOS version is compatible with **defaultbrowser**.                                                                         |
+|                               | **defaultbrowser** may not be compatible with all versions of macOS. You should check if your macOS version is compatible with **defaultbrowser**.                                                                        |
 | **User account restrictions** | **defaultbrowser** may not work well in environments with multiple user accounts. Homebrew's permission model can restrict access, making it difficult for you and other users on the system to set your default browser. |
 | **Installation requirements** | You must have Homebrew installed to use **defaultbrowser**, which adds an extra step if you are unfamiliar with package managers and Command Line.                                                                        |
 | **Command limitations**       | While the `defaultbrowser` command is simple, you still need to be familiar with Command Line, which could be an obstacle.                                                                                                |
 
-## Running the defaultbrowser command with Monterey 12.3 and beyond
+## Running the defaultbrowser command with macOS Monterey and beyond
 
-Monterey 12.3 introduced the requirement for users to confirm their desire to
-switch their default browser from Safari to something else. Now, if I run the
-`defaultbrowser` command in Terminal to switch away from Safari as my default
-browser OR switch back to it, I receive something like the following prompt:
+With the release of macOS Monterey on October 25, 2021, Apple introduced a
+privacy/security measure where changing the default browser requires user
+confirmation through a system dialog. This is part of Apple's security model. So
+now, if I ran the `defaultbrowser` command in Terminal to switch away from
+Safari as my default browser OR switch back to it, I would receive something
+like the following prompt:
 
-![macOS prompt requiring a user to confirm their desire to switch their default browser](Screenshot-2026-06-06-at-11.11.34-AM.jpg)
+![macOS prompt requiring a user to confirm their desire to switch their default browser](Screenshot-2026-06-06-at-11.11.34-AM.webp)
 
 _Screenshot of macOS prompt requiring a user to confirm their desire to switch
 their default browser_
 
-This prompt appears whether I am using the `defaultbrowser` command in Terminal
-or open a web browser which is NOT my default browser. It does not happen when I
-run a shell script. In fact, nothing happens. When I open the browser I have set
-to my default using the script, I still have to confirm the switch. And then I
-also have to confirm the switch with macOS!
+This prompt would appear whether I am using the `defaultbrowser` command in
+Terminal or opened a web browser which was NOT my default browser.
 
-## defaultbrowser works because it does things the "right way"
+There's no legitimate way to bypass the confirmation dialog. It's enforced at
+the OS level through sandboxing and the TCC framework[^1] (Transparency,
+Consent, and Control) specifically to prevent malware from silently hijacking my
+default browser without my knowledge.
 
-defaultbrowser still works because it does things the "right way". It calls
-`LSSetDefaultHandlerForURLScheme` in the Launch Services framework, which is the
-official macOS API for setting a default browser. The confirmation dialog it
-triggers is the correct dialog; it's the OS itself asking the user to confirm.
-There's no scripting path that skips that step in modern macOS.
+## System Preferences became System Settings in macOS Ventura and why that was significant
+
+With the release of macOS Ventura on October 24, 2022, "System Preferences" was
+replaced by "System Settings". This resulted in a domino effect on other macOS
+features, including AppleScripts. Older AppleScript hacks that used to work
+became obsolete. For example, when I recently revisited AppleScripts I created
+several years ago for changing the default browser, they did not work. For one,
+they depended on System Preferences and not System Settings.
+
+Other older hacks like directly editing the LaunchServices plist file or using
+lsregister no longer worked in Ventura+ because those files became protected,
+and Apple intentionally broke AppleScript automation of these settings for
+security reasons.
+
+## Why defaultbrowser continued to work despite breaking macOS changes
+
+`defaultbrowser` calls the Launch Services API (LSSetDefaultHandlerForURLScheme
+or the newer LSSetDefaultRoleHandlerForContentType), which on Monterey+ triggers
+the system confirmation dialog. It does not bypass the system-level confirmation
+dialog, it integrates it by invoking the Launch Services API.
 
 ## Conclusion
 
 In pre-Monterey macOS, scripting the setting of a default browser was possible
-via plist edits or old System Preferences AppleScript. However, with Monterey
-and after, the only legitimate programmatic path is `defaultbrowser` (or any
-tool calling the same API), and the system dialog is unavoidable by Apple
-design. In addition, most AppleScripts became obsolete with the release of macOS
-Ventura. Therefore, if working inside the Command Line is your preference, the
-`defaultbrowser` Homebrew package is the way to go.
+via plist edits or older System Preferences AppleScript. However, with Monterey
+and after, the only legitimate approach is `defaultbrowser` (or any tool calling
+the same API), and the system dialog is unavoidable by Apple design. In
+addition, most AppleScripts became obsolete with the release of macOS Ventura.
+If working inside the Command Line is your preference, the `defaultbrowser`
+Homebrew package is the way to go.
 
 ## Related Resources
 
-- [Default Browser Switching](https://scottwillsey.com/default-browser/): _Scott
-  Willsey_
+- [Default Browser Switching](https://scottwillsey.com/default-browser/): _By
+  Scott Willsey, scottwillsey.com_
+- [Setting the Default Web Browser from Command Line on Mac](https://osxdaily.com/2024/03/08/setting-the-default-web-browser-from-command-line-on-mac/):
+  _OSX Daily_
+- [Full Transparency: Controlling Apple's TCC](https://www.huntress.com/blog/full-transparency-controlling-apples-tcc):
+  _by Stuart Ashenbrenner, huntress.com_
+
+[^1]:
+    The TCC framework manages application access to sensitive user data, making
+    sure that apps must request permission from users before accessing features
+    like the camera, microphone, and location services. This increases user
+    privacy by permitting users to control which applications can access their
+    personal information.
