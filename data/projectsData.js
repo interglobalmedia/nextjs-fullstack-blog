@@ -9,8 +9,8 @@ const projectsData = [
 			'An app which implements the OMDB API using Next.js, protects your API key, and deploys to vercel.com.',
 		summaryLong:
 			'An app which implements the OMDB API using Next.js, protects your API key, and deploys to vercel.com.',
-		imgSrc: '/images/blog/omdb-api-nextjs/omdb-api-nodejs-app.jpg',
-		href: '/blog/omdb-api-nextjs',
+		imgSrc: '/images/projects/omdb-api-nextjs/omdb-api-nodejs-app.jpg',
+		href: '/projects/omdb-api-nextjs',
 		tags: [
 			'async-await',
 			'css animation',
@@ -52,8 +52,8 @@ const projectsData = [
 		website: 'https://interglobalmedia.github.io/jukebox/',
 		summary: `An audio player in the form of a jukebox created with es6-javascript, html5-audio, oop, and includes a search-in-text searchbar.`,
 		summaryLong: `An audio player in the form of a jukebox created with es6-javascript, html5-audio, oop, and includes a search-in-text search bar.`,
-		imgSrc: '/images/blog/welcome-to-the-groove/welcome-to-the-groove.jpg',
-		href: '/blog/welcome-to-the-groove',
+		imgSrc: '/images/projects/welcome-to-the-groove/welcome-to-the-groove.jpg',
+		href: '/projects/welcome-to-the-groove',
 		tags: [
 			'audio web api',
 			'metadata',
@@ -74,8 +74,8 @@ const projectsData = [
 			'A piano keyboard application built with JavaScript, es6 modules, the Web Audio API, event delegation, Sass, and more.',
 		summaryLong:
 			'A piano keyboard application built with JavaScript, es6 modules, the Web Audio API, event delegation, Sass, and more.',
-		imgSrc: '/images/blog/rockin-synth/rockin-synth.jpg',
-		href: '/blog/rockin-synth',
+		imgSrc: '/images/projects/rockin-synth/rockin-synth.jpg',
+		href: '/projects/rockin-synth',
 		tags: [
 			'babel',
 			'e.keyCode',
@@ -101,8 +101,8 @@ const projectsData = [
 			'A little text to speech app I created so that cat lovers could be inspired to write about their cats using the Speech Synthesis API while being inspired by the app’s cat image slideshow and background music.',
 		summaryLong:
 			'A little text to speech app I created so that cat lovers could be inspired to write about their cats using the Speech Synthesis API while being inspired by the app’s cat image slideshow and background music.',
-		imgSrc: '/images/blog/the-cat-whisperer/cat-whisperer-smallest.gif',
-		href: '/blog/the-cat-whisperer',
+		imgSrc: '/images/projects/the-cat-whisperer/cat-whisperer-smallest.gif',
+		href: '/projects/the-cat-whisperer',
 		tags: [
 			'text to speech',
 			'speech synthesis api',
@@ -122,8 +122,8 @@ const projectsData = [
 			'A Random Quote API application using the What Does Trump Think? API.',
 		summaryLong:
 			'A Random Quote API application using the What Does Trump Think? API.',
-		imgSrc: '/images/blog/trump-talks/trump-talks-nextjs.jpg',
-		href: '/blog/trump-talks',
+		imgSrc: '/images/projects/trump-talks/trump-talks-nextjs.jpg',
+		href: '/projects/trump-talks',
 		tags: [
 			'fetch api',
 			'nextjs',
@@ -145,8 +145,8 @@ const projectsData = [
 			'A Web Audio API app which uses AJAX to retrieve a locally hosted audio file.',
 		summaryLong:
 			'A Web Audio API app which uses AJAX to retrieve a locally hosted audio file.',
-		imgSrc: '/images/blog/web-audio-api-ajax/web-audio-api-ajax.gif',
-		href: '/blog/web-audio-api-ajax',
+		imgSrc: '/images/projects/web-audio-api-ajax/web-audio-api-ajax.gif',
+		href: '/projects/web-audio-api-ajax',
 		tags: [
 			'ajax',
 			'babel',
@@ -181,8 +181,8 @@ const projectsData = [
 			'An app which creates a custom HTML5 video player using the Shadow DOM so that the video player can go full screen without issue.',
 		summaryLong:
 			'An app which creates a custom HTML5 video player using the Shadow DOM so that the video player can go full screen without issue.',
-		imgSrc: '/images/blog/custom-html5-video-player/custom-html5-video-player.jpg',
-		href: '/blog/custom-html5-video-player',
+		imgSrc: '/images/projects/custom-html5-video-player/custom-html5-video-player.jpg',
+		href: '/projects/custom-html5-video-player',
 		tags: [
 			'fullscreen api',
 			'html5 video',
@@ -194,7 +194,7 @@ const projectsData = [
 			'pseudo elements',
 			'modern javascript',
 		],
-		more: 'https://www.interglobalmedianetwork.com/blog/2017-01-04-creating-a-custom-html5-video-player-and-the-shadow-dom/',
+		more: 'https://www.mariadcampbell.com/projects/2017-01-04-creating-a-custom-html5-video-player-and-the-shadow-dom/',
 	},
 	{
 		id: 8,
@@ -208,8 +208,8 @@ const projectsData = [
 			"An app which makes sounds on the web page when clicking it or dragging the computer's or mobile device's pointing device around the screen.",
 		summaryLong:
 			"An app which makes sounds on the web page when clicking it or dragging the computer's or mobile device's pointing device around the screen.",
-		imgSrc: '/images/blog/making-music-in-the-browser/making-music-in-the-browser.gif',
-		href: '/blog/making-music-in-the-browser',
+		imgSrc: '/images/projects/making-music-in-the-browser/making-music-in-the-browser.gif',
+		href: '/projects/making-music-in-the-browser',
 		tags: [
 			'css animation',
 			'css attr',
@@ -234,8 +234,8 @@ const projectsData = [
 		summary: 'A fun little game made with JavaScript, SCSS/CSS3, and HTML.',
 		summaryLong:
 			'A fun little game made with JavaScript, SCSS/CSS3, and HTML.',
-		imgSrc: '/images/blog/guess-the-keys-app/guess-the-keys-app.jpg',
-		href: '/blog/guess-the-keys-app',
+		imgSrc: '/images/projects/guess-the-keys-app/guess-the-keys-app.jpg',
+		href: '/projects/guess-the-keys-app',
 		tags: [
 			'appendChild method',
 			'arguments object',
@@ -262,7 +262,7 @@ const projectsData = [
 			'unicode values',
 			'webpack',
 		],
-		more: 'https://www.mariadcampbell.com/blog/guess-the-keys/',
+		more: 'https://www.mariadcampbell.com/projects/guess-the-keys/',
 	},
 	{
 		id: 10,
@@ -274,8 +274,8 @@ const projectsData = [
 			'I have always wanted to closely tie audio and audio volume controls with visual and creating multiple audio sources, which I tie to one input of type range. So what better way than with the HTML5 Web Audio and HTML5 Canvas 2D APIs!',
 		summaryLong:
 			'I have always wanted to closely tie audio and audio volume controls with visual and creating multiple audio sources, which I tie to one input of type range. So what better way than with the HTML5 Web Audio and HTML5 Canvas 2D APIs!',
-		imgSrc: '/images/blog/dragging-bubbles-app/dragging-bubbles.gif',
-		href: '/blog/dragging-bubbles-app',
+		imgSrc: '/images/projects/dragging-bubbles-app/dragging-bubbles.gif',
+		href: '/projects/dragging-bubbles-app',
 		tags: [
 			'ajax',
 			'canvas 2D',
@@ -307,8 +307,8 @@ const projectsData = [
 			'I always had wanted to be able to create games using the HTML5 Canvas 2D API, so I built (and refactored) a Canvas 2D Breakout Game inspired by one I came across on MDN.',
 		summaryLong:
 			'I always had wanted to be able to create games using the HTML5 Canvas 2D API, so I built (and refactored) a Canvas 2D Breakout Game inspired by one I came across on MDN.',
-		imgSrc: '/images/blog/canvas-2d-breakout-game/canvas-2d-breakout-game.gif',
-		href: '/blog/canvas-2d-breakout-game',
+		imgSrc: '/images/projects/canvas-2d-breakout-game/canvas-2d-breakout-game.gif',
+		href: '/projects/canvas-2d-breakout-game',
 		tags: [
 			'babel',
 			'canvas 2D',
@@ -331,8 +331,8 @@ const projectsData = [
 		website: 'https://interglobalmedia.github.io/wikipedia-viewer/',
 		summary: `This is a code refactoring of a project I created several years ago. I revamped the workflow, migrating from Gulp to Webpack, from jQuery to Modern JavaScript with async await, @babel/pollyfill to make my async wait code work with Babel 7 and Webpack 5, adding css animated scroll buttons, animated magnifying glass icon search input on focus, hover, and active, replacing PostCSS with Node Sass, and adding a dynamic year in the footer.`,
 		summaryLong: `This is a code refactoring of a project I created several years ago. I revamped the workflow, migrating from Gulp to Webpack, from jQuery to Modern JavaScript with async await, @babel/pollyfill to make my async wait code work with Babel 7 and Webpack 5, adding css animated scroll buttons, animated magnifying glass icon search input on focus, hover, and active, replacing PostCSS with Node Sass, and adding a dynamic year in the footer.`,
-		imgSrc: '/images/blog/wikipedia-viewer/wikipedia-viewer.jpg',
-		href: '/blog/wikipedia-viewer',
+		imgSrc: '/images/projects/wikipedia-viewer/wikipedia-viewer.jpg',
+		href: '/projects/wikipedia-viewer',
 		tags: [
 			'async await',
 			'babel',
@@ -366,8 +366,8 @@ const projectsData = [
       for non - existent images and removes them or or sets their
       display properties to none, uses pointer events to replace touch and
       mouse events, custom build script, and Modern JavaScript in general.`,
-		imgSrc: '/images/blog/poke-api-web-app/poke-api.jpg',
-		href: '/blog/poke-api-web-app',
+		imgSrc: '/images/projects/poke-api-web-app/poke-api.jpg',
+		href: '/projects/poke-api-web-app',
 		tags: [
 			'ajax',
 			'code refactoring',
@@ -402,8 +402,8 @@ const projectsData = [
 			'This little search application utilizes two APIs. One is for the text called {JSON} Placeholder, and the other API is for the images called Robohash. The app also utilizes the fetch API method, the map() method, event listeners, createElement, appendChild, JavaScript array of objects, template string literal interpolation, Modern JavaScript, and more!',
 		summaryLong:
 			'This little search application utilizes two APIs. One is for the text called {JSON} Placeholder, and the other API is for the images called Robohash. The app also utilizes the fetch API method, the map() method, event listeners, createElement, appendChild, JavaScript array of objects, template string literal interpolation, Modern JavaScript, and more!',
-		imgSrc: '/images/blog/monsters-api-js-app/monsters-api-js-app.jpg',
-		href: '/blog/monsters-api-js-app',
+		imgSrc: '/images/projects/monsters-api-js-app/monsters-api-js-app.jpg',
+		href: '/projects/monsters-api-js-app',
 		tags: [
 			'e.keyCode',
 			'e.which',
@@ -434,8 +434,8 @@ const projectsData = [
 			'An application I created at the height of the COVID-19 pandemic as part of the course content of a Dynamic Web 1 (JavaScript) course I was teaching.',
 		summaryLong:
 			'An application I created at the height of the COVID-19 pandemic as part of the course content of a Dynamic Web 1 (JavaScript) course I was (and still am) teaching. We had just migrated to online learning, and I wanted to create an application that visualized what we were all feeling. I selected images that expressed those feelings, and synched the animations with the beat of music I chose. It was a rough time, but my students for that class were really amazing. I was truly inspired by them.',
-		imgSrc: '/images/blog/audio-visual-slider/audio-visual-slider-smaller.gif',
-		href: '/blog/audio-visual-slider',
+		imgSrc: '/images/projects/audio-visual-slider/audio-visual-slider-smaller.gif',
+		href: '/projects/audio-visual-slider',
 		tags: [
 			'appendChild',
 			'css in js animation',
@@ -463,8 +463,8 @@ const projectsData = [
 			'I originally created this client slide application using the OMDB API before creating my OMDB API Node.js version. After I created that one, and discovered potential built-in API errors in the Node.js version, I applied and transformed them into their client-side rendition. I felt it important to introduce my students to application error handling and thus a basic form of "testing".',
 		summaryLong:
 			'I originally created this client slide application using the OMDB API before creating my OMDB API Node.js version. After I created that one, and discovered potential built-in API errors in the Node.js version, I applied and transformed them into their client-side rendition. I felt it important to introduce my students to application error handling and thus a basic form of "testing".',
-		imgSrc: '/images/blog/omdb-api-js-app/omdb-api-js-app.jpg',
-		href: '/blog/omdb-api-js-app',
+		imgSrc: '/images/projects/omdb-api-js-app/omdb-api-js-app.jpg',
+		href: '/projects/omdb-api-js-app',
 		tags: [
 			'ajax',
 			'api error handling',
@@ -493,8 +493,8 @@ const projectsData = [
 			'I recently upgraded this project to React 18 using functional React components AND hooks. For state I use the useState hook, for side effects the useEffect Hook, and the useCallback hook to prevent infinite function calls to the function created to fetch the data from the JSONPlaceholder API.',
 		summaryLong:
 			'I recently upgraded this project to React 18 using functional React components AND hooks. For state I use the useState hook, for side effects the useEffect Hook, and the useCallback hook to prevent infinite function calls to the function created to fetch the data from the JSONPlaceholder API.',
-		imgSrc: '/images/blog/monsters-rolodex-react-hooks/monsters-rolodex-2022-app.jpg',
-		href: '/blog/monsters-rolodex-react-hooks',
+		imgSrc: '/images/projects/monsters-rolodex-react-hooks/monsters-rolodex-2022-app.jpg',
+		href: '/projects/monsters-rolodex-react-hooks',
 		tags: [
 			'apis',
 			'api error handling',
@@ -523,8 +523,8 @@ const projectsData = [
 			'This is a refactoring of my original Node.js Express Socket.io app using the EJS (Embedded JavaScript) templating engine for the front end. I finally got to replacing EJS with React.',
 		summaryLong:
 			'This is a refactoring of my original Node.js Express Socket.io app using the EJS (Embedded JavaScript) templating engine for the front end. I finally got to replacing EJS with React. It is still being hosted on Heroku, but has been structured in such a way that only one script is required to run the application instead of two. Heroku no longer provides a free tier, but the lowest cost per month is low enough for me. $5! And that is also $1 less than the lowest cost for hosting applications on Digital Ocean: $6/month. Much less hassle, and Heroku is compatible with my new Apple M1 Max chip MacBook Pro!',
-		imgSrc: '/images/blog/chattr-public-and-private-realtime-chat/chattr.jpg',
-		href: '/blog/chattr-public-and-private-realtime-chat',
+		imgSrc: '/images/projects/chattr-public-and-private-realtime-chat/chattr.jpg',
+		href: '/projects/chattr-public-and-private-realtime-chat',
 		tags: [
 			'create react app',
 			'express',
