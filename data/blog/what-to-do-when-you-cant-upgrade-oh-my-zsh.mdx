@@ -6,25 +6,64 @@ title: What to do When You Can't Upgrade Oh my zsh
 author: Maria D. Campbell
 excerpt: What to do when you can't upgrade Oh my zsh.
 image: robby.jpg
-tags: ['command line', 'git', 'oh my zsh', 'osx', 'robby russell', 'ruby gems', 'rvm', 'zsh', 'zshell']
-isPublished: true
+tags:
+    [
+        'command line',
+        'git',
+        'oh my zsh',
+        'osx',
+        'robby russell',
+        'ruby gems',
+        'rvm',
+        'zsh',
+        'zshell',
+    ]
+isPublished: false
 isFeatured: false
 ---
 
 ![Image of Robby Russell](robby.jpg)
 
-***Photo of/by*** [Robby Rusell](https://www.planetargon.com/about/robby-russell) (Oh my zsh creator)
+**_Photo of/by_**
+[Robby Rusell](https://www.planetargon.com/about/robby-russell) (Oh my zsh
+creator)
 
-I have been ***using*** the `Z Shell`, specifically `Oh My Zsh`, for almost ***two years*** now. It worked ***without*** a ***hitch*** for a ***while***, and then ***one day*** it ***didn’t work*** so ***smoothly***. It ***had something*** to ***do*** with my `PATH configuration`. I’m ***not sure*** whether the `issue` ***began*** `before` or `after` I ***installed*** `El Capitan` (but I don’t
-think so), ***or*** if it ***was*** a `ruby gems` ***installation issue***. I ***think*** it ***was*** the ***latter***. Anyway, it ***never seemed*** to ***resolve*** itself.
+I have been **_using_** the `Z Shell`, specifically `Oh My Zsh`, for almost
+**_two years_** now. It worked **_without_** a **_hitch_** for a **_while_**,
+and then **_one day_** it **_didn’t work_** so **_smoothly_**. It **_had
+something_** to **_do_** with my `PATH configuration`. I’m **_not sure_**
+whether the `issue` **_began_** `before` or `after` I **_installed_**
+`El Capitan` (but I don’t think so), **_or_** if it **_was_** a `ruby gems`
+**_installation issue_**. I **_think_** it **_was_** the **_latter_**. Anyway,
+it **_never seemed_** to **_resolve_** itself.
 
-I started to **_dive deeper_** into `Command Line`. I was ***getting*** to ***know*** my `computer` ***much better***. ***One*** of my `New Year’s Resolutions` is to ***become*** extremely **_well acquainted with_** the `Command Line`, and ***therefore*** `my computer`. I ***know*** that ***this*** will ***make me*** a ***MUCH better*** `developer`, `designer`, and `technologist` ***in general***. It will ***also help*** me with ***another*** of ***my*** `New Year’s resolutions`.
-***Increasing*** `my knowledge` of ***personal*** `cyber security`. ***Everyone*** these days ***should educate*** `themselves` ***about*** `personal cyber security`. It’s a ***crazy world*** out there in the ***realm*** of` technology`!
+I started to **_dive deeper_** into `Command Line`. I was **_getting_** to
+**_know_** my `computer` **_much better_**. **_One_** of my
+`New Year’s Resolutions` is to **_become_** extremely **_well acquainted with_**
+the `Command Line`, and **_therefore_** `my computer`. I **_know_** that
+**_this_** will **_make me_** a **_MUCH better_** `developer`, `designer`, and
+`technologist` **_in general_**. It will **_also help_** me with **_another_**
+of **_my_** `New Year’s resolutions`. **_Increasing_** `my knowledge` of
+**_personal_** `cyber security`. **_Everyone_** these days **_should educate_**
+`themselves` **_about_** `personal cyber security`. It’s a **_crazy world_** out
+there in the **_realm_** of` technology`!
 
-But my `Z shell` education ***sky rocketed*** when I ***came across*** `Wes Bos`’ ***video series*** entitled `“Command Line For Power Users”`. In it he ***goes*** into depth about ***how*** to ***set up*** the `Z Shell` on your `computer`, and ***specifically*** `Oh my zsh`. ***There*** is ***not much*** great `documentation` ***on*** the ***topic*** all in one place ***geared*** at `developers`. ***Many*** even **_frown upon_** **replacing** the `default bash`. I **_disagree_**. I ***think*** it’s ***great***. I will be very soon ***learning more*** about ***exactly why***.
+But my `Z shell` education **_sky rocketed_** when I **_came across_**
+`Wes Bos`’ **_video series_** entitled `“Command Line For Power Users”`. In it
+he **_goes_** into depth about **_how_** to **_set up_** the `Z Shell` on your
+`computer`, and **_specifically_** `Oh my zsh`. **_There_** is **_not much_**
+great `documentation` **_on_** the **_topic_** all in one place **_geared_** at
+`developers`. **_Many_** even **_frown upon_** **replacing** the `default bash`.
+I **_disagree_**. I **_think_** it’s **_great_**. I will be very soon
+**_learning more_** about **_exactly why_**.
 
-***But*** I ***digress***. I **_re-encountered_** my `$PATH` ***problem*** with `oh-my-zsh` when ***playing around*** with the ***different*** `oh-my-zsh` **themes** I ***have installed*** on my `computer`. ***Everything*** was `fine` ***until*** I ***added*** the `Soliah theme`. It ***told me*** that my `rvm` (`Ruby Version Manager`) `$PATH` was **_configured incorrectly_** and
-that I ***should*** `fix it`.This is the ***message*** I ***would get*** in `Terminal` (now `iTerm2`):
+**_But_** I **_digress_**. I **_re-encountered_** my `$PATH` **_problem_** with
+`oh-my-zsh` when **_playing around_** with the **_different_** `oh-my-zsh`
+**themes** I **_have installed_** on my `computer`. **_Everything_** was `fine`
+**_until_** I **_added_** the `Soliah theme`. It **_told me_** that my `rvm`
+(`Ruby Version Manager`) `$PATH` was **_configured incorrectly_** and that I
+**_should_** `fix it`.This is the **_message_** I **_would get_** in `Terminal`
+(now `iTerm2`):
 
 ```shell
 Warning! PATH is not properly set up, '/Users/mariacam/.rvm/gems/ruby-2.2.2/bin' is not available,
@@ -33,7 +72,8 @@ it might also help to re-add RVM to your dotfiles: 'rvm get stable --auto-dotfil
 to fix temporarily in this shell session run: 'rvm use ruby-2.2.2'.
 ```
 
-So I ***googled*** for a ***fix*** to the `issue`. After ***much searching***, I ***finally*** came across a `fix` which was ***clearly explained***:
+So I **_googled_** for a **_fix_** to the `issue`. After **_much searching_**, I
+**_finally_** came across a `fix` which was **_clearly explained_**:
 
 ```shell
 This is what corrected the error for me:
@@ -52,28 +92,59 @@ The last 2 lines should be:
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 ```
 
-I ***found*** the ***same*** `fix` ***elsewhere***, ***but*** the ***explanations*** were ***not*** as ***clear***. My `.bashrc` **_already contained_** the **line mentioned above**, but my
-`.bash_profile` contained `PATH` **_instead of_** `HOME`. I ***think*** `something happened` ***during*** `installation` of my `ruby gems`. I ***installed*** that ***when*** I was ***taking*** a `Web Development Course`, and ***already*** had ***installed*** `Z shell/Oh my zsh`. I ***clearly remember*** the `teacher` ***telling me*** that I ***should*** be ***using*** the ***default***
-`bash shell`, and I ***said*** `“No. I want to use Oh my zsh.”` Then he ***created*** a `hack` so that I ***would*** `be able` to ***use both*** (`nightmare`), and a ***whole bunch*** of ***other stuff*** which he ***didn’t even*** `clue me` ***in on***. ***That’s why*** I ***will say*** it ***again*** (and ***again***
-and ***again*** and ***again*** if I ***have to***): ***so important*** to ***know*** `Command Line`, and thus ***get*** to ***know*** the ***inner workings*** of your `computer`, so that you ***don’t have*** to ***be*** at the ***mercy*** of ***others*** who then ***won’t*** even ***enlighten*** you ***as*** to ***what*** they ***have done*** to your `machine`! And `their fix` ***won’t necessarily*** be the ***right one*** for ***you*** OR ***your machine***! ***It’s like*** a `doctor` ***not knowing*** `his` or `her` ***anatomy***!
+I **_found_** the **_same_** `fix` **_elsewhere_**, **_but_** the
+**_explanations_** were **_not_** as **_clear_**. My `.bashrc` **_already
+contained_** the **line mentioned above**, but my `.bash_profile` contained
+`PATH` **_instead of_** `HOME`. I **_think_** `something happened` **_during_**
+`installation` of my `ruby gems`. I **_installed_** that **_when_** I was
+**_taking_** a `Web Development Course`, and **_already_** had **_installed_**
+`Z shell/Oh my zsh`. I **_clearly remember_** the `teacher` **_telling me_**
+that I **_should_** be **_using_** the **_default_** `bash shell`, and I
+**_said_** `“No. I want to use Oh my zsh.”` Then he **_created_** a `hack` so
+that I **_would_** `be able` to **_use both_** (`nightmare`), and a **_whole
+bunch_** of **_other stuff_** which he **_didn’t even_** `clue me` **_in on_**.
+**_That’s why_** I **_will say_** it **_again_** (and **_again_** and
+**_again_** and **_again_** if I **_have to_**): **_so important_** to
+**_know_** `Command Line`, and thus **_get_** to **_know_** the **_inner
+workings_** of your `computer`, so that you **_don’t have_** to **_be_** at the
+**_mercy_** of **_others_** who then **_won’t_** even **_enlighten_** you
+**_as_** to **_what_** they **_have done_** to your `machine`! And `their fix`
+**_won’t necessarily_** be the **_right one_** for **_you_** OR **_your
+machine_**! **_It’s like_** a `doctor` **_not knowing_** `his` or `her`
+**_anatomy_**!
 
-The `issue` ***wasn’t resolved*** `immediately`, ***however***. ***Why***? ***First*** of ***all***, I ***didn’t*** completely ***quit*** `iTerm2`. I ***only closed*** the `window`. ***In order*** for `iTerm2` (or `Terminal`) to ***register*** the ***change***, you ***have*** to ***quit*** the `program` and ***re-open*** it. ***OR***, you ***should type*** the **command** `source + path to file` that was ***changed***. ***For instance***, if I ***changed*** the `oh-my-zsh` **theme** I was ***using*** in `iTerm2` in my `.zshrc` file, I ***would save*** the `file`, ***go back*** into `iTerm2` and ***type*** the `command`
+The `issue` **_wasn’t resolved_** `immediately`, **_however_**. **_Why_**?
+**_First_** of **_all_**, I **_didn’t_** completely **_quit_** `iTerm2`. I
+**_only closed_** the `window`. **_In order_** for `iTerm2` (or `Terminal`) to
+**_register_** the **_change_**, you **_have_** to **_quit_** the `program` and
+**_re-open_** it. **_OR_**, you **_should type_** the **command**
+`source + path to file` that was **_changed_**. **_For instance_**, if I
+**_changed_** the `oh-my-zsh` **theme** I was **_using_** in `iTerm2` in my
+`.zshrc` file, I **_would save_** the `file`, **_go back_** into `iTerm2` and
+**_type_** the `command`
 
 ```shell
 source ~/.zshrc
 ```
 
-and ***hit*** `return`. I ***would*** immediately ***notice*** in the **_current instance_** of `iTerm2` that my `theme` ***had changed***. In the ***case*** of my `.bash_profile`, I ***typed***
+and **_hit_** `return`. I **_would_** immediately **_notice_** in the **_current
+instance_** of `iTerm2` that my `theme` **_had changed_**. In the **_case_** of
+my `.bash_profile`, I **_typed_**
 
 ```shell
 source ~/.bash_profile
 ```
 
-to ***update*** it. OR **_completely quit_** `Terminal` and **_re-open_** **it**.
+to **_update_** it. OR **_completely quit_** `Terminal` and **_re-open_**
+**it**.
 
-***After*** I had gotten ***half-way*** into **_Wes’_**
-[course](https://commandlinepoweruser.com/), I ***became*** much more ***familiar*** with the `Z shell`, and ***realized*** that I **_hadn’t completely quit_** `Terminal` or ***updated*** my `.bash_profile` with the `source command`. So I ***did*** it, and
-***this*** is ***what*** I ***subsequently got*** in `Terminal` when I **_checked_** for my ***version*** of `Ruby` AND `RVM`:
+**_After_** I had gotten **_half-way_** into **_Wes’_**
+[course](https://commandlinepoweruser.com/), I **_became_** much more
+**_familiar_** with the `Z shell`, and **_realized_** that I **_hadn’t
+completely quit_** `Terminal` or **_updated_** my `.bash_profile` with the
+`source command`. So I **_did_** it, and **_this_** is **_what_** I
+**_subsequently got_** in `Terminal` when I **_checked_** for my **_version_**
+of `Ruby` AND `RVM`:
 
 ```shell
 ruby -v
@@ -86,9 +157,16 @@ rvm -v
 rvm 1.28.0 (latest) by Wayne E. Seguin <wayneeseguin@gmail.com>, Michal Papis <mpapis@gmail.com> [https://rvm.io/]
 ```
 
-***No more*** `problems` ***there***!
+**_No more_** `problems` **_there_**!
 
-`My problems` ***weren’t*** quite ***over yet***, however. I **_still had_** the `issue` of **_not being able_** to **upgrade** `my oh-my-zsh`. That ***started*** happening **_after_** I ***installed*** `El Capitan`. ***Something happened*** to the `path` to my `oh-my-zsh` `local repository` on ***my*** `computer` when I **_upgraded_** to `El Capitan`. I ***would try*** and ***fix*** the `issue` as ***explained*** on `StackOverFlow` and ***elsewhere***, but it ***never took***. ***This*** is what ***would appear*** in `Terminal` when I ***would try*** and **_upgrade_** `oh-my-zsh`:
+`My problems` **_weren’t_** quite **_over yet_**, however. I **_still had_** the
+`issue` of **_not being able_** to **upgrade** `my oh-my-zsh`. That
+**_started_** happening **_after_** I **_installed_** `El Capitan`. **_Something
+happened_** to the `path` to my `oh-my-zsh` `local repository` on **_my_**
+`computer` when I **_upgraded_** to `El Capitan`. I **_would try_** and
+**_fix_** the `issue` as **_explained_** on `StackOverFlow` and **_elsewhere_**,
+but it **_never took_**. **_This_** is what **_would appear_** in `Terminal`
+when I **_would try_** and **_upgrade_** `oh-my-zsh`:
 
 ```shell
 Upgrading Oh My Zsh
@@ -96,7 +174,8 @@ fatal: Not a git repository (or any of the parent directories): .git
 There was an error updating. Try again later?
 ```
 
-And ***when*** I ***would try*** and ***initialize*** it as a ***new*** (`local`) `git repository`, I ***would get*** the `message`:
+And **_when_** I **_would try_** and **_initialize_** it as a **_new_**
+(`local`) `git repository`, I **_would get_** the `message`:
 
 ```shell
 fatal: 'origin' does not appear to be a git repository
@@ -106,17 +185,26 @@ Please make sure you have the correct access rights
 and the repository exists.
 ```
 
-***Well***, ***yesterday*** I ***tried again*** after **_fixing_** the `$PATH` **issue**. And ***this time*** it ***took***! ***This*** is ***what*** I ***did***:
+**_Well_**, **_yesterday_** I **_tried again_** after **_fixing_** the `$PATH`
+**issue**. And **_this time_** it **_took_**! **_This_** is **_what_** I
+**_did_**:
 
 ```shell
 git init
 git remote add origin git@github.com:robbyrussell/oh-my-zsh.git
 ```
 
-The `second line` ***contains*** the `SSH` for `oh-my-zsh`, ***because*** that’s ***how*** I’m ***set up*** with `Github`. I ***use*** `public` and `private` `SSH keys` to ***identify myself***, or ***rather*** `my computer`, ***with*** `Github`. If you are ***not*** `set up` ***that way***, please ***switch over***. It’s
-much ***more secure*** that ***way***, and ***much less*** of a ***hassle*** in the ***long run***! To ***learn about*** `Github` and `SSH`, ***please visit*** `Github`’s ***documentation*** [Adding a new SSH key to your GitHub account](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account).
+The `second line` **_contains_** the `SSH` for `oh-my-zsh`, **_because_** that’s
+**_how_** I’m **_set up_** with `Github`. I **_use_** `public` and `private`
+`SSH keys` to **_identify myself_**, or **_rather_** `my computer`, **_with_**
+`Github`. If you are **_not_** `set up` **_that way_**, please **_switch
+over_**. It’s much **_more secure_** that **_way_**, and **_much less_** of a
+**_hassle_** in the **_long run_**! To **_learn about_** `Github` and `SSH`,
+**_please visit_** `Github`’s **_documentation_**
+[Adding a new SSH key to your GitHub account](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account).
 
-And ***my*** `initialization` ***took***! So I ***had*** to ***complete*** the `process` ***with***:
+And **_my_** `initialization` **_took_**! So I **_had_** to **_complete_** the
+`process` **_with_**:
 
 ```shell
 git fetch
@@ -126,17 +214,22 @@ git fetch fetches the latest version of the oh-my-zsh repository on Github, and 
 throw away all my staged and un-staged changes,
 ```
 
-I ***found*** `both solutions` on `StackOverflow`. To ***read about*** the ***whole*** `oh-my-zsh` ***upgrading process fix***, ***please visit***
+I **_found_** `both solutions` on `StackOverflow`. To **_read about_** the
+**_whole_** `oh-my-zsh` **_upgrading process fix_**, **_please visit_**
 [Upgrading Oh My Zsh gives me ‘not a git repository’ error](https://stackoverflow.com/questions/33486633/upgrading-oh-my-zsh-gives-me-not-a-git-repository-error).
-To ***learn more*** about
+To **_learn more_** about
 
 ```shell
 git reset --hard origin/master
 ```
 
-***please visit***
+**_please visit_**
 [What is the meaning of git reset –hard origin/master?](https://stackoverflow.com/questions/15432052/what-is-the-meaning-of-git-reset-hard-origin-master).
 
-So ***now*** I ***have configured*** my `RVM $PATH` ***correctly*** and I ***will*** be able to **_update_** `oh-my-zsh` when ***changes*** have ***been made*** to the `remote repository`.
+So **_now_** I **_have configured_** my `RVM $PATH` **_correctly_** and I
+**_will_** be able to **_update_** `oh-my-zsh` when **_changes_** have **_been
+made_** to the `remote repository`.
 
-My ***next thing*** to ***tackle*** is `NVM` (`Node Version Manager`). Had ***similar problems*** there, ***which began*** with ***installation*** of `Node` ***way back*** when. You’ll be ***hearing*** about that ***as well***!
+My **_next thing_** to **_tackle_** is `NVM` (`Node Version Manager`). Had
+**_similar problems_** there, **_which began_** with **_installation_** of
+`Node` **_way back_** when. You’ll be **_hearing_** about that **_as well_**!
