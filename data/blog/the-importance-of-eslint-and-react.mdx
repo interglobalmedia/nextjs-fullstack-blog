@@ -20,41 +20,68 @@ tags:
         'react 16.6.3',
         'react custom workflows',
         'terminal program',
-        'webpack 4'
+        'webpack 4',
     ]
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
 ![Man cleaning the side of an ofice building from the outside](mkjr_-2zUjvV0M9dQ-unsplash.jpg)
 
-***Photo by*** [mkjr\_](https://unsplash.com/@mkjr_) ***on*** [Unsplash](https://unsplash.com/photos/2zUjvV0M9dQ)
+**_Photo by_** [mkjr\_](https://unsplash.com/@mkjr_) **_on_**
+[Unsplash](https://unsplash.com/photos/2zUjvV0M9dQ)
 
-Please ***also visit*** my `post` **_entitled_**
+Please **_also visit_** my `post` **_entitled_**
 [ESLint parsing (in React)](/posts/eslint-parsing-in-react/).
 
-`ESlint` (***or*** some other `linting utility` of `JS/JSX`) is ***very important*** in (`code`) ***development***. I have been ***using*** it for `JavaScript` ***development*** for a very ***long time***. When ***using*** `Create React Ap`, I ***depended*** on its `code linting` ***suggestions***, and ***took*** `built in code` ***linting*** for ***granted***. Then I kind of ***slipped*** lately ***because*** I ***use*** my own **_custom_** `React workflow`. I was **_using_** `ESlint`, but ***noticed recently*** that there was **_something wrong_**
-with my ***configuration*** for `React`.
+`ESlint` (**_or_** some other `linting utility` of `JS/JSX`) is **_very
+important_** in (`code`) **_development_**. I have been **_using_** it for
+`JavaScript` **_development_** for a very **_long time_**. When **_using_**
+`Create React Ap`, I **_depended_** on its `code linting` **_suggestions_**, and
+**_took_** `built in code` **_linting_** for **_granted_**. Then I kind of
+**_slipped_** lately **_because_** I **_use_** my own **_custom_**
+`React workflow`. I was **_using_** `ESlint`, but **_noticed recently_** that
+there was **_something wrong_** with my **_configuration_** for `React`.
 
-***A lot*** has ***changed*** since I ***created*** my ***last*** `React workflow`. ***Then*** I was ***using*** `React 16.5+`, `Webpack 3.6`, and `Babel 6`. A month ago I ***started using*** `React 16.6.0`, `Webpack 4.3.0`, and `Babel 7`. ***Today*** I am ***using*** `React 16.6.3`, `Webpack 4.3.0`, and `Babel 7`. ***Believe me***, ***changes occurred*** between `React 16.6.0` and `16.6.3` that **_affected_** my ***updated workflow***! So that ***means*** that ***things*** were ***changing*** regarding `ESlint` ***configuration*** for `React` ***since*** I ***created*** my ***last*** `workflow` a ***year ago***, ***especially*** since it ***depends*** on `Babel` as a `parser`!
+**_A lot_** has **_changed_** since I **_created_** my **_last_**
+`React workflow`. **_Then_** I was **_using_** `React 16.5+`, `Webpack 3.6`, and
+`Babel 6`. A month ago I **_started using_** `React 16.6.0`, `Webpack 4.3.0`,
+and `Babel 7`. **_Today_** I am **_using_** `React 16.6.3`, `Webpack 4.3.0`, and
+`Babel 7`. **_Believe me_**, **_changes occurred_** between `React 16.6.0` and
+`16.6.3` that **_affected_** my **_updated workflow_**! So that **_means_** that
+**_things_** were **_changing_** regarding `ESlint` **_configuration_** for
+`React` **_since_** I **_created_** my **_last_** `workflow` a **_year ago_**,
+**_especially_** since it **_depends_** on `Babel` as a `parser`!
 
-I ***decided*** to ***execute*** a `Google search` ***regarding*** `very recent` ***articles*** about `ESlint` ***configuration*** for `React`, and ***immediately found*** what I was ***looking*** for.
+I **_decided_** to **_execute_** a `Google search` **_regarding_** `very recent`
+**_articles_** about `ESlint` **_configuration_** for `React`, and
+**_immediately found_** what I was **_looking_** for.
 
-***Yes***, my `ESlint` ***configuration*** was ***totally wrong***! This ***means*** I ***have*** to ***go back*** and ***check*** my `ESlint` ***configs*** in other **_recent_** `React` ***applications*** and **_update_** them where **_necessary_**.
+**_Yes_**, my `ESlint` **_configuration_** was **_totally wrong_**! This
+**_means_** I **_have_** to **_go back_** and **_check_** my `ESlint`
+**_configs_** in other **_recent_** `React` **_applications_** and **_update_**
+them where **_necessary_**.
 
 ## How ESlint Should be Configured with React 16.6.3
 
--   ***First*** make sure that you have ***installed*** `ESlint` as a `devDependency` in
-    your ***project***. `npm i eslint -D`
+- **_First_** make sure that you have **_installed_** `ESlint` as a
+  `devDependency` in your **_project_**. `npm i eslint -D`
 
--   ***Then*** make sure to ***install*** the `eslint-loader` so that you can ***add*** `eslint` to your `webpack config`. `npm i eslint-loader -D`
+- **_Then_** make sure to **_install_** the `eslint-loader` so that you can
+  **_add_** `eslint` to your `webpack config`. `npm i eslint-loader -D`
 
--   ***Then*** start ***setting up*** your ***basic*** `eslint config` ***using***
-    `node_modules/.bin/eslint --init`. That’s the ***same*** you ***would do*** when
-    ***configuring*** `eslint` for a **_regular_** **JavaScript application**. For a
-    ***step*** by ***step*** `guide`, ***please visit*** [ESlint User Guide - Getting Started](https://eslint.org/docs/user-guide/getting-started) and [ESLint Introduction](http://www.logicative.com/code/web-thoughts/eslint-introduction/).
+- **_Then_** start **_setting up_** your **_basic_** `eslint config` **_using_**
+  `node_modules/.bin/eslint --init`. That’s the **_same_** you **_would do_**
+  when **_configuring_** `eslint` for a **_regular_** **JavaScript
+  application**. For a **_step_** by **_step_** `guide`, **_please visit_**
+  [ESlint User Guide - Getting Started](https://eslint.org/docs/user-guide/getting-started)
+  and
+  [ESLint Introduction](http://www.logicative.com/code/web-thoughts/eslint-introduction/).
 
--   ***After*** you ***have run*** the ***command*** `node_modules/.bin/eslint --init` ***inside*** the `root` of your ***project***, the ***following*** will ***appear*** in your `Terminal` ***window***:
+- **_After_** you **_have run_** the **_command_**
+  `node_modules/.bin/eslint --init` **_inside_** the `root` of your
+  **_project_**, the **_following_** will **_appear_** in your `Terminal`
+  **_window_**:
 
 ```shell
 How would you like to configure ESLint? (Use arrow keys)
@@ -63,7 +90,8 @@ Use a popular style guide
 Inspect your JavaScript file(s)
 ```
 
-I ***usually*** like to ***choose*** `Answer questions about your style`, but ***choose whatever*** you are ***most comfortable*** with.
+I **_usually_** like to **_choose_** `Answer questions about your style`, but
+**_choose whatever_** you are **_most comfortable_** with.
 
 ```shell
 How would you like to configure ESLint? Answer questions about your style
@@ -76,8 +104,8 @@ How would you like to configure ESLint? Answer questions about your style
 ❯ ES2018
 ```
 
-I ***like*** to ***choose*** the **latest version** of `ECMAScript`, which ***right now*** is
-`ES2018`.
+I **_like_** to **_choose_** the **latest version** of `ECMAScript`, which
+**_right now_** is `ES2018`.
 
 ```shell
 How would you like to configure ESLint? Answer questions about your style
@@ -85,7 +113,7 @@ How would you like to configure ESLint? Answer questions about your style
 ? Are you using ES6 modules? (y/N)
 ```
 
-***Of course*** I am ***using*** `ES6 modules`, so I ***choose*** `y`.
+**_Of course_** I am **_using_** `ES6 modules`, so I **_choose_** `y`.
 
 ```shell
 node_modules/.bin/eslint --init
@@ -97,7 +125,10 @@ node_modules/.bin/eslint --init
 ❯◉ Node
 ```
 
-I just ***choose*** `Browser` and `Node` to ***cover*** all ***my bases***. ***Why not***, right? Well, ***actually***, there is a ***reason*** for ***including*** `Node` for ***running*** my `code`. If I ***don’t include*** it, I ***would get*** the ***following*** `error`, ***for example***:
+I just **_choose_** `Browser` and `Node` to **_cover_** all **_my bases_**.
+**_Why not_**, right? Well, **_actually_**, there is a **_reason_** for
+**_including_** `Node` for **_running_** my `code`. If I **_don’t include_** it,
+I **_would get_** the **_following_** `error`, **_for example_**:
 
 ```shell
 error 'process' is not defined no-undef
@@ -110,7 +141,9 @@ node_modules/.bin/eslint --init
 ? Do you use CommonJS? Yes
 ```
 
-`CommonJS` is ***required*** when ***using*** `require`, which is ***used only*** in `Node` now, but I ***choose*** it ***anyway*** just ***in case*** if there is a ***package*** out there that ***still requires*** `require`.
+`CommonJS` is **_required_** when **_using_** `require`, which is **_used
+only_** in `Node` now, but I **_choose_** it **_anyway_** just **_in case_** if
+there is a **_package_** out there that **_still requires_** `require`.
 
 ```shell
 node_modules/.bin/eslint --init
@@ -122,7 +155,8 @@ node_modules/.bin/eslint --init
 ? Do you use JSX? Yes
 ```
 
-***Of course*** I am ***using*** `JSX` ***since*** I am ***using*** `React`, so I ***choose*** `y`.
+**_Of course_** I am **_using_** `JSX` **_since_** I am **_using_** `React`, so
+I **_choose_** `y`.
 
 ```shell
 node_modules/.bin/eslint --init
@@ -135,7 +169,7 @@ node_modules/.bin/eslint --init
 ? Do you use React? Yes
 ```
 
-And ***of course*** I ***choose*** `y` for `React`!
+And **_of course_** I **_choose_** `y` for `React`!
 
 ```shell
 node_modules/.bin/eslint --init
@@ -151,7 +185,7 @@ node_modules/.bin/eslint --init
 Spaces
 ```
 
-I ***find*** `tabs` ***much easier***, so I ***choose*** `Tabs`.
+I **_find_** `tabs` **_much easier_**, so I **_choose_** `Tabs`.
 
 ```shell
 node_modules/.bin/eslint --init
@@ -168,8 +202,8 @@ Double
 ❯ Single
 ```
 
-I just ***find choosing*** `Single` for **_quotes_** more **_convenient_** and
-therefore **_easier_**, so I ***choose*** `Single`.
+I just **_find choosing_** `Single` for **_quotes_** more **_convenient_** and
+therefore **_easier_**, so I **_choose_** `Single`.
 
 ```shell
 node_modules/.bin/eslint --init
@@ -187,7 +221,8 @@ node_modules/.bin/eslint --init
 Windows
 ```
 
-I ***use*** a `Macbook Pro`, ***which means*** that I ***am on*** `Unix`, so I ***choose*** `Unix`.
+I **_use_** a `Macbook Pro`, **_which means_** that I **_am on_** `Unix`, so I
+**_choose_** `Unix`.
 
 ```shell
 node_modules/.bin/eslint --init
@@ -204,7 +239,10 @@ node_modules/.bin/eslint --init
 ? Do you require semicolons? No
 ```
 
-***When asked*** if I **_require_** `semicolons`, I ***choose*** `n`. We really ***don’t need*** them ***as of*** `ES6` ***anyway***. ***However***, I **_do use_** them ***because*** of ***convention*** and that it ***also defines*** the `end of a line` (***when appropriate***).
+**_When asked_** if I **_require_** `semicolons`, I **_choose_** `n`. We really
+**_don’t need_** them **_as of_** `ES6` **_anyway_**. **_However_**, I **_do
+use_** them **_because_** of **_convention_** and that it **_also defines_** the
+`end of a line` (**_when appropriate_**).
 
 ```shell
 Where will your code run? Browser, Node
@@ -218,10 +256,11 @@ Where will your code run? Browser, Node
 ? What format do you want your config file to be in? JSON
 ```
 
-I ***choose*** `JSON` for my `config format`, but you ***choose whatever*** you are ***most comfortable*** with.
+I **_choose_** `JSON` for my `config format`, but you **_choose whatever_** you
+are **_most comfortable_** with.
 
--   When I have completed my `eslint` set up successfully, the following is
-    returned at the end:
+- When I have completed my `eslint` set up successfully, the following is
+  returned at the end:
 
 ```shell
 The config that you've selected requires the following dependencies:
@@ -230,11 +269,31 @@ eslint-plugin-react@latest
 Successfully created .eslintrc.json file in /Users/mariacam/Development/eslint-config
 ```
 
-So I am ***being told*** that **_at very least_** I ***need*** to ***install*** the ***latest version*** of the `eslint-plugin-react@latest` `npm` ***package***.
+So I am **_being told_** that **_at very least_** I **_need_** to **_install_**
+the **_latest version_** of the `eslint-plugin-react@latest` `npm`
+**_package_**.
 
--   ***Next***, you ***have*** to ***add*** the `eslint-loader` into your `Webpack config` ***file***. I have ***two*** `config` ***files***. One ***called*** `webpack.base.config.js` and one ***called*** `webpack.prod.config.js`. `webpack.prod.config.js` is ***only related*** to `production`. `webpack.base.config.js` is ***related*** to `development`, but **_also_** to `production` **_conditionally_**. ***If*** there are `configs` that are for ***development only*** but ***also need*** to be ***configured*** for `production`, they ***would appear*** in `webpack.base.config.js` ***as well***. In ***that case***, I ***use*** `ternary operators` to **_cover_** **both environments**.
+- **_Next_**, you **_have_** to **_add_** the `eslint-loader` into your
+  `Webpack config` **_file_**. I have **_two_** `config` **_files_**. One
+  **_called_** `webpack.base.config.js` and one **_called_**
+  `webpack.prod.config.js`. `webpack.prod.config.js` is **_only related_** to
+  `production`. `webpack.base.config.js` is **_related_** to `development`, but
+  **_also_** to `production` **_conditionally_**. **_If_** there are `configs`
+  that are for **_development only_** but **_also need_** to be **_configured_**
+  for `production`, they **_would appear_** in `webpack.base.config.js` **_as
+  well_**. In **_that case_**, I **_use_** `ternary operators` to **_cover_**
+  **both environments**.
 
--   But it ***doesn’t end*** there. We ***also have*** to ***configure*** `Babel` to ***include*** `eslint`, and `Eslint` to ***include*** `Babel`. ***Otherwise***, we ***will obtain*** `errors` ***related to*** `JSX` in `Command Line` when ***running*** our `application` in `development`. We ***need*** `Babel` to **_parse_** our **JSX**. We ***also have*** to ***take*** into ***consideration*** the ***changes*** that have ***taken place*** with ***regards*** to `Babel 7`, `React 16.6+` and `Webpack 4+`! So ***next***, I ***have*** to ***install*** the `eslint-loader` and ***add it*** to my `Webpack config`. In my `webpack.base.config.js` ***file***, I ***do*** the ***following***:
+- But it **_doesn’t end_** there. We **_also have_** to **_configure_** `Babel`
+  to **_include_** `eslint`, and `Eslint` to **_include_** `Babel`.
+  **_Otherwise_**, we **_will obtain_** `errors` **_related to_** `JSX` in
+  `Command Line` when **_running_** our `application` in `development`. We
+  **_need_** `Babel` to **_parse_** our **JSX**. We **_also have_** to
+  **_take_** into **_consideration_** the **_changes_** that have **_taken
+  place_** with **_regards_** to `Babel 7`, `React 16.6+` and `Webpack 4+`! So
+  **_next_**, I **_have_** to **_install_** the `eslint-loader` and **_add it_**
+  to my `Webpack config`. In my `webpack.base.config.js` **_file_**, I **_do_**
+  the **_following_**:
 
 ```js
 rules: [{
@@ -254,34 +313,52 @@ rules: [{
     }],
 ```
 
--   ***Then***, in my `eslintrc.json` ***file***, I ***do*** the ***following***:
+- **_Then_**, in my `eslintrc.json` **_file_**, I **_do_** the **_following_**:
 
 ```js
 "parser": "babel-eslint",
 ```
 
-at the ***top*** of the ***file***. This ***means*** that I ***have*** to ***include*** the `babel-eslint` ***npm package*** so that `Babel` will **_know_** to ***parse*** my `React JSX`.
+at the **_top_** of the **_file_**. This **_means_** that I **_have_** to
+**_include_** the `babel-eslint` **_npm package_** so that `Babel` will
+**_know_** to **_parse_** my `React JSX`.
 
 ```shell
 npm i babel-eslint -D
 ```
 
--  ***Next***, I ***also have*** to ***add*** the ***following*** to my `eslintrc.json` ***file***:
+- **_Next_**, I **_also have_** to **_add_** the **_following_** to my
+  `eslintrc.json` **_file_**:
 
 ```js
 "extends": ["eslint:recommended", "plugin:react/recommended"],
 ```
 
-This ***means*** that I am ***extending*** my `eslint configuration` to ***include***
-`recommendations` ***not only*** for `vanilla JavaScript`, but for `React JSX` ***as well***.
+This **_means_** that I am **_extending_** my `eslint configuration` to
+**_include_** `recommendations` **_not only_** for `vanilla JavaScript`, but for
+`React JSX` **_as well_**.
 
--   You can ***also*** `include` ***other*** `style guides` ***such as*** the
-    [Airbnb Style Guide](https://github.com/airbnb/javascript), **_very popular_** among **React developers**, if ***you like***. It is ***included*** as an
-    `option` when ***initially configuring*** `Eslint`. `Airbnb` ***open sourced*** its ***own*** [ESLint configuration](https://www.npmjs.com/package/eslint-config-airbnb)
-    that ***everyone*** can ***use it*** in ***their*** `ESLint configuration`.
+- You can **_also_** `include` **_other_** `style guides` **_such as_** the
+  [Airbnb Style Guide](https://github.com/airbnb/javascript), **_very popular_**
+  among **React developers**, if **_you like_**. It is **_included_** as an
+  `option` when **_initially configuring_** `Eslint`. `Airbnb` **_open
+  sourced_** its **_own_**
+  [ESLint configuration](https://www.npmjs.com/package/eslint-config-airbnb)
+  that **_everyone_** can **_use it_** in **_their_** `ESLint configuration`.
 
-***When*** I ***finally had*** `ESlint` ***configured properly*** for `React`, I ***immediately benefitted*** from it and ***found*** an `error` in my `code` I ***never realized*** was an `error` to ***begin with***! But ***apparently***, it was ***even regarded*** as a `security risk`. And for ***those*** of ***us*** that ***know why*** `React` was ***created*** to ***begin with***, we ***know historically*** how **_serious_** `Facebook` is about `security`. I ***like*** to ***add*** `target="blank"` to ***my links*** so that when ***people visit*** a `site` of ***mine*** or a `post` and ***click*** on a `link`, they will ***be directed*** to the `link` in a ***new window*** of their `browser`. In ***this way***, they ***would easily*** be ***able*** to ***return*** to ***my*** `site` or `post`! I had been ***told*** a ***long time ago*** that ***this was*** a ***good approach***. ***Well***,
-***according*** to `ESlint`, it ***recommended*** the ***following***:
+**_When_** I **_finally had_** `ESlint` **_configured properly_** for `React`, I
+**_immediately benefitted_** from it and **_found_** an `error` in my `code` I
+**_never realized_** was an `error` to **_begin with_**! But **_apparently_**,
+it was **_even regarded_** as a `security risk`. And for **_those_** of **_us_**
+that **_know why_** `React` was **_created_** to **_begin with_**, we **_know
+historically_** how **_serious_** `Facebook` is about `security`. I **_like_**
+to **_add_** `target="blank"` to **_my links_** so that when **_people visit_**
+a `site` of **_mine_** or a `post` and **_click_** on a `link`, they will **_be
+directed_** to the `link` in a **_new window_** of their `browser`. In **_this
+way_**, they **_would easily_** be **_able_** to **_return_** to **_my_** `site`
+or `post`! I had been **_told_** a **_long time ago_** that **_this was_** a
+**_good approach_**. **_Well_**, **_according_** to `ESlint`, it
+**_recommended_** the **_following_**:
 
 ```shell
 ERROR in ./src/components/speech/Speech.js
@@ -292,11 +369,21 @@ ERROR in ./src/components/speech/Speech.js
 1 problem (1 error, 0 warnings)
 ```
 
-So I ***added*** `rel="noopener noreferrer"` to ***my*** `link`. This is just ***one tiny*** `example` of ***why*** one ***should use*** a ***popular*** and ***widely accepted*** `code linter` in ***one’s workflows***. It ***even referred*** to an `article` on the `topic` ***written*** by [Mathias Byens](https://twitter.com/mathias), a `developer` who ***works*** on the `V8 engine` at `Google` and on `ECMAScript` ***through*** their `Technical Committee 39`.
+So I **_added_** `rel="noopener noreferrer"` to **_my_** `link`. This is just
+**_one tiny_** `example` of **_why_** one **_should use_** a **_popular_** and
+**_widely accepted_** `code linter` in **_one’s workflows_**. It **_even
+referred_** to an `article` on the `topic` **_written_** by
+[Mathias Byens](https://twitter.com/mathias), a `developer` who **_works_** on
+the `V8 engine` at `Google` and on `ECMAScript` **_through_** their
+`Technical Committee 39`.
 
-There are ***other things*** that I ***had*** to ***resolve*** as well. ***For instance***, I did ***not know*** why `describe()`, `it()`, `expect()`, etc. would ***result in*** an `error` with `Jest`. The `tests` ***would pass***
-(or ***not pass***), but `describe()`, `it()`, `expect()`, etc., ***would throw*** a
-`syntactical error`. ***Today*** I ***found out*** that I ***had*** to ***add*** a `configuration` to my `eslintrc.json` ***in order*** to get ***rid of*** these `errors`. I ***added*** the ***following*** to my `eslint config`:
+There are **_other things_** that I **_had_** to **_resolve_** as well. **_For
+instance_**, I did **_not know_** why `describe()`, `it()`, `expect()`, etc.
+would **_result in_** an `error` with `Jest`. The `tests` **_would pass_** (or
+**_not pass_**), but `describe()`, `it()`, `expect()`, etc., **_would throw_** a
+`syntactical error`. **_Today_** I **_found out_** that I **_had_** to **_add_**
+a `configuration` to my `eslintrc.json` **_in order_** to get **_rid of_** these
+`errors`. I **_added_** the **_following_** to my `eslint config`:
 
 ```js
 "env": {
@@ -310,17 +397,18 @@ There are ***other things*** that I ***had*** to ***resolve*** as well. ***For i
 
 `"jest": true` removed the `eslint` errors.
 
-***Since*** `eslint-plugin-react@7.11.1`, if one ***does not*** `explicitly state` the
-**_version_** of `React` they are ***using*** in their `eslint config`, the
-***following*** `error` is ***thrown*** when ***starting up*** a `React` ***application*** `locally`:
+**_Since_** `eslint-plugin-react@7.11.1`, if one **_does not_**
+`explicitly state` the **_version_** of `React` they are **_using_** in their
+`eslint config`, the **_following_** `error` is **_thrown_** when **_starting
+up_** a `React` **_application_** `locally`:
 
 ```shell
 Warning: React version not specified in eslint-plugin-react settings.
 See https://github.com/yannickcr/eslint-plugin-react#configuration.
 ```
 
-***In order*** to ***remove*** this ***warning***, I ***added*** the ***following*** to my `eslintrc.json`
-***file***:
+**_In order_** to **_remove_** this **_warning_**, I **_added_** the
+**_following_** to my `eslintrc.json` **_file_**:
 
 ```js
 "settings": {
@@ -331,20 +419,30 @@ See https://github.com/yannickcr/eslint-plugin-react#configuration.
 },
 ```
 
-`"pragma"` ***refers*** to ***how*** the `compiler` (in ***our case*** `Babel`) ***should compile*** the `code` in ***my*** (`React`) ***application***. To ***learn more*** about `pragmas`, ***please visit*** [https://en.wikipedia.org/wiki/Directive_(programming)](https://en.wikipedia.org/wiki/Directive_(programming)). `"version"` ***refers*** to the **_version_** of `React` I am ***using***. When this was ***added***
-to the `eslint config`, the `warning` ***went away***.
+`"pragma"` **_refers_** to **_how_** the `compiler` (in **_our case_** `Babel`)
+**_should compile_** the `code` in **_my_** (`React`) **_application_**. To
+**_learn more_** about `pragmas`, **_please visit_**
+[https://en.wikipedia.org/wiki/Directive\_(programming)](<https://en.wikipedia.org/wiki/Directive_(programming)>).
+`"version"` **_refers_** to the **_version_** of `React` I am **_using_**. When
+this was **_added_** to the `eslint config`, the `warning` **_went away_**.
 
-***Another thing*** I ***found out*** `today` is that ***by installing*** `babel-eslint` and ***declaring*** it as ***my*** `parser` in ***my*** `eslintrc.json`, I ***remove*** the `error` that `=` is an `unexpected token`. ***For example***, the ***following*** used to ***throw*** a `syntactical error` ***for me***:
+**_Another thing_** I **_found out_** `today` is that **_by installing_**
+`babel-eslint` and **_declaring_** it as **_my_** `parser` in **_my_**
+`eslintrc.json`, I **_remove_** the `error` that `=` is an `unexpected token`.
+**_For example_**, the **_following_** used to **_throw_** a `syntactical error`
+**_for me_**:
 
 ```js
 state = { listening: false }
 ```
 
-***After*** I ***added*** `babel-eslint` to ***my*** *workflow* and ***declared*** it as my `parser` in `eslintrc.json`, the `error` ***went away***!
+**_After_** I **_added_** `babel-eslint` to **_my_** _workflow_ and
+**_declared_** it as my `parser` in `eslintrc.json`, the `error` **_went
+away_**!
 
-You can ***take things*** a ***step further*** and ***add*** an `eslint script` in your
-`package.json` so that you can ***check*** for `errors` in ***all*** your
-`Javascript/React` ***related*** files ***all*** at ***once***:
+You can **_take things_** a **_step further_** and **_add_** an `eslint script`
+in your `package.json` so that you can **_check_** for `errors` in **_all_**
+your `Javascript/React` **_related_** files **_all_** at **_once_**:
 
 ```js
 "scripts": {
@@ -352,12 +450,20 @@ You can ***take things*** a ***step further*** and ***add*** an `eslint script` 
 },
 ```
 
-There are ***all sorts*** of `configurations` you can ***add*** to your `eslint config` which I ***won’t mention*** here, ***because*** I would ***end up*** going ***on*** and ***on***. ***Everyone*** has ***different needs*** and ***has*** to ***figure out*** for ***themselves*** how to ***make*** them ***happen***! But this is a ***good start*** when it ***comes*** to **_configuring_** `ESlint` for `React`. I am ***adding*** `links` to `resources` ***related*** to ***configuring*** `eslint` for
-`React` at the ***end*** of this ***post***. I ***highly recommend*** `reading` ***them***. I am ***also including*** the ***link*** to my **_latest_** `React` ***application*** which **_includes_** an `eslint config` for `React`.
+There are **_all sorts_** of `configurations` you can **_add_** to your
+`eslint config` which I **_won’t mention_** here, **_because_** I would **_end
+up_** going **_on_** and **_on_**. **_Everyone_** has **_different needs_** and
+**_has_** to **_figure out_** for **_themselves_** how to **_make_** them
+**_happen_**! But this is a **_good start_** when it **_comes_** to
+**_configuring_** `ESlint` for `React`. I am **_adding_** `links` to `resources`
+**_related_** to **_configuring_** `eslint` for `React` at the **_end_** of this
+**_post_**. I **_highly recommend_** `reading` **_them_**. I am **_also
+including_** the **_link_** to my **_latest_** `React` **_application_** which
+**_includes_** an `eslint config` for `React`.
 
 **_Configuring_** `ESlint` for `React` is IMPORTANT for **_improving_** your
-`React` ***code***, but it **_also includes_** IMPROVING your `JavaScript`
-***code***! ***This way*** you `"kill two birds with one stone"`!
+`React` **_code_**, but it **_also includes_** IMPROVING your `JavaScript`
+**_code_**! **_This way_** you `"kill two birds with one stone"`!
 
 ## Related Resources
 

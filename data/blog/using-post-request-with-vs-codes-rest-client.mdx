@@ -4,16 +4,19 @@ date: '2020-09-09T17:43:05.056Z'
 lastModified: '2020-09-09T17:43:05.056Z'
 title: Using POST request with VS Code's REST Client
 author: Maria D. Campbell
-excerpt: Using a POST request in a local environment using VS Code's REST Client extension.
+excerpt:
+    Using a POST request in a local environment using VS Code's REST Client
+    extension.
 image: sandra-harris-cT0PH_bkLlQ-unsplash.webp
 tags: ['vscode', 'rest client', 'vscode extensions', 'rest api']
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
 ![Using POST request with VS Code's REST Client](sandra-harris-cT0PH_bkLlQ-unsplash.webp)
 
-***Photo by*** [Sandra Harris](https://unsplash.com/@girasolmom) ***on*** [unsplash.com](https://unsplash.com/photos/cT0PH_bkLlQ)
+**_Photo by_** [Sandra Harris](https://unsplash.com/@girasolmom) **_on_**
+[unsplash.com](https://unsplash.com/photos/cT0PH_bkLlQ)
 
 In my **_previous_** **podcast** entitled
 [Using VS Code's REST Client extension instead of Postman](/blog/using-vs-codes-rest-client-extension-instead-of-postman/),
@@ -21,7 +24,9 @@ I **discussed** using a `GET` **request** with **VS Code's** `REST Client`
 **extension** in a `production` **environment**. **_Now_** I will **discuss**
 using a `POST` **request** in a `local` **environment**.
 
-**_First_** I had to **add** the **following** to my `rest-client.rest` **file** (I **found out** that if I **added** the `.rest` **extension**, it would **recognize** the `http` **language** by **_default_**):
+**_First_** I had to **add** the **following** to my `rest-client.rest` **file**
+(I **found out** that if I **added** the `.rest` **extension**, it would
+**recognize** the `http` **language** by **_default_**):
 
 ```http
 @hostname = localhost
@@ -43,7 +48,9 @@ Content-Type: {{contentType}}
 
 This `code` **differs** from the **_previous_** `request` **code** in a
 **couple** of **ways**. **_First_** of **all**, it is a `POST` **request**
-instead of a `GET` **request**. **_Second_** of **all**, the **environment** is `local`. And **_third_** of **all**, I am **using** `environment` **variables** here.
+instead of a `GET` **request**. **_Second_** of **all**, the **environment** is
+`local`. And **_third_** of **all**, I am **using** `environment` **variables**
+here.
 
 And **this** is **what** I **had** in my `index.js` (my **Express** `server`
 **file**):
@@ -106,7 +113,11 @@ And the **_following_** was **returned** in the `mongo` **shell**:
 
 And **_that_** is **it**! **Well**, you **get** the **idea**.
 
-Just **make** **_sure_** that the `server` is **running**. **Sometimes** you may **_think_** that it **is** because you are **sure** you **_started_** **running it** a **little while** **_before_**, but for **whatever reason**, you might **end up** getting inadvertently **disconnected** (or **_perhaps_** you **disconnected** the `server` and **forgot**!). It is **_important_** to
+Just **make** **_sure_** that the `server` is **running**. **Sometimes** you may
+**_think_** that it **is** because you are **sure** you **_started_** **running
+it** a **little while** **_before_**, but for **whatever reason**, you might
+**end up** getting inadvertently **disconnected** (or **_perhaps_** you
+**disconnected** the `server` and **forgot**!). It is **_important_** to
 **check** whether the `server` is **running** **_before_** `clicking` on
 `Send Request`.
 
@@ -116,17 +127,18 @@ via the `REST Client`, **make sure** that `"port"` has been **selected** with
 
 ![Screenshot of REST Client VS Code extension local environment POST request](screen-shot-2020-09-09-at-7.25.24-am.webp)
 
-***Screenshot of REST Client VS Code extension local environment POST request***
+**_Screenshot of REST Client VS Code extension local environment POST request_**
 
 The **reason** **_why_** this is **possible** is because I **created** some
 `environment` **variables** **_including_** for the `port`. And **_that's_**
-**what** **_makes_** it **possible** for me to **connect** via `localhost` while the `server` is **running** on the **_same_** `port` as I **define** in my `rest-client.rest` **file**.
+**what** **_makes_** it **possible** for me to **connect** via `localhost` while
+the `server` is **running** on the **_same_** `port` as I **define** in my
+`rest-client.rest` **file**.
 
 And **_that_** is **it**!
 
 ## Related Resources
 
--   [Using VS Code's REST Client extension instead of Postman](/blog/using-vs-codes-rest-client-extension-instead-of-postman/)
+- [Using VS Code's REST Client extension instead of Postman](/blog/using-vs-codes-rest-client-extension-instead-of-postman/)
 
--   [Making REST calls from VSCode](https://www.praveenc.com/posts/vscode-rest-client-extension/)
-
+- [Making REST calls from VSCode](https://www.praveenc.com/posts/vscode-rest-client-extension/)

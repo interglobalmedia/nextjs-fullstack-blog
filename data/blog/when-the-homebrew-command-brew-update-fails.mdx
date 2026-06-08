@@ -7,18 +7,25 @@ author: Maria D. Campbell
 excerpt: When the Homebrew command brew update fails.
 image: pexels-engin-akyurt-1552630.webp
 tags: ['homebrew', 'catalina', 'git', 'macOS']
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
 ![When the Homebrew command brew update fails](pexels-engin-akyurt-1552630.webp)
 
-***Photo by*** [Engin Akyurt](https://www.pexels.com/@enginakyurt/) ***on*** [pexels.com](https://www.pexels.com/photo/beer-filled-mug-on-table-1552630/)
+**_Photo by_** [Engin Akyurt](https://www.pexels.com/@enginakyurt/) **_on_**
+[pexels.com](https://www.pexels.com/photo/beer-filled-mug-on-table-1552630/)
 
 Today I had to update my version of node on this site. Again, I was having
-issues with **GatsbyJS**. My deploy failed because of the "Error: Cannot find module 'gatsby/dist/utils/create-content-digest'". Damned if I know what that is. That's a new one to me.
+issues with **GatsbyJS**. My deploy failed because of the "Error: Cannot find
+module 'gatsby/dist/utils/create-content-digest'". Damned if I know what that
+is. That's a new one to me.
 
-I have so far tried several solutions I came across when googling the issue, but none have worked so far. It could be a **Node.js** incompatibility. Things worked so well when I used **Node.js 11.14.0** and **Gatsby.JS 2.10.0**? But I knew that eventually I would have to move on. And I did have to. However, this resulted in this new issue that I now have to resolve.
+I have so far tried several solutions I came across when googling the issue, but
+none have worked so far. It could be a **Node.js** incompatibility. Things
+worked so well when I used **Node.js 11.14.0** and **Gatsby.JS 2.10.0**? But I
+knew that eventually I would have to move on. And I did have to. However, this
+resulted in this new issue that I now have to resolve.
 
 But I digress. During this process, one of the solutions involved updating
 **Homebrew**. So I did the following in **Terminal**:
@@ -35,7 +42,11 @@ fatal: could not read Username for 'https://github.com': terminal prompts disabl
 Error: Fetching [redacted] failed!
 ```
 
-This was probably because I had recently upgraded my **OSX** operating system to **Catalina**. It must have screwed up my **Homebrew** install. It had nothing to do with my SSH public and private **Github** SSH keys, because I have had no issues pushing to **Github**. In order to fix this problem, I had to type the following **command** in the **Terminal** window:
+This was probably because I had recently upgraded my **OSX** operating system to
+**Catalina**. It must have screwed up my **Homebrew** install. It had nothing to
+do with my SSH public and private **Github** SSH keys, because I have had no
+issues pushing to **Github**. In order to fix this problem, I had to type the
+following **command** in the **Terminal** window:
 
 ```shell
 git config --global --add url."git@github.com:".insteadOf "https://github.com/"
@@ -94,5 +105,5 @@ Now I was ready to use Homebrew again.
 
 ## Related Resources
 
--   [Git Error: Could not read Username for 'https://github.com': terminal prompts disabled](https://jacopretorius.net/2018/05/git-error-could-not-read-username.html): ***by Jaco Pretorius***
-
+- [Git Error: Could not read Username for 'https://github.com': terminal prompts disabled](https://jacopretorius.net/2018/05/git-error-could-not-read-username.html):
+  **_by Jaco Pretorius_**
