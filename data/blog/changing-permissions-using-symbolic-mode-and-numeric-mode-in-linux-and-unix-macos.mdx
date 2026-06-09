@@ -1,14 +1,14 @@
 ---
 slug: changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos
 date: '2024-07-17T11:38:10.459Z'
-lastModified: '2024-07-17T11:38:10.459Z'
+lastModified: '2026-06-09T22:07:10.459Z'
 title:
     Changing permissions using symbolic mode and numeric mode in Linux and Unix
     (macOS)
 author: Maria D. Campbell
 excerpt:
-    'How to change permissions using symbolic mode and numeric mode in Linux and
-    Unix (macOS).'
+    'A practical walkthrough of the chmod command in both symbolic and numeric
+    mode, with real terminal output from Linux Mint and macOS.'
 image: danielle-rice-7GfRwb78YWs-unsplash.webp
 tags:
     [
@@ -23,33 +23,54 @@ isPublished: true
 isFeatured: false
 ---
 
-![Changing access permission using an access code](danielle-rice-7GfRwb78YWs-unsplash.webp)
+![Person holding a card, used as a metaphor for access permissions](danielle-rice-7GfRwb78YWs-unsplash.webp)
 
-**_Photo by_** [Danielle Rice](https://unsplash.com/@drice22) **_on_**
-[unsplash.com](https://unsplash.com/photos/person-holding-black-and-white-card-7GfRwb78YWs)
+_[Photo by](https://unsplash.com/photos/person-holding-black-and-white-card-7GfRwb78YWs)_
+[Danielle Rice](https://unsplash.com/@drice22) _on_
+[unsplash.com](https://unsplash.com/)
 
 ## Table of Contents
 
+- [Two approaches to set or change permissions in Linux and Unix (macOS)](#two-approaches-to-set-or-change-permissions-in-linux-and-unix-macos)
 - [Revisiting the ls -l command to view current file or folder permissions](#revisiting-the-ls-l-command-to-view-current-file-or-folder-permissions)
-- [Hard Link (column 2 from the left) stdout of the ls -l command](#hard-link-column-2-from-the-left-stdout-of-the-ls-l-command)
+- [Hard links in the ls -l output](#hard-links-in-the-ls-l-output)
 - [What do file permissions (r, w, x) actually permit us to do?](#what-do-file-permissions-r-w-x-actually-permit-us-to-do)
+- [Applying the principle of least privilege when setting permissions in macOS](#applying-the-principle-of-least-privilege-when-setting-permissions-in-macos)
+- [But then how does setuid, setgid, and sticky bit fit into modern macOS?](#but-then-how-does-setuid-setgid-and-sticky-bit-fit-into-modern-macos)
+    - [Real world setuid use cases on macOS](#real-world-setuid-use-cases-on-macos)
+    - [Real world setgid use cases on macOS](#real-world-setgid-use-cases-on-macos)
+    - [Real world sticky bit use cases on macOS](#real-world-sticky-bit-use-cases-on-macos)
+- [How does setuid, setgid, and sticky bit fit into Linux?](#how-does-setuid-setgid-and-sticky-bit-fit-into-linux)
+    - [Real world setuid use cases on Linux](#real-world-setuid-use-cases-on-linux)
+    - [Real world setgid use cases on Linux](#real-world-setgid-use-cases-on-linux)
+    - [Real world sticky bit use cases on Linux](#real-world-sticky-bit-use-cases-on-linux)
 - [Setting or changing file permissions in symbolic mode](#setting-or-changing-file-permissions-in-symbolic-mode)
-    - [chmod syntax](#chmod-syntax)
+    - [The chmod command and syntax](#the-chmod-command-and-syntax)
 - [Setting or changing file permissions in numeric mode](#setting-or-changing-file-permissions-in-numeric-mode)
 - [Setting or changing directory permissions](#setting-or-changing-directory-permissions)
-- [What do directory permissions (r, w, x) actually permit us to do?](#what-do-directory-permissions-r-w-x-actually-permit-us-to-do)
+    - [What do directory permissions (r, w, x) actually permit us to do?](#what-do-directory-permissions-r-w-x-actually-permit-us-to-do)
+- [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
+
+A little while ago I took a Cybersecurity certification course in which I
+learned about permissions and their importance in system access control. This
+made me want to become proficient in permissions security. And as with
+everything else, as I learn, create, or experience things tech, I like to write
+it down. Which brought me to writing this post.
+
+## Two approaches to set or change permissions in Linux and Unix (macOS)
 
 In Linux and Unix (macOS), there are two ways of setting or changing file and
 folder permissions. One is in symbolic mode, and the other is in numeric mode.
 
 ## Revisiting the ls -l command to view current file or folder permissions
 
-In order to set or change file or folder permissions in Linux or Unix (macOS),
-we first have to know what are the current permissions of those files or
-folders. We can find that out with the `ls -l` or `ls -la` command. The
-difference between the two is that `ls -l` will list all visible files or
-folders, but `ls -la` will include hidden files or folders.
+In order to set or change file or folder permissions in Linux or Unix (macOS), I
+first have to know what are the current permissions of those files or folders. I
+can find that out with the `ls -l` or `ls -la` command. The difference between
+the two is that `ls -l` will list all visible files or folders, but `ls -la`
+will include hidden files or folders.
 
 So let's say I want to list the files and/or folders in a directory called
 "text-files" on my Linux Mint OS in VirtualBox on Windows 11. I would run the
@@ -113,7 +134,7 @@ the number of links, owner name, owner group, file size, time of last
 modification, and the file or directory name. This option is used along with
 many other options, including here: `ls -lah`, for example.
 
-## Hard Link (column 2 from the left) stdout of the ls -l command
+## Hard links in the ls -l output
 
 Why does the current directory, "text-files", contain two links (2) in the
 second column from the left? It is `2` because the "text-files" directory can be
@@ -130,39 +151,195 @@ actual data stored inside the "text-files" folder.
 
 ## What do file permissions (r, w, x) actually permit us to do?
 
-The "read permission" (`r`) allows us to access the file's contents. We can use
-commands such as `cat`, `tee`, or `less` to `stdout` the file's contents. We can
+The "read permission" (`r`) allows me to access the file's contents. I can use
+commands such as `cat`, `tee`, or `less` to `stdout` the file's contents. I can
 also use text editors like `Vim` to read the file contents. The read permission
 (`r`) is required in order to make copies of a file.
 
-The "write permission" (w) allows us to change the contents of a file. For
-example, we can use the redirect operator (`>`) or the redirect append operator
-(`>>`) to change a file's contents. Without write permissions, we cannot change
-a file's contents.
+The "write permission" (w) allows me to change the contents of a file. For
+example, I can use the redirect operator (`>`) or the redirect append operator
+(`>>`) to change a file's contents. Without write permissions, I cannot change a
+file's contents.
 
-The "execute permission" (`x`) permits us to execute the contents of a file.
+The "execute permission" (`x`) permits me to execute the contents of a file.
 Typically, the execute permission is required for executables such as `bash` or
 `zsh` shell scripts, and Python programs, for example.
 
+## Applying the principle of least privilege when setting permissions in macOS
+
+File permissions in Linux (or Unix for that matter) determine who can access
+files and directories on the system and how. Permissions are central to
+safeguarding systems and networks. In that way, as frustrating as macOS can be
+with its System Integrity Protection (SIP), I know that my data and sensitive
+information are safe. But for those operating systems like Linux, it is a strong
+permissions implementation which helps shield the OS.
+
+macOS SIP applies the principle of least privilege. For example, I have to be
+able to access and use both Apple pre-installed applications and applications I
+have downloaded from the internet. And I can execute them. I can also delete the
+applications that I have downloaded from the internet, but I can't modify or
+delete any pre-installed Apple applications even though I get back the following
+when running `ls -ld Applications`:
+
+```shell
+drwxrwxr-x  86 root  admin  2752 Jun  7 18:31 Applications
+```
+
+What does this mean? On macOS, the `/Applications` folder has a special
+permission setup:
+
+- The owner is root with `read/write/execute` permissions.
+- Group is represented by admin with `read/write/execute` permissions.
+- Others have `read/execute` permissions only.
+
+The key is in the group `admin`. Any user with administrator privileges on macOS
+is automatically a member of the `admin` group. So even though root owns the
+directory, my `admin` account has write permission to the folder itself via
+group membership. And write permission on a directory is what allows `admin`
+(me) to delete entries within it.
+
+However, to delete a file inside /Applications, what matters is having write
+permission on the containing directory, in this case Applications, not ownership
+of the file itself.
+
+An individual app bundle (e.g., Google Chrome.app) may be owned by root, but I
+don't need to own or write to the file. I need write access to /Applications,
+which I have as an admin.
+
+So macOS is intentionally designed this way. `admin` users like myself can
+manage (install/remove) applications without needing `sudo`, but I can't tamper
+with the internals of system-owned app bundles without escalating privileges.
+It's a clean balance between usability and security.
+
+So macOS admins AND standard users are given only the privileges they need to
+access files, folders, and applications to get the job done.
+
+## But then how does setuid, setgid, and sticky bit fit into modern macOS?
+
+### Real world setuid use cases on macOS
+
+setuid causes an executable[^1] to run as its owner (typically root) rather than
+the user who launched it. Genuinely still used, but almost exclusively by
+"Apple-blessed" system binaries: Real world use cases are:
+
+| setuid     | Use case                                                                                                       |
+| ---------- | -------------------------------------------------------------------------------------------------------------- |
+| **sudo**   | The canonical/standard example. It's `setuid root` so a regular user can invoke it and temporarily escalate.   |
+| **passwd** | Needs to write to protected credential stores, so it runs as `root` via `setuid`.                              |
+| **mount**  | Some mount helpers use `setuid` to allow non-root users to mount specific filesystems.                         |
+| **su**     | Switching users requires root-level access to PAM[^2] (Pluggable Authentication Module) and credential stores. |
+
+For my own tools or scripts on macOS today, `setuid` is impractical. Between
+`nosuid` on APFS[^3] (Apple File System) volumes, SIP, and Gatekeeper, Apple has
+made it a system-internal mechanism rather than a general-purpose one.
+
+### Real world setgid use cases on macOS
+
+`setgid` on an executable causes it to run with the group privileges of the
+**file's group** instead of the **user's group**. On a directory, it causes new
+files created inside to inherit the directory's group instead of the creator's
+primary group. It is more practical than `setuid`, especially with the directory
+variant:
+
+| setgid                             | Use Case                                                                                                                                                                                                              |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Shared development directories** | setting `setgid` on a directory ensures every file created inside inherits the directory's group, not the creator's. Useful for team projects where multiple users share a group (e.g., staff or a custom dev group). |
+| **/usr/local**                     | Homebrew historically relied on group-based write access here so members of the `admin group` could install packages without sudo.                                                                                    |
+| **Log directories**                | Shared log directories in multi-user or multi-process setups often use `setgid` so all processes writing logs end up with consistent group ownership.                                                                 |
+
+### Real world sticky bit use cases on macOS
+
+`sticky bit` is probably the most practically relevant on modern macOS:
+
+| sticky bit                        | Use case                                                                                                                                                                                          |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **/tmp**                          | The classic use case, and still active. `/tmp` (or `/private/tmp` on macOS) is world-writable but has the `sticky bit` set, so users can create files there but cannot delete each other's files. |
+| **Any shared writable directory** | Where you want users to manage only their own files follows the same pattern.                                                                                                                     |
+
+I can verify the `sticky bit` on `/tmp` with `ls -la /private/ | grep tmp`
+command which returns:
+
+```shell
+drwxrwxrwt  331 root  wheel  10592 Jun  9 14:21 tmp
+```
+
+The `t` at the end is the `sticky bit`.
+
+## How does setuid, setgid, and sticky bit fit into Linux?
+
+### Real world setuid use cases on Linux
+
+`setuid` use cases on Linux are more practical than on macOS:
+
+| setuid               | Use case                                                                                                                                |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **passwd, sudo, su** | Same as on macOS, these are the classics                                                                                                |
+| **ping**             | On many Linux distros **ping** is still `setuid root` (or uses capabilities as a modern alternative) to access raw sockets              |
+| **crontab**          | Needs `setuid` to write to protected spool directories on behalf of users                                                               |
+| **at**               | The job scheduler, same reasoning as **crontab**                                                                                        |
+| **newgrp**           | Allows users to switch their active group, needs `setuid root` to do so                                                                 |
+| **pkexec**           | PolicyKit's[^4] command executor, `setuid root` (famously exploited in the PwnKit vulnerability in 2022)                                |
+| **Custom tools**     | Unlike macOS, you can actually create your own `setuid binaries` on Linux filesystems, as long as the filesystem isn't mounted `nosuid` |
+
+I can find all the above on my Mint VM with:
+
+```shell
+find / -perm -4000 -type f 2>/dev/null
+```
+
+### Real world setgid use cases on Linux
+
+Both the executable and directory variants are widely used with `setgid`:
+
+| setgid                                | Use case                                                                                         |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **write / wall**                      | Terminal messaging tools use `setgid tty`[^5] to write to other users' terminals                 |
+| **ssh-agent**                         | On some distros `ssh-agent` uses `setgid` to access specific resources                           |
+| **/var/mail**                         | Mail spool directories typically use `setgid mail` so mail delivery agents can write to them     |
+| **Shared project directories**        | Exactly as on macOS but without the APFS/SIP restrictions getting in the way                     |
+| **/usr/local/share type directories** | Shared resource directories commonly use `setgid` so the owning group is inherited automatically |
+
+I can find setgid use cases on Linux by running:
+
+```shell
+find / -perm -2000 -type f 2>/dev/null
+```
+
+### Real world sticky bit use cases on Linux
+
+Same core `sticky bit` use case as on macOS but it appears in more places:
+
+| sticky bit                                                   | Use case                                                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| **/tmp and /var/tmp**                                        | world-writable, sticky bit set, same as macOS                                                    |
+| **/run/lock**                                                | Shared lock file directory, and `sticky bit` prevents processes from deleting each other's locks |
+| **Any shared writable directory in multi-user environments** | Linux servers with many users rely on `sticky bit` heavily                                       |
+
+I can find `sticky directories` with:
+
+```shell
+find / -perm -1000 -type d 2>/dev/null
+```
+
 ## Setting or changing file permissions in symbolic mode
 
-As I discuss in my article entitled
+As I discuss in my post entitled
 [Shell script for turning your macOS laptop's WiFi off and on](/blog/shell-script-for-turning-your-macos-laptops-wifi-off-and-on)
-or my article entitled
+or my post entitled
 [How to show hidden files or folders on macOS](/blog/how-to-show-hidden-files-or-folders-on-macos),
 you can set or change file or folder permissions using the `chmod` command.
 
-Here, I will first discuss using the `chmod` command to set or change
+Here, I will first talk about using the `chmod` command to set or change
 permissions in symbolic mode. But what does symbolic mode mean? And why
 permissions to begin with?
 
-File permissions in Linux (or Unix for that matter) determine who can access
-files and directories on the system and how.
+`Symbolic mode` refers to setting permissions using letters or symbols as
+opposed to `numeric mode` which sets permissions using numbers.
 
-The `chmod` command, or "change mode",is used to change permissions for a file
+The `chmod` command, or "change mode", is used to change permissions for a file
 or directory on Linux or Unix.
 
-### chmod syntax
+### The chmod command and syntax
 
 `chmod` syntax is the following:
 
@@ -195,7 +372,7 @@ update.
 `+/-`. `+` is used to add permissions and `-` is used to remove them.
 
 "permission type" refers to `read` (`r`), `write` (`w`), and `execute` (`x`)
-which we want to execute.
+which we want to set.
 
 Let's refer back to the `stdout` of `ls -lah text-files` example for reference:
 
@@ -239,7 +416,7 @@ would do the following:
 chmod u+x duplicates.txt
 ```
 
-Then I could run `ls -l duplicates.txt1`, and the following would be returned in
+Then I could run `ls -l duplicates.txt`, and the following would be returned in
 Terminal as `stdout`:
 
 ```shell
@@ -292,11 +469,11 @@ chmod ug+x duplicates.txt
 And when I run `ls -l duplicates.txt`, the following is returned in Terminal:
 
 ```shell
--rwxrwxrwx 1 maria maria 47 Jul 12 21;28 duplicates.txt
+-rwxrwxrwx 1 maria maria 47 Jul 12 21:28 duplicates.txt
 ```
 
-Now let's say I want to remove `execute` (`x`) permissions from `user`
-(u`), `group` (`g`), and `other` (`o`) all at once:
+Now let's say I want to remove `execute` (`x`) permissions from `user` (`u`),
+`group` (`g`), and `other` (`o`) all at once:
 
 ```shell
 chmod ugo-x duplicates.txt
@@ -314,7 +491,7 @@ I can also use `a`, which stands for `"all"`, instead of `ugo`:
 chmod a-x duplicates.txt
 ```
 
-And if I want to change back permissions to its default for `duplicates.txt1, I
+And if I want to change back permissions to its default for `duplicates.txt`, I
 would do the following:
 
 ```shell
@@ -330,10 +507,10 @@ The following would be returned in Terminal as the `stdout` of
 
 ## Setting or changing file permissions in numeric mode
 
-Changing file permissions in symbolic mode is quick and efficient, but changing
-permissions in numeric mode is more descriptive.
+I find symbolic mode faster for quick changes, but numeric mode makes the full
+permission set clearer at a glance.
 
-Let's `refer back` to the `stdout` of `ls -lah text-files` example again.
+Let's refer back to the `stdout` of `ls -lah text-files` example again.
 
 ```shell
 total 80K
@@ -351,7 +528,7 @@ prw-rw-r--  1 maria maria      0  Jul 14 07:28 first-named-pipe
 ```
 
 This time, I am going to change permissions in numeric mode. I am going to
-change the permissions for duplicates text in numeric mode:
+change the permissions for `duplicates.txt` in numeric mode:
 
 ```shell
 chmod 764 duplicates.txt
@@ -383,23 +560,23 @@ Read write and execute permissions: 7                   rwx
 ## Setting or changing directory permissions
 
 Since everything is considered a file in Linux and Unix (macOS), changing
-directory permissions are basically the same in symbolic mode. HOWEVER,
+directory permissions are basically the same in symbolic mode. _However_,
 directory permissions do affect the accessibility of its contents and therefore
 should be addressed here.
 
-## What do directory permissions (r, w, x) actually permit us to do?
+### What do directory permissions (r, w, x) actually permit us to do?
 
-The directory `read` permission (`r`) permits us to read the contents of a
-directory. This means that we can view the list of files within that directory.
+The directory `read` permission (`r`) permits me to read the contents of a
+directory. This means that I can view the list of files within that directory.
 The directory read permission is required to be able to use the `ls` command,
-for example. This does not mean that one can view the actual contents of a file
+for example. This does not mean that I can view the actual contents of a file
 inside the directory. That depends on the permissions for the particular file.
 
-The directory `read` permission (`w`) permits us to change the contents of a
-directory. And since we can change the contents of a directory, this means that
-we can add or remove files from that directory. Directory `write` permissions
-are needed to be able to use the `mv` (`move` or `rename`) or `rm` (`remove`)
-commands within the directory. We also need directory `write` permissions in
+The directory `write` permission (`w`) permits me to change the contents of a
+directory. And since I can change the contents of a directory, this means that I
+can add or remove files from that directory. Directory `write` permissions are
+needed to be able to use the `mv` (`move` or `rename`) or `rm` (`remove`)
+commands within the directory. I also need directory `write` permissions in
 order to use the `touch` command or `redirect operators` to create new files, or
 the `cp` command to copy files within the directory.
 
@@ -409,23 +586,40 @@ directory. directory `execute` permission lets us view extended file information
 in the directory (`ls -l`), lets us `cd` into the `directory`, or `cd` into the
 directory and then `cd` into a subdirectory.
 
-If we don't have directory `execute` permission for a directory, it can result
-in limits on other permissions. For example, we can't add a new file to a
-directory (via the `write` permission) if we can't access the directory's
-metadata to store information for a new file. We cannot. That is why
-"directory-type files" are provided `execute` permissions by default. For
-example, if I were to create a subdirectory within the Desktop directory in
-Linux called script-files, its default permissions would be `drwxrwxr-x`. By
-default, the `user` and `group` would have `rwx` permissions, and `other` would
-have `r-x` permissions. In macOS, however, when I create a new directory, the
-default permissions are `drwxr-xr-x`. Again, the default permissions are a bit
-more strict. But all user types, `users`, `groups`, and `others`, all have
-directory `execute` permissions.
+If I don't have directory `execute` permission for a directory, it can result in
+limits on other permissions. For example, I can't add a new file to a directory
+(via the `write` permission) if I can't access the directory's metadata to store
+information for a new file. I cannot. That is why "directory-type files" are
+provided `execute` permissions by default. For example, if I were to create a
+subdirectory within the Desktop directory in Linux called script-files, its
+default permissions would be `drwxrwxr-x`. By default, the `user` and `group`
+would have `rwx` permissions, and `other` would have `r-x` permissions. In
+macOS, however, when I create a new directory, the default permissions are
+`drwxr-xr-x`. Again, the default permissions are a bit more strict. But all user
+types, `users`, `groups`, and `others`, all have directory `execute`
+permissions.
+
+## Conclusion
+
+In this post, I provide a practical walkthrough of the `chmod` command in both
+symbolic and numeric mode, with real terminal output from Linux Mint and macOS.
+I compare the similarities and differences between the two, concluding that
+`setuid` permissions on macOS have become much more restrictive due to the
+nosuid[^6] mount flag, SIP, and entitlements[^7]. Apple has made `setuid`
+unreachable for everyday use. Entitlements and sandboxing[^8] have taken over
+the role that `setuid/setgid` played in classic Unix security. But `sticky bit`
+is still alive and well, and `setgid` directories are still useful. Linux, on
+the other hand, typically uses `ext4` as its default filesystem, which is not
+mounted `nosuid` by default. So `setuid/setgid` bits are actually honored by the
+kernel. There's no SIP equivalent, no Gatekeeper, and no cryptographically
+sealed volumes. Instead, Linux uses capabilities[^9] which let you grant a
+binary with just the specific (least) privilege it needs instead of full root
+via `setuid`.
 
 ## Related Resources
 
 - [Hard links and soft links in Linux explained](https://www.redhat.com/sysadmin/linking-linux-explained):
-  _by by Tyler Carrigan, RedHat_
+  _by Tyler Carrigan, RedHat_
 
 - [What is the meaning of those numbers in the second column after typing "ls -l"? [duplicate]](https://superuser.com/questions/443778/what-is-the-meaning-of-those-numbers-in-the-second-column-after-typing-ls-l):
   _stackoverflow_
@@ -434,7 +628,7 @@ directory `execute` permissions.
   _linux.com_
 
 - [Linux file permissions explained ](https://www.redhat.com/sysadmin/linux-file-permissions-explained):
-  _by by Scott McBrien, RedHat_
+  _by Scott McBrien, RedHat_
 
 - [How to Set File Permissions on a Mac](https://www.macinstruct.com/tutorials/how-to-set-file-permissions-on-a-mac/#google_vignette):
   _by Matt Cone, macinstruct_
@@ -447,3 +641,66 @@ directory `execute` permissions.
 
 - [Shell script for turning your macOS laptop's WiFi off and on](/blog/shell-script-for-turning-your-macos-laptops-wifi-off-and-on):
   _mariadcampbell.com_
+
+[^1]:
+    An executable in macOS is a file that can be run as a program, typically
+    containing code that the operating system can execute directly. An example
+    is the files which reside in the `/bin` directory which are all
+    `executables/commands`:
+
+    ```shell
+    chmod     dd        hostname  ln        ps        sh        test
+    ..        cp        df        kill      ls        pwd       sleep     unlink
+    [         csh       echo      ksh       mkdir     realpath  stty      wait4path
+    bash      dash      ed        launchctl mv        rm        sync      zsh
+    cat       date      expr      link      pax       rmdir     tcsh
+    ```
+
+[^2]:
+    PAM (Pluggable Authentication Module) is a framework used in macOS (and
+    other Unix-like systems) to manage authentication methods for applications.
+    It allows different authentication schemes to be integrated into a single
+    application programming interface (API), enabling flexibility in how users
+    are authenticated.
+
+[^3]:
+    The Apple File System (APFS) is the default file system for Mac computers
+    using macOS 10.13 (High Sierra) or later, features strong encryption, space
+    sharing, snapshots, fast directory sizing, and improved file system
+    fundamentals. — _from the
+    [Apple Disk Utility User Guide](<https://support.apple.com/guide/disk-utility/file-system-formats-dsku19ed921c/mac#:~:text=Apple%20File%20System%20(APFS)%2C%20the%20default%20file%20system%20for%20Mac%20computers%20using%20macOS%2010.13%20or%20later%2C%20features%20strong%20encryption%2C%20space%20sharing%2C%20snapshots%2C%20fast%20directory%20sizing%2C%20and%20improved%20file%20system%20fundamentals.>)_
+
+[^4]:
+    PolicyKit, now known as polkit, is a framework for managing system-wide
+    privileges in Unix-like operating systems, allowing unprivileged processes
+    to communicate with privileged ones.
+
+[^5]:
+    TTY (teletypewriter) group consists of terminal devices, specifically
+    representing interactive communication channels between the user and the
+    system. `setgid tty` on Linux refers to the setgid permission applied to the
+    tty group, allowing a program to run with the group permissions of the tty
+    group. This means that when a user executes a command with setgid set, it
+    will inherit the group privileges of the tty group, enabling controlled
+    access to certain functionalities without granting full root privileges.
+
+[^6]:
+    `nosuid` is a mount option that prevents the execution of set-user-ID
+    (SETUID) and set-group-ID (SETGID) files on a filesystem.
+
+[^7]:
+    Entitlements in macOS are special permissions embedded in an app's code
+    signature that allow it to access resources restricted by macOS's security
+    framework. They enable apps to expand their capabilities beyond a locked
+    sandbox environment.
+
+[^8]:
+    Sandboxing in macOS is a security mechanism that restricts applications'
+    access to system resources to minimize the impact of potential security
+    breaches.
+
+[^9]:
+    Linux capabilities are a feature that allows the division of root privileges
+    into smaller, distinct units, enabling processes to have only the specific
+    permissions they need to perform their tasks. This is an excellent example
+    of the principle of least privilege in cybersecurity.
