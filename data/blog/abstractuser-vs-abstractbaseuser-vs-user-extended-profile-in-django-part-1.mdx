@@ -1,12 +1,14 @@
 ---
 slug: 'abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-part-1'
 date: '2025-01-18T20:06:48.110Z'
-lastModified: '2025-01-21T21:44:48.110Z'
+lastModified: '2026-06-21T18:25:48.110Z'
 title:
     'AbstractUser vs AbstractBaseUser vs User extended profile in Django Part 1'
-author: 'Marfia D. Campbell'
+author: 'Maria D. Campbell'
 excerpt:
-    'AbstractUser vs AbstractBaseUser vs User extended profile in Django Part 1.'
+    'A test-driven walkthrough of building a custom user model with
+    AbstractBaseUser in Django, including the model manager, migrations, forms,
+    and admin configuration.'
 image: david-clode-3iBT4HEDAP4-unsplash.webp
 tags:
     [
@@ -38,9 +40,9 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 
 - [Creating the top level directory to house a new Django project](#creating-the-top-level-directory-to-house-a-new-django-project)
     - [Creating the virtual environment](#creating-the-virtual-environment)
-        - [Activating the virtual environment](#Activating-the-virtual-environment)
+        - [Activating the virtual environment](#activating-the-virtual-environment)
     - [Installing Django](#installing-django)
-    - [Creating a requirements.txt file](#creating-a-requirementstxt-file)
+    - [Creating a requirements.txt file](#creating-a-requirements-txt-file)
     - [Creating the new project](#creating-the-new-project)
         - [Creating the users app](#creating-the-users-app)
 - [Adding Tests](#adding-tests)
@@ -50,11 +52,12 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
     - [with self.assertRaises()](#with-selfassertraises)
     - [assertTrue() assertion method](#asserttrue-assertion-method)
     - [assertIsNone() assertion method](#assertisnone-assertion-method)
+    - [Passing ValueError to with self.assertRaises() assertion method](#passing-valueerror-to-with-selfassertraises-assertion-method)
     - [Running the tests](#running-the-tests)
 - [The Model Manager](#the-model-manager)
-    - [Creating the users/managers.py file](#creating-the-users-managerspy-file)
+    - [Creating the users/managers.py file](#creating-the-users-managers-py-file)
     - [The User Model](#the-user-model)
-- [Settings.py](#settingspy)
+- [Configuring settings.py](#configuring-settings-py)
 - [Applying migrations](#applying-migrations)
 - [Running makemigrations](#running-makemigrations)
 - [Viewing the schema](#viewing-the-schema)
@@ -66,22 +69,30 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
+**Note:** Django 5.1 was the latest version at the time of the original
+publication of this post (January 2025). Please check for the current latest
+version of Django.
+
+I created this project because I wanted to become familiar with AbstractBaseUser
+and AbstractUser so I could determine which User model to select for my Django
+Boards project.
+
 ## Creating the top level directory to house a new Django project
 
-First, as usual, I created a top-level directory to house my new Django project.
+First, as usual, I create a top-level directory to house my new Django project.
 I have a directory called Python-Development where I store all my Django/Python
-projects, modules, reusable apps, and packages. Inside, I created a directory
+projects, modules, reusable apps, and packages. Inside, I create a directory
 called custom-abstract-base-user-model.
 
-In this post, I create a custom user model with AbstractBaseUser, In Part 2, I
-create a custom user model with AbstractUser. In Part 3, I compare the two
-approaches to the extended User profile I use in my Django Boards web
-application, which has already been deployed to production.
+Here I create a custom user model with AbstractBaseUser. In Part 2, I create a
+custom user model with AbstractUser. In Part 3, I compare the two approaches to
+the extended User profile I use in my Django Boards web application, which has
+already been deployed to production.
 
 ### Creating the virtual environment
 
-Next, I created a new virtual environment for my new Django application. I ran
-the following command inside the root of `custom-abstract-base-user-model/`:
+I create a new virtual environment for my new Django application. I run the
+following command inside the root of `custom-abstract-base-user-model/`:
 
 ```shell
 python3 -m venv venv
@@ -91,7 +102,7 @@ This resulted in the creation of a `venv` directory for my virtual environment.
 
 ### Activating the virtual environment
 
-Next, I ran the following command to activate the virtual environment:
+I run the following command to activate the virtual environment:
 
 ```shell
 source venv/bin/activate
@@ -99,18 +110,18 @@ source venv/bin/activate
 
 ### Installing Django
 
-Next, I installed the latest version of Django with the following command:
+I installed the latest version of Django with the following command:
 
 ```shell
 pip install -U django
 ```
 
-The `-U` option upgrades the Django install to the latest version. Currently, it
-is `5.1.5`.
+The `-U` option upgrades the Django install to the latest version. The current
+version at the original publication date was `5.1.5`.
 
 ### Creating a requirements.txt file
 
-Next, I created a `requirements.txt` file and ran the following command:
+I create a `requirements.txt` file and run the following command:
 
 ```shell
 pip freeze > requirements.txt
@@ -126,16 +137,16 @@ sqlparse==0.5.3
 
 ### Creating the new project
 
-Next, I created a new project inside custom-abstract-base-user-model by running
-the following command:
+I create a new project inside custom-abstract-base-user-model by running the
+following command:
 
 ```shell
 django-admin startproject config custom-abstract-base-user-model
 ```
 
-I ran this command from inside "Python-Development" because I did not want to
+I run this command from inside "Python-Development" because I do not want to
 create two `config` directories, one nested in the other, inside
-`custom-abstract-base-user-model`. With this command, I created the following
+`custom-abstract-base-user-model`. With this command, I create the following
 structure:
 
 ```shell
@@ -146,12 +157,12 @@ structure:
 
 This structure is very useful for when deploying to production. Most cloud
 platforms (such as `render.com` or `heroku.com`) require `manage.py` to reside
-in the root directory of the `Django` web application. This ensures that I don't
+in the root directory of the Django web application. This ensures that I don't
 have to re-organize the directory structure of my web application later on.
 
 ### Creating the users app
 
-Next, I created the users app. I created it by running the following command:
+I create the users app by running the following command:
 
 ```shell
 python3 manage.py startapp users
@@ -171,9 +182,9 @@ INSTALLED_APPS = [
 ]
 ```
 
-## Adding Tests
+## Adding tests
 
-Now, let's add some tests out of the gates:
+Next, I add some tests:
 
 ```python
 # users/tests/test_users_managers_tests.py
@@ -223,26 +234,26 @@ class UsersManagersTests(TestCase):
 
 ### Breaking down the code in users/tests/test_users_managers_tests.py
 
-1. In `test_create_user`, the first line is clear. We get the user.
+1. In `test_create_user`, the first line is clear. I get the user.
 
-1. In the second line, we create the user. Note that we also should be passing
-   in a username.
+1. In the second line, I create the user. Note that at this point, the default
+   UserManager still expects a username, which is why these tests will fail.
 1. In the third line, the `self.assertEqual()` method is used to assert that two
-   values are equal. It's part of the unittest framework, which `Django`'s
-   testing tools are built upon.
-1. "self" refers to the test case instance we're working within.
+   values are equal. It's part of the unittest framework, which Django's testing
+   tools are built upon.
+1. `self` refers to the test case instance I'm working within.
 
 ### The assertEqual method
 
 `assertEqual(first, second, msg=None)` takes two arguments (first and second)
 and checks if they are equal. If not, the test fails and an `AssertionError` is
-raised. We can also optionally provide a custom error message using the `msg`
+raised. I can also optionally provide a custom error message using the `msg`
 parameter.
 
 Some use cases:
 
 - Testing View Output:
-    - Checking Response Status Code: Ensures that our views return the expected
+    - Checking Response Status Code: Ensures that my views return the expected
       status codes (e.g., `200` for "success", 404 for "not found").
 
     ```python
@@ -252,7 +263,7 @@ Some use cases:
         self.assertEqual(response.status_code, 200)
     ```
 
-    - Verifying Content in Response: We check if the response contains specific
+    - Verifying Content in Response: I check if the response contains specific
       text or HTML elements.
 
     ```python
@@ -261,7 +272,7 @@ Some use cases:
         self.assertEqual(response.content, b'<h1>Welcome!</h1>')
     ```
 
-    - Testing Template Context: Verify that the correct data is passed to our
+    - Testing Template Context: Verify that the correct data is passed to my
       templates.
 
     ```python
@@ -297,8 +308,8 @@ Some use cases:
         self.assertEqual(board_count, 0)
     ```
 
-    - Testing form Field Types: Ensures that the field types in our forms match
-      our expectations.
+    - Testing form Field Types: Ensures that the field types in my forms match
+      my expectations.
 
     ```python
     def test_field_widget_type(self):
@@ -309,15 +320,15 @@ Some use cases:
 
 ### except AttributeError: pass
 
-`except AttributeError: pass` is part of a unittest, for a `Django` project,
-that is testing the `create_user` method on a custom user model.
+`except AttributeError: pass` is part of a unittest, for a Django project, that
+is testing the `create_user` method on a custom user model.
 
 - `except AttributeError: pass` is handling the case where an `AttributeError`
   is raised. This exception typically occurs when we try to access an attribute
   or method that doesn't exist on an object.
 - In this context, it might be handling the case where the `create_user` method
   is called on an object that doesn't have this method, although it's not
-  usually the best practice to silently ignore errors. pass means that we are
+  usually the best practice to silently ignore errors. pass means that I am
   ignoring the `AttributeError`.
 
 ### with self.assertRaises()
@@ -353,30 +364,34 @@ is `False`, the test will fail.
   `admin user` is "active" and can log in to the system.
 - `self.assertTrue(admin_user.is_staff)` is used to assert that the `admin_user`
   object has the `is_staff` flag set to `True`. This means that the user should
-  have access to the `Django` admin site.
+  have access to the Django admin site.
 - `self.assertTrue(admin_user.is_superuser)` is used to assert that the `user`
   object `admin_user` has `superuser` permissions.
 
 ### assertIsNone() assertion method
 
-The `assertIsNone()` assertion method asserts that a given value is "None". If
-the value is not "None", the test fails.
+The `assertIsNone()` assertion method asserts that a given value is "None". It
+takes two parameters as input and returns a boolean value. If input value is
+equal to "None", it will return "True". If the value is not "None", it will
+return "False" and the test fails.
+
+### Passing ValueError to with self.assertRaises() assertion method
 
 `with self.assertRaises(ValueError): User.objects.create_superuser(email="super@user.com", password="foo", is_superuser=False)`
-checks whether a `ValueError` is raised when we try to create a `superuser` with
+checks whether a `ValueError` is raised when I try to create a `superuser` with
 `is_superuser` set to `False`.
 
 ### Running the tests
 
-Next, we run the following command in Terminal:
+Next, I run the following command in Terminal:
 
 ```shell
 python3 manage.py test users.tests.test_users_managers_tests
 ```
 
-I created a `tests` directory inside the users app, and inside `tests`, I
-created a file called `test_users_managers_tests.py`. That is why I ran the
-above command to access the `test_users_managers_tests.py` file.
+I create a `tests` directory inside the users app, and inside `tests`, I create
+a file called `test_users_managers_tests.py`. That is why I run the above
+command to access the `test_users_managers_tests.py` file.
 
 The following was returned in Terminal:
 
@@ -438,24 +453,26 @@ class CustomUserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_supseruser(self, email, password, **extra_fields):
+    def create_superuser(self, email, password, **extra_fields):
         """
         Create and save a SuperUser with the given email and password.
         """
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
-        extra_fields.setdefault("is-active", True)
+        extra_fields.setdefault("is_active", True)
 
         if extra_fields.get("is_staff") is not True:
-            raise ValueError(_("SuperUser must have is_superuser=True."))
+            raise ValueError(_("Superuser must have is_staff=True."))
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError(_("Superuser must have is_superuser=True."))
         return self.create_user(email, password, **extra_fields)
 ```
 
 ### The User Model
 
-In this instance, we are going for the `AbstractBaseUser` model.
+In this instance, I am going for the `AbstractBaseUser` model.
 
-We add the following in `users/models.py`:
+I add the following in `users/models.py`:
 
 ```python
 # users/models.py
@@ -482,18 +499,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 ```
 
-1. We created a new class called `CustomUser` that subclasses
-   `AbstractBaseUser`.
-1. We added fields for `email`, `is_staff`, `is_active`, and `date_joined`.
-1. We set the `USERNAME_FIELD`, which defines the unique identifier for the
+1. I create a new class called `CustomUser` that subclasses `AbstractBaseUser`.
+1. I add fields for `email`, `is_staff`, `is_active`, and `date_joined`.
+1. I set the `USERNAME_FIELD`, which defines the unique identifier for the
    `User` model, to `email`.
-1. We specified that all objects for the class come from the
-   `CustomUserManager`.
+1. I specify that all objects for the class come from the `CustomUserManager`.
 
-## Settings.py
+## Configuring settings.py
 
-Next, we add the following line to `settings.py` so that `Django` knows to use
-the new `CustomUser` class:
+Next, I add the following line to `settings.py` so that Django knows to use the
+new `CustomUser` class:
 
 ```python
 # config/settings.py
@@ -502,11 +517,11 @@ AUTH_USER_MODEL = "users.CustomUser"
 
 ## Applying migrations
 
-Now that we added the line `AUTH_USER_MODEL = "users.CustomUser"` to
-`settings.py`, we can apply our migrations, which will create a new database
-that uses the `CustomUser` model. However, before we do that, let's look at what
-the migration will actually look like without creating the `migration` file,
-with the `--dry-run` flag:
+Now that I have added the line `AUTH_USER_MODEL = "users.CustomUser"` to
+`settings.py`, I can apply my migrations, which will create a new database that
+uses the `CustomUser` model. However, before I do that, I look at what the
+migration will actually look like without creating the `migration` file, with
+the `--dry-run` flag:
 
 ```shell
 (venv)  mariacam@Marias-MBP python manage.py makemigrations --dry-run --verbosity 3
@@ -561,7 +576,7 @@ class Migration(migrations.Migration):
     ]
 ```
 
-In order to get rid of the warning, I changed
+In order to get rid of the warning, I change
 `date_joined = models.DateTimeField(default=timezone.now())` to
 `date_joined = models.DateTimeField(default=timezone.now)`. Originally,
 `default=timezone.now()`, which was an error on my part, would have executed as
@@ -570,8 +585,8 @@ model instances would have the same value.
 
 ## Running makemigrations
 
-First, we have to make sure the `migration` does not include a `username` field.
-Then, we create and apply the `migration`:
+First, I have to make sure the `migration` does not include a `username` field.
+Then, I create and apply the `migration`:
 
 ```shell
 (venv)  mariacam@Marias-MBP python3 manage.py makemigrations
@@ -604,55 +619,57 @@ Running migrations:
   Applying sessions.0001_initial... OK
 ```
 
-If we went the `AbstractBaseUser` route, we wouldn't have fields for
-`first_name` or `last_name`. Why?
+If I went the `AbstractBaseUser` route, I wouldn't have fields for `first_name`
+or `last_name`. Why?
 
 Django's `AbstractBaseUser` provides a foundation for creating custom user
 models.
 
 Purpose:
 
-- `AbstractBaseUser` is a base class for building custom user models in
-  `Django`. It offers greater flexibility than the default `User` model by
-  allowing us to define our own fields and authentication methods.
+- `AbstractBaseUser` is a base class for building custom user models in Django.
+  It offers greater flexibility than the default `User` model by allowing me to
+  define my own fields and authentication methods. It is important to note that
+  in my Django Boards project, however, I go the default `User` route extending
+  user fields via `signals`. I was more familiar with default `User` and found
+  it easier to implement. It does have its limitations.
 
 Key Features:
 
 - Required Fields:
-    - `We` must `implement` the `following fields` and `methods` in our
-      `subclass`:
+    - I must implement the following fields and methods in my subclass:
         - USERNAME_FIELD: Specifies the field used for authentication (e.g.,
           `email` or `username`).
-        - REQUIRED_FIELDS: A list of fields required when creating a `user`.
-        - get_username(): Returns the string representation of the `user`.
+        - REQUIRED_FIELDS: A list of fields required when creating a user.
+        - get_username(): Returns the string representation of the user.
 
 - Password Management:
-    - set_password(): Sets the `user`'s password securely.
+    - set_password(): Sets the user's password securely.
     - check_password(): Checks if a given password matches the stored one.
 
 - Active and Staff Status:
-    - is_active: Indicates whether a `user` is `active`.
-    - is_staff: Indicates whether a `user` has `staff` privileges.
+    - is_active: Indicates whether a user is active.
+    - is_staff: Indicates whether a user has staff privileges.
 
 Common Use Cases:
 
 - Using email for authentication: Replaces the default username-based
   authentication with `email`.
-- Adding custom fields: Extends the `user` model with extra information like
+- Adding custom fields: Extends the `User` model with extra information like
   `profile` details.
-- Integrating with external authentication systems: Connects our authentication
+- Integrating with external authentication systems: Connects my authentication
   to `LDAP`, `OAuth`, etc.
 
-Important Considerations:
+Things to consider:
 
-- BaseUserManager: We typically need to create a custom manager
+- BaseUserManager: I typically need to create a custom manager
   (`BaseUserManager` subclass) to handle `user` creation and other operations.
-- Authentication Backends: We have to ensure our authentication backends are
-  compatible with our custom user model.
+- Authentication Backends: I have to ensure my authentication backends are
+  compatible with my custom user model.
 
 ## Viewing the schema
 
-To view the schema, we run the following command in Terminal:
+To view the schema, I run the following command in Terminal:
 
 ```shell
 sqlite3 db.sqlite3
@@ -674,54 +691,54 @@ CREATE TABLE IF NOT EXISTS "users_customuser" ("id" integer NOT NULL PRIMARY KEY
 sqlite>
 ```
 
-If we went the `AbstractBaseUser` route, why is `last_login` part of the model?
+If I went the `AbstractBaseUser` route, why is `last_login` part of the model?
 
-When we use `AbstractBaseUser` in `Django`, `last_login` is included as part of
-the model for the following reasons:
+When I use `AbstractBaseUser` in Django, `last_login` is included as part of the
+model for the following reasons:
 
 Functionality:
 
 Tracking User Activity:
 
-It provides a way to track when a `user` last logged into the system. This can
-be useful for various purposes like:
+It provides a way to track when a user last logged into the system. This can be
+useful for various purposes like:
 
-- Displaying the last login time to the `user`.
+- Displaying the last login time to the user.
 - Implementing security features that restrict access after a certain period of
   inactivity.
 - Analyzing user engagement patterns.
 
 Password Management:
 
-`AbstractBaseUser` provides the core implementation for a `user` model,
+`AbstractBaseUser` provides the core implementation for a `User` model,
 including hashed passwords and password reset mechanisms. The last_login field
 is often used in conjunction with these features to enhance security.
 
 Customization:
 
-- Flexibility: While `last_login` is included by default, we have the
-  flexibility to override its behavior or even remove it entirely if it doesn't
-  fit our specific use case.
-- Extensibility: We can extend `AbstractBaseUser` to add additional fields or
-  modify the existing ones according to our application's requirements.
+- Flexibility: While `last_login` is included by default, I have the flexibility
+  to override its behavior or even remove it entirely if it doesn't fit my
+  specific use case.
+- Extensibility: I can extend `AbstractBaseUser` to add additional fields or
+  modify the existing ones according to my application's requirements.
 
 Breakdown of the key aspects:
 
 - Field Definition: The last_login field is defined in `AbstractBaseUser` as a
   `DateTimeField` with `null=True` and `blank=True`, meaning it can store the
   date and time of the last login and it's optional.
-- Automatic Updates: `Django` automatically updates the last_login field when a
-  `user` successfully `authenticates` using the `django.contrib.auth` framework.
+- Automatic Updates: Django automatically updates the last_login field when a
+  user successfully authenticates using the `django.contrib.auth` framework.
 
-We can now reference the `user` model with either `get_user_model()` or
-`settings.AUTH_USER_MODEL`. We can refer to referencing the `User` model from
+I can now reference the `User` model with either `get_user_model()` or
+`settings.AUTH_USER_MODEL`. I can refer to referencing the `User` model from
 [Customizing authentication in Django](https://docs.djangoproject.com/en/5.1/topics/auth/customizing/)
-in the official `Django` docs for more info.
+in the official Django docs for more info.
 
 ## Creating a superuser
 
-When we create our `superuser`, we should be prompted to enter an `email`
-instead `of` a `username`:
+When I create my `superuser`, I should be prompted to enter an email instead of
+a username:
 
 ```shell
 python manage.py createsuperuser
@@ -731,7 +748,7 @@ Password (again):
 Superuser created successfully.
 ```
 
-When I tried to use the same email again, the following was returned:
+When I try to use the same email again, the following is returned:
 
 ```shell
 python manage.py createsuperuser
@@ -741,8 +758,8 @@ Email address: ^C
 Operation cancelled.
 ```
 
-This time, when I ran the tests with the command
-`python manage.py test users.tests.test_users_managers_tests`, the following was
+This time, when I run the tests with the command
+`python manage.py test users.tests.test_users_managers_tests`, the following is
 returned:
 
 ```shell
@@ -757,14 +774,14 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-This time the tests passed!
+This time the tests pass!
 
 ## Forms
 
-Now we are going to subclass the `UserCreationForm` and the `UserChangeForm`
-forms so that they use the new `CustomUser` model:
+Now I am going to subclass the `UserCreationForm` and the `UserChangeForm` forms
+so that they use the new `CustomUser` model:
 
-We'll create a new file in "users" called `forms.py` and add the following:
+I create a new file in "users" called `forms.py` and add the following:
 
 ```python
 # users/forms.py
@@ -777,18 +794,18 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email')
+        fields = ('email',)
 
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email')
+        fields = ('email',)
 ```
 
 ## Admin
 
-Next, we tell the `admin` to use these forms by subclassing `UserAdmin` in
+Next, I tell the `admin` to use these forms by subclassing `UserAdmin` in
 `users/admin.py`:
 
 ```python
@@ -810,7 +827,7 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ("email", "is_staff", "is_active",)
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        ("Permissions", {"fields": ("is_staff", "is_staff", "is_active", "groups", "user_permissions")}),
+        ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
     )
     add_fieldsets = (
         (None, {
@@ -827,8 +844,8 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(CustomUser, CustomUserAdmin)
 ```
 
-Now we can run the local server and log in to the `admin` site. We should be
-able to add and change users as usual.
+Now I can run the local server and log in to the `admin` site. I should be able
+to add and change users as usual.
 
 ## Code associated with this post
 
@@ -837,9 +854,9 @@ To view the code associated with this post, please visit
 
 ## Conclusion
 
-In this post, I create a top-level directory to house a new `Django` project,
+In this post, I create a top-level directory to house a new Django project,
 create a virtual environment for it, activate the virtual environment, install
-`Django`, create a requirements.txt file, create a new project, create a new app
+Django, create a requirements.txt file, create a new project, create a new app
 called `users` with `AbstractBaseUser`, add tests, break down what the code in
 the tests mean, discuss the `User Model Manager`, configure `settings.py` to use
 the new `CustomUser` class, apply `migrations` to `users`, view the `schema`
@@ -848,23 +865,24 @@ resulting from the migrations, create a `superuser`, create
 to use these forms by subclassing `UserAdmin` in `users/admin.py`.
 
 In Part 2, I will be doing the same, but using the `AbstractUser` instead. I
-`will` also add the `pre-commit` framework to both `user` applications so as to
+will also add the `pre-commit` framework to both user applications so as to
 standardize my code formatting and detect any errors in the code!
 
 ## Related Resources
 
 - [Creating a Custom User Model in Django](https://testdriven.io/blog/django-custom-user-model/):
-  `testdriven.io`, Michael Herman
+  _testdriven.io, Michael Herman_
 - [Django - User Profile](https://dev.to/earthcomfy/django-user-profile-3hik):
-  Hana Belay, `dev.to`
+  _Hana Belay, dev.to_
 - [Customizing authentication in Django](https://docs.djangoproject.com/en/5.1/topics/auth/customizing/):
-  Django documentation
+  _Django documentation_
 - [Django Custom User Model: AbstractUser](https://tech.raturi.in/how-extend-django-user-model/):
-  Nitin Raturi
+  _Nitin Raturi_
 
 ## Related Posts
 
 - [AbstractUser vs AbstractBaseUser vs User extended profile in Django Table of Contents](/blog/abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-table-of-contents):
-  `mariadcampbell.com`
-- [How to create a fullstack application using Django and Python Table of Contents](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents):
-  `mariadcampbell.com`
+  _mariadcampbell.com_
+
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents):
+  _mariadcampbell.com_
