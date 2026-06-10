@@ -1,12 +1,14 @@
 ---
 slug: 'abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-part-2'
 date: '2025-01-19T18:51:47.608Z'
-lastModified: '2025-01-21T21:54:47.608Z'
+lastModified: '2026-06-10T21:12:47.608Z'
 title:
     'AbstractUser vs AbstractBaseUser vs User extended profile in Django Part 2'
 author: 'Maria D. Campbell'
 excerpt:
-    'In this post, I create the CustomAUser model by subclassing AbstractUser.'
+    'A step-by-step walkthrough of building a custom Django user model using
+    AbstractUser, including a custom manager, tests-first setup, migrations, and
+    admin configuration.'
 image: david-clode-3iBT4HEDAP4-unsplash.webp
 tags:
     [
@@ -36,22 +38,22 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 
 ## Table of Contents
 
-- [Adding pre-commit to custom-abstract-base-user-model repository](#adding-pre-commit-to-custom-abstract-base-user-model-repository)
+- [Adding the pre-commit framework to custom-abstract-base-user-model](#adding-the-pre-commit-framework-to-custom-abstract-base-user-model)
 - [Creating the custom-abstract-user-model local Git repository](#creating-the-custom-abstract-user-model-local-git-repository)
 - [Adding users app to INSTALLED_APPS in settings.py](#adding-users-app-to-installed-apps-in-settingspy)
 - [Adding Tests](#adding-tests)
 - [Model Manager](#model-manager)
     - [Creating users/managers.py file](#creating-users-managerspy-file)
-- [Breaking down the CustomUserManager class code](#breaking-down-the-customUsermanager-class-code)
+- [Breaking down the CustomUserManager class code](#breaking-down-the-customusermanager-class-code)
 - [User Model](#user-model)
     - [AbstractUser](#abstractuser)
 - [Settings](#settings)
 - [Making migrations with a dry run](#making-migrations-with-a-dry-run)
     - [Running python3 manage.py makemigrations](#running-python3-managepy-makemigrations)
-    - [What the python3 manage.py makemigrations command does](#what0-the-python3-managepy-makemigrations-command-does)
+    - [What the python3 manage.py makemigrations command does](#what-the-python3-managepy-makemigrations-command-does)
     - [What the python3 manage.py migrate command does](#what-the-python3-managepy-migrate-command-does)
     - [Breaking down the command](#breaking-down-the-command)
-- [Creating our SuperUser](#creating-our-superUser)
+- [Creating our superuser](#creating-our-superuser)
 - [Forms](#forms)
 - [Admin](#admin)
 - [Code associated with this post](#code-associated-with-this-post)
@@ -59,14 +61,22 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
+**Note:** Django 5.1.5 was the latest version at the time of the original
+publication of this post (January 2025). Please check for the current latest
+version of Django.
+
+I created this project because I wanted to become familiar with AbstractBaseUser
+and AbstractUser so I could determine which User model to select for my Django
+Boards project.
+
 ## Adding the pre-commit framework to custom-abstract-base-user-model
 
-Before I go any further, I want to add the `pre-commit framework` to the
-`custom-abstract-base-user-model` repository which I created in Part 1.
+Before I go any further, I want to add the `pre-commit` framework to the
+"custom-abstract-base-user-model" repository which I created in Part 1.
 
-First, I have to install `pre-commit` in `custom-abstract-base-user-model`. In
-order to follow all the steps to adding `pre-commit` to a `Django` project,
-please visit my post entitled
+First, I have to install `pre-commit` in "custom-abstract-base-user-model". In
+order to follow all the steps to adding `pre-commit` to a Django project, please
+visit my post entitled
 [Adding pre-commit hooks to a Django project](/blog/adding-pre-commit-hooks-to-a-django-project).
 
 Next, I have to run the following command in Terminal:
@@ -79,14 +89,14 @@ This creates the file that configures `pre-commit`. Then I execute the rest of
 the steps depicted in
 [Adding pre-commit hooks to a Django project](/blog/adding-pre-commit-hooks-to-a-django-project).
 
-To view the completed install for the `custom-abstract-base-user-model`
+To view the completed install for the "custom-abstract-base-user-model"
 repository, please visit
 [1397b28](https://github.com/interglobalmedia/custom-abstract-base-user-model/commit/1397b2848e936773176b29f0ff917795f45f1f8b).
 
 ## Creating the custom-abstract-user-model local Git repository
 
-First, as in Part 1, I create the top-level directory for the new `Django`
-application called `custom-abstract-user-model`, and then `cd` into it.
+First, as in Part 1, I create the top-level directory for the new Django
+application called "custom-abstract-user-model", and then `cd` into it.
 
 Next, I install the virtual environment using the following command:
 
@@ -106,16 +116,16 @@ Then I install Django:
 pip install -U django
 ```
 
-Then I go up one directory, and there, inside my `Python-Development` directory,
-I run the following command to create my `Django` project inside the
-`custom-abstract-user-model` directory:
+Then I go up one directory, and there, inside my "Python-Development" directory,
+I run the following command to create my Django project inside the
+"custom-abstract-user-model" directory:
 
 ```shell
 django-admin startproject config custom-abstract-user-model
 ```
 
-This creates a project called `config` inside the `custom-abstract-user-model`
-directory. Then I `cd` into `custom-abstract-user-model`.
+This creates a project called `config` inside the "custom-abstract-user-model"
+directory. Then I `cd` into "custom-abstract-user-model".
 
 When I run the `ls` command, the following is returned:
 
@@ -124,7 +134,7 @@ config    manage.py venv
 ```
 
 I have successfully created my project called `config` along with my `manage.py`
-file inside `custom-abstract-user-model`.
+file inside "custom-abstract-user-model".
 
 Next, I create my `users` app by running the following command:
 
@@ -132,7 +142,7 @@ Next, I create my `users` app by running the following command:
 python manage.py startapp users
 ```
 
-when I run the `ls` command again, the following is returned:
+When I run the `ls` command again, the following is returned:
 
 ```shell
 config    manage.py users     venv
@@ -154,7 +164,7 @@ INSTALLED_APPS = [
 
 ## Adding Tests
 
-Next, we are going to add tests. This is what is called a `tests-first`
+Next, we are going to add tests. This is what is called a "tests-first"
 approach.
 
 First, I create a "tests" directory inside `users` and remove the default
@@ -172,6 +182,7 @@ class UsersManagersTests(TestCase):
 
     def test_create_user(self):
         User = get_user_model()
+        # password="foo" is simply a placeholder used in tests
         user = User.objects.create_user(email="normal@user.com", password="foo")
         self.assertEqual(user.email, "normal@user.com")
         self.assertTrue(user.is_active)
@@ -221,7 +232,7 @@ At this point, the tests should have failed. In my case, they did.
 Next, I add a Custom
 [Manager](https://docs.djangoproject.com/en/5.1/topics/db/managers/) by
 subclassing `BaseUserManager`, which uses an email as the unique identifier
-instead of a `username`.
+instead of a username.
 
 ### Creating users/managers.py file
 
@@ -249,16 +260,16 @@ class CustomUserManager(BaseUserManager):
 
     def create_superuser(self, email, password, **extra_fields):
         """
-        Create and save a SuperUser with the given email and password.
+        Create and save a superuser with the given email and password.
         """
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
 
         if extra_fields.get("is_staff") is not True:
-            raise ValueError(_("SuperUser mist have is_staff=True."))
+            raise ValueError(_("superuser must have is_staff=True."))
         if extra_fields.get("is_superuser") is not True:
-            raise ValueError(_("SuperUser must have is_superuser=True."))
+            raise ValueError(_("superuser must have is_superuser=True."))
         return self.create_user(email, password, **extra_fields)
 ```
 
@@ -268,7 +279,7 @@ The `normalize_email()` method normalizes an email address by lowercasing the
 domain part of it. This is to prevent multiple signups. According to the thread
 entitled
 [What does it mean to normalize an email address?](https://stackoverflow.com/questions/27936705/what-does-it-mean-to-normalize-an-email-address)
-on `stackoverflow`,
+on _stackoverflow_,
 
 > If your application lets the public to sign up, your application might attract
 > the "unkind" types, and they could attempt to sign up multiple times with the
@@ -285,22 +296,22 @@ on `stackoverflow`,
   and assigns them as attributes to the new `user` object.
 - `user.set_password(password)` is used to securely set a user's password.
     - Hashing:
-        - `Django` doesn't store passwords in plain text. Instead, it uses a
+        - Django doesn't store passwords in plain text. Instead, it uses a
           one-way hashing algorithm to convert the password into a secure,
           irreversible string of characters. This ensures that even if our
           database is compromised, the actual passwords remain protected.
         - `set_password()` method:
             - This method, available on the `User` model, takes the raw password
               as input and performs the necessary hashing using the algorithm
-              specified in our `Django` project's settings.
+              specified in our Django project's settings.
         - Saving the `User`:
             - After calling `set_password()`, we must save the `user` object to
               persist the changes to the database.
 - Key Takeaways:
     - We should never store passwords in plain text.
-    - We should use `Django`'s built-in authentication system and methods.
+    - We should use Django's built-in authentication system and methods.
     - We should consider using strong password policies.
-    - We should keep our `Django` project and dependencies up to date.
+    - We should keep our Django project and dependencies up to date.
 
 ## User Model
 
@@ -469,35 +480,35 @@ instructions for how to modify the database schema to match our model changes.
 ### What the python3 manage.py migrate command does
 
 - `python3` invokes the `python3 interpreter`.
-- `manage.py` is the `Django` management utility script that allows us to
-  interact with our `Django` project
+- `manage.py` is the Django management utility script that allows us to interact
+  with our Django project
 - The `migrate` command applies our migrations, which are the changes to our
   database schema.
 
 Key takeaways:
 
-- Before we run `python3 manage.py migrate`, we should we have created
-  migrations for our app using the `python3 manage.py makemigrations` command
-  (if we have made changes to our model(s)).
+- Before we run `python3 manage.py migrate`, we should create migrations for our
+  app using the `python3 manage.py makemigrations` command (if we have made
+  changes to our model(s)).
     - To migrate a specific app, we use "python3 manage.py migrate
       `<app_name>`".
 
 ### Breaking down the command
 
 - `python3 manage.py makemigrations`: Used to generate migration files based on
-  the changes we've made to our models in our `Django` project.
+  the changes we've made to our models in our Django project.
 - `--dry-run`: This option tells Django to simulate the migration process
   without actually writing any migration files to disk. It's a safe way to
   preview the changes that would be made.
 - `--verbosity 3`: This option sets the verbosity level to the highest setting
   (3), which means it will display the most detailed output possible. In this
-  case, it will show us the full migration files that would be created if We ran
+  case, it will show us the full migration files that would be created if we ran
   the command without `--dry-run`.
 
-## Creating our SuperUser
+## Creating our superuser
 
-Next, we create our `SuperUser` in Terminal inside the top-level
-`custom-abstract-user-model` directory of our `Django` application:
+Next, we create our `superuser` in Terminal inside the top-level
+"custom-abstract-user-model" directory of our Django application:
 
 ```shell
 python3 manage.py createsuperuser
@@ -530,7 +541,7 @@ And they do!
 ## Forms
 
 Next, just as with `AbstractBaseUser` in Part 1, I subclass the
-`userCreationForm` and the `UserChangeForm` forms so that they use the new
+`UserCreationForm` and the `UserChangeForm` forms so that they use the new
 `CustomUser` model.
 
 I create a `users/forms.py` file and add the following:
@@ -546,10 +557,10 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('email',)
 
-class CustomChangeForm(UserChangeform):
+class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
-        model =CustomUser
+        model = CustomUser
         fields = ('email',)
 ```
 
@@ -561,7 +572,7 @@ class CustomChangeForm(UserChangeform):
 
 Some of the use cases where we can use this type of form:
 
-- We can use this form to collect the email address from a `user` during
+- We can use this form to collect the email address from a user during
   registration.
 - We can use this form to allow users to edit their email address.
 - We can use this form to collect the email address of a user who wants to reset
@@ -569,7 +580,7 @@ Some of the use cases where we can use this type of form:
 
 ## Admin
 
-We can tell the `admin` to use our forms by subclassing `UserAdmin` in
+We can tell the admin to use our forms by subclassing `UserAdmin` in
 `users/admin.py`:
 
 ```python
@@ -590,12 +601,13 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ("email", "is_staff", "is_active",)
     fieldsets = (
         (None, {"fields": ("email", "is_staff", "is_active")}),
-        ("Permissions" {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
+        ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
+    )
     add_fieldsets = (
         (None, {
-            "classes": ('wide',),
+            "classes": ("wide",),
             "fields": ("email", "password", "password2", "is_staff", "is_active", "groups", "user_permissions")
-            )}
+            }
         ),
     )
     search_fields = ("email",)
@@ -604,8 +616,8 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(CustomUser, CustomUserAdmin)
 ```
 
-And that is it! Now we can log into the `admin interface` with our `superuser`.
-We should be able to add and edit users as usual.
+And that is it! Now we can log into the admin interface with our superuser. We
+should be able to add and edit users as usual.
 
 ## Code associated with this post
 
@@ -614,33 +626,33 @@ To view the code associated with this post, please visit
 
 ## Conclusion
 
-In this post, I create the `custom-abstract-user-model` local Git repository,
-create the `config` project and `users` app, `add` users `app` to
-`INSTALLED_APPS` in `settings.py`, add tests, create a file called `managers.py`
-inside the `users` app and add a `CustomUserManager` class to it, discuss what
-its code does, create the `CustomUser` class in `users/models.py`, subclassing
-`AbstractUser`, add `AUTH_USER_MODEL` set to `"users.CustomUser"`, check to see
-what our migrations will look like before actually applying them, make and apply
-migrations, discuss what the `python3 manage.py makemigrations` and
-`python3 manage.py migrate` commands do, create the `SuperUser`, create
-`CustomUserCreationForm` and `CustomChangeForm`, subclassing `UserCreationForm`
-and `UserChangeform` so they use the new `CustomUser` model, and tell the
-`admin` to use our forms by subclassing `UserAdmin` in `users/admin.py`.
+In this post, I create the "custom-abstract-user-model" local Git repository,
+create the config project and users app, add users app to INSTALLED_APPS in
+`settings.py`, add tests, create a file called `managers.py` inside the users
+app and add a CustomUserManager class to it, discuss what its code does, create
+the CustomUser class in `users/models.py`, subclassing AbstractUser, add
+AUTH_USER_MODEL set to users.CustomUser, check to see what our migrations will
+look like before actually applying them, make and apply migrations, discuss what
+the `python3 manage.py makemigrations` and `python3 manage.py migrate` commands
+do, create the superuser, create CustomUserCreationForm and
+CustomUserChangeForm, subclassing UserCreationForm and UserChangeForm so they
+use the new CustomUser model, and tell the admin to use our forms by subclassing
+UserAdmin in `users/admin.py`.
 
 ## Related Resources
 
 - [What does it mean to normalize an email address?](https://stackoverflow.com/questions/27936705/what-does-it-mean-to-normalize-an-email-address):
-  stackoverflow
+  _stackoverflow_
 - [Creating a Custom User Model in Django](https://testdriven.io/blog/django-custom-user-model/):
-  `testdriven.io`, Michael Herman
+  _by Michael Herman, testdriven.io_
 - [Django - User Profile](https://dev.to/earthcomfy/django-user-profile-3hik):
-  Hana Belay, `dev.to`
+  _by Hana Belay, dev.to_
 - [Customizing authentication in Django](https://docs.djangoproject.com/en/5.1/topics/auth/customizing/):
-  Django documentation
+  _Django documentation_
 - [Django Custom User Model: AbstractUser](https://tech.raturi.in/how-extend-django-user-model/):
-  Nitin Raturi
+  _Nitin Raturi_
 
 ## Related Posts
 
-- [AbstractUser vs AbstractBaseUser vs User extended profile in Django Table of Contents](http://localhost:3000/blog/abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-table-of-contents):
-  `mariadcampbell.com`
+- [AbstractUser vs AbstractBaseUser vs User extended profile in Django Table of Contents](/blog/abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-table-of-contents):
+  _mariadcampbell.com_
