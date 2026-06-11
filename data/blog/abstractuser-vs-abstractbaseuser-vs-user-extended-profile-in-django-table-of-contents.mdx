@@ -1,14 +1,15 @@
 ---
 slug: 'abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-table-of-contents'
 date: '2025-01-19T17:03:43.180Z'
-lastModified: '2025-01-21T18:01:43.180Z'
+lastModified: '2026-06-11T18:06:26.180Z'
 title:
     'AbstractUser vs AbstractBaseUser vs User extended profile in Django Table
     of Contents'
 author: 'Maria D. Campbell'
 excerpt:
-    'AbstractUser vs AbstractBaseUser vs User extended profile in Django Table
-    of Contents.'
+    "A table of contents for my series on Django's AbstractUser,
+    AbstractBaseUser, and extended User profile approaches — covering custom
+    user models, migrations, forms, admin configuration, and testing."
 image: david-clode-3iBT4HEDAP4-unsplash.webp
 tags:
     [
@@ -16,6 +17,7 @@ tags:
         'macOS',
         'django',
         'python3',
+        'abstractuser',
         'abstractbaseuser',
         'admin',
         'forms',
@@ -36,6 +38,9 @@ isFeatured: false
 _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 [unsplash.com](https://unsplash.com/photos/a-close-up-of-a-yellow-and-white-snake-on-a-branch-3iBT4HEDAP4)
 
+_This is the table of contents for my series on Django user models. I'll add new
+parts to this series as they are published._
+
 ## Table of Contents
 
 1. [AbstractUser vs AbstractBaseUser vs User extended profile in Django Part 1](/blog/abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-part-1):
@@ -43,23 +48,22 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
    create a virtual environment for it, activate the virtual environment,
    install Django, create a requirements.txt file, create a new project, create
    a new app called users with AbstractBaseUser, add tests, break down what the
-   code in the tests mean, discuss the User Model Manager, configure settings.py
-   to use the new CustomUser class, apply migrations to users, view the schema
-   resulting from the migrations, create a superuser, create
+   code in the tests mean, discuss the User Model Manager, configure
+   `settings.py` to use the new CustomUser class, apply migrations to users,
+   view the schema resulting from the migrations, create a superuser, create
    CustomUserCreationForm and CustomUserChangeForm forms, and tell the admin to
-   use these forms by subclassing UserAdmin in users/admin.py.
+   use these forms by subclassing UserAdmin in `users/admin.py`.
 
 1. [AbstractUser vs AbstractBaseUser vs User extended profile in Django Part 2](/blog/abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-part-2):
    In this post, I create the custom-abstract-user-model local Git repository,
    create the config project and users app, add users app to INSTALLED_APPS in
-   settings.py, add tests, create a file called managers.py inside the users app
-   and add a CustomUserManager class to it, discuss what its code does, create
-   the CustomUser class in users/models.py, subclassing AbstractUser, add
-   AUTH_USER_MODEL set to "users.CustomUser", `check` to `see` what `our`
-   migrations `will` look `like` before `actually` applying `them`,` make` and
-   `apply` migrations, `discuss` what the `python3 manage.py makemigrations` and
-   `python3 manage.py migrate` commands `do`, `create` the `SuperUser`, create
-   `CustomUserCreationForm` and `CustomChangeForm`, subclassing
-   `UserCreationForm` and `UserChangeform` so they `use` the `new` CustomUser
-   `model`, and `tell` the `admin` to `use` our `forms` by subclassing
-   `UserAdmin` in `users/admin.py`.
+   `settings.py`, add tests, create a file called `managers.py` inside the users
+   app and add a CustomUserManager class to it, discuss what its code does,
+   create the CustomUser class in `users/models.py`, subclassing AbstractUser,
+   add `AUTH_USER_MODEL` set to `users.CustomUser`, check to see what our
+   migrations will look like before actually applying them, make and apply
+   migrations, discuss what the `python3 manage.py makemigrations` and
+   `python3 manage.py migrate` commands do, create the superuser, create
+   CustomUserCreationForm and CustomChangeForm, subclassing UserCreationForm and
+   CustomUserChangeForm so they use the new CustomUser model, and tell the admin
+   to use our forms by subclassing UserAdmin in `users/admin.py`.
