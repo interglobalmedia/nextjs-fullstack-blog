@@ -323,6 +323,8 @@ In this post, we are going the `AbstractUser` route. We will be subclassing
 Next, I add the following to `users/models.py`:
 
 ```python
+# users/models.py
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -547,6 +549,8 @@ Next, just as with `AbstractBaseUser` in Part 1, I subclass the
 I create a `users/forms.py` file and add the following:
 
 ```python
+# users/forms.py
+
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import CustomUser
@@ -591,8 +595,8 @@ from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
-# Register your models here.
 
+# Register your models here.
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
@@ -622,7 +626,7 @@ should be able to add and edit users as usual.
 ## Code associated with this post
 
 To view the code associated with this post, please visit
-[35dd30a](https://github.com/interglobalmedia/custom-abstract-user-model/commit/35dd30ac6f123c3b766ff50b6f3e8d35c6bdeea3).
+[c39e1](https://github.com/interglobalmedia/custom-abstract-user-model/commit/5bec5e4b8dbd5ca1658753634d1554e3987c39e1).
 
 ## Conclusion
 
