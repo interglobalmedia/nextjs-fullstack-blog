@@ -4,7 +4,8 @@
 /* global styles for headings */
 h1,
 h2,
-h3 {
+h3,
+h4 {
 	font-family: var(--oswald-font);
 }
 
@@ -29,15 +30,27 @@ h3 {
 	}
 }
 
+h4 {
+	font-size: 1.25rem;
+	line-height: 2.25rem;
+	margin-bottom: 1rem;
+	padding: 1.25rem 0 0;
+	@media #{$min-768} {
+		font-size: 1.5rem;
+	}
+}
+
 .dark h1,
 .dark h2,
-.dark h3 {
+.dark h3,
+.dark h4 {
 	/* stylelint-disable scss/no-global-function-names */
 	color: color.adjust($tailwind-dark-orange, $lightness: 5%);
 }
 
 .dark h2 a,
-.dark h3 a {
+.dark h3 a,
+.dark h4 a {
 	color: color.adjust($tailwind-dark-orange, $lightness: 5%) !important;
 }
 
