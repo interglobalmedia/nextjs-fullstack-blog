@@ -163,6 +163,34 @@ function PostContent(props) {
 			)
 		},
 
+		h4({ node, ...props }) {
+			const children = Array.isArray(props.children)
+				? props.children
+				: [props.children]
+			const heading = children
+				.flatMap((element) =>
+					typeof element === 'string'
+						? element
+						: element?.type !== undefined &&
+							  typeof element.props.children === 'string'
+							? element.props.children
+							: [],
+				)
+				.join('')
+
+			const slug = generateSlug(heading)
+
+			return (
+				<h4 id={slug}>
+					<a
+						className={classes['heading-four']}
+						href={`#${slug}`}
+						{...props}
+					></a>
+				</h4>
+			)
+		},
+
 		pre({ node, children, ...props }) {
 			return (
 				<pre className="blog-pre" {...props}>
