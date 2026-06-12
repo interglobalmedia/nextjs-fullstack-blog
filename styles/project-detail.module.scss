@@ -42,7 +42,8 @@ $tailwind-lightest-orange: rgb(229 178 160 / 100%);
 }
 
 .content .heading-two,
-.content .heading-three {
+.content .heading-three,
+.content .heading-four {
 	color: var(--color-grey-800);
 }
 
@@ -116,7 +117,10 @@ $tailwind-lightest-orange: rgb(229 178 160 / 100%);
 		font-size: var(--size-4);
 		padding: 0.4rem 1.1rem;
 		text-decoration: none;
-		transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+		transition:
+			background-color 0.3s ease-out,
+			color 0.3s ease-out,
+			border-color 0.3s ease-out;
 
 		&:hover {
 			background-color: color.adjust($aussie-blue, $lightness: -15%);
@@ -231,4 +235,3 @@ $tailwind-lightest-orange: rgb(229 178 160 / 100%);
 	border-width: 2px !important;
 	padding: 0.5rem;
 }
-

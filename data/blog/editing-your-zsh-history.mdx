@@ -1,0 +1,327 @@
+---
+slug: 'editing-your-zsh-history'
+date: '2026-06-11T07:44:16.865Z'
+lastModified: '2026-06-11T22:10:16.865Z'
+title: 'Editing your zsh history'
+author: 'Maria D. Campbell'
+excerpt:
+    'Learn how to open and edit your .zsh_history file directly in Vim — using
+    command, insert, and visual mode — to remove duplicate commands and typos
+    from your Zsh shell history.'
+image: bas-peperzak-hY07uZBVrGo-unsplash.webp
+tags: ['macOS', 'command line', 'history', 'terminal history', 'vim', 'zsh']
+isPublished: true
+isFeatured: false
+---
+
+![Video edit timeline Adobe premiere pro](bas-peperzak-hY07uZBVrGo-unsplash.webp)
+
+_[Photo by](https://unsplash.com/photos/a-close-up-of-a-computer-screen-with-a-keyboard-hY07uZBVrGo)_
+[Bas Peperzak](https://unsplash.com/@bastroloog) _on_
+[unsplash.com](https://unsplash.com/)
+
+## Table of Contents
+
+- [How to delete commands in .zsh_history in iTerm2 (Zsh shell)](#how-to-delete-commands-in-zsh-history-in-iterm2-zsh-shell)
+    - [Opening .zsh_history using the Vim .zsh_history command](#opening-zsh-history-using-the-vim-zsh-history-command)
+    - [Using fn key shortcuts to search through history](#using-fn-key-shortcuts-to-search-through-history)
+    - [Moving to a line with Colon key + line number in command mode](#moving-to-a-line-with-colon-key-line-number-in-command-mode)
+    - [Deleting a line with dd in command mode](#deleting-a-line-with-dd-in-command-mode)
+        - [Deleting multiple lines with dd in command mode](#deleting-multiple-lines-with-dd-in-command-mode)
+    - [Deleting a line with Control key + u key in insert mode](#deleting-a-line-with-control-key-u-key-in-insert-mode)
+    - [Deleting lines in visual mode](#deleting-lines-in-visual-mode)
+    - [Deleting a range of lines in command mode](#deleting-a-range-of-lines-in-command-mode)
+        - [Using special characters in the range](#using-special-characters-in-the-range)
+    - [Deleting all lines in command mode](#deleting-all-lines-in-command-mode)
+    - [Deleting parts of a line in command mode](#deleting-parts-of-a-line-in-command-mode)
+- [Vim edit commands recap](#vim-edit-commands-recap)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+
+Today I thought it time to go through my Zsh shell history and purge both
+duplicate commands and commands with typos. This way I could reuse commands
+confidently.
+
+## How to delete commands in .zsh_history in iTerm2 (Zsh shell)
+
+I'm not going to simply go through a generic walkthrough about how to remove
+content from my `.zsh_history` file all at once. I'll describe how I cherry pick
+the lines which I want to delete and how I get around Vim doing it.
+
+I work on a MacBook Pro M1 Silicon from 2021. My (default) shell is Zsh. In
+order to delete a command from Zsh history, I first open up my .zsh_history file
+with the Vim editor. You could choose to use the Nano editor, which is also
+available on macOS, but I prefer Vim.
+
+Note that there will be sites that will state that you can delete a line from
+history using the `history -d <linenumber`> command. However, that only works in
+the Bash shell. I have tried it myself, and it does not work with Zsh.
+
+### Opening .zsh_history using the Vim .zsh_history command
+
+To access .zsh_history where all the commands that have been executed, first I
+launch iTerm2, and run the following command in an iTerm2 window instance inside
+my home directory (~):
+
+```shell
+# pwd should be ~ which represents your home directory
+VIM .zsh_history
+```
+
+The command opens up my .zsh_history file in the Vim text editor.
+
+### Using fn key shortcuts to search through history
+
+I can search through the commands by using one or a combination of the following
+shortcuts:
+
+```text
+fn key + ← key — moves you to the beginning of a line
+fn key + → key — moves you to the end of a line
+fn key + ↑ key — moves you up a line
+fn key + ↓ key — moves you down a line
+fn key + G key — moves you to the beginning of the file
+fn key + shift key + G key — moves you to the end of a file
+```
+
+The screenshot below is a snapshot of what my .zsh_history file looks like:
+
+![Screenshot of a snapshot of the .zsh_history file](Screenshot-2026-06-11-at-2.23.25-PM.webp)
+
+_Snapshot of the .zsh_history file_
+
+When I go through the commands, I may notice that there are some which may be no
+longer applicable (they have been there for years) and some which may contain
+typos and are therefore useless.
+
+### Moving to a line with Colon key + line number in command mode
+
+Let's say I want to go to a particular line inside `.zsh_history`. Instead of
+simply going through hundreds of lines, one at a time, using the ↑ or ↓ key, I
+can type `:` followed by the line number. But I have to make sure that I am in
+command and not insert mode before I do that. Pressing the `esc` key takes me
+into command mode.
+
+![Screenshot of snapshot of .zsh_history file in command mode including cursor](Screenshot-2026-06-11-at-2.38.17-PM.webp)
+
+_Snapshot of .zsh_history file in command mode including cursor_
+
+In the screenshot above, the cursor is in command mode, and the cursor,
+represented by a horizontal white line, is at line one. In order to skip to
+another line within the file, I press `:` followed by a number:
+
+![Screenshot of snapshot of .zsh_history file in command mode including cursor and calling line number](Screenshot-2026-06-11-at-2.59.27-PM.webp)
+
+_Snapshot of .zsh_history file in command mode including cursor and calling line
+number_
+
+When I press the return key, the following is returned:
+
+![Screenshot of snapshot of .zsh_history file in command mode including cursor and retrieving line number](Screenshot-2026-06-11-at-5.52.55-PM.webp)
+
+_Snapshot of .zsh_history file in command mode including cursor and retrieving
+line number_
+
+### Deleting a line with dd in command mode
+
+Once the line I want to delete has been selected, I press `esc` to make sure I
+am in command mode, type (lowercase) `d key + d key`, and the line which has
+been selected is deleted.
+
+![Deletion of line(s) in .zsh_history by pressing the lowercase d key twice](Screenshot-2026-06-11-at-6.04.29-PM.webp)
+
+_Deletion of line(s) in .zsh_history by pressing the lowercase d key twice_
+
+You may notice that I deleted two lines. I mistakenly typed `dd` twice. I have
+to be careful not to do that if I _don't_ want to delete more than one line.
+When I type `dd`, I should make sure that I did delete the line before I type
+`dd` again thinking that I was not successful the first time. In this case it
+didn't matter, but it could have. I can avoid this mistake by not turning my
+eyes away from the screen while I am typing `dd`.
+
+#### Deleting multiple lines with dd in command mode
+
+To delete multiple lines with `dd`, if I first press `esc` to make sure I am in
+command mode and then type `7dd`, for example, it will delete the selected line
+and then 6 lines below it.
+
+### Deleting a line with Control key + u key in insert mode
+
+I can also delete one line at a time in insert mode. To go into insert mode, I
+press the (lowercase) `i key` and `INSERT` appears. Then I go to the line I want
+to delete by pressing the fn key + either the ↑ key or the ↓ key to take me
+there. Then I press the fn key + ⇢ key to take me to the end of the line.
+
+After I get to the end of the line, I press Control key + u key, which deletes
+the whole line. Then I press the Control key + u key again, and it deletes the
+empty line and takes me up one line and to the end of it. The second approach is
+just as fast, and perhaps offers a bit more "control" over the deletion process
+because it is done in two (visible) steps which are easier to follow. It's a
+matter of personal preference. The first approach is blazing fast and therefore
+can be harder to follow.
+
+### Deleting lines in visual mode
+
+I can delete lines in Vim using visual mode. To enter visual mode, press Shift
+key + V key (uppercase V). This will result in:
+
+![Screenshot of entering visual mode in Vim](Screenshot-2026-06-12-at-4.39.54-AM.webp)
+
+_Entering visual mode in Vim_
+
+You may notice the number "1" at the bottom right of the screenshot. That
+represents the location of the cursor. And "VISUAL LINE" indicates that I am in
+visual mode.
+
+In order to select/highlight more lines to delete, I press the ↓ key:
+
+![Selecting multiple lines to delete in visual mode](Screenshot-2026-06-12-at-6.49.20-AM.webp)
+
+_Selecting multiple lines to delete in visual mode_
+
+You may notice that at the bottom right of the screenshot is the number "8".
+That represents the number of lines that have been highlighted/selected.
+
+Once I have made my selection, I press the (lowercase) d key and all the
+selected lines are deleted.
+
+![Screenshot of result of pressing the d key after selecting lines to delete in visual mode](Screenshot-2026-06-12-at-4.55.32-AM.webp)
+
+_Screenshot of result of pressing the d key after selecting lines to delete in
+visual mode_
+
+You may notice that multiple line deletion is also confirmed by the text "8
+fewer lines" at the bottom left of the screenshot. This indicates that I have
+just deleted 8 lines in .zsh_history. In order to save these changes, I have to
+first press `esc` and then `:x` followed by pressing the return key in order to
+save the changes made to the file. Pressing the return key takes me back to the
+command prompt in Terminal.
+
+One important thing to note about deleting lines in visual mode. Wherever the
+cursor is located in visual mode will be the first line that is selected before
+I use the ↑ or ↓ key to expand the number of lines I want to delete. So before
+going into visual mode, I have to make sure that I have placed my cursor on a
+line I want to delete while I am still in command mode. I would use the fn key +
+the ↑ or ↓ key to take me there.
+
+### Deleting a range of lines in command mode
+
+The syntax for deleting a range of lines in command mode is:
+
+```vim
+:[start],[end]d
+```
+
+So let's say that I want to delete lines 6-12.
+
+First, I would press the `esc` key to make sure that I am in command mode
+accompanied by the following:
+
+```vim
+:6,12d
+```
+
+This is what it looks like in Vim:
+
+![Screenshot of preparing to delete a range of lines, 6-12](Screenshot-2026-06-12-at-7.14.52-AM.webp)
+
+_Preparing to delete a range of lines in Vim, 6-12_
+
+When I press the return key, the lines are deleted.
+
+#### Using special characters in the range
+
+- `.` (dot) represents the current line
+- `$` represents the last line
+- `%` represents all lines
+
+For example, `:.,$d` deletes from the current line to the end of the file.
+
+![Screenshot of preparing to delete a range of lines using the  `:.,$d` command](Screenshot-2026-06-12-at-11.59.19-AM.webp)
+
+_Preparing to delete a range of lines using the `:.,$d` command_
+
+And when I press the return key, it looks like the following:
+
+![Screenshot of the result of running the :.,$d command in Vim](Screenshot-2026-06-12-at-11.59.28-AM.webp)
+
+_Result of running the `:.,$d` command in Vim_
+
+### Deleting all lines in command mode
+
+The really fun command is `%`. In order to delete all lines from a file in Vim,
+I complete the following steps:
+
+1. I press the `esc` key to enter command mode.
+1. I type `:%d` and then press the return key.
+1. If I want to save my changes, I press `:x` followed by pressing the return
+   key. This takes me out of Vim and back to the Terminal command prompt.
+1. If I _don't_ want to save my changes for whatever reason, I type `:q!`. This
+   takes me out of Vim and back to the Terminal command prompt.
+
+![Screenshot of preparing to delete the contents of a file from within Vim](Screenshot-2026-06-12-at-12.54.32-PM.webp)
+
+_Preparing to delete the contents of a file from within Vim with the `:%d`
+command_
+
+![Screenshot of state of the file after executing `:%d`](Screenshot-2026-06-12-at-12.54.44-PM.webp)
+
+_State of the file after executing `:%d`_
+
+As indicated by "\_No lines in buffer--" at the bottom left of the screenshot,
+`:%d` deleted the entire contents of the file.
+
+### Deleting parts of a line in command mode
+
+If I want to delete a part of a line from the cursor to the end of the line, I
+would type `D` or `d$`.
+
+![Screenshot of preparing to delete a part of the line from the cursor to the end of it using the `D` command](Screenshot-2026-06-12-at-4.31.28-PM.webp)
+
+_Preparing to delete a part of the line from the cursor to the end of it using
+the `D` command_
+
+![Screenshot of result of execution of `D` command deleting part of line from cursor to the end of the line](Screenshot-2026-06-12-at-4.31.44-PM.webp)
+
+_Result of execution of `D` command deleting part of line from cursor to the end
+of the line_
+
+Other commands which delete parts of a line in command mode include:
+
+- `d0` deletes from the cursor to the beginning of the line.
+- `dw` deletes from the cursor to the start of the next word.
+- `db` deletes from the cursor to the beginning of the current word.
+
+## Vim edit commands recap
+
+| Vim command                                             | Vim mode     | Result                                                                           |
+| ------------------------------------------------------- | ------------ | -------------------------------------------------------------------------------- |
+| **Colon key + line number**                             | Command mode | Moves the cursor to the line number                                              |
+| **dd**                                                  | Command mode | Deletes the line number selected by the cursor                                   |
+| **ndd**                                                 | Command mode | Deletes the line selected by the cursor and n number of lines below it           |
+| **Control key + u key**                                 | Insert mode  | Deletes the current line as long as the cursor is located at the end of the line |
+| **Shift Key + v key -> either ↑ key or ↓ key -> d key** | Visual mode  | All selected lines are deleted                                                   |
+| **:[start],[end]d**                                     | Command mode | Deletes the range of lines from start line number through end line number        |
+| **Colon key + Percentage key + d key**                  | Command mode | Deletes all lines in a file leaving an empty one.                                |
+| **D / d$**                                              | Command mode | Deletes a part of a line from the cursor location to the end of the line         |
+| **d0**                                                  | Command mode | Deletes from the cursor location to the beginning of the line                    |
+| **dw**                                                  | Command mode | Deletes from the cursor location to the start of the next word                   |
+| **db**                                                  | Command mode | Deletes from the cursor location to the beginning of the current word            |
+
+## Conclusion
+
+In this post, I describe the various ways I can edit my .zsh_history file in
+Vim. I edit the file using command mode, visual mode, and insert mode. Command
+mode is the most convenient and fastest, and it is the default Vim mode. It
+takes a couple of extra steps to edit a file in Vim using either INSERT or
+VISUAL mode, but selecting which way to go is a matter of personal preference or
+the most efficient way to accomplish the task at hand.
+
+## Related Resources
+
+- [How to Delete Lines in Vim / Vi](https://linuxize.com/post/vim-delete-line/):
+  _by Dejan Panovski, linuxize.com_
+- [Vim Cheat Sheet](https://vim.rtorr.com): _vim.rtorr.com_
+- [4 Vim features to use to improve productivity](https://opensource.com/article/22/3/vim-features-productivity):
+  _by Hunter Coleman, opensource.com_
+- [Vim Cheatsheet](https://linuxize.com/cheatsheet/vim/): _linuxize.com_
