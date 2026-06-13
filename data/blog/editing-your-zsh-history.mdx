@@ -59,7 +59,7 @@ the Bash shell. I have tried it myself, and it does not work with Zsh.
 
 ### Opening .zsh_history using the Vim .zsh_history command
 
-To access .zsh_history where all the commands that have been executed, first I
+To access `.zsh_history` where all the commands that have been executed, first I
 launch iTerm2, and run the following command in an iTerm2 window instance inside
 my home directory (~):
 
@@ -68,7 +68,7 @@ my home directory (~):
 VIM .zsh_history
 ```
 
-The command opens up my .zsh_history file in the Vim text editor.
+The command opens up my `.zsh_history` file in the Vim text editor.
 
 ### Using fn key shortcuts to search through history
 
@@ -84,11 +84,11 @@ fn key + G key — moves you to the beginning of the file
 fn key + shift key + G key — moves you to the end of a file
 ```
 
-The screenshot below is a snapshot of what my .zsh_history file looks like:
+The screenshot below is a snapshot of what my `.zsh_history` file looks like:
 
 ![Screenshot of a snapshot of the .zsh_history file](Screenshot-2026-06-11-at-2.23.25-PM.webp)
 
-_Snapshot of the .zsh_history file_
+_Snapshot of the `.zsh_history` file_
 
 When I go through the commands, I may notice that there are some which may be no
 longer applicable (they have been there for years) and some which may contain
@@ -104,7 +104,7 @@ into command mode.
 
 ![Screenshot of snapshot of .zsh_history file in command mode including cursor](Screenshot-2026-06-11-at-2.38.17-PM.webp)
 
-_Snapshot of .zsh_history file in command mode including cursor_
+_Snapshot of `.zsh_history` file in command mode including cursor_
 
 In the screenshot above, the cursor is in command mode, and the cursor,
 represented by a horizontal white line, is at line one. In order to skip to
@@ -112,14 +112,14 @@ another line within the file, I press `:` followed by a number:
 
 ![Screenshot of snapshot of .zsh_history file in command mode including cursor and calling line number](Screenshot-2026-06-11-at-2.59.27-PM.webp)
 
-_Snapshot of .zsh_history file in command mode including cursor and calling line
-number_
+_Snapshot of `.zsh_history` file in command mode including cursor and calling
+line number_
 
 When I press the return key, the following is returned:
 
 ![Screenshot of snapshot of .zsh_history file in command mode including cursor and retrieving line number](Screenshot-2026-06-11-at-5.52.55-PM.webp)
 
-_Snapshot of .zsh_history file in command mode including cursor and retrieving
+_Snapshot of `.zsh_history` file in command mode including cursor and retrieving
 line number_
 
 ### Deleting a line with dd in command mode
@@ -130,7 +130,7 @@ been selected is deleted.
 
 ![Deletion of line(s) in .zsh_history by pressing the lowercase d key twice](Screenshot-2026-06-11-at-6.04.29-PM.webp)
 
-_Deletion of line(s) in .zsh_history by pressing the lowercase d key twice_
+_Deletion of line(s) in `.zsh_history` by pressing the lowercase d key twice_
 
 You may notice that I deleted two lines. I mistakenly typed `dd` twice. I have
 to be careful not to do that if I _don't_ want to delete more than one line.
@@ -175,7 +175,7 @@ visual mode.
 
 In order to select/highlight more lines to delete, I press the ↓ key:
 
-![Selecting multiple lines to delete in visual mode](Screenshot-2026-06-12-at-6.49.20-AM.webp)
+![Screenshot of selecting multiple lines to delete in visual mode](Screenshot-2026-06-12-at-6.49.20-AM.webp)
 
 _Selecting multiple lines to delete in visual mode_
 
@@ -187,15 +187,14 @@ selected lines are deleted.
 
 ![Screenshot of result of pressing the d key after selecting lines to delete in visual mode](Screenshot-2026-06-12-at-4.55.32-AM.webp)
 
-_Screenshot of result of pressing the d key after selecting lines to delete in
-visual mode_
+_Result of pressing the d key after selecting lines to delete in visual mode_
 
 You may notice that multiple line deletion is also confirmed by the text "8
 fewer lines" at the bottom left of the screenshot. This indicates that I have
-just deleted 8 lines in .zsh_history. In order to save these changes, I have to
-first press `esc` and then `:x` followed by pressing the return key in order to
-save the changes made to the file. Pressing the return key takes me back to the
-command prompt in Terminal.
+just deleted 8 lines in `.zsh_history`. In order to save these changes, I have
+to first press `esc` and then `:x` followed by pressing the return key in order
+to save the changes made to the file. Pressing the return key takes me back to
+the command prompt in Terminal.
 
 One important thing to note about deleting lines in visual mode. Wherever the
 cursor is located in visual mode will be the first line that is selected before
@@ -268,7 +267,7 @@ command_
 
 _State of the file after executing `:%d`_
 
-As indicated by "\_No lines in buffer--" at the bottom left of the screenshot,
+As indicated by "--No lines in buffer--" at the bottom left of the screenshot,
 `:%d` deleted the entire contents of the file.
 
 ### Deleting parts of a line in command mode
@@ -310,7 +309,7 @@ Other commands which delete parts of a line in command mode include:
 
 ## Conclusion
 
-In this post, I describe the various ways I can edit my .zsh_history file in
+In this post, I describe the various ways I can edit my `.zsh_history` file in
 Vim. I edit the file using command mode, visual mode, and insert mode. Command
 mode is the most convenient and fastest, and it is the default Vim mode. It
 takes a couple of extra steps to edit a file in Vim using either INSERT or
