@@ -149,3 +149,7 @@ $asian-green: #96aa9a;
 	border-width: 2px !important;
 	padding: 0.5rem;
 }
+
+.content td {
+	word-break: break-all;
+}
