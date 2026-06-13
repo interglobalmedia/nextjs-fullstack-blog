@@ -1,18 +1,18 @@
 ---
 slug: how-to-measure-test-coverage-in-django
 date: '2024-09-18T14:10:00.775Z'
-lastModified: '2026-05-27T10:39:00.775Z'
+lastModified: '2026-06-13T23:37:00.775Z'
 title: How to measure test coverage in Django
 author: Maria D. Campbell
 excerpt:
-    'How to measure test coverage in Django. In this post, I go over the basics
-    of Coverage.py and how to determine how much of a Django application my
-    tests have covered using the coverage command. There is much more to
-    Coverage.py, and more Command Line usage available, but this is a great
-    start.'
-image: pexels-mjlo-2872418.jpg
+    "Coverage.py is the go-to tool for measuring how much of your Django
+    application your tests actually exercise. Here's how to install it, run it
+    against a real project, and interpret the results."
+image: pexels-mjlo-2872418.webp
 tags:
     [
+        'command line',
+        'terminal',
         'fullstack development',
         'macOS',
         'django',
@@ -26,7 +26,7 @@ isFeatured: true
 ---
 
 ![Man Holding Microphone While Talking to Another Man
-and covering a story](pexels-mjlo-2872418.jpg)
+and covering a story](pexels-mjlo-2872418.webp)
 
 _Photo by_ [Mido Makasardi](https://www.pexels.com/@mjlo/) **_on_**
 [pexels.com](https://www.pexels.com/photo/man-holding-microphone-while-talking-to-another-man-2872418/)
@@ -79,6 +79,9 @@ According to
 > use this extension: it is much faster, and is needed to support a number of
 > coverage.py features. Most of the time, the C extension will be installed
 > without any special action on your part.
+
+I did not need to add a C extension to `coverage.py`. And I didn't need to do
+any configuration.
 
 ## Checking for coverage's version
 
@@ -156,7 +159,7 @@ For me, the following report was generated:
 | boards/tests/test_index_tests.py                                               | 25      | 0     | 100%    |
 | boards/tests/test_new_topic_tests.py                                           | 28      | 0     | 100%    |
 | boards/tests/test_templatetags.py                                              | 24      | 0     | 100%    |
-| boards/views.py                                                                | 24 0    | 100%  |
+| boards/views.py                                                                | 24      | 0     | 100%    |
 | `django_boards/__init__.py`                                                    | 0       | 0     | 100%    |
 | django_boards/settings.py                                                      | 26      | 0     | 100%    |
 | django_boards/urls.py                                                          | 6       | 0     | 100%    |
@@ -166,7 +169,7 @@ For me, the following report was generated:
 ## Coverage html
 
 If I want to generate an html document of my `coverage report` (produce
-annotated HTML listings with coverage results), I can run coverage html in
+annotated HTML listings with coverage results), I can run `coverage html` in
 Terminal, and the following is returned:
 
 ```shell
