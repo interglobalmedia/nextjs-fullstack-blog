@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import classes from '../../styles/all-posts.module.scss'
 
-const DynamicPostsGrid = dynamic(() => import('./posts-grid'))
+const DynamicPostsGrid = dynamic(() => import('./posts-grid'), { ssr: false })
 
 function AllPosts(props) {
 	const { posts, initialDisplayPosts, pagination } = props

@@ -17,7 +17,7 @@ const DynamicScrollStep = dynamic(
 function PostDetailPage(props) {
 	const { post } = props
 	const url = `${siteMetadata.siteUrl}/blog/${post.slug}`
-	const image = `${siteMetadata.siteUrl}/images/${post.image}`
+	const image = `${siteMetadata.siteUrl}/images/blog/${post.slug}/${post.image}`
 
 	return (
 		<Fragment>
