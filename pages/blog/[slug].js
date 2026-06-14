@@ -50,7 +50,7 @@ export async function getStaticProps(context) {
 	// Guard: if the post exists but has been unpublished, treat as 404.
 	// This handles the edge case where a cached or externally linked URL
 	// is accessed after a post has been unpublished.
-	if (!post.isPublished) {
+	if (!post || !post.isPublished) {
 		return { notFound: true }
 	}
 
