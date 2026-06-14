@@ -16,7 +16,7 @@ const DynamicScrollStep = dynamic(
 
 export default function ProjectDetailPage({ project }) {
 	const url = `${siteMetadata.siteUrl}/projects/${project.slug}`
-	const image = `${siteMetadata.siteUrl}/images/projects/${project.image}`
+	const image = `${siteMetadata.siteUrl}/images/projects/${project.slug}/${project.image}`
 
 	return (
 		<Fragment>
