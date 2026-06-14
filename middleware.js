@@ -44,6 +44,7 @@ const DELETED_POST_SLUGS = [
 	'omdb-api-js-app',
 	'omdb-api-nextjs',
 	'poke-api-web-app',
+	'reinstalling-homebrew-on-macbook-pro-silicon-2021',
 	'rockin-synth',
 	'the-cat-whisperer',
 	'trump-talks',
