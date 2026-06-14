@@ -1,5 +1,6 @@
 const siteMetadata = {
 	siteUrl: 'https://www.mariadcampbell.com',
+	defaultImage: '/images/site/og-default.webp', // new 6.14.26
 	siteName: `Maria D. Campbell`,
 	domain: 'mariadcampbell.com',
 	sitemap: '/sitemap.xml',
