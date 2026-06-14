@@ -1,31 +1,44 @@
 ---
 slug: how-to-add-tables-to-react-markdown
 date: '2024-09-03T01:33:01.578Z'
-lastModified: '2026-05-24T04:34:01.578Z'
+lastModified: '2026-06-14T04:28:01.578Z'
 title: How to add tables to React Markdown
 author: 'Maria D. Campbell'
-excerpt: How to create tables in React Markdown.
-image: Screenshot-2024-09-02-at-11.25.31-PM.jpg
-tags:
-    [
-        'macOS',
-        'react markdown',
-        'remark gfm',
-        'rehype-raw',
-        'tables support',
-        'scss',
-    ]
+excerpt:
+    "React Markdown doesn't support tables natively — here's how to enable them
+    using remark-gfm 3.0.1, rehype-raw, and remarkRehypeOptions to avoid the
+    TypeError Cannot set properties of undefined error."
+image: Screenshot-2024-09-02-at-11.25.31-PM.webp
+tags: ['macOS', 'react markdown', 'remark gfm', 'rehype-raw', 'tables', 'scss']
 isPublished: true
 isFeatured: true
 ---
 
-![Example of a table in React Markdown](Screenshot-2024-09-02-at-11.25.31-PM.jpg)
+![Example of a table in React Markdown](Screenshot-2024-09-02-at-11.25.31-PM.webp)
 
 _Example of a table in React Markdown_
 
 ## Table of Contents
 
 - [Tables not supported natively in React Markdown](#tables-not-supported-natively-in-react-markdown)
+    - [Installing latest remark-gfm to make tables available in React Markdown](#installing-latest-remark-gfm-to-make-tables-available-in-react-markdown)
+        - [Installing remark-gfm 3.0.1 to work with React Markdown 8.0.7](#installing-remark-gfm-301-to-work-with-react-markdown-807)
+        - [Installing rehype-raw to make tables compatible with custom components in React Markdown](#installing-rehype-raw-to-make-tables-compatible-with-custom-components-in-react-markdown)
+    - [Styling the td element to force long filenames to break](#styling-the-td-element-to-force-long-filenames-to-break)
+    - [Adding styling to the table element in dark mode](#adding-styling-to-the-table-element-in-dark-mode)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
+
+**Note 6.13.26:** This post was first published September 3, 2024. At that time,
+as mentioned here, I was using `React Markdown 8.0.7` and `remark-gfm 3.0.1`.
+However, the latest versions have definitely changed. I added the tables feature
+to this site, and since have upgraded both Next.js and React. The site is
+currently using `Next.js ^16.2.6`, `React ^19.2.6`, `React Markdown ^8.0.7`
+(still), and `remark-gfm ^3.0.1` (still). Given my workflow, those are the
+versions I should be using. But that does not mean that they are the ones _you_
+should be using. To check out my set up on GitHub, please visit the
+[Next.js Fullstack Blog repository](https://github.com/interglobalmedia/nextjs-fullstack-blog).
 
 ## Tables not supported natively in React Markdown
 
@@ -34,16 +47,19 @@ table. However, it did not render! I didn't realize until I further researched
 the issue that React Markdown does not support adding tables in Markdown
 natively. According to an
 [issues thread](https://github.com/remarkjs/react-markdown/issues/526) in the
-React Markdown Github repository from December 22, 2020,
+React Markdown GitHub repository from December 22, 2020,
 
 > Tables, and all other GFM have moved to a plugin. You can see an example of
-> usage with tables here: https://github.com/remarkjs/react-markdown#use and the
-> note in the release notes here:
-> https://github.com/remarkjs/react-markdown/blob/main/changelog.md#500---2020-10-19
+> usage with tables here:
+> [react-markdown README](https://github.com/remarkjs/react-markdown#use) and
+> the note in the release notes here:
+> [5.0.0 - 2020-10-19](https://github.com/remarkjs/react-markdown/blob/main/changelog.md#500---2020-10-19)
 >
 > The website accurately reflects that by default, react-markdown follows the
 > CommonMark standard, which does not have Tables. -- ChristianMurphy commented
 > on Dec 22, 2020
+
+### Installing latest remark-gfm to make tables available in React Markdown
 
 I looked at the example of usage with tables, and it seemed pretty
 straightforward. I followed the example and imported the `remark-gfm` npm
@@ -53,16 +69,18 @@ the `ReactMarkdown` component. But it didn't work. I kept on getting
 Google Search and came up with a thread on stackoverflow entitled
 [ReactMarkdown + remarkGfm: everything renders as expected, EXCEPT tables - typeError?](https://stackoverflow.com/questions/77138105/reactmarkdown-remarkgfm-everything-renders-as-expected-except-tables-typee/77172599#77172599).
 
+#### Installing remark-gfm 3.0.1 to work with React Markdown 8.0.7
+
 First I found out that it was only with React Markdown 9.0 that I could use the
-latest version of `remark-gfm`. I however, am using React Markdown 8.0.7.
+latest version of `remark-gfm`. I, however, am using React Markdown 8.0.7.
 According to the answer that solved my issue, React Markdown 8.0.7 works with
 `remark-gfm` version 3.0.1.
 
 So I uninstalled my current version of `remark-gfm` with
-`npm uninstall remark-gfm` (`gfm` stands for Github Flavored Markdown) and then
-re-installed it with `npm i remark-gfm@3.0.1 -S`. Then I did the following
-inside my `post-content.js` file which is the component that renders the
-markdown content of my posts on this site:
+`npm uninstall remark-gfm`[^1] and re-installed it with
+`npm i remark-gfm@3.0.1 -S`. Then I did the following inside my
+`post-content.js` file which is the component that renders the markdown content
+of my posts on this site:
 
 ```jsx
 import remarkGfm from 'remark-gfm'
@@ -77,6 +95,8 @@ import rehypeRaw from 'rehype-raw'
 </ReactMarkdown>
 ```
 
+#### Installing rehype-raw to make tables compatible with custom components in React Markdown
+
 I also installed and imported the `rehype-raw` npm package, and passed options
 to `remarkRehypeOptions` because in the same thread, another user stated:
 
@@ -85,7 +105,7 @@ to `remarkRehypeOptions` because in the same thread, another user stated:
 > layout, it stripped content (e.g. class names) from html tags when used in
 > markdown (which is valid). As such applying remarkRehypeOptions > passThrough
 > allowed both the tables to render correctly and links to use custom
-> components. -- Chris GW Green answered Mar 13 at 13:39
+> components. -- Chris GW Green answered Mar 13 2024 at 13:39
 
 Then he added a code snippet of how he added the two packages to React Markdown:
 
@@ -129,8 +149,29 @@ file:
 }
 ```
 
-if you are a `next.js` and `tailwind.css` user, I also added a bit of styling
-for dark mode in my (global) `post-content.scss` file:
+### Styling the td element to force long filenames to break
+
+**Note 6.13.26:** I just updated a post entitled
+[How to measure test coverage in Django](/blog/how-to-measure-test-coverage-in-django),
+and in that post, I have a very large and wide table consisting of a Django
+project coverage report. It bothered me that I had to use a scrollbar to view 3
+out of 4 of the table columns, so I added the following style to the td element
+so as to force the filenames to wrap:
+
+```scss
+// post-content.module.scss
+.content td {
+	word-break: break-all;
+}
+```
+
+Now, no matter what the width of the browser window, all the table columns are
+visible.
+
+### Adding styling to the table element in dark mode
+
+If you are a Next.js and Tailwind CSS user, I also added a bit of styling for
+dark mode in my (global) `post-content.scss` file:
 
 ```scss
 .dark .content table {
@@ -140,16 +181,25 @@ for dark mode in my (global) `post-content.scss` file:
 
 This is what the table I created looks like:
 
-![Summary of Model operations in the Python3 shell](Screenshot-2024-09-02-at-11.25.31-PM.jpg)
+![Summary of Model operations in the Python3 shell](Screenshot-2024-09-02-at-11.25.31-PM.webp)
 
 _Screenshot of table used in
 [How to create a fullstack application using Django and Python part 7](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-7)_
 
+## Conclusion
+
+Even though tables are not supported in React Markdown by default, I found a way
+to make it happen, and without having to install the latest versions of React
+Markdown and remark-gfm. And as a bonus, I added styling I had applied to fix
+the rendering of a table in another post to enhance the content here.
+
 ## Related Resources
 
 - [Tables not working on website #526](https://github.com/remarkjs/react-markdown/issues/526):
-  _react-markdown Github repository_
+  _react-markdown GitHub repository_
 - [remarkjs/react-markdown example usage](https://github.com/remarkjs/react-markdown#use):
-  _remarkjs/react-markdown Github repository_
-- [ReactMarkdown + remarkGfm: everything renders as expected, EXCEPT tables - typeError?](https://stackoverflow.com/questions/77138105/reactmarkdown-remarkgfm-everything-renders-as-expected-except-tables-typee/77172599#77172599);
+  _remarkjs/react-markdown GitHub repository_
+- [ReactMarkdown + remarkGfm: everything renders as expected, EXCEPT tables - typeError?](https://stackoverflow.com/questions/77138105/reactmarkdown-remarkgfm-everything-renders-as-expected-except-tables-typee/77172599#77172599):
   _stackoverflow_
+
+[^1]: `gfm` stands for GitHub Flavored Markdown.
