@@ -30,6 +30,7 @@ export default function ProjectDetailPage({ project }) {
 				date={project.date}
 				lastModified={project.lastModified}
 				type="article"
+				schemaType="Article"
 			/>
 			<DynamicProjectDetail project={project} />
 			<div className="buttons-container">

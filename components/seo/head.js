@@ -16,6 +16,7 @@ export default function Head({
 	url,
 	type = 'website',
 	noindex = false,
+	schemaType = 'BlogPosting',
 }) {
 	const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME
 
@@ -24,7 +25,7 @@ export default function Head({
 		type === 'article' && title && url
 			? {
 					'@context': 'https://schema.org',
-					'@type': 'BlogPosting',
+					'@type': schemaType,
 					headline: title,
 					description: excerpt || undefined,
 					url,
