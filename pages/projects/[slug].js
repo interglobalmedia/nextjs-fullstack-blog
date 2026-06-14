@@ -1,39 +1,66 @@
 import { Fragment } from 'react'
-import Head from 'next/head'
-import { getProjectData, getProjectFiles } from '../../lib/projects-util'
-import ProjectDetail from '../../components/projects/project-detail'
-import ScrollTop from '../../components/buttons/scroll-top'
-import ScrollStep from '../../components/buttons/scroll-step'
+import dynamic from 'next/dynamic'
+import { getProjectData, getAllProjects } from '../../lib/projects-util.js'
+import siteMetadata from '../../data/siteMetadata.js'
+import Head from '../../components/seo/head.js'
+
+const DynamicProjectDetail = dynamic(
+	() => import('../../components/projects/project-detail.js'),
+)
+const DynamicScrollTop = dynamic(
+	() => import('../../components/buttons/scroll-top.js'),
+)
+const DynamicScrollStep = dynamic(
+	() => import('../../components/buttons/scroll-step.js'),
+)
 
 export default function ProjectDetailPage({ project }) {
+	const url = `${siteMetadata.siteUrl}/projects/${project.slug}`
+	const image = `${siteMetadata.siteUrl}/images/projects/${project.image}`
+
 	return (
 		<Fragment>
-			<Head>
-				<title>{project.title}</title>
-				<meta name="description" content={project.summary} />
-			</Head>
-			<ProjectDetail project={project} />
+			<Head
+				title={project.title}
+				excerpt={project.summary}
+				url={url}
+				author={project.author}
+				image={image}
+				imageAlt={project.title}
+				date={project.date}
+				lastModified={project.lastModified}
+				type="article"
+			/>
+			<DynamicProjectDetail project={project} />
 			<div className="buttons-container">
-				<ScrollStep />
-				<ScrollTop />
+				<DynamicScrollStep />
+				<DynamicScrollTop />
 			</div>
 		</Fragment>
 	)
 }
 
 export function getStaticPaths() {
-	const projectFiles = getProjectFiles()
-	const slugs = projectFiles.map((file) => file.replace(/\.mdx$/, ''))
+	const publishedProjects = getAllProjects()
 
 	return {
-		paths: slugs.map((slug) => ({ params: { slug } })),
+		paths: publishedProjects.map((project) => ({
+			params: { slug: project.slug },
+		})),
 		fallback: false,
 	}
 }
 
-export function getStaticProps({ params }) {
+export async function getStaticProps({ params }) {
 	const { slug } = params
 	const project = getProjectData(slug)
+
+	// Guard: if the project exists but has been unpublished, treat as 404.
+	// This handles the edge case where a cached or externally linked URL
+	// is accessed after a project has been unpublished.
+	if (!project.isPublished) {
+		return { notFound: true }
+	}
 
 	return {
 		props: { project },
