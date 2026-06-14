@@ -39,7 +39,7 @@ export default function ProjectTagPage({
 							repository={project.repository}
 							website={project.website}
 							summary={project.summary}
-							imgSrc={`${slug}/${imgSrc}`}
+							imgSrc={project.image}
 							tags={project.tags}
 							slug={project.slug}
 							more={project.more}

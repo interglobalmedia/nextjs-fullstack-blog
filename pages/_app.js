@@ -4,7 +4,6 @@ import Head from 'next/head'
 import ThemeProvider from '../components/context/theme-provider'
 import { motion } from 'framer-motion'
 import { Inconsolata, Oswald } from 'next/font/google'
-import { useEffect, useState } from 'react'
 import PlausibleProvider from 'next-plausible'
 
 const inconsolata = Inconsolata({
@@ -27,16 +26,6 @@ const variants = {
 }
 
 export default function App({ Component, pageProps, router }) {
-	const [showChild, setShowChild] = useState(false)
-
-	useEffect(() => {
-		setShowChild(true)
-	}, [])
-
-	if (!showChild) {
-		return null
-	}
-
 	return (
 		<ThemeProvider>
 			<Layout>
@@ -46,7 +35,7 @@ export default function App({ Component, pageProps, router }) {
 						content="width=device-width, initial-scale=1.0"
 					/>
 					<link rel="icon" href="/favicon.ico" />
-					{/* eslint-disable react/no-unknown-property */}
+					{}
 					<style jsx global>{`
 						:root {
 							--oswald-font: ${oswald.style.fontFamily};

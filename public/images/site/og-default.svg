@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+
+  <rect x="0" y="0" width="1200" height="630" fill="#1a1a1a"/>
+
+  <rect x="0" y="0" width="14" height="630" fill="#c9795a"/>
+
+  <rect x="70" y="261" width="1060" height="2.5" fill="#c9795a" opacity="0.25"/>
+  <rect x="70" y="365" width="1060" height="2.5" fill="#c9795a" opacity="0.25"/>
+
+  <text x="78" y="233" font-family="system-ui, -apple-system, sans-serif" font-size="23" font-weight="400" fill="#c9795a" letter-spacing="6">MARIADCAMPBELL.COM</text>
+
+  <text x="78" y="328" font-family="system-ui, -apple-system, sans-serif" font-size="74" font-weight="700" fill="#ffffff">Maria D. Campbell</text>
+
+  <text x="78" y="413" font-family="system-ui, -apple-system, sans-serif" font-size="34" font-weight="400" fill="#a0a8b8">@letsbsocial1</text>
+
+  <text x="78" y="508" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="400" fill="#a0a8b8">Security · Fullstack Development · macOS · Linux</text>
+
+  <circle cx="1100" cy="315" r="92" fill="none" stroke="#c9795a" stroke-width="2.5" opacity="0.35"/>
+  <circle cx="1100" cy="315" r="64" fill="none" stroke="#c9795a" stroke-width="1.5" opacity="0.2"/>
+  <text x="1100" y="328" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="#c9795a" text-anchor="middle" opacity="0.65">MDC</text>
+
+</svg>
