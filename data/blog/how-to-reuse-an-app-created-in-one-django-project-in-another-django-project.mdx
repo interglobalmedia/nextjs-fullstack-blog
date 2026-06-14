@@ -6,23 +6,23 @@ title:
     How to reuse an app created in one Django project in another Django project
 author: Maria D. Campbell
 excerpt:
-    "In this post, I discuss how one can reuse an app created in one Django project
-in another project so that I don't have to 're-create' it all over again in
-another project."
-image: david-clode-J_5xvghAvmc-unsplash.jpg
-tags: [
-            'fullstack development', 
-            'macOS', 
-            'django',
-            'python3', 
-            'reusable app', 
-            'local development',
+    "In this post, I discuss how to reuse an app created in one Django project
+    in another, so I don't have to re-create it from scratch."
+image: david-clode-J_5xvghAvmc-unsplash.webp
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'django',
+        'python3',
+        'reusable app',
+        'local development',
     ]
 isPublished: true
 isFeatured: true
 ---
 
-![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.jpg)
+![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.webp)
 
 _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 [unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)
@@ -31,8 +31,8 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 
 - [Reusing an app created in one Django project in another Django project](#reusing-an-app-created-in-one-django-project-in-another-django-project)
     - [Copying an application from one Django project into another](#copying-an-application-from-one-django-project-into-another)
-- [Copying the polls app into a new top level directory called cast-votes](#copying-the-polls-app-into-a-new-top-level-directory-called-cast-votes)
-- [Configuring the polls app in cast-votes](#configuring-the-polls-app-in-cast-votes)
+- [Copying the polls app into a new top level directory called cast-vote](#copying-the-polls-app-into-a-new-top-level-directory-called-cast-vote)
+- [Configuring the polls app in cast-vote](#configuring-the-polls-app-in-cast-vote)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
@@ -56,16 +56,16 @@ great. But the problems began when I found out about the Django advanced
 tutorial called
 ["Advanced tutorial: How to write reusable apps"](https://docs.djangoproject.com/en/5.1/intro/reusable-apps/).
 I approached the `django_polls` project like I would any other with the naming.
-I did not know what was coming up next, and neither was I appraised of it
+I did not know what was coming up next, and neither was I apprised of it
 beforehand.
 
 In this post, I will discuss how to avoid as much as possible such naming
 conflicts while still naming projects and reusable apps with professional
 sounding names.
 
-## Copying the polls app into a new top level directory called cast-votes
+## Copying the polls app into a new top level directory called cast-vote
 
-I arbitrarily named a new top level directory `cast-votes`, and inside I created
+I arbitrarily named a new top level directory `cast-vote`, and inside I created
 a new project called config. I came across a number of posts and threads where
 Django developers repeatedly called their projects "config" so that there would
 be less of a chance of naming conflicts when installing reusable apps. I thought
@@ -81,17 +81,17 @@ directory called `cast-vote` and a project called `config` inside `cast-vote`.
 If you have already completed the
 [Creating the official Django Polls app](https://docs.djangoproject.com/en/5.1/intro/tutorial01/)
 series and therefore created an app called polls, you can copy the polls app
-directory into the root of the `cast-votes` directory. There should be no
+directory into the root of the `cast-vote` directory. There should be no
 conflicts, since the project name does not contain "polls" in it. It's as
 generic as it can get. We are not thinking about creating a package from polls
 yet. That will take place in another post. Right now we just want to make sure
-that our polls app can be reused by ourselves on our local machine.
+the polls app can be reused on our local machine.
 
-## Configuring the polls app in cast-votes
+## Configuring the polls app in cast-vote
 
-Once we have placed polls inside the top level `cast-votes` directory, we need
-to configure it a bit. The steps are not dissimilar from those we were supposed
-to take to prepare our polls app package in the
+Once we have placed polls inside the top level `cast-vote` directory, we need to
+configure it a bit. The steps are similar to those we were supposed to take to
+prepare our polls app package in the
 ["Advanced tutorial: How to write reusable apps"](https://docs.djangoproject.com/en/5.1/intro/reusable-apps/).
 
 First, we have to add polls to `INSTALLED_APPS` in `config/settings.py`:
@@ -121,11 +121,11 @@ urlpatterns = [
 ```
 
 Then, just make sure that there isn't anything in your templates that does not
-belong in `cast-votes`. I had a couple of URLs in `templates/includes` and
+belong in `cast-vote`. I had a couple of URLs in `templates/includes` and
 `templates/polls/index.html`. Those URLS assumed that I still had another
 reusable app called pages, which exists in the original `django-polls` top level
 directory along with the `django_polls` project. But since I haven't added this
-pages reusable app to `cast-votes`, I had to make sure to update them. If,
+pages reusable app to `cast-vote`, I had to make sure to update them. If,
 however, I did want to add that reusable app so that I would have a top level
 index page (because right now I don't and neither should you unless you did
 something different), then I could keep those URLs which were specific to
@@ -139,8 +139,7 @@ We have some control over its behavior in relation to the project, and in
 relation to other reusable apps which might be subsequently added.
 
 According to a thread on stackoverflow entitled
-[Customize templates in a third party Django app](https://stackoverflow.com/questions/38341254/customize-templates-in-a-third-party-django-app#:~:text=8,will%20be%20ignored.)
-on stackoverflow,
+[Customize templates in a third party Django app](https://stackoverflow.com/questions/38341254/customize-templates-in-a-third-party-django-app#:~:text=8,will%20be%20ignored.),
 
 > You can put the template in a separate app within your project. Django looks
 > for templates in your apps in the order they are defined in INSTALLED_APPS,
@@ -153,7 +152,7 @@ on stackoverflow,
 > be loaded first and yours will be ignored.
 
 This led me to the updated documentation for Django 5.1 entitled
-[How to override templates](https://docs.djangoproject.com/en/6.0/howto/overriding-templates/#:~:text=In%20your%20project,application’s%20templates%20directory.):
+[How to override templates](https://docs.djangoproject.com/en/5.1/howto/overriding-templates/):
 
 > In your project, you might want to override a template in another Django
 > application, whether it be a third-party application or a contrib application
@@ -192,8 +191,8 @@ To learn more about this, please visit
 [How to override templates](https://docs.djangoproject.com/en/5.1/howto/overriding-templates/)
 in the current Django (5.1) documentation.
 
-We choose third party packages primarily for their `functionality/features`. If
-we want to change the looks a bit, we customize the templates, following the
+We choose third party packages primarily for their functionality and features.
+If we want to change the looks a bit, we customize the templates, following the
 steps described in
 [How to override templates](https://docs.djangoproject.com/en/5.1/howto/overriding-templates/).
 
@@ -202,13 +201,14 @@ package) to the new config project.
 
 To see the original `django-polls` structure containing both the pages reusable
 app and polls reusable app, please visit
-[django-polls](https://github.com/interglobalmedia/django-polls) on Github.
+[django-polls](https://github.com/interglobalmedia/django-polls) on GitHub.
 
 ## Conclusion
 
 In this post, I discussed how I can reuse an app created in one Django project
 in another project so that I don't have to "re-create" it all over again in
-another project.
+another project. The next step is turning this local reusable app into an actual
+package — something I'll cover in a follow-up post.
 
 ## Related Resources
 
@@ -223,5 +223,5 @@ another project.
 
 ## Related Posts
 
-- [Creating the official Django Polls app table of contents](http://localhost:3000/blog/creating-the-official-django-polls-app-table-of-contents):
-  mariadcampbell.com
+- [Creating the official Django Polls app table of contents](/blog/creating-the-official-django-polls-app-table-of-contents):
+  _mariadcampbell.com_
