@@ -39,5 +39,4 @@ certificates
 # saved terminal output
 output.txt
 
-# claude blog_post_rules.md
-data/blog/blog_post_rules.mdx
+deleted-posts.txt
