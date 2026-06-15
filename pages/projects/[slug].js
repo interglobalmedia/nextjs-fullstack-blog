@@ -45,6 +45,17 @@ export default function ProjectDetailPage({ project }) {
 	)
 }
 
+export function getStaticPaths() {
+	const publishedProjects = getAllProjects()
+
+	return {
+		paths: publishedProjects.map((project) => ({
+			params: { slug: project.slug },
+		})),
+		fallback: false,
+	}
+}
+
 export async function getStaticProps({ params }) {
 	const { slug } = params
 	const project = getProjectData(slug)
