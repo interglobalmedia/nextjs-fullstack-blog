@@ -59,6 +59,7 @@ const DELETED_POST_SLUGS = [
 	'creating-a-custom-html5-video-player-and-the-shadow-dom',
 	'creating-a-shell-script-from-an-applescript-targeting-the-macos-music-app',
 	'creating-an-applescript-that-plays-an-album-in-the-macos-music-app',
+	'custom-html5-video-player',
 ]
 
 export function middleware(request) {
