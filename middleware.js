@@ -51,6 +51,14 @@ const DELETED_POST_SLUGS = [
 	'web-audio-api-ajax',
 	'welcome-to-the-groove',
 	'wikipedia-viewer',
+	'adding-host-property-to-webpack-config',
+	'apis-for-developers-and-what-pitfalls-to-watch-out-for',
+	'class-conflicts',
+	'connecting-your-iphone-hotspot-to-your-macbook-pro-ventura-os',
+	'converting-image-formats-on-macos-using-the-finder-app',
+	'creating-a-custom-html5-video-player-and-the-shadow-dom',
+	'creating-a-shell-script-from-an-applescript-targeting-the-macos-music-app',
+	'creating-an-applescript-that-plays-an-album-in-the-macos-music-app',
 ]
 
 export function middleware(request) {
