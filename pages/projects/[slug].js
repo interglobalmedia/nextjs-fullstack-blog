@@ -15,8 +15,11 @@ const DynamicScrollStep = dynamic(
 )
 
 export default function ProjectDetailPage({ project }) {
+	if (!project) return null
+
 	const url = `${siteMetadata.siteUrl}/projects/${project.slug}`
-	const image = `${siteMetadata.siteUrl}/images/projects/${project.slug}/${project.image}`
+	const ogImageFile = project.ogImage ?? project.image
+	const image = `${siteMetadata.siteUrl}/images/projects/${project.slug}/${ogImageFile}`
 
 	return (
 		<Fragment>
@@ -31,6 +34,7 @@ export default function ProjectDetailPage({ project }) {
 				lastModified={project.lastModified}
 				type="article"
 				schemaType="Article"
+				noindex={!project.isPublished}
 			/>
 			<DynamicProjectDetail project={project} />
 			<div className="buttons-container">
@@ -41,27 +45,13 @@ export default function ProjectDetailPage({ project }) {
 	)
 }
 
-export function getStaticPaths() {
-	const publishedProjects = getAllProjects()
-
-	return {
-		paths: publishedProjects.map((project) => ({
-			params: { slug: project.slug },
-		})),
-		fallback: false,
-	}
-}
-
 export async function getStaticProps({ params }) {
 	const { slug } = params
 	const project = getProjectData(slug)
 
-	// Guard: if the project exists but has been unpublished, treat as 404.
-	// This handles the edge case where a cached or externally linked URL
-	// is accessed after a project has been unpublished.
-	if (!project.isPublished) {
-		return { notFound: true }
-	}
+	if (!project) return { notFound: true }
+
+	if (!project.isPublished) return { notFound: true }
 
 	return {
 		props: { project },
