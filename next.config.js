@@ -19,6 +19,7 @@ const nextConfig = {
 			},
 		},
 	},
+	serverExternalPackages: ['gray-matter'],
 }
 
 module.exports = withBundleAnalyzer(nextConfig)
