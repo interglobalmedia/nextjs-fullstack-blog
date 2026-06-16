@@ -60,6 +60,13 @@ const DELETED_POST_SLUGS = [
 	'creating-a-shell-script-from-an-applescript-targeting-the-macos-music-app',
 	'creating-an-applescript-that-plays-an-album-in-the-macos-music-app',
 	'custom-html5-video-player',
+	'data-recovery-with-git',
+	'deploying-to-gh-pages-with-git-subtree',
+	'dont-name-any-of-your-project-directories-functions',
+	'downloading-a-pdf-file-from-the-internet-using-command-line-on-your-mac',
+	'enabling-content-insertion-inside-the-vim-editor-on-macos-when-skipping-the-insert-command',
+	'enabling-the-auto-complete-feature-in-git-with-z-shell',
+	'error-hydration-failed-because-the-initial-ui-does-not-match-what-was-rendered-on-the-server-in-nextjs',
 ]
 
 export function middleware(request) {
