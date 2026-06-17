@@ -67,6 +67,11 @@ const DELETED_POST_SLUGS = [
 	'enabling-content-insertion-inside-the-vim-editor-on-macos-when-skipping-the-insert-command',
 	'enabling-the-auto-complete-feature-in-git-with-z-shell',
 	'error-hydration-failed-because-the-initial-ui-does-not-match-what-was-rendered-on-the-server-in-nextjs',
+	'fixing-mdx-linting-errors-in-nextjs-using-eslint-plugin-mdx',
+	'fixing-the-path-to-xcode-after-installing-latest-version-on-macos-monterey',
+	'forking-a-repository-on-github-and-subsequently-creating-a-pull-request',
+	'git-large-file-storage',
+	'hosting-my-full-stack-react-nodejs-socketio-application-on-heroku',
 ]
 
 export function middleware(request) {
