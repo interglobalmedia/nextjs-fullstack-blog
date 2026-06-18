@@ -72,6 +72,10 @@ const DELETED_POST_SLUGS = [
 	'forking-a-repository-on-github-and-subsequently-creating-a-pull-request',
 	'git-large-file-storage',
 	'hosting-my-full-stack-react-nodejs-socketio-application-on-heroku',
+	'how-to-create-new-lines-inside-text-prop-values-in-nextjs-and-javascript-in-general',
+	'how-to-determine-whether-your-xcode-installupgrade-has-been-successful-or-not',
+	'how-to-enable-async-await-in-a-nodejsexpress',
+	'blog/how-to-import-mychart-appointments-into-the-macos-calendar-app',
 ]
 
 export function middleware(request) {
