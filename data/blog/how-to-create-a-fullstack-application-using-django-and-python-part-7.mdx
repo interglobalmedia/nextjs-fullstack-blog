@@ -170,7 +170,7 @@ the class itself. Otherwise, if we added the whole class inside another class,
 there would be a lot of duplication and it would be hard to keep track of and
 sync changes.
 
-We are required to pass the `delete_on=CASCADE` option (or argument) to
+We are required to pass the `on_delete=models.CASCADE` option (or argument) to
 `models.ForeignKey()` so that if the referenced object (model class) is deleted,
 then all the other objects that have a ForeignKey to that object will also be
 deleted. This makes sure that the child objects are deleted when the parent
@@ -220,7 +220,7 @@ referenced inside the class itself. Otherwise, if we added the whole class
 inside another class, there would be a lot of duplication and it would be hard
 to keep track of and sync changes.
 
-We are required to pass the `delete_on=CASCADE` option (or argument) to
+We are required to pass the `on_delete=models.CASCADE` option (or argument) to
 `models.ForeignKey()` so that if the referenced object (model class) is deleted,
 then all the other objects that have a `ForeignKey` to that object will also be
 deleted. This makes sure that the child objects are deleted when the parent
