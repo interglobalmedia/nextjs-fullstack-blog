@@ -7,7 +7,7 @@ author: Maria D. Campbell
 excerpt: Vim essentials to navigate the Vim text editor in Linux.
 image: Screen-Recording-2024-08-19-at-9.20.56-PM.gif
 tags: ['linux', 'macOS', 'vim', 'warp terminal']
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
@@ -17,66 +17,66 @@ _Vim in action_
 
 ## Table of Contents
 
--   [So why this article?](#so-why-this-article)
--   [What does Vim stand for?](#what-does-vim-stand-for)
--   [Configuring Vim](#configuring-vim)
--   [The vim command](#the-vim-command)
--   [Vim modes](#vim-modes)
-    -   [Normal mode](#normal-mode)
-        -   [The gg shortcut](#the-gg-shortcut)
-        -   [The (uppercase) G shortcut](#the-uppercase-g-shortcut)
-        -   [The #G shortcut](#the-g-shortcut)
-        -   [The h shortcut](#the-h-shortcut)
-        -   [The (lowercase) j shortcut](#the-lowercase-j-shortcut)
-        -   [The (lowercase) k shortcut](#the-lowercase-k-shortcut)
-        -   [The l shortcut](#the-l-shortcut)
-        -   [The #j shortcut](#the-j-shortcut)
-        -   [The #k shortcut](#the-k-shortcut)
-        -   [The w shortcut](#the-w-shortcut)
-        -   [The b shortcut](#the-b-shortcut)
-        -   [The e shortcut](#the-e-shortcut)
-        -   [The (uppercase) W shortcut](#the-uppercase-w-shortcut)
-        -   [The (uppercase) B shortcut](#the-uppercase-b-shortcut)
-        -   [The (uppercase) E shortcut](#the-uppercase-e-shortcut)
-        -   [The 0 (zero) shortcut](#the-0-zero-shortcut)
-        -   [The ^ (caret) shortcut](#the-caret-shortcut)
-        -   [The (dollar sign) $ shortcut](#the-dollar-sign-shortcut)
-        -   [The r shortcut](#the-r-shortcut)
-        -   [The x shortcut](#the-x-shortcut)
-        -   [The (uppercase) X shortcut](#the-uppercase-x-shortcut)
-        -   [The dw shortcut](#the-dw-shortcut)
-        -   [The cw shortcut](#the-cw-shortcut)
-        -   [The s shortcut](#the-s-shortcut)
-        -   [The (uppercase) S shortcut](#the-uppercase-s-shortcut)
-        -   [The (uppercase) D shortcut](#the-uppercase-d-shortcut)
-        -   [The dd shortcut](#the-dd-shortcut)
-        -   [The (uppercase) C shortcut](#the-uppercase-c-shortcut)
-        -   [The yy shortcut](#the-yy-shortcut)
-        -   [The p shortcut](#the-p-shortcut)
-        -   [The (uppercase) P shortcut](#the-uppercase-p-shortcut)
-        -   [The u shortcut](#the-u-shortcut)
-        -   [The Control + r shortcut](#the-control-r-shortcut)
-        -   [Repeating commands](#repeating-commands)
-            -   [Repeating a command using a count](#repeating-a-command-using-a-count)
-    -   [Insert mode](#insert-mode)
-        -   [Entering Insert mode](#entering-insert-mode)
-            -   [The i shortcut](#the-i-shortcut)
-            -   [The (uppercase) I shortcut](#the-uppercase-i-shortcut)
-            -   [The a shortcut](#the-a-shortcut)
-            -   [The (uppercase) A shortcut](#the-uppercase-a-shortcut)
-            -   [The o shortcut](#the-o-shortcut)
-            -   [The (uppercase) O shortcut](#the-uppercase-o-shortcut)
-            -   [Switching from Insert mode into Normal mode](#switching-from-insert-mode-into-normal-mode)
-    -   [Visual mode](#visual-mode)
-        -   [Entering Visual mode](#entering-visual-mode)
-            -   [The v shortcut](#the-v-shortcut)
-            -   [The (uppercase) V shortcut](#the-uppercase-v-shortcut)
-            -   [The Control + v shortcut](#the-control-v-shortcut)
-    -   [Command mode](#command-mode)
-        -   [Asking Vim for help](#asking-vim-for-help)
-        -   [Other Command mode commands](#other-command-mode-commands)
--   [The vimtutor](#the-vimtutor)
--   [Related Resources](#related-resources)
+- [So why this article?](#so-why-this-article)
+- [What does Vim stand for?](#what-does-vim-stand-for)
+- [Configuring Vim](#configuring-vim)
+- [The vim command](#the-vim-command)
+- [Vim modes](#vim-modes)
+    - [Normal mode](#normal-mode)
+        - [The gg shortcut](#the-gg-shortcut)
+        - [The (uppercase) G shortcut](#the-uppercase-g-shortcut)
+        - [The #G shortcut](#the-g-shortcut)
+        - [The h shortcut](#the-h-shortcut)
+        - [The (lowercase) j shortcut](#the-lowercase-j-shortcut)
+        - [The (lowercase) k shortcut](#the-lowercase-k-shortcut)
+        - [The l shortcut](#the-l-shortcut)
+        - [The #j shortcut](#the-j-shortcut)
+        - [The #k shortcut](#the-k-shortcut)
+        - [The w shortcut](#the-w-shortcut)
+        - [The b shortcut](#the-b-shortcut)
+        - [The e shortcut](#the-e-shortcut)
+        - [The (uppercase) W shortcut](#the-uppercase-w-shortcut)
+        - [The (uppercase) B shortcut](#the-uppercase-b-shortcut)
+        - [The (uppercase) E shortcut](#the-uppercase-e-shortcut)
+        - [The 0 (zero) shortcut](#the-0-zero-shortcut)
+        - [The ^ (caret) shortcut](#the-caret-shortcut)
+        - [The (dollar sign) $ shortcut](#the-dollar-sign-shortcut)
+        - [The r shortcut](#the-r-shortcut)
+        - [The x shortcut](#the-x-shortcut)
+        - [The (uppercase) X shortcut](#the-uppercase-x-shortcut)
+        - [The dw shortcut](#the-dw-shortcut)
+        - [The cw shortcut](#the-cw-shortcut)
+        - [The s shortcut](#the-s-shortcut)
+        - [The (uppercase) S shortcut](#the-uppercase-s-shortcut)
+        - [The (uppercase) D shortcut](#the-uppercase-d-shortcut)
+        - [The dd shortcut](#the-dd-shortcut)
+        - [The (uppercase) C shortcut](#the-uppercase-c-shortcut)
+        - [The yy shortcut](#the-yy-shortcut)
+        - [The p shortcut](#the-p-shortcut)
+        - [The (uppercase) P shortcut](#the-uppercase-p-shortcut)
+        - [The u shortcut](#the-u-shortcut)
+        - [The Control + r shortcut](#the-control-r-shortcut)
+        - [Repeating commands](#repeating-commands)
+            - [Repeating a command using a count](#repeating-a-command-using-a-count)
+    - [Insert mode](#insert-mode)
+        - [Entering Insert mode](#entering-insert-mode)
+            - [The i shortcut](#the-i-shortcut)
+            - [The (uppercase) I shortcut](#the-uppercase-i-shortcut)
+            - [The a shortcut](#the-a-shortcut)
+            - [The (uppercase) A shortcut](#the-uppercase-a-shortcut)
+            - [The o shortcut](#the-o-shortcut)
+            - [The (uppercase) O shortcut](#the-uppercase-o-shortcut)
+            - [Switching from Insert mode into Normal mode](#switching-from-insert-mode-into-normal-mode)
+    - [Visual mode](#visual-mode)
+        - [Entering Visual mode](#entering-visual-mode)
+            - [The v shortcut](#the-v-shortcut)
+            - [The (uppercase) V shortcut](#the-uppercase-v-shortcut)
+            - [The Control + v shortcut](#the-control-v-shortcut)
+    - [Command mode](#command-mode)
+        - [Asking Vim for help](#asking-vim-for-help)
+        - [Other Command mode commands](#other-command-mode-commands)
+- [The vimtutor](#the-vimtutor)
+- [Related Resources](#related-resources)
 
 ## So why this article?
 
@@ -749,14 +749,14 @@ vimtutor
 
 ## Related Resources
 
--   [An introduction to the vi editor](https://www.redhat.com/sysadmin/introduction-vi-editor):
-    **_RedHat_**
--   [vim](https://www.warp.dev/topic/vim): **_warp_**
--   [Vim Essentials: Tips and Tricks for Boosting Productivity](https://upspir.com/vim-essentials-tips-and-tricks-for-boosting-productivity/):
-    **_upspir_**
--   [Vimrc Configuration Guide - How to Customize Your Vim Code Editor with Mappings, Vimscript, Status Line, and More](https://www.freecodecamp.org/news/vimrc-configuration-guide-customize-your-vim-editor/):
-    **_by Brandon Wallace, freecodecamp_**
--   [Vim Editor Modes Explained](https://www.freecodecamp.org/news/vim-editor-modes-explained/):
-    **_freecodecamp_**
--   [A Guide to Vim Visual Mode](https://builtin.com/articles/vim-visual-mode):
-    **_builtin_**
+- [An introduction to the vi editor](https://www.redhat.com/sysadmin/introduction-vi-editor):
+  **_RedHat_**
+- [vim](https://www.warp.dev/topic/vim): **_warp_**
+- [Vim Essentials: Tips and Tricks for Boosting Productivity](https://upspir.com/vim-essentials-tips-and-tricks-for-boosting-productivity/):
+  **_upspir_**
+- [Vimrc Configuration Guide - How to Customize Your Vim Code Editor with Mappings, Vimscript, Status Line, and More](https://www.freecodecamp.org/news/vimrc-configuration-guide-customize-your-vim-editor/):
+  **_by Brandon Wallace, freecodecamp_**
+- [Vim Editor Modes Explained](https://www.freecodecamp.org/news/vim-editor-modes-explained/):
+  **_freecodecamp_**
+- [A Guide to Vim Visual Mode](https://builtin.com/articles/vim-visual-mode):
+  **_builtin_**

@@ -7,7 +7,7 @@ author: Maria D. Campbell
 excerpt: The su command in Linux and Unix (macOS) and how it works.
 image: pexels-pavel-danilyuk-8438955.jpg
 tags: ['linux', 'unix', 'su command', 'sudo', 'sudo su', 'macOS']
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
@@ -19,11 +19,11 @@ isFeatured: false
 
 ## Table of Contents
 
--   [The su command](#the-su-command)
--   [Using su without any arguments](#using-su-without-any-arguments)
--   [su username](#su-username)
--   [su -, su -l, and su --login](#su-su-l-and-su-login)
--   [Footnotes](#footnotes)
+- [The su command](#the-su-command)
+- [Using su without any arguments](#using-su-without-any-arguments)
+- [su username](#su-username)
+- [su -, su -l, and su --login](#su-su-l-and-su-login)
+- [Footnotes](#footnotes)
 
 ## The su command
 
@@ -115,15 +115,15 @@ According to `man su`,
 The `--login` option `starts` the `shell` as a `login shell` with an
 `environment` **_similar_** to a `real login`:
 
--   It `clears` the `environment variables` **_except_** `TERM` **[^1]**, and
-    `variables` specified by `--whitelist-environment` **[^2]**.
+- It `clears` the `environment variables` **_except_** `TERM` **[^1]**, and
+  `variables` specified by `--whitelist-environment` **[^2]**.
 
--   It `initializes` the environment variables `HOME`, `SHELL`, `USER`,
-    `LOGNAME` **[^3]**, and `PATH` **[^4]**.
+- It `initializes` the environment variables `HOME`, `SHELL`, `USER`, `LOGNAME`
+  **[^3]**, and `PATH` **[^4]**.
 
--   It changes to the target user's home directory.
+- It changes to the target user's home directory.
 
--   It sets arv[0] of the shell to '-' in order to make the shell a login shell.
+- It sets arv[0] of the shell to '-' in order to make the shell a login shell.
 
 There are other options available to `su` which can be found by running `man su`
 (the `su` manual), but the above are the most important to know.

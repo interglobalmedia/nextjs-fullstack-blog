@@ -25,7 +25,7 @@ tags:
         'linux shells',
         'linux shell scripting',
     ]
-isPublished: true
+isPublished: false
 isFeatured: false
 ---
 
@@ -37,24 +37,24 @@ isFeatured: false
 
 ## Table of Contents
 
--   [The Linux kernel](#the-linux-kernel)
--   [GNU](#gnu)
--   [Linux distribution](#linux-distribution)
--   [Linux package managers](#linux-package-managers)
--   [Source and binary packages](#source-and-binary-packages)
--   [Linux repositories](#linux-repositories)
--   [Linux Boot loader](#linux-boot-loader)
--   [Linux services](#linux-services)
--   [Linux filesystem](#linux-filesystem)
--   [Types of files in Linux](#types-of-files-in-linux)
--   [root directory vs root user](#root-directory-vs-root-user)
--   [X Window System](#x-window-system)
--   [Linux desktop environment](#linux-desktop-environment)
--   [Linux Command Line Interface](#linux-command-line-interface)
--   [Linux Shells](#linux-shells)
--   [Linux shell scripting](#linux-shell-scripting)
--   [Footnotes](#footnotes)
--   [Related Resources](#related-resources)
+- [The Linux kernel](#the-linux-kernel)
+- [GNU](#gnu)
+- [Linux distribution](#linux-distribution)
+- [Linux package managers](#linux-package-managers)
+- [Source and binary packages](#source-and-binary-packages)
+- [Linux repositories](#linux-repositories)
+- [Linux Boot loader](#linux-boot-loader)
+- [Linux services](#linux-services)
+- [Linux filesystem](#linux-filesystem)
+- [Types of files in Linux](#types-of-files-in-linux)
+- [root directory vs root user](#root-directory-vs-root-user)
+- [X Window System](#x-window-system)
+- [Linux desktop environment](#linux-desktop-environment)
+- [Linux Command Line Interface](#linux-command-line-interface)
+- [Linux Shells](#linux-shells)
+- [Linux shell scripting](#linux-shell-scripting)
+- [Footnotes](#footnotes)
+- [Related Resources](#related-resources)
 
 In order to be able to understand what `Linux` is all about, there are certain
 `Linux terms` you should become familiar with from the get go.
@@ -77,13 +77,13 @@ In order to be able to understand what `Linux` is all about, there are certain
 
 The `Linux kernel` **_accomplishes_** `4 tasks`:
 
--   `Memory management`: keeps track of how much memory is used to store what
-    and where
--   `Process management`: determines which processes can use the central
-    processing unit (CPU), and for how long.
--   `Device drivers`: acts as a mediator/interpreter between the hardware and
-    the processes.
--   `System calls and security`: receives requests for service from processes.
+- `Memory management`: keeps track of how much memory is used to store what and
+  where
+- `Process management`: determines which processes can use the central
+  processing unit (CPU), and for how long.
+- `Device drivers`: acts as a mediator/interpreter between the hardware and the
+  processes.
+- `System calls and security`: receives requests for service from processes.
 
 The `kernel` works `invisibly` in the `kernel space`, where it
 `allocates memory` and `keeps track` of where `everything` is `stored`. The
@@ -113,13 +113,13 @@ from components developed by open source projects/programmers.
 
 Each distribution includes:
 
--   the Linux kernel (the core of the OS),
--   GNU (GNU's Not Unix) shell utilities (terminal interface and commands),
--   the X server (a graphical desktop),
--   the desktop environment,
--   package management system,
--   an installer,
--   other services
+- the Linux kernel (the core of the OS),
+- GNU (GNU's Not Unix) shell utilities (terminal interface and commands),
+- the X server (a graphical desktop),
+- the desktop environment,
+- package management system,
+- an installer,
+- other services
 
 `Distributions` also `include` an `internet browser`, `management tools`, and
 `other software` such as the `KVM` (`Kernel-based Virtual Machine`) `hypervisor`
@@ -236,12 +236,12 @@ In `Linux` and `Unix` systems, `everything` is `considered` a `file`. If it
 isn't, it's a `running process`. Basically, `files` fall under `three` different
 `categories` in `Linux`:
 
--   `Regular files`: these include text files, photos, videos, programs, and
-    executable files.
--   `Directories`: in `Linux`, directories are also considered files since they
-    provide storage for other files and sub-directories.
--   `Special files`: device files that are made up of symbolic links, block
-    files, socket files, and named pipe files.
+- `Regular files`: these include text files, photos, videos, programs, and
+  executable files.
+- `Directories`: in `Linux`, directories are also considered files since they
+  provide storage for other files and sub-directories.
+- `Special files`: device files that are made up of symbolic links, block files,
+  socket files, and named pipe files.
 
 I will discuss the Linux Filesystem Tree in greater detail in an upcoming
 article. It's too lengthy to include here.
@@ -306,12 +306,12 @@ A `Shell` is a `command line interpreter`. It `processes commands` (`stdin`) and
 `outputs` the `results` (`stdout`). A `Shell` is a `layer` that `sits` on `top`
 of the `kernel`:
 
--   It `interprets` and `processes` the `commands` entered by the user. Users
-    don't have access to the `kernel`, but the `shell` does. Users can only gain
-    access to the `kernel` by using a `shell` and entering `commands` or
-    `running programs`.
--   `System calls` are `used` by `programs` to `gain access` to the `kernel`'s
-    `functionality`.
+- It `interprets` and `processes` the `commands` entered by the user. Users
+  don't have access to the `kernel`, but the `shell` does. Users can only gain
+  access to the `kernel` by using a `shell` and entering `commands` or
+  `running programs`.
+- `System calls` are `used` by `programs` to `gain access` to the `kernel`'s
+  `functionality`.
 
 The `Command Line` is an `area` to the `right` of the `command prompt` in the
 `Terminal window` where a `user` **_enters_** `commands` and `data`. `This is`
@@ -413,23 +413,23 @@ registry, listing its dependencies, giving the url of its tarball, etc.
 
 ## Related Resources
 
--   [How to Install and Use Popular Linux Bootloaders](https://www.baeldung.com/linux/popular-bootloaders):
-    **_baeldung.com_**
+- [How to Install and Use Popular Linux Bootloaders](https://www.baeldung.com/linux/popular-bootloaders):
+  **_baeldung.com_**
 
--   [Computer Boot Process Explained](https://www.baeldung.com/cs/computer-boot-process):
-    **_baeldung.com_**
+- [Computer Boot Process Explained](https://www.baeldung.com/cs/computer-boot-process):
+  **_baeldung.com_**
 
--   [The Linux Filesystem](https://medium.com/@jasurbek.go.dev/the-linux-filesystem-95673f4e3bd5):
-    **_by perfectogo, medium.com_**
+- [The Linux Filesystem](https://medium.com/@jasurbek.go.dev/the-linux-filesystem-95673f4e3bd5):
+  **_by perfectogo, medium.com_**
 
--   [Classic SysAdmin: The Linux Filesystem Explained](https://www.linuxfoundation.org/blog/blog/classic-sysadmin-the-linux-filesystem-explained):
-    **_The Linux Foundation_**
+- [Classic SysAdmin: The Linux Filesystem Explained](https://www.linuxfoundation.org/blog/blog/classic-sysadmin-the-linux-filesystem-explained):
+  **_The Linux Foundation_**
 
--   [Linux command line for you and me!¶](https://lym.readthedocs.io/en/latest/index.html):
-    **_LYM_**
+- [Linux command line for you and me!¶](https://lym.readthedocs.io/en/latest/index.html):
+  **_LYM_**
 
--   [Difference between Terminal, Console, Shell, and Command Line](https://www.geeksforgeeks.org/difference-between-terminal-console-shell-and-command-line/):
-    **_Geeks for Geeks_**
+- [Difference between Terminal, Console, Shell, and Command Line](https://www.geeksforgeeks.org/difference-between-terminal-console-shell-and-command-line/):
+  **_Geeks for Geeks_**
 
--   [15 Linux Terms, Jargons, and Lingo You Should Know About](https://www.makeuseof.com/tag/linux-confusing-key-terms-definitions/):**_
-    makeuseof_**
+- [15 Linux Terms, Jargons, and Lingo You Should Know About](https://www.makeuseof.com/tag/linux-confusing-key-terms-definitions/):**_
+  makeuseof_**
