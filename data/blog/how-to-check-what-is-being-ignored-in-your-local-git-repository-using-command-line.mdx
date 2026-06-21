@@ -1,0 +1,139 @@
+---
+slug: 'how-to-check-what-is-being-ignored-in-your-local-git-repository-using-command-line'
+date: '2026-06-21T05:02:20.949Z'
+lastModified: '2026-06-21T05:11:36.949Z'
+title:
+    'How to check what is being ignored in your local git repository using
+    command line'
+author: 'Maria D. Campbell'
+excerpt:
+    'Learn how to verify what is being ignored in your local Git repository
+    using command line. This way, you never lose data that may be stored in such
+    files.'
+image: alexander-grigoryev-d4yLi__jDEA-unsplash.webp
+tags: ['macOS', 'command line', 'git', 'gitignore']
+isPublished: true
+isFeatured: false
+---
+
+![Large sign with the words "Error: No Content" against a dark forbidding sky](alexander-grigoryev-d4yLi__jDEA-unsplash.webp)
+
+_[Photo by](https://unsplash.com/photos/a-black-and-white-photo-of-a-sign-that-says-error-no-content-d4yLi__jDEA)
+[Alexander Grigoryev](https://unsplash.com/@alex__grig) on
+[unsplash.com](https://unsplash.com/)_
+
+## Table of Contents
+
+- [How to check what is being ignored in a local Git repository using the git status command](#how-to-check-what-is-being-ignored-in-a-local-git-repository-using-the-git-status-command)
+- [The meaning of the git status --ignored command and what it actually does](#the-meaning-of-the-git-status-ignored-command-and-what-it-actually-does)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
+
+The other day, I git cloned one of my remote Git repositories, created some new
+files that I populated and then added to the .gitignore file. Later, I created
+another clone, and forgot to copy over the contents of the newly ignored files.
+It prompted me to create a command which would check for ignored files in my
+local Git repository as well as making sure they actually existed in the
+repository.
+
+## How to check what is being ignored in a local Git repository using the git status command
+
+In order to both find out what is being ignored in my local Git repository as
+well as making sure the ignored items actually exist in the repository, I can
+run the following command in Terminal:
+
+```shell
+git status --ignored
+```
+
+For me, the following was returned:
+
+```shell
+git status --ignored
+On branch how-to-check-what-is-being-ignored-in-your-local-git-repository-using-command-line
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+    data/blog/how-to-check-what-is-being-ignored-in-your-local-git-repository-using-command-line.mdx
+    public/images/blog/how-to-check-what-is-being-ignored-in-your-local-git-repository-using-command-line/
+
+Ignored files:
+  (use "git add -f <file>..." to include in what will be committed)
+    .DS_Store
+    .husky/_/
+    .next/
+    data/.DS_Store
+    deleted-posts.txt
+    git-status-output.txt
+    node_modules/
+    output.txt
+```
+
+This is all well and good, but how do I know that this command is returning both
+what is being ignored in the .gitignore file _and_ also exists in the
+repository?
+
+I deleted the empty output.txt file and then ran the same command again. This
+time, the stdout was:
+
+```shell
+git status --ignored
+On branch how-to-check-what-is-being-ignored-in-your-local-git-repository-using-command-line
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+    data/blog/how-to-check-what-is-being-ignored-in-your-local-git-repository-using-command-line.mdx
+    public/images/blog/how-to-check-what-is-being-ignored-in-your-local-git-repository-using-command-line/
+
+Ignored files:
+  (use "git add -f <file>..." to include in what will be committed)
+    .DS_Store
+    .husky/_/
+    .next/
+    data/.DS_Store
+    deleted-posts.txt
+    git-status-output.txt
+    node_modules/
+```
+
+This time, `output.txt` was not returned, but it still was added to the
+`.gitignore` file. This confirmed that when a file which has been added to the
+`.gitignore` file is removed from the repository, it will not be included among
+the ignored files returned from the `git status --ignored` command. Next time, I
+will make sure to run this command as part of my workflow when cloning a remote
+repository which does not contain files ignored by Git. I will also make sure
+that I don't delete the other copy containing said files until I have
+double-checked their existence in the newer copy of the repository.
+
+## The meaning of the git status --ignored command and what it actually does
+
+But what does the `git status --ignored` command really mean? What does it
+actually do?
+
+In this case, the `git status` command returns all the tracked items in the Git
+repository that have changes since the last commit. There were no staged or
+modified tracked files yet — just the untracked and ignored items shown above.
+
+The `--ignored` flag recursively[^1] searches for all the `.gitignore` files in
+the repository and lists the files matching the patterns to ignore according to
+the `.gitignore` file. That's why a file that has been added to `.gitignore`,
+and is then deleted, is not included in the output of `git status --ignored`.
+
+## Conclusion
+
+Recently, I found that I can check whether files ignored by Git actually exist
+within the Git repository by running the `git status --ignored` command. I am
+adding it to my Git workflow so that data stored in such ignored files is never
+lost.
+
+## Related Resources
+
+- [Git command to show which specific files are ignored by .gitignore](https://stackoverflow.com/questions/466764/git-command-to-show-which-specific-files-are-ignored-by-gitignore#:~:text=1020,of%20.gitignore%20files?%22):
+  _stackoverflow_
+
+- [Git: Show Ignored Files](https://www.shellhacks.com/git-show-ignored-files/#:~:text=To%20show%20all,patterns%20to%20ignore.):
+  _shellhacks.com_
+
+[^1]:
+    In command line terms, recursively means the git `status --ignored` command
+    impacts the whole root directory of the git repository and its
+    subdirectories looking for more `.gitignore` files to apply.
