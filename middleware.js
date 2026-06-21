@@ -35,7 +35,6 @@ const DELETED_POST_SLUGS = [
 	'audio-visual-slider',
 	'canvas-2d-breakout-game',
 	'chattr-public-and-private-realtime-chat',
-	'custom-html5-video-player',
 	'dragging-bubbles-app',
 	'guess-the-keys',
 	'making-music-in-the-browser',
@@ -160,6 +159,7 @@ const DELETED_POST_SLUGS = [
 	'why-i-fell-in-love-with-vs-codes-live-share-and-why-you-should-too',
 	'why-increasing-your-technological-intelligence-is-important',
 	'changing-mac-default-screenshot-file-format-to-jpg',
+	'add-husky-to-s-subfolder-of-a-git-root-repository',
 ]
 
 export function middleware(request) {
