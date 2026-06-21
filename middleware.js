@@ -159,6 +159,7 @@ const DELETED_POST_SLUGS = [
 	'why-i-chose-plausible-analytics-with-my-nextjs-site',
 	'why-i-fell-in-love-with-vs-codes-live-share-and-why-you-should-too',
 	'why-increasing-your-technological-intelligence-is-important',
+	'changing-mac-default-screenshot-file-format-to-jpg',
 ]
 
 export function middleware(request) {
