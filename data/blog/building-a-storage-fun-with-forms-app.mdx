@@ -1,15 +1,25 @@
 ---
 slug: building-a-storage-fun-with-forms-app
 date: '2020-04-17T13:53:07.446Z'
-lastModified: '2020-04-17T13:53:07.446Z'
+lastModified: '2026-06-21T19:31:07.446Z'
 title: Building A Storage Fun With Forms App
 author: Maria D. Campbell
 excerpt:
-    Recently I completed an application using localStorage called Storage Fun
-    With Forms. I really wanted to make something fun that my students could
-    enjoy and learn from as well!
+    Learn how to create this note-taking and getting app powered by local storage, the js color picker, Google Fonts, and deploy it to gh-pages.
 image: jason-leung-xaanw0s0pmk-unsplash.webp
-tags: ['color picker', 'local storage', 'event handling', 'try catch']
+tags:
+    [
+		'archived',
+        'color picker',
+		'css',
+		'scss',
+		'historical',
+		'html',
+        'javascript',
+        'local storage',
+        'event handling',
+        'try catch',
+    ]
 isPublished: true
 isFeatured: false
 ---
@@ -18,6 +28,29 @@ isFeatured: false
 
 _Photo by_ [Jason Leung](https://unsplash.com/@ninjason) _on_
 [unsplash.com](https://unsplash.com/photos/Xaanw0s0pMk)
+
+## Table of Contents
+
+- [Building a Storage Fun With Forms app: how it works](#building-a-storage-fun-with-forms-app-how-it-works)
+    - [User story](#user-story)
+- [Building a Storage Fun With Forms app: how to build it](#building-a-storage-fun-with-forms-app-how-to-build-it)
+    - [Global variables](#global-variables)
+    - [Checking for local storage support in the browser](#checking-for-local-storage-support-in-the-browser)
+    - [Checking for saved local storage](#checking-for-saved-local-storage)
+    - [Declaring and defining the populateStorage() function](#declaring-and-defining-the-populatestorage-function)
+    - [Declaring and defining the setStyles() function](#declaring-and-defining-the-setstyles-function)
+    - [Declaring and defining the clearStorage() function](#declaring-and-defining-the-clearstorage-function)
+    - [Declaring and defining the emptyStorage() function](#declaring-and-defining-the-emptystorage-function)
+    - [Setting event listeners on the various buttons and elements](#setting-event-listeners-on-the-various-buttons-and-elements)
+    - [Saving the textarea text to localStorage on the click of the Submit Note button](#saving-the-textarea-text-to-localstorage-on-the-click-of-the-submit-note-button)
+    - [Getting the textarea text saved to localStorage on the click of the Get Note button](#getting-the-textarea-text-saved-to-localstorage-on-the-click-of-the-get-note-button)
+    - [Clearing the note/note.value key/value pair from localStorage on the click of the Clear Storage Button](#clearing-the-note-notevalue-key-value-pair-from-localstorage-on-the-click-of-the-clear-storage-button)
+- [Tools and resources used in this app](#tools-and-resources-used-in-this-app)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+
+> _This post documents the original Storage Fun With Forms build as it existed
+> in 2020 and is preserved as a historical reference_
 
 Recently I completed an application using `localStorage` called "Storage Fun
 With Forms". I really wanted to make something fun that my students could enjoy
@@ -33,9 +66,9 @@ I discovered a new png website full of cool, FREE, pngs that I use in the app.
 
 I discovered the really cool `jscolor` color picker that I am using in the app.
 
-## Building A Storage Fun With Forms App: How It Works
+## Building a Storage Fun With Forms app: how it works
 
-### User Story
+### User story
 
 A user can change the background color of the web page with a color picker.
 
@@ -57,7 +90,7 @@ A user can get full `localStorage` data details by navigating to the
 Applications tab in Chrome Developer Tools, and then by clicking on
 `localStorage` to the left of the Applications area.
 
-### Building A Storage Fun With Forms App: How To Build It
+## Building a Storage Fun With Forms app: how to build it
 
 My `index.html` markup looks something like this:
 
@@ -288,8 +321,7 @@ Write a note!</textarea
 </html>
 ```
 
-My `main.css`, **_transformed_** to `css` from `scss`, looks something like
-**_this_**:
+My `main.css`, transformed to `css` from `scss`, looks something like this:
 
 ```css
 * {
@@ -524,7 +556,7 @@ But now to get down to the nitty gritty. The JavaScript!
 First, I had to declare and initialize a whole bunch of variables, and I
 organized them by functionality.
 
-### Global Variables
+### Global variables
 
 Two variables related to the background color of the page `body`:
 
@@ -590,7 +622,7 @@ An empty storage related variable:
 const emptyStorageButton = document.querySelector('.empty')
 ```
 
-### Checking For Local Storage Support in the Browser
+### Checking for local storage support in the browser
 
 It is important for the user to know whether or not his/her browser supports
 `localStorage`.
@@ -611,7 +643,7 @@ and that would indicate that there is `localStorage` support in the browser. If
 the type of storage returns `undefined`, `return` false, and that would indicate
 that there is no `localStorage` support in the browser.
 
-### Checking for Saved Local Storage
+### Checking for saved local storage
 
 We don't just have to check for `localStorage` support, but we also have to
 check if we have anything already saved to `localStorage`. Why? Because our
@@ -666,7 +698,7 @@ to the `populateStorage()` function. Else, make a call to the `setStyles()`
 function, which sets the values of the keys as the values of the css style
 properties.
 
-### Declaring and Defining The populateStorage() function
+### Declaring and defining the populateStorage() function
 
 The idea of the `populateStorage()` function is to save a total of four
 "key/value" pairs to `localStorage`.
@@ -820,7 +852,7 @@ check whether the `domException.name` 'QUOTA_EXCEEDED_ERR' or
 If the user's `localStorage` is met or exceeded, then he/she can click on the
 "Clear Storage" or "Empty Storage" button to make room for new storage items.
 
-### Declaring and Defining the setStyles() function
+### Declaring and defining the setStyles() function
 
 So we have saved our "key/value" pairs to `localStorage`. But they are not worth
 anything to us unless we can access those values and set them to our style
@@ -831,7 +863,7 @@ That's where the `setStyles()` function comes in!
 What does the `setStyles()` function do for us?
 
 Three things. First it retrieves our keys from `localStorage` with the
-`getItem()` built-in method. \*hen it sets the variables representing the
+`getItem()` built-in method. Then it sets the variables representing the
 retrieved keys as the values of the elements with given `ids` or `classes`.
 
 Among the actual elements are the color input elements containing color pickers
@@ -870,7 +902,7 @@ function setStyles() {
 }
 ```
 
-### Declaring and Defining The clearStorage() function
+### Declaring and defining the clearStorage() function
 
 I also wanted to create a function that would clear both the `textarea` box of
 any new text the user has inputted, as well as its associated "key/value" pair
@@ -901,7 +933,7 @@ Next, I set the value property on the `note` variable representing the
 residing in the `textarea` box. Then the `localStorage.removeItem()` method
 removes the "key/value" pair associated with that `textarea` element.
 
-### Declaring and Defining the emptyStorage() function
+### Declaring and defining the emptyStorage() function
 
 Sometimes we just want to start from a clean slate, and that includes an empty
 `localStorage` area! That is what the `emptyStorage()` function is for.
@@ -909,7 +941,7 @@ Sometimes we just want to start from a clean slate, and that includes an empty
 The `emptyStorage()` function differs from the `clearStorage()` function in that
 it empties ALL "key/value" pairs in the user's `localStorage`, irrespective of
 which (sub) domain (assuming these subdomains share the same parent domain, as
-is the case with Github `gh-pages` hosted sites) it belongs to. The
+is the case with GitHub `gh-pages` hosted sites) it belongs to. The
 `emptyStorage()` function looks something like this:
 
 ```js
@@ -931,13 +963,13 @@ In the `emptyStorage()` function, the `.clear()` method is set on the
 `localStorage` object, and this method removes all "key/value" pairs saved to
 the user's `localStorage`.
 
-### Setting Event Listeners on the Various Buttons and Elements
+### Setting event listeners on the various buttons and elements
 
 The last thing to do in the application is to set Event Listeners on the various
 buttons and elements that need them to trigger a call to their associated
 functions.
 
-### Saving the textarea text to localStorage on the click of the Submit Note Button
+### Saving the textarea text to localStorage on the click of the Submit Note button
 
 If the user simply wants to save the "key/value" pair associated with the (text)
 value of the `textarea` box to `localStorage`, he/she can click on the "Submit
@@ -951,12 +983,12 @@ noteBtn.addEventListener('click', () => {
 })
 ```
 
-This code states that when the "Submit Note" button has been **_clicked_**, the
-text typed into the `textarea` box is saved as the value of the key named note
-to `localStorage`. This functionality is separate from that of the
+This code states that when the "Submit Note" button has been clicked, the text
+typed into the `textarea` box is saved as the value of the key named note to
+`localStorage`. This functionality is separate from that of the
 `populateStorage()` function.
 
-### Getting the textarea text saved to localStorage on the click of the Get Note Button
+### Getting the textarea text saved to localStorage on the click of the Get Note button
 
 Next, an `event listener` has to be set on the "Get Note" button so as to
 re-populate the `textarea` box with the latest saved text to `localStorage`. The
@@ -988,12 +1020,12 @@ document.querySelector('#textArea').value = localStorage.getItem('note')
 As a result, the `textarea` element text retrieved from `localStorage` replaces
 the default text, re-appearing in the `textarea` element `textbox`.
 
-### Clearing the note/note.value key/value pair from localStorage on the click of the Clear Storage Button
+### Clearing the note/note.value key/value pair from localStorage on the click of the Clear Storage button
 
 I needed to set an "Event Listener" on the "Clear Storage" button to trigger the
 `clearStorage()` function that clears the specified "key/value" pair from
 `localStorage`. The `.addEventListener()` method for the button looks something
-like **this**:
+like this:
 
 ```js
 // clear the note local storage key value
@@ -1075,7 +1107,7 @@ textAreaInput.addEventListener('change', populateStorage)
 
 And that is it! We now have a completed `Storage Fun With Forms` App!
 
-## Tools and Resources Used in this App
+## Tools and resources used in this app
 
 I used the `jscolor` color picker to replace the default color picker which is
 enabled by adding the `type="color"` attribute and value to an `input` element.
@@ -1095,20 +1127,25 @@ the files and folders needed to deploy my app to `gh-pages`.
 I created a `build` script to copy all my files and folders needed for my
 application `build` into my `dist` folder.
 
-I created a `deploy` script that deployed my `dist` build to Github `gh-pages`.
+I created a `deploy` script that deployed my `dist` build to GitHub `gh-pages`.
 
 What the completed application looks like:
 
-![Storage Fun With Forms Application](localstorage-vs-sessionstorage-fun-final.jpg)
+![Storage Fun With Forms Application](localstorage-vs-sessionstorage-fun-final.webp)
 
 _Storage Fun With Forms Application_
 
+## Conclusion
+
+In this post, I describe how to build a note-taking and note-getting app using
+local storage. I also show how to customize the styling of the app with the js
+color picker, a selection of creative png images, and Google Fonts. I show how
+to: check for local storage support in the browser, check for saved local
+storage, how to populate storage, clear storage, empty storage, set event
+listeners on various buttons and elements, and declare and define the setStyles
+function. If you make it to the end of this walk-through, you will just about
+know everything there is to know about local storage and the js color picker!
+
 ## Related Resources
 
-- [Storage Fun With Forms on Github gh-pages](https://interglobalmedia.github.io/local-storage-session-storage-fun-form/)
-
-- [Storage Fun With Forms Github Repository](https://github.com/interglobalmedia/local-storage-session-storage-fun-form)
-
-- [Sticky Footers in the age of coronavirus](/blog/2020-04-09-sticky-footers-in-the-age-of-coronavirus/)
-
-- [The really cool jscolor color picker](/blog/the-really-cool-jscolor-color-picker/)
+- [Storage Fun With Forms GitHub Repository](https://github.com/interglobalmedia/local-storage-session-storage-fun-form)
