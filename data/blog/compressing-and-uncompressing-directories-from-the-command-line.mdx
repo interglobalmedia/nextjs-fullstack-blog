@@ -1,13 +1,15 @@
 ---
 slug: compressing-and-uncompressing-directories-from-the-command-line
 date: '2018-01-24T14:22:59.586Z'
-lastModified: '2023-02-09T13:15:59.586Z'
-title: Compressing and Uncompressing Directories from the Command Line
+lastModified: '2026-06-22T03:16:59.586Z'
+title: Compressing and uncompressing directories from the command line
 author: Maria D. Campbell
-excerpt: Compressing and uncompressing directories from the Command Line.
+excerpt:
+    How to compress and uncompress directories from the command line and why one
+    way may be preferable over another.
 image: jj-ying-WmnsGyaFnCQ-unsplash.webp
-tags: ['command line', 'compressing directories', 'osx', 'unix']
-isPublished: false
+tags: ['command line', 'compressing directories', 'macOS', 'tar', 'unix']
+isPublished: true
 isFeatured: false
 ---
 
@@ -16,29 +18,42 @@ isFeatured: false
 _Photo by_ [JJ Ying](https://unsplash.com/@jjying) _on_
 [Unsplash](https://unsplash.com/photos/WmnsGyaFnCQ)
 
+## Table of Contents
+
+- [Excluding directories from zip compression](#excluding-directories-from-zip-compression)
+- [Unzipping a directory with the unzip command](#unzipping-a-directory-with-the-unzip-command)
+- [Using tar to archive directories on macOS](#using-tar-to-archive-directories-on-macos)
+- [Archiving a directory with tar without compression](#archiving-a-directory-with-tar-without-compression)
+- [Zip vs tar and gzip](#zip-vs-tar-and-gzip)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+
 Recently, I have found the need to compress directories for upload to Canvas, an
 open-source learning management system (LMS) used for managing content. It
-became a real pain to have to leave Terminal to get the `gzipping` done. So I
-decided to learn how to do it directly from the Command Line. The problem with
-some of my projects is that I have directories I do not want to include, such as
-the `node_modules` directory. So this is what I did to exclude the
-`node_modules` directory:
+became a real pain to have to leave Terminal to get the compressing done, so I
+decided to learn how to do it directly from the Command Line.
+
+## Excluding directories from zip compression
+
+The problem with some of my projects is that I have directories I do not want to
+include, such as the `node_modules` directory. So this is what I did to exclude
+`node_modules`:
 
 ```shell
 zip -r stripe-dropdown.zip stripe-dropdown/* -x "stripe-dropdown/node_modules/*"
 ```
 
-The command means that we are zipping recursively everything in the
+The command means that I am zipping recursively everything in the
 `stripe-dropdown` directory, including subdirectories and files, but excluding
-the `node_modules` directory and everything inside of it. We have to add the
-full path to the `node_modules` directory in order to successfully ignore it.
-`-r` stands for "recursively", and the `*` stands for "wildcard", meaning
+the `node_modules` directory and everything inside of it. I have to add the full
+path to the `node_modules` directory in order to successfully ignore it. `-r`
+stands for "recursively", and the `*` stands for "wildcard", meaning
 "everything". The `-x` flag means "exclude", followed by the path to the
 directory to exclude. I was in the parent directory of `stripe-dropdown` when I
 executed this `command`, so the `path` to `node_modules` in `stripe-dropdown`
 relative to its parent directory, `development`, was
-`"stripe-dropddown/node_modules/*"`. On OSX, you have to encapsulate the path to
-the directory to ignore with "quotes".
+`"stripe-dropddown/node_modules/*"`. On macOS, you have to encapsulate the path
+to the directory to ignore with "quotes".
 
 This is what was printed to the terminal console as directories and files were
 being compressed:
@@ -84,7 +99,9 @@ adding: stripe-dropdown/README.md (deflated 55%)
   adding: stripe-dropdown/styles/styles.css (deflated 72%)
 ```
 
-Then, to "unzip" this same directory from Command Line, do the following:
+## Unzipping a directory with the unzip command
+
+To "unzip" this same directory from Command Line, I did the following:
 
 ```shell
 unzip stripe-dropdown
@@ -135,23 +152,713 @@ Archive:  stripe-dropdown.zip
   inflating: stripe-dropdown/styles/styles.css
 ```
 
-Be sure to be in the same parent directory as the `.zip`. For example, I moved
-mine onto the desktop so as not to confuse it with my original and complete
-directory in `~/development`, then made sure that I changed into the desktop
-directory, `cd ~/desktop`, and then executed the `unzip` command followed by the
-name of the directory (stripe-dropdown) that had been zipped. No need for adding
-the `.zip` extension. And that’s it! No more need to leave the Command Line and
-go to your Mac's menu bar, searching for `compress stripe-dropdown` (or whatever
-the name of the directory you want to compress is) under the file tab, and no
-more need to leave Command Line to double click on a `.zip` to expand it into a
+When unzipping, be sure to be in the same parent directory as the `.zip`. For
+example, I moved mine onto the desktop so as not to confuse it with my original
+and complete directory in `~/development`. Then I made sure that I changed into
+the desktop directory, `cd ~/desktop`, and then executed the `unzip` command
+followed by the name of the directory (stripe-dropdown) that had been zipped. No
+need for adding the `.zip` extension. No more need to leave the Command Line and
+go to my Mac's menu bar, searching for `compress stripe-dropdown` (or whatever
+the name of the directory I want to compress is) under the file tab, and no more
+need to leave Command Line to double click on a `.zip` to expand it into a
 directory. It is a great time saver!
 
 ![Screenshot of Terminal window](terminal.webp)
 
 _Screenshot of Terminal window_
 
-Happy "zipping" and "unzipping"!
+## Using tar to archive directories on macOS
 
-### Related Resources:
+tar is a file archiver program which combines multiple files into a single
+archive file. This file is referred to as a tarball. A tar file differs somewhat
+from a zip file in that .zip compresses files and folders to create space,
+whereas the primary purpose of a tar file is to archive files and or directories
+into one single file for easier storage and transfer from one computer to
+another. I can even transfer a tar file to an iPhone using AirDrop from my
+macOS. It alone does not compress by default. It can work in tandem with
+compression tools such as gzip or bzip2 to achieve compression.
 
-- [Unix/Linux Command Reference](https://files.fosswire.com/2007/08/fwunixref.pdf)
+To archive a directory with tar, I run the following in Terminal:
+
+```shell
+# this is an actual project directory I archived with tar
+tar -czf wikipedia_viewer.tgz wikipedia-viewer
+```
+
+This resulted in:
+
+```shell
+wikipedia_viewer.tgz
+```
+
+The .tgz extension means that I both archived and compressed the
+wikipedia-viewer directory.
+
+In order to unarchive/uncompress `wikipedia_viewer.tgz`, I would use
+
+```shell
+ tar -xzvf wikipedia_viewer.tgz
+```
+
+Which would result in:
+
+```shell
+tar -xzvf wikipedia_viewer.tgz
+
+x wikipedia-viewer/
+x wikipedia-viewer/.husky/
+x wikipedia-viewer/.DS_Store
+x wikipedia-viewer/dist/
+x wikipedia-viewer/config/
+x wikipedia-viewer/.stylelintrc.json
+x wikipedia-viewer/.stylelintignore
+x wikipedia-viewer/.prettierignore
+x wikipedia-viewer/README.md
+x wikipedia-viewer/.prettierrc.json
+x wikipedia-viewer/babel.config.js
+x wikipedia-viewer/.gitignore
+x wikipedia-viewer/package-lock.json
+x wikipedia-viewer/package.json
+x wikipedia-viewer/.publish/
+x wikipedia-viewer/.eslintignore
+x wikipedia-viewer/.git/
+x wikipedia-viewer/.vscode/
+x wikipedia-viewer/.eslintrc.json
+x wikipedia-viewer/src/
+x wikipedia-viewer/src/index.html
+x wikipedia-viewer/src/.DS_Store
+x wikipedia-viewer/src/index.js
+x wikipedia-viewer/src/styles/
+x wikipedia-viewer/src/static/
+x wikipedia-viewer/src/modules/
+x wikipedia-viewer/src/modules/scrollStep.js
+x wikipedia-viewer/src/modules/wikiViewerInit.js
+x wikipedia-viewer/src/static/favicon.ico
+x wikipedia-viewer/src/styles/styles.scss
+x wikipedia-viewer/src/styles/modules/
+x wikipedia-viewer/src/styles/base/
+x wikipedia-viewer/src/styles/base/_variables.scss
+x wikipedia-viewer/src/styles/base/_global.scss
+x wikipedia-viewer/src/styles/modules/_random.scss
+x wikipedia-viewer/src/styles/modules/_search.scss
+x wikipedia-viewer/src/styles/modules/_footer.scss
+x wikipedia-viewer/src/styles/modules/_results.scss
+x wikipedia-viewer/src/styles/modules/_section.scss
+x wikipedia-viewer/src/styles/modules/_scroll.scss
+x wikipedia-viewer/.vscode/settings.json
+x wikipedia-viewer/.git/.DS_Store
+x wikipedia-viewer/.git/ORIG_HEAD
+x wikipedia-viewer/.git/config
+x wikipedia-viewer/.git/objects/
+x wikipedia-viewer/.git/HEAD
+x wikipedia-viewer/.git/info/
+x wikipedia-viewer/.git/logs/
+x wikipedia-viewer/.git/description
+x wikipedia-viewer/.git/hooks/
+x wikipedia-viewer/.git/refs/
+x wikipedia-viewer/.git/index
+x wikipedia-viewer/.git/packed-refs
+x wikipedia-viewer/.git/COMMIT_EDITMSG
+x wikipedia-viewer/.git/refs/heads/
+x wikipedia-viewer/.git/refs/tags/
+x wikipedia-viewer/.git/refs/remotes/
+x wikipedia-viewer/.git/refs/remotes/origin/
+x wikipedia-viewer/.git/refs/remotes/origin/HEAD
+x wikipedia-viewer/.git/refs/remotes/origin/master
+x wikipedia-viewer/.git/refs/heads/js-refactor
+x wikipedia-viewer/.git/refs/heads/create-init
+x wikipedia-viewer/.git/refs/heads/bring-back-workbox
+x wikipedia-viewer/.git/refs/heads/master
+x wikipedia-viewer/.git/refs/heads/animated-scrolls
+x wikipedia-viewer/.git/refs/heads/bring-back-glass-icon-input
+x wikipedia-viewer/.git/hooks/commit-msg.sample
+x wikipedia-viewer/.git/hooks/pre-rebase.sample
+x wikipedia-viewer/.git/hooks/pre-commit.sample
+x wikipedia-viewer/.git/hooks/applypatch-msg.sample
+x wikipedia-viewer/.git/hooks/fsmonitor-watchman.sample
+x wikipedia-viewer/.git/hooks/pre-receive.sample
+x wikipedia-viewer/.git/hooks/prepare-commit-msg.sample
+x wikipedia-viewer/.git/hooks/post-update.sample
+x wikipedia-viewer/.git/hooks/pre-merge-commit.sample
+x wikipedia-viewer/.git/hooks/pre-applypatch.sample
+x wikipedia-viewer/.git/hooks/pre-push.sample
+x wikipedia-viewer/.git/hooks/update.sample
+x wikipedia-viewer/.git/hooks/push-to-checkout.sample
+x wikipedia-viewer/.git/logs/HEAD
+x wikipedia-viewer/.git/logs/refs/
+x wikipedia-viewer/.git/logs/refs/heads/
+x wikipedia-viewer/.git/logs/refs/remotes/
+x wikipedia-viewer/.git/logs/refs/remotes/origin/
+x wikipedia-viewer/.git/logs/refs/remotes/origin/HEAD
+x wikipedia-viewer/.git/logs/refs/remotes/origin/master
+x wikipedia-viewer/.git/logs/refs/heads/js-refactor
+x wikipedia-viewer/.git/logs/refs/heads/create-init
+x wikipedia-viewer/.git/logs/refs/heads/bring-back-workbox
+x wikipedia-viewer/.git/logs/refs/heads/master
+x wikipedia-viewer/.git/logs/refs/heads/animated-scrolls
+x wikipedia-viewer/.git/logs/refs/heads/bring-back-glass-icon-input
+x wikipedia-viewer/.git/info/exclude
+x wikipedia-viewer/.git/objects/61/
+x wikipedia-viewer/.git/objects/0d/
+x wikipedia-viewer/.git/objects/95/
+x wikipedia-viewer/.git/objects/92/
+x wikipedia-viewer/.git/objects/66/
+x wikipedia-viewer/.git/objects/3e/
+x wikipedia-viewer/.git/objects/50/
+x wikipedia-viewer/.git/objects/68/
+x wikipedia-viewer/.git/objects/57/
+x wikipedia-viewer/.git/objects/6f/
+x wikipedia-viewer/.git/objects/9b/
+x wikipedia-viewer/.git/objects/6a/
+x wikipedia-viewer/.git/objects/32/
+x wikipedia-viewer/.git/objects/35/
+x wikipedia-viewer/.git/objects/69/
+x wikipedia-viewer/.git/objects/3c/
+x wikipedia-viewer/.git/objects/56/
+x wikipedia-viewer/.git/objects/3d/
+x wikipedia-viewer/.git/objects/67/
+x wikipedia-viewer/.git/objects/0b/
+x wikipedia-viewer/.git/objects/93/
+x wikipedia-viewer/.git/objects/0e/
+x wikipedia-viewer/.git/objects/34/
+x wikipedia-viewer/.git/objects/5f/
+x wikipedia-viewer/.git/objects/05/
+x wikipedia-viewer/.git/objects/9c/
+x wikipedia-viewer/.git/objects/02/
+x wikipedia-viewer/.git/objects/b2/
+x wikipedia-viewer/.git/objects/d9/
+x wikipedia-viewer/.git/objects/ac/
+x wikipedia-viewer/.git/objects/ad/
+x wikipedia-viewer/.git/objects/bb/
+x wikipedia-viewer/.git/objects/d7/
+x wikipedia-viewer/.git/objects/d0/
+x wikipedia-viewer/.git/objects/be/
+x wikipedia-viewer/.git/objects/b3/
+x wikipedia-viewer/.git/objects/df/
+x wikipedia-viewer/.git/objects/a5/
+x wikipedia-viewer/.git/objects/d6/
+x wikipedia-viewer/.git/objects/bc/
+x wikipedia-viewer/.git/objects/ae/
+x wikipedia-viewer/.git/objects/ab/
+x wikipedia-viewer/.git/objects/e5/
+x wikipedia-viewer/.git/objects/f4/
+x wikipedia-viewer/.git/objects/f3/
+x wikipedia-viewer/.git/objects/eb/
+x wikipedia-viewer/.git/objects/c7/
+x wikipedia-viewer/.git/objects/c0/
+x wikipedia-viewer/.git/objects/ee/
+x wikipedia-viewer/.git/objects/c9/
+x wikipedia-viewer/.git/objects/fc/
+x wikipedia-viewer/.git/objects/fd/
+x wikipedia-viewer/.git/objects/f2/
+x wikipedia-viewer/.git/objects/e3/
+x wikipedia-viewer/.git/objects/cf/
+x wikipedia-viewer/.git/objects/fe/
+x wikipedia-viewer/.git/objects/c8/
+x wikipedia-viewer/.git/objects/fb/
+x wikipedia-viewer/.git/objects/c1/
+x wikipedia-viewer/.git/objects/c6/
+x wikipedia-viewer/.git/objects/ec/
+x wikipedia-viewer/.git/objects/4e/
+x wikipedia-viewer/.git/objects/20/
+x wikipedia-viewer/.git/objects/18/
+x wikipedia-viewer/.git/objects/27/
+x wikipedia-viewer/.git/objects/4b/
+x wikipedia-viewer/.git/objects/pack/
+x wikipedia-viewer/.git/objects/7d/
+x wikipedia-viewer/.git/objects/7c/
+x wikipedia-viewer/.git/objects/89/
+x wikipedia-viewer/.git/objects/45/
+x wikipedia-viewer/.git/objects/73/
+x wikipedia-viewer/.git/objects/74/
+x wikipedia-viewer/.git/objects/17/
+x wikipedia-viewer/.git/objects/7b/
+x wikipedia-viewer/.git/objects/8a/
+x wikipedia-viewer/.git/objects/7e/
+x wikipedia-viewer/.git/objects/10/
+x wikipedia-viewer/.git/objects/4c/
+x wikipedia-viewer/.git/objects/26/
+x wikipedia-viewer/.git/objects/21/
+x wikipedia-viewer/.git/objects/4d/
+x wikipedia-viewer/.git/objects/75/
+x wikipedia-viewer/.git/objects/86/
+x wikipedia-viewer/.git/objects/72/
+x wikipedia-viewer/.git/objects/44/
+x wikipedia-viewer/.git/objects/2a/
+x wikipedia-viewer/.git/objects/43/
+x wikipedia-viewer/.git/objects/88/
+x wikipedia-viewer/.git/objects/6b/
+x wikipedia-viewer/.git/objects/00/
+x wikipedia-viewer/.git/objects/6e/
+x wikipedia-viewer/.git/objects/36/
+x wikipedia-viewer/.git/objects/5c/
+x wikipedia-viewer/.git/objects/09/
+x wikipedia-viewer/.git/objects/5d/
+x wikipedia-viewer/.git/objects/info/
+x wikipedia-viewer/.git/objects/65/
+x wikipedia-viewer/.git/objects/62/
+x wikipedia-viewer/.git/objects/96/
+x wikipedia-viewer/.git/objects/3a/
+x wikipedia-viewer/.git/objects/54/
+x wikipedia-viewer/.git/objects/53/
+x wikipedia-viewer/.git/objects/3f/
+x wikipedia-viewer/.git/objects/30/
+x wikipedia-viewer/.git/objects/37/
+x wikipedia-viewer/.git/objects/08/
+x wikipedia-viewer/.git/objects/6d/
+x wikipedia-viewer/.git/objects/06/
+x wikipedia-viewer/.git/objects/6c/
+x wikipedia-viewer/.git/objects/99/
+x wikipedia-viewer/.git/objects/52/
+x wikipedia-viewer/.git/objects/55/
+x wikipedia-viewer/.git/objects/97/
+x wikipedia-viewer/.git/objects/63/
+x wikipedia-viewer/.git/objects/0f/
+x wikipedia-viewer/.git/objects/0a/
+x wikipedia-viewer/.git/objects/64/
+x wikipedia-viewer/.git/objects/bf/
+x wikipedia-viewer/.git/objects/d3/
+x wikipedia-viewer/.git/objects/ba/
+x wikipedia-viewer/.git/objects/a0/
+x wikipedia-viewer/.git/objects/dc/
+x wikipedia-viewer/.git/objects/d2/
+x wikipedia-viewer/.git/objects/aa/
+x wikipedia-viewer/.git/objects/af/
+x wikipedia-viewer/.git/objects/db/
+x wikipedia-viewer/.git/objects/a8/
+x wikipedia-viewer/.git/objects/de/
+x wikipedia-viewer/.git/objects/b0/
+x wikipedia-viewer/.git/objects/a6/
+x wikipedia-viewer/.git/objects/b9/
+x wikipedia-viewer/.git/objects/a1/
+x wikipedia-viewer/.git/objects/ef/
+x wikipedia-viewer/.git/objects/c3/
+x wikipedia-viewer/.git/objects/c4/
+x wikipedia-viewer/.git/objects/ea/
+x wikipedia-viewer/.git/objects/e1/
+x wikipedia-viewer/.git/objects/cd/
+x wikipedia-viewer/.git/objects/cc/
+x wikipedia-viewer/.git/objects/e6/
+x wikipedia-viewer/.git/objects/f9/
+x wikipedia-viewer/.git/objects/f7/
+x wikipedia-viewer/.git/objects/e8/
+x wikipedia-viewer/.git/objects/fa/
+x wikipedia-viewer/.git/objects/c5/
+x wikipedia-viewer/.git/objects/f6/
+x wikipedia-viewer/.git/objects/e9/
+x wikipedia-viewer/.git/objects/f1/
+x wikipedia-viewer/.git/objects/e7/
+x wikipedia-viewer/.git/objects/ce/
+x wikipedia-viewer/.git/objects/e0/
+x wikipedia-viewer/.git/objects/46/
+x wikipedia-viewer/.git/objects/2c/
+x wikipedia-viewer/.git/objects/41/
+x wikipedia-viewer/.git/objects/83/
+x wikipedia-viewer/.git/objects/1b/
+x wikipedia-viewer/.git/objects/77/
+x wikipedia-viewer/.git/objects/48/
+x wikipedia-viewer/.git/objects/70/
+x wikipedia-viewer/.git/objects/84/
+x wikipedia-viewer/.git/objects/24/
+x wikipedia-viewer/.git/objects/23/
+x wikipedia-viewer/.git/objects/4f/
+x wikipedia-viewer/.git/objects/8d/
+x wikipedia-viewer/.git/objects/15/
+x wikipedia-viewer/.git/objects/8c/
+x wikipedia-viewer/.git/objects/85/
+x wikipedia-viewer/.git/objects/76/
+x wikipedia-viewer/.git/objects/49/
+x wikipedia-viewer/.git/objects/40/
+x wikipedia-viewer/.git/objects/2b/
+x wikipedia-viewer/.git/objects/47/
+x wikipedia-viewer/.git/objects/13/
+x wikipedia-viewer/.git/objects/7a/
+x wikipedia-viewer/.git/objects/14/
+x wikipedia-viewer/.git/objects/8e/
+x wikipedia-viewer/.git/objects/22/
+x wikipedia-viewer/.git/objects/22/3ae891ecbb96377ef960238c55d089334a3380
+x wikipedia-viewer/.git/objects/8e/7330c1bd911aca767a80c79f1f196afde82a15
+x wikipedia-viewer/.git/objects/14/74f655c1dfa0bc7fc48a5ce2e49eebc0728c16
+x wikipedia-viewer/.git/objects/14/9721df17e9b3aee37caafa7b986dc174f0bded
+x wikipedia-viewer/.git/objects/7a/9a8b4438e2b77c1c797ad53315806d927ddda9
+x wikipedia-viewer/.git/objects/13/94304cc9e3ed35c19cbd0e414fc63c1f81ef42
+x wikipedia-viewer/.git/objects/47/13a0ea821be07afc243bdc8f4787332fde1b6b
+x wikipedia-viewer/.git/objects/47/10d74e3e3c30e68867bc1812fbf8d47462aa2e
+x wikipedia-viewer/.git/objects/2b/69b0861e7addc74b44ce6b0987bcdfd811dd71
+x wikipedia-viewer/.git/objects/40/16a8f683b803ab9a5ca6de3c6be8c7da8f8cf8
+x wikipedia-viewer/.git/objects/40/d3711d04c81ddac2117c0268ae4350b2b05207
+x wikipedia-viewer/.git/objects/49/5f302f878091aa013800e63016f11cd9f8dbe4
+x wikipedia-viewer/.git/objects/76/2f8665d8bfcf965999dd075414947fba98381c
+x wikipedia-viewer/.git/objects/85/08c376edc6a5d1809f0f57fac69a86b0f11865
+x wikipedia-viewer/.git/objects/8c/cbe0b769fa80cc1a201f98a0a1c444df817a2a
+x wikipedia-viewer/.git/objects/15/f04141fe5d7bb345d87940579a3c432934a86d
+x wikipedia-viewer/.git/objects/8d/cec8f11b96398aab0d6f2033e3e36dec4632b3
+x wikipedia-viewer/.git/objects/4f/cb8f5c07868611ae17813bbc6f6f58600b8f87
+x wikipedia-viewer/.git/objects/4f/31bb9e452b9344b0a4fdc5ad84ca399a07821b
+x wikipedia-viewer/.git/objects/23/7bc3cf3769856d67d25da5f57e253b4c5254e1
+x wikipedia-viewer/.git/objects/23/98c7385bc8fd8b66e36c6c9319301192549d1c
+x wikipedia-viewer/.git/objects/23/f24fe83be41fd91ce629c6cbb8a95df681b1c6
+x wikipedia-viewer/.git/objects/24/198b177222ceebaa49a46810c5632b06c77fec
+x wikipedia-viewer/.git/objects/84/698925904e8ab68a151262db898332bdc44d30
+x wikipedia-viewer/.git/objects/84/f624c228f341a3cb20dcd40b5443884e516b26
+x wikipedia-viewer/.git/objects/84/9b7da31ed3380004408d70aedcb4e80585d688
+x wikipedia-viewer/.git/objects/70/6af0fd95c300df99f053a2de378d23fbfed89e
+x wikipedia-viewer/.git/objects/48/9fb40c4415938eeaa96eebaf07ee6b3d4673da
+x wikipedia-viewer/.git/objects/77/738287f0e619e47739347e957fda11878d3fff
+x wikipedia-viewer/.git/objects/77/25f7f306ede040482162abe162901934f3d688
+x wikipedia-viewer/.git/objects/1b/6d7940bb95b55db2098f57397681d49366c7f6
+x wikipedia-viewer/.git/objects/83/747768dba98f35c99b78a182f383f42f70890b
+x wikipedia-viewer/.git/objects/41/53ee8e444c94aee9c2ed888cc8adf1c88fa888
+x wikipedia-viewer/.git/objects/2c/958b14e0c9b0848723e212c73083b3a53c9aeb
+x wikipedia-viewer/.git/objects/2c/60d497a6ef39e7305152427cb5e08caa89099e
+x wikipedia-viewer/.git/objects/2c/acc5392aa0d77b829d63e6c82fadfae2c9a4c4
+x wikipedia-viewer/.git/objects/2c/a50ab52c9c6dc5096453cc8141e0dcea5f5fef
+x wikipedia-viewer/.git/objects/46/ce35ae07b7febb3baf885c2ba70ef2a351e9f9
+x wikipedia-viewer/.git/objects/46/ab228566ead1be48334215ed1104a70f39f002
+x wikipedia-viewer/.git/objects/46/ea8fd499cd876047879eacfd9ea9518dcfe2f8
+x wikipedia-viewer/.git/objects/e0/f1f8dd96c2c32cbd832a952e22b9365d97f08c
+x wikipedia-viewer/.git/objects/e0/9a576dfb13fcf3cd6c723112ae1035fbfbda26
+x wikipedia-viewer/.git/objects/e0/32d8f000de06752fdffab709cc04582a79e2ba
+x wikipedia-viewer/.git/objects/ce/f54212d66b8ae87634b32abf5a5fda7c64bbfc
+x wikipedia-viewer/.git/objects/e7/9e087a9c189d4bd292d97a541e7268b434fd77
+x wikipedia-viewer/.git/objects/f1/d40d8eeecac06a3f27088a77aafc5ddefba40c
+x wikipedia-viewer/.git/objects/e9/3842a8d570f7448492e30ff41a719fad9c4b43
+x wikipedia-viewer/.git/objects/e9/7fea9142184a86b20503e0937836e9f97363a0
+x wikipedia-viewer/.git/objects/e9/3126127df898d1c8e334890b434e2a85e354a5
+x wikipedia-viewer/.git/objects/f6/a7e2b829e4bb51acfece094da2b209c445bc13
+x wikipedia-viewer/.git/objects/f6/a31c73025874c7ea93960b13b3da46e85dd560
+x wikipedia-viewer/.git/objects/c5/6c375b9761dc4ea578679b5657c31df6c58395
+x wikipedia-viewer/.git/objects/c5/976cf9b4a29fc6ac0eb2358318b3efa6d7c3f7
+x wikipedia-viewer/.git/objects/fa/30523db48123408999a195906a138740cb9043
+x wikipedia-viewer/.git/objects/e8/d003d9253c30fa0e18b6573ef631882b6740d0
+x wikipedia-viewer/.git/objects/f7/4f66ac460186af9ae1cf6c979292174f919a46
+x wikipedia-viewer/.git/objects/f7/bc39c1f7c9af43e49f9123fb6f3b5a8a58c9b1
+x wikipedia-viewer/.git/objects/f7/92b1cd8b72213322dc87217d6a7d203219e9b6
+x wikipedia-viewer/.git/objects/f9/440dce7b3caf8b26c873bcc8cf2c0bb788782e
+x wikipedia-viewer/.git/objects/e6/5b5704700a695317d6e284e27a71d7aae5cc1c
+x wikipedia-viewer/.git/objects/cc/a81d24b7e563e7d2b6215368a5bf3981a72f96
+x wikipedia-viewer/.git/objects/cc/0d4bf94c25ce99a0023d13de4560e497ec63e7
+x wikipedia-viewer/.git/objects/cc/6e80801d222435f6c187d09a3f4887bafc3db9
+x wikipedia-viewer/.git/objects/cd/27915e5b1e1bf3ff4cee924da8a4b1cc00ac7b
+x wikipedia-viewer/.git/objects/e1/42e323672292b0bdfea1d882e91f69324ed686
+x wikipedia-viewer/.git/objects/ea/7c4472529468695a24de030f0409ce7df530ca
+x wikipedia-viewer/.git/objects/c4/00dc8e7bad73168a399808efc59921165100eb
+x wikipedia-viewer/.git/objects/c3/3c14add088140ffa80280f8afb13c3b4bd54b0
+x wikipedia-viewer/.git/objects/ef/a69e3d2d923788723c2d5e6a815a062978ee97
+x wikipedia-viewer/.git/objects/ef/4315fe5dc8fad14765d979defd7079a813bede
+x wikipedia-viewer/.git/objects/ef/5f8485ab22582b94ca2767ef372c14246ab065
+x wikipedia-viewer/.git/objects/ef/ca857f00d45b573b3d6366a4b4c63442a9c73a
+x wikipedia-viewer/.git/objects/a1/7859d65c6d40d2772b729fd7e238f24e1797e2
+x wikipedia-viewer/.git/objects/b9/0b7c7bcec6522ef2f8946d47d9be7fba699e05
+x wikipedia-viewer/.git/objects/a6/afc3afe1eb5b605f3f248d3641f3cb3949bc5a
+x wikipedia-viewer/.git/objects/b0/51f0bac4f078186277f5436eebf521fe75cb84
+x wikipedia-viewer/.git/objects/b0/da119d90ca4dffcbcd387c0153abd053e0de87
+x wikipedia-viewer/.git/objects/de/018025eaa2c4103cbfc4c825f7fcd9d706cd42
+x wikipedia-viewer/.git/objects/de/154e0b5be210a50226e3e31d4e036a2626a5a3
+x wikipedia-viewer/.git/objects/de/45e8bcccd5766215ae9c3d0fa5b22e48a3f285
+x wikipedia-viewer/.git/objects/a8/8ecc5a18926d0695cc0639615af9ebbbb067bc
+x wikipedia-viewer/.git/objects/db/f92d59eb301880ff1cd95be6025204f671d393
+x wikipedia-viewer/.git/objects/af/fdfefb1fec8c2d36fb5ad7fa6325695586659a
+x wikipedia-viewer/.git/objects/aa/913c191bc384b0613b92fd6e607b1f99d72c46
+x wikipedia-viewer/.git/objects/d2/5ce3245e83114a159ae8e8cc47e959b0d2f516
+x wikipedia-viewer/.git/objects/dc/ab1524724eb973455d24a17f45f74003b1ceb8
+x wikipedia-viewer/.git/objects/dc/e5a4e59b19e77d06f5e194fbc3d90dc18284bd
+x wikipedia-viewer/.git/objects/a0/a4adfaf94e72f753e4525ab8804121c4c82967
+x wikipedia-viewer/.git/objects/ba/779368a686f8c408d44ba9b5be677e962a774a
+x wikipedia-viewer/.git/objects/d3/8921923d3d2ca5b0afd1454d9c4fd4227a34bd
+x wikipedia-viewer/.git/objects/bf/ff5b8c3a30e3439e5cffafede4e96722a1d1de
+x wikipedia-viewer/.git/objects/bf/3b06089e99465ca9ed85b077945c6e5f323179
+x wikipedia-viewer/.git/objects/64/0af1f3f019dd776ddd6c9735c0ea2ab6538885
+x wikipedia-viewer/.git/objects/0a/e1169557d36ba05c62c62e3c79951605206e7a
+x wikipedia-viewer/.git/objects/0f/1712d8781aa649a0555c18c374e070b9c76ef6
+x wikipedia-viewer/.git/objects/63/2f5ddee5913207482a4e47b244331f304bc9c7
+x wikipedia-viewer/.git/objects/97/8ca4d70562f59624df9b8e467638f213fb6329
+x wikipedia-viewer/.git/objects/55/f207d53e1b5ac50f685838c22cb92523d7b364
+x wikipedia-viewer/.git/objects/52/9e51bead5306ee2437f1e970e1e56b4058f461
+x wikipedia-viewer/.git/objects/99/83e9026b5efd3df2df38c5d2abda96eb0a4507
+x wikipedia-viewer/.git/objects/6c/963a2a41fe252f1a0c0d5fa3d664b1cf046288
+x wikipedia-viewer/.git/objects/06/cabccd9f3411f2a7897825bd91ecfa57a6ca2d
+x wikipedia-viewer/.git/objects/06/9d05eb71d26aaf88aa8f8ac0e20abe5566895a
+x wikipedia-viewer/.git/objects/6d/6a0d4817c7587fe6959868ba72e4be2d6a780d
+x wikipedia-viewer/.git/objects/08/90b479f5cc82eca46b72b13760541550ce5f7e
+x wikipedia-viewer/.git/objects/37/5001d7e095640bdc2e00346f86de2e82c6d1c8
+x wikipedia-viewer/.git/objects/30/1192d0cf5a60fb3e2124c34694dda6eaa12d98
+x wikipedia-viewer/.git/objects/30/e5b647abf793aa52a2fd5ed8091183b7b897fe
+x wikipedia-viewer/.git/objects/3f/f171ed4167f187836abd33d949ff8b6df1f718
+x wikipedia-viewer/.git/objects/3f/2252c1545cc7e76848f1abea53947277f2c5f0
+x wikipedia-viewer/.git/objects/3f/7c3dfe6c259627cffd33b3841ffe50205ca026
+x wikipedia-viewer/.git/objects/53/5440d149e18829b26a47ea3999873ef55e6c62
+x wikipedia-viewer/.git/objects/54/6f303c95631ef51958322c1e78251beff63cf2
+x wikipedia-viewer/.git/objects/3a/10494d75c3f096fb5500bdc58597bc4c2baddc
+x wikipedia-viewer/.git/objects/96/017681ed7809319e23b3e5ed5577ea3552f3db
+x wikipedia-viewer/.git/objects/62/49a9455cbc12d8cfb37b1995956240be3116ae
+x wikipedia-viewer/.git/objects/65/16af00930ebc78a77e0e34867f42c2b5b8b321
+x wikipedia-viewer/.git/objects/5d/fbf6cd67751e8f5805060c74098b904ad9752e
+x wikipedia-viewer/.git/objects/09/507f7ba5a62384382a9ab2f869d188fd8a7a3d
+x wikipedia-viewer/.git/objects/09/65bfdb6a45adadb76cdb75a46b968afe829969
+x wikipedia-viewer/.git/objects/09/3174df21df9d3a55319805e09ad6a476eada49
+x wikipedia-viewer/.git/objects/5c/d42cf962d316c6aba19c9b172062edd468df71
+x wikipedia-viewer/.git/objects/5c/84d5065b6e37a1d93a9494c70109165e5960ca
+x wikipedia-viewer/.git/objects/5c/2296e619262f25c4c2f371f127aef6ee4c9725
+x wikipedia-viewer/.git/objects/5c/05dbd89f2fbee8b1e79882f2035701624af142
+x wikipedia-viewer/.git/objects/36/6f2f5d127cfb836f536833501479696888f7ae
+x wikipedia-viewer/.git/objects/36/656a4908c0038107ec6c06e4dfe6882672c6f2
+x wikipedia-viewer/.git/objects/6e/7d58ce2e427ab1f252fcd6cf33b6f670290286
+x wikipedia-viewer/.git/objects/6e/3e2e7e9071c59feb00420ab5301e4c0bd85f4a
+x wikipedia-viewer/.git/objects/00/c208acce287e2558e3d1c7bb3763c663899dec
+x wikipedia-viewer/.git/objects/6b/bf661a80fb8a363509ea951dbb0a3513787785
+x wikipedia-viewer/.git/objects/6b/84a63ab6eb3201cdbf100691a48116fc36c6bb
+x wikipedia-viewer/.git/objects/88/f399636a13df7a4fed0908c060d707a5270c3b
+x wikipedia-viewer/.git/objects/43/2189df02f9e3aa9fa2fc71b806f425ee74d6b2
+x wikipedia-viewer/.git/objects/43/514f68c09091ba8231eae3e5507338e6a72d44
+x wikipedia-viewer/.git/objects/2a/b14f690127dde3d6e05ab8c29f397714288b06
+x wikipedia-viewer/.git/objects/44/29112380dda7a414cf9c35dbe33637724b23e7
+x wikipedia-viewer/.git/objects/44/c573ce9aed42846d7db29d8a4a97335d162be0
+x wikipedia-viewer/.git/objects/72/da1e430712ba79e6786bc437e33fb59a323617
+x wikipedia-viewer/.git/objects/86/80d371d88ffa96a9e6fee41d069eb1792d32b1
+x wikipedia-viewer/.git/objects/75/ec3648aaa6f8d709c2a92f6586bcbf3a319100
+x wikipedia-viewer/.git/objects/4d/c4632a60004b91e8040334d7e8e5c00022b6e4
+x wikipedia-viewer/.git/objects/4d/406a1a42980a4fbccd33ba73ae31e0bd7754e5
+x wikipedia-viewer/.git/objects/21/1af3948c561ca14526ffea4e2a9921740ec22d
+x wikipedia-viewer/.git/objects/26/316b38bb46143c6485e48700ecb4b5e8eb41fa
+x wikipedia-viewer/.git/objects/26/2970cd3b959dcdf6f49271f7bd08424076c1ff
+x wikipedia-viewer/.git/objects/26/5c86726678b7152c33ce2d49a9f9804321b3ce
+x wikipedia-viewer/.git/objects/4c/2ae53904dd61f3945eb967361a3f16792924dc
+x wikipedia-viewer/.git/objects/4c/12449f375a8979b75df38d697ea8e5f35ffdab
+x wikipedia-viewer/.git/objects/10/c9f5f647eedf5ac34e37d339628862fe68b814
+x wikipedia-viewer/.git/objects/10/8e993196dccc480f1b6d7fdb55d8ea0fb060b1
+x wikipedia-viewer/.git/objects/10/307fbb8655d3865a6108c022c5995b76bbc04d
+x wikipedia-viewer/.git/objects/10/6a4281bdb2ae5b460f9e2a074bf0293dda2ab7
+x wikipedia-viewer/.git/objects/10/65422da7466fc39c0479802d9e9c5cf427572b
+x wikipedia-viewer/.git/objects/10/e82c82f6387d1c78d3a090b947389ee03be6e6
+x wikipedia-viewer/.git/objects/7e/79df5ccaf85e9a6105009a3116591c8348ec29
+x wikipedia-viewer/.git/objects/7e/4ff3a2b90081071426fdc65a52324eb52f2cb6
+x wikipedia-viewer/.git/objects/8a/7d84610e67827637841410243c2db5f797a336
+x wikipedia-viewer/.git/objects/7b/a979cfc1440fced0991cac6765c810f0306818
+x wikipedia-viewer/.git/objects/7b/08b4f6402b89d8954ff18a21e5ab3b06cd1195
+x wikipedia-viewer/.git/objects/7b/c559d8511fcf1ba21ea6c8ee9e4c320aa60621
+x wikipedia-viewer/.git/objects/7b/0afaff3a919741cee69c766ea81a2b4c1bec96
+x wikipedia-viewer/.git/objects/17/85ec0857b39cdc79bc89cbbebc0b7f52837bb4
+x wikipedia-viewer/.git/objects/74/b9a58950bcdfdd0e0a5771bb896f588e3adb2b
+x wikipedia-viewer/.git/objects/73/d9a56c4ee31b3f8886ae0912f3387d55fd9b9b
+x wikipedia-viewer/.git/objects/73/bfcc26f7c4dd2a530171b44f69ea8a646ce16a
+x wikipedia-viewer/.git/objects/73/d6123c3fa8ecd3e524c6d9b10e71105a6ef588
+x wikipedia-viewer/.git/objects/45/876e30eac354985bfbce01a32dda868450358d
+x wikipedia-viewer/.git/objects/45/d8c46a7cf3a27b018dda43759c5375a79bb571
+x wikipedia-viewer/.git/objects/89/bcb6f4f2f8e200ff57b0202add2bd70dc29a61
+x wikipedia-viewer/.git/objects/7c/87cc295161303bc0fe19b225a41b85c97041c0
+x wikipedia-viewer/.git/objects/7c/76c45cacbcdac4da8e9e05c01b888af6a732b2
+x wikipedia-viewer/.git/objects/7d/35412bc3a9ea5a56104f9428ce465e1d96ad6d
+x wikipedia-viewer/.git/objects/7d/1f223862a2f07acbb6a4ae4a28ed48108105d8
+x wikipedia-viewer/.git/objects/pack/pack-5ab78628ab0792d33cf8abe0f9f099fbf58edd7e.pack
+x wikipedia-viewer/.git/objects/pack/pack-5ab78628ab0792d33cf8abe0f9f099fbf58edd7e.idx
+x wikipedia-viewer/.git/objects/4b/c0be1f93657d1df1569f072b10140f45d17ec3
+x wikipedia-viewer/.git/objects/4b/3e69f046ccb2a9b69da6351488a60d7b8ab17c
+x wikipedia-viewer/.git/objects/27/f10cab1cb4cb8c8409faf8dee778d932a2fae6
+x wikipedia-viewer/.git/objects/27/eadc6454d7e6286379637c711d321717f62054
+x wikipedia-viewer/.git/objects/27/be0e1ab9693c6a6ae664e9e2b5b58c2b17513e
+x wikipedia-viewer/.git/objects/18/8ddee6468719f222ff86f2a7d5c5a8dbd83764
+x wikipedia-viewer/.git/objects/18/0bc1ad2a15360e6a1b18c93d8672030315f7b5
+x wikipedia-viewer/.git/objects/18/cc9727dd9df4d50d884900ea88752fd4f939ef
+x wikipedia-viewer/.git/objects/20/a9b6e94592229a22554dd672b039eefb912ffd
+x wikipedia-viewer/.git/objects/4e/d1b5095b5453a50b4c39add549bda03f2a5057
+x wikipedia-viewer/.git/objects/4e/90792bf2fd7e5b8c3fa7a5fdf6d48789ec17d7
+x wikipedia-viewer/.git/objects/ec/0281ca9b903c6d391b11b00e57b1dda12f382a
+x wikipedia-viewer/.git/objects/ec/e534272a43d6cbe842b4242d328dfbfc39f95b
+x wikipedia-viewer/.git/objects/c6/09018cc3b37425300838a88a2c3ee3d294e774
+x wikipedia-viewer/.git/objects/c1/92ec029ef72549b08acaaf495a13fff66da913
+x wikipedia-viewer/.git/objects/c1/14d39be8a5740ebdc6943a85e25255ebcf0cb6
+x wikipedia-viewer/.git/objects/fb/0001c5ad20d6ac6eda9b3c7dd85052843a6272
+x wikipedia-viewer/.git/objects/c8/00a0d18334b192a9364dcc29af3cf31f29e3bb
+x wikipedia-viewer/.git/objects/fe/195c213e023561a827caec57aa44f5c166555d
+x wikipedia-viewer/.git/objects/fe/207ae8c394a3c5d1f853c545da080b3ec363c1
+x wikipedia-viewer/.git/objects/cf/893f0a72668717cd5073170e686c548e534720
+x wikipedia-viewer/.git/objects/cf/2f41c37a6b5f199a89621639d318a971ae54ae
+x wikipedia-viewer/.git/objects/e3/85537783137e93ad08a916288facbaf62e6f7a
+x wikipedia-viewer/.git/objects/f2/d35cc281d43f7e279f6043961cbdaf7e1f4fbe
+x wikipedia-viewer/.git/objects/fd/2b983fab06a4354cb270eeb416dce4a6bd238b
+x wikipedia-viewer/.git/objects/fc/c13eb7996deaee41cee589da2f4e5dc53c555d
+x wikipedia-viewer/.git/objects/c9/4658904d5e7e127dad2e731512349437734b1d
+x wikipedia-viewer/.git/objects/c9/92a6fd3f9286ec63359400e60f417d5d4bfda1
+x wikipedia-viewer/.git/objects/ee/c4075ca53f3fd003e759b4deda786ebfa342fa
+x wikipedia-viewer/.git/objects/ee/df07b7a3c8972f40645567d005bf65b21d9d1e
+x wikipedia-viewer/.git/objects/c0/6b70cc744cef42aad9569b88488c48afe978ed
+x wikipedia-viewer/.git/objects/c7/b6dc819007080468cbab1f463486fdfb74a2a2
+x wikipedia-viewer/.git/objects/eb/ae90000f7e9832b4c7b4b1d176e2d18e395b07
+x wikipedia-viewer/.git/objects/f3/1e97ff3a98e8db3e3a2df4c7301f2ad2bacbb2
+x wikipedia-viewer/.git/objects/f4/c51a91a49dabd3eb06b5125bee623f2f0e1c25
+x wikipedia-viewer/.git/objects/e5/236b1ffbe9a8d12722a856004dc663d7671bf0
+x wikipedia-viewer/.git/objects/e5/e532bc220b203d6e2f86d7aecb7dc848721ec9
+x wikipedia-viewer/.git/objects/e5/2a0c495102b4d582dc5badae89c1a2624b6fba
+x wikipedia-viewer/.git/objects/ab/250586d8b0daf6ac8b402ad24601e322c014a5
+x wikipedia-viewer/.git/objects/ab/bf34342de53c33e511c4dd6906ed401c56d2b1
+x wikipedia-viewer/.git/objects/ab/984cb6e08da48283a44dcde7bef9ea2c093140
+x wikipedia-viewer/.git/objects/ae/4989042191cea92f63ec7ec61a2ee72ecc621d
+x wikipedia-viewer/.git/objects/ae/04668714cbcad5b4f2fbe083b09607cb093124
+x wikipedia-viewer/.git/objects/bc/5ce33c27c97833b63869021b1616949794d53c
+x wikipedia-viewer/.git/objects/bc/efc54b9b9964e1f160ab08c238dc62d17dcedb
+x wikipedia-viewer/.git/objects/d6/fce61c8363c36a08347a855f82e0e9fffe7881
+x wikipedia-viewer/.git/objects/a5/f02831932822d4e0babfb2c48b28766b84d57b
+x wikipedia-viewer/.git/objects/df/7ba759425aaae1d9ffed51cfe2468efc67b5fb
+x wikipedia-viewer/.git/objects/df/7fe5c39bdfa8b88ad383214d686c2976912345
+x wikipedia-viewer/.git/objects/b3/cecb22e591994924bf21ffd2f504eb3a0f3cef
+x wikipedia-viewer/.git/objects/be/0064462fb2e7e78f1985ba7d4df3be5229a5b1
+x wikipedia-viewer/.git/objects/be/acc81173ba7a3689f070a854f8ce7a9ece3546
+x wikipedia-viewer/.git/objects/d0/a9b2da650fa5299603eea7aa4e097581f2108e
+x wikipedia-viewer/.git/objects/d7/7f286c39574fd19d5012d48dca5cf0a3aa76c3
+x wikipedia-viewer/.git/objects/bb/34fd328e17d052f9fe1a07f1c682dc90c27102
+x wikipedia-viewer/.git/objects/ad/f8b213675eacdbccc78059f4839509d5d0a1b4
+x wikipedia-viewer/.git/objects/ac/fd8d072882296e7c06829aca4d495a286058f2
+x wikipedia-viewer/.git/objects/ac/61c5e6a3de70faab312b471259da007e2c8d02
+x wikipedia-viewer/.git/objects/d9/21acd6b937c9d3d321ea0ccff3d758c9ebf415
+x wikipedia-viewer/.git/objects/b2/d9a35ff1a28688c9bf07b4739417826a04118c
+x wikipedia-viewer/.git/objects/02/cf4d1dba909aac1df92e2da8edcbd32fd9f663
+x wikipedia-viewer/.git/objects/9c/9c0a1570177f6c71d1daca8f29aa36521de513
+x wikipedia-viewer/.git/objects/05/50b17eb62a489c83b73027131eec2a33b9b80b
+x wikipedia-viewer/.git/objects/5f/7195a7ea3149debc66f91d262d2f29e1685103
+x wikipedia-viewer/.git/objects/5f/746f766f08e54f8fe636d6a256825cae0ce4ff
+x wikipedia-viewer/.git/objects/5f/3d9d4cd7684cdea7466d0283c37eef81a76b17
+x wikipedia-viewer/.git/objects/34/b39f0a87358be4e504b93b7d813b1741bcdcad
+x wikipedia-viewer/.git/objects/0e/85641646c391206fda6bb80f483e65422f36a2
+x wikipedia-viewer/.git/objects/93/a1e59074b4473ffad0f1f9f4c0b9cde0564eb1
+x wikipedia-viewer/.git/objects/93/5751fd578c6cbbb351532737b3e9b3950dadd6
+x wikipedia-viewer/.git/objects/0b/2af10289cfed2bd74cdc576c14f6c088528939
+x wikipedia-viewer/.git/objects/0b/3a0484bcc68ce163e6b29dc9b470bf1ab97ad9
+x wikipedia-viewer/.git/objects/0b/3205675bf0b2354c42e0be3bc6c812c974b0d7
+x wikipedia-viewer/.git/objects/67/9aa31b313c32f4f6975ba461cafd8961b3a5e8
+x wikipedia-viewer/.git/objects/3d/5982c7bc5b24801b98f0014ac374a12fee8bb0
+x wikipedia-viewer/.git/objects/56/12cb1e43a78a2ba8a8b79f97103838d7ecbc3d
+x wikipedia-viewer/.git/objects/56/64e3e2ce4dd8e2fd20b79885104a8d50b4e7ae
+x wikipedia-viewer/.git/objects/3c/71a0628072e6780b9366a82bbd9f6819309f54
+x wikipedia-viewer/.git/objects/69/7ded8119e482e6a3dda7dcde8dabe9f12b58f6
+x wikipedia-viewer/.git/objects/35/9b8429dc4c0729d82410d54617eef1072817d1
+x wikipedia-viewer/.git/objects/35/ae585006eb53a916b33535209370d0d9c4d51e
+x wikipedia-viewer/.git/objects/32/607a6791e8f10bac4fbf3ae6eda7222b7b987b
+x wikipedia-viewer/.git/objects/6a/f7ca84b8d302e7e3441218f8226f404df8e531
+x wikipedia-viewer/.git/objects/6a/c042f6e25cd5fbd3c18f57f9f7079de20a86e5
+x wikipedia-viewer/.git/objects/9b/7b867567a47eda3e4c91b1d4b910e74314dcc2
+x wikipedia-viewer/.git/objects/6f/62c8865a41ab539f4ba59fc9e4ec70c3d68c85
+x wikipedia-viewer/.git/objects/57/2cc5ac2c2bb862ddda49ee8bc95df80c84537d
+x wikipedia-viewer/.git/objects/57/6ebd3e9672bed074cfb692d10278ec7ad4a756
+x wikipedia-viewer/.git/objects/68/9d6297996ae09f6c7ee7e46b999b3dabff3a15
+x wikipedia-viewer/.git/objects/68/29af8ebb183e0fa481d7069d9ec5a5f7a61c9f
+x wikipedia-viewer/.git/objects/68/a26f95a033403e4097d112204e56f38fd28ccd
+x wikipedia-viewer/.git/objects/50/337c309800a603aea0a314c884c0d48320c0d8
+x wikipedia-viewer/.git/objects/50/a6e6d2d0d9276c5a40132da94478a6f8ca0e87
+x wikipedia-viewer/.git/objects/3e/0300cf89d7b267586b911c8a1688d11ff5b6ce
+x wikipedia-viewer/.git/objects/66/49ee13fa806e9cab470290d033df6373137cb4
+x wikipedia-viewer/.git/objects/92/e040ed8a8a4865d61fb554da368a9a043b8f65
+x wikipedia-viewer/.git/objects/95/19f610e0442a7ae96a6e67e2264b6432bfae0b
+x wikipedia-viewer/.git/objects/0d/02fa2fa056d37ed127ed48f3df34796900a329
+x wikipedia-viewer/.git/objects/0d/53e191b7e1ea34dd7b54b3f47e6dc399a04e2d
+x wikipedia-viewer/.git/objects/61/12fa6c8854144f74deb50736f05df16f76eaff
+x wikipedia-viewer/config/webpack.prod.config.js
+x wikipedia-viewer/config/webpack.base.config.js
+x wikipedia-viewer/dist/favicon.ico
+x wikipedia-viewer/dist/index.html
+x wikipedia-viewer/dist/.DS_Store
+x wikipedia-viewer/dist/asset-manifest.json
+x wikipedia-viewer/dist/statistics.html
+x wikipedia-viewer/dist/styles/
+x wikipedia-viewer/dist/scripts/
+x wikipedia-viewer/dist/scripts/981.e68e6bd137967e29d1c8.chunk.js
+x wikipedia-viewer/dist/scripts/main.73ec74cff4d42afe8a5e.chunk.js
+x wikipedia-viewer/dist/scripts/runtime.d444ad0689c7e1fa0097.chunk.js
+x wikipedia-viewer/dist/styles/main.f333c33d6e4f73770bca.css
+x wikipedia-viewer/.husky/_/
+x wikipedia-viewer/.husky/pre-commit
+x wikipedia-viewer/.husky/_/husky.sh
+x wikipedia-viewer/.husky/_/.gitignore
+```
+
+But let's see how much compression takes place when I archive a directory using
+tar and compress it at the same time with gzip. I can run the command
+`du -sh wikipedia_viewer.tgz` and I get back:
+
+```shell
+du -sh wikipedia_viewer.tgz
+5.0M	wikipedia_viewer.tgz
+```
+
+That's 5MB for the compressed archive.
+
+If I run the same command on the uncompressed, un-archived wikipedia-viewer
+directory, I get back:
+
+```shell
+du -sh wikipedia-viewer
+9.0M	wikipedia-viewer
+```
+
+This demonstrates a significant difference in the directory's compressed size
+and uncompressed size.
+
+Let's see what the difference would be if I zipped the wikipedia-viewer
+directory:
+
+```shell
+du -sh wikipedia-viewer.zip
+220K	wikipedia-viewer.zip
+```
+
+The difference is even more significant here.
+
+## Archiving a directory with tar without compression
+
+If, on the other hand, I want to archive a directory using tar without
+compression, I would use a slightly different command:
+
+```shell
+tar cf wikipedia-viewer.tar wikipedia-viewer
+```
+
+Then, if I wanted to see the size of this tar file, I could run:
+
+```shell
+du -sh wikipedia-viewer.tar
+```
+
+Which would return:
+
+```shell
+du -sh wikipedia-viewer.tar
+8.2M	wikipedia-viewer.tar
+```
+
+There's a small difference, but it's not from compression — tar without -z
+doesn't compress anything. That gap is likely just overhead from how the
+directory's contents are stored on disk versus bundled into one file.
+
+## Zip vs tar and gzip
+
+If you need something to be compressed as much as possible because you are
+sending it as an email attachment, and you have a relatively small file-size
+limit, then a zip file is the way to go. If, however, you are able to transfer
+your archive file via AirDrop, for instance, then tar + gzip are the way to go.
+Technically there is no file limit when transferring a file over AirDrop, but
+large folders and certain file types could cause problems. Another reason to
+choose tar + gzip over zip is because tar + gzip preserve Unix file permissions,
+making them more attractive to users in Unix-like environments. Zip, on the
+other hand, does not preserve file permissions by default. They have to be
+specially configured. If they are not,
+[file permissions are often reset to a default: 644 for files and 755 for directories](https://linuxvox.com/blog/maintain-file-and-folder-permissions-inside-archives/#:~:text=Standard%20ZIP%20tools,their%20original%20settings.).
+This does not bode well for software distribution, where retaining file
+permissions can be crucial.
+
+## Conclusion
+
+Will it be zip or tar and gzip? It depends on what you are trying to achieve. If
+extreme compression is all that is important, then zip is the way to go. But if
+preserving metadata such as file permissions is the end goal, then tar and gzip
+should be your top choice!
+
+## Related Resources
+
+- [Unix/Linux Command Reference](https://files.fosswire.com/2007/08/fwunixref.pdf):
+  _FOSSwire.com_
+
+- [Tar Vs Zip Vs Gz: Difference And Efficiency](https://itsfoss.com/comparison/tar-vs-zip-vs-gz/):
+  _by Sylvain Leroux, itsfoss.com_
+
+- [Do Zip Archives Preserve File & Folder Permissions on Linux & Mac? A Guide for Software Packaging](https://linuxvox.com/blog/maintain-file-and-folder-permissions-inside-archives/):
+  _linuxvox.com_
