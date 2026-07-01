@@ -1,0 +1,783 @@
+---
+slug: 'storage-fun-with-forms-rebuild-working-through-the-code'
+date: '2026-06-27T18:05:18.470Z'
+lastModified: '2026-06-27T18:05:18.470Z'
+title: 'Storage Fun with Forms Rebuild: Working through the Code'
+author: 'Maria D. Campbell'
+excerpt:
+    'In this post, I set up the Storage Fun with Forms app to work with Vitest.
+    But I come to realize that the code structure in main.js is not suitable for
+    complete test coverage of the Storage Fun with Forms rebuild. I also
+    realized that Jasmine tests did not translate in Vitest.'
+image: parinaz-mirhosseini-RxAyATWag6A-unsplash.webp
+tags:
+    [
+        'macOS',
+        'tests',
+        'vanilla template',
+        'javascript',
+        'series',
+        'vite',
+        'vitest',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Image of an array of little colorful square notes representing tasks that need to be done](parinaz-mirhosseini-RxAyATWag6A-unsplash.webp)
+
+_[Photo by](https://unsplash.com/photos/colorful-game-tiles-scattered-on-a-grid-RxAyATWag6A)
+[Parinaz Mirhosseini](https://unsplash.com/@parinaz_mhs) on
+[unsplash.com](https://unsplash.com/)_
+
+## Table of Contents
+
+- [Understanding the Vite workflow](#understanding-the-vite-workflow)
+- [What is it about Vite that allows me to create these imports?](#what-is-it-about-vite-that-allows-me-to-create-these-imports)
+- [Testing Storage Fun with Forms Rebuild using Vitest](#testing-storage-fun-with-forms-rebuild-using-vitest)
+- [Installing Vitest](#installing-vitest)
+- [Creating a test from a supposed place of knowledge](#creating-a-test-from-a-supposed-place-of-knowledge)
+- [Mocking localStorage in Vitest](#mocking-localstorage-in-vitest)
+- [Testing for localStorageSupport revisit](#testing-for-localstoragesupport-revisit)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
+
+In this post, I walk through the code for the Storage Fun with Forms rebuild and
+then test its viability with Vitest.
+
+## Understanding the Vite workflow
+
+Before I step into the code, I want to discuss why there are certain differences
+between the original Storage Fun with Forms's JavaScript and the rebuild.
+
+The rebuild JavaScript looks like the following:
+
+```js
+import './style.scss'
+import '@melloware/coloris/dist/coloris.css'
+import Coloris from '@melloware/coloris'
+
+// ---- Storage keys ----
+const STORAGE_KEYS = {
+	bgColor: 'bgcolor',
+	fontColor: 'fontcolor',
+	fontFamily: 'fontfamily',
+	image: 'image',
+	note: 'note',
+}
+
+// ---- Element references ----
+const htmlElem = document.querySelector('html')
+const pElem = document.querySelector('p.font-color')
+const fontStyleElem = document.querySelector('.font-style')
+const imageElem = document.querySelector('img.image')
+
+const bgColorInput = document.querySelector('#bgcolor')
+const fontColorInput = document.querySelector('#fontcolor')
+const fontStyleSelect = document.querySelector('#font')
+const imageSrcSelect = document.querySelector('#image')
+const textAreaInput = document.querySelector('#textArea')
+
+const noteBtn = document.querySelector('#note-btn')
+const getNoteBtn = document.querySelector('#get-note-btn')
+const clearStorageButton = document.querySelector('.clear')
+const emptyStorageButton = document.querySelector('.empty')
+const storageQuotaMsg = document.getElementById('storage-quota-msg')
+
+// ---- Coloris setup ----
+Coloris.init()
+Coloris({
+	el: '.coloris',
+	theme: 'large',
+	themeMode: 'light',
+	format: 'hex',
+})
+
+/** Normalize a hex color string to always include a leading '#'. */
+function withHash(hex) {
+	return hex.startsWith('#') ? hex : `#${hex}`
+}
+
+/** Detects basic Web Storage API support. */
+function localStorageSupport() {
+	return typeof Storage !== 'undefined'
+}
+
+/** Clears only the saved note, both from the textarea and from storage. */
+function clearStorage() {
+	textAreaInput.value = ''
+	localStorage.removeItem(STORAGE_KEYS.note)
+}
+
+/** Empties all app data from localStorage and resets the note field. */
+function emptyStorage() {
+	textAreaInput.value = ''
+	localStorage.clear()
+}
+
+/**
+ * Writes all current form selections to localStorage, then applies them.
+ * Guards against quota errors the way the original did, but actually
+ * inspects the thrown error rather than constructing a fresh, blank one.
+ */
+function populateStorage() {
+	if (!localStorageSupport()) {
+		storageQuotaMsg.textContent =
+			'Sorry. No HTML5 local storage support here.'
+		return
+	}
+
+	try {
+		localStorage.setItem(STORAGE_KEYS.bgColor, bgColorInput.value)
+		localStorage.setItem(STORAGE_KEYS.fontFamily, fontStyleSelect.value)
+		localStorage.setItem(STORAGE_KEYS.image, imageSrcSelect.value)
+		localStorage.setItem(STORAGE_KEYS.fontColor, fontColorInput.value)
+		localStorage.setItem(STORAGE_KEYS.note, textAreaInput.value)
+		setStyles()
+	} catch (error) {
+		if (
+			error instanceof DOMException &&
+			(error.name === 'QuotaExceededError' ||
+				error.name === 'NS_ERROR_DOM_QUOTA_REACHED')
+		) {
+			storageQuotaMsg.textContent = 'Local Storage Quota Exceeded!'
+		} else {
+			throw error
+		}
+	}
+}
+
+/** Reads saved selections from localStorage and applies them to the form and page. */
+function setStyles() {
+	const currentBgColor = localStorage.getItem(STORAGE_KEYS.bgColor)
+	const currentFont = localStorage.getItem(STORAGE_KEYS.fontFamily)
+	const currentImage = localStorage.getItem(STORAGE_KEYS.image)
+	const currentFontColor = localStorage.getItem(STORAGE_KEYS.fontColor)
+
+	if (currentBgColor) {
+		bgColorInput.value = currentBgColor
+		htmlElem.style.backgroundColor = withHash(currentBgColor)
+	}
+	if (currentFont) {
+		fontStyleSelect.value = currentFont
+		pElem.style.fontFamily = currentFont
+	}
+	if (currentImage) {
+		imageSrcSelect.value = currentImage
+		imageElem.setAttribute('src', currentImage)
+	}
+	if (currentFontColor) {
+		fontColorInput.value = currentFontColor
+		fontStyleElem.style.color = withHash(currentFontColor)
+	}
+}
+
+/** Restores the saved note text into the textarea, if one exists. */
+function restoreNote() {
+	const savedNote = localStorage.getItem(STORAGE_KEYS.note)
+	if (savedNote) {
+		textAreaInput.value = savedNote
+	}
+}
+
+/** Updates the footer's copyright year and author credit. */
+function renderFooter() {
+	const footer = document.getElementById('site-footer')
+	if (!footer) return
+	const year = new Date().getFullYear()
+	footer.innerHTML = `&#10013; &copy; ${year} Maria D. Campbell &#10013;`
+}
+
+// ---- Init ----
+const hasSavedSelections =
+	localStorage.getItem(STORAGE_KEYS.bgColor) &&
+	localStorage.getItem(STORAGE_KEYS.fontFamily) &&
+	localStorage.getItem(STORAGE_KEYS.image) &&
+	localStorage.getItem(STORAGE_KEYS.fontColor)
+
+if (hasSavedSelections) {
+	setStyles()
+} else {
+	populateStorage()
+}
+restoreNote()
+renderFooter()
+
+// ---- Event listeners ----
+noteBtn.addEventListener('click', () => {
+	localStorage.setItem(STORAGE_KEYS.note, textAreaInput.value)
+})
+
+getNoteBtn.addEventListener('click', () => {
+	textAreaInput.value = localStorage.getItem(STORAGE_KEYS.note) ?? ''
+})
+
+clearStorageButton.addEventListener('click', (event) => {
+	event.preventDefault()
+	clearStorage()
+})
+
+emptyStorageButton.addEventListener('click', (event) => {
+	event.preventDefault()
+	emptyStorage()
+})
+
+bgColorInput.addEventListener('change', populateStorage)
+fontColorInput.addEventListener('change', populateStorage)
+fontStyleSelect.addEventListener('change', populateStorage)
+imageSrcSelect.addEventListener('change', populateStorage)
+textAreaInput.addEventListener('change', populateStorage)
+```
+
+As a refresher, the original Storage Fun with Forms JavaScript code looks like
+the following:
+
+```js
+// background color related variables
+let bgColorInput = document.querySelector('#bgcolor')
+let htmlElem = document.querySelector('html')
+// font color related variables
+let fontColorInput = document.querySelector('#fontcolor')
+let pElem = document.querySelector('p')
+// font style related variables
+let fontStyleSelect = document.querySelector('#font')
+let fontStyleElem = document.querySelector('.font-style')
+// image related variables
+let imageSrcSelect = document.querySelector('#image')
+let imageElem = document.querySelector('img')
+// textarea related variables
+let textAreaElem = document.querySelector('textarea')
+let textAreaInput = document.querySelector('#textArea')
+let noteBtn = document.querySelector('#note-btn')
+let getNoteBtn = document.querySelector('#get-note-btn')
+// clear storage button
+const clearStorageButton = document.querySelector('.clear')
+// storage quota message div
+const storageQuotaMsg = document.getElementById('storage-quota-msg')
+// empty storage button
+const emptyStorageButton = document.querySelector('.empty')
+
+// clear storage function. Only clears the note local storage.
+function clearStorage() {
+	let note = document.querySelector('#textArea')
+	note.value = ''
+	localStorage.removeItem('note', note.value)
+}
+
+// empty local storage, meaning everything.
+function emptyStorage() {
+	let note = document.querySelector('#textArea')
+	note.value = ''
+	localStorage.clear()
+}
+
+// check for local storage
+function localStorageSupport() {
+	return typeof Storage !== 'undefined'
+}
+
+/* if there isn't a 'bgcolor' key to get in local storage, make a call to populateStorage() function.  Else, make a call to the setStyles() function. */
+if (
+	!localStorage.getItem('bgcolor') ||
+	!localStorage.getItem('fontfamily') ||
+	!localStorage.getItem('image') ||
+	!localStorage.getItem('fontcolor')
+) {
+	populateStorage()
+} else {
+	setStyles()
+}
+
+/* populate storage using the setItem() method. Also check for localStorage support and storage quota. */
+function populateStorage() {
+	// run detection with inverted expression
+	if (!localStorageSupport) {
+		// change value to inform visitor of no session storage support
+		storageQuotaMsg.innerHTML =
+			'Sorry. No HTML5 session storage support here.'
+	} else {
+		try {
+			localStorage.setItem(
+				'bgcolor',
+				document.getElementById('bgcolor').value,
+			)
+			localStorage.setItem(
+				'fontfamily',
+				document.getElementById('font').value,
+			)
+			localStorage.setItem(
+				'image',
+				document.getElementById('image').value,
+			)
+			localStorage.setItem(
+				'fontcolor',
+				document.querySelector('#fontcolor').value,
+			)
+			localStorage.setItem(
+				'note',
+				document.querySelector('#textArea').value,
+			)
+			setStyles()
+		} catch (domException) {
+			domException = new DOMException()
+			if (
+				domException.name === 'QUOTA_EXCEEDED_ERR' ||
+				domException.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+			) {
+				storageQuotaMsg.innerHTML = 'Local Storage Quota Exceeded!'
+			}
+		}
+	}
+}
+
+/* Set styles of body background color, font style, image selection, and paragraph font color using the getItem() method to retrieve their values from local storage. */
+function setStyles() {
+	let currentBgColor = localStorage.getItem('bgcolor')
+	let currentFont = localStorage.getItem('fontfamily')
+	let currentImage = localStorage.getItem('image')
+	let currentFontColor = localStorage.getItem('fontcolor')
+
+	document.getElementById('bgcolor').value = currentBgColor
+	document.getElementById('font').value = currentFont
+	document.getElementById('image').value = currentImage
+	document.getElementById('fontcolor').value = currentFontColor
+	document.querySelector('.font-color').value = currentFontColor
+
+	htmlElem.style.backgroundColor = '#' + currentBgColor
+	pElem.style.fontFamily = currentFont
+	fontStyleElem.style.color = '#' + currentFontColor
+	imageElem.setAttribute('src', currentImage)
+}
+
+// save textarea text to local storage on click
+noteBtn.addEventListener('click', () => {
+	localStorage.setItem('note', document.querySelector('#textArea').value)
+})
+
+// get note local storage value and save it to value of textarea text
+getNoteBtn.addEventListener('click', () => {
+	localStorage.getItem('note', document.querySelector('#textArea').value)
+	document.querySelector('#textArea').value = localStorage.getItem('note')
+})
+
+// clear the note local storage key value
+clearStorageButton.addEventListener('click', clearStorage)
+// empty local storage completely
+emptyStorageButton.addEventListener('click', emptyStorage)
+// listen for change in background color input field
+bgColorInput.addEventListener('change', populateStorage)
+// listen for change in font color input field
+fontColorInput.addEventListener('change', populateStorage)
+// listen cor change in selection of font style
+fontStyleSelect.addEventListener('change', populateStorage)
+// listen for change in image selection
+imageSrcSelect.addEventListener('change', populateStorage)
+// listen for changes in the textarea element
+textAreaInput.addEventListener('change', populateStorage)
+```
+
+I'm not going to go through the specific differences between the two versions. I
+want to point out the bigger picture differences between the way JavaScript
+interacts with the rest of the application artifacts such as the CSS and HTML.
+
+In the original, the CSS is added to the head element of the index.html in the
+form of a link element, and the JS is added at the bottom of the index.html in
+the form of a script tag. jscolor is also added to the bottom of the index.html
+file in the form of a script tag.
+
+In the rebuild, the main styles.css file is imported into the main.js file.
+
+The styling for the Coloris color picker is also imported into the main.js file.
+
+The Coloris module itself is also imported into the main.js file.
+
+For those of you who are familiar with React, this process should appear
+"old-hat".
+
+## What is it about Vite that allows me to create these imports?
+
+Vite supports ES syntax, which allows me to import and export files from
+JavaScript files. This means there is no need for a complex build process (i.e.,
+Webpack, Babel, etc.). This makes life so much easier! This was not possible in
+bare-bones JavaScript. Even though ES syntax may have worked within the
+JavaScript project, it did not necessarily work in the browser. That's where
+tools like Webpack and Babel came in. Vite supports ES syntax out-of-the-box, so
+no need for Webpack or Babel config files!
+
+## Testing Storage Fun with Forms Rebuild using Vitest
+
+What's also great about Vite is that it comes with a testing framework called
+Vitest. It does have to be installed as a devDependency, but it was made to work
+with Vite projects.
+
+## Installing Vitest
+
+To install vitest in my Vite project, I ran
+
+```shell
+npm i -D vitest
+```
+
+and the package appeared in my `package.json` file:
+
+```json
+  "devDependencies": {
+    "vitest": "^4.1.9"
+  }
+```
+
+Then I added a script for it in package.json:
+
+```json
+"scripts": {
+  "test": "vitest"
+}
+```
+
+## Creating a test from a supposed place of knowledge
+
+Since both the original and the rebuilt version of Storage Fun with Forms are
+meant to do the same thing, I used the same test I used for checking for the
+existence of the !localStorageSupport bug in the rebuild as I did in the
+original app. I just made a few minor code adjustments to make it compatible
+with Vitest. It looked like the following:
+
+```js
+// test/main.test.js
+import { describe, expect, test } from 'vitest'
+
+describe('!localStorageSupport "no support" message displays when there is no localStorage Support', function () {
+	beforeEach(function () {
+		localStorage.clear()
+		document.getElementById('storage-quota-msg').innerHTML =
+			'Sorry. No HTML5 local storage support here.'
+	})
+
+	afterEach(function () {
+		localStorage.clear()
+		document.getElementById('storage-quota-msg').innerHTML =
+			'Sorry. No HTML5 local storage support here.'
+	})
+
+	test('the "no support" message displays, because !localStorageSupport is true when there is no localStorage Support', function () {
+		expect(!!localStorageSupport).toBe(true)
+
+		populateStorage()
+
+		expect(document.getElementById('storage-quota-msg').innerHTML).toBe(
+			'Sorry. No HTML5 local storage support here.',
+		)
+	})
+})
+```
+
+When I ran the test in Terminal, it returned the following:
+
+```shell
+npm test
+
+> storage-fun-with-forms@2.0.0 test
+> vitest
+
+
+ DEV  v4.1.9 /Users/mariacam/Development/storage-fun-with-forms-rebuild
+
+ ❯ test/main.test.js (1 test | 1 failed) 3ms
+   ❯ !localStorageSupport "no support" message displays (1)
+     × the "no support" message displays, because !localStorageSupport is true when there is no localStorage Support 2ms
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/main.test.js > !localStorageSupport "no support" message displays > the "no support" message displays, because !localStorageSupport is true when there is no localStorage Support
+TypeError: Cannot set properties of null (setting 'innerHTML')
+ ❯ test/main.test.js:6:64
+      4|     beforeEach(function () {
+      5|         localStorage.clear()
+      6|         document.getElementById('storage-quota-msg').innerHTML =
+       |                                                                ^
+      7|             'Sorry. No HTML5 local storage support here.'
+      8|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/main.test.js > !localStorageSupport "no support" message displays > the "no support" message displays, because !localStorageSupport is true when localStorage support is not present
+TypeError: Cannot set properties of null (setting 'innerHTML')
+ ❯ test/main.test.js:12:64
+     10|     afterEach(function () {
+     11|         localStorage.clear()
+     12|         document.getElementById('storage-quota-msg').innerHTML =
+       |                                                                ^
+     13|             'Sorry. No HTML5 local storage support here.'
+     14|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  20:30:22
+   Duration  430ms (transform 14ms, setup 17ms, import 5ms, tests 3ms, environment 290ms)
+
+ FAIL  Tests failed. Watching for file changes...
+       press h to show help, press q to quit
+```
+
+Evidently, the adjusted Jasmine test code did not transfer to Vitest well. I had
+to add some more npm packages to package.json and configurations to my
+vite.config.js file related to testing _for starters_.
+
+When I got the `ReferenceError: beforeEach is not defined`, I found that I had
+to import both `beforeEach` and `afterEach` into test/main.test.js.
+
+After I fixed those two issues and ran the test again, I got the following
+ReferenceError:
+
+```shell
+ FAIL  test/main.test.js > !localStorageSupport "no support" message displays > the "no support" message displays, because !localStorageSupport is true when there is no localStorage Support
+ReferenceError: document is not defined
+ ❯ test/main.test.js:21:9
+     19|     beforeEach(function () {
+     20|         localStorage.clear();
+     21|         document.getElementById('storage-quota-msg').innerHTML = 'Sorry. No HTML5 local storage support here.';
+       |         ^
+     22|     });
+```
+
+I did a Google search and found that I had to install the jsdom npm package to
+fix the issue. Vitest works in a Node environment, so it does not have access to
+the DOM, which resides in a client-side environment.
+
+After I installed the jsdom package, I had to add the following line to my
+vite.config.js file:
+
+```js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+	base: './',
+	build: {
+		outDir: 'dist',
+	},
+	test: {
+		setupFiles: ['vitest-localstorage-mock'],
+		globals: true,
+		environment: 'jsdom',
+	},
+})
+```
+
+I also had to add `globals: true` because document is a global object.
+
+I also threw a ReferenceError regarding localStorage:
+
+```shell
+ FAIL  test/main.test.js > l!localStorageSupport "no support" message displays > the "no support" message displays, because !localStorageSupport is true there is no localStorage Support
+ReferenceError: localStorage is not defined
+ ❯ test/main.test.js:20:9
+     18| describe('localStorageSupport missing-parens bug', function () {
+     19|     beforeEach(function () {
+     20|         localStorage.clear();
+       |         ^
+     21|         document.getElementById('storage-quota-msg').innerHTML = 'Sorry. No HTML5 local storage support here.';
+     22|     });
+```
+
+I had to add the `setupFiles: ['vitest-localstorage-mock'],` line to
+vite.config.js and install the npm package `vitest-localstorage-mock`. This
+package allows me to test localStorage with Vitest. It mocks localStorage and
+sessionStorage in my tests. As indicated above in the code snippet of my
+vite.config.js file, I added `setupFiles: ['vitest-localstorage-mock'],` to
+configure the use of the package in tests.
+
+Once I completed configuring everything for my test, I reran `npm test` and got
+the following:
+
+```shell
+ FAIL  test/main.test.js > !localStorageSupport "no support" message displays > the "no support" message displays, because !localStorageSupport is true there is no localStorage Support
+TypeError: Cannot set properties of null (setting 'innerHTML')
+ ❯ test/main.test.js:21:64
+     19|     beforeEach(function () {
+     20|         localStorage.clear();
+     21|         document.getElementById('storage-quota-msg').innerHTML = 'Sorry. No HTML5 local storage support here.';
+       |                                                                ^
+     22|     });
+     23|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/main.test.js > localStorageSupport missing-parens bug > the "no support" message never displays, because !localStorageSupport is always false
+TypeError: Cannot set properties of null (setting 'innerHTML')
+ ❯ test/main.test.js:26:64
+     24|     afterEach(function () {
+     25|         localStorage.clear();
+     26|         document.getElementById('storage-quota-msg').innerHTML = 'Sorry. No HTML5 local storage support here.';
+       |                                                                ^
+     27|     });
+     28|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  16:37:22
+   Duration  409ms (transform 12ms, setup 16ms, import 5ms, tests 3ms, environment 277ms)
+
+ FAIL  Tests failed. Watching for file changes...
+       press h to show help, press q to quit
+```
+
+## Mocking localStorage in Vitest
+
+Then I found out that the code I was using was incorrect. I needed to _mock_
+localStorage, so I came up with the following test code:
+
+```js
+import { describe, expect, test, vi } from 'vitest'
+
+describe('localStorageSupport Test', () => {
+	test('should execute the if block when localStorage is not supported', () => {
+		// Mock the localStorageSupport function
+		const localStorageSupport = vi.fn(() => false)
+
+		// Your code that uses localStorageSupport
+		if (!localStorageSupport()) {
+			// This block should execute
+			expect(false).toBe(false)
+		}
+	})
+})
+```
+
+And it returned the following:
+
+```shell
+npm test
+
+> storage-fun-with-forms@2.0.0 test
+> vitest
+
+
+ DEV  v4.1.9 /Users/mariacam/Development/storage-fun-with-forms-rebuild
+
+ ✓ test/main.test.js (1 test) 2ms
+   ✓ localStorageSupport Test (1)
+     ✓ should execute the if block when localStorage is not supported 1ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  17:30:15
+   Duration  597ms (transform 15ms, setup 19ms, import 6ms, tests 2ms, environment 455ms)
+
+ PASS  Waiting for file changes...
+       press h to show help, press q to quit
+```
+
+However, I found that even though this test passed, it wasn't actually testing
+anything. And in the previous test code taken from my Jasmine tests, the
+`Cannot set properties of null (setting 'innerHTML')` means that
+`document.getElementById('storage-quota-msg')` returned null. That's because
+there was no element with the `storage-quota-msg` ID in whatever DOM jsdom set
+up for the test. The problem there is that nothing in the test loads my actual
+index.html markup before the test runs. jsdom gives me a DOM, but an empty one,
+because I don't load my real markup into it.
+
+As far as the `localStorageSupport Test`, the vi.fn() mock function passes only
+because it avoids the problem instead of solving it. It never calls
+document.getElementById, never calls the real populateStorage function because
+it is not imported into the file, and never touches the actual
+localStorageSupport function. The expect(false).toBe(false) assertion is true
+despite any code in main.js.
+
+I found out from Claude that given the structure of the JavaScript code in
+`main.js`, it would be virtually impossible to test individual pieces of
+functionality given the current structure of the code. Why? First of all, none
+of the functions are being exported from `main.js`. But when I would export and
+`import` them (given the current code structure), all the functions and event
+listeners are called at once on import, which then results in the creation of a
+test environment, unless the DOM elements it queries for already exist.
+
+This is when I decided that I had to modularize the code and localize the const
+variables within their associated functions. This always results in clean,
+reusable pieces of code and simplifies the testing process. It is the approach I
+take in Django/Python applications.
+
+## Testing for localStorageSupport revisit
+
+I was determined to get testing for localStorageSupport right, so I revisited
+the test file and even renamed it to localStorageSupport.test.js so it would
+reflect what was being tested inside.
+
+First I tried out the following test:
+
+```js
+import { describe, it, expect } from 'vitest'
+
+describe('Local Storage Support', () => {
+	it('should support localStorage', () => {
+		expect(typeof localStorage).toBe('object')
+	})
+})
+```
+
+This got me closer to a viable test, but it still didn't accomplish what I
+wanted it to. The above test checks for the existence of the Storage
+constructor/interface, the real feature-detection check browsers use. Checking
+`typeof Storage !== 'undefined'` avoids a ReferenceError that can happen if the
+Storage object is not defined in the current environment, such as in older
+browsers that do not support it. And that is what the actual Storage Fun with
+Forms rebuild code does:
+
+```js
+/* src/modules/localStorageSupport.js */
+/** Detects basic Web Storage API support. */
+export function localStorageSupport() {
+	return typeof Storage !== 'undefined'
+}
+```
+
+My test did not actually test for that particular code. In order to test that
+function, I had to do the following:
+
+```js
+import { localStorageSupport } from '../src/modules/localStorageSupport.js'
+
+describe('localStorageSupport', () => {
+	it('returns true when Storage is available', () => {
+		expect(localStorageSupport()).toBe(true)
+	})
+})
+```
+
+I had to be able to directly test my function by calling it inside `expect()`
+and then passing the result I expected it to be, to `.toBe()`.
+
+## Conclusion
+
+In this post, I set up Vitest in my Storage Fun with Forms rebuild and tried to
+use a modified version of one of the tests I created with Jasmine. I figured I
+would start from a point of knowledge, but that knowledge did not transfer! Then
+I did some research, but was confused by the conflicting documentation I found
+regarding Vitest. That's where Claude will come in again! They will show me how
+to do it the right way so that I won't waste time trudging through incorrect
+information summarized by Google AI Search from a conglomeration of sources. I
+also realized that I have to modularize my main.js code into reusable parts, so
+in the next part of the series, I show how I chopped up main.js into smaller
+pieces and how I created tests for each of them.
+
+## Related Resources
+
+- [Local Storage Session Storage Fun Form Public Archive](https://github.com/interglobalmedia/local-storage-session-storage-fun-form):
+  _Publicly Archived repository on GitHub_
+- [Storage Fun with Forms rebuild](https://github.com/interglobalmedia/storage-fun-with-forms-rebuild):
+  _GitHub repository_
+- [Vitest: Getting Started](https://vitest.dev/guide/): _Vitest documentation_
+- [Vite Features](https://vite.dev/guide/features): _Vite documentation_
+- [How to mock and spy on local storage in vitest](https://dylanbritz.dev/writing/mocking-local-storage-vitest/):
+  _by Dylan Britz, dylanbritz.dev_
+
+## Related Posts
+
+- [Storage Fun with Forms Rebuilt: A Modern Pass with Claude Table of Contents](/blog/storage-fun-with-forms-rebuilt-a-modern-pass-with-claude-table-of-contents):
+  _mariadcampbell.com_

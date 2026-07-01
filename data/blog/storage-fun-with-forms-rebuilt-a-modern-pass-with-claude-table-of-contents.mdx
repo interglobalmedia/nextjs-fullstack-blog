@@ -1,0 +1,100 @@
+---
+slug: 'storage-fun-with-forms-rebuilt-a-modern-pass-with-claude-table-of-contents'
+date: '2026-06-29T23:02:46.900Z'
+lastModified: '2026-06-29T23:02:46.900Z'
+title:
+    'Storage Fun with Forms Rebuilt: A Modern Pass with Claude Table of Contents'
+author: 'Maria D. Campbell'
+excerpt:
+    'A table of contents of all posts in the Storage Fun with Forms rebuild
+    series, covering Vite setup, Vitest testing, modularization, and a
+    side-by-side comparison with the original build.'
+image: parinaz-mirhosseini-RxAyATWag6A-unsplash.webp
+tags:
+    [
+        'macOS',
+        'coverage',
+        'istanbul',
+        'jasmine standalone',
+        'javascript',
+        'rolldown',
+        'series',
+        'tests',
+        'vanilla template',
+        'vite',
+        'vite config',
+        'vitest',
+        'unit testing',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Image of an array of little colorful square notes representing tasks that need to be done](parinaz-mirhosseini-RxAyATWag6A-unsplash.webp)
+
+_[Photo by](https://unsplash.com/photos/colorful-game-tiles-scattered-on-a-grid-RxAyATWag6A)
+[Parinaz Mirhosseini](https://unsplash.com/@parinaz_mhs) on
+[unsplash.com](https://unsplash.com/)_
+
+This is the table of contents for my series on the Storage Fun with Forms
+rebuild: a modern pass with Claude.
+
+## Series Table of Contents
+
+1. [Storage Fun With Forms, Rebuilt: A Modern Pass with Claude](/blog/storage-fun-with-forms-rebuilt-a-modern-pass-with-claude):
+   _mariadcampbell.com_: In this part one of the series on rebuilding Storage
+   Fun with Forms, I walked through the steps to creating a basic Vite project
+   with Vite 8.1.0 and what it consists of. I then compared those assets to the
+   ones in the Storage Fun with Forms rebuild. There will be more parts to come
+   as I continue documenting the build process.
+1. [Storage Fun with Forms: Working through the Code](/blog/storage-fun-with-forms-working-through-the-code):
+   In this second post of the Storage Fun with Forms series, I walk through the
+   code of the original Storage Fun with Forms, point out the bugs that Claude
+   found in the main.js file, the tests that they helped create, discuss whether
+   the tests upheld or not, and how to check the size of my application's local
+   storage at any given time. After going through this exercise, I remembered
+   how important it is to test my application code. I have been vigilant in
+   Django/Python projects, but only really focused on testing React/Next.js.
+   This has inspired me to do the same with other older vanilla JavaScript
+   applications to ensure that their code upholds in tests as well.
+1. [Storage Fun with Forms Rebuild: Working through the Code](/blog/storage-fun-with-forms-rebuild-working-through-the-code):
+   In this post, I set up Vitest in my Storage Fun with Forms rebuild and tried
+   to use a modified version of one of the tests I created with Jasmine. I
+   figured I would start from a point of knowledge, but that knowledge did not
+   transfer! Then I did some research, but was confused by the conflicting
+   documentation I found regarding Vitest. That's where Claude will come in
+   again! They will show me how to do it the right way so that I won't waste
+   time trudging through incorrect information summarized by Google AI Search
+   from a conglomeration of sources. I also realized that I have to modularize
+   my main.js code into reusable parts, so in the next part of the series, I
+   show how I chopped up main.js into smaller pieces and how I created tests for
+   each of them.
+1. [Storage Fun with Forms Rebuild: Testing the Code](/blog/storage-fun-with-forms-rebuild-testing-the-code):
+   In this post, I discuss how I divided the Storage Fun with Forms rebuild into
+   reusable parts. With this division, I was also able to target individual
+   functions in testing to determine their viability. Did they actually do what
+   they set out to do and was the code robust? I also had to make sure that the
+   tests were robust. I added test coverage to the project using Istanbul, a
+   JavaScript test coverage tool, to see what parts of the code being tested
+   were actually covered. However, it is not just about writing as many tests as
+   possible to cover as much code as possible. The tests have to be valid and
+   strict. In the next part of the series, I will compare the approach I took in
+   building the original Storage Fun with Forms application to the Storage Fun
+   with Forms rebuild. Come by and check it out!
+1. [Storage Fun with Forms Original vs Rebuilt: A Comparison](/blog/storage-fun-with-forms-original-vs-rebuilt-a-comparison#footnotes):
+   For me, Jasmine standalone was a great fit for the original, older version of
+   Storage Fun with Forms, because it did not depend on any particular version
+   of Node.js and it did not interfere with any project dependencies. I was able
+   to test my code out-of-the-box without issue. On the other hand, since the
+   rebuild was created from scratch, both the Vite vanilla JavaScript framework
+   and Vitest testing were the way to go. Jasmine standalone and Vitest are both
+   great unit testing frameworks. Choosing one over the other is just a matter
+   of what kind of project you're working with and what you are trying to
+   achieve.
+
+## Related Resources
+
+- [Local Storage Session Storage Fun Form Public Archive](https://github.com/interglobalmedia/local-storage-session-storage-fun-form):
+  _Publicly Archived repository on GitHub_
+- [Storage Fun with Forms rebuild](https://github.com/interglobalmedia/storage-fun-with-forms-rebuild):
+  _GitHub repository_
