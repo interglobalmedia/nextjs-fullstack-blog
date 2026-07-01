@@ -1,0 +1,132 @@
+---
+slug: 'storage-fun-with-forms-original-vs-rebuilt-a-comparison'
+date: '2026-06-30T12:29:31.256Z'
+lastModified: '2026-06-30T12:29:31.256Z'
+title: 'Storage Fun with Forms Original vs Rebuilt: A Comparison'
+author: 'Maria D. Campbell'
+excerpt:
+    'In this post, I compare the original Storage Fun with forms with the
+    rebuilt one created with the help of Claude AI.'
+image: parinaz-mirhosseini-RxAyATWag6A-unsplash.webp
+tags:
+    [
+        'macOS',
+        'coverage',
+        'istanbul',
+        'jasmine standalone',
+        'javascript',
+        'tests',
+        'unit testing',
+        'vanilla template',
+        'vite',
+        'vite config',
+        'vitest',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Image of an array of little colorful square notes representing tasks that need to be done](parinaz-mirhosseini-RxAyATWag6A-unsplash.webp)
+
+_[Photo by](https://unsplash.com/photos/colorful-game-tiles-scattered-on-a-grid-RxAyATWag6A)
+[Parinaz Mirhosseini](https://unsplash.com/@parinaz_mhs) on
+[unsplash.com](https://unsplash.com/)_
+
+## Table of Contents
+
+- [Storage Fun with Forms original: JavaScript code all in one file](#storage-fun-with-forms-original-javascript-code-all-in-one-file)
+- [Storage Fun with Forms rebuild: modularized JavaScript code](#storage-fun-with-forms-rebuild-modularized-javascript-code)
+- [Jasmine standalone vs Vitest testing](#jasmine-standalone-vs-vitest-testing)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
+- [Footnotes](#footnotes)
+
+Recently, I upgraded an old vanilla JavaScript project with the help of Claude
+AI called Storage Fun with Forms, which utilized localStorage to save and
+retrieve notes from a form. Then I wrote a series of posts around this upgrade
+and called it "Storage Fun with Forms Rebuilt: A Modern Pass with Claude". In
+this final part of the series, I compare the two approaches to the project and
+state why one approach is better than the other.
+
+## Storage Fun with Forms original: JavaScript code all in one file
+
+When I created the original Storage Fun with Forms, which was built with HTML,
+JavaScript, and Node Sass, I placed all the JavaScript code in one file. I had
+created it for a beginner JavaScript class I was teaching, and I didn't want to
+overwhelm my students with advanced JavaScript techniques. I also did not add
+tests to the project, because that was outside the scope of the class. If I had
+wanted to add tests, I would have modularized the code. Otherwise, it would have
+been virtually impossible to execute thorough code coverage. Modularization is
+necessary so that any given individual, independent pieces of code can be
+tested. To view the all in one `main.js` file, please visit
+[main.js](https://github.com/interglobalmedia/local-storage-session-storage-fun-form/blob/master/scripts/js/main.js)
+on the GitHub repository.
+
+When Claude let me know that they had picked up three bugs in the code, I chose
+Jasmine standalone to create three tests to prove or disprove those assertions.
+To view how I added Jasmine standalone to the original Storage Fun with Forms,
+please visit Part 2 in the series:
+[Storage Fun with Forms: Working through the Code](/blog/storage-fun-with-forms-working-through-the-code).
+
+## Storage Fun with Forms rebuild: modularized JavaScript code
+
+In the Storage Fun with Forms rebuild, which I created with the help of Claude
+AI, I created a Storage Fun with Forms using the Vite vanilla template
+framework, added Vitest testing to it, modularized the entire JavaScript code
+and created tests for several of the modularized pieces. To view the modularized
+code on GitHub, please visit the
+[src](https://github.com/interglobalmedia/storage-fun-with-forms-rebuild/tree/main/src)
+directory, which contains the modules directory consisting of the JS modules,
+the constants.js file, which contains all the required constants, and index.js,
+which imports all required JS and initializes the application. To view how I
+added Vitest to the Storage Fun with Forms rebuild and created tests for the
+localStorageSupport, renderFooter, and withHash functions, please visit
+[Storage Fun with Forms Rebuild: Testing the Code](/blog/storage-fun-with-forms-rebuild-testing-the-code).
+
+## Jasmine standalone vs Vitest testing
+
+| Category            | Jasmine Standalone                                                                                                                           | Vitest                                                                                                                                                                                                                                                  |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Core files location | **lib** directory inside jasmine-standalone root which itself is located at the root of the local Git repository                             | **vitest** directory inside **node_modules**, which resides at the root of the local Git repository.                                                                                                                                                    |
+| Code location       | **src** directory inside jasmine-standalone root                                                                                             | **src** directory inside local Git repository root                                                                                                                                                                                                      |
+| Tests location      | **spec** directory inside jasmine-standalone root                                                                                            | **test** directory inside local Git repository root                                                                                                                                                                                                     |
+| Testing style       | **Behavior-Driven Development (BDD)** by design, where developers write tests in a descriptive manner.                                       | Flexible — supports BDD or **Test-Driven Development(TDD)**[^1] syntax depending on how you write it.                                                                                                                                                   |
+| Implementation      | Opening **SpecRunner.html** in the browser                                                                                                   | Running the **test** script in Terminal                                                                                                                                                                                                                 |
+| Code coverage       | Not available by default. Can be implemented with the addition of tools like Istanbul.                                                       | Not available by default. Can be implemented with the addition of tools like Istanbul or V8.                                                                                                                                                            |
+| Browser support     | Jasmine standalone works in the browser by default via the **SpecRunner.html** file residing in the root of the jasmine-standalone directory | By default, Vitest works in Terminal. Including browser support requires adding a browser automation tool such as **WebdriverIO**, **Cypress**, or **Playwright** for real browser/engine access, which is configured separately in **vite.config.js**. |
+| Configuration file  | **SpecRunner.html**                                                                                                                          | **vite.config.js**                                                                                                                                                                                                                                      |
+
+## Conclusion
+
+For me, Jasmine standalone was a great fit for the original, older version of
+Storage Fun with Forms, because it did not depend on any particular version of
+Node.js and it did not interfere with any project dependencies. I was able to
+test my code out-of-the-box without issue. On the other hand, since the rebuild
+was created from scratch, both the Vite vanilla JavaScript framework and Vitest
+testing were the way to go. Jasmine standalone and Vitest are both great unit
+testing frameworks. Choosing one over the other is just a matter of what kind of
+project you're working with and what you are trying to achieve.
+
+## Related Resources
+
+- [Local Storage Session Storage Fun Form Public Archive](https://github.com/interglobalmedia/local-storage-session-storage-fun-form):
+  _Publicly Archived repository on GitHub_
+- [Storage Fun with Forms rebuild](https://github.com/interglobalmedia/storage-fun-with-forms-rebuild):
+  _GitHub repository_
+- [Storage Fun with Forms rebuild live site](https://interglobalmedia.github.io/storage-fun-with-forms-rebuild/):
+  _Live Site on GH Pages_
+- [Jasmine vs Vitest comparison of testing frameworks What are the differences between Jasmine and Vitest?](https://knapsackpro.com/testing_frameworks/difference_between/jasmine/vs/vitest):
+  _knapsackpro.com_
+- [Vitest: Why Browser Mode](https://vitest.dev/guide/browser/why): _Vitest
+  documentation_
+
+## Related Posts
+
+- [Storage Fun with Forms Rebuilt: A Modern Pass with Claude Table of Contents](/blog/storage-fun-with-forms-rebuilt-a-modern-pass-with-claude-table-of-contents):
+  _mariadcampbell.com_
+
+[^1]:
+    **Test-Driven Development(TDD)** emphasizes writing tests before writing the
+    actual code to ensure that the code meets requirements and functions as
+    expected.

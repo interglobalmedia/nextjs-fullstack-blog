@@ -1,0 +1,565 @@
+---
+slug: 'storage-fun-with-forms-rebuilt-a-modern-pass-with-claude'
+date: '2026-06-23T01:03:29.326Z'
+lastModified: '2026-06-23T01:03:29.326Z'
+title: 'Storage Fun With Forms, Rebuilt: A Modern Pass with Claude'
+author: 'Maria D. Campbell'
+excerpt:
+    'Walk through a step by step process of creating a Vite project using the
+    current latest version. This is the first part of a series on rebuilding
+    Storage Fun with Forms.'
+image: parinaz-mirhosseini-RxAyATWag6A-unsplash.webp
+tags:
+    [
+        'macOS',
+        'rolldown',
+        'vanilla template',
+        'vite',
+        'javascript',
+        'series',
+        'vite config',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Image of an array of little colorful square notes representing tasks that need to be done](parinaz-mirhosseini-RxAyATWag6A-unsplash.webp)
+
+_[Photo by](https://unsplash.com/photos/colorful-game-tiles-scattered-on-a-grid-RxAyATWag6A)
+[Parinaz Mirhosseini](https://unsplash.com/@parinaz_mhs) on
+[unsplash.com](https://unsplash.com/)_
+
+## Table of Contents
+
+- [Why the Storage Fun With Forms rebuild](#why-the-storage-fun-with-forms-rebuild)
+- [Tooling table before and after](#tooling-table-before-and-after)
+- [Walking through the tooling process](#walking-through-the-tooling-process)
+    - [The original tooling](#the-original-tooling)
+    - [The rebuild tooling](#the-rebuild-tooling)
+        - [Steps to creating a new Vite project using npm create vite@latest](#steps-to-creating-a-new-vite-project-using-npm-create-vitelatest)
+- [Breaking down the Storage Fun with Forms rebuild structure](#breaking-down-the-storage-fun-with-forms-rebuild-structure)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
+
+In 2020, I built a little app called Storage Fun with Forms. I had created it in
+such a way that my JavaScript students could both learn from and have fun with
+it. I made sure to create a workflow that they would understand. I subsequently
+wrote a post about how I built the app, step by step, so others could benefit.
+Recently, I revisited the post and decided that it and the application needed an
+overhaul. I updated the post and archived it. Then I archived the GitHub
+repository. Finally, I collaborated with Claude.AI to modernize it.
+
+I compare the original app to the rebuild: what differs, and what might have
+remained the same.
+
+This is the first part of a series on rebuilding Storage Fun with Forms.
+
+## Why the Storage Fun With Forms rebuild
+
+Honestly, I really liked my Storage Fun with Forms app, but I knew that the
+workflow behind it and even the code structure could use an upgrade and polish.
+I also knew that I had a lot on my plate outside of software development and
+that I could use some help. That's how I got to know Claude in the first place.
+
+## Tooling table before and after
+
+| Category               | Original                                                                                                                  | Rebuild                                                                                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Tooling**            | Vanilla HTML/CSS/JS, no bundler                                                                                           | Vite + vanilla JavaScript (ES modules)                                                                                                                     |
+| **Development server** | VS Code Live Server extension                                                                                             | Vite development server                                                                                                                                    |
+| **Styles**             | SCSS via node-sass (end-of-life)                                                                                          | SCSS via Dart Sass                                                                                                                                         |
+| **Color picker**       | **jscolor**, a self-sufficient JavaScript library that offers a variety of configuration options and is easy to integrate | **@melloware/coloris**, a lightweight and elegant color picker npm package that allows users to select colors in various formats such as hex, rgb, and hsl |
+| **Deployment**         | gh-pages npm package                                                                                                      | GitHub Actions workflow                                                                                                                                    |
+
+## Walking through the tooling process
+
+### The original tooling
+
+In the original Storage Fun With Forms, I used basic Vanilla JavaScript, HTML,
+and CSS. The students I was building this project for had a rudimentary
+understanding of JavaScript, and I wanted to keep things as simple as possible.
+I didn't even expect them to set up the basic NPM workflow that I implemented,
+but I created the basic NPM workflow because I wanted to make things as easy as
+possible within my constraints.
+
+I used the node-sass NPM package to watch for changes in my SCSS. I ran a script
+I called "scss" with the value of
+`"node-sass --watch styles/scss -o styles/css"`. Whenever I worked on the SCSS,
+I would run this script in the background in a separate terminal window so that
+all changes to my SCSS would be reflected and transformed into CSS. The script
+states that node-sass is watching the main.scss file in styles/scss and as
+changes are made to it, transforming it into CSS which is then output (-o) into
+a file called main.css in styles/css.
+
+I used the VS Code Live Server extension as my local development server. It
+automatically refreshes the page whenever changes are made to project files. It
+works well with basic JavaScript, HTML and CSS projects. I got the school to
+install VS Code on my students' computers, which made working on their projects
+much easier.
+
+I created a custom script called "build" to package my app for deployment to GH
+Pages:
+
+```json
+"scripts": {
+    "scss": "node-sass --watch styles/scss -o styles/css",
+    "build": "cp -R images jscolor scripts styles dist/ && cp favicon.ico index.html dist/",
+},
+```
+
+The command is pretty straightforward. It copies (cp command) the images,
+jscolor, scripts, and styles folders using the -R (recursive) flag into a
+directory called dist, and then it copies (cp) the favicon.ico and index.html
+files into the dist folder.
+
+Each time I made changes to the app and pushed them to remote, I also had to
+update the dist folder, which was deployed to GH Pages. That's where my custom
+clean script came in:
+
+```json
+"scripts": {
+    "scss": "node-sass --watch styles/scss -o styles/css",
+    "clean": "rm -rf dist/ && mkdir dist/",
+    "build": "cp -R images jscolor scripts styles dist/ && cp favicon.ico index.html dist/",
+},
+```
+
+The clean script is also straightforward. When I run it, it deletes the current
+dist folder (rm -rf dist/) and (&&) makes a new, empty one which I then populate
+with the updated app files (mkdir dist/).
+
+I used an npm package called gh-pages, for which I also created a script called
+deploy:
+
+```json
+"scripts": {
+    "scss": "node-sass --watch styles/scss -o styles/css",
+    "clean": "rm -rf dist/ && mkdir dist/",
+    "build": "cp -R images jscolor scripts styles dist/ && cp favicon.ico index.html dist/",
+    "deploy": "gh-pages -d dist"
+},
+```
+
+The deploy script uses the gh-pages command line utility to deploy (-d) the dist
+folder to GH pages. There are two ways of doing this.
+
+The first way, within the Settings tab of my repository, I selected "Deploy from
+a branch" as my source, and then "master" as my source branch (at the time it
+was master and not main). No other configuration was necessary. However, I did
+have to make sure that my dist branch was not nested within another branch at
+the root of my repository. It had to also be at the root. Otherwise, that would
+entail a totally different script.
+
+The second way is a bit more dated. It entailed creating a local gh-pages
+branch, checking out into that branch, and then pushing the contents of my dist
+folder to my newly created remote origin gh-pages. Each time I would make
+changes to my app, I would have to check out into the gh-pages and push those
+changes to remote.
+
+```shell
+git add .
+git commit
+git switch -c gh-pages
+git push origin gh-pages
+```
+
+The second option was completely manual and of course took longer to complete.
+
+### The rebuild tooling
+
+With the app rebuild, my manual build was replaced with a Vite build.
+
+```shell
+#  this command initializes a new Vite project, setting up a basic file structure and creating a package.json file for managing dependencies. This command allows me to quickly start a new project using Vite. This also means that I don't have to run npm init to create a new package.json file for my project, which prompts me for package details. npm create vite@latest does this instead.
+npm create vite@latest
+```
+
+The command results in the creation of a default `index.html`, `node_modules`,
+`package-lock.json`, `package.json`, `public` directory, a `src/` directory, and
+`dev/build/preview` scripts in my `package.json`:
+
+```shell
+ls test-vite-latest
+index.html        package-lock.json public
+node_modules      package.json      src
+```
+
+```json
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview"
+},
+```
+
+The "dev" script starts up the Vite development server.
+
+The "build" script builds the Vite project inside the dist directory.
+
+The "preview" script displays the project's production build locally in the
+browser.
+
+### Steps to creating a new Vite project using npm create vite@latest
+
+When I run the `npm create vite@latest` command to create a demo project called
+`test-vite-latest`, the following is returned in Terminal:
+
+```shell
+npm create vite@latest
+
+> npx
+> "create-vite"
+
+│
+◇  Project name:
+│  test-vite-latest
+│
+◇  Select a framework:
+│  Vanilla
+│
+◇  Select a variant:
+│  JavaScript
+│
+◇  Install with npm and start now?
+│  Yes
+│
+◇  Scaffolding project in /Users/mariacam/Development/test-vite/test-vite-latest...
+│
+◇  Installing dependencies with npm...
+
+added 15 packages, and audited 16 packages in 2s
+
+8 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+│
+◇  Starting dev server...
+
+> test-vite-latest@0.0.0 dev
+> vite
+
+
+  VITE v8.1.0  ready in 534 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+^C
+```
+
+The creation of this new Vite project resulted in the following inside the
+storage-fun-with-forms-rebuild directory:
+
+```shell
+index.html        package-lock.json public
+node_modules      package.json      src
+```
+
+The package.json file initially looked like the following:
+
+```json
+// cat package.json
+{
+	"name": "test-vite-latest",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"vite": "^8.1.0"
+	}
+}
+```
+
+The package-lock.json looked like the following:
+
+```json
+cat package-lock.json
+{
+  "name": "test-vite-latest",
+  "version": "0.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "test-vite-latest",
+      "version": "0.0.0",
+      "devDependencies": {
+        "vite": "^8.1.0"
+      }
+    },
+    "node_modules/vite": {
+      "version": "8.1.0",
+      "resolved": "https://registry.npmjs.org/vite/-/vite-8.1.0.tgz",
+      "integrity": "sha512-BuJcQK/56NQTWDGn4ABea3q4SSBdNPWwNZKTkkUpcMPnLoquSYH8llRtSUIgoL1KSCpHt5eghLShn50mH36y7Q==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "lightningcss": "^1.32.0",
+        "picomatch": "^4.0.4",
+        "postcss": "^8.5.15",
+        "rolldown": "~1.1.2",
+        "tinyglobby": "^0.2.17"
+      },
+    }
+  }
+}
+```
+
+The index.html file looked like the following:
+
+```html
+cat index.html
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>test-vite-latest</title>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="module" src="/src/main.js"></script>
+	</body>
+</html>
+```
+
+The public directory contained:
+
+```shell
+ls public
+favicon.svg icons.svg
+```
+
+The src directory contained:
+
+```shell
+ls src
+assets     counter.js main.js    style.css
+```
+
+The `counter.js` file comes with the Vite Vanilla JavaScript template, and is
+meant to demonstrate how to increase a count by an increment of one. It appears
+in the default setup included with the creation of my default Vite 8.1.0 Vanilla
+JavaScript template:
+
+![Screenshot of the Vite Vanilla JavaScript project starter page](Screenshot-2026-06-24-at-12.15.09-PM.webp)
+
+_The Vite Vanilla JavaScript project starter page_
+
+```js
+// cat src/counter.js
+export function setupCounter(element) {
+	let counter = 0
+	const setCounter = (count) => {
+		counter = count
+		element.innerHTML = `Count is ${counter}`
+	}
+	element.addEventListener('click', () => setCounter(counter + 1))
+	setCounter(0)
+}
+```
+
+The assets directory in src contained the following when I created the
+test-vite-latest project:
+
+```shell
+hero.png       javascript.svg vite.svg
+```
+
+The .gitignore file looked like the following:
+
+```shell
+cat .gitignore
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+```
+
+## Breaking down the Storage Fun with Forms rebuild structure
+
+When the Storage Fun with Forms rebuild was first created, it contained the same
+files as the test-vite-latest demo project I created. But then other npm
+packages and the project code and assets were added as well.
+
+Let's first look at the package.json file:
+
+```shell
+cat package.json
+{
+	"name": "storage-fun-with-forms",
+	"version": "2.0.0",
+	"private": true,
+	"description": "A small demo of localStorage persistence through a form — pick colors, fonts, and decorative images, write a note, and have it all remembered on your next visit. A modern rebuild of the original Storage Fun With Forms using Vite, vanilla JS, and Dart Sass.",
+	"license": "MIT",
+	"author": "Maria D. Campbell",
+	"type": "module",
+	"main": "src/main.js",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@melloware/coloris": "^0.25.0"
+	},
+	"devDependencies": {
+		"sass": "^1.101.0",
+		"vite": "^8.1.0"
+	}
+}
+```
+
+Note the project version 2.0.0. Also note the version numbers for the project
+dependencies and development dependencies. They are at their latest versions. I
+checked today, June 24, 2026.
+
+Next, let's take a look at the package-lock.json file:
+
+```shell
+cat package-lock.json
+{
+  "name": "test-vite-latest",
+  "version": "0.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "test-vite-latest",
+      "version": "0.0.0",
+      "devDependencies": {
+        "vite": "^8.1.0"
+      }
+    },
+    "node_modules/vite": {
+      "version": "8.1.0",
+      "resolved": "https://registry.npmjs.org/vite/-/vite-8.1.0.tgz",
+      "integrity": "sha512-BuJcQK/56NQTWDGn4ABea3q4SSBdNPWwNZKTkkUpcMPnLoquSYH8llRtSUIgoL1KSCpHt5eghLShn50mH36y7Q==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "lightningcss": "^1.32.0",
+        "picomatch": "^4.0.4",
+        "postcss": "^8.5.15",
+        "rolldown": "~1.1.2",
+        "tinyglobby": "^0.2.17"
+      },
+    }
+  }
+}
+```
+
+The next thing to look at is the `vite.config.js` file. This was not present in
+the test-vite-latest demo project I created. Why? Because it has to be created.
+It is not included by default in a Vite Vanilla JavaScript project (or any other
+kind for that matter). However, when running commands within a Vite project
+using Command Line, Vite looks for a vite.config.js (or other JS/TS extensions)
+at the project root automatically. You don't have to point it there yourself.
+See [Vite's config docs](https://vite.dev/config/) for the exact resolution
+behavior.
+
+The Vite config file allows developers to customize and extend Vite's default
+behavior to fit their particular needs. In my case, I wanted to host Storage Fun
+with Forms on GitHub GH Pages as I did with V1.
+
+```shell
+cat vite.config.js
+
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  base: './',
+  build: {
+    outDir: 'dist',
+  },
+});
+```
+
+Here, the defineConfig object, imported from 'vite', sets my base directory to
+`'./'`, which is the relative root path of the project. The build directory is
+set to `dist` because I am pushing the project via the `dist` directory,
+populated by the `build` script, to GH Pages via GitHub Actions. To find out
+more about GitHub Actions and GH Pages, please visit my post entitled
+[Building A Storage Fun With Forms App](/blog/building-a-storage-fun-with-forms-app).
+
+Next, the Storage Fun with Forms rebuild's .gitignore contains the following:
+
+```shell
+# cat .gitignore
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+```
+
+## Conclusion
+
+In this part one of the series on rebuilding Storage Fun with Forms, I walked
+through the steps to creating a basic Vite project with Vite 8.1.0 and what it
+consists of. I then compared those assets to the ones in the Storage Fun with
+Forms rebuild. There will be more parts to come as I continue documenting the
+build process.
+
+## Related Resources
+
+- [Building A Storage Fun With Forms App](/blog/building-a-storage-fun-with-forms-app)
+- [Local Storage Session Storage Fun Form Public Archive](https://github.com/interglobalmedia/local-storage-session-storage-fun-form):
+  _Publicly Archived repository on GitHub_
+- [Storage Fun with Forms rebuild](https://github.com/interglobalmedia/storage-fun-with-forms-rebuild):
+  _GitHub repository_
+- [8.1.0 (2026-06-23)](https://github.com/vitejs/vite/blob/main/packages/vite/CHANGELOG.md):
+  _Vite 8.1.0 changelog on Vite repository on GitHub_
+- [Vite 8 Beta: The Rolldown-powered Vite](https://vite.dev/blog/announcing-vite8-beta):
+  _vite.dev_
+- [vite-vanilla-js-demo](https://github.com/guyguzman/vite-vanilla-js-demo):
+  _Vite Vanilla JS Demo repository on GitHub_
+- [vite.config](https://vite.dev/config/): _Vite config documentation_
+- [What is the difference between "vite" and "vite preview"?](https://stackoverflow.com/questions/71703933/what-is-the-difference-between-vite-and-vite-preview):
+  _stackoverflow_
+
+## Related Posts
+
+- [Storage Fun with Forms Rebuilt: A Modern Pass with Claude Table of Contents](/blog/storage-fun-with-forms-rebuilt-a-modern-pass-with-claude-table-of-contents):
+  _mariadcampbell.com_

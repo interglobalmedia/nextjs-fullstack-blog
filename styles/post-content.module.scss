@@ -126,6 +126,19 @@ $asian-green: #96aa9a;
 	}
 }
 
+/* Markdown table mixin */
+@mixin equal-columns($num-columns) {
+	@if $num-columns == 2 {
+		width: 50%;
+	} @else if $num-columns == 3 {
+		width: 33.33%;
+	} @else if $num-columns == 4 {
+		width: 25%;
+	} @else {
+		width: 100% / $num-columns; // Default case for more than 4 columns
+	}
+}
+
 /* Markdown table styling */
 .content table {
 	border-spacing: 0 !important;
@@ -152,4 +165,5 @@ $asian-green: #96aa9a;
 
 .content td {
 	word-break: break-all;
+	@include equal-columns(3);
 }
