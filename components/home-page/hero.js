@@ -22,7 +22,7 @@ function Hero() {
 				!
 			</h1>
 			<p>
-				I blog about ai, cybersecurity, fullstack development as well as
+				I blog about ai, security, fullstack development as well as
 				macOS, command line, linux, shell scripting, windows, git, and
 				ethics in technology.
 			</p>
