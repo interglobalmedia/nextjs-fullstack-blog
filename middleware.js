@@ -160,6 +160,7 @@ const DELETED_POST_SLUGS = [
 	'why-increasing-your-technological-intelligence-is-important',
 	'changing-mac-default-screenshot-file-format-to-jpg',
 	'add-husky-to-s-subfolder-of-a-git-root-repository',
+	'how-to-add-files-to-your-gitignore-with-no-sweat',
 ]
 
 export function middleware(request) {
