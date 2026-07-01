@@ -4,13 +4,13 @@ date: '2024-12-30T14:06:32.183Z'
 lastModified: '2025-01-08T10:43:07.152Z'
 title: 'Creating the official Django Polls app Part 1'
 author: 'Maria D. Campbell'
-excerpt: 'In this section, I create a directory to house my Django Polls application,
-check if I have Django installed, select my Python interpreter, install
-virtualenv with pip, create a virtual environment for Django Polls, activate and
-deactivate the virtual environment, install Django, upgrade Django, create a
-project in Django Polls, initialize git, start up the Django development server,
-create an app called polls, write a first view, create a URLconf for the index
-view, and configure the global URL configuration.'
+excerpt:
+    'This is the first installment in a series called Creating the Official
+    Django Polls app. Follow this series starting with this post to learn how to
+    create a Django application: how to install Django, check if it is
+    installed, create a virtual environment, create a project, create an app,
+    initialize Git, create your first view, create a URLconf for the index view,
+    and configure the global URL configuration.'
 image: david-clode-J_5xvghAvmc-unsplash.webp
 tags:
     [
@@ -22,7 +22,7 @@ tags:
         'development server',
         'git',
         'pip',
-        'python 3',
+        'python3',
         'python interpreter',
         'runserver',
         'series',
@@ -45,7 +45,7 @@ Table of Contents
 
 - [Creating the django-polls directory](#creating-the-django-polls-directory)
 - [Checking to see if you have Django installed](#checking-to-see-if-you-have-django-installed)
-- [Selecting a Python interpreter inside your Favorite IDE](#selecting-a-python-interpreter-inside-your-favorite-ide)
+- [Selecting a Python interpreter inside your favorite IDE](#selecting-a-python-interpreter-inside-your-favorite-ide)
 - [Installing virtualenv with pip](#installing-virtualenv-with-pip)
     - [Creating a virtual environment for the Django Polls](#creating-a-virtual-environment-for-the-django-polls)
     - [Activating the virtual environment](#activating-the-virtual-environment)
@@ -53,9 +53,9 @@ Table of Contents
 - [Installing Django](#installing-django)
     - [Upgrading Django version](#upgrading-django-version)
 - [Creating a project in the Django web application](#creating-a-project-in-the-django-web-application)
-- [Initializing git](#initializing-git)
-- [Making a first commit](#making-a-first-commit)
-- [Merging create-project into the main branch](#merging-create-project-into-the-main-branch)
+- [Initializing Git](#initializing-git)
+    - [Making a first commit](#making-a-first-commit)
+    - [Merging create-project into the main branch](#merging-create-project-into-the-main-branch)
 - [Starting up the Django development server](#starting-up-the-django-development-server)
 - [Creating a new branch called running-development-server](#creating-a-new-branch-called-running-development-server)
 - [Creating an app called polls](#creating-an-app-called-polls)
@@ -68,6 +68,10 @@ Table of Contents
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Footnotes](#footnotes)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
 
 I go through the steps of how to install Django in my post entitled
 [How to create a fullstack application using Django and Python Part 1](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-1#installing-django).
@@ -98,7 +102,7 @@ For me, it returned the following:
 5.1.3
 ```
 
-## Selecting a Python interpreter inside your Favorite IDE
+## Selecting a Python interpreter inside your favorite IDE
 
 Before installing `virtualenv`, I selected a Python interpreter in Visual Studio
 Code. I selected from the following:
@@ -166,7 +170,7 @@ am now working within the virtual environment. For example, when I activate my
 `venv` virtual environment, my command prompt changes to the following:
 
 ```shell
-(venv)  mariacam@Marias-MBP  ~/Python-Development/django-boards   main ●
+(venv)  mariacam@Marias-MBP  ~/Python-Development/django-polls   main ●
 ```
 
 (venv) is added to the beginning of the command prompt.
@@ -198,7 +202,7 @@ Now I was ready to continue developing my Django application!
 ### Upgrading Django version
 
 I checked to see what was the latest stable version of Django, and it is 5.1.4.
-It's end of mainstream support will be April 2025. I upgraded my version of
+Its end of mainstream support will be April 2025. I upgraded my version of
 Django by doing the following:
 
 ```shell
@@ -213,8 +217,8 @@ Requirement already satisfied: asgiref<4,>=3.8.1 in ./venv/lib/python3.12/site-p
 Requirement already satisfied: sqlparse>=0.3.1 in ./venv/lib/python3.12/site-packages (from Django) (0.5.3)
 ```
 
-Then I checked my Django version again after checking out of my current Terminal
-session and creating a new one:
+Then I checked my Django version again after exiting my current Terminal session
+and creating a new one:
 
 ```shell
 python -m django --version
@@ -268,7 +272,7 @@ django_polls manage.py    venv
 
 Success!
 
-```shell
+```text
 - django-polls/
   - django_polls/
     - __init__.py
@@ -282,11 +286,11 @@ Success!
 
 `django-admin` is Django’s command-line utility for administrative tasks.
 
-`manage.py` is automatically created with each Django project. It does the same
+Django automatically creates `manage.py` in each new project. It does the same
 thing as `django-admin`, but it also sets the `DJANGO_SETTINGS_MODULE`
-environment variable so that it points to our project’s `settings.py` file.
+environment variable so that it points to my project’s `settings.py` file.
 
-`django_polls/__init__.py` initializes the `django_boards` package. It is an
+`django_polls/__init__.py` initializes the `django_polls` package. It is an
 empty file and tells Python that the folder it resides in is a package[^1].
 
 `asgi.py`[^2] is created with the `startproject` command. The `startproject`
@@ -296,13 +300,13 @@ production.
 
 `settings.py` contains all the project's configurations.
 
-`urls.py` is responsible for mapping the routes and paths in our project. If we
-want to display something in a particular URL, we first have to map it here.
+`urls.py` is responsible for mapping the routes and paths in my project. If I
+want to display something in a particular URL, I first have to map it here.
 
-`wsgi.py`[^3] is a simple gateway interface used for deployment. It is used in
-local development, and not in production. `asgi.py` is used in production.
+`wsgi.py`[^3] is a simple gateway interface used for deployment of synchronous
+applications. `asgi.py` is used in asynchronous applications.
 
-## Initializing git
+## Initializing Git
 
 The moment I have created files to work with, I initialize Git. I ran the
 following command inside `django-polls` in order to initialize Git:
@@ -349,7 +353,7 @@ Once I created my `django-polls` project, created my `.gitignore` file, and
 added `.env` to `.gitignore` along with other standard files or directories
 taken from
 [Gitignore for a Django project](https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/),
-I created a remote repository on Github. Then I ran the following inside my
+I created a remote repository on GitHub. Then I ran the following inside my
 `django-polls` directory to push my first commit to GitHub:
 
 ```shell
@@ -433,7 +437,7 @@ _Result of running the development server_
 
 When I run the server for the first time, my `db.sqlite3` and
 `django_polls/__pycache__/` is created. That is why the message
-`You have 18 unapplied migration(s)` is returned in Terminal when we run
+`You have 18 unapplied migration(s)` is returned in Terminal when I run
 `python3 manage.py runserver` for the first time.
 
 ## Creating a new branch called running-development-server
@@ -465,7 +469,7 @@ python3 manage.py startapp polls
 
 This created the following inside `django_polls`:
 
-```shell
+```text
 - polls/
     - migrations/
         - __init__.py
@@ -485,12 +489,12 @@ small poll app. A project is a collection of configurations and apps for a
 particular website. A project can contain multiple apps. An app can be in
 multiple projects.
 
-Our apps can live anywhere in our Python path. I created my polls app inside the
+My apps can live anywhere in my Python path. I created my polls app inside the
 `django_polls` directory.
 
 ## Writing the first view
 
-To write our first view, we go into `polls/views.py` and add the following:
+To write my first view, I go into `polls/views.py` and add the following:
 
 ```python
 # django_polls/views.py
@@ -502,8 +506,8 @@ def index(request):
 
 ## Creating a URLconf for the index view
 
-Next, in order to access it in a browser, we need to map it to a URL. In order
-to map it to a URL, we need to define a URL configuration or `URLconf` for short
+Next, in order to access it in a browser, I need to map it to a URL. In order to
+map it to a URL, I need to define a URL configuration or `URLconf` for short
 inside `polls/urls.py`. `URLconfs` are defined in each Django project app in
 `urls.py`.
 
@@ -538,7 +542,7 @@ urlpatterns = [
 ]
 ```
 
-The `path()` function defines URL patterns in our `urls.py` file. It provides a
+The `path()` function defines URL patterns in my `urls.py` file. It provides a
 simple way to map URLs to corresponding views.
 
 Syntax:
@@ -556,20 +560,20 @@ brackets (`<>`) to capture parts of the URL as parameters.
 
 **view**: A function that is called when the URL pattern matches.
 
-**kwargs**: An argument which allows us to pass additional arguments to the view
+**kwargs**: An argument which allows me to pass additional arguments to the view
 function or method.
 
-**name**: Naming our URL lets us refer to it unambiguously from elsewhere in
-Django, especially from within templates. This powerful feature allows us to
-make global changes to the URL patterns of our project while only touching a
+**name**: Naming my URL lets me refer to it unambiguously from elsewhere in
+Django, especially from within templates. This powerful feature allows me to
+make global changes to the URL patterns of my project while only touching a
 single file.
 
-The `include()` function lets us reference other `URLconfs`. `include()`
+The `include()` function lets me reference other `URLconfs`. `include()`
 excludes the part of the URL that follows the matched part, i.e., `polls/`, and
 sends the remaining string to the included `URLconf` for further processing. In
 my case here, all `polls/` related `URLconfs` are sent to `django_polls/urls.py`
 for further processing. This approach organizes URLs by app, and also makes the
-global `urls.py` in our Django project much easier to read.
+global `urls.py` in the Django polls project much easier to read.
 
 I connected my `index` view to the `index` URL pattern in
 `django_polls/urls.py`, and was ready to view it in the browser. To do that, I
@@ -677,26 +681,26 @@ view, and configure the global URL configuration.
     authors of multi-module packages like `NumPy` or `Pillow` from having to
     worry about each other’s module names.
 
-Using a live example, in my Django Boards application, I replaced the default
-`settings.py` file with a settings directory which contains a `base.py`,
-`development.py`, and `production.py` file. Inside the settings directory, there
-was also an `__init__.py` file. This indicated to Django that the directory
-should be considered a package. This is what permitted me then to import
-`base.py`, `development.py`, and `production.py` into other files and do the
-following for example:
+    Using a live example, in my Django Boards application, I replaced the
+    default `settings.py` file with a settings directory which contains a
+    `base.py`, `development.py`, and `production.py` file. Inside the settings
+    directory, there was also an `__init__.py` file. This indicated to Django
+    that the directory should be considered a package. This is what permitted me
+    then to import `base.py`, `development.py`, and `production.py` into other
+    files and do the following, for example:
 
-```python
-# django_boards/urls.py
-...
-from django_boards.settings import development, base, production
-...
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    re_path(r'^media/(?P<path>.*\.jpg|.*\.jpeg|.*\.png|.*\.gif)$', serve, {'document_root': production.MEDIA_ROOT}),
-]
-if development:
-    urlpatterns += static(base.MEDIA_URL, document_root=development.MEDIA_ROOT)
-```
+    ```python
+    # django_boards/urls.py
+    ...
+    from django_boards.settings import development, base, production
+    ...
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        re_path(r'^media/(?P<path>.*\.jpg|.*\.jpeg|.*\.png|.*\.gif)$', serve, {'document_root': production.MEDIA_ROOT}),
+    ]
+    if development:
+        urlpatterns += static(base.MEDIA_URL, document_root=development.MEDIA_ROOT)
+    ```
 
 [^2]:
     `asgi` stands for Asynchronous Server Gateway Interface. It was introduced
@@ -715,21 +719,25 @@ if development:
 
 ## Related Resources
 
+- [Difference Between ASGI and WSGI in Django](https://www.geeksforgeeks.org/python/difference-between-asgi-and-wsgi-in-django/):
+  _GeeksForGeeks_
+- [Specification](https://developer.mozilla.org/en-US/docs/Glossary/Specification):
+  _developer.mozilla.org_
 - [Writing your first Django app, part 1](https://docs.djangoproject.com/en/5.1/intro/tutorial01/):
   Django documentation
-
 - [How to upgrade Django to a newer version](https://docs.djangoproject.com/en/5.1/howto/upgrade-version/):
   Django documentation
-
 - [django-admin and manage.py](https://docs.djangoproject.com/en/5.1/ref/django-admin/):
   Django documentation
-
 - [6.4. Packages](https://docs.python.org/3/tutorial/modules.html#tut-packages):
   Python documentation
-
 - [Gitignore for a Django project](https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/):
   djangowaves.com
 - [Ultimate Git And GitHub Tutorial With Examples](https://www.scrapingbee.com/blog/ultimate-git-and-github-commands-tutorial-with-examples/)
+- [Django Boards](https://github.com/interglobalmedia/django-boards): _GitHub
+  repository_
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents):
+  _mariadcampbell.com_
 
 ## Related Posts
 
