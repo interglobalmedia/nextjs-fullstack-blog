@@ -1,22 +1,37 @@
 ---
 slug: 'creating-the-official-django-polls-app-part-2'
 date: '2025-01-04T01:16:31.190Z'
-lastModified: '2025-01-08T10:41:31.190Z'
+lastModified: '2026-07-02T01:14:31.190Z'
 title: 'Creating the official Django Polls app Part 2'
 author: 'Maria D. Campbell'
-excerpt: 'In this section, I set up the Django Polls database, explained/set
-LANGUAGE_CODE, USE_I18N, USE_THOUSAND_SEPARATOR, NUMBER_GROUPING, USE_TZ, and
-INSTALLED_APPS, create the polls models, activate the models, play with the
-API in the interactive Python shell, discuss the Django admin interface,
-create a superuser, start the development server, register polls app in
-polls/admin.py, and discuss the Question form in the admin interface.'
-image: david-clode-J_5xvghAvmc-unsplash.jpg
-tags: ['fullstack development', 'macOS', 'django', 'admin forms', 'installed_apps', 'language_code', 'number_grouping', 'series', 'time zone', 'tutorial', 'use_i18n', 'use_thousand_separator', 'use_tz']
+excerpt:
+    'This is the second installment in a series called Creating the official
+    Django Polls app. Continue following this series with this second part to
+    learn how to set up a database in Django, create models, use the interactive
+    Python shell, and get to know the Django admin interface.'
+image: david-clode-J_5xvghAvmc-unsplash.webp
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'django',
+        'python3',
+        'admin forms',
+        'installed apps',
+        'language code',
+        'number grouping',
+        'series',
+        'time zone',
+        'tutorial',
+        'use i18n',
+        'use thousand separator',
+        'use tz',
+    ]
 isPublished: true
 isFeatured: false
 ---
 
-![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.jpg)
+![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.webp)
 
 _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 [unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)
@@ -29,13 +44,13 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
     - [USE_I18N](#use-i18n)
     - [USE_THOUSAND_SEPARATOR](#use-thousand-separator)
     - [NUMBER_GROUPING](#number-grouping)
-    - [USE_TZ](#use_tz)
+    - [USE_TZ](#use-tz)
 - [INSTALLED_APPS](#installed-apps)
 - [Creating the models](#creating-the-models)
     - [Activating our models](#activating-our-models)
 - [Playing with the API in the interactive Python shell](#playing-with-the-api-in-the-interactive-python-shell)
 - [Running the interactive Python shell again](#running-the-interactive-python-shell-again)
-- [The Django admin](#rhe-django-admin)
+- [The Django admin](#the-django-admin)
     - [Creating the superuser](#creating-the-superuser)
 - [Starting the development server](#starting-the-development-server)
     - [Making the poll app modifiable in the admin](#making-the-poll-app-modifiable-in-the-admin)
@@ -45,12 +60,16 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
 ## Setting up the database
 
 `polls/settings.py` is a regular Python module containing module level variables
 representing Django settings.
 
-By default, Django uses SQLite, and it is the easiest choice, For example, in my
+By default, Django uses SQLite, and it is the easiest choice. For example, in my
 Django Boards application, I use SQLite locally, and a managed PostgreSQL
 database in production. However, in my next project, I probably will want to
 change my local database to PostgreSQL.
@@ -140,8 +159,8 @@ always be retained if present.
 ## INSTALLED_APPS
 
 `INSTALLED_APPS` contains the names of all Django applications that are
-activated in our Django (Polls) application. Apps can be used in multiple
-projects, and we can package and distribute them for use by others in their
+activated in my Django (Polls) application. Apps can be used in multiple
+projects, and I can package and distribute them for use by others in their
 projects.
 
 By default, `INSTALLED_APPS` contains the following:
@@ -166,19 +185,19 @@ INSTALLED_APPS = [
 1. `django.contrib.messages`: a messaging framework.
 1. `django.contrib.staticfiles`: a framework for managing static files.
 
-Some of these applications make use of at least one database table, though, so
-we need to create the tables in the database before we can use them. To do that,
-I run the following command:
+Some of these applications make use of at least one database table, though, so I
+need to create the tables in the database before I can use them. To do that, I
+run the following command:
 
 ```python
 python3 manage.py migrate
 ```
 
 The migrate command looks at the `INSTALLED_APPS` setting and creates any
-necessary database tables according to the database settings in our
-`mysite/settings.py` file and the database migrations shipped with the app
-(we’ll cover those later). We’ll see a message for each migration it applies. If
-you’re interested, run the command-line client for your database
+necessary database tables according to the database settings in my
+`mysite/settings.py` file and the database migrations shipped with the app (I’ll
+cover those later). I’ll see a message for each migration it applies. If you’re
+interested, run the command-line client for your database
 (`python manage.py dbshell`) and type \dt (PostgreSQL), `SHOW TABLES;`
 (`MariaDB, MySQL`), `.tables` (SQLite), or `SELECT TABLE_NAME FROM USER_TABLES;`
 (Oracle) to display the tables Django created.
@@ -221,7 +240,7 @@ Then I ran the following:
 python3 manage.py dbshell
 ```
 
-This lets me peak into the `db.sqlite3` database. It returns something like the
+This lets me peek into the `db.sqlite3` database. It returns something like the
 following:
 
 ```shell
@@ -267,7 +286,7 @@ sqlite>
 
 ## Creating the models
 
-In our Django Polls app, we will create two models: `Question` and `Choice`.
+In my Django Polls app, I will create two models: `Question` and `Choice`.
 
 A `Question` will contain a `question` and a `publication date`.
 
@@ -349,12 +368,12 @@ INSTALLED_APPS = [
 ]
 ```
 
-The tutorial states that we should add `"polls.apps.PollsConfig"`. However,
+The tutorial states that I should add `"polls.apps.PollsConfig"`. However,
 `"polls"` is fine too. That is how I do it.
 
 Now Django knows to include the polls app.
 
-Next, we can run the following:
+Next, I can run the following:
 
 ```shell
 python3 manage.py makemigrations polls
@@ -369,18 +388,18 @@ Migrations for 'polls':
     + Create model Choice
 ```
 
-When we run `makemigrations`, we are telling Django that we've made changes to
-our models, and that we want to store the changes in a migration.
+When I run `makemigrations`, I am telling Django that I've made changes to our
+models, and that I want to store the changes in a migration.
 
 Migrations are how Django stores changes to our models (and thus our database
 schema). They are "files on disk". That means they are stored in our project's
 file system instead of in a database.
 
-We can read the migration for our new model, which is represented by the
+I can read the migration for our new model, which is represented by the
 `polls/migrations/0001_initial.py` file. It's designed to be human-editable in
-case we want to manually tweak how Django changes things.
+case I want to manually tweak how Django changes things.
 
-We can run the following command to see what SQL that migration would run:
+I can run the following command to see what SQL that migration would run:
 
 ```shell
 python3 manage.py sqlmigrate polls 0001
@@ -404,30 +423,31 @@ COMMIT;
 
 The `sqlmigrate` command takes `migration` names and returns their `SQL`.
 
-The exact output will vary depending on the database we use. The above is
-generated for `PostgreSQL`.
+The exact output will vary depending on the database I use. The above is
+generated for `SQLite`.
 
-1. Table names are automatically generated by combining the name of the app
-   (`polls`) and the lowercase name of the model – `question` and `choice`. We
+1. Django automatically generates table names by combining the name of the app
+   (`polls`) and the lowercase name of the model – `question` and `choice`. I
    can override this behavior.
-1. `Primary keys` (IDs) are added automatically. We can override this, too.
-1. Django appends `"_id"` to the `foreign key` field name. We can override this
+1. Django generates `primary keys` (IDs) automatically. I can override this,
+   too.
+1. Django appends `"_id"` to the `foreign key` field name. I can override this
    too.
 1. The `foreign key` relationship is made explicit by a `FOREIGN KEY`
-   constraint. We don't have to worry about the `DEFERRABLE` parts. It’s telling
+   constraint. I don't have to worry about the `DEFERRABLE` parts. It’s telling
    PostgreSQL to not enforce the `foreign key` until the end of the transaction.
-1. The code is specific to the database we use, so database-specific field types
+1. The code is specific to the database I use, so database-specific field types
    such as `auto_increment` (MySQL), bigint
    `PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY` (PostgreSQL), or integer
    primary key `autoincrement` (SQLite) are handled for us automatically. Same
    goes for the quoting of field names like using double quotes or single
    quotes.
 1. The `sqlmigrate` command doesn’t actually run the migration on our database.
-   Instead, it prints it to Terminal so that we can see what SQL Django thinks
-   is required. It’s useful for checking what Django is going to do or if we
-   have database administrators who require SQL scripts for changes.
-1. We can also use `python3 manage.py check`. This checks for any problems in
-   our project without making migrations or touching the database.
+   Instead, it prints it to Terminal so that I can see what SQL Django thinks is
+   required. It’s useful for checking what Django is going to do or if I have
+   database administrators who require SQL scripts for changes.
+1. I can also use `python3 manage.py check`. This checks for any problems in our
+   project without making migrations or touching the database.
 
 When I ran `python3 manage.py check`, I got back the following in Terminal:
 
@@ -458,22 +478,22 @@ ran `migrate` again to create my model tables in my polls database.
 The `migrate` command takes all the migrations that haven’t been applied (Django
 tracks which ones are applied using a special table in our database called
 `django_migrations`) and runs them against our database. Basically,
-synchronizing the changes we made to our models with the schema in the database.
+synchronizing the changes I made to my models with the schema in the database.
 
-Migrations are very powerful and let us change our models over time, as we
-develop our project, without the need to delete our database or tables and make
-new ones. it upgrades our database in realtime, without losing data.
+Migrations are very powerful and let me change my models over time, as I develop
+my project, without the need to delete my database or tables and make new ones.
+It upgrades my database in real time, without losing data.
 
-To recap, the following is a three-step guide to making changes to our model(s):
+To recap, the following is a three-step guide to making changes to my model(s):
 
-1. Make changes to our models in `models.py`
+1. Make changes to my models in `models.py`
 1. Run `python manage.py makemigrations` to create migrations for those changes
 1. Run `python manage.py migrate` to apply those changes to the database.
 
 The reason that there are separate commands to make and apply migrations is
-because we’ll commit migrations to our version control system (i.e., Git) and
-ship them with our app. They not only make our development easier, but they’re
-also usable by other developers and in production.
+because I’ll commit migrations to my version control system (i.e., Git) and ship
+them with my app. They not only make my development easier, but they’re also
+usable by other developers and in production.
 
 For example, in my Django Boards application, in my `build.sh` script for
 deployment to `render.com`, I add the following:
@@ -506,9 +526,9 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 
-We’re using this command instead of `python`, because `manage.py` sets the
+I'm using this command instead of `python`, because `manage.py` sets the
 `DJANGO_SETTINGS_MODULE` environment variable, which gives Django the Python
-`import` path to our `django_polls/settings.py` file.
+`import` path to my `django_polls/settings.py` file.
 
 Later on, I will be reconfiguring my settings to a settings directory instead of
 just a `settings.py` file, because I want to separate my development settings
@@ -546,9 +566,9 @@ datetime.datetime(2025, 1, 5, 12, 57, 28, 254861, tzinfo=datetime.timezone.utc)
 "What's the problem?"
 ```
 
-The `queeryset` representation `<QuerySet [<Question: Question object (1)>]>` of
-`Question` is not very human-readable. We can change this by adding the
-following in `polls/models.py`:
+The `queryset` representation `<QuerySet [<Question: Question object (1)>]>` of
+`Question` is not very human-readable. I can change this by adding the following
+in `polls/models.py`:
 
 ```python
 from django.db import models
@@ -570,7 +590,7 @@ class Choice(models.Model):
        return self.choice_text
 ```
 
-It is important to add the `__str__()` method to our models not only for the
+It is important to add the `__str__()` method to my models not only for the
 convenience it provides in the interactive shell, but also in the admin
 interface.
 
@@ -604,9 +624,9 @@ Django's `timezone.now()` not only returns the date and time of a particular
 timezone, but also a timezone-aware datetime object. This means it also contains
 information about the timezone.
 
-As mentioned earlier in this tutorial, If we haven't explicitly set a different
-timezone in our Django settings, `timezone.now()` will return the current time
-in UTC. The setting I am referring to is:
+As mentioned earlier in this tutorial, if I haven't explicitly set a different
+timezone in my Django settings, `timezone.now()` will return the current time in
+UTC. The setting I am referring to is:
 
 ```python
 # settings.py
@@ -719,8 +739,8 @@ According to the Django documentation for Django Polls part 2,
 
 ### Creating the superuser
 
-We need to create a `superuser` who can access the admin interface. In order to
-do that, we run the following command in Terminal:
+I need to create a `superuser` who can access the admin interface. In order to
+do that, I run the following command in Terminal:
 
 ```shell
 python3 manage.py createsuperuser
@@ -746,33 +766,33 @@ python3 manage.py runserver
 
 When I go to `admin/`, the following appears:
 
-![The admin login page](Screenshot-2025-01-05-at-3.34.44-PM.jpg)
+![The admin login page](Screenshot-2025-01-05-at-3.34.44-PM.webp)
 
 _The admin login page_
 
 I used the credentials I used to create my `superuser`, and it got me into the
 admin interface. All I could see at the moment was the following:
 
-![Landing on the admin interface for the first time](Screenshot-2025-01-05-at-3.39.31-PM.jpg)
+![Landing on the admin interface for the first time](Screenshot-2025-01-05-at-3.39.31-PM.webp)
 
 _Landing on the admin interface for the first time_
 
-There were only `Users` and `Groups`, no `Groups`, and only one `user`. The
-`superuser` we created to get into the admin interface.
+Only `Users` and `Groups` were available, but there were no actual `Groups`, and
+only one `user`: the `superuser` I created to get into the admin interface.
 
 The `Users` and `Groups` are provided by the `django-contrib-auth`, Django's
 authentication framework.
 
 ### Making the poll app modifiable in the admin
 
-You will notice that when we entered the admin interface, we didn't see our
-polls app anywhere. That's because we didn't register it yet in
-`polls/admin.py`. To make it visible in the admin interface so I could edit it,
-I added the following to `polls/admin.py`:
+You will notice that when I entered the admin interface, I didn't see my polls
+app anywhere. That's because I didn't register it yet in `polls/admin.py`. To
+make it visible in the admin interface so I could edit it, I added the following
+to `polls/admin.py`:
 
 ```python
 # polls/admin.py
-from django-contrib import admin
+from django.contrib import admin
 
 from .models import Question
 admin.site.register(Question)
@@ -780,19 +800,19 @@ admin.site.register(Question)
 
 When I registered `Question`, I could see the following in the admin interface:
 
-![Appearance of Polls app Question](Screenshot-2025-01-05-at-3.50.02-PM.jpg)
+![Appearance of Polls app Question](Screenshot-2025-01-05-at-3.50.02-PM.webp)
 
 _Appearance of Polls app Question_
 
 When I clicked on `Questions`, I saw the following:
 
-![Clicking on Questions](Screenshot-2025-01-05-at-3.55.31-PM.jpg)
+![Clicking on Questions](Screenshot-2025-01-05-at-3.55.31-PM.webp)
 
 _Clicking on Questions_
 
 When I clicked on `"What's the problem?"`, the following appeared:
 
-![Result of clicking on "What's the problem?"](Screenshot-2025-01-05-at-3.58.12-PM.jpg)
+![Result of clicking on "What's the problem?"](Screenshot-2025-01-05-at-3.58.12-PM.webp)
 
 _Result of clicking on "What's the problem?"_
 
@@ -808,7 +828,7 @@ Now I could edit `"What's the problem?"`.
    shortcut and calendar popup, and times get a “Now” shortcut and a convenient
    popup that lists commonly entered times.
 
-We are given a few options to choose from at the bottom of the page:
+I am given a few options to choose from at the bottom of the page:
 
 1. "Save" saves changes and returns to the `change-list` page for this type of
    object.
@@ -823,10 +843,10 @@ question in Tutorial 1, it probably means I forgot to set the correct value for
 the `TIME_ZONE` setting. I could change it, reload the page and make sure the
 correct value appears. But in my case, it was correct.
 
-Next, we can change the `"Date published"` by clicking `"Today"` and `"Now"`
-shortcuts. Then we click `"Save and continue editing"`. Then, to see all the
-changes we have made to this entry, we click on `"History"`. We are taken to a
-page listing all the changes made to the entry. It states the date and time the
+Next, I can change the `"Date published"` by clicking `"Today"` and `"Now"`
+shortcuts. Then I click `"Save and continue editing"`. Then, to see all the
+changes I have made to this entry, I click on `"History"`. I am taken to a page
+listing all the changes made to the entry. It states the date and time the
 change was made, who made it, and the action taken.
 
 ## Code associated with this section
@@ -854,8 +874,8 @@ interface.
   Django documentation
 - [django-admin and manage.py](https://docs.djangoproject.com/en/5.1/ref/django-admin/):
   Django documentation
-- [Python datetime.timedelta() function](https://www.geeksforgeeks.org/python-datetime-timedelta-function/):
-  Geeks for Geeks
+- [timedelta objects](https://docs.python.org/3/library/datetime.html#datetime.timedelta):
+  _docs.python.org_
 
 ## Related Posts
 
