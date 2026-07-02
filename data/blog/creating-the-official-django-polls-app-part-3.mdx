@@ -1,20 +1,16 @@
 ---
 slug: 'creating-the-official-django-polls-app-part-3'
 date: '2025-01-09T18:32:17.011Z'
-lastModified: '2025-01-09T18:32:17.011Z'
+lastModified: '2026-07-02T11:24:17.011Z'
 title: 'Creating the official Django Polls app Part 3'
-author: 'Maria D. campbell'
-excerpt: "In this section, we write our first Django app, discuss URL
-patterns, write more views in polls/views.py, write views that
-actually work, re-write the index view, create a templates directory
-in the polls directory, implement template namespacing, add Django code
-to index.html, update the index view to use the new index.html
-template, implement the render() shortcut, implement raising a
-404 error in the detail view, use get_object_or_404() in the detail
-view, discuss Model's manager in Django, discuss Manager names, use
-template tags in the template engining system, remove the hardcoded
-URL in the template in polls/index.html, and namespace our URL names."
-image: david-clode-J_5xvghAvmc-unsplash.jpg
+author: 'Maria D. Campbell'
+excerpt:
+    'This is the third installment in a series called Creating the official
+    Django Polls app. Continue following this series with this third part. Learn
+    how to create the index template, use the render() shortcut, implement
+    raising a 404 error in the detail view, use template tags, and namespace URL
+    names.'
+image: david-clode-J_5xvghAvmc-unsplash.webp
 tags:
     [
         'fullstack development',
@@ -35,14 +31,14 @@ isPublished: true
 isFeatured: false
 ---
 
-![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.jpg)
+![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.webp)
 
 _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 [unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)
 
 ## Table of Contents
 
-- [Writing our first Django app](#writing-our-first-django-app)
+- [Writing my first Django app](#writing-my-first-django-app)
     - [Django URL patterns](#django-url-patterns)
 - [Writing more views in polls/views.py](#writing-more-views-in-polls-viewspy)
     - [Writing views that actually work](#writing-views-that-actually-work)
@@ -65,14 +61,18 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
-## Writing our first Django app
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
 
-Now we will focus on our Django Polls views.
+## Writing my first Django app
 
-A view is a web page in our Django application that serves a specific function
+Now I will focus on my Django Polls views.
+
+A view is a web page in my Django application that serves a specific function
 and is associated with a specific template.
 
-In our Django Polls application, we will have the following 4 views:
+In my Django Polls application, I will have the following four views:
 
 1. The `Question` index view (page) which will contain the latest questions.
 1. The `Question` detail view (page) which will contain `Question` text and a
@@ -95,13 +95,13 @@ the part of the URL that follows the domain name.
 
 A Django URL pattern is the general form of a URL. For example:
 
-```shell
+```text
 /media/<profile_images>/<image>/
 ```
 
 or:
 
-```shell
+```text
 /newsarchive/<year>/<month>/
 ```
 
@@ -134,8 +134,8 @@ def vote(request, question_id): # new
     return HttpResponse("You're voting on question %s." % question_id)
 ```
 
-Next, we can tie these views into the `polls.urls` module by adding the
-following `path()` calls:
+Next, I can tie these views into the `polls.urls` module by adding the following
+`path()` calls:
 
 ```python
 from django.urls import path
@@ -152,7 +152,7 @@ urlpatterns = [
 However, if I add something like `http://127.0.0.1:8000/polls/34/` at this
 point, the following is returned:
 
-![Question id does not exist](Screenshot-2025-01-06-at-4.54.39-PM.jpg)
+![Question id does not exist](Screenshot-2025-01-06-at-4.54.39-PM.webp)
 
 _Question id does not exist_
 
@@ -173,7 +173,7 @@ templates, which are visual representations of the views.
 
 Let's say that `question_id 34` does exist. When a request is made to
 `/polls/34/`, Django loads `polls.urls` Python module because it's pointed to by
-the `ROOT_URLCONF` setting, which is the following in our
+the `ROOT_URLCONF` setting, which is the following in my
 `django_polls/settings.py`:
 
 ```python
@@ -206,10 +206,10 @@ Each view is responsible for doing one of two things: returning an
 `HttpResponse` object containing the content for the requested page, or raising
 an `exception` such as `Http404`.
 
-Our `view` can read records from a database or not. It can use a template engine
+My `view` can read records from a database or not. It can use a template engine
 such as the Django template engine, or a third party Python template engine or
 not. It can generate a PDF file, output XML, create a ZIP file on the fly,
-anything we want, using whatever Python libraries we want.
+anything I want, using whatever Python libraries I want.
 
 All Django wants is that `HttpResponse` or an `exception`.
 
@@ -219,23 +219,23 @@ All Django wants is that `HttpResponse` or an `exception`.
 # polls/views.py
 
 def index(request):
-    latest_question_list = Question.objects.order_by("pub_date")[:5]
+    latest_question_list = Question.objects.order_by("-pub_date")[:5]
     output = ", ".join([q.question_text for q in latest_question_list])
     return HttpResponse(output)
 ```
 
 However, there is a problem here. The page's design is hard-coded in the view.
-If we want to change the way the page looks, we would have to edit the Python
-code. That is because we haven't created a template for the index view yet. By
-creating a template for this index view, we will be able to separate the page
+If I want to change the way the page looks, I would have to edit the Python
+code. That is because I haven't created a template for the index view yet. By
+creating a template for this index view, I will be able to separate the page
 design (template) from the Python code in `views.py`.
 
 ## Creating a templates directory in the polls directory
 
-According to the tutorial, we are creating a `templates` directory in the
-`polls` directory. I have always created the `templates` directory in the root
-of the project. Let's see what the difference or advantage may be in creating it
-inside the `polls` directory. Apparently, by default, `settings.py` configures a
+According to the tutorial, I am creating a `templates` directory in the `polls`
+directory. I have always created the `templates` directory in the root of the
+project. Let's see what the difference or advantage may be in creating it inside
+the `polls` directory. Apparently, by default, `settings.py` configures a
 `DjangoTemplates` backend whose `APP_DIRS` option is set to True, and
 `DjangoTemplates` looks for a `templates` subdirectory in each of the
 `INSTALLED_APPS`.
@@ -243,15 +243,15 @@ inside the `polls` directory. Apparently, by default, `settings.py` configures a
 Next, I create a subdirectory inside `templates` called `polls`. Within `polls`,
 I create a file called `index.html`. However, even though `index.html` resides
 in `polls/templates/polls/index.html`, because of how the `app_directories`
-template loader works, we can refer to this template within Django as
+template loader works, I can refer to this template within Django as
 `polls/index.html`.
 
 ### Template namespacing
 
-The reason we place our `polls` templates inside `templates/polls/` is because
-Django will choose the first template it finds whose name matches, and if we had
+The reason I place my `polls` templates inside `templates/polls/` is because
+Django will choose the first template it finds whose name matches, and if I had
 a template in another app with the same name, Django would be unable to
-distinguish between them. We need to be able to point Django to the right one,
+distinguish between them. I need to be able to point Django to the right one,
 and the best way to do this is by `namespacing`. In other words, putting the
 `templates` inside another directory with the name of the app itself.
 
@@ -271,7 +271,7 @@ and the best way to do this is by `namespacing`. In other words, putting the
 {% block body %}
 {% if latest_question_list %}
   <ul>
-    {% for question in latest_question_list% %}
+    {% for question in latest_question_list %}
       <li>
         <a href="/polls/{{ question.id }}/">{{ question.question_text }}</a>
       </li>
@@ -285,7 +285,7 @@ and the best way to do this is by `namespacing`. In other words, putting the
 </html>
 ```
 
-### Updating the `index` view to use the new `index.html` template
+### Updating the index view to use the new index.html template
 
 ```python
 # polls/views.py
@@ -295,7 +295,7 @@ from django.template import loader # new
 from .models import Question
 
 def index(request):
-    latest_question_list = Question.objects.order_by("pub_date")[:5]
+    latest_question_list = Question.objects.order_by("-pub_date")[:5]
     template = loader.get_template("polls/index.html")
     context = {
         "latest_question_list": latest_question_list,
@@ -305,13 +305,13 @@ def index(request):
 ```
 
 The code above loads the template `polls/index.html` and passes it a `context`.
-The `context` is a `dictionary` mapping `template variable names` to Python The
-`context` is a `dictionary` mapping `template variable names` to Python objects.
+The `context` is a `dictionary` mapping `template variable names` to Python
+objects.
 
 Now, when I go to the browser and reload `http://127.0.0.1:8000`, the following
 appears:
 
-![Question 1 rendered to the page](Screenshot-2025-01-06-at-8.44.51-PM.jpg)
+![Question 1 rendered to the page](Screenshot-2025-01-06-at-8.44.51-PM.webp)
 
 _Question 1 rendered to the page_
 
@@ -320,7 +320,7 @@ _Question 1 rendered to the page_
 The `render()` shortcut function simplifies the process of rendering a template
 with context data and returning an `HttpResponse` object.
 
-We can refactor the index view to use this `render()` function:
+I can refactor the index view to use this `render()` function:
 
 ```python
 from django.shortcuts import render
@@ -329,14 +329,14 @@ from .models import Question
 # Create your views here.
 
 def index(request):
-    latest_question_list = Question.objects.order_by("pub_date")[:5]
+    latest_question_list = Question.objects.order_by("-pub_date")[:5]
     context = {
         "latest_question_list": latest_question_list,
     }
     return render(request, "polls/index.html", context)
 ```
 
-When we use `render()`, we no longer need to use `HttpResponse` or `loader`.
+When I use `render()`, I no longer need to use `HttpResponse` or `loader`.
 
 `render()` takes the `request` object as its first argument, a `template name`
 as its second argument, and a `dictionary` (`context`) as its optional third
@@ -346,9 +346,9 @@ with the given context.
 Arguments:
 
 1. `request`: `HttpRequest` object representing the current request.
-1. `template_name`: The `path` to the template file we want to render (e.g.,
+1. `template_name`: The `path` to the template file I want to render (e.g.,
    `'polls/index.html'`).
-1. `context` (optional): A `dictionary` containing the data we want to pass to
+1. `context` (optional): A `dictionary` containing the data I want to pass to
    the template.
 
 How it works:
@@ -363,18 +363,20 @@ How it works:
 
 **Benefits**:
 
-1. `render()` combines several common steps into one, making our `view`
-   functions more concise.
-1. By separating the logic of our `view` from the presentation of our template,
-   our code becomes easier to read and maintain.
+1. I chose to use `render()` because it combines several steps into one, making
+   my `view` functions more concise.
+1. I separated the logic of my `view` from the presentation of my template,
+   which resulted in improved readability and maintenance of the code.
 
 ## Raising a 404 error in the detail view
 
-Next, we'll work on the detail view. The detail view displays the question text
+Next, I'll work on the detail view. The detail view displays the question text
 for a given poll:
 
 ```python
 # polls/views.py
+from django.shortcuts import render
+
 def detail(request, question_id):
     try:
         question = Question.objects.get(pk=question_id)
@@ -386,8 +388,8 @@ def detail(request, question_id):
 Here, the detail view raises the `Http404 exception` if question with the
 requested ID does not exist.
 
-For now, according to the tutorial, we won't proceed yet with the detail view.
-But if we want to see something of it, we can add the following to a new
+For now, according to the tutorial, I won't proceed yet with the detail view.
+But if I want to see something of it, I can add the following to a new
 `polls/templates/polls/detail.html` file:
 
 ```django
@@ -409,16 +411,18 @@ But if we want to see something of it, we can add the following to a new
 
 It resulted in the following on the detail page:
 
-![Result of the detail view](Screenshot-2025-01-07-at-12.34.55-AM.jpg)
+![Result of the detail view](Screenshot-2025-01-07-at-12.34.55-AM.webp)
 
 _Result of the detail view_
 
 ## get_object_or_404()
 
 There is a shortcut for using `get()` and raising an `Http404` if an object does
-not exist called `get_object_or_404()`. We can use it in the detail view:
+not exist called `get_object_or_404()`. I can use it in the detail view:
 
 ```python
+from django.shortcuts import get_object_or_404, render
+
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, "polls/detail.html", {"question": question})
@@ -432,13 +436,13 @@ model's manager. It raises `Http404` if the object doesn’t exist.
 
 In Django, a model's manager is an object that provides an interface for
 interacting with the database and retrieving model instances. It acts as a
-bridge between our model and the database, allowing us to perform queries and
+bridge between my model and the database, allowing me to perform queries and
 other operations.
 
 **The default model manager**:
 
-Every Django model has at least one manager, called objects by default. We use
-it to perform database operations like:
+Every Django model has at least one manager, called objects by default. I use it
+to perform database operations like:
 
 1. `Model.objects.all()` to retrieve all instances of a model.
 1. `Model.objects.filter(condition)` to retrieve instances that meet specific
@@ -449,7 +453,7 @@ it to perform database operations like:
 
 **Custom managers**:
 
-We can define custom managers to add specialized behavior to our models. For
+I can define custom managers to add specialized behavior to my models. For
 example:
 
 1. Filtering to create a manager that returns only a subset of objects based on
@@ -461,19 +465,19 @@ example:
 **Benefits of using managers**:
 
 1. Clean code. Managers bundle database logic including the methods (functions)
-   that operate on that database within a single unit, making our model code
-   more readable and maintainable.
-1. Reusability. We can write common queries and operations once in a (custom)
-   manager and reuse them throughout our application.
-1. Flexibility. Managers provide a powerful way to customize how we access and
-   manipulate our data.
+   that operate on that database within a single unit, making my model code more
+   readable and maintainable.
+1. Reusability. I can write common queries and operations once in a (custom)
+   manager and reuse them throughout my application.
+1. Flexibility. Managers provide a powerful way to customize how I access and
+   manipulate my data.
 
 ### Manager names
 
 As already mentioned, by default, Django adds a `Manager` with the name
-`objects` to every Django model class. But if we want to use objects as a field
-name or to use a name other than `objects` for the `Manager`, we can rename it
-on a per model basis. To rename the `Manager` for a given class, we can define a
+`objects` to every Django model class. But if I want to use objects as a field
+name or to use a name other than `objects` for the `Manager`, I can rename it on
+a per model basis. To rename the `Manager` for a given class, I can define a
 class attribute of type `models.Manager()` on that model. For example:
 
 ```python
@@ -492,7 +496,7 @@ Django documentation.
 
 ## Using the templating engine system
 
-Next, we can add the following to `polls/templates/polls/detail.html`:
+Next, I can add the following to `polls/templates/polls/detail.html`:
 
 ```html
 <!-- polls/templates/polls/detail.html -->
@@ -517,7 +521,7 @@ Next, we can add the following to `polls/templates/polls/detail.html`:
 		<h1>{{ question.question_text }}</h1>
 		<ul>
 			{% for choice in question.choice_set.all %}
-			<li>{% choice.choice_text %}</li>
+			<li>{{ choice.choice_text }}</li>
 			{% endfor %}
 		</ul>
 		{% endblock body %}
@@ -570,9 +574,9 @@ returns an iterable of `Choice objects` and can be used in the `{% for %}` tag.
 ## Removing the hardcoded URL in the template in polls/index.html
 
 Using hardcoded URLs in templates makes it difficult to change URLs on projects
-with a lot of templates. However, since we defined the name argument in the
-`path()` functions in the `polls.urls` module, we can remove specific URL paths
-defined in our `url configurations` by using the `{% url %}` template tag:
+with a lot of templates. However, since I defined the name argument in the
+`path()` functions in the `polls.urls` module, I can remove specific URL paths
+defined in my `url configurations` by using the `{% url %}` template tag:
 
 ```django
 <!-- polls/index.html -->
@@ -605,18 +609,18 @@ defined in our `url configurations` by using the `{% url %}` template tag:
 'detail' refers to the URL name defined in `polls/urls.py`. `question.id` refers
 to the id of the given question "detail".
 
-If we wanted to change the URL of the polls detail view, we would do it in
+If I wanted to change the URL of the polls detail view, I would do it in
 `polls/urls.py`.
 
 ## Namespacing URL names
 
-In real Django projects, there might be five, ten, twenty apps or more. How does
+In real Django projects, there might be five, 10, 20 apps or more. How does
 Django differentiate the URL names between them? For example, the polls app has
 a detail view, and so might an app on the same project that is for a blog. How
 does one make it so that Django knows which app view to create for a URL when
 using the `{% url %}` template tag?
 
-We add namespaces to our `URLconf`. In the `polls/urls.py` file, we can add an
+I add namespaces to my `URLconf`. In the `polls/urls.py` file, I can add an
 `app_name` to set the `application namespace`:
 
 ```python
@@ -634,7 +638,7 @@ urlpatterns = [
 ]
 ```
 
-Then we update `polls/detail.html` to the following:
+Then I update `polls/detail.html` to the following:
 
 ```django
 <!-- polls/detail.html -->
@@ -647,7 +651,7 @@ Then we update `polls/detail.html` to the following:
 
 ## A note about polls/urls.py
 
-According to what I had understood from the official Django tutorial, we should
+According to what I had understood from the official Django tutorial, I should
 have the following in `polls/urls.py`:
 
 ```python
@@ -674,7 +678,7 @@ urlpatterns = [
 ]
 ```
 
-Then we should have been able to access `http://127.0.0.1:8000/polls/1/`, for
+Then I should have been able to access `http://127.0.0.1:8000/polls/1/`, for
 example. However, it did not work for me. I am on Django 5.1.4, and when I
 omitted `polls/` from `polls/urls.py`, an error was thrown. I had to do the
 following:
@@ -726,16 +730,15 @@ Note that this includes the error mentioned.
 
 ## Conclusion
 
-In this section, we wrote our first Django app, discussed URL patterns, wrote
-more views in `polls/views.py`, wrote views that actually worked, re-wrote the
-index view, created a `templates` directory in the `polls` directory,
-implemented template namespacing, added Django code to `index.html`, updated the
-index view to use the new `index.html` template, implemented the `render()`
-shortcut, implemented raising a `404 error` in the detail view, used
-`get_object_or_404()` in the detail view, discussed `Model`'s manager in Django,
-discussed `Manager` names, used template tags in the template engining system,
-removed the hardcoded URL in the template in `polls/index.html`, and namespaced
-our URL names.
+In this section, I wrote my first Django app, discussed URL patterns, wrote more
+views in `polls/views.py`, wrote views that actually worked, re-wrote the index
+view, created a `templates` directory in the `polls` directory, implemented
+template namespacing, added Django code to `index.html`, updated the index view
+to use the new `index.html` template, implemented the `render()` shortcut,
+implemented raising a `404 error` in the detail view, used `get_object_or_404()`
+in the detail view, discussed `Model`'s manager in Django, discussed `Manager`
+names, used template tags in the templating engine system, removed the hardcoded
+URL in the template in `polls/index.html`, and namespaced my URL names.
 
 ## Related Resources
 
