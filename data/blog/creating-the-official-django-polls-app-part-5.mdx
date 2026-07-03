@@ -1,24 +1,33 @@
 ---
 slug: 'creating-the-official-django-polls-app-part-5'
 date: '2025-01-09T18:40:46.378Z'
-lastModified: '2025-01-10T15:42:46.378Z'
+lastModified: '2026-07-03T18:40:46.378Z'
 title: 'Creating the official Django Polls app Part 5'
 author: 'Maria D. Campbell'
-excerpt: "In this section, we are introduced to automated testing. We discuss what
-automated testing is, why it's important to create tests, basic testing
-strategies, write our first test to identify a bug, fix the bug, create more
-comprehensive tests for Question.recently_published(), test a view, analyze the
-tools available to us in testing, are introduced to the Django test client,
-improve our PollsIndexView, test our new PollsIndexView, test the
-PollsDetailView, and break down the refactored PollsDetailView (which originally
-contained a bug which I fixed)."
-image: david-clode-J_5xvghAvmc-unsplash.jpg
-tags: ['fullstack development', 'macOS', 'fixing bugs', 'identifying bugs', 'series', 'test client', 'testing strategies', 'tutorial', 'unittest']
+excerpt:
+    'This is the fifth installment in a series called Creating the official
+    Django Polls app. Continue following this series with this fifth part. I
+    walk through test-driven development in Django, finding and fixing a real
+    bug in Question.recently_published(), and then build out view tests for the
+    polls index and detail pages.'
+image: david-clode-J_5xvghAvmc-unsplash.webp
+tags:
+    [
+        'fullstack development',
+        'macOS',
+        'fixing bugs',
+        'identifying bugs',
+        'series',
+        'test client',
+        'testing strategies',
+        'tutorial',
+        'unittest',
+    ]
 isPublished: true
 isFeatured: false
 ---
 
-![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.jpg)
+![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.webp)
 
 _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 [unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)
@@ -30,16 +39,16 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
     - [What are automated tests?](#what-are-automated-tests)
     - [So why create tests?](#so-why-create-tests)
     - [Basic testing strategies](#basic-testing-strategies)
-- [Writing our first test](#writing-our-first-test)
+- [Writing my first test](#writing-my-first-test)
     - [Identifying a bug](#identifying-a-bug)
     - [Creating a test to expose the bug](#creating-a-test-to-expose-the-bug)
     - [Fixing the bug](#fixing-the-bug)
 - [Creating more comprehensive tests for Question.recently_published()](#creating-more-comprehensive-tests-for-questionrecently-published)
 - [Testing a view](#testing-a-view)
-- [Analyzing the tools available to us in testing](#analyzing-the-tools-available-to-us-in-testing)
+- [Analyzing the tools available to me in testing](#analyzing-the-tools-available-to-me-in-testing)
     - [The Django test client](#the-django-test-client)
-- [Improving our PollsIndexView](#improving-our-pollsindexvsiew)
-- [Testing our new view](#testing-our-new-view)
+- [Improving my PollsIndexView](#improving-my-pollsindexview)
+- [Testing my new view](#testing-my-new-view)
 - [Testing the PollsDetailView](#testing-the-pollsdetailview)
 - [Breaking down the refactored PollsDetailView](#breaking-down-the-refactored-pollsdetailview)
 - [Sometimes tests need to be updated](#sometimes-tests-need-to-be-updated)
@@ -62,50 +71,58 @@ released into production.
 
 ### What are automated tests?
 
-Tests which are regularly executed (usually executed in Terminal) to check
-whether the code is operating as expected.
+I run tests regularly (usually in Terminal) to check that the code behaves as
+expected.
 
 Some tests might apply to a particular model. Some might apply to the overall
 functionality of the software, i.e., does a sequence of user inputs on the site
 produce the expected result?
 
 The difference between automated and manual tests is that the automated testing
-work is done for us by the system. We create a set of tests once, and then as we
-make changes to our app, we can check that our code still works as we originally
+work is done for me by the system. I create a set of tests once, and then as I
+make changes to my app, I can check that my code still works as I originally
 intended, without having to perform time consuming manual testing.
 
 ### So why create tests?
 
 1.  **Quality Assurance**:
-    - **Catch Bugs Early**: Tests help identify errors and unexpected behavior
-      in our code before they reach production, saving time and headaches down
-      the line.
-    - **Ensure Functionality**: Tests verify that our code works as intended,
-      providing confidence in its correctness and reliability.
-    - **Prevent Regressions**: When making changes to our code, tests act as a
+    - **Catch Bugs Early**: Tests have helped me identify errors and unexpected
+      behavior in my code before they reach production, saving time and
+      headaches down the line.
+    - **Ensure Functionality**: Tests verify that my code works as intended,
+      providing me with confidence in its correctness and reliability.
+    - **Prevent Regressions**: When making changes to my code, tests act as a
       safety net, ensuring that existing functionality doesn't break.
 1.  **Development Efficiency**:
     - **Faster Debugging**: Tests pinpoint the exact location of errors, making
-      debugging much faster and more efficient.
-    - **Improved Code Design**: Writing tests forces us to think about our
-      code's structure and interfaces, leading to better design and
-      maintainability.
-    - **Confident Refactoring**: With a comprehensive test suite, we can
-      refactor our code with confidence, knowing that our tests will catch any
-      unintended consequences.
+      debugging much faster and more efficient for me.
+    - **Improved Code Design**: Writing tests forces me to think about my code's
+      structure and interfaces, leading to better design and maintainability.
+    - **Confident Refactoring**: With a comprehensive test suite, I can refactor
+      my code with confidence, knowing that my tests will catch any unintended
+      consequences.
 1.  **Documentation**:
     - **Living Documentation**: Tests serve as a form of documentation,
-      illustrating how our code is intended to be used and what its expected
+      illustrating how my code is intended to be used and what its expected
       outputs are.
     - **Improved Collaboration**: Tests help team members understand the
       codebase and work together more effectively.
 1.  **Professionalism**:
     - **Industry Standard**: Testing is an industry standard practice, and
-      having a well-tested codebase demonstrates our professionalism and
+      having a well-tested codebase demonstrates my professionalism and
       commitment to quality.
     - **Attract Developers**: Developers are more likely to contribute to
       projects with good test coverage, as it shows that the code is
       well-maintained and reliable.
+
+> **Note July 3, 2026:** A good example is one related to my rendition of the
+> Official Django Polls app in Part Four of this series. I very recently caught
+> a couple of errors in the code presented in the post and also present in the
+> actual code in the repository. Somehow the errors had slipped past me, and it
+> might have had to do with insufficient testing. I will be writing a post about
+> the errors and what tests I wrote that would have caught these errors much
+> sooner. I will be linking to it in this post when published. Keep a lookout
+> for it!
 
 ### Basic testing strategies
 
@@ -138,22 +155,16 @@ The strategies they list are the following:
 1. **Security testing**: Tests the software to identify vulnerabilities and
    ensure it meets security requirements.
 
-Geeks for Geeks' article
-[Software Testing Strategies](https://www.geeksforgeeks.org/software-testing-strategies/)
-is worth the read. Go to
-[Software Testing Strategies](https://www.geeksforgeeks.org/software-testing-strategies/)
-to learn more.
-
-## Writing our first test
+## Writing my first test
 
 ### Identifying a bug
 
-There is a little bug in the polls application for us to fix right away. The
+There is a little bug in the polls application for me to fix right away. The
 `Question.recently_published()` method returns True if the `Question` was
 published within the last day (which is correct) but also if the `Question`’s
 `pub_date` field is in the future (which it isn’t).
 
-We can confirm the bug by first running the following command in Terminal:
+I can confirm the bug by first running the following command in Terminal:
 
 ```shell
 python manage.py shell
@@ -175,15 +186,15 @@ True
 >>>
 ```
 
-**Note**: I changed `was_published_recently()` to `recently_published()` when we
+**Note**: I changed `was_published_recently()` to `recently_published()` when I
 first created the related code.
 
 Since things in the future are not recent, this code is wrong.
 
 ### Creating a test to expose the bug
 
-What we just did in the shell is what we can do in an automated test, so we are
-now going to transform that into a test.
+What I just did in the shell is what I can do in an automated test, so I am now
+going to transform that into a test.
 
 I like to create a tests directory inside my app directories, so I created a
 directory called tests inside the polls directory. Inside tests, I also had to
@@ -241,7 +252,7 @@ Destroying test database for alias 'default'...
 ```
 
 If, however, you follow the Django official tutorial exactly, and create
-`tests.py` in `polls` (`polls/test.py`), you would run the following command
+`tests.py` in `polls` (`polls/tests.py`), you would run the following command
 instead:
 
 ```shell
@@ -250,7 +261,7 @@ python3 manage.py test polls
 
 What my command did was the following:
 
-1. It looked for a test in the `polls/tests/test_question_model_test.py` file.
+1. It looked for a test in the `polls/tests/test_question_model_tests.py` file.
 1. It found a subclass of the `django.test.TestCase` class
 1. It created a special database for the purpose of testing
 1. It looked for test methods - ones whose names begin with `test`. That is why
@@ -259,13 +270,13 @@ What my command did was the following:
 1. in `test_recently_published_with_future_question` it created a `Question`
    instance whose `pub_date` field is 30 days in the future.
 1. Using the `assertIs()` method, it discovered that its `recently_published()`
-   returned True, but we wanted it to return False
+   returned True, but I wanted it to return False
 
-The test tells us which test failed and the line where the failure occurred.
+The test tells me which test failed and the line where the failure occurred.
 
 ### Fixing the bug
 
-In order to fix the bug, we have to refactor the `Question.recently_published()`
+In order to fix the bug, I have to refactor the `Question.recently_published()`
 function in `polls.models.py` so that it will only return True if the date is in
 the past:
 
@@ -298,7 +309,7 @@ class Choice(models.Model):
         return self.choice_text
 ```
 
-Next, we run the test again:
+Next, I run the test again:
 
 ```shell
 python3 manage.py test polls.tests.test_question_model_tests
@@ -322,7 +333,7 @@ Now the test passed!
 
 ## Creating more comprehensive tests for Question.recently_published()
 
-Next, we add two more tests to test the behavior of the `recently_published()`
+Next, I add two more tests to test the behavior of the `recently_published()`
 method more comprehensively:
 
 ```python
@@ -351,7 +362,6 @@ class QuestionModelTests(TestCase):
         old_question = Question(pub_date=time)
         self.assertIs(old_question.recently_published(), False)
 
-
     def test_recently_published_with_recent_question(self):
         """
         recently_published() returns True for questions whose pub_date
@@ -375,15 +385,15 @@ According to the Django tutorial part 5,
 > it. In fact that was an example of test-driven development, but it doesn’t
 > really matter in which order we do the work.
 
-## Analyzing the tools available to us in testing
+## Analyzing the tools available to me in testing
 
 ### The Django test client
 
 Django provides a test Client to simulate a user interacting with the code at
-the view level (frontend). We can use it in `test_question_model_tests.py` or
+the view level (frontend). I can use it in `test_question_model_tests.py` or
 even in the shell.
 
-We'll start with the shell:
+I'll start with the shell:
 
 ```shell
 python3 manage.py shell
@@ -395,27 +405,27 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 
-`setup_test_environment()` installs a template renderer which will let us
+`setup_test_environment()` installs a template renderer which will let me
 examine some additional attributes on responses such as `response.context` that
 otherwise would not be available. However, this method does not set up a test
 database, so what follows will test against the existing database. The output
-might differ slightly depending on what questions we already created.
+might differ slightly depending on what questions I already created.
 
-Next, we need to import the test client (later in `test_question_model_tests.py`
-we will use the `django.test.TestCase` class, which comes with its own client,
-so this won’t be required):
+Next, I need to import the test client (later in `test_question_model_tests.py`
+I will use the `django.test.TestCase` class, which comes with its own client, so
+this won’t be required):
 
 ```shell
 >>> from django.test import Client
-# create an instance of the client for our use
+# create an instance of the client for my use
 >>> client = Client()
 # get a response from '/'
 >>> response = client.get('/')
 Not Found: /
-# we should expect a 404 from that address. If you instead see an "Invalid HTTP_HOST header" error and a 400 response, you probably omitted the setup_test_environment() call described earlier.
+# I should expect a 404 from that address. If you instead see an "Invalid HTTP_HOST header" error and a 400 response, you probably omitted the setup_test_environment() call described earlier.
 >>> response.status_code
 404
-# on the other hand we should expect to find something at '/polls/' we'll use 'reverse()' rather than a hardcoded URL
+# on the other hand I should expect to find something at '/polls/' I'll use 'reverse()' rather than a hardcoded URL
 >>> from django.urls import reverse
 >>> response.client.get(reverse("polls:index")) # this is extra!
 <TemplateResponse status_code=200, "text/html; charset=utf-8">
@@ -436,9 +446,9 @@ When I added a second question, and re-ran all the above, I did get back a
 <QuerySet [<Question: Is it safe?>, <Question: What's the problem?>]>
 ```
 
-## Improving our PollsIndexView
+## Improving my PollsIndexView
 
-Right now our `PollsIndexView` looks like the following:
+Right now my `PollsIndexView` looks like the following:
 
 ```python
 class PollsIndexView(ListView):
@@ -450,7 +460,7 @@ class PollsIndexView(ListView):
         Question.objects.order_by("pub_date")[:5]
 ```
 
-We need to change the `get_queryset()` method so that it also checks the date by
+I need to change the `get_queryset()` method so that it also checks the date by
 comparing it with `timezone.now()`:
 
 ```python
@@ -465,15 +475,14 @@ class PollsIndexView(ListView):
         Return the last five published questions (not including those set to be
         published in the future).
         """
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[
-        :5]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 ```
 
 `Question.objects.filter(pub_date__lte=timezone.now())` returns a `queryset`
 containing `Questions` whose `pub_date` is less than or equal to, that is,
 earlier than or equal to `timezone.now()`.
 
-## Testing our new view
+## Testing my new view
 
 ```python
 def create_question(question_text, days):
@@ -527,7 +536,7 @@ class QuestionIndexViewTests(TestCase):
         response = self.client.get(reverse("polls:index"))
         self.assertQuerySetEqual(response.context["latest_question_list"], [question])
 
-    def two_past_questions(self):
+    def test_two_past_questions(self):
         """
         The questions index page may display multiple questions.
         """
@@ -610,10 +619,10 @@ class QuestionDetailViewTests(TestCase):
 ```
 
 However, when I ran the `QuestionDetailViewTests`, `test_future_question`
-failed. There was an `Assertion Error` of `200 != 404`. The test was failing
-because the view was returning a `200` (`OK`) `status code` instead of the
-expected `404`. This suggested that the view was not correctly checking the
-`pub_date` before displaying the question.
+failed. There was an `AssertionError` of `200 != 404`. The test was failing
+because the view was returning a `200 OK` status
+code`instead of the expected`404`. This suggested that the view was not correctly checking the `pub_date`
+before displaying the question.
 
 I fixed the `PollsDetailView` with the following code:
 
@@ -623,10 +632,10 @@ class PollsDetailView(DetailView):
     template_name = "polls/detail.html"
 
     def get_object(self, queryset=None):
-           question = super().get_object(queryset=queryset)
-           if question.pub_date > timezone.now():
-               raise Http404("Question not yet published")
-           return question
+        question = super().get_object(queryset=queryset)
+        if question.pub_date > timezone.now():
+            raise Http404("Question not yet published")
+        return question
 ```
 
 Then I re-ran my tests, and the following was returned in Terminal:
@@ -645,6 +654,11 @@ Destroying test database for alias 'default'...
 
 Now all the tests passed!
 
+> **Note July 3, 2026:** I will be continuing with the development of this
+> project beyond the scope of the Official Django Polls application and will be
+> modularizing the tests. I will share the link to the project in this post when
+> it is completed.
+
 ### Breaking down the refactored PollsDetailView
 
 1. My view should have had logic to check the `pub_date` and return a `404` if
@@ -654,22 +668,22 @@ Now all the tests passed!
    It is used within class-based views to call the `get_object` method of the
    parent class, while optionally providing a specific queryset to use for
    retrieving the object.
-    - `super()` allows us to access methods and properties of a parent class. In
+    - `super()` allows me to access methods and properties of a parent class. In
       the context of Django class-based views, it's often used to call methods
       from the base view class (e.g., `DetailView`, `UpdateView`, etc.) such as
       here.
     - `.get_object()` is a method defined in Django's generic views mixins. It's
       used to retrieve a single object from the database based on the provided
       parameters (usually the primary key).
-    - `queryset=queryset` allows us to specify a custom queryset to use for
-      retrieving the object. If we don't provide this argument, the default
-      queryset of the model associated with the view will be used. In our case,
-      we have a custom queryset in the parent `PollsIndexView`, so we should
-      pass in queryset=queryset.
+    - `queryset=queryset` allows me to specify a custom queryset to use for
+      retrieving the object. If I don't provide this argument, the default
+      queryset of the model associated with the view will be used. In my case, I
+      have a custom queryset in the parent `PollsIndexView`, so I should pass in
+      queryset=queryset.
 
 **Explanation**:
 
-1. Our PollsDetailView represents a custom `DetailView` class.
+1. My PollsDetailView represents a custom `DetailView` class.
 1. The default `get_object` method is overridden to allow for custom logic.
 1. If a `queryset` is provided as an argument, it will be used. Otherwise, the
    default `queryset` of the view is obtained using `self.get_queryset()`.
@@ -679,25 +693,25 @@ Now all the tests passed!
 
 **Common use case**:
 
-1. **Filtering**: We might use this pattern to further filter the `queryset`
+1. **Filtering**: I might use this pattern to further filter the `queryset`
    based on specific conditions, such as the current user's permissions or other
-   request parameters. We do that with our code. We are filtering by date.
+   request parameters. I do that with my code. I am filtering by date.
 
 ## Sometimes tests need to be updated
 
-We can change our views so that only `Questions` with `Choices` are published.
-In that case, many of our existing tests would fail. We would be told exactly
-which tests need to be updated to bring them up to date, so to that extent tests
-help look after themselves.
+I can change my views so that only `Questions` with `Choices` are published. In
+that case, many of my existing tests would fail. I would be told exactly which
+tests need to be updated to bring them up to date, so to that extent tests help
+look after themselves.
 
-At worst, as we continue developing, we might find that we have some tests that
+At worst, as I continue developing, I might find that I have some tests that
 have become redundant. Even that’s not a problem. In testing, redundancy is a
 good thing.
 
 **Good testing practice includes the following**:
 
 1. A separate TestClass for each model or view.
-1. A separate test method for each set of conditions we want to test.
+1. A separate test method for each set of conditions I want to test.
 1. Test method names that describe their function.
 
 ## Code associated with this post
@@ -707,14 +721,14 @@ To view the code associated with this post, please visit
 
 ## Conclusion
 
-In this section, we were introduced to automated testing. We discussed what
-automated testing is, why it's important to create tests, basic testing
-strategies, wrote our first test to identify a bug, fixed the bug, created more
-comprehensive tests for `Question.recently_published()`, tested a view, analyzed
-the tools available to us in testing, were introduced to the Django test client,
-improved our `PollsIndexView`, tested our new `PollsIndexView`, tested the
-`PollsDetailView`, and broke down the refactored `PollsDetailView` (which
-originally contained a bug which I fixed).
+In this section, I introduced automated testing. I discussed what automated
+testing is, why it's important to create tests, basic testing strategies, wrote
+my first test to identify a bug, fixed the bug, created more comprehensive tests
+for `Question.recently_published()`, tested a view, analyzed the tools available
+to me in testing, introduced the Django test client, improved my
+`PollsIndexView`, tested my new `PollsIndexView`, tested the `PollsDetailView`,
+and broke down the refactored `PollsDetailView` (which originally contained a
+bug which I fixed).
 
 ## Related Resources
 
