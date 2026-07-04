@@ -1,15 +1,15 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-2
 date: '2024-08-27T09:41:33.119Z'
-lastModified: '2026-05-24T07:19:33.119Z'
+lastModified: '2026-07-04T22:41:33.119Z'
 title: How to create a fullstack application using Django and Python Part 2
 author: Maria D. Campbell
 excerpt:
-    In this section, I create a Django project inside the Django Boards
-    application, break down the project structure and describe what each
-    component means and does, and after creating the Django project, I start up
-    the development server.
-image: david-clode-PAnoF8sIZTo-unsplash.jpg
+    In this section, I created a Django project inside the Django Boards
+    application, broke down the project structure and described what each
+    component means and does, and after creating the Django project, I started
+    up the development server.
+image: david-clode-PAnoF8sIZTo-unsplash.webp
 tags:
     [
         'macOS',
@@ -24,10 +24,10 @@ isPublished: true
 isFeatured: false
 ---
 
-![Python resting on a rock](david-clode-PAnoF8sIZTo-unsplash.jpg)
+![Python resting on a rock](david-clode-PAnoF8sIZTo-unsplash.webp)
 
-_Photo by_ [David Clode](https://unsplash.com/@davidclode) **_on_**
-[unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-PAnoF8sIZTo)
+_Photo by [David Clode](https://unsplash.com/@davidclode) on
+[unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-PAnoF8sIZTo)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -38,13 +38,17 @@ Git.
 
 ## Table of Contents
 
-- [Creating a project in the Django application](#creating-a-project-in-the-django-application)
+- [Creating a project in the Django web application](#creating-a-project-in-the-django-web-application)
 - [The new Django Boards structure including the django_boards project](#the-new-django-boards-structure-including-the-django-boards-project)
 - [Starting up the Django development server](#starting-up-the-django-development-server)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 - [Footnotes](#footnotes)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
 
 ## Creating a project in the Django web application
 
@@ -56,10 +60,8 @@ command at the root of the Django application (`/django-boards`) where the
 django-admin startproject django_boards
 ```
 
-The Command Line utility `django-admin` comes with a Django install.
-Specifically, `django-admin` is Django's command-line utility for administrative
-tasks. It performs administrative tasks related to Django, such as starting a
-Django project or creating a new Django app.
+The command line utility `django-admin` comes bundled with Django and handles
+admin tasks like starting a project or creating a new app.
 
 The `django-admin` script should be on your system path if you installed Django
 via pip3[^1]. If it’s not in your path, make sure you have your virtual
@@ -74,7 +76,7 @@ have access to `django-admin` outside the Django application itself.
 With the addition of the django_boards project inside the "django-boards"
 directory, the "django-boards" root directory now contains the following:
 
-```shell
+```text
 /django-boards # high level Django application folder for Django project(s) and app(s)
   - /django_boards # root folder of the django_boards project
     - /django_boards # folder of the django_boards project/package
@@ -94,14 +96,12 @@ directory, the "django-boards" root directory now contains the following:
   server, tests, create migrations, and more.
 - `__init__.py` initializes the django_boards package. It is an empty file and
   tells Python that the folder it resides in is a package.
-- `asgi.py`[^2] is created with the `startproject` command. The `startproject`
-  command creates the `asgi.py` file. It is not used by the development server
-  (`runserver`), but can be used by any ASGI server either in development or in
-  production.
+- `asgi.py`[^2] is created by the `startproject` command. It is not used by the
+  development server (`runserver`), but can be used by any ASGI server either in
+  development or in production.
 - `settings.py` contains all the project's configurations.
-- `urls.py` is responsible for mapping the routes and paths in our project. If
-  we want to display something in a particular URL, we first have to map it
-  here.
+- `urls.py` is responsible for mapping the routes and paths in my project. If I
+  want to display something in a particular URL, I first have to map it here.
 - `wsgi.py`[^3] is a simple gateway interface used for deployment.
 
 ## Starting up the Django development server
@@ -113,8 +113,8 @@ server, I run the following command in Terminal:
 python3 manage.py runserver
 ```
 
-The first time that `python3 manage.py runserver` is run, the following is
-returned in Terminal:
+The first time that `python3 manage.py runserver` is run, Terminal returns the
+following:
 
 ```shell
 You have unapplied migrations; your app may not work properly until they are applied.
@@ -126,13 +126,13 @@ Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 ```
 
-Ignore the warning about unapplied database migrations for now. It will be dealt
-with shortly.
+Ignore the warning about unapplied database migrations for now. I will deal with
+it shortly.
 
 Now I can check out my Django application in the browser at
 `http://127.0.0.1:8000/`. It should look something like the following:
 
-![Running the Django  development server](runserver.png)
+![Running the Django development server](runserver.webp)
 
 _Running the Django development server_
 
@@ -154,7 +154,7 @@ development server.
 [^2]:
     asgi stands for Asynchronous Server Gateway Interface. It was introduced in
     Python 3/Django 3, but had limited support. Full support was introduced in
-    Django 4 and later. Python 3 has native syntax for handling asynchronous
+    Django 3.1 and later. Python 3 has native syntax for handling asynchronous
     operations like network calls. WSGI and other synchronous standards can’t
     take advantage of the enhanced performance and efficiency of async. That
     also means WSGI can’t handle advanced protocols like WebSocket.
