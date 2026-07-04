@@ -1,7 +1,7 @@
 ---
 slug: 'creating-the-official-django-polls-app-part-2'
 date: '2025-01-04T01:16:31.190Z'
-lastModified: '2026-07-02T01:14:31.190Z'
+lastModified: '2026-07-04T16:54:31.190Z'
 title: 'Creating the official Django Polls app Part 2'
 author: 'Maria D. Campbell'
 excerpt:
@@ -47,7 +47,7 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
     - [USE_TZ](#use-tz)
 - [INSTALLED_APPS](#installed-apps)
 - [Creating the models](#creating-the-models)
-    - [Activating our models](#activating-our-models)
+    - [Activating my models](#activating-my-models)
 - [Playing with the API in the interactive Python shell](#playing-with-the-api-in-the-interactive-python-shell)
 - [Running the interactive Python shell again](#running-the-interactive-python-shell-again)
 - [The Django admin](#the-django-admin)
@@ -313,46 +313,45 @@ class Choice(models.Model):
 
 Each model is represented by a class that subclasses `django.db.models.Model`.
 
-Each model has a number of class variables, each of which represents a database
-field in the model.
+Each model has several class variables, and each represents a database field in
+the model.
 
 Each field is represented by an instance of a `Field` class – e.g., `CharField`
-for character fields and `DateTimeField` for `datetimes`. This tells Django what
+for character fields and `DateTimeField` for `datetime`. This tells Django what
 type of data each field contains.
 
 The name of each `Field` instance (e.g. `question_text` or `pub_date`) is the
-field’s `name`, in machine-friendly format. We’ll use this value in our Python
-code, and our database will use it as the `column name`.
+field’s `name`, in machine-friendly format. I’ll use this value in my Python
+code, and my database will use it as the `column name`.
 
-We can use an optional first positional argument to a Field to designate a
-human-readable name. That’s used in a couple of internal parts of Django, and it
-doubles as documentation. If this field isn’t provided, Django will use the
-machine-readable name. Here, we’ve only defined a human-readable name for
+I can use an optional first positional argument to a Field to designate a
+human-readable name. If this field isn’t provided, Django will use the
+machine-readable name. Here, I’ve only defined a human-readable name for
 `Question.pub_date`. For all other fields in this model, the field’s
 machine-readable name is used as its human-readable name.
 
 Some Field classes have required arguments. `CharField`, for example, requires
-that we pass it a `max_length`. That’s used not only in the database schema, but
+that I pass it a `max_length`. That’s used not only in the database schema, but
 in validation as well.
 
-A `Field` can also have optional arguments. Here, we set the default value of
+A `Field` can also have optional arguments. Here, I set the default value of
 votes to `0`.
 
-We also define a relationship between `Choice` and `Question` using
-`ForeignKey`. That tells Django each `Choice` is related to a single `Question`.
-Django supports all common database relationships: `many-to-one`,
-`many-to-many`, and `one-to-one`.
+I also define a relationship between `Choice` and `Question` using `ForeignKey`.
+That tells Django each `Choice` is related to a single `Question`. Django
+supports all common database relationships: `many-to-one`, `many-to-many`, and
+`one-to-one`.
 
-### Activating our models
+### Activating my models
 
-With our model code created, Django can do the following:
+With my model code created, Django can do the following:
 
 1. Create a database schema (`CREATE TABLE` statements) for the polls app.
 1. Create a Python database-access API for accessing `Question` and `Choice`
    objects.
 
-But first we need to tell our project that the polls app is installed. How do we
-do that? By adding `"polls"` to `INSTALLED_APPS`:
+But first I need to tell my project that the polls app is installed. How do I do
+that? By adding `"polls"` to `INSTALLED_APPS`:
 
 ```python
 # Application definition
@@ -388,14 +387,14 @@ Migrations for 'polls':
     + Create model Choice
 ```
 
-When I run `makemigrations`, I am telling Django that I've made changes to our
+When I run `makemigrations`, I am telling Django that I've made changes to my
 models, and that I want to store the changes in a migration.
 
-Migrations are how Django stores changes to our models (and thus our database
-schema). They are "files on disk". That means they are stored in our project's
+Migrations are how Django stores changes to my models (and thus my database
+schema). They are "files on disk". That means they are stored in my project's
 file system instead of in a database.
 
-I can read the migration for our new model, which is represented by the
+I can read the migration for my new model, which is represented by the
 `polls/migrations/0001_initial.py` file. It's designed to be human-editable in
 case I want to manually tweak how Django changes things.
 
@@ -439,14 +438,14 @@ generated for `SQLite`.
 1. The code is specific to the database I use, so database-specific field types
    such as `auto_increment` (MySQL), bigint
    `PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY` (PostgreSQL), or integer
-   primary key `autoincrement` (SQLite) are handled for us automatically. Same
+   primary key `autoincrement` (SQLite) are handled for me automatically. Same
    goes for the quoting of field names like using double quotes or single
    quotes.
-1. The `sqlmigrate` command doesn’t actually run the migration on our database.
+1. The `sqlmigrate` command doesn’t actually run the migration on my database.
    Instead, it prints it to Terminal so that I can see what SQL Django thinks is
    required. It’s useful for checking what Django is going to do or if I have
    database administrators who require SQL scripts for changes.
-1. I can also use `python3 manage.py check`. This checks for any problems in our
+1. I can also use `python3 manage.py check`. This checks for any problems in my
    project without making migrations or touching the database.
 
 When I ran `python3 manage.py check`, I got back the following in Terminal:
@@ -476,9 +475,9 @@ I had to run `python3 manage.py migrate polls` after that. As indicated above, I
 ran `migrate` again to create my model tables in my polls database.
 
 The `migrate` command takes all the migrations that haven’t been applied (Django
-tracks which ones are applied using a special table in our database called
-`django_migrations`) and runs them against our database. Basically,
-synchronizing the changes I made to my models with the schema in the database.
+tracks which ones are applied using a special table in my database called
+`django_migrations`) and runs them against my database. Basically, synchronizing
+the changes I made to my models with the schema in the database.
 
 Migrations are very powerful and let me change my models over time, as I develop
 my project, without the need to delete my database or tables and make new ones.
@@ -662,7 +661,7 @@ Python 3.13.0 (main, Nov 16 2024, 22:29:42) [Clang 16.0.0 (clang-1600.0.26.3)] o
 Type "help", "copyright", "credits" or "license" for more information.
 (InteractiveConsole)
 >>> from polls.models import Question, Choice
-# Make sure our __str__() addition worked.
+# Make sure my __str__() addition worked.
 >>> Question.objects.all()
 <QuerySet [<Question: What's the problem?>]>
 # Django provides a rich database lookup API that's entirely driven by keyword arguments.
@@ -857,12 +856,11 @@ To view the code associated with this section, please visit
 ## Conclusion
 
 In this section, I set up the Django Polls database, explained/set
-`LANGUAGE_CODE`,` USE_I18N`, `USE_THOUSAND_SEPARATOR`, `NUMBER_GROUPING`,
-`USE_TZ`, and `INSTALLED_APPS`, created the polls models, activated the models,
-played with the API in the interactive Python shell, discussed the Django admin
-interface, created a `superuser`, started the development server, registered
-polls app in `polls/admin.py`, and discussed the `Question` form in the admin
-interface.
+LANGUAGE_CODE, USE_I18N, USE_THOUSAND_SEPARATOR, NUMBER_GROUPING, USE_TZ, and
+INSTALLED_APPS, created the polls models, activated the models, played with the
+API in the interactive Python shell, discussed the Django admin interface,
+created a superuser, started the development server, registered polls app in
+polls/admin.py, and discussed the Question form in the admin interface.
 
 ## Related Resources
 
