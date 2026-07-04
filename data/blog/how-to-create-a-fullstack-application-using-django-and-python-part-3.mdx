@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-3
 date: '2024-08-27T21:02:57.925Z'
-lastModified: '2026-05-24T09:50:57.925Z'
+lastModified: '2026-07-04T23:24:57.925Z'
 title: How to create a fullstack application using Django and Python Part 3
 author: Maria D. Campbell
 excerpt:
@@ -10,7 +10,7 @@ excerpt:
     write the first boards app view, tell the Django project when to serve the
     view, break down the code in urls.py, and run the development server to view
     the results of the changes made to views.py and urls.py.'
-image: david-clode-I0gToqo_T80-unsplash.jpg
+image: david-clode-I0gToqo_T80-unsplash.webp
 tags:
     [
         'macOS',
@@ -30,10 +30,10 @@ isPublished: true
 isFeatured: false
 ---
 
-![Man kissing python](david-clode-I0gToqo_T80-unsplash.jpg)
+![Man kissing python](david-clode-I0gToqo_T80-unsplash.webp)
 
-_Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
-[unsplash.com](https://unsplash.com/photos/a-man-holding-a-large-snake-in-his-arms-I0gToqo_T80)
+_Photo by [David Clode](https://unsplash.com/@davidclode) on
+[unsplash.com](https://unsplash.com/photos/a-man-holding-a-large-snake-in-his-arms-I0gToqo_T80)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -55,13 +55,17 @@ Git.
     - [views.py](#viewspy)
 - [Configuring the boards app in the django_boards project (settings.py)](#configuring-the-boards-app-in-the-django-boards-project-settingspy)
 - [Writing the first boards app view (views.py)](#writing-the-first-board-app-view-viewspy)
-    - [Telling the Django project (django_boards) when to serve the view (urls.py)](#telling-the-django-project-django_boards-when-to-serve-the-view-urlspy)
-        - [Breaking down the (new) code in urls.py](#breaking-down-the-new-code-in-urlspy)
-        - [Running the development server to view the results of the changes made to views.py and urls.py](#running-the-development-server-to-view-the-results-of-the-changes-made-to-viewspy-and-urlspy)
+- [Telling the Django project (django_boards) when to serve the view (urls.py)](#telling-the-django-project-django_boards-when-to-serve-the-view-urlspy)
+    - [Breaking down the (new) code in urls.py](#breaking-down-the-new-code-in-urlspy)
+- [Running the development server to view the results of the changes made to views.py and urls.py](#running-the-development-server-to-view-the-results-of-the-changes-made-to-viewspy-and-urlspy)
 - [Conclusion](#conclusion)
 - [Related terms](#related-terms)
 - [Related Posts](#related-posts)
 - [Footnotes](#footnotes)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
 
 ## Projects vs apps in Django
 
@@ -71,7 +75,7 @@ different purposes.
 A Django project contains a high level directory and a sub-directory by the same
 name, and the high level directory contains one or more Django apps, settings,
 and configurations for those apps. It contains all the files and directories
-needed for the (high-level) Django project to run. It's also where we define
+needed for the (high-level) Django project to run. It's also where I define
 database settings, URL routing, and other global configurations for the apps it
 contains.
 
@@ -79,7 +83,7 @@ A Django app is a self-contained module that can be plugged into any Django
 project. A Django app serves a specific purpose or feature in a Django project,
 and includes, models, views, templates, and static files.
 
-However, we can’t run a Django app without a project.
+However, I can’t run a Django app without a project.
 
 One example of a Django app is a web blog, which can be all inclusive inside a
 Django app.
@@ -92,7 +96,7 @@ Django app inside the Django project. I will be creating an app called "boards".
 In order to create my app, I have to go into the directory that contains the
 `manage.py` file. In my case, that is the top level django_boards project
 directory. For a project structure refresher, please visit
-[How to create a fullstack application using Django and Python Part 2](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-part-2).
+[How to create a fullstack application using Django and Python Part 2](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-2).
 
 Next, I run the following command in Terminal:
 
@@ -141,8 +145,8 @@ When the Django application runs, Django translates the Python models into
 database schemas, mapping each model to a corresponding database table and each
 field to a corresponding column in the table.
 
-Even though the migration process is automated, we need to know when to make
-migrations, when to run them, and the issues we might face.
+Even though the migration process is automated, I need to know when to make
+migrations, when to run them, and the issues I might face.
 
 ### ⎼⎼init⎼⎼.py
 
@@ -160,13 +164,13 @@ submodules, defining variables, or executing other code.
 ### The Django admin site (admin.py)
 
 The Django admin site is an "automatic" admin interface which reads metadata
-from our models to provide a model-centric interface where trusted users can
+from my models to provide a model-centric interface where trusted users can
 manage content on the site. It's recommended to use it as an internal management
 tool and not for building a site's front end.
 
 The `admin.py` file is where the
 [ModelAdmin class](https://docs.djangoproject.com/en/5.1/ref/contrib/admin/)
-resides. It is also where we register our models which we create in `models.py`.
+resides. It is also where I register my models which I create in `models.py`.
 
 ### apps.py
 
@@ -184,14 +188,14 @@ is the boards app.
 
 ### tests.py
 
-The `tests.py` file is where we create automated tests for the Django app. The
+The `tests.py` file is where I create automated tests for the Django app. The
 Django testing system automatically detects tests in any file whose name begins
 with "test".
 
 ### views.py
 
 The `views.py` file contains the views of a Django app. Django views are
-functions that take http requests and return http responses. Each view performs
+functions that take HTTP requests and return HTTP responses. Each view performs
 a different task.
 
 ## Configuring the boards app in the django_boards project (settings.py)
@@ -201,7 +205,7 @@ app, I have to add a reference to its configuration class, located in the boards
 app's `apps.py` file, in the `INSTALLED_APPS` setting in `settings.py`. After I
 add it to the `INSTALLED_APPS` setting, it should look like the following:
 
-```shell
+```python
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -218,7 +222,7 @@ INSTALLED_APPS = [
 Now that I have a [views.py](#viewspy) file for my boards app views, I create my
 first view inside:
 
-```shell
+```python
 from django.http import HttpResponse
 
 def index(request):
@@ -226,10 +230,10 @@ def index(request):
 ```
 
 I created a simple function called `index`, which refers to the Django Boards
-application home page, sends an Http request for the index page, and receives an
+application home page, sends an HTTP request for the index page, and receives an
 `HttpResponse` with the text string `'Hello, World!'`. As mentioned earlier,
-Django views are Python functions which receive an `HttpRequest` object
-(request) and return an `HttpResponse` object.
+Django views are Python functions that receive an `HttpRequest` object (request)
+and return an `HttpResponse` object.
 
 ## Telling the Django project (django_boards) when to serve the view (urls.py)
 
@@ -333,7 +337,7 @@ match the index view.
 
 The name attribute and its value is referred to as url pattern naming.
 [Naming url patterns](https://docs.djangoproject.com/en/5.1/topics/http/urls/#naming-url-patterns)
-in Django is required if we want to perform URL reversing[^3]. I am not doing it
+in Django is required if I want to perform URL reversing[^3]. I am not doing it
 for that reason here. However, it helps better identify the purpose of the
 `url`.
 
@@ -341,9 +345,9 @@ When naming url patterns, it is very important to choose names that will not
 clash with other names in the global namespace. For example, if I name a url
 pattern "index", and another app uses the same name, the `url` that the
 `reverse()` method finds depends on whichever pattern is last in the project's
-`urlpatterns` list. Putting a prefix on our URL names, perhaps taken from the
-app name, like "boards-index" instead of "index", for example, decreases the
-chances of name collision.
+`urlpatterns` list. Putting a prefix on my URL names, perhaps taken from the app
+name, like "boards-index" instead of "index", for example, decreases the chances
+of name collision.
 
 ## Running the development server to view the results of the changes made to views.py and urls.py
 
@@ -370,11 +374,11 @@ of the changes made to `views.py` and `urls.py`.
 - Django ORM is a built-in module in Django. It is a high-level abstraction
   layer that allows developers to define complex application data models easily.
   Traditional ORM frameworks rely on tables and foreign keys, but Django models
-  are defined using Python objects and relationships. -- **_from_**
+  are defined using Python objects and relationships. -- _from_
   [Quickly visualize your Django schemas with DjangoViz](https://atlasgo.io/blog/2023/05/17/djangoviz),
   Shani Cohen, AtlasGo
 - ORM (Object Relational Mapping) is the layer that connects object oriented
-  programming (OOP) to relational databases. -- from
+  programming (OOP) to relational databases. -- _from_
   [What is an ORM – The Meaning of Object Relational Mapping Database Tools](https://www.freecodecamp.org/news/what-is-an-orm-the-meaning-of-object-relational-mapping-database-tools/),
   by Ihechikara Abba, freecodecamp
 
