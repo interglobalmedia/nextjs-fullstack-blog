@@ -1,22 +1,21 @@
 ---
 slug: 'creating-the-official-django-polls-app-part-8'
 date: '2025-01-11T00:14:10.537Z'
-lastModified: '2025-01-11T19:54:10.537Z'
+lastModified: '2025-07-04T14:43:10.537Z'
 title: 'Creating the official Django Polls app Part 8'
 author: 'Maria D. Campbell'
-excerpt: "In this section, we install the Django Debug Toolbar, configure the toolbar
-so it appears in the browser when we run our development server, learn
-that we can customize the toolbar, run our Django Polls project in the browser
-to view the toolbar, are introduced to resources where we can access
-other third party packages to use in our applications, and are provided with
-next steps."
-image: david-clode-J_5xvghAvmc-unsplash.jpg
-tags: ['fullstack development', 'macOS', 'django', 'python3', 'django commons', 'django debug toolbar', 'django settings', 'pip', 'series', 'third party packages', 'tutorial',]
+excerpt: "In this section, I install the Django Debug Toolbar, configure the toolbar
+so it appears in the browser when I run my development server, learn
+that I can customize the toolbar, run my Django Polls project in the browser
+to view the toolbar, I introduce resources where I can access
+other third-party packages to use in my applications, and I provide next steps."
+image: david-clode-J_5xvghAvmc-unsplash.webp
+tags: ['fullstack development', 'macOS', 'django', 'python3', 'django commons', 'django debug toolbar', 'django settings', 'pip', 'series', 'third-party packages', 'tutorial']
 isPublished: true
 isFeatured: false
 ---
 
-![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.jpg)
+![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.webp)
 
 _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 [unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)
@@ -25,48 +24,52 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 
 - [Installing Django Debug Toolbar](#installing-django-debug-toolbar)
 - [Customizing the toolbar](#customizing-the-toolbar)
-- [Running our project in the browser](#running-our-project-in-the-browser)
+- [Running my project in the browser](#running-my-project-in-the-browser)
 - [Installing other third-party packages](#installing-other-third-party-packages)
-- [Code associated with this post](#code-associated-with-this=post)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
-Now we'll become acquainted with third-party packages. One of Django’s appealing
-features is their rich ecosystem of third-party packages. They’re community
-developed packages that can be used to quickly add new features to an
-application.
+> **Update (July 2026):** This walkthrough was written against Django 5.1, which
+> reached full end-of-life in December 2025 and is no longer receiving security
+> patches. Run `python -m django --version` to check which version you have.
 
-We will learn how to add the Django Debug Toolbar, which is a commonly used
-third party package. The Django Debug Toolbar has ranked in the top three most
-used third-party packages in the Django Developers Survey in recent years.
+I became acquainted with third-party packages. One great thing about Django is
+their wide variety of third-party packages. They’re community-developed and are
+used to quickly add features to an application.
+
+I learned how to add the Django Debug Toolbar, which is a commonly used
+third-party package. I hadn't used a debug toolbar like this before, so seeing
+SQL query counts and template render times on every page was new to me.
 
 ## Installing Django Debug Toolbar
 
-The Django Debug Toolbar is a useful tool for debugging Django applications.
-It’s a third-party package that is maintained by the community organization
-[Django Commons](https://github.com/django-commons). The toolbar helps us
-understand how our application functions and to identify problems. It does so by
+The Django Debug Toolbar is maintained by the community organization
+[Django Commons](https://github.com/django-commons). The toolbar helps me
+understand how my application functions and to identify problems. It does so by
 providing panels that provide debug information about the current request and
-response.
+response. What I really like about it is how it appears in the web page, which
+means I don't have to take the extra step of going into a browser console and
+debug there.
 
-To install a third-party application like the toolbar, we need to install the
+To install a third-party application like the toolbar, I needed to install the
 package by running the below command within an activated virtual environment.
-This is similar to our earlier step for installing Django:
+This is similar to my earlier step for installing Django:
 
 ```shell
 pip install django-debug-toolbar
 ```
 
-Then, as before, we run the following command to add `django-debug-toolbar` to
-our `requirements.txt`:
+Then, as before, I ran the following command to add `django-debug-toolbar` to my
+`requirements.txt`:
 
 ```shell
 pip freeze > requirements.txt
 ```
 
-After running `pip freeze > requirements.txt`, we also have to add the package
-to our `INSTALLED_APPS` in `settings.py`:
+After running `pip freeze > requirements.txt`, I also had to add the package to
+my `INSTALLED_APPS` in `settings.py`:
 
 ```python
 INSTALLED_APPS = [
@@ -75,7 +78,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-Then we have to add the Debug Toolbar middleware to our MIDDLEWARE setting in
+Then I had to add the Debug Toolbar middleware to my MIDDLEWARE setting in
 `settings.py`:
 
 ```python
@@ -85,8 +88,8 @@ MIDDLEWARE = [
 ]
 ```
 
-Then we have to configure an `INTERNAL_IPS` in `settings.py` to allow the
-toolbar to be displayed (typically set to `'127.0.0.1'`):
+I had to configure an `INTERNAL_IPS` in `settings.py` to allow the toolbar to be
+displayed (typically set to `'127.0.0.1'`):
 
 ```python
 INTERNAL_IPS = [
@@ -94,9 +97,10 @@ INTERNAL_IPS = [
 ]
 ```
 
-Then we have to add the following to `django_polls/urls.py`:
+I also had to add the following to `django_polls/urls.py`:
 
 ```python
+# django_polls/urls.py
 import debug_toolbar
 
 urlpatterns = [
@@ -112,7 +116,7 @@ documentation. Their way differs slightly. The only place where it differs is in
 
 ```python
 # django_polls/urls.py
-rom debug_toolbar.toolbar import debug_toolbar_urls
+from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     # ... the rest of your URLconf goes here ...
@@ -120,8 +124,8 @@ urlpatterns = [
 ```
 
 Either way works. Django Debug Toolbar's approach follows the configuration
-convention for development environments. We do something similar when
-configuring static files for development, specifically media (images) files.
+convention for development environments. I do something similar when configuring
+static files for development, specifically media (images) files.
 
 If you want to learn more about Django Debug Toolbars, visit their documentation
 entitled
@@ -129,56 +133,91 @@ entitled
 
 ## Customizing the toolbar
 
-We can further configure the toolbar by using the `DEBUG_TOOLBAR_CONFIG`
-setting. We can refer to the
+I could further configure the toolbar by using the `DEBUG_TOOLBAR_CONFIG`
+setting. You can refer to the
 [documentation](https://django-debug-toolbar.readthedocs.io/en/latest/installation.html)
 for the available options.
 
-## Running our project in the browser
+## Running my project in the browser
 
-Next, we can start our Django development server and access our website in a
-browser. If we're accessing the site from an allowed IP address (as specified in
-`INTERNAL_IPS`), we should see the `debug toolbar` on the page.
+Next, I started my Django development server and accessed my website in a
+browser. If I accessed the site from an allowed IP address (as specified in
+`INTERNAL_IPS`), I should see the `debug toolbar` on the page.
 
 When I visit `http://127.0.0.1:8000/polls/`, the browser window looks like the
 following:
 
-![Adding the django debug toolbar](Screenshot-2025-01-11-at-12.40.49-PM.jpg)
+![Adding the django debug toolbar](Screenshot-2025-01-11-at-12.40.49-PM.webp)
 
 _Adding the django debug toolbar_
 
-Wherever I go on the site, the django debug toolbar appears.
+Wherever I went on the site, the Django debug toolbar would appear.
 
-We also should be able to see the DjDT “handle” on the right side of the browser
-window when we browse to http://localhost:8000/admin/. We can click it to open
-the debug toolbar and use the tools in each panel. We can view the
+I also should be able to see the DjDT “handle” on the right side of the browser
+window when I browse to http://localhost:8000/admin/. I can click it to open the
+debug toolbar and use the tools in each panel. I can hide it by clicking "Hide"
+at the top of the toolbar panel. You can view the
 [panels documentation page](https://django-debug-toolbar.readthedocs.io/en/latest/panels.html)
 for more information on what the panels show.
 
 When I went into my admin interface in the browser, it looked like the
 following:
 
-![Admin interface including Django Debug Toolbar](Screenshot-2025-01-11-at-2.37.00-PM.jpg)
+![Admin interface including Django Debug Toolbar](Screenshot-2025-01-11-at-2.37.00-PM.webp)
 
 _Admin interface including Django Debug Toolbar_
 
 When I clicked on "Hide" to the top right of the browser window, the following
 appeared:
 
-![Appearance of the DJDT box](Screenshot-2025-01-11-at-2.40.17-PM.jpg)
+![Appearance of the DJDT box](Screenshot-2025-01-11-at-2.40.17-PM.webp)
 
 _Appearance of the DJDT box_
 
 When I clicked on the DJDT box, the Django Debug Toolbar reappeared.
 
+**Note July 4, 2026:** I hadn't logged into the Django Polls admin interface in
+a very long time, so when I tried today, I wasn't able to get in. I got the
+following in the web browser:
+
+![Screenshot of login error due to un-synced or corrupt db.sqlite3 database](Screenshot-2026-07-04-at-9.12.15-AM.webp)
+
+_Login error due to un-synced or corrupt db.sqlite3 database_
+
+In order to rectify the matter, I reset the db.sqlite3 database:
+
+```shell
+# removes the existing db.sqlite3
+rm db.sqlite3
+# Creates a clean new migration which creates a fresh, clean db.sqlite3
+python manage.py migrate
+# Creates a new superuser because previous one was wiped in the reset
+python manage.py createsuperuser
+```
+
+At first, I tried to recreate the superuser credentials that I had previously,
+but the password I tried to add was rejected. That could have been because
+something went wrong with how the password was recorded when I recreated the
+account, possibly during the confirmation prompt. I never fully pinned down the
+cause, but recreating it with a new username and password worked immediately.
+Then I revisited the other superuser and changed the password:
+
+```shell
+# Changes the password for the superuser with the username polls-admin
+python manage.py changepassword polls-admin
+```
+
+When I changed the password, I was able to successfully login using polls-admin.
+Then I deleted the other superuser I had just created.
+
 ## Installing other third-party packages
 
-There are many more third-party packages which we can find using the Django
+There are many more third-party packages which I can find using the Django
 resource [Django Packages](https://djangopackages.org).
 
-It can be hard to choose which third-party packages we should use. It really
-depends on our needs and objectives. Sometimes it’s okay to use a package that’s
-in alpha stage. Sometimes we need to know if it’s production ready. Adam Johnson
+It can be hard to choose which third-party packages I should use. It really
+depends on my needs and objectives. Sometimes it’s okay to use a package that’s
+in alpha stage. Sometimes I need to know if it’s production ready. Adam Johnson
 (who's written a lot of great articles on Django development) has a blog post
 regarding what qualifies a package as “well maintained” entitled
 [The Well-Maintained Test: 12 Questions for New Dependencies](https://adamj.eu/tech/2021/11/04/the-well-maintained-test/).
@@ -199,9 +238,9 @@ The next (advanced) tutorial suggested by Django after this one is entitled
 [How to write reusable apps](https://docs.djangoproject.com/en/5.1/intro/reusable-apps/).
 I know I will be checking it out to see if there is anything I haven't yet
 learned. I also have a series here on the site entitled
-`"How to create a fullstack application using Django and Python"` in which we
+`"How to create a fullstack application using Django and Python"` in which I
 write reusable apps. If you want to learn more, please visit
-[How to create a fullstack application using Django and Python Table of Contents](http://localhost:3000/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents).
+[How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents).
 I still have a couple of more sections to write in order to complete the series,
 but 33 sections have already been completed. By the time you get to 34, it and
 the rest will already have been published. Check it out!
@@ -213,12 +252,11 @@ To view the code associated with this post, please visit
 
 ## Conclusion
 
-In this section, we installed the Django Debug Toolbar, configured the toolbar
-so it would appear in the browser when we ran our development server, learned
-that we can customize the toolbar, ran our Django Polls project in the browser
-to view the toolbar, were introduced to resources where we could access other
-third party packages to use in our applications, and were provided with next
-steps.
+In this section, I installed the Django Debug Toolbar, configured the toolbar so
+it would appear in the browser when I ran my development server, learned that I
+can customize the toolbar, ran my Django Polls project in the browser to view
+the toolbar, I introduced resources where I could access other third-party
+packages to use in my applications, and I provided next steps.
 
 ## Related Resources
 
