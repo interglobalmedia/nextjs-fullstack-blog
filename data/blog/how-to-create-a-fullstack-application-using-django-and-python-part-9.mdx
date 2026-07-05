@@ -1,20 +1,20 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-9
 date: '2024-09-07T11:08:41.791Z'
-lastModified: '2026-05-24T16:01:41.791Z'
+lastModified: '2026-07-05T21:47:41.791Z'
 title: How to create a fullstack application using Django and Python Part 9
 author: Maria D. Campbell
 excerpt: 'In this section, I introduce the Django Admin, configure the Django Admin by
 creating a superuser, register the boards app in boards/admin.py, add a
 board in the Django Admin interface, and delete a board in the Django Admin
 interface.'
-image: list-of-boards-in-the-django-admin-dashboard.jpg
+image: list-of-boards-in-the-django-admin-dashboard.webp
 tags: ['macOS', 'django', 'fullstack development', 'python3', 'django admin', 'superuser', 'register app', 'series']
 isPublished: true
 isFeatured: false
 ---
 
-![List of boards in the Django Admin dashboard](list-of-boards-in-the-django-admin-dashboard.jpg)
+![List of boards in the Django Admin dashboard](list-of-boards-in-the-django-admin-dashboard.webp)
 
 _List of boards in the Django Admin dashboard_
 
@@ -31,7 +31,7 @@ Git.
 - [Configuring the Django Admin](#configuring-the-django-admin)
     - [Creating the superuser](#creating-the-superuser)
 - [Registering the boards app in boards/admin.py](#registering-the-boards-app-in-boards-adminpy)
-- [Viewing available Boards in the Django Admin Interface](#viewing-available-boards-in-the-django-admin-interface)
+- [Viewing available boards in the Django Admin interface](#viewing-available-boards-in-the-django-admin-interface)
 - [Adding a board in the Django Admin interface](#adding-a-board-in-the-django-admin-interface)
 - [Deleting a board in the Django Admin interface](#deleting-a-board-in-the-django-admin-interface)
 - [Conclusion](#conclusion)
@@ -39,16 +39,16 @@ Git.
 
 ## Introducing the Django Admin
 
-When we create a new project, the root project directory automatically comes
-with a file called admin.py. That file includes the `django.contrib.admin` app,
-which is included in `INSTALLED_APPS` in settings.py.
+When I create a new project, the root project directory automatically comes with
+a file called admin.py. That file includes the `django.contrib.admin` app, which
+is included in `INSTALLED_APPS` in settings.py.
 
-The Django Admin reads metadata from our models to provide a quick,
-model-centric interface where trusted users can manage content on our site. The
-Django Admin's use should be limited to being an internal management tool and
-not a means to styling the frontend of a site.
+The Django Admin reads metadata from my models to provide a quick, model-centric
+interface where trusted users can manage content on my site. The Django Admin's
+use should be limited to being an internal management tool and not a means to
+styling the frontend of a site.
 
-We are going to use Django Admin to manage our board app boards.
+I am going to use Django Admin to manage my boards app.
 
 ## Configuring the Django Admin
 
@@ -65,23 +65,23 @@ Which for me, returns the following:
 ```shell
 Username (leave blank to use 'mariacam'): interglobalmedia
 # then:
-Email address: interglobalmedia@example.com # no need for a real email for the purposes of our site at this time
+Email address: interglobalmedia@example.com # no need for a real email for the purposes of my site at this time
 # then:
 Password:
-Password (login):
+Password (again):
 Superuser created successfully.
 ```
 
-Next, we use our new superuser account to log into the Django Admin area. It
-looks like the following:
+Next, I use my new superuser account to log into the Django Admin area. It looks
+like the following:
 
-![The Django Admin login](django-admin-login.jpg)
+![The Django Admin login](django-admin-login.webp)
 
 _The Django Admin login_
 
 After I add my login credentials, I am taken to the following:
 
-![The Django Admin dashboard (interface)](django-admin-dashboard.jpg)
+![The Django Admin dashboard (interface)](django-admin-dashboard.webp)
 
 _The Django Admin dashboard (interface)_
 
@@ -89,16 +89,16 @@ This probably looks a bit different from yours. I already registered the Board,
 Post, Topic, and PostLike models to the board app's `admin.py`. The PostLike
 model is not included in Vitor Freitas'
 [A Complete Beginner's Guide to Django](https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/),
-which my series is based on. I updated the UML Class diagrams amd wireframes to
+which my series is based on. I updated the UML class diagrams and wireframes to
 include PostLike. I will discuss this in the next section (Part 10). Just make
 sure that your Boards, and your Groups and Users under Authentication and
 Authorization appear here.
 
 ## Registering the boards app in boards/admin.py
 
-We have to register the boards app in `boards/admin.py` in order for it to
-appear in the Django Admin interface so that we can interact with it and manage
-it there:
+I have to register the boards app in `boards/admin.py` in order for it to appear
+in the Django Admin interface so that I can interact with it and manage it
+there:
 
 ```python
 # boards/admin.py
@@ -107,23 +107,26 @@ from .models import Board, Topic, Post, PostLike
 
 # Register your models here.
 admin.site.register(Board)
+admin.site.register(Topic)
+admin.site.register(Post)
+admin.site.register(PostLike)
 ```
 
-Now, when you go back to `http://127.0.0.1:8000/admin/`, Boards should appear
-under "Boards". Now we can access Boards.
+Now, when you go back to `http://127.0.0.1:8000/admin/`, Boards should appear in
+the admin sidebar.
 
-## Viewing available Boards in the Django Admin Interface
+## Viewing available boards in the Django Admin interface
 
-To view which boards are available to us, we can go to
-`http://127.0.0.1:8000/admin/boards/board/` to view our list of all our boards:
+To view which boards are available to me, I can go to
+`http://127.0.0.1:8000/admin/boards/board/` to view my list of all my boards:
 
-![List of boards in the Django Admin dashboard](list-of-boards-in-the-django-admin-dashboard.jpg)
+![List of boards in the Django Admin dashboard](list-of-boards-in-the-django-admin-dashboard.webp)
 
 _List of boards in the Django Admin dashboard_
 
-As you can see below, we can add a board or delete one:
+As you can see below, I can add a board or delete one:
 
-![Add or delete a board in the Admin panel](add-delete-board-admin-panel.jpg)
+![Add or delete a board in the Admin panel](add-delete-board-admin-panel.webp)
 
 _Add or delete a board in the Admin panel_
 
@@ -132,7 +135,7 @@ _Add or delete a board in the Admin panel_
 If I want to add a board, after I click the Add Board + button, the following
 appears:
 
-![Add a board in the Django Admin panel](add-board-django-admin.jpg)
+![Add a board in the Django Admin panel](add-board-django-admin.webp)
 
 _Add a board in the Django Admin panel_
 
@@ -143,23 +146,23 @@ board and continue editing it. I will go with the first choice. When I save the
 new board, I am taken back to the list of boards, and it looks something like
 the following:
 
-![New board added successfully](new-board-added-successfully.jpg)
+![New board added successfully](new-board-added-successfully.webp)
 
 _New board added successfully_
 
 ## Deleting a board in the Django Admin interface
 
-If I want to delete a board, i select the board I want to delete, and as a
+If I want to delete a board, I select the board I want to delete, and as a
 result, it looks like the following:
 
-![Selecting board for deletion](select-board-for-deletion.jpg)
+![Selecting board for deletion](select-board-for-deletion.webp)
 
 _Selecting board for deletion_
 
 Then I run the selected action to delete the selected board by pressing the "Go"
 button:
 
-![Run selected action to delete board](run-selected-action-to-delete-board.jpg)
+![Run selected action to delete board](run-selected-action-to-delete-board.webp)
 
 _Run selected action to delete board_
 
