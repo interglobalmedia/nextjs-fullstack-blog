@@ -1,14 +1,14 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-4
 date: '2024-08-28T17:41:19.571Z'
-lastModified: '2026-05-24T10:10:19.571Z'
+lastModified: '2026-07-05T00:57:19.571Z'
 title: How to create a fullstack application using Django and Python Part 4
 author: Maria D. Campbell
 excerpt:
     In this section, I discuss how to install the python-dotenv package and why
     it is crucial to do so as to safeguard sensitive information the Django
     application depends on.
-image: silas-kohler-C1P4wHhQbjM-unsplash.jpg
+image: silas-kohler-C1P4wHhQbjM-unsplash.webp
 tags:
     [
         'macOS',
@@ -27,19 +27,11 @@ isPublished: true
 isFeatured: false
 ---
 
-![Keys hanging from a keychain](silas-kohler-C1P4wHhQbjM-unsplash.jpg)
+![Keys hanging from a keychain](silas-kohler-C1P4wHhQbjM-unsplash.webp)
 
-**_Photo by_**
-[Silas Köhler](https://unsplash.com/photos/black-skeleton-keys-C1P4wHhQbjM)
-**_on_**
-[unsplash.com](https://unsplash.com/photos/black-skeleton-keys-C1P4wHhQbjM)
-
-**Important Note**: Before committing anything to Git or pushing anything to
-remote, please visit
-[How to create a fullstack application using Django and Python Part 4](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-4)
-where I discuss how to add the `python-dotenv` package to the Django site and
-why it is crucial to do it. This article assumes you have a working knowledge of
-Git.
+_Photo by
+[Silas Köhler](https://unsplash.com/photos/black-skeleton-keys-C1P4wHhQbjM) on
+[unsplash.com](https://unsplash.com/photos/black-skeleton-keys-C1P4wHhQbjM)_
 
 ## Table of Contents
 
@@ -48,9 +40,12 @@ Git.
 - [Making sure the virtual environment is (still) activated](#making-sure-the-virtual-environment-is-still-activated)
 - [Installing python-dotenv](#installing-python-dotenv)
 - [Importing dotenv into settings.py and configuring it](#importing-dotenv-into-settingspy-and-configuring-it)
-- [Adding dotenv to INSTALLED_APPS](#adding-dotenv-to-installed-apps)
 - [Conclusion](#conclusion)
 - [Related Posts](#related-posts)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
 
 ## Why this section?
 
@@ -59,7 +54,7 @@ just in general, is the importance of safeguarding sensitive information that a
 site or application depends on. What do I mean by that? Well, most developers
 use the Git version control system to track changes in the development of their
 applications, and that includes pushing those changes to potentially public
-remote repositories on Git hosting services such as Github.
+remote repositories on Git hosting services such as GitHub.
 
 Out of the box, Django does include one piece of sensitive information that is
 located in the Django project's `settings.py` file. And that is the
@@ -82,23 +77,29 @@ the root directory (`/django-boards`) of my Django site, I immediately create a
 file called `.gitignore` inside the same root directory, and add the following
 content:
 
-```shell
+```text
 *.log
 *.pot
 *.pyc
-__pycache__ # I actually added this later once this was created
-django_boards/__pycache__/ # I actually added this later once this was created
-django_boards/boards/__pycache__/ # I actually added this later once this was created
+# I actually added this later once this was created
+__pycache__
+# I actually added this later once this was created
+django_boards/__pycache__/
+# I actually added this later once this was created
+django_boards/boards/__pycache__/
 db.sqlite3
-.env # relevant to this project security
-venv/ # The venv directory should be .gitignored
-.venv # The .venv directory should be .gitignored
-env/
+# relevant to this project security
+.env
+# The venv directory should be .gitignored
 venv/
+# The .venv directory should be .gitignored
+.venv
+env/
 ENV/
 env.bak/
 venv.bak/
-.vscode/ # the .vscode directory, if you have one, should be ignored
+# the .vscode directory, if you have one, should be ignored
+.vscode/
 ```
 
 ## Making sure the virtual environment is (still) activated
@@ -162,27 +163,9 @@ SECRET_KEY=valueoftheSECRET_KEYvariableinsidesettings.py
 There should be no space between the `=` sign and the value of `SECRET_KEY`, and
 no quotes added.
 
-## Adding dotenv to INSTALLED_APPS
-
-The last step in the process is to add the `dotenv` to the `INSTALLED_APPS`
-array:
-
-```shell
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'boards.apps.BoardsConfig',
-    'dotenv',
-]
-```
-
 Now I am ready to initialize a local Git repository inside my django-boards
 directory, commit my changes, and push them to my remote Git repository on
-Github without fear of exposing sensitive information there. It is safely stored
+GitHub without fear of exposing sensitive information there. It is safely stored
 solely on my local machine inside an ignored `.env` file.
 
 ## Conclusion
