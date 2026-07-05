@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-8
 date: '2024-09-06T17:13:22.089Z'
-lastModified: '2026-05-24T15:50:22.089Z'
+lastModified: '2026-07-05T21:00:22.089Z'
 title: How to create a fullstack application using Django and Python Part 8
 author: Maria D. Campbell
 excerpt:
@@ -10,7 +10,7 @@ excerpt:
     configure the static directory in settings.py, discuss the collectstatic
     command, load the Bootstrap CSS file in index.html, and edit index.html to
     include Bootstrap styling.
-image: board-app.jpg
+image: board-app.webp
 tags:
     [
         'macOS',
@@ -28,7 +28,7 @@ isPublished: true
 isFeatured: false
 ---
 
-![Board app](board-app.jpg)
+![Board app](board-app.webp)
 
 _Board app_
 
@@ -113,7 +113,7 @@ def index(request):
 
 And this results in the following in the browser:
 
-![Rendering board names in the browser](Screenshot-2024-09-06-at-2.11.07-PM.jpg)
+![Rendering board names in the browser](Screenshot-2024-09-06-at-2.11.07-PM.webp)
 
 I changed the code from using the render method to render the `index.html` page
 with the list of boards to returning an HttpResponse and passing the
@@ -155,14 +155,14 @@ These tags and `variable` are part of the
 [Django Templating Language](https://docs.djangoproject.com/en/5.1/topics/templates/).
 
 The `{% for board in boards %}{% endfor %}` represents a `for in loop`, which
-iterates over the keys of an object. `{{ board.name }}` renders the board name
-to the page, for example.
+iterates over each board in the queryset. `{{ board.name }}` renders the board
+name to the page, for example.
 
-Before we can actually view our `index.html` page being rendered to the page, we
+Before I can actually view my `index.html` page being rendered to the page, I
 have to tell Django where to find this template.
 
-To do this, we have to go into `settings.py` located in the django_boards
-project subdirectory also called django_boards and add the following:
+To do this, I have to go into `settings.py` located in the django_boards project
+subdirectory also called django_boards and add the following:
 
 ```python
 TEMPLATES = [
@@ -184,7 +184,7 @@ TEMPLATES = [
 ]
 ```
 
-We needed to added:
+I needed to add:
 
 ```python
 'DIRS': [ # what needs to be added
@@ -192,18 +192,18 @@ We needed to added:
 ],
 ```
 
-What the value of the 'DIRS' array is doing is finding the full path of our
+What the value of the 'DIRS' array is doing is finding the full path of my
 projects directory (`BASE_DIR`) and appending 'templates' using the
 `os.path.join()` method.
 
-We can debug this using the Python3 shell:
+I can debug this using the Python3 shell:
 
 ```shell
 # first run python3 manage.py shell after stopping the development server
 python3 manage.py shell
 ```
 
-Then we type the following in the python3 shell:
+Then I type the following in the python3 shell:
 
 ```shell
 from django.conf import settings
@@ -232,9 +232,9 @@ Which for me, returns:
 ```
 
 `os.path.join(settings.BASE_DIR, 'templates')` is pointing to the templates
-directory which we configured in `settings.py`.
+directory which I configured in `settings.py`.
 
-Now we can bring back the previous code to the index view:
+Now I can bring back the previous code to the index view:
 
 ```python
 from django.shortcuts import render
@@ -259,7 +259,7 @@ Django Models
 Python Objects
 ```
 
-However, we can make the page look better by adding a table to the html markup:
+However, I can make the page look better by adding a table to the html markup:
 
 ```html
 <!DOCTYPE html>
@@ -319,8 +319,8 @@ Which looks something like the following:
 
 ## Testing the index (home) page
 
-Next, we are going to write our first test in the `tests.py` page inside the
-boards app:
+Next, I am going to write my first test in the `tests.py` page inside the boards
+app:
 
 ```python
 from django.urls import reverse
@@ -338,11 +338,11 @@ class IndexTests(TestCase):
     self.assertEqual(response.status_code, 200)
 ```
 
-This is a very basic test in which we are checking the status code of the
+This is a very basic test in which I am checking the status code of the
 response. A 200 status code means success.
 
-We can check the status code of the response in the console while the
-development server is running:
+I can check the status code of the response in the console while the development
+server is running:
 
 ```shell
 Watching for file changes with StatReloader
@@ -355,7 +355,7 @@ Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 
 [06/Sep/2024 18:56:36] "GET / HTTP/1.1" 200 2097
-[06/Sep/2024 18:56:36] "GET /static/css/bootstrap.min.css HTTP/1.1" 200 232803 # I already have bootstrap set up, but we will be going through that step coming up
+[06/Sep/2024 18:56:36] "GET /static/css/bootstrap.min.css HTTP/1.1" 200 232803 # I already have bootstrap set up, but I will be going through that step coming up
 ```
 
 `"GET / HTTP/1.1" 200 2097` and
@@ -371,7 +371,7 @@ etc., Django would return a status code of 500. A status code of 500 gives a
 message of "Internal Server Error". A 500 status code means the server
 encountered something it didn't expect and was unable to complete the request.
 
-To run our test in `tests.py`, we run the following command in Terminal:
+To run my test in `tests.py`, I run the following command in Terminal:
 
 ```shell
 python3 manage.py test
@@ -431,7 +431,7 @@ diagram from Python code, I had to add `__init__.py` in all my directories,
 including project and app. However, eventually I should have removed the
 `__init__.py` file at the root of the project.
 
-To get back more information about the test, we could set verbosity.
+To get back more information about the test, I could set verbosity.
 [Verbosity](https://docs.djangoproject.com/en/5.1/topics/testing/advanced/)
 determines the amount of notification and debug information that will be printed
 to the console. 0 is no output, 1 is normal output, and 2 is verbose output.
@@ -439,7 +439,7 @@ to the console. 0 is no output, 1 is normal output, and 2 is verbose output.
 Let's try this out:
 
 ```shell
-python3 test --verbosity=0
+python3 manage.py test --verbosity=0
 ```
 
 Which returns:
@@ -453,7 +453,7 @@ OK
 ```
 
 ```shell
-python3 test --verbosity=1
+python3 manage.py test --verbosity=1
 ```
 
 Which returns:
@@ -471,7 +471,7 @@ Destroying test database for alias 'default'...
 ```
 
 ```shell
-python3 test --verbosity=2
+python3 manage.py test --verbosity=2
 ```
 
 Which returns:
@@ -525,7 +525,7 @@ my application and what specifically passed.
 ## Setting up the static files
 
 Static files consist of HTML, JavaScript, CSS, images, fonts, and anything else
-we may want to use for the frontend of the site.
+I may want to use for the frontend of the site.
 
 Django only serves static files during the development process to make the
 development workflow easier. Django does provide some features to manage static
@@ -534,23 +534,23 @@ application included in the `INSTALLED_APPS` configuration in `settings.py`.
 
 ## django.contrib.staticfiles
 
-`django.contrib.staticfiles` collects static files from each of our applications
-(and any other places we specify) into a single location that can easily be
+`django.contrib.staticfiles` collects static files from each of my applications
+(and any other places I specify) into a single location that can easily be
 served in production.
 
-The common solution to use for site styling is Bootstrap. Bootstrapis a
-powerful, extensible, and feature-packed frontend toolkit. We can build and
+The common solution to use for site styling is Bootstrap. Bootstrap is a
+powerful, extensible, and feature-packed frontend toolkit. I can build and
 customize with Sass, utilize prebuilt grid systems and components, and bring
 projects to life with powerful JavaScript plugins.
 
 ## Creating the static directory
 
 In the django_boards project root directory, alongside the templates directory,
-we have to create a directory called static where our static files are kept.
+I have to create a directory called static where my static files are kept.
 
 ## Creating the css directory
 
-Inside the static directory, we create another directory called css. Now my
+Inside the static directory, I create another directory called css. Now my
 Django Boards directory structure should look like the following:
 
 ```shell
@@ -573,16 +573,16 @@ Django Boards directory structure should look like the following:
 
 ## Downloading Bootstrap
 
-Next, we have to download [Bootstrap](https://getbootstrap.com). The current
+Next, I have to download [Bootstrap](https://getbootstrap.com). The current
 version at the time of writing this post is 5.3.3, and the Compiled CSS and JS
-version should be downloaded. From there, we should copy the
+version should be downloaded. From there, I should copy the
 `css/bootstrap.min.css` to the project's css folder inside the new static
 directory (as shown above).
 
 ## Configuring the static directory in settings.py
 
-Next, we have to let Django know where the static files are located. In order to
-do this, we have to go into `settings.py` and add the following as the values of
+Next, I have to let Django know where the static files are located. In order to
+do this, I have to go into `settings.py` and add the following as the values of
 `STATIC_URL` and `STATICFILES_DIRS`:
 
 ```python
@@ -594,34 +594,29 @@ STATICFILES_DIRS = [
 ```
 
 `STATIC_URL` tells Django to append static to the base url, which in development
-for us is http://127.0.0.1:8000, when searching for static files.
+for me is http://127.0.0.1:8000, when searching for static files.
 
 The `STATICFILES_DIRS` tuple[^1] tells Django where to find static files that
-are not linked to a particular app. Here we are telling Django to look for
-static files in our root folder, not in any particular app (i.e., the board
-app).
+are not linked to a particular app. Here I am telling Django to look for static
+files in my root folder, not in any particular app (i.e., the board app).
 
 ## The collectstatic command
 
 Among its [core components](https://testdriven.io/blog/django-static-files/),
 Django's `django.contrib.staticfiles` app provides management commands. One of
 them is the `collectstatic` command. This command collects static files from
-various locations like `/board/static/` or directories in
-`STATICFILES_DIRS setting in `settings.py`, and copies them to the `STATIC_ROOT`
-directory.
-
-The `STATIC_ROOT` directory is where the static files get copied to
-automatically after `collectstatic` is run.
+various locations like `/board/static/` or directories in `STATICFILES_DIRS`
+setting in `settings.py`, and copies them to the `STATIC_ROOT` directory.
 
 The `collectstatic` command is a built-in Django management command that
 collects all static files from a Django project, including files from each
 installed app, and places them in a single location, specified by the
-`STATIC_ROOT` setting in `settings.py`. This is the location where our web
-server will look for static files to serve to the end users in production.
+`STATIC_ROOT` setting in `settings.py`. This is the location where my web server
+will look for static files to serve to the end users in production.
 
 ## Loading the static Bootstrap CSS file in the index.html template
 
-Next, we have to load the Bootstrap CSS file inside our `index.html` template:
+Next, I have to load the Bootstrap CSS file inside my `index.html` template:
 
 ```html
 {% load static %}<!DOCTYPE html>
@@ -646,7 +641,7 @@ contain no styling, media assets, or JS functionality! That's why so many
 backend-centric developers like Bootstrap. It's an all inclusive CSS (with some
 JS) framework.
 
-`{% static 'css/bootstrap.min.css' %}` returns `/static/css/bootstrap.min.css`.`
+`{% static 'css/bootstrap.min.css' %}` returns `/static/css/bootstrap.min.css`.
 
 ## Editing the index.html template to include Bootstrap styling
 
@@ -700,7 +695,7 @@ JS) framework.
 
 Which renders the following in the browser:
 
-![Board with Bootstrap CSS](board-with-bootstrap-css.jpg)
+![Board with Bootstrap CSS](board-with-bootstrap-css.webp)
 
 _Board with Bootstrap CSS_
 
