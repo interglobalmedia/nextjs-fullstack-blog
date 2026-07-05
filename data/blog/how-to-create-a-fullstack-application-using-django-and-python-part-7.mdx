@@ -1,15 +1,15 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-7
 date: '2024-09-01T17:19:28.248Z'
-lastModified: '2026-05-18T14:16:28.248Z'
+lastModified: '2026-07-05T20:13:28.248Z'
 title: How to create a fullstack application using Django and Python Part 7
 author: Maria D. Campbell
 excerpt:
     In this section, I discuss the Django model basics, I compare the UML Class
     Fields Diagram to the models.py source code, I migrate the models with the
     makemigrations command, apply the model migrations with the migrate command,
-    play with the Models API, and discuss the Django Model manager.
-image: uml_class_diagram.drawio.svg
+    play with the Models API, and discuss the Django model Manager.
+image: uml_class_diagram.drawio.webp
 tags:
     [
         'macOS',
@@ -28,9 +28,9 @@ isPublished: true
 isFeatured: false
 ---
 
-![UML Class Diagram](uml_class_diagram.drawio.svg)
+![UML class diagram](uml_class_diagram.drawio.webp)
 
-_UML Class Diagram_
+_UML class diagram_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -47,15 +47,16 @@ Git.
             - [The Board class model](#the-board-class-model)
             - [The Topic class model](#the-topic-class-model)
             - [The Post class model](#the-post-class-model)
-- [Comparing the UML Class Fields Diagram to the models.py source code](#comparing-the-uml-class-fields-diagram-to-the-modelspy-source-code)
+- [Comparing the UML class fields diagram to the models.py source code](#comparing-the-uml-class-fields-diagram-to-the-modelspy-source-code)
 - [Migrating the models with the makemigrations command](#migrating-the-models-with-the-makemigrations-command)
-- [Applying the migration we generated to the database with the migrate command](#applying-the-migration-we-generated-to-the-database-with-the-migrate-command)
+- [Applying the migration I generated to the database with the migrate command](#applying-the-migration-i-generated-to-the-database-with-the-migrate-command)
 - [Tinkering with the Models API](#tinkering-with-the-models-api)
-- [The Django Model Manager](#the-django-model-manager)
+- [The Django model Manager](#the-django-model-manager)
     - [Treating the QuerySet like a list](#treating-the-queryset-like-a-list)
-    - [Summary of Model operations in the Python3 shell](#summary-of-model-operations-in-the-python3-shell)
+    - [Summary of model operations in the Python 3 shell](#summary-of-model-operations-in-the-python-3-shell)
 - [Conclusion](#conclusion)
 - [Footnotes](#footnotes)
+- [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
 ## Building the Django Boards models
@@ -66,14 +67,14 @@ which appears in `INSTALLED_APPS` in settings.py as `django.contrib.auth`.
 
 ### Model basics
 
-A Django model is the single source of information about the data we are working
-with. It contains the necessary fields and functionalities of the data we are
+A Django model is the single source of information about the data I am working
+with. It contains the necessary fields and functionalities of the data I am
 storing. Each model maps to a single database table.
 
 - Each model is a Python class that subclasses `django.db.models.Model`.
 - Each attribute of a model represents a database field.
-- Once we have created our Django models, Django automatically provides us with
-  a database-abstraction API that lets us create, get (read), update, and delete
+- Once I have created my Django models, Django automatically provides me with a
+  database-abstraction API that lets me create, get (read), update, and delete
   objects (CRUD operations).
 
 An example of sub-classing `django.db.models.Model` in the Board, Topic, and
@@ -88,8 +89,7 @@ Post(models.Model):
 
 ### boards/models.py
 
-We will be adding the models-related code inside the boards app `models.py`
-file:
+I will be adding the models-related code inside the boards app `models.py` file:
 
 ```python
 # in boards/models.py
@@ -122,65 +122,66 @@ class Post(models.Model):
 
 ### The Board class model
 
-In the Board class model, the name field (class attribute) contains the unique
-built-in field validation property which is set to true. If using Django's
-default authentication backend, we can't use a non-unique username. The name of
-a user has to be unique.
+In the Board class model, the name field (class attribute name) contains the
+unique built-in field validation property which is set to true. In other words,
+`name = models.CharField(max_length=30, unique=True)`. Whatever value I assign
+to this field has to be unique. Django won't let me save two boards with the
+same name.
 
 The description field is simply made up of alpha characters describing the
-board, and therefore does not have to be unique. However, one has to set a
+board, and therefore does not have to be unique. However, I have to set a
 max_length property. The `CharField()` method has a max_length of 255
-characters, but we set it to 100. We set the max_length of the name field to 30
+characters, but I set it to 100. I set the max_length of the name field to 30
 characters.
 
-We use the `__str__()` function in Board class to convert the name object into
+I use the `__str__()` function in Board class to convert the name object into
 its string representation. `def __str__(self): return self.name` dynamically
-sets the name of a board. When we write the code, we don't know yet what the
-admin user is going to call any particular board. We also have to return the
-name object inside the `__str__()` method to make it available elsewhere,
-especially in `django.contrib.auth` where the User model resides.
+sets the name of a board. When I write the code, I don't know yet what the admin
+user is going to call any particular board. I also have to return the name
+object inside the `__str__()` method to make it available elsewhere, especially
+in `django.contrib.auth` where the User model resides.
 
 ### The Topic class model
 
-In the Topic class model, we set the subject field value to `models.CharField()`
-with a max_length of 255, which is the max max_length we can set to the
-`models.CharField()` method. There is no need for more anyway, since the subject
-line does not have to be too long!
+In the Topic class model, I set the subject field value to `models.CharField()`
+with a max_length of 255, which is the highest `max_length` value I can set to
+the `models.CharField()` method. There is no need for more anyway, since the
+subject line does not have to be too long!
 
-For the last_updated field, we set its value to
+For the last_updated field, I set its value to
 `models.DateTimeField(auto_now_add=True)`. Passing the auto_now_add=True option
 to `models.DateTimeField()` method sets the current date and time only when the
-model (topic) instance is created. This is good for when we want the time the
+model (topic) instance is created. This is good for when I want the time the
 instance was created to be displayed, like a date_created timestamp. As opposed
 to the auto_now option, which would set the value of the last_updated field
 every time the model instance is saved, regardless of whether it is being
 created or updated/saved.
 
-We set the board field to
-`models.ForeignKey(Board, on_delete=models.CASCADE, related_name='topics')`. We
+I set the board field to
+`models.ForeignKey(Board, on_delete=models.CASCADE, related_name='topics')`. I
 use the `models.ForeignKey()` method to define the many-to one relationship
-between the Topic class and the Board class. As shown in our
-[UML Class Diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
+between the Topic class and the Board class. As shown in my
+[UML class diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
 there can be 0 to many (`..*`) topics to exactly 1 board, and a topic can only
-have exactly one board. The first option we pass to the `models.ForeignKey()`
-method, and that is a reference to the Board class. Why do we just pass a
+have exactly one board. The first option I pass to the `models.ForeignKey()`
+method, and that is a reference to the Board class. Why do I just pass a
 reference to the class? Because it is easier to just reference the class inside
 another class, and then just make changes to the class being referenced inside
-the class itself. Otherwise, if we added the whole class inside another class,
+the class itself. Otherwise, if I added the whole class inside another class,
 there would be a lot of duplication and it would be hard to keep track of and
 sync changes.
 
-We are required to pass the `on_delete=models.CASCADE` option (or argument) to
+I am required to pass the `on_delete=models.CASCADE` option (or argument) to
 `models.ForeignKey()` so that if the referenced object (model class) is deleted,
 then all the other objects that have a ForeignKey to that object will also be
 deleted. This makes sure that the child objects are deleted when the parent
 object is deleted.
 
-The related name option is passed to `models.ForeignKey()` because we are
-linking Board to Topic using `models.ForeignKey()`, and we want to give a name
-to the related name attribute that we use for the relation (reverse
-relationship[^1]) from the related Board object back to Topic. After defining
-related_name, we can retrieve the topics of a board with the following:
+The related name option is passed to `models.ForeignKey()` because I am linking
+Board to Topic using `models.ForeignKey()`, and I want to give a name to the
+related name attribute that I use for the relation (reverse relationship[^1])
+from the related Board object back to Topic. After defining related_name, I can
+retrieve the topics of a board with the following:
 
 ```python
 board.topics.all()
@@ -189,48 +190,48 @@ board.topics.all()
 The starter field which represents the user who starts a topic, is structured in
 the same way as the board field. It is set to the value of
 `starter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='topics')`.
-We use the `models.ForeignKey()` method to define the many-to one relationship
-between the Topic class and the User class. As shown in our
-[UML Class Diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
+I use the `models.ForeignKey()` method to define the many-to one relationship
+between the Topic class and the User class. As shown in my
+[UML class diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
 the user can create 0 to many topics (`..*`), but a topic can only be associated
-with exactly 1 user. Instead of passing Board as the first argument (option) to
-`models.ForeignKey()`, we are passing User. The second and third arguments
+with exactly one user. Instead of passing Board as the first argument (option)
+to `models.ForeignKey()`, I am passing User. The second and third arguments
 (options), on_delete and related_name are the same.
 
 ### The Post class model
 
-In the Post class model, we use the `models.TextField()` method as the value of
-the message field, and set the max_length to 4000. However, we do not have to
-set a max_length on a TextField, because
+In the Post class model, I use the `models.TextField()` method as the value of
+the message field, and set the max_length to 4000. However, I do not have to set
+a max_length on a TextField, because
 [Django does not enforce any size limit on a TextField in the database](https://forum.djangoproject.com/t/textfield-maximum-number-of-characters/15677).
-it's really a matter of preference, and whether we want a user to be able to
+It's really a matter of preference, and whether I want a user to be able to
 ramble on and on in a Post.
 
-We set the value of the topic field to
-`models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='posts')`. We
+I set the value of the topic field to
+`models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='posts')`. I
 use the `models.ForeignKey()` method to define the many-to one relationship
-between the Post class and the Topic class. As shown in our
-[UML Class Diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
+between the Post class and the Topic class. As shown in my
+[UML class diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
 there has to be at least 1 to many (`..*`) posts to exactly 1 topic, and one
-post can only have exactly one topic. The first option we pass to the
+post can only have exactly one topic. The first option I pass to the
 `models.ForeignKey()` method, and that is a reference to the Topic class. Why do
-we just pass a reference to the class? Because it is easier to just reference
-the class inside another class, and then just make changes to the class being
-referenced inside the class itself. Otherwise, if we added the whole class
-inside another class, there would be a lot of duplication and it would be hard
-to keep track of and sync changes.
+I just pass a reference to the class? Because it is easier to just reference the
+class inside another class, and then just make changes to the class being
+referenced inside the class itself. Otherwise, if I added the whole class inside
+another class, there would be a lot of duplication and it would be hard to keep
+track of and sync changes.
 
-We are required to pass the `on_delete=models.CASCADE` option (or argument) to
+I am required to pass the `on_delete=models.CASCADE` option (or argument) to
 `models.ForeignKey()` so that if the referenced object (model class) is deleted,
 then all the other objects that have a `ForeignKey` to that object will also be
 deleted. This makes sure that the child objects are deleted when the parent
 object is deleted.
 
-The related name option is passed to `models.ForeignKey()` because we are
-linking Topic to Post using `models.ForeignKey()`, and we want to give a name to
-the related name attribute that we use for the relation (reverse relationship
-[^1]) from the related Topic object back to Post. After defining related_name,
-we can retrieve the posts of a topic with the following:
+The related name option is passed to `models.ForeignKey()` because I am linking
+Topic to Post using `models.ForeignKey()`, and I want to give a name to the
+related name attribute that I use for the relation (reverse relationship [^1])
+from the related Topic object back to Post. After defining related_name, I can
+retrieve the posts of a topic with the following:
 
 ```python
 topic.posts.all()
@@ -239,12 +240,12 @@ topic.posts.all()
 The created_at field is set to `models.DateTimeField(auto_now_add=True)`.
 Passing the `auto_now_add=True` option to `models.DateTimeField()` method sets
 the current date and time only when the model (post) instance is created. This
-is good for when we want the time the instance was created to be displayed, like
+is good for when I want the time the instance was created to be displayed, like
 a date_created timestamp. As opposed to the auto_now option, which would set the
 value of the created_at field every time the model instance is saved, regardless
 of whether it is being created or updated/saved.
 
-We set the updated_at field to `models.DateTimeField(null=True)`. Passing
+I set the updated_at field to `models.DateTimeField(null=True)`. Passing
 `null=True` to `models.DateTimeField()` means that a value does not have to
 initially be set to the updated_at field when first created. In fact, a value
 never has to be set to it. A user might never update their post.
@@ -254,11 +255,11 @@ The created by field is set to
 means that a post is created by a user, and if the user is ever deleted, the
 parent post and all its children will also be deleted. As already mentioned,
 `on_delete=models.CASCADE` must be passed to `models.ForeignKey()`. The
-related_name option is passed to `models.ForeignKey()` because we are linking
-User to Post using `models.ForeignKey()`, and we want to give a name to the
-related name attribute that we use for the relation (reverse relationship[^1])
-from the related User object back to Post. After defining related_name, we can
-retrieve the posts of a topic with the following:
+related_name option is passed to `models.ForeignKey()` because I am linking User
+to Post using `models.ForeignKey()`, and I want to give a name to the related
+name attribute that I use for the relation (reverse relationship[^1]) from the
+related User object back to Post. After defining related_name, I can retrieve
+the posts of a topic with the following:
 
 ```python
 created_by.posts.all()
@@ -271,32 +272,32 @@ object. It is the user who created the post that will be able to update it.
 However, just like with the updated_at field, perhaps the user will never want
 to edit/update their post, so `null=True` must be passed as the second argument
 to `models.ForeignKey()`. The fourth argument, `related_name='+'`, is new. What
-this does is prevent a reverse relationship[^1] from being created. We prevent
-it from being created for the second reference to the User object passed to
-updated_by (the first is referenced in the created_by field), because we would
+this does is prevent a reverse relationship[^1] from being created. I prevent it
+from being created for the second reference to the User object passed to
+updated_by (the first is referenced in the created_by field), because I would
 have to give a related_name of posts here as well, and a naming conflict would
 result.
 
-## Comparing the UML Class Fields Diagram to the models.py source code
+## Comparing the UML class fields diagram to the models.py source code
 
-Below is an image of the UML Class Fields Diagram vs the `models.py` source
+Below is an image of the UML class fields diagram vs the `models.py` source
 code:
 
-![UML Class Fields Diagram vs the models.py source code](uml_class_diagram_fields_code.drawio.png)
+![UML class fields diagram vs the models.py source code](uml_class_diagram_fields_code.drawio.webp)
 
-_UML Class Fields Diagram vs the models.py source code_
+_UML class fields diagram vs the models.py source code_
 
 You might notice that there are _no_ primary keys/IDs referenced in the diagram.
-That is okay, because if we don't specify a primary key for a model, Django will
-automatically generate one for us.
+That is okay, because if I don't specify a primary key for a model, Django will
+automatically generate one for me.
 
 ## Migrating the models with the makemigrations command
 
-The next step is to tell Django to create the database for us so we can start
+The next step is to tell Django to create the database for me so I can start
 using it.
 
 The `makemigrations` command is responsible for creating new migrations based on
-the changes we make made to our models.
+the changes I made to my models.
 
 The `migrate` command applies and un-applies migrations.
 
@@ -319,20 +320,20 @@ Migrations for 'boards':
     - Add field updated_by to post
 ```
 
-Since this is our first migration, Django has created a file called
+Since this is my first migration, Django has created a file called
 `0001_initial.py` inside the `boards/migrations/` directory, and it represents
-the current state of our boards app's models. In the next step (migrate), Django
+the current state of my boards app's models. In the next step (migrate), Django
 will use this file to create tables and columns. The migrations files are
-translated into SQL statements. If we want to inspect the SQL instructions that
-will be executed in the database, we can run the following command:
+translated into SQL statements. If I want to inspect the SQL instructions that
+will be executed in the database, I can run the following command:
 
 ```shell
 python3 manage.py sqlmigrate boards 0001
 ```
 
-## Applying the migration we generated to the database with the migrate command
+## Applying the migration I generated to the database with the migrate command
 
-Next, we run the following command to apply the migration we generated to the
+Next, I run the following command to apply the migration I generated to the
 database with the `makemigrations` command from inside the directory that houses
 the `manage.py` file:
 
@@ -362,28 +363,28 @@ Running migrations:
   Applying sessions.0001_initial... OK
 ```
 
-Because this is the first time we are migrating the database, the `migrate`
+Because this is the first time I am migrating the database, the `migrate`
 command also applied the existing migration files from the `django.contrib` apps
 in `INSTALLED_APPS` in `settings.py`.
 
-`Applying sessions.0001_initial... OK` is the migration we generated in the
-previous step. Now our database is ready to be used.
+`Applying sessions.0001_initial... OK` is the migration I generated in the
+previous step. Now my database is ready to be used.
 
-**Note about SQLLite**: SQLite IS a production quality database, but just for
-small sites. PostgreSQL or Oracle, High-volume websites, write-intensive
-applications, very large datasets, high concurrency, all should not use SQLite.
-While we are developing the site locally, using the SQLLite database that comes
-with Django is perfectly fine. But when we deploy our site to production, we
-will switch to PostgreSQL. For simple websites like the one we are building, it
-is okay to switch from SQLite to another database, but with more complex sites,
-one should use the same database in development and production.
+**Note about SQLite**: SQLite is a production quality database, but just for
+small sites. High-volume websites, write-intensive applications, very large
+datasets, or high-concurrency systems should use PostgreSQL or Oracle instead.
+While I am developing the site locally, using the SQLite database that comes
+with Django is perfectly fine. But when I deploy my site to production, I will
+switch to PostgreSQL. For simple websites like the one I am building, it is okay
+to switch from SQLite to another database, but with more complex sites, I should
+use the same database in development and production.
 
 ## Tinkering with the Models API
 
-Python3 has an interactive shell we can use during Python development. It's a
+Python 3 has an interactive shell I can use during Python development. It's a
 great way to try new things and experiment with Python libraries and APIs.
 
-The following command starts up the Python3 shell in Terminal:
+The following command starts up the Python 3 shell in Terminal:
 
 ```shell
 python3 manage.py shell
@@ -411,7 +412,7 @@ When I run `python3`, it starts the
 Running `python3 manage.py shell` within a Django project sets the
 `DJANGO_SETTINGS_MODULE` environment variable, which provides Django with the
 Python import `path` to my `django_boards/settings.py` file. This means I can do
-the following within the `Python3 shell` instead of in `models.py`:
+the following within the `Python 3 shell` instead of in `models.py`:
 
 ```shell
 (InteractiveConsole)
@@ -438,14 +439,14 @@ it an id. So when I run:
 board.id
 ```
 
-`Something like` the following is returned:
+Something like the following is returned:
 
 ```shell
 4
 ```
 
-In my case, I already created 3 boards, so this is board number 4. I can also
-access all the other board attributes. The board name for example:
+In my case, I already created three boards, so this is board number 4. I can
+also access all the other board attributes. The board name for example:
 
 ```shell
 board.name
@@ -483,20 +484,20 @@ when I run `board.description` again, the following is returned:
 
 And then, if I want to save these changes, I have to run `board.save()` again.
 
-## The Django Model Manager
+## The Django model Manager
 
 According to the Django documentation,
 
 > A Manager is a Django class that provides the interface between database query
 > operations and a Django model.
 
-The Manager interacts with the database. When we want to retrieve objects from
-the database, we need to construct a QuerySet via the Manager on our model
-class. By default, the Manager is available through the `Model.objects`
-property. This Manager is the `django.db.models.Manager`.
+The Manager interacts with the database. When I want to retrieve objects from
+the database, I need to construct a QuerySet via the Manager on my model class.
+By default, the Manager is available through the `Model.objects` property. This
+Manager is the `django.db.models.Manager`.
 
-We can use `django.db.models.Manager` directly to create a new Board object via
-the Python3 shell:
+I can use `django.db.models.Manager` directly to create a new Board object via
+the Python 3 shell:
 
 ```shell
 board = Board.objects.create(name="Python Objects", description="Where we discuss everything about Python objects.")
@@ -509,8 +510,8 @@ that, when I run `board.id`, the following is returned:
 5
 ```
 
-Now I have 5 boards. If you want to catch up with me and create more boards, it
-would be great practice!
+Now I have five boards. If you want to catch up with me and create more boards,
+it would be great practice!
 
 Next, if I run `Board.objects.all()`, the following is returned in the shell:
 
@@ -519,7 +520,7 @@ Next, if I run `Board.objects.all()`, the following is returned in the shell:
 ```
 
 The above is a QuerySet. A QuerySet is a collection of data from a database. A
-QuerySet is basically a list of objects from the database. Here, we are able to
+QuerySet is basically a list of objects from the database. Here, I am able to
 read the actual names of the Boards. That is because of the `__str__()` method
 inside the Board model in `models.py`:
 
@@ -532,14 +533,14 @@ class Board(models.Model):
     return self.name
 ```
 
-As mentioned in [the Board class model](#the-board-class-model) section, we use
+As mentioned in [the Board class model](#the-board-class-model) section, I use
 the `__str__()` function in Board class to convert the name object into its
 string representation. `def __str__(self): return self.name` dynamically sets
-the name of a board. When we write the code, we don't know yet what the admin
-user is going to call any particular board. We also have to return the name
-object inside the `__str__()` method to make it available elsewhere, especially
-in `django.contrib.auth` where the User model resides. If we hadn't yet added
-the `__str__()` function, the following would be returned in the QuerySet:
+the name of a board. When I write the code, I don't know yet what the admin user
+is going to call any particular board. I also have to return the name object
+inside the `__str__()` method to make it available elsewhere, especially in
+`django.contrib.auth` where the User model resides. If I hadn't yet added the
+`__str__()` function, the following would be returned in the QuerySet:
 
 ```shell
 <QuerySet [<Board: Board object>, <Board: Board object>, <Board: Board object>, <Board: Board object>, <Board: Board object>]>
@@ -547,8 +548,8 @@ the `__str__()` function, the following would be returned in the QuerySet:
 
 ### Treating the QuerySet like a list
 
-We can _treat_ QuerySets like lists. If we want to iterate over all our
-`Board.objects`, we can run the `following` in the Python3 shell:
+I can _treat_ QuerySets like lists. If I want to iterate over all my
+`Board.objects`, I can run the following in the Python 3 shell:
 
 ```shell
 >>>boards_list = Board.objects.all()
@@ -563,7 +564,7 @@ Where we discuss everything about Python objects.
 >>>
 ```
 
-We can also use the Model manager to return a single object. For that we use the
+I can also use the model Manager to return a single object. For that I use the
 `get()` method:
 
 ```shell
@@ -578,7 +579,7 @@ Then I run `django_board.name`, and it returns the following:
 
 Which is the name of the board with the id of 3.
 
-On the other hand, if we try to get an object with a non-existent id in the
+On the other hand, if I try to get an object with a non-existent id in the
 shell, an exception will be thrown. For example, if I try to get a board with an
 id of 6 (no such id in my case), something like the following happens:
 
@@ -593,7 +594,7 @@ Traceback (most recent call last):
 boards.models.Board.DoesNotExist: Board matching query does not exist.
 ```
 
-We can use the `get()` method with any model field, but it is better to get the
+I can use the `get()` method with any model field, but it is better to get the
 model instance with a field that can uniquely identify the object, like an id or
 a unique name. Otherwise, the query might return more than one object, which
 would also cause an exception.
@@ -629,7 +630,7 @@ The following is returned:
 <Board: Random>
 ```
 
-### Summary of Model operations in the Python3 shell
+### Summary of model operations in the Python 3 shell
 
 | Operation                                  | Code Sample                                         |
 | ------------------------------------------ | --------------------------------------------------- |
@@ -644,7 +645,12 @@ The following is returned:
 In this section, I discussed the Django model basics, I compared the UML Class
 Fields Diagram to the models.py source code, I migrated the models with the
 makemigrations command, applied the model migrations with the migrate command,
-played with the Models API, and discussed the Django Model manager.
+played with the Models API, and discussed the Django model Manager.
+
+## Related Resources
+
+- [django-admin and manage.py](https://docs.djangoproject.com/en/5.1/ref/django-admin/):
+  _Django Documentation_
 
 ## Related Posts
 
@@ -652,5 +658,5 @@ played with the Models API, and discussed the Django Model manager.
 
 [^1]:
     For a reverse relationship refresher, please visit the
-    [UML Class Diagram which visualizes fields (and not relationships)](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-which-visualizes-fields-and-not-relationships)
+    [UML class diagram which visualizes fields (and not relationships)](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-which-visualizes-fields-and-not-relationships)
     section in part 6 of this series.
