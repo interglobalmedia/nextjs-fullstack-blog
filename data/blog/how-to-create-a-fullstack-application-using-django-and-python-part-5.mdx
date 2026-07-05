@@ -1,14 +1,14 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-5
 date: '2024-08-28T20:45:47.915Z'
-lastModified: '2026-05-24T10:35:47.915Z'
+lastModified: '2026-07-05T13:02:47.915Z'
 title: How to create a fullstack application using Django and Python Part 5
 author: Maria D. Campbell
 excerpt:
-    In this section, I discuss and show how one can change a project name after
+    In this section, I discussed and showed how I changed a project name after
     it has already been created and migrated. It's really not as difficult as it
     sounds!
-image: chuttersnap-JChRnikx0tM-unsplash.jpg
+image: chuttersnap-JChRnikx0tM-unsplash.webp
 tags:
     [
         'macOS',
@@ -19,6 +19,7 @@ tags:
         'pipe',
         'python3',
         'series',
+        'vim',
         'virtualenv',
         'vscode',
     ]
@@ -26,7 +27,7 @@ isPublished: true
 isFeatured: false
 ---
 
-![Collage of different names and colors](chuttersnap-JChRnikx0tM-unsplash.jpg)
+![Collage of different names and colors](chuttersnap-JChRnikx0tM-unsplash.webp)
 
 _Photo by_ [CHUTTERSNAP](https://unsplash.com/@chuttersnap) **_on_**
 [unsplash.com](https://unsplash.com/photos/assorted-color-of-name-cards-JChRnikx0tM)
@@ -45,9 +46,14 @@ Git.
 - [Changing old project name to new project name throughout the Django site](#changing-old-project-name-to-new-project-name-throughout-the-django-site)
 - [Running the env | grep django command](#running-the-env-grep-django-command)
     - [Breaking down the env | grep django command](#breaking-down-the-env-grep-django-command)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
 
 ## Changing a Django project name after it has already been migrated
 
@@ -70,7 +76,7 @@ determined to make the name change so that I would not have to re-create the
 site. That simply would have been a waste of time.
 
 I came across all sorts of solutions which just didn't work, so I won't even
-bother mentioning them. Then I came across a thread on stackoverflow that gave
+bother mentioning them. Then I came across a thread on Stack Overflow that gave
 me the answer(s) I was looking for!
 
 ## Changing old project name to new project name throughout the Django site
@@ -82,13 +88,14 @@ Studio Code to quickly find out where it came up in the project code base:
 2. It appeared in `manage.py`.
 3. It appeared in `asgi.py`.
 4. It appeared in `settings.py`.
-5. it appeared in `urls.py`.
+5. It appeared in `urls.py`.
+6. It appeared in `wsgi.py`.
 
 I removed all instances of basic_django_web_page and replaced it with
 django_boards. This included any reference to the project name in string
 comments! Those references count too.
 
-After I did all that, committed the changes, pushed them to Github, and then
+After I did all that, committed the changes, pushed them to GitHub, and then
 tried to run the development server, it worked.
 
 But... when I went back later to the same thread where I found my solutions, I
@@ -96,7 +103,7 @@ learned that there was still more checking I should do.
 
 ## Running the env | grep django command
 
-I also learned in the stackoverflow thread (listed in Related Resources) that I
+I also learned in the Stack Overflow thread (listed in Related Resources) that I
 should run the `env | grep django` command to see if the old project name was
 lingering anywhere in the virtual environment (`venv`). The following was
 returned in Terminal:
@@ -108,9 +115,11 @@ OLDPWD=/Users/mariacam/Python-Development/django-boards
 VIRTUAL_ENV=/Users/mariacam/Python-Development/basic-django-web-page/venv
 ```
 
-The new project name was recognized, and was also set in all the right places in
-the code base, i.e., including `DJANGO_SETTINGS_MODULE` in `settings.py`,but the
-original root directory name did appear in the `VIRTUAL_ENV` variable.
+Django recognized the new project name, and set it in all the right places in
+the code base, i.e., including `DJANGO_SETTINGS_MODULE` in
+`django-boards/django_boards/django_boards/asgi.py` and
+`django-boards/django_boards/django_boards/wsgi.py`, but the original root
+directory name did appear in the `VIRTUAL_ENV` variable.
 
 ### Breaking down the env | grep django command
 
@@ -124,7 +133,7 @@ to Django.
   "django".
 
 The `env | grep django` command displays all `environment variables` that
-include "django" in their names or values. This is useful when we want to check
+include "django" in their names or values. This is useful when I want to check
 any environment settings related to Django.
 
 All I had to do to fix the value of `VIRTUAL_ENV` was the following:
@@ -151,20 +160,25 @@ OLDPWD=/Users/mariacam/Python-Development/django-boards/django_boards
 VIRTUAL_ENV=/Users/mariacam/Python-Development/django-boards/venv
 ```
 
-Success! My `VIRTUAL_ENV` variable value was updated to the correct path!
+Success! Django updated my `VIRTUAL_ENV` variable value to the correct path!
 
 And that is how I changed the name of my Django project from
 "basic_django_web_page" to "django_boards".
 
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[d67f347](https://github.com/interglobalmedia/django-boards/commit/d67f34799e5acd163d5e51d8eb25b415633d2c1b).
+
 ## Conclusion
 
-In this section, I discussed and showed how one can change a project name after
-it has already been created and migrated.
+In this section, I discussed and showed how I changed a project name after it
+has already been created and migrated.
 
 ## Related Resources
 
 - [Is there an easy way to rename a Django project?](https://stackoverflow.com/questions/18293875/is-there-an-easy-way-to-rename-a-django-project/63303738#63303738):
-  _stackoverflow_
+  _Stack Overflow_
 
 ## Related Posts
 
