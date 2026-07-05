@@ -1,18 +1,18 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-10
 date: '2024-09-08T03:03:43.185Z'
-lastModified: '2026-05-24T16:27:43.185Z'
+lastModified: '2026-07-05T22:35:43.185Z'
 title: How to create a fullstack application using Django and Python Part 10
 author: Maria D. Campbell
 excerpt: 'In this section, I update the UML Class Diagrams and wireframe(s) to include
 the PostLike Model, and I clarify the concepts of "topic" and "post".'
-image: pexels-picjumbo-com-55570-196644.jpg
+image: pexels-picjumbo-com-55570-196644.webp
 tags: ['macOS', 'django', 'fullstack development', 'python3', 'series', 'uml class diagram', 'uml', 'wireframe']
 isPublished: true
 isFeatured: false
 ---
 
-![Wireframe](pexels-picjumbo-com-55570-196644.jpg)
+![Wireframe](pexels-picjumbo-com-55570-196644.webp)
 
 _Photo by_ [picjumbo.com](https://www.pexels.com/@picjumbo-com-55570/) **_on_**
 [pexels.com](https://www.pexels.com/photo/notebook-beside-the-iphone-on-table-196644/)
@@ -26,7 +26,7 @@ Git.
 
 ## Table of Contents
 
-- [Updating the UML class diagrams](#updating-the-umlL-class-diagrams)
+- [Updating the UML class diagrams](#updating-the-uml-class-diagrams)
 - [Updating the boards wireframe(s)](#updating-the-boards-wireframes)
 - [Clarifying the concepts of "topic" and "post"](#clarifying-the-concepts-of-topic-and-post)
 - [Conclusion](#conclusion)
@@ -40,17 +40,16 @@ I had mentioned that I added a PostLike class model to my model schema. Now I am
 going to share the UML Class Diagrams to include the PostLike model. This way, I
 can determine if everything truly is the way I want it, or if I have to make
 further changes. I am also including the wireframe reflecting the class diagram
-changes, which will even further solidify if I have built exactly what I wanted
-to build thus far!
+changes, which will confirm whether I've built what I wanted thus far!
 
-![UML class diagram including PostLike](uml_class_diagram_including_postlike.drawio.svg)
+![UML class diagram including PostLike](uml_class_diagram_including_postlike.drawio.webp)
 
 _UML class diagram including PostLike_
 
 The UML class diagram including PostLike with a focus on fields now looks like
 the following:
 
-![UML class diagram fields including PostLike](uml_class_diagram_fields_including_postlike.drawio.svg)
+![UML class diagram fields including PostLike](uml_class_diagram_fields_including_postlike.drawio.webp)
 
 _UML class diagram fields including PostLike_
 
@@ -63,15 +62,15 @@ in
 There is no direct relationship between the user and the PostLike. There isn't
 even a direct relationship between the Post and PostLike, but the User object is
 passed as an argument to `ManyToManyField()`[^1], because the user is the one to
-"like" the topic post. We will go over this in detail later. This section is
+"like" the topic post. I will go over this in detail later. This section is
 about updating the UML diagrams and wireframe(s) to include the PostLike model.
 
 ## Updating the boards wireframe(s)
 
 Below is the updated wireframe including the post likes as well as a link button
-to copy the link to the post so as to be able to share it elsewhere:
+to copy the link to the post to make it easy to share elsewhere:
 
-![Django Board topic replies including post like button and link button wireframe](boards_project_wireframe_django_board_topic_replies_liked_link.drawio.svg)
+![Django Board topic replies including post like button and link button wireframe](boards_project_wireframe_django_board_topic_replies_liked_link.drawio.webp)
 
 _Django Board topic replies including post like button and link button
 wireframe_
@@ -104,10 +103,10 @@ the PostLike Model, and I clarified the concepts of "topic" and "post".
     The ManyToManyField set to post_liked_by in the Post class model describes
     the relationship between the User and the PostLike, which is ManyToMany. One
     user can like many posts, and one post can be liked by many users. The
-    PostLike class model also has a ManyToMany relationship with the Post. A
-    PostLike instance connects a specific user to a specific post they liked.
-    This is reflected by the ForeignKey on the post field in the PostLike model.
-    Many thanks to @WarnerSmith on the
+    PostLike class model, on the other hand, has a OneToMany or ForeignKey
+    relationship with the Post. A PostLike instance connects a specific user to
+    a specific post they liked. This is reflected by the ForeignKey on the post
+    field in the PostLike model. Many thanks to @WarnerSmith on the
     [Django Forum](https://forum.djangoproject.com) for clarifying ManyToMany
     for me! To view his response there, please visit
     [Warner Smith reply to my post topic "Trying to figure out what the relationship between my post topic and post like would be"](https://forum.djangoproject.com/t/trying-to-figure-out-what-the-relationship-between-my-post-topic-and-post-like-would-be/34614/4).
