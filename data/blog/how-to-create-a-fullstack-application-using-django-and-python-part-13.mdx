@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-13
 date: '2024-09-11T19:54:56.432Z'
-lastModified: '2026-05-25T04:59:56.432Z'
+lastModified: '2026-07-06T01:36:56.432Z'
 title: How to create a fullstack application using Django and Python Part 13
 author: 'Maria D. Campbell'
 excerpt:
@@ -11,7 +11,7 @@ excerpt:
     base.html, create an app.css file in the static/css directory, change the
     logo font with a Google font which I import into app.css, and tweak the logo
     styling with CSS.'
-image: Screenshot-2024-09-11-at-9.20.45-PM.jpg
+image: Screenshot-2024-09-11-at-9.20.45-PM.webp
 tags:
     [
         'fullstack development',
@@ -28,7 +28,7 @@ isPublished: true
 isFeatured: false
 ---
 
-![The updated index/home page](Screenshot-2024-09-11-at-9.20.45-PM.jpg)
+![The updated index/home page](Screenshot-2024-09-11-at-9.20.45-PM.webp)
 
 _The updated index/home page_
 
@@ -42,7 +42,7 @@ Git.
 ## Table of Contents
 
 - [Adding reusable templates](#adding-reusable-templates)
-    - [templates/base.html](#templates-basehtml)
+- [templates/base.html](#templates-basehtml)
     - [The {% block %} tag](#the-block-tag)
     - [The {% block %} tag syntax](#the-block-tag-syntax)
     - [The {% block %} tag parameters](#the-block-tag-parameters)
@@ -53,19 +53,24 @@ Git.
 - [Adding a navigation menu to templates/base.html](#adding-a-navigation-menu-to-templates-basehtml)
 - [Changing the logo font](#changing-the-logo-font)
 - [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
 
 ## Adding reusable templates
 
-Our HTML has not been very "dry" ("Don't Repeat Yourself"). We definitely have
-been repeating ourselves. That's where "reusable templates" come in.
+My HTML has not been very "dry" ("Don't Repeat Yourself"). I definitely have
+been repeating myself. That's where "reusable templates" come in.
 
 ## templates/base.html
 
-Now we are going to create a reusable template called `base.html`. This base
+Now I am going to create a reusable template called `base.html`. This base
 template is what its name sounds like. It will provide the common base for all
-other pages of the site. Its markup will be common to other templates so that we
-don't have to repeat ourselves, thereby potentially bloating our frontend code:
+other pages of the site. Its markup will be common to other templates so that I
+don't have to repeat myself, thereby potentially bloating my frontend code:
 
 ```django
 <!-- templates/base.html -->
@@ -105,20 +110,20 @@ placeholder in the master template with the same name.
 ### The {% block %} tag parameters
 
 ```markdown
-name: specifies that `name` of the `block`.
+name: specifies the name of the block, i.e., `block body` or `block title`.
 ```
 
 ### The {% block title %} tag
 
 The `{% block title %}` tag is used to set the title of an HTML page (template).
-If we just do something like:
+If I just do something like:
 
 ```django
 <title>{% block title %}Django Boards{% endblock title %}</title>
 ```
 
 The title of all the site pages will be "Django Boards", so "Django Boards"
-would be our default title for all our pages.
+would be my default title for all my pages.
 
 ## Integrating base.html into index.html
 
@@ -156,8 +161,8 @@ would be our default title for all our pages.
 {% endblock %}
 ```
 
-The `{% extends 'base.html' %}` tag means that we have our `base.html` file at
-the project root template directory to handle core markup.
+The `{% extends 'base.html' %}` tag means that I have my `base.html` file at the
+project root template directory to handle core markup.
 
 ## Integrating base.html into topics.html
 
@@ -168,18 +173,18 @@ the project root template directory to handle core markup.
 <li class="breadcrumb-item"><a href="{% url 'index' %}">Django Boards</a></li>
 <li class="breadcrumb-item active">{{ board.name }}</li>
 {% endblock breadcrumb %} {% block content %}
-<!-- just leaving it empty for now. we will add core here soon. -->
+<!-- just leaving it empty for now. I will add core here soon. -->
 {% endblock content %}
 ```
 
-In `topics.html`, we are changing the default value of `{% block title %}`. If
-we need to get the content of a block from the parent template,
-`{{ block.super }}` variable will do it for us. For example, in our case, the
-title content on the index page is "Django Boards". If we did not include
-`{{ block.super }}` along with `{{ board.name }}`, then the `{{ board.name }}`
-would be the title content, completely overriding "Django Boards". But because
-we ARE using `{{ block.super }}`, the title includes both the `topics.html`
-dynamic content AND the default title content in `base.html`.
+In `topics.html`, I am changing the default value of `{% block title %}`. If I
+need to get the content of a block from the parent template, `{{ block.super }}`
+variable will do it for me. For example, in my case, the title content on the
+index page is "Django Boards". If I did not include `{{ block.super }}` along
+with `{{ board.name }}`, then the `{{ board.name }}` would be the title content,
+completely overriding "Django Boards". But because I _am_ using
+`{{ block.super }}`, the title includes both the `topics.html` dynamic content
+_and_ the default title content in `base.html`.
 
 ## Testing Django Boards to make sure there are no errors
 
@@ -240,8 +245,9 @@ Looking good!
 </html>
 ```
 
-I grabbed the navbar html markup from the Bootstrap navbar component. The
-current version of Bootstrap is 5.3.3.
+I grabbed the navbar HTML markup from the Bootstrap navbar component. The
+current version of Bootstrap is 5.3.3 (at the time of the original publication
+of this post).
 
 ## Changing the logo font
 
@@ -268,13 +274,13 @@ Then I added the following below:
 
 With these changes, the `index.html` page looks like the following:
 
-![The updated index/home page](Screenshot-2024-09-11-at-9.20.45-PM.jpg)
+![The updated index/home page](Screenshot-2024-09-11-at-9.20.45-PM.webp)
 
 _The updated index/home page_
 
 The `topics.html` page looks like the following:
 
-![The updated topics.html page](Screenshot-2024-09-11-t-9.21.13-PM.jpg)
+![The updated topics.html page](Screenshot-2024-09-11-at-9.21.13-PM.webp)
 
 _The updated topics.html page_
 
@@ -282,14 +288,14 @@ _The updated topics.html page_
 
 In this section, I created a reusable, base template called `base.html`,
 integrated it into `index.html`, integrated it into `topics.html`, tested
-django_boards after making those changes, added a navigation menu to
+`django_boards` after making those changes, added a navigation menu to
 `base.html`, created an `app.css` file in the `static/css` directory, changed
 the logo font with a Google font which I imported into `app.css`, and tweaked
 the logo styling with CSS.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 
 ## Related Posts
 
