@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-12
 date: '2024-09-11T14:40:09.958Z'
-lastModified: '2026-05-25T04:44:09.958Z'
+lastModified: '2026-07-06T00:57:09.958Z'
 title: How to create a fullstack application using Django and Python Part 12
 author: 'Maria D. Campbell'
 excerpt:
@@ -10,7 +10,7 @@ excerpt:
     back to the index/home page from the single Board page, update
     templates/topics.html to link back to the index/home page, and update
     templates/topics.html so a failed test will pass.'
-image: pexels-realtoughcandy-11035474.jpg
+image: pexels-realtoughcandy-11035474.webp
 tags:
     [
         'fullstack development',
@@ -27,11 +27,10 @@ isFeatured: false
 ---
 
 ![Person Holding an Orange and Blue Python Sticker
-](pexels-realtoughcandy-11035474.jpg)
+](pexels-realtoughcandy-11035474.webp)
 
-**_Photo by_** [RealToughCandy.com](https://www.pexels.com/@realtoughcandy/)
-**_on_**
-[pexels.com](https://www.pexels.com/photo/person-holding-an-orange-and-blue-python-sticker-11035474/)
+_Photo by [RealToughCandy.com](https://www.pexels.com/@realtoughcandy/) on
+[pexels.com](https://www.pexels.com/photo/person-holding-an-orange-and-blue-python-sticker-11035474/)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -42,9 +41,9 @@ Git.
 
 ## Table of Contents
 
-- [Adding the IndexTests class to boards/tests.py](#adding-the-indexTests-class-to-boards-testspy)
+- [Adding the IndexTests class to boards/tests.py](#adding-the-indextests-class-to-boards-testspy)
     - [Updating templates/index.html to make the failed test pass](#updating-templates-indexhtml-to-make-the-failed-test-pass)
-    - [Viewing the updated HTML templates in the browser](#viewing-the-updated-HTML-templates-in-the-browser)
+    - [Viewing the updated HTML templates in the browser](#viewing-the-updated-html-templates-in-the-browser)
 - [Linking back to the index/home page from the single Board page](#linking-back-to-the-index-home-page-from-the-single-board-page)
     - [Writing the test for linking back to the index/home page from the single Board page](#writing-the-test-for-linking-back-to-the-index-home-page-from-the-single-board-page)
     - [Updating topics.html so test will pass](#updating-topicshtml-so-test-will-pass)
@@ -53,10 +52,14 @@ Git.
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
 ## Adding the IndexTests class to boards/tests.py
 
-In Part 11, we created tests for `BoardTopics` using `class BoardTopicsTests`.
-Now we are going to create tests for the Index (Home) page. Update
+In Part 11, I created tests for `BoardTopics` using `class BoardTopicsTests`.
+Now I am going to create tests for the Index (Home) page. Update
 `class IndexTests(TestCase)` to the following in `boards/tests.py`:
 
 ```python
@@ -70,29 +73,29 @@ from .models import Board
 
 class IndexTests(TestCase):
 
-  def setUp(self):
-    self.board = Board.objects.create(name='Python', description='Everything related to Python')
-    url = reverse('index')
-    self.response = self.client.get(url)
+	def setUp(self):
+		self.board = Board.objects.create(name='Python', description='Everything related to Python')
+		url = reverse('index')
+		self.response = self.client.get(url)
 
-  def test_index_view_status_code(self):
-    self.assertEqual(self.response.status_code, 200)
+	def test_index_view_status_code(self):
+		self.assertEqual(self.response.status_code, 200)
 
-  def test_index_url_resolves_index_view(self):
-    view = resolve('/')
-    self.assertEqual(view.func, index)
+	def test_index_url_resolves_index_view(self):
+		view = resolve('/')
+		self.assertEqual(view.func, index)
 
-  def test_home_view_contains_link_to_topics_page(self):
-    board_topics_url = reverse('board_topics', kwargs={'id': self.board.id})
-    self.assertContains(self.response, 'href="{0}"'.format(board_topics_url))
+	def test_home_view_contains_link_to_topics_page(self):
+		board_topics_url = reverse('board_topics', kwargs={'id': self.board.id})
+		self.assertContains(self.response, 'href="{0}"'.format(board_topics_url))
 ```
 
-We have added a `setUp(self)` method for IndexTests. That's because we are also
-going to need a Board instance for IndexTests. We moved `url` and
-`self.response` into `setUp(TestCase)` so we can reuse the same response in the
-new `test_home_view_contains_link_to_topics_page` test.
+I have added a `setUp(self)` method for IndexTests. That's because I am also
+going to need a Board instance for IndexTests. I moved `url` and `self.response`
+into `setUp(self)` so I can reuse the same response in the new
+`test_home_view_contains_link_to_topics_page` test.
 
-In `test_home_view_contains_link_to_topics_page`, we use the `.assertContains()`
+In `test_home_view_contains_link_to_topics_page`, I use the `.assertContains()`
 method. Django adds `.assertContains()` to its test suite. It is used
 specifically for responses. `.assertContains()` asserts that the response
 (`index.html`) contains `'href="{0}"'.format(board_topics_url)`, which
@@ -124,11 +127,10 @@ Destroying test database for alias 'default'...
 
 ### Updating templates/index.html to make the failed test pass
 
-In order to get our failed test to pass, we have to update
-`templates/index.html`:
+In order to get my failed test to pass, I have to update `templates/index.html`:
 
 ```html
-<!-- start markup -->
+<!-- before: -->
 {% load static %}<!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -172,7 +174,7 @@ In order to get our failed test to pass, we have to update
 	</body>
 </html>
 
-<!-- New index.html markup -->
+<!-- after: -->
 
 {% load static %}<!DOCTYPE html>
 <html lang="en">
@@ -220,10 +222,10 @@ In order to get our failed test to pass, we have to update
 </html>
 ```
 
-We changed `{{ board.name }}` to
+I changed `{{ board.name }}` to
 `<a href="{% url 'board_topics' board.id %}" >{{ board.name }}</a >`.
 
-Now when we run the tests again using the `python3 manage.py test` command, the
+Now when I run the tests again using the `python3 manage.py test` command, the
 following should be returned:
 
 ```shell
@@ -238,25 +240,25 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-We should always use the Django `{% url %}` template tag to create application
+I should always use the Django `{% url %}` template tag to create application
 URLs. The first parameter is the name of the URL defined in `URLconf/urls.py`,
 and the second argument is the `board.id`.
 
 ### Viewing the updated HTML templates in the browser
 
-_Next_, we can check what our changes actually look like in the browser:
+_Next_, I can check what my changes actually look like in the browser:
 
-![List of linked available Boards on the index/home page](Screenshot-2024-09-11-at-12.47.07-PM.jpg)
+![List of linked available Boards on the index/home page](Screenshot-2024-09-11-at-12.47.07-PM.webp)
 
 _List of linked available Boards on the index/home page_
 
 When I click on a linked single Board, it takes me to the following:
 
-![Linked single Board page](Screenshot-2024-09-11-at-12.51.42-PM.jpg)
+![Linked single Board page](Screenshot-2024-09-11-at-12.51.42-PM.webp)
 
 _Linked single Board page_
 
-I am taken to `http://127.0.0.1:8000/boards/1/`, and that URL is why our failed
+I am taken to `http://127.0.0.1:8000/boards/1/`, and that URL is why my failed
 test no longer fails. The `path/url` to the single Board now contains
 `/boards/1/`.
 
@@ -264,21 +266,21 @@ test no longer fails. The `path/url` to the single Board now contains
 
 ### Writing the test for linking back to the index/home page from the single Board page
 
-Let's link back to the `index/home` page from the single Board page. First we
+Let's link back to the `index/home` page from the single Board page. First I
 will write the test for that in `boards/tests.py`:
 
 ```python
 # in boards/tests.py
 
 def test_board_topics_view_contains_link_back_to_homepage(self):
-  board_topics_url = reverse('board_topics', kwargs={'id': 1})
-  response = self.client.get(board_topics_url)
-  index_page_url = reverse('index')
-  self.assertContains(response, 'href="{0}"'.format(index_page_url))
+	board_topics_url = reverse('board_topics', kwargs={'id': 1})
+	response = self.client.get(board_topics_url)
+	index_page_url = reverse('index')
+	self.assertContains(response, 'href="{0}"'.format(index_page_url))
 ```
 
-We can run our tests again using `python3 manage.py test`, and something like
-the following should be returned:
+I can run my tests again using `python3 manage.py test`, and something like the
+following should be returned:
 
 ```shell
 Found 7 test(s).
@@ -305,7 +307,7 @@ Destroying test database for alias 'default'...
 
 ### Updating topics.html so test will pass
 
-We couldn't find `/` because we have to update our `topics.html` template:
+I couldn't find `/` because I have to update my `topics.html` template:
 
 ```html
 <!-- before: -->
@@ -363,13 +365,13 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-The test passes because we have added `<a href="{% url 'index' %}">Boards</a>`.
+The test passes because I have added `<a href="{% url 'index' %}">Boards</a>`.
 `'index'` translates to `/`. `index` is the `name` of the `path` of the `index`
 or home page named in `django_boards/urls.py`.
 
 Now the single Board page links back to the `index/home` page:
 
-![Single Board page links back to index/home page](Screenshot-2024-09-1-at-1.57.35-PM.jpg)
+![Single Board page links back to index/home page](Screenshot-2024-09-1-at-1.57.35-PM.webp)
 
 _Single Board page links back to index/home page_
 
@@ -383,7 +385,7 @@ to the `index/home` page from the single Board page, updated
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 
 ## Related Posts
 
