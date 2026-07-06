@@ -1,19 +1,19 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-16
 date: '2024-09-15T20:48:45.109Z'
-lastModified: '2026-05-25T12:14:45.109Z'
+lastModified: '2026-07-06T14:20:07.109Z'
 title: How to create a fullstack application using Django and Python Part 16
 author: Maria D. Campbell
 excerpt:
     'In this section, I demonstrate an alternative to the original
-    test_form_inputs test in which we used the .assertContains() method to
-    verify the existence of specific inputs residing in the signup form. I
-    install Beautiful Soup 4 and Soup Sieve along with the html5lib HTML parser,
-    and then re-create the test_form_inputs test using those packages. The test
-    is much shorter, and my approach to discovering the ids of the inputs I want
-    to grab by inspecting the signup form element in the browser is quicker and
+    test_form_inputs test in which I used the .assertContains() method to verify
+    the existence of specific inputs residing in the signup form. I install
+    Beautiful Soup 4 and Soup Sieve along with the html5lib HTML parser, and
+    then re-create the test_form_inputs test using those packages. The test is
+    much shorter, and my approach to discovering the ids of the inputs I want to
+    grab by inspecting the signup form element in the browser is quicker and
     much easier to read!'
-image: ella-olsson-fxJTl_gDh28-unsplash.jpg
+image: ella-olsson-fxJTl_gDh28-unsplash.webp
 tags:
     [
         'fullstack development',
@@ -32,10 +32,10 @@ isPublished: true
 isFeatured: false
 ---
 
-![Beautiful Soup](ella-olsson-fxJTl_gDh28-unsplash.jpg)
+![Beautiful bowl of soup garnished with herbs and surrounded by a flower and a broken half-bowl of almonds](ella-olsson-fxJTl_gDh28-unsplash.webp)
 
-**_Photo by_** [Ella Olsson](https://unsplash.com/@ellaolsson) **_on_**
-[unsplash.com](https://unsplash.com/photos/soup-in-bowl-fxJTl_gDh28)
+_Photo by [Ella Olsson](https://unsplash.com/@ellaolsson) on
+[unsplash.com](https://unsplash.com/photos/soup-in-bowl-fxJTl_gDh28)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -48,41 +48,46 @@ Git.
 
 - [Adding Test Client using Soup Sieve](#adding-test-client-using-soup-sieve)
 - [Installing Beautiful Soup 4, Soup Sieve, and html5lib HTML parser](#installing-beautiful-soup-4-soup-sieve-and-html5lib-html-parser)
-- [Creating our Test Client using Beautiful Soup 4 and Soup Sieve](#creating-our-test-client-using-beautiful-soup-4-and-soup-sieve)
+- [Creating my Test Client using Beautiful Soup 4 and Soup Sieve](#creating-my-test-client-using-beautiful-soup-4-and-soup-sieve)
 - [Breaking down the test_form_inputs test](#breaking-down-the-test-form-inputs-test)
+- [Finding all the input tags in the signup.html template using Beautiful Soup 4](#finding-all-the-input-tags-in-the-signuphtml-template-using-beautiful-soup-4)
 - [Running the accounts tests](#running-the-accounts-tests)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
 ## Adding Test Client using Soup Sieve
 
-As I mentioned in the section 15, there is a way of more generically verifying
-HTML inputs in `templates/signup.html`. We can do that with a package called
+As I mentioned in section 15, there is a way of more generically verifying HTML
+inputs in `templates/signup.html`. I can do that with a package called
 `Soup Sieve`.
 
-`Soup Sieve` is a powerful selector add-on for powerful `Beautiful Soup 4`. It
+`Soup Sieve` is an effective selector add-on for powerful `Beautiful Soup 4`. It
 comes pre-installed with `BeautifulSoup4 4.7.0` and above, and uses the CSS
-selector API to query a document. In our case, it can be used to find the HTML
-inputs in our `templates/signup.html` and verify they exist there. This time we
+selector API to query a document. In my case, it can be used to find the HTML
+inputs in my `templates/signup.html` and verify they exist there. This time I
 won't need to pass in complete inputs to the `.assertContains()` method. That
 was a bit of an inconvenient and long-winded approach.
 
 ## Installing Beautiful Soup 4, Soup Sieve, and html5lib HTML parser
 
-We have to install `Beautiful Soup 4` before installing `Soup Sieve`. In fact,
+I have to install `Beautiful Soup 4` before installing `Soup Sieve`. In fact,
 it's meant to be used alongside `Beautiful Soup 4`:
 
 ```shell
 # first:
-python3 pip -m install beautifulsoup4
+python3 -m pip install beautifulsoup4
 # then:
 python3 -m pip install soupsieve
 # then (very important):
 python3 -m pip install html5lib # needed for parsing and has to be installed separately
 ```
 
-We also need to install `html5lib`. It parses the HTML that
+I also need to install `html5lib`. It parses the HTML that
 `Beautiful Soup/Soup Sieve` scrapes (that's what they do!).
 
 Make sure to install all three packages at the root directory of the project (in
@@ -100,13 +105,18 @@ INSTALLED_APPS = [
 ]
 ```
 
-## Creating our Test Client using Beautiful Soup 4 and Soup Sieve
+**Update July 6, 2026:** I still have `soupsieve` and `bs4` listed in
+`INSTALLED_APPS` today, but I don't actually import or use them anywhere in the
+project — I later realized this step wasn't necessary, since these are plain
+Python packages rather than Django apps with models or config to register.
 
-First, we will comment out our existing `test_form_inputs` in
-`accounts/tests/test_signup_tests.py`. Instead of relying on the generic test we
-originally had (although you could go that way if you want), we could inspect
-our `signup.html` template in the browser when we go to the url
-`http://127.0.0.1:8000//signup/`. All `input` attributes are in there, and much
+## Creating my Test Client using Beautiful Soup 4 and Soup Sieve
+
+First, I commented out my existing `test_form_inputs` in
+`accounts/tests/test_signup_tests.py`. Instead of relying on the generic test I
+originally had (although you could go that way if you want), I could inspect my
+`signup.html` template in the browser when I go to the url
+`http://127.0.0.1:8000/signup/`. All `input` attributes are in there, and much
 easier to read!
 
 What I did was get all the `input` ids and pass them in like the following:
@@ -204,27 +214,27 @@ only had to add it to `INSTALLED_APPS` in `settings.py`.
 
 ## Breaking down the test_form_inputs test
 
-1. First we do as we have done to date. We get the "signup" view with
+1. First I do as I have done to date. I get the "signup" view with
    `self.response = self.client.get(reverse('signup'))`.
-1. Then we create a text object which contains the value of the element we want
-   to target and the class it contains. I added the class beforehand.
+1. Then I create a text object which contains the value of the element I want to
+   target and the class it contains. I added the class beforehand.
    `Soup Sieve/BeautifulSoup` needs to be able to find a class, or an element
    selector, etc., in order to be able to parse the correct HTML. I wanted to be
    and needed to be more specific than the `form` element selector, so I chose
    `signup-form` as the `class selector`. It clearly describes its target
    element. All I needed to add was the `form` element, because it contains all
-   the inputs we want to grab and verify in the test.
+   the inputs I want to grab and verify in the test.
 1. Then I create a `soup` object (required) and set it to
    `bs4.BeautifulSoup(text, 'html5lib')` (also required in order to work),
    followed by `sv.select()` where I select the `.signup-form` class of the
    signup `form` so that I can view the entire `form` when I run my tests. The
    other thing I include is the line
    `self.assertContains(self.response, "<input", 7)`. This tells me that I am
-   looking for 7 inputs. And since there actually are 7 inputs in the signup
-   form in my case, the entire `test_form_inputs` function passes. I print out
-   the results of `sv.select( "form:is(.signup-form)", soup, )` to see what
-   actually returns from `sv.select("form:is(.signup-form)", soup,)`. And that
-   is it!
+   looking for seven inputs. And since there actually are seven inputs in the
+   signup form in my case, the entire `test_form_inputs` function passes. I
+   print out the results of `sv.select( "form:is(.signup-form)", soup, )` to see
+   what actually returns from `sv.select("form:is(.signup-form)", soup,)`. And
+   that is it!
 
 ## Finding all the input tags in the signup.html template using Beautiful Soup 4
 
@@ -249,12 +259,26 @@ Which, for me, returned the following in Terminal:
 <input class="form-control" id="id_usable_password_1" name="usable_password" type="radio" value="false"/>
 ```
 
-This also proves (in a different way) that all 7 inputs located in the signup
-form actually do exist, and it also confirms that there ARE 7 of them.
+This also proves (in a different way) that all seven inputs located in the
+signup form actually do exist, and it also confirms that there ARE seven of
+them.
+
+**Update July 6, 2026:** I later discovered there are actually seven inputs
+instead of five. See the change below:
+
+```python
+# in accounts/tests/test_signup_tests.py
+def test_form_inputs(self):
+    """
+    The view must contain five inputs: csrf, username, email, password1, password2
+    """
+    # Note: I later discovered there are actually 7 inputs — see the breakdown below
+    self.assertContains(self.response, "<input", 7)
+```
 
 ## Running the accounts tests
 
-After we complete creating the test, we can run the `accounts` tests:
+After I complete creating the test, I can run the `accounts` tests:
 
 ```shell
 python3 manage.py test accounts
@@ -296,10 +320,15 @@ Destroying test database for alias 'default'...
 I am addressing these failures and will post the fixes in a future post when I
 have figured them out.
 
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[5cee77d](https://github.com/interglobalmedia/django-boards/commit/5cee77d39009bfd8b653051d1347bf62fbaccdba).
+
 ## Conclusion
 
 In this section, I demonstrated an addition to the original `test_form_inputs`
-test in which we used the `.assertContains()` method to verify the existence of
+test in which I used the `.assertContains()` method to verify the existence of
 specific inputs residing in the signup `form`. I installed `Beautiful Soup 4`
 and `Soup Sieve` along with the `html5lib` HTML parser, and then re-created the
 `test_form_inputs` test using those packages. The test is much shorter, and my
@@ -309,9 +338,9 @@ read!
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 - [Beautiful asserts with your Django Test Client](https://vicktor.nl/academy/beautiful-asserts-with-your-django-test-client/):
-  _victor.n_
+  _vicktor.nl_
 - [Soup Sieve Quick Start](https://facelessuser.github.io/soupsieve/)
 
 ## Related Posts
