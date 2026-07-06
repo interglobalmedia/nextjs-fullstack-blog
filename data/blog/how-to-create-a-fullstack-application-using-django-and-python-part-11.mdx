@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-11
 date: '2024-09-10T09:35:51.443Z'
-lastModified: '2026-05-24T03:48:51.443Z'
+lastModified: '2026-07-06T00:22:51.443Z'
 title: How to create a fullstack application using Django and Python Part 11
 author: Maria D. Campbell
 excerpt:
@@ -10,7 +10,7 @@ excerpt:
     board in django_boards/urls.py, create the board_topics view inside
     boards/views.py, create the topics.html template inside the templates
     directory, and create/run tests for BoardTopics.'
-image: erik-mclean-sxiSod0tyYQ-unsplash.jpg
+image: erik-mclean-sxiSod0tyYQ-unsplash.webp
 tags:
     [
         'fullstack development',
@@ -27,10 +27,10 @@ isPublished: true
 isFeatured: false
 ---
 
-![404 Page Not Found](erik-mclean-sxiSod0tyYQ-unsplash.jpg)
+![404 Page Not Found](erik-mclean-sxiSod0tyYQ-unsplash.webp)
 
-**_Photo by_** [Erik Mclean](https://unsplash.com/@introspectivedsgn) **_on_**
-[unpslash.com](https://unsplash.com/photos/black-asus-laptop-computer-showing-3-00-sxiSod0tyYQ)
+_Photo by [Erik Mclean](https://unsplash.com/@introspectivedsgn) on
+[unsplash.com](https://unsplash.com/photos/black-asus-laptop-computer-showing-3-00-sxiSod0tyYQ)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -58,13 +58,18 @@ Git.
     - [self.client.get()](#selfclientget)
     - [self.assertEqual()](#selfassertequal)
     - [BoardTopicsTests summary](#boardtopicstests-summary)
-    - [Running the tests](#running-the-tests)
+- [Running the tests](#running-the-tests)
     - [Adding try/except block to board_topics function](#adding-try-except-block-to-board-topics-function)
     - [Replacing try/except in board_topics function with Django shortcut](#replacing-try-except-in-board-topics-function-with-django-shortcut)
     - [The get_object_or_404 shortcut function](#the-get-object-or-404-shortcut-function)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
 
 ## Updating Class models in boards/models.py
 
@@ -107,7 +112,7 @@ class Post(models.Model):
 
   @property
   def post_num_likes(self):
-    return self.post_liked.all().count()
+    return self.post_liked_by.all().count()
 
 POST_LIKE_CHOICES = (
   ('♥️', '♥️'),
@@ -146,16 +151,16 @@ python3 manage.py migrate
 
 ## Why the str method everywhere?
 
-If we don't apply the `__str__()` method to our class models, we would not be
-able to see the actual name of a Board, the subject of a Topic, the message of a
-Post, or post of a PostLike. If we don't apply the `__str__()` method, we get a
-generic object. Remove instances of the `__string__()` method for yourself and
-see what happens when you go to the Django Admin dashboard
+If I don't apply the `__str__()` method to my class models, I would not be able
+to see the actual name of a Board, the subject of a Topic, the message of a
+Post, or post of a PostLike. If I don't apply the `__str__()` method, I get a
+generic object. Remove instances of the `__str__()` method for yourself and see
+what happens when you go to the Django Admin dashboard
 (`http://127.0.0.1:8000/admin/boards/`).
 
 ## django_boards/urls.py
 
-Up till now, we had the following inside our `django_boards/urls.py`:
+Up till now, I had the following inside my `django_boards/urls.py`:
 
 ```python
 from django.contrib import admin
@@ -169,8 +174,7 @@ urlpatterns = [
 ]
 ```
 
-If I change (it back to) the code to the following as per the beginning of
-Vitor's
+If I revert the code to the following as per the beginning of Vitor's
 [A Complete Beginner's Guide to Django - Part 3](https://simpleisbetterthancomplex.com/series/2017/09/18/a-complete-beginners-guide-to-django-part-3.html):
 
 ```python
@@ -260,7 +264,7 @@ Traceback (most recent call last):
 ImportError: cannot import name 'url' from 'django.conf.urls' (/Users/mariacam/.pyenv/versions/3.12.5/lib/python3.12/site-packages/django/conf/urls/__init__.py)
 ```
 
-Instead, we should add the following using `path`, just as we had started to do:
+Instead, I should add the following using `path`, just as I had started to do:
 
 ```python
 from django.contrib import admin
@@ -292,8 +296,8 @@ provides a unique identifier for a URL.
 
 ## Checking for Django version
 
-The code `from django.conf.urls import url` reflects Django 1.11, but we are at
-Django 5.1! We can check for the Django version by running the following in
+The code `from django.conf.urls import url` reflects Django 1.11, but I am at
+Django 5.1! I can check for the Django version by running the following in
 Terminal:
 
 ```shell
@@ -312,28 +316,28 @@ command.
 When I check to see what happens when I try to access
 `http://127.0.0.1:8000/boards/1/`, I get back the following:
 
-![topics.html template Does not exist](Screenshot-2024-09-10-at-6.50.01-PM.jpg)
+![topics.html template Does not exist](Screenshot-2024-09-10-at-6.50.01-PM.webp)
 
 _topics.html template Does not exist_
 
-This is true. We have not set up a `topics.html` template yet!
+This is true. I have not set up a `topics.html` template yet!
 
 ## Creating Dynamic URLs using path
 
-We can create dynamic URLs using the `path` object instead of `url`. But before
-we even do that, let's discuss what is the `ROOT_URLCONF` setting in
-`settings.py` and what a dynamic URL is.
+I can create dynamic URLs using the `path` object instead of `url`. But before I
+even do that, let's discuss what is the `ROOT_URLCONF` setting in `settings.py`
+and what a dynamic URL is.
 
 ### ROOT_URLCONF setting in settings.py
 
-In `django_projects/settings.py`, we have the `ROOT_URLCONF` setting:
+In `django_projects/settings.py`, I have the `ROOT_URLCONF` setting:
 
 ```python
 # in django_projects/settings.py
 ROOT_URLCONF = 'django_boards.urls'
 ```
 
-It already comes configured when we create a project, so we don't have to do
+It already comes configured when I create a project, so I don't have to do
 anything with it.
 
 When Django receives a request in an app views (`boards/views.py`), it searches
@@ -349,22 +353,22 @@ Page Not Found.
 
 ### What is a dynamic URL?
 
-Without dynamic routing, navigating web pages would be very hard. We would have
-to hard code the full path of every page we visit in the browser.
+Without dynamic routing, navigating web pages would be very hard. I would have
+to hard code the full path of every page I visit in the browser.
 
-Dynamic Uniform Resource Locators (URLs) allow us to navigate to different
+Dynamic Uniform Resource Locators (URLs) allow me to navigate to different
 pages. Django makes it easy to create dynamic URLs with with its URL
 configuration model (`URLconf`) which is a mapping between URL expressions to
-Python functions (our views).
+Python functions (my views).
 
-A dynamic URL is a URL that can change. In our case, the named parameter `pk`
-can change. We also don't know in advance which `pk` will be queried in the
-first place. That is where dynamic URLs come in.
+A dynamic URL is a URL that can change. In my case, the named parameter `pk` can
+change. I also don't know in advance which `pk` will be queried in the first
+place. That is where dynamic URLs come in.
 
 ### Importing path from Django URLs to create paths for the view
 
-Inside `django_boards/urls.py`, we import `path` from Django URLs to create
-paths for our corresponding views:
+Inside `django_boards/urls.py`, I import `path` from Django URLs to create paths
+for my corresponding views:
 
 ```python
 # in django_boards/urls.py
@@ -384,21 +388,19 @@ urlpatterns = [
 
 `'boards/<str:pk>/'` is an example of a dynamic path (or url). Specifically,
 `<str:pk>` represents a
-[str dynamic URL path converter](https://codersdaily.in/courses/django/Django-dynamic-urls#).
-To prevent our view function from running into database errors because of
-unexpected user inputs, we should add validation to avoid those types of errors.
+[str dynamic URL path converter](https://docs.djangoproject.com/en/5.1/topics/http/urls/#path-converters).
+To prevent my view function from running into database errors because of
+unexpected user inputs, I should add validation to avoid those types of errors.
 
 In Django, this can be done with a path converter. A path converter can be added
 to a `path()` inside angle brackets and separated from the variable name of the
 captured component via a colon, as displayed above. To learn more about what
 types of dynamic URL path converters are available in Django, please visit the
-article entitled
-[Django Dynamic URLs](https://codersdaily.in/courses/django/Django-dynamic-urls#)
-on Coding Nomads.
+above link.
 
 ### Creating the board_topics view inside boards/views.py
 
-Now we can create the `board_topics` view (function) inside `boards/views.py`:
+Now I can create the `board_topics` view (function) inside `boards/views.py`:
 
 ```python
 # in boards/views.py
@@ -408,9 +410,9 @@ def board_topics(request, pk):
     return render(request, 'topics.html', {'board': board})
 ```
 
-In `path('boards/<str:pk>/', views.board_topics, name='board_topics')`, we point
-to `<str:pk>` because we pass in a parameter called `pk` to the board_topics
-function. We could call that parameter whatever we want. We could call it "id"
+In `path('boards/<str:pk>/', views.board_topics, name='board_topics')`, I point
+to `<str:pk>` because I pass in a parameter called `pk` to the board_topics
+function. I could call that parameter whatever I want. I could call it "id"
 instead, for example. I will change it to "id", because it better describes what
 it represents. So in `urlpatterns`:
 
@@ -436,8 +438,8 @@ def board_topics(request, id):
 
 ## Creating the topics.html template in the templates directory
 
-Next, we create a `topics.html` template inside the templates directory where
-our `index.html` file resides, and then we add the following html markup inside:
+Next, I create a `topics.html` template inside the templates directory where my
+`index.html` file resides, and then I add the following html markup inside:
 
 ```html
 {% load static %}<!DOCTYPE html>
@@ -458,10 +460,10 @@ our `index.html` file resides, and then we add the following html markup inside:
 </html>
 ```
 
-Next, we can visit the URL `http://127.0.0.1:8000/boards/1/` and something like
+Next, I can visit the URL `http://127.0.0.1:8000/boards/1/` and something like
 the following appears:
 
-![Rendering of Board id=1 to the page](Screenshot-2024-09-10-at-8.56.40-PM.jpg)
+![Rendering of Board id=1 to the page](Screenshot-2024-09-10-at-8.56.40-PM.webp)
 
 _Rendering of Board id=1 to the page_
 
@@ -497,26 +499,26 @@ class BoardTopicsTests(TestCase):
     self.assertEqual(view.func, board_topics)
 ```
 
-There is a difference between how we set up `class IndexTests(TestCase)` and
-`class BoardTopicsTests(TestCase)`. With `def BoardTopicsTests(TestCase)`, we
-include `def setUp(self)`. In `def setUp(self)`, we create a Board instance to
+There is a difference between how I set up `class IndexTests(TestCase)` and
+`class BoardTopicsTests(TestCase)`. With `def BoardTopicsTests(TestCase)`, I
+include `def setUp(self)`. In `def setUp(self)`, I create a Board instance to
 use in the tests.
 
 ### The reverse() function and kwargs
 
-`kwargs` in `reverse()` is the variable that goes into our URL to make it
-unique. In the cases above, it is the id of the board.
+`kwargs` in `reverse()` is the variable that goes into my URL to make it unique.
+In the cases above, it is the id of the board.
 
 The `reverse()` function is used to find the URL of a given resource/page.
-`reverse()` allows us to pass in the name of our URL path defined in our
+`reverse()` allows me to pass in the name of my URL path defined in my
 `urlpatterns`, and Django will find the right URL.
 
-_First_, we declare the url to be framed in the value of the url variable.
-Future references of the url will happen from there.
+_First_, I declare the url to be framed in the value of the url variable. Future
+references of the url will happen from there.
 
-Next, we go to the view, and in the view, the reverse function has to be
-declared with the variable name of the url hardcoded in it. This reverses the
-url field name into a valid url value.
+Next, I go to the view, and in the view, the reverse function has to be declared
+with the variable name of the url hardcoded in it. This reverses the url field
+name into a valid url value.
 
 ### self.client.get()
 
@@ -537,19 +539,18 @@ Basically, `self.client.get(url)` gets the requested URL.
 ### self.assertEqual()
 
 The`self.assertEqual()` function is a Python unittest library function used in
-unittesting to check the equality of two values. In our case, to check the
-equality of `response.status_code` and 200. In other words, whether our response
-status code is equal to 200. If our test passes, it means that the status code
+unittesting to check the equality of two values. In my case, to check the
+equality of `response.status_code` and 200. In other words, whether my response
+status code is equal to 200. If my test passes, it means that the status code
 was equal to 200.
 
-Finally, we have the `test_board_topics_url_resolves_board_topics_view`
-function. This function is different from the others. It is the resolve
-function.
+Finally, I have the `test_board_topics_url_resolves_board_topics_view` function.
+This function is different from the others. It is the resolve function.
 
 In Django testing, the resolve function takes a URL as an argument and returns a
 view that is associated with it. In the
-`test_board_topics_url_resolves_board_topics_view` function, we generate our URL
-`'/boards/1/'` using reverse, and then we use resolve to see if the URL directs
+`test_board_topics_url_resolves_board_topics_view` function, I generate my URL
+`'/boards/1/'` using reverse, and then I use resolve to see if the URL directs
 to the correct view, which here is `board_topics`. `board_topics` is the name of
 the function which targets the dynamic URL of
 `path('boards/<str:id>/', views.board_topics, name='board_topics')` in
@@ -557,18 +558,18 @@ the function which targets the dynamic URL of
 
 ### BoardTopicsTests summary
 
-- In the `setUp()` function, we create a Board instance to use in the tests. We
+- In the `setUp()` function, I create a Board instance to use in the tests. I
   set up the environment for running the tests, thereby building a simulation.
-- In the `test_board_topics_view_success_status_code` function, we check to see
+- In the `test_board_topics_view_success_status_code` function, I check to see
   if Django returns a 200 status code for an existing Board.
-- In the `test_board_topics_view_not_found_status_code`, we test to see if
-  Django returns a 404 status code for a non-existent Board.
-- In the `test_board_topics_url_resolves_board_topics_view`, we test to see if
+- In the `test_board_topics_view_not_found_status_code`, I test to see if Django
+  returns a 404 status code for a non-existent Board.
+- In the `test_board_topics_url_resolves_board_topics_view`, I test to see if
   Django is using the right view function to render the topics.
 
 ## Running the tests
 
-Now we are ready to run our tests:
+Now I am ready to run my tests:
 
 ```shell
 # run test in directory that contains manage.py
@@ -626,9 +627,9 @@ FAILED (errors=1)
 Destroying test database for alias 'default'...
 ```
 
-One of our tests did not pass. The
-`test_board_topics_view_not_found_status_code` test. The test found that there
-is no board with an id of "99". This is confirmed in the Traceback at the top:
+One of my tests did not pass. The `test_board_topics_view_not_found_status_code`
+test. The test found that there is no board with an id of "99". This is
+confirmed in the Traceback at the top:
 
 ```shell
 File "/Users/mariacam/Python-Development/django-boards/django_boards/boards/tests.py", line 33, in test_board_topics_view_not_found_status_code
@@ -636,7 +637,7 @@ File "/Users/mariacam/Python-Development/django-boards/django_boards/boards/test
                ^^^^^^^^^^^^^^^^^^^^
 ```
 
-We can even check this in the browser:
+I can even check this in the browser:
 
 ```shell
 # first run python3 manage.py runserver
@@ -647,16 +648,16 @@ python3 manage.py runserver
 
 The result of `127.0.0.1:8000/boards/99` in the browser:
 
-![The result of `127.0.0.1:8000/boards/99` in the browser](Screenshot-2024-09-11-at-7.18.52-AM.jpg)
+![The result of `127.0.0.1:8000/boards/99` in the browser](Screenshot-2024-09-11-at-7.18.52-AM.webp)
 
 _The result of `127.0.0.1:8000/boards/99` in the browser_
 
-In production, we would be setting `DEBUG=False`, and the visitor would see a
-`500 Internal Server Error` page. But that’s not what we want here.
+In production, I would be setting `DEBUG=False`, and the visitor would see a
+`500 Internal Server Error` page. But that’s not what I want here.
 
 ### Adding try/except block to board_topics function
 
-We want to show a `404 Page Not Found`. That means we have to refactor our
+I want to show a `404 Page Not Found`. That means I have to refactor my
 board_topics view:
 
 ```python
@@ -682,7 +683,7 @@ def board_topics(request, id):
   return render(request, 'topics.html', {'board': board})
 ```
 
-Now let's run our tests again:
+Now let's run my tests again:
 
 ```shell
 # in Terminal:
@@ -703,17 +704,17 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-If we go back to `127.0.0.1:8000/boards/99` in the browser:
+If I go back to `127.0.0.1:8000/boards/99` in the browser:
 
-![PageNotFound (404)](Screenshot-2024-09-11-at-7.37.23-AM.jpg)
+![PageNotFound (404)](Screenshot-2024-09-11-at-7.37.23-AM.webp)
 
 _PageNotFound (404)_
 
-A PageNotFound (404) is rendered to the page. Just what we want!
+Django renders a PageNotFound (404) page. Just what I want!
 
-This is the default page that Django displays when `Debug=True` during
-development. In production, it will be `Debug=False`, and we will be able to
-customize the `404 page` to display whatever we want.
+This is the default page that Django displays when `DEBUG=True` during
+development. In production, it will be `DEBUG=False`, and I will be able to
+customize the `404 page` to display whatever I want.
 
 ### Replacing try/except in board_topics function with Django shortcut
 
@@ -761,12 +762,17 @@ Destroying test database for alias 'default'...
 
 The Django `get_object_or_404 shortcut` function is used for getting an object
 from a database using `django.shortcut` and raises an `Http404` exception if the
-object is not found. This is what we did in long form previously. As in the case
+object is not found. This is what I did in long form previously. As in the case
 here, it is used in views to get a single object based on a query and handle the
 case where the object does not exist.
 
 `get_object_or_404` calls the targeted model, and retrieves an object from it.
 If that object does not exist, it returns a 404 error.
+
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[01ba9fc](https://github.com/interglobalmedia/django-boards/commit/01ba9fc3c53ad323f7f6c6d01c6f6aabe36a2a8d#diff-d846b6cc7b0dc09aeaeec299c45984cb1274c197ec509bafb6f899ad55ec18ca).
 
 ## Conclusion
 
@@ -778,16 +784,13 @@ directory, and created/ran tests for `BoardTopics`.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
-- [Django Dynamic URLs](https://codersdaily.in/courses/django/Django-dynamic-urls#):
-  _CodersDaily_
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
+- [URL dispatcher](https://docs.djangoproject.com/en/5.1/topics/http/urls/#path-converters)
 - [How to Use Dynamic Routing With Django](https://www.makeuseof.com/django-dynamic-routing/):
   _makeuseof_
 - [Django Reverse](https://www.educba.com/django-reverse/)
 - [get_object_or_404 method in Django Models](https://www.geeksforgeeks.org/get_object_or_404-method-in-django-models/):
   _Geeks for Geeks_
-- [Django URL Validation with Path Converters](#django-url-validation-with-path-converters):
-  _Coding Nomades_
 
 ## Related Posts
 
