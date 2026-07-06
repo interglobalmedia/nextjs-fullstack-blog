@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-17
 date: '2024-09-16T10:19:04.312Z'
-lastModified: '2026-05-25T13:06:04.312Z'
+lastModified: '2026-07-06T18:16:04.312Z'
 title: How to create a fullstack application using Django and Python Part 17
 author: Maria D. Campbell
 excerpt:
@@ -10,7 +10,7 @@ excerpt:
     template, url, and redirect, create a reusable template, add non-field
     errors to login.html, create custom template tags to use in form.html, and
     test the template tags.'
-image: Screenshot-2024-09-17-at-12.50.28-PM.jpg
+image: Screenshot-2024-09-17-at-12.50.28-PM.webp
 tags:
     [
         'fullstack development',
@@ -27,7 +27,7 @@ isPublished: true
 isFeatured: false
 ---
 
-![Non-existent user and incorrect password](Screenshot-2024-09-17-at-12.50.28-PM.jpg)
+![Non-existent user and incorrect password](Screenshot-2024-09-17-at-12.50.28-PM.webp)
 
 _Non-existent user and incorrect password_
 
@@ -40,45 +40,50 @@ Git.
 
 ## Table of Contents
 
-- [Improving the Sign Up Template Design](#improving-the-sign-up-template-design)
-- [Checking out the signup view in the browser](#checking=out-the-signup-view-in-the=browser)
+- [Improving the sign up template design](#improving-the-sign-up-template-design)
+- [Checking out the signup view in the browser](#checking-out-the-signup-view-in-the-browser)
 - [Adding the logout view](#adding-the-logout-view)
     - [Adding new route to django_boards/urls.py](#adding-new-route-to-django-boards-urlspy)
 - [Creating a dropdown menu for logged in users](#creating-a-dropdown-menu-for-logged-in-users)
-    - [Adding the Bootstrap 5 dropdown menu including the logout URL](#adding-the-bootstrap-5-dropdown-menu=-including-the-logout-URL)
-- [Fixing Logout in the user dropdown menu](#fixing-logout-in-the-user-dropdown-menu)
-- [Adding a Login URL to django_boards/urls.py](#adding=a=login-utl-to-django-boards-urlspy)
+    - [Adding the Bootstrap 5 dropdown menu including the logout URL](#adding-the-bootstrap-5-dropdown-menu-including-the-logout-url)
+- [Fixing logout in the user dropdown menu](#fixing-logout-in-the-user-dropdown-menu)
+- [Adding a Login URL to django_boards/urls.py](#adding-a-login-url-to-django-boards-urlspy)
     - [Adding Login redirect in django_boards/settings.py](#adding-login-redirect-in-django-boards-settingspy)
     - [Adding the login URL to templates/base.html](#adding-the-login-url-to-templates-basehtml)
 - [Creating templates/login.html](#creating-templates-loginhtml)
 - [Reusing templates/base_accounts.html in signup.html and login.html](#reusing-templates-base-accountshtml-in-signuphtml-and-loginhtml)
-- [Log in Non Field Errors in templates/login.html](#log-in-non-field-errors-in-templates-loginhtml)
-    - [Refactoring templates/includes/form.html to show non-field errors](#refactoring-remplates-includes-formhtml-to-show-non-field-errors)
+- [Log in non-field errors in templates/login.html](#log-in-non-field-errors-in-templates-loginhtml)
+    - [Refactoring templates/includes/form.html to show non-field errors](#refactoring-templates-includes-formhtml-to-show-non-field-errors)
 - [Creating custom template tags](#creating-custom-template-tags)
     - [Django template tags](#django-template-tags)
     - [Template tag syntax](#template-tag-syntax)
     - [The form_tags custom template tag](#the-form-tags-custom-template-tag)
     - [The input_class custom template tag](#the-input-class-custom-template-tag)
     - [Updating the templates/includes/form.html to use the new template tags](#updating-the-templates-includes-formhtml-to-use-the-new-template-tags)
-    - [Testing the Template Tags](#testing-the-template-tags)
+    - [Testing the template tags](#testing-the-template-tags)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
-## Improving the Sign Up Template Design
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
 
-Visit Toptal patterns on their website to pick a background for our accounts
+## Improving the sign up template design
+
+Visit Toptal patterns on their website to pick a background for my accounts
 pages: [Toptal patterns](https://www.toptal.com/designers/subtlepatterns/).
 
-We can go two ways with improving the design of the `signup` template. We could
+I can go two ways with improving the design of the `signup` template. I could
 either:
 
-1. Download a pattern of your choosing.
+1. Download a pattern of my choosing.
 1. Create a new directory inside the static directory called img.
-1. Place your background pattern inside.
+1. Place my background pattern inside.
 1. Create a file called `accounts.css` inside static/css.
 
-OR... we could add our own background patterns. For example, I am adding a CSS
+OR... I could add my own background patterns. For example, I am adding a CSS
 gradient to the background of my accounts pages by adding the CSS to the
 `static/css/accounts.css` file:
 
@@ -160,7 +165,7 @@ Then update `templates/signup.html` markup to reflect the changes to
 ```
 
 Above, I have applied the Bootstrap 5 card components markup to improve upon the
-look of our `signup.html` template. Below, is all the CSS I added thus far to
+look of my `signup.html` template. Below, is all the CSS I added thus far to
 `static/css/accounts.css`:
 
 ```css
@@ -220,8 +225,8 @@ body {
 }
 ```
 
-Whether or not we add the Toptal background image or simply use a CSS gradient,
-we should still update `templates/signup.html` markup to include Bootstrap card
+Whether or not I add the Toptal background image or simply use a CSS gradient, I
+should still update `templates/signup.html` markup to include Bootstrap card
 markup.
 
 ## Checking out the signup view in the browser
@@ -229,7 +234,7 @@ markup.
 With the most recent changes to the styling of `templates/signup.html`, this is
 what mine looks like in the browser:
 
-![Result of improving the styling of the signup view](Screenshot-2024--9-16-at-1.20.51-PM.jpg)
+![Result of improving the styling of the signup view](Screenshot-2024-9-16-at-1.20.51-PM.webp)
 
 _Result of improving the styling of the signup view_
 
@@ -257,14 +262,14 @@ urlpatterns = [
 ]
 ```
 
-We imported the views from the Django’s `contrib` module. We renamed it to
+I imported the views from the Django’s `contrib` module. I renamed it to
 `auth_views` to avoid naming conflicts with the `boards.views`. The renaming
-also clarifies what it is being used for. We also treat this view a bit
+also clarifies what it is being used for. I also treat this view a bit
 differently (`auth_views.LogoutView.as_view()`). It is a Django class-based
-view. Until now, we have only created views as Python functions. Class-based
+view. Until now, I have only created views as Python functions. Class-based
 views provide a more flexible way to extend and re-use views.
 
-_Next_, we add `LOGOUT_REDIRECT_URL = 'index'` to the bottom of the
+_Next_, I add `LOGOUT_REDIRECT_URL = 'index'` to the bottom of the
 `django_boards/settings.py` file:
 
 ```python
@@ -272,18 +277,18 @@ _Next_, we add `LOGOUT_REDIRECT_URL = 'index'` to the bottom of the
 LOGOUT_REDIRECT_URL = 'index'
 ```
 
-We are passing the name of the `URL pattern` we want to redirect the user to
-after they log out.
+I am passing the name of the `URL pattern` I want to redirect the user to after
+they log out.
 
-When we access the URL `127.0.0.1:8000/logout/`, we will be logged out. But
-before we log out, we have to create a dropdown menu for logged in users.
+When I access the URL `127.0.0.1:8000/logout/`, I will be logged out. But before
+I log out, I have to create a dropdown menu for logged in users.
 
 ## Creating a dropdown menu for logged in users
 
-The Bootstrap 5 dropdown component needs jQuery to work. the current version of
-jQuery is 3.7.1. We don't have to download it from `jquery.com`. We can add a
-CDN jQuery link instead: https://releases.jquery.com. Select the "minified"
-version, and just copy the code and paste it as I will demonstrate shortly.
+The Bootstrap 5 dropdown component needs jQuery to work. The current version of
+jQuery is 3.7.1. I don't have to download it from `jquery.com`. I can add a CDN
+jQuery link instead: https://releases.jquery.com. Select the "minified" version,
+and just copy the code and paste it as I will demonstrate shortly.
 
 As for the Bootstrap JS, you can grab the code from cdnjs as well:
 [bootstrap dnjs](https://cdnjs.com/libraries/bootstrap). Just click on the code
@@ -376,7 +381,7 @@ When you have grabbed the three scripts and added them to your
 
 My `index/home` page view now looks like the following:
 
-![Updated index/home view including logged in user dropdown menu](Screenshot-2024-09-16-at-4.26.29-PM.jpg)
+![Updated index/home view including logged in user dropdown menu](Screenshot-2024-09-16-at-4.26.29-PM.webp)
 
 _Updated index/home view including logged in user dropdown menu_
 
@@ -391,8 +396,8 @@ that version. Otherwise, the JavaScript functionality might not work!
 
 ### Adding the Bootstrap 5 dropdown menu including the logout URL
 
-We did include the HTML markup for the logged in user dropdown menu in the
-Django code snippet above. Specifically, it is the following:
+I did include the HTML markup for the logged in user dropdown menu in the Django
+code snippet above. Specifically, it is the following:
 
 ```django
 <div class="dropdown">
@@ -421,11 +426,11 @@ username disappears and the dropdown arrow is all that remains.
 
 **Note**: Inserting a `form` inside of the dropdown menu, which is an unordered
 list, may seem funny, but since Django 5, this is the way that the Logout has to
-be dealt with. Otherwise it won't work! We would be taken to an empty page.
+be dealt with. Otherwise it won't work! I would be taken to an empty page.
 
-## Fixing Logout in the user dropdown menu
+## Fixing logout in the user dropdown menu
 
-In order to remove the logged in user `dropdown menu` on `logout`, we add a
+In order to remove the logged in user `dropdown menu` on `logout`, I add a
 "Login" button along with a "Sign up" button instead. `templates/base.html`
 should look like the following:
 
@@ -518,7 +523,7 @@ should look like the following:
 
 Now my `index/home` page looks like the following when logged out:
 
-![Updated index/home page including only Login and Sign up buttons when user logs out](Screenshot-2024-09-16-at-5.01.46-PM.jpg)
+![Updated index/home page including only Login and Sign up buttons when user logs out](Screenshot-2024-09-16-at-5.01.46-PM.webp)
 
 _index/home page including Login/Sign up buttons when user logs out_
 
@@ -543,7 +548,7 @@ urlpatterns = [
 ### Adding Login redirect in django_boards/settings.py
 
 ```python
-# in django_baords/settings.py below LOGOUT_REDIRECT_URL:
+# in django_boards/settings.py below LOGOUT_REDIRECT_URL:
 LOGIN_REDIRECT_URL = 'index'
 ```
 
@@ -607,11 +612,11 @@ The configuration is telling Django where to redirect after a successful login.
 
 Now, when I click on the `login` button, I am taken to the `login` page:
 
-![The login page](Screenshot-2024-09-16-at-5.46.39-PM.jpg)
+![The login page](Screenshot-2024-09-16-at-5.46.39-PM.webp)
 
 _The login page_
 
-This is all well and good, but we are repeating templates. Let's fix that by
+This is all well and good, but I am repeating templates. Let's fix that by
 creating another reusable template called `base_accounts.html` in the templates
 directory:
 
@@ -645,7 +650,7 @@ directory:
 {% extends 'base_accounts.html' %}
 ```
 
-We also have to add a Login URL to `templates/signup.html`:
+I also have to add a Login URL to `templates/signup.html`:
 
 ```django
 <div class="card-footer text-muted text-center">
@@ -660,18 +665,18 @@ We also have to add a Login URL to `templates/signup.html`:
 {% extends 'base_accounts.html' %}
 ```
 
-## Log in Non Field Errors in templates/login.html
+## Log in non-field errors in templates/login.html
 
 If I submit an empty login `form`, some error messages are rendered to the page:
 
-![Submitting an empty login form](Screenshot-2024-09-16-at-6.22.19-PM.jpg)
+![Submitting an empty login form](Screenshot-2024-09-16-at-6.22.19-PM.webp)
 
 _Submitting an empty login form_
 
 But if I start to type a non-existent username in the Username field, the
 following happens:
 
-![Typing in non-existent username in login form](Screenshot-2024-09-16-at-6.29.57-PM.jpg)
+![Typing in non-existent username in login form](Screenshot-2024-09-16-at-6.29.57-PM.webp)
 
 _Typing in non-existent username in login form_
 
@@ -721,38 +726,38 @@ because otherwise, when I would type an incorrect username followed by an empty
 `password` field, the `is_bound` field with the incorrect `username` would not
 be invalidated, which is misleading.
 
-As for `{% if forloop.last %}`, we add this because of the `margin-bottom` of
-the `p` element. A `form` may have several `non-field errors` and for each
-`non-field error`, we render a `p` tag with the error. Each time we are checking
-if it is the last `p` to render. If it is, we add a Bootstrap 5 CSS class called
+As for `{% if forloop.last %}`, I add this because of the `margin-bottom` of the
+`p` element. A `form` may have several `non-field errors` and for each
+`non-field error`, I render a `p` tag with the error. Each time I am checking if
+it is the last `p` to render. If it is, I add a Bootstrap 5 CSS class called
 `"mb-0"` which stands for `“margin bottom = 0”`. This way the alert styling
 doesn’t look strange, with too much space below the error message(s).
 
 Below is a rendering of the login view before the user types anything in the
 form fields:
 
-![Rendering of the login view before the user types anything](Screenshot-2024-09-17-at-8.07.12-AM.jpg)
+![Rendering of the login view before the user types anything](Screenshot-2024-09-17-at-8.07.12-AM.webp)
 
 _Rendering of the login view before the user types anything_
 
 Below is a rendering of the login view when the user types a non-existent user
 but does not type in a password and then submits the login `form`:
 
-![Rendering of the login view when user types non-existent user and no password and then submits the form](Screenshot-2024-09-17-at-11.54.34-AM.jpg)
+![Rendering of the login view when user types non-existent user and no password and then submits the form](Screenshot-2024-09-17-at-11.54.34-AM.webp)
 
 _Non-existent user and no password_
 
 Below is a rendering of the login view when the user types a `non-existent` user
 and an `incorrect password` and then submits the`form`:
 
-![Rendering of the login view when the user types non-existent user and incorrect password and then submits the form](Screenshot-2024-09-17-at-12.02-20-PM.jpg)
+![Rendering of the login view when the user types non-existent user and incorrect password and then submits the form](Screenshot-2024-09-17-at-12.02-20-PM.webp)
 
 _Non-existent user and incorrect password_
 
 Below is a rendering of the login view when the user types an `existing user`
 and `no password` and then submits the `form`:
 
-![Existing user and no password](Screenshot-2024-09-17-at-12.33.47-PM.jpg)
+![Existing user and no password](Screenshot-2024-09-17-at-12.33.47-PM.webp)
 
 _Existing user and no password_
 
@@ -760,7 +765,7 @@ Below is a rendering of the login view when the user types an `existing user`
 and `incorrect password` and then submits the `form`:
 
 ![Rendering of the login view when the user types an existing user and
-incorrect password and then submits the form](Screenshot-2024-09-17-at-12.40.34-PM.jpg)
+incorrect password and then submits the form](Screenshot-2024-09-17-at-12.40.34-PM.webp)
 
 _Correct username and incorrect password_
 
@@ -770,30 +775,30 @@ re-submitting the login `form`:
 
 ![Rendering of the login view when the user types an existing user and
 correct password after having submitted invalid login data, but before
-re-submitting the login form](Screenshot-2024-09-17-at-12.50.28-PM.jpg)
+re-submitting the login form](Screenshot-2024-09-17-at-12.50.28-PM.webp)
 
 _Correct username and correct password before re-submission_
 
 Below is a rendering of the `redirect` after submitting the login `form`
 containing `correct username` and `password`:
 
-![Successful redirect after submitting valid data in the login form](Screenshot-2024-09-17-at-12.55.34-PM.jpg)
+![Successful redirect after submitting valid data in the login form](Screenshot-2024-09-17-at-12.55.34-PM.webp)
 
 _Successful redirect after submitting valid data_
 
-In the original code in Viktor's tutorial, We would still have to deal with the
-`password` field, however. Django never returns the data of the `password`
-fields to the client, so we should just conditionally ignore `is-valid` and
-`is-invalid` CSS classes in some cases. That is what I have done in
-`templates/includes/form.html`. I do take the `password` field into account.
+In the original code in Vitor's tutorial, I would still have had to deal with
+the `password` field. Django never returns the data of the `password` fields to
+the client, so I just conditionally ignore `is-valid` and `is-invalid` CSS
+classes in some cases. That is what I did in `templates/includes/form.html`. I
+do take the `password` field into account.
 
 ## Creating custom template tags
 
-Next, inside `boards/`, we create a new directory called `templatetags`. it must
-be called `templatetags`, with no underscores. Inside `templatetags`, we create
+Next, inside `boards/`, I create a new directory called `templatetags`. It must
+be called `templatetags`, with no underscores. Inside `templatetags`, I create
 two empty files: _one called_ `__init__`.py, and _the other_ `form_tags.py`.
 
-Next, in the `form_tags.py` file, we add the following:
+Next, in the `form_tags.py` file, I add the following:
 
 ```python
 # inside boards/templatetags/form_tags.py:
@@ -818,7 +823,7 @@ def input_class(bound_field):
     return 'form-control {}'.format(css_class)
 ```
 
-We just created two template filters.
+I just created two template filters.
 
 ### Django template tags
 
@@ -831,7 +836,7 @@ into the template to be used by other variables. They provide arbitrary logic in
 the rendering process.
 
 For example, a tag can output content, serve as a control structure, such as an
-`“if”` statement or a `“for”` loop, grab content from a database, or even enable
+`if statement` or a `for loop`, grab content from a database, or even enable
 access to other template tags.
 
 ### Template tag syntax
@@ -840,25 +845,24 @@ access to other template tags.
 {% tag_name %}
 ```
 
-We have already used some built-in template tags in our project. One is the
-`{% extends %}` template tag. But now we are going to create custom template
-tags.
+I have already used some built-in template tags in my project. One is the
+`{% extends %}` template tag. But now I am going to create custom template tags.
 
-We are going to load our template filters just as we did with our
-`widget_tweaks` or static template tags in a template.
+I am going to load my template filters just as I did with my `widget_tweaks` or
+static template tags in a template.
 
-After creating our `form_tags.py` file, we will have to stop the development
+After creating my `form_tags.py` file, I will have to stop the development
 server and start it again so Django can identify the new template tags.
 
 ### The form_tags custom template tag
 
-We can load our new `form_tags` as follows:
+I can load my new `form_tags` as follows:
 
 ```django
 {% form_tags %}
 ```
 
-After loading them, we can use them in a template like the following:
+After loading them, I can use them in a template like the following:
 
 ```django
 {{ form.username|field_type }}
@@ -918,16 +922,16 @@ Which would return:
 {% endfor %}
 ```
 
-With the addition of our custom template tags, we have somewhat reduced the
-complexity of our template. The behavior is exactly the same as my previous
+With the addition of my custom template tags, I have somewhat reduced the
+complexity of my template. The behavior is exactly the same as my previous
 implementation of `templates/includes/form.html`. But the code in the template
 is more readable, because there is less nested logic. Some of the logic has been
 transferred to `form_tags`.
 
-### Testing the Template Tags
+### Testing the template tags
 
-Let's create a `test_templatetags.py` file inside our `boards/tests/`. Then
-let's place the following _inside_ `test_templatetags.py`:
+Let's create a `test_templatetags.py` file inside my `boards/tests/`. Then let's
+place the following _inside_ `test_templatetags.py`:
 
 ```python
 # boards/tests/test_templatetags.py
@@ -964,16 +968,16 @@ class InputClassTests(TestCase):
 ```
 
 Next, to run `boards/tests/test_templatetags.py`, I run
-`python3 manage.py test boards`, from part 15, remember? We are running all our
+`python3 manage.py test boards`, from part 15, remember? I am running all my
 boards tests with this command including `test_templatetages.py`. BUT, in order
-to run only the `test_templatetags.py` file, we run the following command
+to run only the `test_templatetags.py` file, I run the following command
 instead:
 
 ```shell
 python3 manage.py test boards.tests.test_templatetags
 ```
 
-We run this command from inside the directory where `manage.py` resides.
+I run this command from inside the directory where `manage.py` resides.
 
 `boards` is the name of the app, `.tests` points to the tests directory inside
 `boards`, and `.test_templatetags` represents the file containing the tests I
@@ -993,6 +997,11 @@ OK
 Destroying test database for alias 'default'...
 ```
 
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[973a39f](https://github.com/interglobalmedia/django-boards/commit/973a39f7f2e9a4cff9b94a139af65e47e2941552).
+
 ## Conclusion
 
 In this section, I improved the `signup.html` template design, added a `logout`
@@ -1003,9 +1012,9 @@ use in the `form.html` includes, and created tests for the template tags.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
-- [Django Template Tags](https://www.geeksforgeeks.org/django-template-tags/):
-  _Geeks for Geeks_
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
+- [Built-in template tags and filters](https://docs.djangoproject.com/en/5.1/ref/templates/builtins/):
+  _Official Django Documentation_
 
 ## Related Posts
 
