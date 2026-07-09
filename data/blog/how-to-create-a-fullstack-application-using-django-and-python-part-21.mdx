@@ -1,24 +1,24 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-21
 date: '2024-10-02T21:28:03.262Z'
-lastModified: '2026-05-25T17:52:03.262Z'
+lastModified: '2026-07-09T17:05:03.262Z'
 title: How to create a fullstack application using Django and Python Part 21
 author: Maria D. Campbell
-excerpt: 'In this section, I create a generic class-based (GCBV) PostUpdateView,
-PostDeleteView, and PostDetailView, create the associated urls and
-templates, create PostUpdateView, PostDeleteView, and PostDetailView
-tests, debug the code and tests, and check the test coverage of the
+excerpt: 'In this section, I created a generic class-based (GCBV) PostUpdateView,
+PostDeleteView, and PostDetailView, and associated urls and
+templates. I also created the PostUpdateView, PostDeleteView, and PostDetailView
+tests, and debugged the code and tests. Lastly, I checked the test coverage of the
 django_boards project code.'
-image: lo-sarno-JrtFcxpTSss-unsplash.jpg
+image: lo-sarno-JrtFcxpTSss-unsplash.webp
 tags: ['fullstack development', 'macOS', 'coverage', 'context', 'dispatch', 'django', 'python3', 'generic class based views', 'method decorators', 'series', 'tests', 'unittest']
 isPublished: true
 isFeatured: false
 ---
 
-![A "generic" clouds view](lo-sarno-JrtFcxpTSss-unsplash.jpg)
+![A "generic" clouds view](lo-sarno-JrtFcxpTSss-unsplash.webp)
 
-_Photo by_ [Lo Sarno](https://unsplash.com/@lo_sarno) _on_
-[unsplash.com](https://unsplash.com/photos/blue-sky-and-white-clouds-JrtFcxpTSss)
+_Photo by [Lo Sarno](https://unsplash.com/@lo_sarno) on
+[unsplash.com](https://unsplash.com/photos/blue-sky-and-white-clouds-JrtFcxpTSss)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -29,7 +29,7 @@ Git.
 
 ## Table of Contents
 
-- [Creating the Update View](#creating-the-update-view)
+- [Creating the update view](#creating-the-update-view)
     - [Adding the edit url in django_boards/urls.py](#adding-the-edit-url-in-django-boards-urlspy)
     - [Adding the edit page link to templates/topic_posts.html](#adding-the-edit-page-link-to-templates-topic-postshtml)
     - [Creating templates/edit_post.html](#creating-templates-edit-posthtml)
@@ -48,26 +48,31 @@ Git.
 - [Finishing the PostUpdateViewTests tests](#finishing-the-postupdateviewtests-tests)
 - [Running coverage run test](#running-coverage-run-test)
 - [Finishing the PostDeleteViewTests tests](#finishing-the-postdeleteviewtests-tests)
-- [Running coverage run manage.py test and coverage report again](#running-coverage-run-managepy-test-and-coverage=report-again)
+- [Running coverage run manage.py test and coverage report again](#running-coverage-run-managepy-test-and-coverage-report-again)
 - [Creating the PostDetailView](#creating-the-postdetailview)
     - [Creating the post_detail url in urls.py](#creating-the-post-detail-url-in-urlspy)
     - [Creating the templates/post_detail.html](#creating-the-templates-post-detailhtml)
-- [Creating the PostDetailView tests](#creating-the-postdetailview-tests)
+    - [Creating the PostDetailView tests](#creating-the-postdetailview-tests)
     - [Running python3 manage.py test boards.tests.test_view_post_detail_tests](#running-python3-managepy-test-boardsteststest-view-post-detail-tests)
     - [Running coverage run manage.py test and coverage report to include PostDetailView tests](#running-coverage-run-managepy-test-and-coverage-report-to-include-postdetailview-tests)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
-## Creating the Update View
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
 
-Now we are going to create an edit post view using a
+## Creating the update view
+
+Now I am going to create an edit post view using a
 [Built-in class-based generic view](https://docs.djangoproject.com/en/5.1/topics/class-based-views/generic-display/).
-But before we start creating our view, we have to make sure that all instances
-of `id` are replaced by `pk` (if that is the way you went). When using Generic
-Class-Based Views (GCBVs), we must use `object.pk` only. I found out the hard
-way after I created my first `GCBV` and was using `id` instead of `pk`. It would
-be good practice to simply stick with `pk` instead of something else "just to be
+But before I start creating my view, I have to make sure that all instances of
+`id` are replaced by `pk` (if that is the way you went). When using Generic
+Class-Based Views (GCBVs), I must use `object.pk` only. I found out the hard way
+after I created my first `GCBV` and was using `id` instead of `pk`. It would be
+good practice to simply stick with `pk` instead of something else "just to be
 smart", like me. Changing all instances of `id` with `pk` will take no time. If
 you miss one, you will find out where in the Terminal console when running the
 development server.
@@ -93,23 +98,23 @@ class PostUpdateView(UpdateView):
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 ```
 
-With the generic `UpdateView` and the `CreateView`, we can either define a
-`form_class` or the `fields` attribute regarding forms. We are going with the
-`fields` attribute since that is what we have been doing all along. We are using
+With the generic `UpdateView` and the `CreateView`, I can either define a
+`form_class` or the `fields` attribute regarding forms. I am going with the
+`fields` attribute since that is what I have been doing all along. I am using
 the `fields` attribute to create a model `form` on-the-fly. Django uses a
-`model form factory` internally to compose a `PostForm` model. It’s a simple
+`modelform_factory` internally to compose a `PostForm` model. It’s a simple
 `form` with one `message` field, so it's okay to go this route. But for more
 complex forms, it’s better to define a model `form` externally and refer to it.
 
 The `pk_url_kwarg` is the name of the `URLConf` keyword argument that contains
-the primary key. By default, `pk_url_kwarg` is `pk`. It's the `name` we define
-in the `path` in `urls.py`.
+the primary key. By default, `pk_url_kwarg` is `pk`. It's the `name` I define in
+the `path` in `urls.py`.
 
 `context_object_name` assigns the name of the variable to use in the context.
-However, if we did not assign a `context_object_name`, the Post object would be
+However, if I did not assign a `context_object_name`, the Post object would be
 available as the default `object` in the template.
 
-We also override the `form_valid()` method so that we can add some more fields
+I also override the `form_valid()` method so that I can add some more fields
 such as `updated_by` and `updated_at`.
 
 ### Adding the edit url in django_boards/urls.py
@@ -274,7 +279,7 @@ FAILED (failures=2)
 Destroying test database for alias 'default'...
 ```
 
-We can fix the first failure by adding the following to the `PostUpdateView`
+I can fix the first failure by adding the following to the `PostUpdateView`
 class:
 
 ```python
@@ -295,29 +300,28 @@ class PostUpdateView(UpdateView):
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 ```
 
-The `@login_required` decorator does not work directly with the class view. We
+The `@login_required` decorator does not work directly with the class view. I
 have to use the utility `@method_decorator`, passing in `login_required`, and
 pass in the name of the method which should be "decorated". This is the "drier"
 approach. To learn more about decorating classes, please visit
 [Introduction to class-based views](https://docs.djangoproject.com/en/5.1/topics/class-based-views/intro/)
 in the Django documentation.
 
-### The dispatch method
+#### The dispatch method
 
 The `dispatch` method looks at a request to determine whether it is a GET, POST,
-etc, and relays the request to a matching method if one is defined, or raises
-`HttpResponseNotAllowed` if not. It is important to note that methods inside
-class based views return the same as what is returned from function based views.
-They return some form of `HttpResponse`. This means that `django.shortcuts`
-(`http shortcuts`) or `TemplateResponse` objects are valid inside class-based
-views.
+etc, and relays the request to a matching method if one is defined, or returns
+`HttpResponseNotAllowed` if not. Methods inside class-based views return the
+same thing function-based views do. They return some form of `HttpResponse`.
+This means that `django.shortcuts` (`http shortcuts`) or `TemplateResponse`
+objects are valid inside class-based views.
 
-To decorate every instance of a class-based view, we need to decorate the class
-definition itself. To do this we apply the decorator to the `dispatch()` method
+To decorate every instance of a class-based view, I need to decorate the class
+definition itself. To do this I apply the decorator to the `dispatch()` method
 of the class.
 
-A method on a class isn’t quite the same as a standalone function, so we can’t
-just apply a `function decorator` to the method. We need to transform it into a
+A method on a class isn’t quite the same as a standalone function, so I can’t
+just apply a `function decorator` to the method. I need to transform it into a
 `method decorator` first. The `method_decorator` decorator transforms a
 `function decorator` into a `method decorator` so that it can be used on an
 instance method:
@@ -353,9 +357,9 @@ FAILED (failures=1)
 Destroying test database for alias 'default'...
 ```
 
-### Fixing test_status_code
+#### Fixing test_status_code
 
-The `test_status_code` error means that we have to deal with the problem of
+The `test_status_code` error means that I have to deal with the problem of
 preventing other users editing any posts.
 
 The easiest way to fix this issue is to override the `get_queryset` method of
@@ -382,14 +386,14 @@ class PostUpdateView(UpdateView):
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 ```
 
-With the line `queryset = super().get_queryset()` we are reusing the
+With the line `queryset = super().get_queryset()` I am reusing the
 `get_queryset` method from the parent class, that is, the `UpdateView` class.
-Then, we are adding an extra filter to the `queryset`, which is filtering the
-`post` using the logged in user, available inside the `request` object. We can
+Then, I am adding an extra filter to the `queryset`, which is filtering the
+`post` using the logged in user, available inside the `request` object. I can
 override a
 [Manager’s base QuerySet](https://docs.djangoproject.com/en/5.1/topics/db/managers/)
 by overriding the `Manager.get_queryset()` method. `get_queryset()` should
-return a `QuerySet` with the properties we require. Here, it is the logged in
+return a `QuerySet` with the properties I require. Here, it is the logged in
 user who created the original Post.
 
 ### Running python3 manage.py test boards.tests.test_view_edit_post again
@@ -417,7 +421,7 @@ Now the test passes!
 @method_decorator(login_required, name='dispatch')
 class PostDeleteView(DeleteView):
 
-    # just as for PostUpdateView, this makes sure the UnauthorizedPostDeleteViewTests status_code test passes, making sure that if the user trying to delete the post does not equal the owner of the post (set here via filter), then they cannot delete the post, and a status code of 404 is rendered instead of 200.
+    # just as for PostUpdateView, this makes sure the UnauthorizedPostDeleteViewTests status_code test passes, making sure that if the user trying to delete the post does not equal the owner of the post (set here via filter). Then they cannot delete the post, and a status code of 404 is rendered instead of 200.
     def get_queryset(self): # added
         queryset = super().get_queryset()
         return queryset.filter(created_by=self.request.user)
@@ -453,7 +457,7 @@ path(
 </div>
 ```
 
-I will add the complete `templates/topic_posts.html` contents after we complete
+I will add the complete `templates/topic_posts.html` contents after I complete
 the upcoming `PostDetailView`.
 
 ### Creating templates/post_confirm_delete.html
@@ -601,11 +605,16 @@ Destroying test database for alias 'default'...
 
 `get_queryset` makes sure that a post is only deleted by the user stored in the
 `created_by` field: `return queryset.filter(created_by=self.request.user)`.
-Without this, anyone could POTENTIALLY delete the post, as indicated by the
+Without this, anyone could _potentially_ delete the post, as indicated by the
 failing `status_code` test without the `get_queryset` function in the actual
 `PostDeleteView`.
 
 ## Finishing the PostUpdateViewTests tests
+
+**Update July 9, 2026:** I initially wrote `assertEquals` (as in Vitor's
+original tutorial), but the test above flagged it as deprecated. Turns out
+`assertEquals` and its sibling aliases were removed entirely in Python 3.12.
+`assertEqual` is the current, correct method.
 
 ```python
 # boards/tests/test_view_edit_post.py (complete)
@@ -746,13 +755,13 @@ The tests pass!
 
 ## Running coverage run test
 
-Before continuing with the rest of the `PostDeleteView` tests, we can test the
-current test coverage of our code. If I run `coverage run manage.py test`, and
+Before continuing with the rest of the `PostDeleteView` tests, I can test the
+current test coverage of my code. If I run `coverage run manage.py test`, and
 then `coverage report`, the following is returned:
 
 | Name                                                                           | Stmts   | Miss   | Cover   |
 | ------------------------------------------------------------------------------ | ------- | ------ | ------- |
-| accounts/**init**.py                                                           | 0       | 0      | 100%    |
+| `accounts/__init__.py`                                                         | 0       | 0      | 100%    |
 | accounts/admin.py                                                              | 1       | 0      | 100%    |
 | accounts/apps.py                                                               | 4       | 0      | 100%    |
 | accounts/forms.py                                                              | 8       | 0      | 100%    |
@@ -953,21 +962,21 @@ include the new `PostDeleteView` tests, the following is returned:
 | `accounts/tests/__init__.py`                                                   | 0       | 0      | 100%    |
 | accounts/tests/test_form_signup_test.py                                        | 0       | 0      | 100%    |
 | accounts/tests/test_mail_password_reset_tests.py                               | 21      | 0      | 100%    |
-| accounts/tests/test_view_password_change_tests.py                              | 60      | 0      | 1005    |
+| accounts/tests/test_view_password_change_tests.py                              | 60      | 0      | 100%    |
 | accounts/tests/test_view_password_reset_tests.py                               | 120     | 2      | 98%     |
 | accounts/tests/test_view_signup_tests.py                                       | 55      | 0      | 100%    |
 | accounts/views.py                                                              | 12      | 0      | 100%    |
 | `boards/__init__.py`                                                           | 0       | 0      | 100%    |
 | boards/admin.py                                                                | 5       | 0      | 100%    |
-| boards/apps.py                                                                 | 4       | 0      | 1005    |
+| boards/apps.py                                                                 | 4       | 0      | 100%    |
 | boards/forms.py                                                                | 13      | 0      | 100%    |
 | boards/migrations/0001_initial.py                                              | 7       | 0      | 100%    |
-| boards/migrations/0002_remove_post_post_liked_by_post_likes_delete_postlike.py | 5       | 0      | 1005    |
+| boards/migrations/0002_remove_post_post_liked_by_post_likes_delete_postlike.py | 5       | 0      | 100%    |
 | boards/migrations/0003_remove_post_likes.py                                    | 4       | 0      | 100%    |
 | boards/migrations/0004_like.py                                                 | 6       | 0      | 100%    |
 | boards/migrations/0005_post_likes_delete_like.py                               | 5       | 0      | 100%    |
 | boards/migrations/0006_remove_post_likes_topic_likes.py                        | 5       | 0      | 100%    |
-| boards/migrations/0007_remove_topic_likes_post_likes.py                        | 5       | 0      | 1005    |
+| boards/migrations/0007_remove_topic_likes_post_likes.py                        | 5       | 0      | 100%    |
 | boards/migrations/0008_alter_post_likes.py                                     | 5       | 0      | 100%    |
 | boards/migrations/0009_alter_post_likes.py                                     | 5       | 0      | 100%    |
 | `boards/migrations/__init__.py`                                                | 0       | 0      | 100%    |
@@ -981,9 +990,9 @@ include the new `PostDeleteView` tests, the following is returned:
 | boards/tests/test_view_index_tests.py                                          | 17      | 0      | 100%    |
 | boards/tests/test_view_new_topic_tests.py                                      | 63      | 0      | 100%    |
 | boards/tests/test_view_reply_topic_tests.py                                    | 62      | 2      | 97%     |
-| boards/tests/test_view_topic_posts_tests.py                                    | 18      | 0      | 1005    |
+| boards/tests/test_view_topic_posts_tests.py                                    | 18      | 0      | 100%    |
 | boards/views.py                                                                | 91      | 5      | 95%     |
-| django_boards/**init**.py                                                      | 0       | 0      | 100%    |
+| `django_boards/__init__.py`                                                    | 0       | 0      | 100%    |
 | django_boards/settings.py                                                      | 28      | 0      | 100%    |
 | django_boards/urls.py                                                          | 6       | 0      | 100%    |
 | manage.py                                                                      | 11      | 2      | 82%     |
@@ -991,10 +1000,10 @@ include the new `PostDeleteView` tests, the following is returned:
 
 ## Creating the PostDetailView
 
-Lastly in this section, we create a `PosTDetailView, template,` and related
-tests. We have to take into consideration that some topic posts might be very
-long, so we only want to display a truncated version of the the topic post
-content in the `topic_posts` view.
+Lastly in this section, I create a `PostDetailView`, `template`, and related
+tests. I have to take into consideration that some topic posts might be very
+long, so I only want to display a truncated version of the topic post content in
+the `topic_posts` view.
 
 ```python
 # boards/views.py
@@ -1139,6 +1148,11 @@ following is returned for `boards/tests/test_view_post_detail_tests.py`:
 | ------------------------------------------- | ----- | ---- | ----- |
 | boards/tests/test_view_post_detail_tests.py | 29    | 0    | 100%  |
 
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[b5a2117](https://github.com/interglobalmedia/django-boards/commit/b5a2117beedf449d246f3ed5ef4deb7cc0c590d2).
+
 ## Conclusion
 
 In this section, I created a generic class-based (GCBV) `PostUpdateView`,
@@ -1160,6 +1174,10 @@ tests, debugged the code and tests, and checked the test coverage of the
   _Django docs_
 - [Generic editing views](https://docs.djangoproject.com/en/5.1/ref/class-based-views/generic-editing/):
   _Django docs_
+- [bpo-45162: Remove many old deprecated unittest features #28268](https://github.com/python/cpython/pull/28268):
+  _Pull request on GitHub repository_
+- [Removal of deprecated unittest aliases (bpo-45162)](https://bugs.python.org/issue45162):
+  _Python bug tracker_
 
 ## Related Posts
 
