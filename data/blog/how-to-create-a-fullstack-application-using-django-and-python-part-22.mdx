@@ -1,23 +1,23 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-22
 date: '2024-10-01T15:17:34.665Z'
-lastModified: '2026-05-25T19:37:34.665Z'
+lastModified: '2026-07-10T16:30:34.665Z'
 title: How to create a fullstack application using Django and Python Part 22
 author: Maria D. Campbell
-excerpt: "In this section, I implement a Generic Class Based view and
-pagination to the index/home view, add pagination to the topics view and topic_posts view, add
-pagination to the associated templates, refactor the associated urls in
-urls.py, and refactor the associated tests. I also add a copy link button to
+excerpt: "In this section, I implemented a Generic Class Based View and
+pagination to the index/home view, added pagination to the topics view and topic_posts view, and added
+pagination to the associated templates. I refactored the associated urls in
+urls.py, and refactored the associated tests. I also added a copy link button to
 copy the link to a topic's replies, a scroll top and scroll bottom
-button using JavaScript to enable their functionality, and add JavaScript code
-to make the scrollbar return to the bottom of the page when a pagination item is clicked."
-image: pexels-arkhod-85162625-9939244.jpg
+button using JavaScript to enable their functionality, and JavaScript code
+to make the scrollbar return to the bottom of the page when a pagination item was clicked."
+image: pexels-arkhod-85162625-9939244.webp
 tags: ['fullstack development', 'macOS', 'django', 'bootstrap pagination', 'code refactoring', 'clipboard api', 'generic class based views', 'python3', 'scroll behavior', 'series', 'tests', 'unittest']
 isPublished: true
 isFeatured: false
 ---
 
-![Women linking their arms together](pexels-arkhod-85162625-9939244.jpg)
+![Women linking their arms together](pexels-arkhod-85162625-9939244.webp)
 
 _Photo by_ [Arkhod](https://www.pexels.com/@arkhod-85162625/) **_on_**
 [pexels.com](https://www.pexels.com/photo/back-view-of-women-holding-each-others-hands-9939244/)
@@ -57,7 +57,7 @@ Git.
     - [Adding pagination to templates/topics.html](#adding-pagination-to-templates-topicshtml)
     - [Adding more topics to templates/topics.html](#adding-more-topics-to-templates-topicshtml)
     - [Adding topic replies to templates/topic_posts.html](#adding-topic-replies-to-templates-topic-postshtml)
-    - [Adding topic replies to a specific board with a specific topic id and specific user (templates/topic_posts.html)](#adding-topic-replies-to-a-specific-board-with-a-specific-topic-id-and-specific-user-templates-topic-postshtml))
+    - [Adding topic replies to a specific board with a specific topic id and specific user (templates/topic_posts.html)](#adding-topic-replies-to-a-specific-board-with-a-specific-topic-id-and-specific-user-templates-topic-postshtml)
 - [Running python3 manage.py test boards.tests.test_view_topic_posts_tests](#running-python3-managepy-test-boardsteststest-view-topic-posts-tests)
 - [Improving upon the initial Bootstrap 5 pagination implementation in the templates](#improving-upon-the-initial-bootstrap-5-pagination-implementation-in-the-templates)
     - [Adding JavaScript to make scrollbar return to bottom of page when pagination item is clicked](#adding-javascript-to-make-scrollbar-return-to-bottom-of-page-when-pagination-item-is-clicked)
@@ -71,9 +71,10 @@ Git.
     - [The copy link button styling in static/css/app.css](#the-copy-link-button-styling-in-static-css-appcss)
     - [Fixing the copy link button and reply button styling](#fixing-the-copy-link-button-and-reply-button-styling)
     - [Refactoring the copy link button html in templates/topic_posts.html and templates/post_detail.html](#refactoring-the-copy-link-button-html-in-templates-topic-postshtml-and-templates-post-detailhtml)
-    - [Improving on the templates/post_details.html styling](#improving-on-the-templates-post-detailshtml-styling)
+    - [Improving on the templates/post_detail.html styling](#improving-on-the-templates-post-detailhtml-styling)
     - [Fixing the logout button styling](#fixing-the-logout-button-styling)
 - [Making the names of the boards tests files consistent](#making-the-names-of-the-boards-tests-files-consistent)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
@@ -81,7 +82,7 @@ Git.
 
 ## Using a Class Based View (CBV) on the index/home page
 
-Now we are going to use a Class Based View (CBV) on our home page.
+Now I am going to use a Class Based View (CBV) on our home page.
 
 ### What is a Class Based View?
 
@@ -110,7 +111,7 @@ some differences and advantages when compared to function-based views:
 ### Class Based View (CBV) example
 
 ```python
-rom django.http import HttpResponse
+from django.http import HttpResponse
 from django.views import View
 
 
@@ -133,8 +134,8 @@ class BoardListView(ListView):
     template_name = 'index.html'
 ```
 
-Since we are just getting all the boards from the database and displaying
-(listing) them on the home page, the above is all we have to do to make the
+Since I am just getting all the boards from the database and displaying
+(listing) them on the home page, the above is all I have to do to make the
 `BoardListView` work.
 
 ### Refactoring the index url in urls.py
@@ -152,8 +153,8 @@ URL matching the associated pattern.
 ### Refactoring boards/tests/test_view_index_tests.py
 
 Right now, when I run
-`python3 manage.py test boards.tests.test_view_index_tests`, the following is
-returned:
+`python3 manage.py test boards.tests.test_view_index_tests`, it returns the
+following:
 
 ```shell
 Found 1 test(s).
@@ -178,10 +179,10 @@ Ran 1 test in 0.000s
 FAILED (errors=1)
 ```
 
-We no longer can import name `index` from `boards.views`
+I no longer can import name `index` from `boards.views`
 (`from ..views import index`) into our` IndexTests`, because the (function
 based) `index` view is now `class BoardListView` (Class Based View) in
-`boards/views.py`. So we make the following changes in
+`boards/views.py`. So I make the following changes in
 `boards/tests/test_view_index_tests.py`:
 
 ```python
@@ -192,7 +193,7 @@ def test_home_url_resolves_home_view(self):
 ```
 
 Then I run `python3 manage.py test boards.tests.test_view_index_tests` again,
-and this time the following is returned:
+and this time it returns:
 
 ```shell
 Found 3 test(s).
@@ -210,17 +211,17 @@ Now the tests pass!
 
 ## Pagination
 
-It's easy to implement pagination with class-based views. But before we do that,
-we are going to implement it manually so that we can understand how it works
-under the hood.
+It's easy to implement pagination with class-based views. But before I do that,
+I am going to implement it manually so that I can understand how it works under
+the hood.
 
-We won't paginate the boards listing for now, because there probably won't be
-too many boards (I however, might change my mind). But we will paginate the
-topics listing view (`board_topics`) and the post listing view (`topic_posts`).
+I won't paginate the boards listing for now, because there probably won't be too
+many boards (I however, might change my mind). But I will paginate the topics
+listing view (`board_topics`) and the post listing view (`topic_posts`).
 
 ### Adding dummy posts to board_topics to enable the display of pagination
 
-We can create a bunch of board topics using the Python shell:
+I can create a bunch of board topics using the Python shell:
 
 ```shell
 python3 manage.py shell
@@ -340,15 +341,15 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 
-In macOS, in order to enable multi-lines in the Python shell (here, the `for in`
+On macOS, in order to enable multi-lines in the Python shell (here, the `for in`
 loop), when you have completed a line, don't hit return! It will cause an error.
 Press the shift key and THEN the return key. Do this with each line of the
-`for in` loop. When you have completed the last line of the `for in` loop, THEN
-you can hit the return key.
+`for in` loop. When you have completed the last line of the `for in` loop,
+_then_ you can hit the return key.
 
-Now let's see how our `topic_posts` view looks like in the browser:
+Now let's see how my `topic_posts` view looks like in the browser:
 
-![Newly populated Django board topics view](Screenshot-2024-10-04-at-9.17.55-AM.jpg)
+![Newly populated Django board topics view](Screenshot-2024-10-04-at-9.17.55-AM.webp)
 
 _Newly populated Django board topics view_
 
@@ -374,8 +375,8 @@ Topic.objects.filter(board__name='Django').count()
 queryset = Topic.objects.filter(board__name='Django').order_by('-last_updated')
 ```
 
-We should always define an ordering (`.order_by()`) to a `QuerySet` we are going
-to paginate. Otherwise, it might give inconsistent or unexpected results.
+I should always define an ordering (`.order_by()`) to a `QuerySet` I am going to
+paginate. Otherwise, it might give inconsistent or unexpected results.
 
 ### Importing the Paginator utility
 
@@ -484,7 +485,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def board_topics(request, pk):
     board = get_object_or_404(Board, pk=pk)
-    board = get_object_or_404(Board, pk=pk)
     queryset = board.topics.order_by('-last_updated').annotate(replies=Count('posts') - 1)
     page = request.GET.get('page', 1)
 
@@ -503,11 +503,11 @@ def board_topics(request, pk):
     return render(request, "topics.html", {"board": board, 'topics': topics})
 ```
 
-Now we have to make sure that we render the pages correctly using the Bootstrap
-5 pagination component.
+Now I have to make sure that I render the pages correctly using the Bootstrap 5
+pagination component.
 
-Here we are using all the methods we dealt with previously. In addition, topics
-is no longer a `QuerySet` but a `paginator.Page instance`.
+Here I am using all the methods I dealt with previously. In addition, topics is
+no longer a `QuerySet` but a `paginator.Page instance`.
 
 ## Adding pagination to templates/topics.html
 
@@ -595,7 +595,7 @@ is no longer a `QuerySet` but a `paginator.Page instance`.
 
 And it looks like the following in the browser:
 
-![Board topics view pagination](Screenshot-2024-10-04-at-12.24.39-PM.jpg)
+![Board topics view pagination](Screenshot-2024-10-04-at-12.24.39-PM.webp)
 
 _Board topics view pagination_
 
@@ -620,15 +620,15 @@ class TopicListView(ListView):
 ```
 
 When using pagination with class-based views, interaction with the paginator in
-the template differs a bit. Pagination makes makes the following variables
-available in the template: paginator, `page_obj`, `is_paginated`, `object_list`,
-and the topics variable assigned to `context_object_name`. topics is equivalent
-to the default variable `object_list`.
+the template differs a bit. Pagination makes the following variables available
+in the template: paginator, `page_obj`, `is_paginated`, `object_list`, and the
+topics variable assigned to `context_object_name`. topics is equivalent to the
+default variable `object_list`.
 
 ### get_context_data
 
-`context_context_data` gets additional data to a template _when using_ `GCBVs`.
-We subclass our `GCBV` and provide our own implementation of `get_context_data`.
+`get_context_data` gets additional data to a template _when using_ `GCBVs`. We
+subclass our `GCBV` and provide our own implementation of `get_context_data`.
 
 ### Refactoring the board_topics url in urls.py
 
@@ -639,8 +639,8 @@ path("boards/<pk>/", views.TopicListView.as_view(), name="board_topics"),
 ### paginate_by
 
 With generic class based views, all pagination logic is pre-defined. To
-implement pagination, we only need to modify the `paginate_by` attribute. We can
-set the `paginate_py` attribute to a specific number and the rest will be taken
+implement pagination, I only need to modify the `paginate_by` attribute. I can
+set the `paginate_by` attribute to a specific number and the rest will be taken
 care of by the view itself.
 
 ### Refactoring boards/tests/test_view_board_topics.py
@@ -706,7 +706,7 @@ class PostListView(ListView):
 ### Updating the topic_posts URL
 
 ```python
-path("boards/<pk>/topics/<topic_pk>/", views.PostListView.as_view(),, name="topic_posts"),
+path("boards/<pk>/topics/<topic_pk>/", views.PostListView.as_view(), name="topic_posts"),
 ```
 
 ### Creating the templates/includes/pagination.html reusable template
@@ -778,7 +778,6 @@ path("boards/<pk>/topics/<topic_pk>/", views.PostListView.as_view(),, name="topi
     <div class="w-25 mb-4 mt-3" id="copy-header">
       <a id="copy-button"
          class="btn btn-primary"
-         role="button"
          role="button"
          title="Copy link to this topic to Clipboard">
         <i class="link-icon fa fa-link" aria-hidden="true"></i>
@@ -1046,13 +1045,13 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 Which results in the following in the browser:
 
-![Newly populated Python board topics view](Screenshot-2024-10-04-at-4.10.36-PM.jpg)
+![Newly populated Python board topics view](Screenshot-2024-10-04-at-4.10.36-PM.webp)
 
 _Newly populated Python board topics view_
 
 ### Adding topic replies to templates/topic_posts.html
 
-This time we will add topic replies to a specific topic using the Python shell:
+This time I will add topic replies to a specific topic using the Python shell:
 
 ```shell
 python3 manage.py shell
@@ -1172,7 +1171,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 This creates replies to the topic with the id of 4, which results in the
 following in the browser:
 
-![Newly populated Django board topic_id=4 (topic_posts) view](Screenshot-2024-10-04-at-5.08.39-PM.jpg)
+![Newly populated Django board topic_id=4 (topic_posts) view](Screenshot-2024-10-04-at-5.08.39-PM.webp)
 
 _Newly populated Django board topic_id=4 (topic_posts) view_
 
@@ -1190,20 +1189,20 @@ Type "help", "copyright", "credits" or "license" for more information.
 <Post: I'm so glad you started this …>
 ```
 
-Above, we create one reply by a specific user instead of just the first
+Above, I create one reply by a specific user instead of just the first
 (`first()`) user, and specify the topic id of a topic that is part of the board
-we want to target (which in this case is the Random board). This looks like the
+I want to target (which in this case is the Random board). This looks like the
 following in the browser:
 
-![Creating a reply by a specific user to specific topic id that is part of the board we want to target](Screenshot-2024-10-05-at-6.30.27-AM.jpg)
+![Creating a reply by a specific user to specific topic id that is part of the board I want to target](Screenshot-2024-10-05-at-6.30.27-AM.webp)
 
 _Creating a reply by a specific user to specific topic id that is part of the
-board we want to target_
+board I want to target_
 
 ## Running python3 manage.py test boards.tests.test_view_topic_posts_tests
 
-Whn I run `python3 manage.py test boards.tests.test_view_topic_posts_tests`, the
-following is returned:
+When I run `python3 manage.py test boards.tests.test_view_topic_posts_tests`, it
+results in:
 
 ```shell
 Found 1 test(s).
@@ -1236,8 +1235,8 @@ from ..views import topic_posts
 ```
 
 Our `topic_posts` view is no longer a function based view called `topic_posts`.
-It's now a generic class based view called `PostListView`. We have already
-updated our URL. we just have to update our tests:
+It's now a generic class based view called `PostListView`. I have already
+updated our URL. I just have to update our tests:
 
 ```python
 from ..views import PostListView
@@ -1246,12 +1245,12 @@ class TopicPostsTests(TestCase):
   ...
   def test_view_function(self):
         view = resolve('/boards/1/topics/1/')
-        self.assertEqual(view.func.view_class, PostListView) # cjanged
+        self.assertEqual(view.func.view_class, PostListView) # changed
 ```
 
 Then when I run
-`python3 manage.py test boards.tests.test_view_topic_posts_tests` again, the
-following is returned:
+`python3 manage.py test boards.tests.test_view_topic_posts_tests` again, it
+responds with:
 
 ```shell
 Found 2 test(s).
@@ -1384,6 +1383,21 @@ Then I added the script tag to `templates/base.html`:
 Now, when I click on a pagination page number, the scrollbar goes to the top of
 the page, but then returns to the bottom.
 
+**Update July 10, 2026:** The code above ended up not working properly. I later
+removed this functionality. Today I found a simple and viable alternative. It is
+the following:
+
+```javascript
+// place at the bottom of /js/app.js -> this file does not exist until part 24 as this change relates to ES Modules
+let paginationBody = document.querySelector('.page-item')
+if (paginationBody) {
+	paginationBody.scrollIntoView()
+}
+```
+
+It is included in the _second_ "code associated with this post" link at the end
+of this post.
+
 ### Adding a scroll top button to templates/base.html
 
 I wanted to make sure that a user would easily be able to get back to the top of
@@ -1439,6 +1453,9 @@ function scrollTop() {
 scrollTopButton.addEventListener('click', scrollTop)
 ```
 
+**Update July 10, 2026:** The `static/js/scroll-top-bottom.js` file's name and
+contents changed in Part 24, where I added ES modules to Django Boards.
+
 ### Adding material icons to templates/base.html
 
 ```django
@@ -1464,7 +1481,7 @@ with the visibility of the logged in user dropdown menu, and its visibility
 would not always serve a purpose. I wanted it to be visible only when it served
 a purpose. So I added the following code in `static/js/scroll-top-bottom.js`:
 
-```js
+```javascript
 // scroll top button disappears after click when scrollY == 0, but it reappears when scrollY is greater than 0 on scroll down.
 document.addEventListener('scroll', function () {
 	const scrollButton = document.querySelector('.scroll.top')
@@ -1489,7 +1506,7 @@ I wanted to make sure that a user would be able to leisurely scroll down the
 page to view various replies to topics, so I added a scroll bottom button to
 `templates/base.html`:
 
-```django_boards
+```django
 <!-- templates/base.html -->
 ...
 {% block body %}
@@ -1526,7 +1543,7 @@ scrollDownButton.addEventListener('pointerdown', scrollStep)
 ### Making the scroll bottom button appear and disappear based on scrollY position
 
 I didn't want the scroll bottom button to always be visible either. There is no
-point in it's always being visible, and it is more interesting if it dynamically
+point in its always being visible, and it is more interesting if it dynamically
 appears and disappears. Just like with the scroll top button, I wanted it to be
 visible only when it served a purpose. So I added the following code in
 `static/js/scroll-top-bottom.js`:
@@ -1553,7 +1570,7 @@ document.addEventListener('scroll', function () {
 button.top {
 	border: none;
 	border: 3px solid transparent;
-	border-radius: 0.5;
+	border-radius: 0.5rem; // rem was not included on remote and should have been
 	display: flex;
 	font-size: 1.5rem;
 	justify-content: space-around;
@@ -1628,7 +1645,8 @@ button.scroll.top i {
 }
 
 button.scroll.bottom i {
-	`margin-bottom: -1rem;
+  // new 7.9.26: a backtick was removed before the m of "margin-bottom". It still appears in the code associated with this post but should be ignored.
+	margin-bottom: -1rem;
 }
 
 .shrink-border {
@@ -1698,7 +1716,6 @@ button.shrink-border:hover::after {
     <div class="w-25 mb-4 mt-3" id="copy-header">
       <a id="copy-button"
          class="btn btn-primary"
-         role="button"
          role="button"
          title="Copy link to this topic to Clipboard">
         <i class="link-icon fa fa-link" aria-hidden="true"></i>
@@ -1790,10 +1807,14 @@ Then I had to add the file to `templates/base.html`:
           crossorigin="anonymous"
           referrerpolicy="no-referrer"></script>
   <script src="{% static 'js/django-boards-pagination.js' %}"></script>
-  <script src="{% static 'js/scroll-top.js' %}"></script>
+  <script src="{% static 'js/scroll-top-bottom.js' %}"></script>
   <script src="{% static 'js/copy-button.js' %}"></script>
 {% endblock javascript %}
 ```
+
+**Update July 10, 2026:** The `static/js/copy-button.js` file's contents changed
+in Part 24, where I added ES modules to Django Boards. There I replaced the
+`static/js/copy-button.js` code with the Clipboard.js library code.
 
 ### The copy link button styling in static/css/app.css
 
@@ -1821,7 +1842,7 @@ Then I had to add the file to `templates/base.html`:
 }
 
 #copy-header #feedback::after {
-	content: copied;
+	content: 'copied';
 	opacity: 1;
 }
 
@@ -1844,7 +1865,7 @@ With all the new buttons that have been recently created with Bootstrap styling,
 the copy link and reply button styling broke! Right now, they look like the
 following:
 
-![Copy link and reply buttons broken styling](Screenshot-2024-10-07-at-1.41.13-PM.jpg)
+![Copy link and reply buttons broken styling](Screenshot-2024-10-07-at-1.41.13-PM.webp)
 
 _Copy link and reply buttons broken styling_
 
@@ -1879,10 +1900,10 @@ First, I made the following changes in `templates/topic_posts.html`:
 There was no need to make any changes in `static/css/app/.css` because the
 styling relies on Bootstrap 5 classes.
 
-Next, I made the following changes in `templates/post_details.html`:
+Next, I made the following changes in `templates/post_detail.html`:
 
 ```django
-</1-- templates/post_details.html -->
+<!-- templates/post_detail.html -->
 ...
 {% block content %}
   ...
@@ -1904,23 +1925,23 @@ the styling relies on Bootstrap 5 classes.
 With these slight changes, the copy link and reply buttons look like the
 following:
 
-![Refactored copy link and reply buttons styling](Screenshot-2024-10-07-at-5.54.55-PM.jpg)
+![Refactored copy link and reply buttons styling](Screenshot-2024-10-07-at-5.54.55-PM.webp)
 
 _Refactored copy link and reply buttons styling_
 
-### Improving on the templates/post_details.html styling
+### Improving on the templates/post_detail.html styling
 
-Right now the `post_details` view styling is a bit off. It looks like the
+Right now the `post_detail` view styling is a bit off. It looks like the
 following:
 
-![Broken post_details view styling](Screenshot-2024-10-07-at-4.58.32-PM.jpg)
+![Broken post_detail view styling](Screenshot-2024-10-07-at-4.58.32-PM.webp)
 
-_Broken post_details view styling_
+_Broken post_detail view styling_
 
-So I added the following to `templates/post-details.html`:
+So I added the following to `templates/post_detail.html`:
 
-```html
-<!-- templates/post-details.html -->
+```django
+<!-- templates/post_detail.html -->
 ... {% block content %}
 <!-- the div below with class="card mb-3" is what I added -->
 <div class="card mb-3">
@@ -1957,11 +1978,11 @@ So I added the following to `templates/post-details.html`:
 {% endblock content %}
 ```
 
-With this little change, the `post-details` view looks much better:
+With this little change, the `post_detail` view looks much better:
 
-![Result of adding div with classes "card mb-3" to post_details view](Screenshot-2024-10-07-at-5.14.42-PM.jpg)
+![Result of adding div with classes "card mb-3" to post_detail view](Screenshot-2024-10-07-at-5.14.42-PM.webp)
 
-_Result of adding div with classes "card mb-3" to post_details view_
+_Result of adding div with classes "card mb-3" to post_detail view_
 
 But the link button is a bit too much to the left. Let's fix that! I added the
 following little tweak to `static/css/app.css`:
@@ -1975,11 +1996,11 @@ following little tweak to `static/css/app.css`:
 }
 ```
 
-Now the `post_details` view looks like the following:
+Now the `post_detail` view looks like the following:
 
-![Result of post-details view fixed styling](Screenshot-2024-10-07-at-5.26.48-PM.jpg)
+![Result of post_detail view fixed styling](Screenshot-2024-10-07-at-5.26.48-PM.webp)
 
-_Result of post-details view fixed styling_
+_Result of post_detail view fixed styling_
 
 ### Fixing the logout button styling
 
@@ -1990,7 +2011,7 @@ changed the logout anchor button to an actual button element, it looks much
 better. However, I want its styling to look like the rest of the logged in user
 dropdown menu. Right now it looks like the following:
 
-![Logout button with default button styling](Screenshot-2024-10-07-at-5.41.00-PM.jpg)
+![Logout button with default button styling](Screenshot-2024-10-07-at-5.41.00-PM.webp)
 
 _Logout button with default button styling_
 
@@ -2025,7 +2046,7 @@ Logout button and added the following CSS to `static/css/app.css`:
 
 _Now_ the Logout button looks like the following:
 
-![Refactored Logout button styling](Screenshot-2024-10-07-at-5.49.10-PM.jpg)
+![Refactored Logout button styling](Screenshot-2024-10-07-at-5.49.10-PM.webp)
 
 _Refactored Logout button styling_
 
@@ -2046,34 +2067,42 @@ boards/tests/test_view_edit_post_tests.py
 
 This was a _personal preference_, and is _entirely optional_.
 
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[d273935](https://github.com/interglobalmedia/django-boards/commit/d273935a9a0d010abb47b5f763d24301e5f91469)
+and
+[6dd8020](https://github.com/interglobalmedia/django-boards/commit/6dd8020f42e49bff1d60d4841efe3976fed8314c).
+
 ## Conclusion
 
 In this section, I experimented with the Python shell to demonstrate how
-pagination works under the hood, I implemented a Generic Class Based View and
+pagination works under the hood. I implemented a Generic Class Based View and
 pagination to the `index/home` view, added Class Based View pagination to the
-topics view and `topic_posts` view, added Bootstrap 5 pagination to the
-associated templates, refactored the associated urls in `urls.py`, and
+topics view and `topic_posts` view, and added Bootstrap 5 pagination to the
+associated templates. I refactored the associated urls in `urls.py`, and
 refactored the associated tests. I also added a copy link button to copy the
-link to a topic's replies (posts), a scroll top and scroll bottom button using
-JavaScript to enable their functionality, and added JavaScript code to make the
-scrollbar return to the bottom of the page when a pagination item (page number)
-is clicked.
+link to a topic's replies (posts). I created a scroll top and scroll bottom
+button using JavaScript to enable their functionality, and added JavaScript code
+to make the scrollbar return to the bottom of the page when a pagination item
+(page number) is clicked.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 - [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
   _mariadcampbell.com_
-- [Introduction to class-based views](#introduction-to-class-based-views):
+- [Introduction to class-based views](https://docs.djangoproject.com/en/5.1/topics/class-based-views/intro/):
   _Django documentation_
-- [Class-based views](#class-based-views): _Django documentation_
+- [Class-based views](https://docs.djangoproject.com/en/5.1/topics/class-based-views/):
+  _Django documentation_
 - [Paginator](https://docs.djangoproject.com/en/5.1/ref/paginator/): _Django
   documentation_
 - [Pagination](https://docs.djangoproject.com/en/5.1/topics/pagination/):
   _Django documentation_
 - [Use Pagination with Django Class-Based Generic ListView](https://www.geeksforgeeks.org/use-pagination-with-django-class-based-generic-listview/):
   _Geeks for Geeks_
-- [Classy Class-Based Views.](https://ccbv.co.uk): _ccbv_
+- [Classy Class-Based Views](https://ccbv.co.uk): _ccbv_
 - [Class Based vs Function Based Views – Which One is Better to Use in Django?](https://www.geeksforgeeks.org/class-based-vs-function-based-views-which-one-is-better-to-use-in-django/):
   _Geeks for Geeks_
 - [Bootstrap Pagination](https://getbootstrap.com/docs/5.0/components/pagination/):
