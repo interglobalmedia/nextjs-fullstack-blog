@@ -1,21 +1,21 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-23
 date: '2024-10-04T10:40:05.054Z'
-lastModified: '2026-05-25T19:44:05.054Z'
+lastModified: '2026-07-10T21:00:05.054Z'
 title: How to create a fullstack application using Django and Python Part 23
 author: 'Maria D. Campbell'
-excerpt: 'In this section, I create a generic class based view called UserUpdateView (My
+excerpt: 'In this section, I created a generic class based view called UserUpdateView (My
 Account view), associated tests, a URL, and template.'
-image: igor-omilaev-rUvFnzl_fmg-unsplash.jpg
+image: igor-omilaev-rUvFnzl_fmg-unsplash.webp
 tags: ['fullstack development', 'macOS', 'django', 'generic class based views', 'python3', 'series', 'tests', 'unittest']
 isPublished: true
 isFeatured: false
 ---
 
-![Social media icons](igor-omilaev-rUvFnzl_fmg-unsplash.jpg)
+![A thumbs up surrounded by social media icons](igor-omilaev-rUvFnzl_fmg-unsplash.webp)
 
-_Photo by_ [Igor Omilaev](https://unsplash.com/@omilaev) **_on_**
-[unsplash.com](https://unsplash.com/photos/a-thumbs-up-in-front-of-a-colorful-background-rUvFnzl_fmg)
+_Photo by [Igor Omilaev](https://unsplash.com/@omilaev) on
+[unsplash.com](https://unsplash.com/photos/a-thumbs-up-in-front-of-a-colorful-background-rUvFnzl_fmg)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -27,16 +27,21 @@ Git.
 ## Table of Contents
 
 - [Creating the (user) My Account view](#creating-the-user-my-account-view)
-    - [Adding the My Account url to django_boards/urls.py](#adding-the-my-account-url-to-django-boards-urlspy)
+    - [Adding the My Account URL to django_boards/urls.py](#adding-the-my-account-url-to-django-boards-urlspy)
     - [Creating templates/my_account.html](#creating-templates-my-accounthtml)
-    - [Updating the My Account url in the logged in user dropdown menu](#updating-the-my-account-url-in-the-logged-in-user-dropdown-menu)
-- [Creating My Accounts tests](#creating-my-accounts-tests)
+    - [Updating the My Account URL in the logged in user dropdown menu](#updating-the-my-account-url-in-the-logged-in-user-dropdown-menu)
+- [Creating My Account tests](#creating-my-account-tests)
     - [Creating accounts/tests/test_view_my_account_tests.py](#creating-accounts-tests-test-view-my-account-testspy)
     - [Running python3 manage.py test accounts.tests.test_view_my_account_tests](#running-python3-managepy-test-accountsteststest-view-my-account-tests)
 - [Running code test coverage to include My Account view tests](#running-code-test-coverage-to-include-my-account-view-tests)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
 
 ## Creating the (user) My Account view
 
@@ -59,7 +64,7 @@ class UserUpdateView(UpdateView):
         return self.request.user
 ```
 
-### Adding the My Account url to django_boards/urls.py
+### Adding the My Account URL to django_boards/urls.py
 
 ```python
 # django_boards/urls.py
@@ -90,7 +95,7 @@ path('account/', accounts_views.UserUpdateView.as_view(), name='my_account'),
 
 Right now, it looks like the following:
 
-![My Account view](Screenshot-2024-10-08-at-8.20.13-AM.jpg)
+![My Account view](Screenshot-2024-10-08-at-8.20.13-AM.webp)
 
 _My Account view_
 
@@ -120,11 +125,11 @@ It is looking a bit "squashed". Let's change that!
 
 _Now_ the My Account view looks like the following:
 
-![Improved My Account view html markup](Screenshot-2024-10-08-at-8.38.23AM.jpg)
+![Improved My Account view html markup](Screenshot-2024-10-08-at-8.38.23AM.webp)
 
 _Improved My Account view html markup_
 
-### Updating the My Account url in the logged in user dropdown menu
+### Updating the My Account URL in the logged in user dropdown menu
 
 ```html
 <!-- templates/base.html -->
@@ -133,7 +138,7 @@ _Improved My Account view html markup_
 </li>
 ```
 
-## Creating My Accounts tests
+## Creating My Account tests
 
 ### Creating accounts/tests/test_view_my_account_tests.py
 
@@ -315,6 +320,11 @@ following is returned:
 | -------------------------------------------- | ----- | ---- | ----- |
 | accounts/tests/test_view_my_account_tests.py | 58    | 0    | 100%  |
 
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[aab2cf7](https://github.com/interglobalmedia/django-boards/commit/aab2cf7f3d5ac0ba0a024d340ceb48a43fcae540).
+
 ## Conclusion
 
 In this section, I created a generic class based view called UserUpdateView (My
@@ -322,7 +332,7 @@ Account view), associated tests, a URL, and template.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 - [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
   _mariadcampbell.com_
 
