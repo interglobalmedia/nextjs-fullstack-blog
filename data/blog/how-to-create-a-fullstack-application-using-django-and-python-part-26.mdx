@@ -1,27 +1,27 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-26
 date: '2024-10-10T11:31:24.237Z'
-lastModified: '2026-07-11T19:42:24.237Z'
+lastModified: '2026-07-11T20:50:24.237Z'
 title: How to create a fullstack application using Django and Python Part 26
 author: Maria D. Campbell
 excerpt:
-    'In this section, I extend the built-in Django User with a Profile model
-containing extra fields, create the Profile model in accounts/models.py,
-extend the User model using a one-to-one relationship with the built-in User,
-add a profile url to accounts.urls.py, moved the account url in boards/urls.py
-to accounts/urls.py, install the pillow package to enable use of the
-ImageField in the Profile model, configure urls.py for user-uploaded media
-files during development, implement signals.py in the accounts app, create an
-update profile form, create a profile.html template, delete existing users pre
-User profile and create new ones, and make styling adjustments to various
+    'In this section, I extended the built-in Django User with a Profile model
+containing extra fields, created the Profile model in accounts/models.py,
+and extended the User model using a one-to-one relationship with the built-in User.
+I added a profile URL to accounts.urls.py, moved the account URL in boards/urls.py
+to accounts/urls.py, and installed the pillow package to enable use of the
+ImageField in the Profile model. I configured urls.py for user-uploaded media
+files during development, implemented signals in the accounts app, and created an
+update profile form. I also created a profile.html template, deleted existing users pre
+User profile and created new ones, and made styling adjustments to various
 templates.'
-image: peter-herrmann-muojltrhwhY-unsplash.jpg
+image: peter-herrmann-muojltrhwhY-unsplash.webp
 tags: ['fullstack development', 'macOS', 'django', 'extended built-in user', 'imagefield', 'one-to-one relationship', 'pillow', 'python3', 'series']
 isPublished: true
 isFeatured: false
 ---
 
-![Attic full of paintings](peter-herrmann-muojltrhwhY-unsplash.jpg)
+![Attic full of paintings](peter-herrmann-muojltrhwhY-unsplash.webp)
 
 _Photo by_ [Peter Herrmann](https://unsplash.com/@tama66) **_on_**
 [unsplash.com](https://unsplash.com/photos/a-room-filled-with-lots-of-framed-pictures-next-to-a-window-muojltrhwhY)
@@ -39,7 +39,7 @@ Git.
     - [Creating the user profile view in accounts/views.py](#creating-the-user-profile-view-in-accounts-viewspy)
     - [Adding a profile url to accounts/urls.py](#adding-a-profile-url-to-accounts-urlspy)
     - [Creating the initial templates/profile.html template](#creating-the-initial-templates-profilehtml-template)
-    - [Extending User Model Using a one-to-one relationship](#extending-user-model-using-a-one-to-one-relationship)
+    - [Extending User model using a one-to-one relationship](#extending-user-model-using-a-one-to-one-relationship)
     - [Creating the profile model in accounts/models.py](#creating-the-profile-model-in-accounts-modelspy)
     - [Installing the pillow package](#installing-the-pillow-package)
     - [Running makemigrations and migrate](#running-makemigrations-and-migrate)
@@ -55,15 +55,15 @@ Git.
     - [Updating the profile view](#updating-the-profile-view)
     - [Adding the templates/users/base.html](#adding-the-templates-users-basehtml)
     - [Updating templates/users/profile.html](#updating-templates-users-profilehtml)
-- [Resizing Images In Django](#resizing-images-in-django)
+- [Resizing images in Django](#resizing-images-in-django)
 - [Why existing users pre the User Profile no longer work](#why-existing-users-pre-the-user-profile-no-longer-work)
     - [Deleting existing users and creating new ones](#deleting-existing-users-and-creating-new-ones)
     - [topics.html after deleting existing users](#topicshtml-after-deleting-existing-users)
     - [Adjusting pagination to make sure it still works](#adjusting-pagination-to-make-sure-it-still-works)
         - [Screenshot of adjusted pagination](#screenshot-of-adjusted-pagination)
 - [Adjusted styling for templates/topic_posts.html (top half view)](#adjusted-styling-for-templates-topic-postshtml-top-half-view)
-- [Adjusted styling for templates/topic_posts.html (bottom half view)](#adjusted-styling-for-templates-topic-postshtml-bottom-half-view)
-    - [First topic post adjusted html markup in topic_posts.html](#first-topic-post-adjusted-html-markup-in-topic-postshtml)
+    - [Adjusted styling for templates/topic_posts.html (bottom half view)](#adjusted-styling-for-templates-topic-postshtml-bottom-half-view)
+    - [First topic post adjusted HTML markup in topic_posts.html](#first-topic-post-adjusted-html-markup-in-topic-postshtml)
     - [Adding light colored borders to the topic post cards in templates/topic_posts.html](#adding-light-colored-borders-to-the-topic-post-cards-in-templates-topic-postshtml)
     - [Adding conditional avatar in topic_posts.html](#adding-conditional-avatar-in-topic-postshtml)
 - [Fixing the broken styling for templates/login.html](#fixing-the-broken-styling-for-templates-loginhtml)
@@ -88,7 +88,7 @@ it all works out in the end.
 
 ## Adding a user profile
 
-We are now going to add a user profile primarily so that users can upload
+I am now going to add a user profile primarily so that users can upload
 `avatars/gravatars` to add to their (newly created) profiles.
 
 ### Creating the user profile view in accounts/views.py
@@ -157,7 +157,7 @@ urlpatterns = [
 {% endblock content %}
 ```
 
-### Extending User Model Using a one-to-one relationship
+### Extending User model using a one-to-one relationship
 
 The user profile will contain a user avatar field and bio field, and the profile
 model will have a one-to-one relationship with the built-in user.
@@ -191,18 +191,18 @@ image to use if a user doesn't upload their own. The second argument,
 
 The bio field is just a `TextField` where user information is stored.
 
-The dunder (double underscore) `str` method converts an object into its string
-representation . We have already used this method in the boards models. It
-enables the display of the username whenever we print out the user profile.
+The dunder (double underscore) `__str__` method converts an object into its
+string representation. I have already used this method in the boards models. It
+enables the display of the username whenever I print out the user profile.
 
 ### Installing the pillow package
 
-Next, we have to install the Python package called `pillow`. Pillow adds image
+Next, I have to install the Python package called `pillow`. Pillow adds image
 processing capabilities to Python interpreters. It provides extensive file
 format support, an efficient internal representation, and fairly powerful image
 processing capabilities.
 
-Django requires us to install this library whenever working with `ImageField`.
+Django requires me to install this library whenever working with `ImageField`.
 
 To install `pillow`, I run the following command:
 
@@ -220,7 +220,7 @@ I already had it installed.
 
 ### Running makemigrations and migrate
 
-Since we created a new model, we have to run `makemigrations` and `migrate`.
+Since I created a new model, I have to run `makemigrations` and `migrate`.
 
 First:
 
@@ -262,9 +262,9 @@ admin.site.register(Profile)
 ```
 
 The above code imports the Profile model, and then calls `admin.site.register`
-to register it. We can login to the admin panel and see the model we created:
+to register it. I can login to the admin panel and see the model I created:
 
-![The Profile model in admin site](Screenshot-2024-10-11-at-5.36.29-AM.jpg)
+![The Profile model in admin site](Screenshot-2024-10-11-at-5.36.29-AM.webp)
 
 The Profile model in admin site
 
@@ -272,17 +272,17 @@ The Profile model in admin site
 
 ## Working with media files in Django
 
-When working with media files in Django, we have to change some settings to
-store files locally and serve them when needed.
+When working with media files in Django, I have to change some settings to store
+files locally and serve them when needed.
 
-Specifically, we need to set `MEDIA_URL` and `MEDIA_ROOT` in `settings.py`.
+Specifically, I need to set `MEDIA_URL` and `MEDIA_ROOT` in `settings.py`.
 
 `MEDIA_ROOT` represents the full path to a directory where uploaded files are
 stored. Typically such files are stored in a directory inside the project's root
 directory.
 
-`MEDIA_URL` represents the base URL which serve media files. This enables us to
-access media via our web browser.
+`MEDIA_URL` represents the base URL which serves media files. This enables me to
+access media via my web browser.
 
 ```python
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -291,8 +291,8 @@ MEDIA_URL = '/media/'
 
 ### Configuring urls.py for user-uploaded media files during development
 
-Now we have to configure the `django_boards/urls.py` to serve user-uploaded
-media files during development (when `debug=True`).
+Now I have to configure the `django_boards/urls.py` to serve user-uploaded media
+files during development (when `debug=True`).
 
 ```python
 from django.conf import settings
@@ -303,17 +303,17 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
-Now we can add files to the media root folder and Django will serve them from
-the media url.
+Now I can add files to the media root folder and Django will serve them from the
+media url.
 
 Profile avatars that users upload will be stored in the
 `/media/profile_images/your_image` path.
 
-Until we configure the frontend where users will upload their images, we can go
-to the admin panel and upload images for registered users to make sure
-everything is working properly.
+Until I configure the frontend where users will upload their images, I can go to
+the admin panel and upload images for registered users to make sure everything
+is working properly.
 
-For now, the only option we have on the backend is from `django-avatar`. When I
+For now, the only option I have on the backend is from `django-avatar`. When I
 upload an image for myself, it is populated for all other users, because they do
 not have any profile images yet. But the upload was successful, and ended up in
 the right directory:
@@ -361,11 +361,11 @@ I changed the `p` tag which wrapped around the posts count to a `div` tag. In
 the `avatar` template tag, `post.created_by` targets the user who created the
 topic post.
 
-"80" represents the* size of the avatar. I already set the avatar size to "80",
-so this is more for demonstration* purposes. But I'll keep it anyway.
+"80" represents the size of the avatar. I already set the avatar size to "80",
+so this is more for demonstration purposes. But I'll keep it anyway.
 
 `class="img-circle img-responsive" id="user_avatar"` is how I can customize the
-avatar styling. the default shape of the avatar is a square, but I wanted to
+avatar styling. The default shape of the avatar is a square, but I wanted to
 change it to a circle, so I added the following to the bottom of
 `static/css/app.css`:
 
@@ -406,10 +406,10 @@ There is the `Receiver`, which is usually a function that works on the data once
 it is notified of some action that has taken place. For example, when a user
 instance is about to be saved to the database.
 
-The connection between the the two is done through “signal dispatchers”.
+The connection between the two is done through 'signal dispatchers'.
 
-So why are we using signals in our case? Using signals will enable us to create
-a profile instance when a new user instance is saved to the database.
+So why am I using signals in my case? Using signals will enable me to create a
+profile instance when a new user instance is saved to the database.
 
 ### Creating accounts/signals.py
 
@@ -446,10 +446,10 @@ for that user.
 
 ### Connecting the receivers to AppConfig's ready method
 
-In order to configure an application, we create an `apps.py` file inside our
-`accounts` app. Then we define a subclass of `AppConfig` there.
+In order to configure an application, I create an `apps.py` file inside my
+`accounts` app. Then I define a subclass of `AppConfig` there.
 
-In `apps.py`, we can include any application configuration for the `accounts`
+In `apps.py`, I can include any application configuration for the `accounts`
 app.
 
 ```python
@@ -467,15 +467,15 @@ class UserConfig(AppConfig):
         import accounts.signals  # noqa
 ```
 
-What we did above is override the `ready()` method of the `accounts` app
+What I did above is to override the `ready()` method of the `accounts` app
 `config` to perform an initialization task to register `signals`.
 
 ## Creating an update profile form
 
-Now we are going to create and display a `form` where users can update their
+Now I am going to create and display a `form` where users can update their
 profile. It will look something like the following:
 
-![Account profile form](account_profile_wireframe.drawio.svg)
+![Account profile form](account_profile_wireframe.drawio.webp)
 
 _Account profile form_
 
@@ -506,7 +506,7 @@ class UpdateProfileForm(forms.ModelForm):
 ```
 
 `UpdateUserForm` interacts with the User model to let users update their
-`username`, `email`, and change their `password`. We already have that set up.
+`username`, `email`, and update their `password`. I already have that set up.
 
 `UpdateProfileForm` interacts with the profile model to let users update their
 profile.
@@ -537,18 +537,18 @@ def profile(request):
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 ```
 
-Basically, the required forms are imported and instances of those forms are
-created depending on whether the request is a GET or POST.
+The required forms are imported and instances of those forms are created
+depending on whether the request is a GET or POST.
 
-If the form is submitted (request is post), we need to pass in the post data to
+If the form is submitted (request is POST), I need to pass in the post data to
 the forms. But for the profile form there is `file/image` data coming in with
-the request. This file data is placed in `request.FILES`, so we need to pass in
+the request. This file data is placed in `request.FILES`, so I need to pass in
 that too.
 
 Then it populates the form fields with the current information of the logged in
 user, for example. The user form expects an instance of a user since it's
-working with the User model, so we use `instance=request.user`. For the profile
-form, we pass in an instance of the profile model by using
+working with the User model, so I use `instance=request.user`. For the profile
+form, I pass in an instance of the profile model by using
 `instance=request.user.profile`.
 
 ### Adding the templates/users/base.html
@@ -733,8 +733,8 @@ form, we pass in an instance of the profile model by using
 This template includes the `profile-avatar` div which contains the profile
 avatar. It extends the `templates/users/base.html` template.
 
-The link for "Change Password" is all set up. We don't need to make any changes
-there. However, we do have to remove the `Change Password` link in the logged in
+The link for "Change Password" is all set up. I don't need to make any changes
+there. However, I do have to remove the `Change Password` link in the logged in
 user dropdown menu in `templates/base.html`:
 
 ```html
@@ -900,27 +900,26 @@ date which updates to the current year every year. I will discuss how I created
 a sticky footer at the end of this section.
 
 As for the Change Password link, the only glitch is that the user has to go
-through updating the password twice. That's because of the way I have
-`validation/validation` errors set up. Either way is not perfect, but I opted
-for the way I have it set up now. The other way was too misleading for the user
-trying to change the password! This is a glitch which already existed before I
-added the extended User Profile.
+through updating the password twice. That's because of the way I have validation
+errors set up. Either way is not perfect, but I opted for the way I have it set
+up now. The other way was too misleading for the user trying to change the
+password! This is a glitch which already existed before I added the extended
+User Profile.
 
-## Resizing Images In Django
+## Resizing images in Django
 
 Saving large images and then showing a scaled/smaller version of it on the
-profile page might cause slow app performance. We can mitigate this problem by
+profile page might cause slow app performance. I can mitigate this problem by
 using `pillow` to resize larger images and override it with the resized/smaller
 image.
 
-In order to save the resized image, we need to override the `save()` method. The
+In order to save the resized image, I need to override the `save()` method. The
 `save()` method is accessible to all models, and is used to save an instance of
 the User model.
 
-We need to override the `save()` method because we want customized save
-behavior.
+I need to override the `save()` method because I want customized save behavior.
 
-We need to add the following to `accounts/models.py`:
+I need to add the following to `accounts/models.py`:
 
 ```python
 ...
@@ -950,9 +949,9 @@ The above code _does the_ following:
 
 Now, if I tried to use an existing user such as django-beginner, djangoguru, or
 even interglobalmedia to create topic posts, change passwords, login, logout,
-etc., an error would be thrown. Why? Because they don't contain the extra fields
-that the Profile model provides. This means that I have to delete all of the
-existing users and recreate new users. and deleting existing users means
+etc., Django would throw an error. Why? Because they don't contain the extra
+fields that the Profile model provides. This means that I have to delete all of
+the existing users and recreate new users. And deleting existing users means
 deleting all associated topic posts. The only things that would remain are the
 boards themselves.
 
@@ -961,10 +960,10 @@ boards themselves.
 When I delete djangoguru, django-beginner, and interglobalmedia, all associated
 topic posts are also deleted. The only things that remain are the boards
 themselves. That is due to the `on_delete=models.CASCADE` argument passed to the
-Post created\*by field which links to a model instance of Post to User. When the
-user is deleted, all associated topic posts are deleted as well.
+Post `created_by` field which links to a model instance of Post to User. When
+the user is deleted, all associated topic posts are deleted as well.
 
-![Boards remain after existing users are deleted](Screenshot-2024-10-11-at-5.46.41-PM.jpg)
+![Boards remain after existing users are deleted](Screenshot-2024-10-11-at-5.46.41-PM.webp)
 
 _Boards remain after existing users are deleted_
 
@@ -973,7 +972,7 @@ Latest Post column.
 
 ### topics.html after deleting existing users
 
-![topics.html after deleting existing users](Screenshot-024-10-11-at-5.55.43-PM.jpg)
+![topics.html after deleting existing users](Screenshot-2024-10-11-at-5.55.43-PM.webp)
 
 _topics.html after deleting existing users_
 
@@ -1027,7 +1026,7 @@ class PostListView(ListView):
 
 ### Screenshot of adjusted pagination
 
-![Adjusted pagination](Screenshot-2024-10-11-at-6.21.36-PM.jpg)
+![Adjusted pagination](Screenshot-2024-10-11-at-6.21.36-PM.webp)
 
 _Adjusted pagination_
 
@@ -1036,7 +1035,7 @@ _Adjusted pagination_
 I made some styling changes to `templates/topic_posts.html`. Now it looks like
 the following:
 
-![Styling changes to topic_posts.html](Screenshot-2024-10-11-at-6.27.17-PM.jpg)
+![Styling changes to topic_posts.html](Screenshot-2024-10-11-at-6.27.17-PM.webp)
 
 _Styling changes to topic_posts.html (top half view)_
 
@@ -1079,11 +1078,11 @@ small {
 
 ### Adjusted styling for templates/topic_posts.html (bottom half view)
 
-![Styling for topic_posts.html (bottom half view)](Screenshot-2024-10-11-at-6.21.36-PM.jpg)
+![Styling for topic_posts.html (bottom half view)](Screenshot-2024-10-11-at-6.21.36-PM.webp)
 
-_Styling for topic_posts.html (bottom half view_
+_Styling for topic_posts.html (bottom half view)_
 
-Below is the associated html markup for the sticky footer in
+Below is the associated HTML markup for the sticky footer in
 `templates/base.html`:
 
 ```django
@@ -1133,7 +1132,7 @@ body {
 }
 ```
 
-### First topic post adjusted html markup in topic_posts.html
+### First topic post adjusted HTML markup in topic_posts.html
 
 ```django
 <!-- topic_posts.html -->
@@ -1152,7 +1151,7 @@ body {
 ### Adding light colored borders to the topic post cards in templates/topic_posts.html
 
 ```css
-/* xtatic/css/app.css */
+/* static/css/app.css */
 /* from: */
 .card-header {
 	margin-bottom: 1rem;
@@ -1180,7 +1179,7 @@ body {
 ### Adding conditional avatar in topic_posts.html
 
 I had to add an `if/else` statement to `topic_posts.html` to render the correct
-user profile now that we have an extended built-in User profile in place:
+user profile now that I have an extended built-in User profile in place:
 
 ```html
 <!-- topic_posts.html -->
@@ -1221,7 +1220,7 @@ Because of various changes and additions that I made to the accounts app, the
 styling for `templates/login.html` broke a bit. Right now it looks like the
 following:
 
-![Broken login page styling](Screenshot-2024-10-11-at-7.38.13-PM.jpg)
+![Broken login page styling](Screenshot-2024-10-11-at-7.38.13-PM.webp)
 
 _Broken login page styling_
 
@@ -1322,7 +1321,7 @@ following:
 {% endblock body %}
 ```
 
-I removed the above _commented out_ html markup. _Now_ `templates/login.html`
+I removed the above _commented out_ HTML markup. _Now_ `templates/login.html`
 _should_ look like the following:
 
 ```django
@@ -1398,7 +1397,7 @@ _should_ look like the following:
 {% endblock body %}
 ```
 
-I removed the commented out html markup. Now `templates/signup.html` should look
+I removed the commented out HTML markup. Now `templates/signup.html` should look
 like the following:
 
 ```django
@@ -1551,7 +1550,7 @@ I had to add
     - css/
       - accounts.css
       - app.css
-      - bootstrip.min.css
+      - bootstrap.min.css
     - img/
       - user_avatar.svg
     - js/
@@ -1607,7 +1606,7 @@ section of this series.
 If you have any questions, you can also reach out to me in Giscus comments at
 the end of any given posts. Simply click on `"Load comments"` at the bottom of a
 post. I will be initiating discussions so that you can do so. Please note that
-you do have to have an account on Github to be able to post comments.
+you do have to have an account on GitHub to be able to post comments.
 
 ## Code associated with this post
 
@@ -1621,13 +1620,13 @@ and
 In this section, I extended the built-in Django User with a Profile model
 containing extra fields, created the Profile model in `accounts/models.py`,
 extended the User model using a one-to-one relationship with the built-in User,
-added a profile url to `accounts.urls.py`, moved the account url in
+added a profile URL to `accounts.urls.py`, moved the account URL in
 `boards/urls.py` to `accounts/urls.py`, installed the `pillow` package to enable
 use of the `ImageField` in the Profile model, configured `urls.py` for
 user-uploaded `media` files during development, implemented `signals` in the
 `accounts` app, created an update profile form, created a `profile.html`
 template, deleted existing users pre User profile and created new ones, and made
-styling adjustments t*o various* templates.
+styling adjustments to various templates.
 
 I couldn't have added image functionality to Django Boards without Hana Belay's
 tutorial series on `dev.to`. I have included links to her Django profile-related
@@ -1639,7 +1638,7 @@ super!
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 - [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
   _mariadcampbell.com_
 - [Django - User Profile](https://dev.to/earthcomfy/django-user-profile-3hik):
@@ -1660,4 +1659,4 @@ super!
 [^1]:
     [djLint](https://www.djlint.com) lints & formats Django HTML templates in VS
     Code. I find it to be an invaluable resource. If you don't already use it,
-    please do check i out!
+    please do check it out!
