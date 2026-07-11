@@ -1,29 +1,24 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-24
 date: '2024-10-08T11:25:41.084Z'
-lastModified: '2026-05-25T22:23:47.084Z'
+lastModified: '2026-07-11T15:29:47.084Z'
 title: How to create a fullstack application using Django and Python Part 24
 author: Maria D. Campbell
 excerpt:
-    'In this section, I add markdown functionality to the Post model, the
-reply_topic.html and topic_posts.html templates, and I implement ES6 modules
-to our JavaScript code. This means refactoring the copy (link) button and
-associated html markup and CSS. I refactor and modularize the scroll top and
-bottom button JavaScript code and associated CSS, modularize the pagination
-behavior JavaScript code, import the ES6 modules into a new file called
-app.js, and add the type="module" attribute to the app.js script tag in
-templates/base.html.'
+    'In this section, I added markdown functionality to the Post model, the
+reply_topic.html and topic_posts.html templates, and I implemented ES6 modules
+to my JavaScript code.'
 tags: ['fullstack development', 'macOS', 'django', 'code refactoring', 'es6 modules', 
 'javascript', 'markdown', 'series']
-image: desola-lanre-ologun-kwzWjTnDPLk-unsplash.jpg
+image: desola-lanre-ologun-kwzWjTnDPLk-unsplash.webp
 isPublished: true
 isFeatured: false
 ---
 
-![](desola-lanre-ologun-kwzWjTnDPLk-unsplash.jpg)
+![A young lady and man checking some code on their computer](desola-lanre-ologun-kwzWjTnDPLk-unsplash.webp)
 
-_Photo by_ [Desola Lanre-Ologun](https://unsplash.com/@disruptxn) **_on_**
-[unsplash.com](https://unsplash.com/photos/man-using-black-laptop-computer-kwzWjTnDPLk)
+_Photo by [Desola Lanre-Ologun](https://unsplash.com/@disruptxn) on
+[unsplash.com](https://unsplash.com/photos/man-using-black-laptop-computer-kwzWjTnDPLk)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -39,32 +34,41 @@ Git.
     - [Adding a new method to the Post model](#adding-a-new-method-to-the-post-model)
     - [Updating templates/topic_posts.html to use markdown](#updating-templates-topic-postshtml-to-use-markdown)
     - [templates/edit_post.html containing markdown](#templates-edit-posthtml-containing-markdown)
-- [Implementing ES6 modules to the JavaScript code](#implementing-es6-modules-to-the-javaScript-code)
+- [Implementing ES6 modules to the JavaScript code](#implementing-es6-modules-to-the-javascript-code)
     - [Refactoring the copy button](#refactoring-the-copy-button)
-        - [The associated html markup in templates/post_detail.html](#the-associated-html-markup-in-templates-post-detailhtml)
-        - [The associated CSS in static/css/app.css](#the-associated-css-in-static-css-appcss)
+- [Adding the clipboard.js script tag to templates/base.html](#adding-the-clipboardjs-script-tag-to-templates-basehtml)
+    - [The associated HTML markup in templates/post_detail.html](#the-associated-html-markup-in-templates-post-detailhtml)
+    - [The associated CSS in static/css/app.css](#the-associated-css-in-static-css-appcss)
     - [Refactoring the scroll top and bottom buttons](#refactoring-the-scroll-top-and-bottom-buttons)
-    - [Modularizing the pagination behavior JavaScript code](#modularizing-the-pagination-behavior-javaScript-code)
+    - [Modularizing the pagination behavior JavaScript code](#modularizing-the-pagination-behavior-javascript-code)
     - [Importing ES6 modules into a new file called app.js](#importing-es6-modules-into-a-new-file-called-appjs)
-    - [Adding the finishing touch to es6 modularization in templates/hase.html](#adding-the-finishing-touch-to-es6-modularization-in-templates-hasehtml)
+    - [Adding the finishing touch to ES6 modularization in templates/base.html](#adding-the-finishing-touch-to-es6-modularization-in-templates-basehtml)
 - [Screenshots of refactored features (except pagination)](#screenshots-of-refactored-features-except-pagination)
     - [Screenshot of the copy link button clicked/on hover](#screenshot-of-the-copy-link-button-clicked-on-hover)
     - [Screenshot of scroll buttons when scrollbar is at bottom of the page](#screenshot-of-scroll-buttons-when-scrollbar-is-at-bottom-of-the-page)
     - [Screenshot of the effect of pressing down on a scroll button](#screenshot-of-the-effect-of-pressing-down-on-a-scroll-button)
     - [Screenshot of what happens to scroll buttons when scrollbar is positioned at top of page](#screenshot-of-what-happens-to-scroll-buttons-when-scrollbar-is-positioned-at-top-of-page)
     - [Screenshot of what happens to scroll buttons when scrollbar is positioned a bit below the top of the page](#screenshot-of-what-happens-to-scroll-buttons-when-scrollbar-is-positioned-a-bit-below-the-top-of-the-page)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
+I wrote this series as a live process, so sometimes it might seem confusing, but
+it all works out in the end.
+
 ## Adding Markdown
 
-Now we are going to add Markdown to the `reply_topic` and `edit_post` views and
+Now I am going to add Markdown to the `reply_topic` and `edit_post` views and
 templates.
 
 ### Installing the markdown app
 
-We have to install the markdown app in our Django Boards application:
+I have to install the markdown app in my Django Boards application:
 
 ```shell
 # run the following from within the directory which contains the venv folder, and make sure that the virtual environment is activated:
@@ -121,24 +125,26 @@ class Post(models.Model):
         return mark_safe(markdown(self.message, safe_mode='escape'))
 ```
 
-We are dealing with user input here, so we have to be careful. When using the
-markdown function, we are telling it to escape special characters first and THEN
-parse the markdown. After that, we mark the output string as safe to be used in
-the template.
+I am dealing with user input here, so I have to be careful. When using the
+markdown function, I am telling it to escape special characters first and THEN
+parse the markdown. After that, I mark the output string as safe to be used in
+the template. However, `mark_safe` marks the output of the Markdown rendering as
+safe for HTML display, so that does not mean that the Markdown input is actually
+safe. Here, I am following what Vitor Freitas did in his Django Boards tutorial.
+My approach to Markdown changes later. I add sanitization.
 
 ### Updating templates/topic_posts.html to use markdown
 
 ```django
 <!-- change {{ post.message }} to: -->
 <!-- {{ post.get_message_as_markdown }} -->
-<div class="post-message">{{ post.get_message_as_markdown }}</div>
 ```
 
-Now we can already use markdown in the topic replies (`topic_posts.html`).
+Now I can already use markdown in the topic replies (`topic_posts.html`).
 
 I added a topic post using markdown syntax, and it resulted in the following:
 
-![Implementing markdown in topic posts](Screenshot-2024-10-08-at-1.18.14-PM.jpg)
+![Implementing markdown in topic posts](Screenshot-2024-10-08-at-1.18.14-PM.webp)
 
 _Implementing markdown in topic posts_
 
@@ -150,11 +156,11 @@ word and a word wrapped in inline code syntax (magenta color).
 The following is what the edit post view looks like with the implementation of
 markdown:
 
-![Post edit view using markdown syntax](Screenshot-2024-10-08-at-1.27.42-PM.jpg)
+![Post edit view using markdown syntax](Screenshot-2024-10-08-at-1.27.42-PM.webp)
 
 _Post edit view using markdown syntax_
 
-I tried to implement the `simpleMDE` text editor to the `reply_topic.html` and
+I tried to implement the `SimpleMDE` text editor to the `reply_topic.html` and
 `edit_post.html` templates, but it broke everything on the page. After some
 investigation, I found out that it does not work with Django 5. No problem! I
 write markdown here directly into files without a "markdown editor", so I have
@@ -166,14 +172,14 @@ will share it in a post.
 As a JavaScript developer, one of my pet peeves is to modularize my JavaScript
 code to avoid all sorts of collisions, especially global naming and code
 collisions. I was already starting to feel oncoming issues because of all the
-JavaScript I had already added to the project. And we are also using two third
-party JavaScript libraries from Bootstrap that could cause conflicts. There is
-much to refactor, but in the end, the code will be slimmer and easy to modify if
-needed or desired.
+JavaScript I had already added to the project. And I am also using two
+third-party JavaScript libraries from Bootstrap that could cause conflicts.
+There is much to refactor, but in the end, the code will be slimmer and easy to
+modify if needed or desired.
 
 ### Refactoring the copy button
 
-Right now, the copy button code contains the following:
+The copy button code contains the following:
 
 ```javascript
 // static/js/copy-button.js
@@ -247,8 +253,7 @@ export const copyButton = new Clipboard('.copy-button', {
 })
 ```
 
-Right now the associated html markup in `templates/topic_posts.html` is the
-following:
+The associated html markup in `templates/topic_posts.html` consists of:
 
 ```django
 <!-- templates/topic_posts.html -->
@@ -269,7 +274,7 @@ following:
 </div>
 ```
 
-The only thing we don't need is the `div` element with the `id` of `"feedback"`,
+The only thing I don't need is the `div` element with the `id` of `"feedback"`,
 so the associated markup should look like the following instead:
 
 ```django
@@ -302,12 +307,12 @@ so the associated markup should look like the following instead:
 ></script>
 ```
 
-**Note 10.10.24**: I inadvertently removed the Popper script tag from the script
-tags in` templates/base.html`, but will be adding it back and pushing the change
-to GitHub momentarily. All the script tags are included at the end of this post
-when I add the `app.js` file. Sorry for this inconvenience!
+**Note October 10, 2024**: I inadvertently removed the Popper script tag from
+the script tags in` templates/base.html`, but will be adding it back and pushing
+the change to GitHub momentarily. All the script tags are included at the end of
+this post when I add the `app.js` file. Sorry for this inconvenience!
 
-### The associated html markup in templates/post_detail.html
+### The associated HTML markup in templates/post_detail.html
 
 ```django
 <!-- templates/post_detail.html -->
@@ -322,8 +327,8 @@ when I add the `app.js` file. Sorry for this inconvenience!
 </div>
 ```
 
-Again, we don't need the `div` element with the `id` of `"feedback"`, so the
-associated html markup should look like the following instead:
+Again, I don't need the `div` element with the `id` of `"feedback"`, so the
+associated HTML markup should look like the following instead:
 
 ```django
 <!-- templates/post_detail.html -->
@@ -365,7 +370,7 @@ associated html markup should look like the following instead:
 }
 
 #copy-header #feedback::after {
-	content: copied;
+	content: 'copied';
 	opacity: 1;
 }
 
@@ -382,7 +387,7 @@ associated html markup should look like the following instead:
 }
 ```
 
-When I made the changes to the JavaScript and the html markup, the associated
+When I made the changes to the JavaScript and the HTML markup, the associated
 CSS became the following:
 
 ```css
@@ -427,8 +432,8 @@ CSS became the following:
 ### Refactoring the scroll top and bottom buttons
 
 There is not much to do with these buttons, except that they have to be placed
-in their own JavaScript file. Right now the code for both resides in a file
-called `scroll-top-bottom.js`, and it contains the following:
+in their own JavaScript file. At present, the code for both resides in a file
+called `scroll-top-bottom.js`, and it consists of:
 
 ```javascript
 // static/js/scroll-top-bottom.js
@@ -551,7 +556,7 @@ scrollDownButton.addEventListener('pointerdown', scrollStep)
 
 Since I added JavaScript for showing and hiding the scroll top and bottom
 buttons depending on the scrollY position, I had to make sure that the CSS did
-it's part. Right now it looks like the following:
+its part. Presently, it looks like the following:
 
 ```css
 /* static/css/app.css */
@@ -559,7 +564,7 @@ it's part. Right now it looks like the following:
 button.top {
 	border: none;
 	border: 3px solid transparent;
-	border-radius: 0.5;
+	border-radius: 0.5rem;
 	display: flex;
 	font-size: 1.5rem;
 	justify-content: space-around;
@@ -703,7 +708,7 @@ associated CSS looks like the following:
 button.top {
 	border: none;
 	border: 3px solid transparent;
-	border-radius: 0.5;
+	border-radius: 0.5rem;
 	font-size: 1.5rem;
 	outline: none;
 	position: fixed;
@@ -837,6 +842,10 @@ button.shrink-border:hover::after {
 }
 ```
 
+**Update July 10, 2026:** The `static/js/scroll-top-bottom.js` file's name and
+contents changed in Part 27, where I remove the scrolldown button and refactor
+the scrolltop button.
+
 ### Modularizing the pagination behavior JavaScript code
 
 ```javascript
@@ -858,7 +867,7 @@ function paginationScrollBehavior() {
 export default paginationScrollBehavior
 ```
 
-Now the structure and contents of the `static/js` directory looks like the
+Now the structure and contents of the `static/js` directory look like the
 following:
 
 ```shell
@@ -866,7 +875,7 @@ following:
   - js/
     - copy-button.js
     - django-boards-pagination.js
-    - scroll-top-bottom.ks
+    - scroll-top-bottom.js
     - visibility-bottom.js
     - visibility-top.js
 ```
@@ -907,9 +916,29 @@ function as the value of a variable. As for the scroll top and bottom buttons,
 they are triggered when clicked, so I set `addEventListeners` on them as
 indicated above.
 
-### Adding the finishing touch to es6 modularization in templates/hase.html
+**Update July 11, 2026:** `const copyButtonInit = copyButton()` is incorrect —
+`new Clipboard(...)` returns an object instance, not a function, so calling it
+throws a TypeError. In practice this doesn't break the page: `copy-button.js`
+and `scroll-top-bottom.js` both do their real setup (instantiating Clipboard,
+attaching the scroll-button listeners) as side effects when the modules are
+imported, before this line ever runs, so nothing visibly stops working — you'd
+just see the error in the console. I remove the pagination and visibility-toggle
+code from app.js in commit
+[3d9982a](https://github.com/interglobalmedia/django-boards/commit/3d9982a0bea20d2d95992a54ba5551da74cfcb8d)
+dated November 6, 2024, but `copyButtonInit` itself carries over unfixed — it's
+just moved to the bottom of the file.
 
-In order to make ES6 modules actually work in our Django Boards website, we have
+`querySelector('.page-link', function(e){...}) (django-boards-pagination.js)` in
+`./django-boards-pagination.js` ignores its second argument, so
+`preventDefault()` never fires, and the function auto-scrolls to the first
+`.page-link` on page load rather than on click. The `3d9982a` commit resolves
+the pagination issue by removing the code entirely. I wrote this series as a
+live process, so sometimes it might seem confusing, but it all works out in the
+end.
+
+### Adding the finishing touch to ES6 modularization in templates/base.html
+
+In order to make ES6 modules actually work in my Django Boards website, I have
 to do the following in `templates/base.html`:
 
 ```django
@@ -934,7 +963,7 @@ to do the following in `templates/base.html`:
 {% endblock javascript %}
 ```
 
-That is it as far as `es6 modularization` goes of non-third party JavaScript
+That is it as far as `ES6 modularization` goes of non-third-party JavaScript
 code. I have included a very good article entitled
 `"A Practical guide to ES6 modules"` under Related Resources if you want to
 learn more about `ES6 modules` and why they are so important.
@@ -943,13 +972,13 @@ learn more about `ES6 modules` and why they are so important.
 
 ### Screenshot of the copy link button clicked/on hover
 
-![copy link button clicked/on hover](Screenshot-2024-10-10-at-5.22.59-AM.jpg)
+![copy link button clicked/on hover](Screenshot-2024-10-10-at-5.22.59-AM.webp)
 
 _copy link button clicked/on hover_
 
 ### Screenshot of scroll buttons when scrollbar is at bottom of the page
 
-![Scroll buttons when scrollbar is at bottom of the page](Screenshot-2024-10-10-at-3.25.34-AM.jpg)
+![Scroll buttons when scrollbar is at bottom of the page](Screenshot-2024-10-10-at-3.25.34-AM.webp)
 
 _Scroll buttons when scrollbar is at bottom of the page_
 
@@ -957,7 +986,7 @@ Take note of the position of the scrollbar.
 
 ### Screenshot of the effect of pressing down on a scroll button
 
-![The effect of pressing down on a scroll button](Screenshot-2024-10-10-at-3.26.33-AM.jpg)
+![The effect of pressing down on a scroll button](Screenshot-2024-10-10-at-3.26.33-AM.webp)
 
 _The effect of pressing down on a scroll button_
 
@@ -965,7 +994,7 @@ Take note of the position of the scrollbar.
 
 ### Screenshot of what happens to scroll buttons when scrollbar is positioned at top of page
 
-![When scrollbar is positioned at top of page](Screenshot-2024-10-10-at-3.26.49-AM.jpg)
+![When scrollbar is positioned at top of page](Screenshot-2024-10-10-at-3.26.49-AM.webp)
 
 _When scrollbar is positioned at top of page_
 
@@ -973,32 +1002,38 @@ Take note of the position of the scrollbar.
 
 ### Screenshot of what happens to scroll buttons when scrollbar is positioned a bit below the top of the page
 
-![When scrollbar is positioned a bit below the top of the page](Screenshot-2024-10-10-at-3.26.58-AM.jpg)
+![When scrollbar is positioned a bit below the top of the page](Screenshot-2024-10-10-at-3.26.58-AM.webp)
 
 _When scrollbar is positioned a bit below the top of the page_
 
 As for Bootstrap pagination, you can see it in action for yourself.
 
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[2dcc0f0](https://github.com/interglobalmedia/django-boards/commit/2dcc0f0297477e2d34a3dffe9c0d09b390529617).
+
 ## Conclusion
 
 In this section, I added markdown functionality to the Post model, the
 `reply_topic.html` and `topic_posts.html` templates, and I implemented ES6
-modules to our JavaScript code. This meant refactoring the copy (link) button
-and associated html markup and CSS. I refactored and modularized the scroll top
-and bottom button JavaScript code and associated CSS, modularized the pagination
+modules to my JavaScript code. This meant refactoring the copy (link) button and
+associated HTML markup and CSS. I refactored and modularized the scroll top and
+bottom button JavaScript code and associated CSS, modularized the pagination
 behavior JavaScript code, imported the ES6 modules into a new file called
 `app.js`, and added the `type="module"` attribute to the `app.js` script tag in
 `templates/base.html`.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 - [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
   _mariadcampbell.com_
 - [Python-Markdown](https://python-markdown.github.io)
 - [A Practical guide to ES6 modules](https://www.freecodecamp.org/news/how-to-use-es6-modules-and-why-theyre-important-a9b20b480773/):
   _by Dler Ari, freecodecamp.org_
 - [clipboard.js](https://clipboardjs.com)
+- [Security in Django](https://docs.djangoproject.com/en/5.1/topics/security/)
 
 ## Related Posts
 

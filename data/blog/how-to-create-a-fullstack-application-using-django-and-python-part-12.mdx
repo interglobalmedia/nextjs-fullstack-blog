@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-12
 date: '2024-09-11T14:40:09.958Z'
-lastModified: '2026-07-06T00:57:09.958Z'
+lastModified: '2026-07-11T15:01:09.958Z'
 title: How to create a fullstack application using Django and Python Part 12
 author: 'Maria D. Campbell'
 excerpt:
@@ -48,6 +48,7 @@ Git.
     - [Writing the test for linking back to the index/home page from the single Board page](#writing-the-test-for-linking-back-to-the-index-home-page-from-the-single-board-page)
     - [Updating topics.html so test will pass](#updating-topicshtml-so-test-will-pass)
     - [Re-running python3 manage.py test](#re-running-python3-managepy-test)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
@@ -55,6 +56,9 @@ Git.
 **Update (July 2026):** This walkthrough was written against Django 5.1, which
 reached full end-of-life in December 2025 and is no longer receiving security
 patches. Run `python -m django --version` to check which version you have.
+
+I wrote this series as a live process, so sometimes it might seem confusing, but
+it all works out in the end.
 
 ## Adding the IndexTests class to boards/tests.py
 
@@ -374,6 +378,11 @@ Now the single Board page links back to the `index/home` page:
 ![Single Board page links back to index/home page](Screenshot-2024-09-1-at-1.57.35-PM.webp)
 
 _Single Board page links back to index/home page_
+
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[01ba9fc](https://github.com/interglobalmedia/django-boards/commit/01ba9fc3c53ad323f7f6c6d01c6f6aabe36a2a8d).
 
 ## Conclusion
 
