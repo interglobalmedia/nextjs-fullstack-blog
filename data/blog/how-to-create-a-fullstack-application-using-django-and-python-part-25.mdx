@@ -1,23 +1,23 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-25
 date: '2024-10-08T15:08:47.216Z'
-lastModified: '2026-05-25T22:34:47.216Z'
+lastModified: '2026-07-11T19:39:47.216Z'
 title: How to create a fullstack application using Django and Python Part 25
 author: Maria D. Campbell
 excerpt:
-    'In this section, I add the Humanize package to our templates/topics.html,
-add the Gravatar package for user gravatars, and add the django-avatar
+    'In this section, I added the Humanize package to my templates/topics.html,
+added the Gravatar package for user gravatars, and added the django-avatar
 package for automatic implementation of a user avatar when one is absent.'
-image: oliver-sharp-0pUU4NIJuuw-unsplash.jpg
+image: oliver-sharp-0pUU4NIJuuw-unsplash.webp
 tags: ['fullstack development', 'macOS', 'django', 'django-avatar', 'gravatar', 'humanize', 'python3', 'series']
 isPublished: true
 isFeatured: false
 ---
 
-![Toy avatar in the grass](oliver-sharp-0pUU4NIJuuw-unsplash.jpg)
+![Toy avatar in the grass](oliver-sharp-0pUU4NIJuuw-unsplash.webp)
 
-_Photo by_ [Oliver Sharp](https://unsplash.com/@thechickennugget) **_on_**
-[unsplash.com](https://unsplash.com/photos/a-toy-is-sitting-in-the-grass-with-a-toy-gun-0pUU4NIJuuw)
+_Photo by [Oliver Sharp](https://unsplash.com/@thechickennugget) on
+[unsplash.com](https://unsplash.com/photos/a-toy-is-sitting-in-the-grass-with-a-toy-gun-0pUU4NIJuuw)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -36,37 +36,35 @@ Git.
 - [Installing the django-avatar package](#installing-the-django-avatar-package)
     - [Adding django-avatar to django_boards/settings.py](#adding-django-avatar-to-django-boards-settingspy)
     - [Migrating the database](#migrating-the-database)
-    - [The default directory for django avatars](#the-default-directory-for-django-avatars)
+    - [The default directory for django-avatar](#the-default-directory-for-django-avatar)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 - [Footnotes](#footnotes)
 
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
+I wrote this series as a live process, so sometimes it might seem confusing, but
+it all works out in the end.
+
 ## Adding Humanize
 
-In this section, we are going to add the Humanize package to our Django project.
-The humanize package contains various common humanization utilities, like
+In this section, I am going to add the Humanize package to my Django project.
+The Humanize package contains various common humanization utilities, like
 turning a number into a fuzzy human-readable duration ("3 minutes ago") or into
 a human-readable size or throughput[^1].
 
-Humanize is still a built-in package, but we have to use the following command
-in order to install the latest version and make it work properly:
+Since Humanize is a built-in package, the only way to upgrade to its latest
+version is by upgrading to the latest version of Django:
 
 ```shell
-python3 -m pip install --upgrade humanize
+python -m pip install -U Django
 ```
 
-Which returns the following in Terminal:
-
-```shell
-Collecting humanize
-Downloading humanize-4.11.0-py3-none-any.whl.metadata (7.8 kB)
-Downloading humanize-4.11.0-py3-none-any.whl (128 kB)
-Installing collected packages: humanize
-Successfully installed humanize-4.11.0
-```
-
-Next, I add `homanize` to `INSTALLED_APPS` in `django_boards/settings.py`:
+Next, I add `humanize` to `INSTALLED_APPS` in `django_boards/settings.py`:
 
 ```python
 # settings.py
@@ -77,7 +75,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize',
+    'django.contrib.humanize', # added
     'boards',
     'accounts',
     'dotenv',
@@ -90,18 +88,17 @@ INSTALLED_APPS = [
     'bs4',
     'html5lib',
     'markdown',
-    'humanize',
 ]
 ```
 
-Now we can use it in the templates.
+Now I can use it in the templates.
 
 ### Adding Humanize `naturaltime` to `templates/topics.html`
 
 ```django
 <!-- templates/topics.html -->
 {% extends "base.html" %} {% load humanize %}
-<!--must be added AFTER  b otherwise the package will not work -->
+<!--must be added AFTER base.html otherwise the package will not work -->
 {% load humanize %}
 ...
 <table class="table">
@@ -137,7 +134,7 @@ to just stick with it here for now.
 
 ## Adding a Gravatar
 
-Now we are going to add [Gravatar](https://gravatar.com). `Gravatar` is an easy
+Now I am going to add [Gravatar](https://gravatar.com). `Gravatar` is an easy
 way to add user profile pictures. I used to use it a lot in my WordPress sites.
 
 ### Creating boards/templatetags/gravatar.py
@@ -146,10 +143,8 @@ way to add user profile pictures. I used to use it a lot in my WordPress sites.
 # boards/templatetags/gravatar.py
 import hashlib
 from urllib.parse import urlencode
-
 from django import template
 from django.utils.safestring import mark_safe
-from django.conf import settings
 
 register = template.Library()
 
@@ -168,16 +163,16 @@ def gravatar_url(user):
 @register.filter
 def gravatar(user):
     url = gravatar_url(user)
-    return mark_safe(f'')
+    return mark_safe(f'<img src="{url}" alt="User Avatar" width="40" height="40" />')
 ```
 
 This (updated) code is taken from the
 [Gravatar Django documentation](https://docs.gravatar.com/api/avatars/django/)
-and adapted to our project.
+and adapted to my project.
 
 ### Adding Gravatar functionality to templates/topic_posts.html
 
-```html
+```django
 {% extends "base.html" %} {% load gravatar %} ...
 ```
 
@@ -186,13 +181,13 @@ gravatars.
 
 ## Installing the django-avatar package
 
-Next, we are going to install the `django-avatar` package. It has the ability to
+Next, I am going to install the `django-avatar` package. It has the ability to
 default to avatars provided by third party services (like Gravatar or Facebook)
 if no avatar is found for a certain user. `django-avatar` automatically
 generates thumbnails and stores them to your default file storage backend for
 retrieval later.
 
-To install `django-avatar`, we need to run the following command:
+To install `django-avatar`, I need to run the following command:
 
 ```shell
 pip install django-avatar
@@ -267,44 +262,46 @@ Running migrations:
   Applying avatar.0003_auto_20170827_1345... OK
 ```
 
-### The default directory for django avatars
+### The default directory for django-avatar
 
 The default directory for `django-avatar` is "avatars", and the structure and
-contents of that directory is the following:
+contents of that directory are the following:
 
 ```shell
 - django_boards/
   ...
   - avatars/<user_id>
-    - <user_id>/
       - resized/
         - 80/
-          - 10551051-copy.png
-          - 10551051.png
+          - 80/
+            - 10551051-copy.png
+            - 10551051.png
       - 10551051-copy.jpeg
       - 10551051.jpg
-
 ```
 
 There is much more to do regarding user `avatars/gravatars`. In the next
-section, we will add a profile model, view, and template, and will add the
-functionality for uploading a `gravatar/avatar` locally_as well as wrapping up a
-few minor details relating to the `last_update` field for a post, further
+section, I will add a profile model, view, and template, and will add the
+functionality for uploading a `gravatar/avatar` locally _as well as_ wrapping up
+a few minor details relating to the `last_update` field for a post, further
 pagination tweaks, and updating the `test_view_reply_topic_tests`.
+
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[be40ecc](https://github.com/interglobalmedia/django-boards/commit/be40ecc83cb7670c8959f9f5cd354d674ee0ad31).
 
 ## Conclusion
 
-In this section, I _added_ the `Humanize` package to our
-`templates/topics.html`, added the `Gravatar` package for user gravatars, and
-added the `django-avatar` package for automatic implementation of a user avatar
-when one is absent.
+In this section, I _added_ the `Humanize` package to my `templates/topics.html`,
+added the `Gravatar` package for user gravatars, and added the `django-avatar`
+package for automatic implementation of a user avatar when one is absent.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 - [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
   _mariadcampbell.com_
-- [humanize repository on GitHub](https://github.com/python-humanize/humanize?tab=readme-ov-file)
 - [django.contrib.humanize](https://docs.djangoproject.com/en/5.1/ref/contrib/humanize/):
   _Django documentation_
 - [gravatar.com](https://gravatar.com)
