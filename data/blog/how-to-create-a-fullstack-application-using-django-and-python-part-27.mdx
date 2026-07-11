@@ -1,25 +1,25 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-27'
 date: '2024-10-10T18:05:29.659Z'
-lastModified: '2026-05-25T02:57:29.659Z'
+lastModified: '2026-07-11T23:22:29.659Z'
 title: 'How to create a fullstack application using Django and Python Part 27'
 author: 'Maria D. Campbell'
 excerpt:
-    'In this section, I make some adjustments to existing functionalities, sanitize our Markdown, add code formatting and
-highlighting to our Markdown, create tests for the ProfileListView, protected
-function based profile view, and profile_detail view, update
-accounts/tests/test_form_signup_test.py, fix the topic posts avatar issue, and
-explain the extended profile functionality.'
-image: kevin-grieve-_o4BOXMXN2M-unsplash.jpg
-tags: ['fullstack development', 'macOS', 'django', 'python3', 'code refactoring', 'markdown', 'nh3', 'sanitization', 'fenced code', 'code highlighting', 'pygments',  'series', 'tests', 'unittest']
+    "In this section, I made some adjustments to existing functionalities, sanitized my Markdown, and added code formatting and
+highlighting to my Markdown. I created tests for the ProfileListView, protected
+function based profile view, and profile_detail view. I updated
+accounts/tests/test_form_signup_test.py, fixed the topic posts avatar issue, and
+explained the extended profile functionality."
+image: kevin-grieve-_o4BOXMXN2M-unsplash.webp
+tags: ['fullstack development', 'macOS', 'bootstrap', 'django', 'python3', 'code refactoring', 'markdown', 'nh3', 'sanitization', 'fenced code', 'code highlighting', 'pygments', 'series', 'tests', 'unittest']
 isPublished: true
 isFeatured: false
 ---
 
-![Sanitizing station](kevin-grieve-_o4BOXMXN2M-unsplash.jpg)
+![Sanitizing station](kevin-grieve-_o4BOXMXN2M-unsplash.webp)
 
-_Photo by_ [Kevin Grieve](https://unsplash.com/@grievek1610begur) _on_
-[unsplash.com](https://unsplash.com/photos/man-in-blue-shirt-holding-white-and-black-no-smoking-sign-_o4BOXMXN2M)
+_Photo by [Kevin Grieve](https://unsplash.com/@grievek1610begur) on
+[unsplash.com](https://unsplash.com/photos/man-in-blue-shirt-holding-white-and-black-no-smoking-sign-_o4BOXMXN2M)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -32,15 +32,15 @@ Git.
 
 - [Some further adjustments](#some-further-adjustments)
     - [Adding timezone.now() to templates/reply_topic view](#adding-timezonenow-to-templates-reply-topic-view)
-    - [Better controlling the view count in templates/index.html](#better-controlling-the-view-count-in-templates-indexhtml)
+- [Better controlling the view count in templates/index.html](#better-controlling-the-view-count-in-templates-indexhtml)
     - [Refactoring templates/topics.html to match changes in boards/views.py](#refactoring-templates-topicshtml-to-match-changes-in-boards-viewspy)
     - [Adding the table-striped class to templates/index.html](#adding-the-table-striped-class-to-templates-indexhtml)
-    - [Reversing the created_by default behavior in templates/topic_posts.html](#reversing-the-created-by-default-behavior-in-templates-topic-postshtml)
+- [Reversing the created_by default behavior in templates/topic_posts.html](#reversing-the-created-by-default-behavior-in-templates-topic-postshtml)
 - [Limiting replies to last 10 posts on templates/reply_topic.html](#limiting-replies-to-last-10-posts-on-templates-reply-topichtml)
     - [Updating templates/reply_topic.html to limit the number of replies to 10](#updating-templates-reply-topichtml-to-limit-the-number-of-replies-to-10)
     - [Redirecting the user to the last topic posts page instead of the first](#redirecting-the-user-to-the-last-topic-posts-page-instead-of-the-first)
     - [Updating the reply_topic view to add the redirection to last page functionality](#updating-the-reply-topic-view-to-add-the-redirection-to-last-page-functionality)
-- [Updating boards/tests/test_view_reply_topic.py](#updating-boards-tests-test-view-reply-topicpy)
+- [Updating boards/tests/test_view_reply_topic_tests.py](#updating-boards-tests-test-view-reply-topic-testspy)
 - [Creating a test for the extended user profile](#creating-a-test-for-the-extended-user-profile)
     - [Creating a test for the UpdateProfileForm](#creating-a-test-for-the-updateprofileform)
     - [Creating tests for the profile view](#creating-tests-for-the-profile-view)
@@ -60,25 +60,33 @@ Git.
     - [Replacing the original scroll buttons markup with the scroll-button.html include](#replacing-the-original-scroll-buttons-markup-with-the-scroll-buttonhtml-include)
     - [Refactored JavaScript for the scrolltop button](#refactored-javascript-for-the-scrolltop-button)
     - [Customized CSS for the scrolltop button](#customized-css-for-the-scrolltop-button)
-- [Moving the footer html markup into a footer.html include](#moving-the-footer-html-markup-into-a-footerhtml-include)
+- [Moving the footer HTML markup into a footer.html include](#moving-the-footer-html-markup-into-a-footerhtml-include)
     - [Replacing the original footer markup with the new footer.html include in base.html](#replacing-the-original-footer-markup-with-the-new-footerhtml-include-in-basehtml)
     - [Replacing the original footer markup with the new footer.html include in base_profile.html](#replacing-the-original-footer-markup-with-the-new-footerhtml-include-in-base-profilehtml)
-- [Sanitizing our Markdown](#sanitizing-our-markdown)
+- [Sanitizing my Markdown](#sanitizing-my-markdown)
     - [super().to_python(value)](#superto-pythonvalue)
     - [to_python(value)](#to-pythonvalue)
     - [Why super().to_python(value)?](#why-superto-pythonvalue)
     - [What a form instance does](#what-a-form-instance-does)
-- [Adding code formatting and highlighting to our Markdown](#adding-code-formatting-and-highlighting-to-our-markdown)
+- [Adding code formatting and highlighting to my Markdown](#adding-code-formatting-and-highlighting-to-my-markdown)
 - [Creating tests for the ProfileListView](#creating-tests-for-the-profilelistview)
 - [Creating tests for the protected function based profile view](#creating-tests-for-the-protected-function-based-profile-view)
 - [Creating tests for the profile_detail view](#creating-tests-for-the-profile-detail-view)
 - [Updating accounts/tests/test_form_signup_test.py](#updating-accounts-tests-test-form-signup-testpy)
 - [Fixing the topic posts avatar issue](#fixing-the-topic-posts-avatar-issue)
 - [The extended profile functionality](#the-extended-profile-functionality)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Footnotes](#footnotes)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
+I wrote this series as a live process, so sometimes it might seem confusing, but
+it all works out in the end.
 
 ## Some further adjustments
 
@@ -109,7 +117,7 @@ def reply_topic(request, pk, topic_pk):
 
 With these changes, the Latest Update is actually updated in `topics.html`:
 
-![Latest Update in topics.html fixed](Screenshot-24-10-12-at-10.12.08-AM.jpg)
+![Latest Update in topics.html fixed](Screenshot-2024-10-12-at-10.12.08-AM.webp)
 
 _Latest Update in topics.html fixed_
 
@@ -142,7 +150,7 @@ class PostListView(ListView):
 
 These changes will provide better navigation in `templates/topics.html`. Right
 now the user can only click on the topic title and go to the first page of its
-topic posts. We can do the following to better the user experience:
+topic posts. I can do the following to better the user experience:
 
 ```python
 # boards/models.py
@@ -249,12 +257,12 @@ The page numbers have to match.
 </table>
 ```
 
-Here, we added a `table-striped` class to the `table` element, which looks
-really nice, and we added "mini pagination" to the topic's topic posts. This
-way, the user can go to other topic posts pages other than just the first. Now
+Here, I added a `table-striped` class to the `table` element, which looks really
+nice, and I added "mini pagination" to the topic's topic posts. This way, the
+user can go to other topic posts pages other than just the first. Now
 `templates/topics.html` looks like the following:
 
-![Updated templates/topics.html](Screenshot-2024-10-12-at-10.41.12-AM.jpg)
+![Updated templates/topics.html](Screenshot-2024-10-12-at-10.41.12-AM.webp)
 
 _Updated templates/topics.html_
 
@@ -332,19 +340,19 @@ recently created post first, and the first created post last.
 
 _Now_ `templates/topic_posts.html` _looks like_ the following:
 
-![Topic posts in descending oder](Screenshot-2024-10-13-at-7.18.59-PM.jpg)
+![Topic posts in descending order](Screenshot-2024-10-13-at-7.18.59-PM.webp)
 
-_Topic posts in descending oder_
+_Topic posts in descending order_
 
 ## Limiting replies to last 10 posts on templates/reply_topic.html
 
 Right now all topic replies are listed on the `reply_topic.html` page:
 
-![Current reply_topic.html containing all replies to a viewed_topic](Screenshot-2024-10-12-at-10.49.35-AM.jpg)
+![Current reply_topic.html containing all replies to a viewed_topic](Screenshot-2024-10-12-at-10.49.35-AM.webp)
 
 _Current reply_topic.html containing all replies to a viewed_topic_
 
-Now we are going to limit the replies to the last 10:
+Now I am going to limit the replies to the last 10:
 
 ```python
 # boards/models.py
@@ -381,7 +389,7 @@ class Topic(models.Model):
 ### Redirecting the user to the last topic posts page instead of the first
 
 To enable user redirection to the last topic posts page instead of the first
-after they submit their reply, we could add an id to the post card:
+after they submit their reply, I could add an id to the post card:
 
 ```django
 <!-- templates/topic_posts.html -->
@@ -476,10 +484,10 @@ def reply_topic(request, pk, topic_pk):
     return render(request, 'reply_topic.html', {'topic': topic, 'form': form})
 ```
 
-## Updating boards/tests/test_view_reply_topic.py
+## Updating boards/tests/test_view_reply_topic_tests.py
 
 ```python
-# boards/tests/test_view_reply_topic.py
+# boards/tests/test_view_reply_topic_tests.py
 class SuccessfulReplyTopicTests(ReplyTopicTestCase):
   ...
   def test_redirection(self):
@@ -507,8 +515,8 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-This new test checks for our redirect to the last topic post page after the user
-submits their reply. Since the test passed, it means that our redirection took
+This new test checks for my redirect to the last topic post page after the user
+submits their reply. Since the test passed, it means that my redirection took
 the user to the expected (last) topic post page. I also checked it by creating a
 new reply, and it worked as expected!
 
@@ -679,7 +687,7 @@ The tests pass!
 ## Creating tests for the profile signals
 
 ```python
-# accounts/test/signals.tests.py
+# accounts/tests/test_signals_tests.py
 from django.test import TestCase
 from ..signals import create_profile, save_profile
 
@@ -699,13 +707,13 @@ class SignalTests(TestCase):
             assertFalse(save_profile)
 ```
 
-These tests are straightforward and relatively simple. Our actual
-`create_profile` and `save_profile` signals are called when we save the model
+These tests are straightforward and relatively simple. My actual
+`create_profile` and `save_profile` signals are called when I save the model
 they are attached to, which is the built-in User model. So calling `save()` on
-an instance of User will the cause the signal to be called.
+an instance of User will cause the signal to be called.
 
-We don't have to activate our signals. They are already set up and ready to go.
-My Profile tests are extensive enough and affirm that the `create_profile` and
+I don't have to activate my signals. They are already set up and ready to go. My
+Profile tests are extensive enough and affirm that the `create_profile` and
 `save_profile` signals work. I just wanted to affirm that the signals themselves
 were working independent of the Profile itself.
 
@@ -747,8 +755,8 @@ topic posts.
 
 Since The `ProfileListView` is a `django.views.generic.list.ListView`, I was
 able to use `paginate_by`. `django.views.generic.list.ListView` provides a
-built-in way to display the list. We can do this by adding the `paginate_by`
-attribute to our view class, as demonstrated above. We did touch upon this
+built-in way to display the list. I can do this by adding the `paginate_by`
+attribute to my view class, as demonstrated above. I did touch upon this
 previously, but I thought I would mention it again since the opportunity
 presented itself.
 
@@ -834,20 +842,19 @@ As for the url, I use the following in the `profile-navigation-main.html` and
 </li>
 ```
 
-`users-profile-list` is the `name` of the `profiles` path. We give the url a
-name so that we don't have to include the actual url in the anchor element's
-href attribute. This is also helpful when we want to change a url, for example.
-We just have to change the actual URL in `urls.py` and nowhere else. That means
-code uses the name instead of the hardcoded URL, and does not have to be
-updated.
+`users-profile-list` is the `name` of the `profiles` path. I give the url a name
+so that I don't have to include the actual url in the anchor element's href
+attribute. This is also helpful when I want to change a url, for example. I just
+have to change the actual URL in `urls.py` and nowhere else. That means code
+uses the name instead of the hardcoded URL, and does not have to be updated.
 
 ### Screenshots of templates/users/profiles.html
 
-![templates/users/profiles.html (top half)](Screenshot-2024-10-17-at-12.55.47-PM.jpg)
+![templates/users/profiles.html (top half)](Screenshot-2024-10-17-at-12.55.47-PM.webp)
 
 _templates/users/profiles.html (top half)_
 
-![templates/users/profiles.html (bottom half)](Screenshot-2024-10-17-at-12.58.54-PM.jpg)
+![templates/users/profiles.html (bottom half)](Screenshot-2024-10-17-at-12.58.54-PM.webp)
 
 _templates/users/profiles.html (bottom half)_
 
@@ -893,17 +900,17 @@ path('profile-detail/<int:pk>/', profile_detail, name='profile'),
 
 I differentiate the `profile-detail` URL from the `profile` URL, even though I
 am pointing to the same data. However, one is an update form, and the other is
-simply A GET request to the `profile_detail` view. And since I name the URL
+simply a GET request to the `profile_detail` view. And since I name the URL
 `profile`, and the endpoint of the URL is the id of the user whose profile
 details are being requested, I add the following URL as the value of the anchor
 element's `href` attribute in `profiles.html`:
 
 ```html
-<!-- templates.users/profiles.html -->
+<!-- templates/users/profiles.html -->
 <a href="{% url 'profile' profile.pk %}">Learn more</a>
 ```
 
-`profile` ia the path name, and `profile.pk` represents the `/<int:pk>/` part of
+`profile` is the path name, and `profile.pk` represents the `/<int:pk>/` part of
 the `profile-detail` path. I use angle brackets to capture the profile id
 (technically primary key) from the URL.
 
@@ -1135,8 +1142,8 @@ Next, I had to remove the scrolldown button, because it conflicted with the
 Hamburger icon. It both conflicted layout-wise and some functionality in
 Bootstrap conflicted with it as well. I originally created the up and down
 functionality on sites where I did NOT use Bootstrap. I created everything from
-scratch. Here, that was not the case. That is something one has to seriously
-consider when opting to work with CSS Frameworks such as Bootstrap. There are
+scratch. Here, that was not the case. That is something I had to seriously
+consider when opting to work with CSS frameworks such as Bootstrap. There are
 many advantages to working with it, but there are also downsides.
 
 ### Removing the scrolldown button and replacing the scrolltop button markup with Bootstrap markup
@@ -1245,7 +1252,7 @@ export function backToTop() {
 /* end scrollTop button styling */
 ```
 
-## Moving the footer html markup into a footer.html include
+## Moving the footer HTML markup into a footer.html include
 
 Since I added a footer to the `profiles.html`, `profile.html`, and
 `profile_detail.html` pages as well, and the script for the footer was pretty
@@ -1341,14 +1348,14 @@ there if you like!
 {% endblock body %}
 ```
 
-## Sanitizing our Markdown
+## Sanitizing my Markdown
 
-For security purposes, it is very important to sanitize our Markdown.
+For security purposes, it is very important to sanitize my Markdown.
 
 I ended up using the `nh3` library to clean my markdown. It replaces the now
 deprecated bleach library. To learn more about `nh3`, please visit their
 repository on GitHub:
-[messence/nh3 repository on Github](https://github.com/messense/nh3)
+[messense/nh3 repository on GitHub](https://github.com/messense/nh3)
 
 ♦︎ I _installed_ `nh3`:
 
@@ -1389,6 +1396,7 @@ INSTALLED_APPS = [
 ♦︎ I implemented `nh3` in the PostForm class in `boards/forms.py`:
 
 ```python
+# boards/forms.py
 import nh3
 
 class HtmlSanitizedCharField(forms.CharField):
@@ -1397,7 +1405,7 @@ class HtmlSanitizedCharField(forms.CharField):
         if value not in self.empty_values:
             value = nh3.clean(
                 value,
-                # Allow only tags and attributes from our rich text editor
+                # Allow only tags and attributes from my rich text editor
                 tags={
                     "a",
                     "abbr",
@@ -1449,7 +1457,7 @@ But what does `super().to_python(value)` actually mean?
 `super().to_python(value)` is a method call that utilizes the `super()` function
 to access the `to_python()` method of the parent class.
 
-The `super()` function allows us to access methods and properties of a parent or
+The `super()` function allows me to access methods and properties of a parent or
 sibling class. In the context of Django model fields, it's used to call the
 `to_python()` method of the base Field class.
 
@@ -1458,20 +1466,20 @@ sibling class. In the context of Django model fields, it's used to call the
 The `to_python(value)` method is responsible for converting the raw data
 (usually a string) from a form or database into a Python object that is
 appropriate for the field type. For example, a DateField would convert a string
-representing a date into a Python date object. In our case, it is a form
-TextField (HTML textarea) which is converted into HTML, because we are
-converting markdown to HTML. We are also converting markdown fenced code into
-highlighted code in the form of an HTML object.
+representing a date into a Python date object. In my case, it is a form
+TextField (HTML textarea) which is converted into HTML, because I am converting
+markdown to HTML. I am also converting markdown fenced code into highlighted
+code in the form of an HTML object.
 
 ### Why super().to_python(value)?
 
-Why would we want to use `super().to_python(value)`? When we create custom model
-fields in Django by subclassing existing field classes (class Meta), we often
+Why would I want to use `super().to_python(value)`? When I create custom model
+fields in Django by subclassing existing field classes (class Meta), I often
 want to extend or modify the behavior of the parent class's `to_python()`
 method.
 
-Using `super()` ensures that we don't accidentally break the existing
-functionality of the parent class's method, while still allowing us to add our
+Using `super()` ensures that I don't accidentally break the existing
+functionality of the parent class's method, while still allowing me to add my
 own custom logic.
 
 ♦︎ I implemented `nh3.clean()` in the Post model's `get_message_as_markdown`
@@ -1513,6 +1521,10 @@ class Post(models.Model):
         return mark_safe(rendered_content)
 ```
 
+**Update July 11, 2026:** Later I changed
+`url_schemes={"http", "https", "mailto"},` to match what is in
+`boards/forms.py`.
+
 The `nh3.clean()` method removes offending tags altogether. For example, if I
 did the following inside my markdown, using `fenced_code`:
 
@@ -1523,9 +1535,9 @@ did the following inside my markdown, using `fenced_code`:
 ```
 
 The script tags and their inner contents are completely removed from the
-rendered HTML. If we inspect the HTML code associated with that markdown in our
-browser, we would see that it was completely removed. It does still appear in
-the `edit_post.html` view, but is removed completely from the live HTML.
+rendered HTML. If I inspect the HTML code associated with that markdown in my
+browser, I would see that it was completely removed. It does still appear in the
+`edit_post.html` view, but is removed completely from the live HTML.
 
 If I just stopped here, and did nothing in the `PostUpdateView`, the offending
 tags would initially not be saved to the `edit_post.html` textarea, but they
@@ -1585,7 +1597,7 @@ class PostUpdateView(UpdateView):
 
 In Django, a form instance is an object created from a form class (class Meta).
 It represents a single form that can be used to collect and process user input.
-Like our `PostForm` with the single message `textarea` field.
+Like my `PostForm` with the single message `textarea` field.
 
 ### What a form instance does
 
@@ -1594,11 +1606,11 @@ Like our `PostForm` with the single message `textarea` field.
 ♦︎ **Unbound**: When a form instance is created without any data, it's considered
 `unbound`. It can be used to render the form's HTML structure.
 
-♦︎ **Bound**: When we pass data to a form instance (e.g., from a user
-submission), it becomes `bound`. The form instance then validates the data and
-provides access to the cleaned data.
+♦︎ **Bound**: When I pass data to a form instance (e.g., from a user submission),
+it becomes `bound`. The form instance then validates the data and provides
+access to the cleaned data.
 
-As shown earlier, the contents of our `PostForm` message field submission is
+As shown earlier, the contents of my `PostForm` message field submission is
 `bound`. The `textarea` field must contain (`markdown`) content. So if a form
 exits, each instance of `form.message` (`form.instance.message`) is "cleaned" by
 the `nh3.clean()` method. This is the code that removes the offending tags from
@@ -1611,19 +1623,19 @@ method checks if all the fields in the form contain valid data. If validation
 fails, the form instance stores the errors for each field.
 
 ♦︎ **Rendering**: Form instances can be rendered as HTML using Django's template
-engine. This allows us to easily display the form on our web pages. We can
+engine. This allows me to easily display the form on my web pages. I can
 customize the rendering process using form widgets and template customizations.
 
-♦︎ **Saving Data**: If we're using a `ModelForm`, which is a form tied to a
-Django model, we can use the `save()` method to create or update a database
-record based on the form data.
+♦︎ **Saving Data**: If I'm using a `ModelForm`, which is a form tied to a Django
+model, I can use the `save()` method to create or update a database record based
+on the form data.
 
-♦︎ The other important thing is the addition of the success\*url in the
+♦︎ The other important thing is the addition of the `success_url` in the
 `PostUpdateView`. The `success_url` attribute determines the URL to redirect to
 after the object has been successfully updated. Here, the `"/"` represents going
 back to the `topic_posts`, which is the name for the `PostListView` URL.
 
-## Adding code formatting and highlighting to our Markdown
+## Adding code formatting and highlighting to my Markdown
 
 ♦︎ I enabled fenced code and `codehilite` extensions in my Django Markdown. But
 in order to be able to make the code highlighting work, I also had to install
@@ -1633,16 +1645,16 @@ the pygments library:
 pip install pygments
 ```
 
-♦︎ I _added_ pygments to my `INSTALLED_APPS` in `settings.py` (_see above_).
+♦︎ I added pygments to my `INSTALLED_APPS` in `settings.py` (see above).
 
-♦︎ I created a pygments _stylesheet_ using _the following_ command:
+♦︎ I created a pygments stylesheet using the following command:
 
 ```shell
 pygmentize -S default -f html > styles.css
 ```
 
-default refers to the pygments* default stylesheet. \_However*, I _could have_
-chosen another stylesheet _from the_
+default refers to the pygments default stylesheet. However, I could have chosen
+another stylesheet from the
 [pygments.css repository](https://github.com/richleland/pygments-css) on GitHub.
 
 ♦︎ I added the `styles.css` link to my `base.html` template:
@@ -1669,9 +1681,9 @@ chosen another stylesheet _from the_
 {% endblock stylesheet %}
 ```
 
-Now, a code block in our markdown looks something like the following:
+Now, a code block in my markdown looks something like the following:
 
-![Code block highlighting with pygments](Screenshot-2024-11-01-at-8.46.21-PM.jpg)
+![Code block highlighting with pygments](Screenshot-2024-11-01-at-8.46.21-PM.webp)
 
 _Code block highlighting with pygments_
 
@@ -1743,6 +1755,7 @@ Destroying test database for alias 'default'...
 ## Creating tests for the protected function based profile view
 
 ```python
+# accounts/tests/test_view_profile_tests.py
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -1879,22 +1892,22 @@ of updating a user and profile form due to the extended user profile.
 
 The last test is important. It checks for a successful profile avatar upload. I
 use the `SimpleUploadedFile` class from Django's
-`django.core.files.uploadedfile` module to simulate file uploads. We can create
+`django.core.files.uploadedfile` module to simulate file uploads. I can create
 an instance of `SimpleUploadedFile` with the file name, content, and content
-type, and then pass it to our Django views or forms as if it were a real
-uploaded file. Here, we are passing it to our profile view. Lastly, we assert
-that there is a profile avatar after successful upload, and that the
-`profile.avatar.name` is 'avatars/test\*image.jpg', as it is in our test.
+type, and then pass it to my Django views or forms as if it were a real uploaded
+file. Here, I am passing it to my profile view. Lastly, I assert that there is a
+profile avatar after successful upload, and that the `profile.avatar.name` is
+'avatars/test_image.jpg', as it is in my test.
 
 The 'rb' in `with open('test_image.jpg', 'rb') as img:` stands for read binary.
 In Python, when working with files, the rb mode stands for "read binary".
 
-The file is opened for reading only. We cannot write to the file in this mode.
+The file is opened for reading only. I cannot write to the file in this mode.
 
 The file is opened in binary mode, which means the data is read as raw bytes,
 without any text encoding or decoding applied.
 
-We should use `rb mode` when dealing with files that contain data other than
+I should use `rb mode` when dealing with files that contain data other than
 plain text, such as images, audio files, video files, or serialized data (e.g.,
 pickle files[^1]).
 
@@ -1955,6 +1968,7 @@ differences between the signup form in Django 5 and Django 1.11) contained the
 following:
 
 ```python
+# accounts/tests/test_form_signup_test.py
 from django.test import TestCase
 from ..forms import SignUpForm
 
@@ -2005,9 +2019,10 @@ FAILED (failures=1)
 Destroying test database for alias 'default'...
 ```
 
-I made _the following_ changes _according to_ what was returned:
+I made the following changes according to what was returned:
 
 ```python
+# accounts/tests/test_form_signup_test.py
 from django.test import TestCase
 from ..forms import SignUpForm
 
@@ -2019,8 +2034,8 @@ class SignUpFormTest(TestCase):
         self.assertSequenceEqual(expected, actual)
 ```
 
-Then _I ran_ `python3 manage.py test accounts.tests.test_form_signup_test`
-_again_, and the following was returned:
+Then I ran `python3 manage.py test accounts.tests.test_form_signup_test` again,
+and the following was returned:
 
 ```shell
 Found 1 test(s).
@@ -2039,12 +2054,12 @@ changes were made to the signup form.
 
 ## Fixing the topic posts avatar issue
 
-Originally we had added a hard coded user avatar to our topic posts. Then we
-added gravatar functionality, which did not really work. Then we extended the
-built-in user with a Profile model, and this changed everything.
+Originally I had added a hard coded user avatar to my topic posts. Then I added
+gravatar functionality, which did not really work. Then I extended the built-in
+user with a Profile model, and this changed everything.
 
 The extended Profile model allows users to upload their own avatar, or if not,
-get a default, genderless one. However, this avatar does not extend to our topic
+get a default, genderless one. However, this avatar does not extend to my topic
 posts.
 
 I came up with a solution. Users can upload their own avatars to their profiles.
@@ -2052,7 +2067,7 @@ These avatars appear both in the profiles list, and in the user
 `profile_detail`. But in the topic posts, I added a neat little svg consisting
 of writing utensils in a writing utensil holder. It looks like the following:
 
-![Default topic posts avatar](Screenshot-2024-10-17-at-6.56.02-PM.jpg)
+![Default topic posts avatar](Screenshot-2024-10-17-at-6.56.02-PM.webp)
 
 _Default topic posts avatar_
 
@@ -2064,7 +2079,7 @@ appealing!
 First, I commented out `{% load gravatar %}` and `{% load avatar_tags %}` in
 `topic_posts.html`. But that was not enough.
 
-Next, I had to modify the html for the avatar:
+Next, I had to modify the HTML for the avatar:
 
 ```html
 <!-- templates/topic_posts.html -->
@@ -2142,27 +2157,31 @@ avatar. There are ways of sharing the extended profile fields with other apps in
 a Django project. I would just have to have taken that into account from the
 beginning. But I am totally fine with the way things are set up now.
 
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[9bc16f6](https://github.com/interglobalmedia/django-boards/commit/9bc16f6c5cbfdd2fbef17dd5bdad842177a08085).
+
 ## Conclusion
 
 In this section, I added `timezone.now()` to `templates/reply_topic.html`,
 implemented better control over the view count in `templates/index.html`,
 limited replies to the last 10 posts on `templates/reply_topic.html`, redirected
 the user to the last topic posts page instead of the first, updated
-`boards/tests/test_view_reply_topic.py`, created tests for the
-`UpdateprofileForm` and profile view, and profile signals, created a
-`ProfileListView`, paginated the `ProfileListView`, created a
-`ProfileDetailView`, customized the profiles.html and `profile.html` navigation
-and created associated includes, removed the scrolldown button and refactored
-the scrolltop button, moved footer HTML markup into a `footer.html` include,
-sanitized our Markdown, added code formatting and highlighting to our Markdown,
-created tests for the `ProfileListView`, protected function based profile view,
-and `profile_detail` view, updated `accounts/tests/test_form_signup_test.py`,
-fixed the topic posts avatar issue, and explained the extended profile
-functionality.
+`boards/tests/test_view_reply_topic_tests.py`, created tests for the
+`UpdateProfileForm` and profile view, and profile signals, created a
+`ProfileListView`, paginated the `ProfileListView`, created a `profile_detail`
+view, customized the profiles.html and `profile.html` navigation and created
+associated includes, removed the scrolldown button and refactored the scrolltop
+button, moved footer HTML markup into a `footer.html` include, sanitized my
+Markdown, added code formatting and highlighting to my Markdown, created tests
+for the `ProfileListView`, protected function based profile view, and
+`profile_detail` view, updated `accounts/tests/test_form_signup_test.py`, fixed
+the topic posts avatar issue, and explained the extended profile functionality.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 - [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
   _mariadcampbell.com_
 - [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
@@ -2183,7 +2202,7 @@ functionality.
 - [Converting from bleach to nh3](https://daniel.feldroy.com/posts/2023-06-converting-from-bleach-to-nh3):
   _Daniel Roy Greenfield_
 - [Django: Sanitize incoming HTML fragments with nh3](https://adamj.eu/tech/2023/12/13/django-sanitize-incoming-html-nh3/):
-  \_Adam Johnson
+  _Adam Johnson_
 
 ## Related Posts
 
@@ -2191,11 +2210,11 @@ functionality.
 
 [^1]:
     In Python, pickle files are used to serialize and deserialize Python
-    objects. This means that we can convert a complex Python object, such as a
+    objects. This means that I can convert a complex Python object, such as a
     list, dictionary, or even a custom class instance, into a byte stream that
-    can be stored in a file. Later, we can load this file and reconstruct the
-    original object. Pickle files are useful when we want to save the state of a
-    Python object for later use, or when we need to transfer objects between
+    can be stored in a file. Later, I can load this file and reconstruct the
+    original object. Pickle files are useful when I want to save the state of a
+    Python object for later use, or when I need to transfer objects between
     different Python processes or machines. Pickle files are not secure against
     malicious data. Unpickling untrusted data can lead to arbitrary code
-    execution. Therefore, we should only unpickle data from trusted sources.
+    execution. Therefore, I should only unpickle data from trusted sources.
