@@ -1,0 +1,557 @@
+---
+slug: 'fixing-the-like-post-view-and-associated-javascript-in-django-boards'
+date: '2026-07-12T02:44:56.475Z'
+lastModified: '2026-07-14T11:24:56.475Z'
+title: 'Fixing the like_post view and associated JavaScript in Django Boards'
+author: 'Maria D. Campbell'
+excerpt: 'In this post, I discussed the errors I encountered in the initial like_post
+view and associated JavaScript code for my Django Boards application. Then I went
+through the process of fixing each. I ended up going with the emoji
+implementation in the like_post view and like/unlike button JavaScript code
+because I liked how it looks.'
+image: jacques-dillies--hJB4lsw-Rg-unsplash.webp
+tags: ['fullstack development', 'django', 'python3', 'series', 'javascript']
+isPublished: true
+isFeatured: false
+---
+
+![Large mustard yellow and teal sign with the word Post and symbol above it](jacques-dillies--hJB4lsw-Rg-unsplash.webp)
+
+_[Photo by](https://unsplash.com/photos/a-yellow-post-sign-hangs-from-a-building--hJB4lsw-Rg)
+[Jacques Dillies](https://unsplash.com/@jacques_dillies) on
+[unsplash.com](https://unsplash.com/)_
+
+## Table of Contents
+
+- [Fixing the like_post view in Django Boards](#fixing-the-like-post-view-in-django-boards)
+    - [The original like_post view code](#the-original-like-post-view-code)
+    - [The original client-side JavaScript functionality for the like_post view](#the-original-client-side-javascript-functionality-for-the-like-post-view)
+    - [What was wrong in the original like_post view](#what-was-wrong-in-the-original-like-post-view)
+    - [Why the original like/unlike button functionality seemed to work client-side](#why-the-original-like-unlike-button-functionality-seemed-to-work-client-side)
+    - [Fixing the like_post view](#fixing-the-like-post-view)
+- [Fixing the associated inline JavaScript code for the like_post view](#fixing-the-associated-inline-javascript-code-for-the-like-post-view)
+    - [Replacing the Font Awesome icons with emojis](#replacing-the-font-awesome-icons-with-emojis)
+- [Code associated with this post](#code-associated-with-this-post)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
+- [Footnotes](#footnotes)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
+There were a few issues with the `like_post` view and associated JavaScript in
+my Django Boards application, so I thought it would be a cleaner solution to
+write a post about what I changed in the code and why I changed it. I write
+about how I built my Django Boards application in the series entitled "How to
+create a fullstack application using Django and Python".
+
+## Fixing the like_post view in Django Boards
+
+### The original like_post view code
+
+Originally the `like_post` view looked like the following:
+
+```python
+# boards/views.py
+@login_required
+def like_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    # Toggle the like status
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+
+        return JsonResponse({"likes_count": post.likes.count(), "liked": liked})
+
+    return JsonResponse({"error": "Invalid request"})
+```
+
+### The original client-side JavaScript functionality for the like_post view
+
+The original JavaScript for the `like_post` client-side functionality:
+
+```django
+<!-- templates/base.html -->
+{% block javascript %}
+            <script>
+      const likeButton = document.getElementById('like-button');
+      const likeCount = document.getElementById('like-count');
+      likeButton.addEventListener('pointerdown', function() {
+          const postId = this.dataset.postId
+          fetch(`/like/${postId}/`, {
+              method: 'POST',
+              headers: {
+                  'X-CSRFToken': '{{ csrf_token }}',
+              },
+          })
+          .then(response => {
+            if (response.headers.get('Content-Type').includes('application/json')) {
+              // Parse as JSON
+              return response.json();
+            } else if (response.headers.get('Content-Type').includes('text/plain')) {
+              // Parse as text
+              return response.text();
+            } else {
+              // Handle other response types or errors
+              throw new Error('Unexpected response type');
+            }
+          })
+          .then(data => {
+              likeCount.textContent = `Likes: ${data.likes.count}`
+              if (data.liked) {
+                  likeButton.textContent = '👎';
+                  likeCount.textContent = `Likes: ${data.likes.count}` + 1
+              } else {
+                  likeButton.textContent = '👍'
+                  likeCount.textContent = `Likes: ${data.likes.count}` - 1
+              }
+          }).catch(error => {
+            // Handle errors
+            console.error(error)
+          })
+          // Causes page refresh without reloading page
+          return setTimeout(history.go(0), 1000)
+      })
+            </script>
+<!-- in actuality, this is placed right before the closing body tag -->
+{% endblock javascript %}
+```
+
+### What was wrong in the original like_post view
+
+In the initial like_post view, I had the nested
+`return JsonResponse({"likes_count": post.likes.count(), "liked": liked})`
+inside the else block and another return statement outside the if/else block.
+Therefore, the nested return does not run when the if branch runs. As a result,
+when a user unlikes a post (the if branch), execution slips through the if/else
+statement to the final `return JsonResponse({"error": "Invalid request"})`.
+Unliking a post returns an error instead of the expected data. I either had to
+place each return statement inside its associated statement (if or else), or I
+had to move the
+`return JsonResponse({"likes_count": post.likes.count(), "liked": liked})`
+outside the if/else statement. I chose the latter.
+
+So the if statement does not work as expected. When the user unlikes a post
+after liking it, `False` is set, so there is nothing left inside the if block.
+Execution of the code slips through the whole if/else statement to
+`return JsonResponse({"error": "Invalid request"})`. This returns
+`{'error': 'Invalid request'}` instead of the current likes data.
+
+On the other hand (and why I didn't realize until now that the JavaScript code
+was faulty), when the user clicks on a post they haven't liked yet (else block),
+the functionality works correctly: `{'likes_count': ..., 'liked': True}`.
+
+### Why the original like/unlike button functionality seemed to work client-side
+
+The reason the original like/unlike button functionality seemed to work despite
+the TypeError that appeared in the browser console is that the update to the
+database and the client-side JSON response are two separate things, and only one
+of them matters to the client.
+
+The backend always worked correctly. Both the if and else statements actually
+toggle the like as expected.
+
+The `if` statement
+
+```python
+if request.user in post.likes.all():
+    post.likes.remove(request.user)
+    liked = False
+```
+
+actually removes a like.
+
+The `else` statement
+
+```python
+else:
+    post.likes.add(request.user)
+    liked = True
+```
+
+actually adds a like.
+
+The `response body` is where the error in the code lies, but it never gets to
+make a difference:
+
+```javascript
+return setTimeout(history.go(0), 1000)
+```
+
+`history.go(0)` is not wrapped in a function. It is called directly, which means
+that it executes immediately and synchronously the second the click handler runs
+(`likeButton.addEventListener`). Not after 1000ms. The page starts to reload
+instantly, before the fetch() promise has fully resolved, and before the .then()
+callback reading data.likes.count really gets a chance to run or have an impact.
+The page reload re-renders the like button and count straight from the database
+via the `post_detail.html` template (`{{ post.likes.count }}`). This is correct,
+because the ORM (Object-Relational Mapping)[^1] call already succeeded.
+
+So when a user clicks the like/unlike button, the database updates correctly,
+the page reloads just about instantly, and the server renders the true state.
+The malformed/ignored JSON on the "unlike" path slipping through to
+`{'error': 'Invalid request'}` and the `data.likes.count` vs. `likes_count` key
+mismatch never get a chance to do their thing. That's because the premature
+reload wipes out whatever JavaScript functionality was taking place before it
+could appear as a visible blip.
+
+Just because the code seemed to work in the end, does not mean that it was
+correct. That said, nothing would break for a reader following along as is. But
+a `TypeError: Load failed Anonymous function detail:204` does appear in the
+browser console.
+
+This `TypeError` is the browser console's error for a fetch request that was
+interrupted midway. This is what happens when `history.go(0)` triggers
+navigation while the `POST` to `/like/<id>/` is still going on. Then the
+`fetch()` promise rejects and lands in
+
+```javascript
+.catch(error => {
+    // Handle errors
+    console.error(error)
+})
+```
+
+So the error is "caught" and logged instead of being thrown as an uncaught
+error. That is why the page still "works" but the error appears in the browser
+console.
+
+### Fixing the like_post view
+
+I refactored the like_post view to:
+
+```python
+# boards/views.py
+@login_required
+def like_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    # Toggle the like status
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+
+    return JsonResponse({"likes_count": post.likes.count(), "liked": liked})
+```
+
+## Fixing the associated inline JavaScript code for the like_post view
+
+To recap, originally, I had the following JavaScript for the `like_post`
+client-side functionality:
+
+```django
+<!-- templates/base.html -->
+{% block javascript %}
+            <script>
+      const likeButton = document.getElementById('like-button');
+      const likeCount = document.getElementById('like-count');
+      likeButton.addEventListener('pointerdown', function() {
+          const postId = this.dataset.postId
+          fetch(`/like/${postId}/`, {
+              method: 'POST',
+              headers: {
+                  'X-CSRFToken': '{{ csrf_token }}',
+              },
+          })
+          .then(response => {
+            if (response.headers.get('Content-Type').includes('application/json')) {
+              // Parse as JSON
+              return response.json();
+            } else if (response.headers.get('Content-Type').includes('text/plain')) {
+              // Parse as text
+              return response.text();
+            } else {
+              // Handle other response types or errors
+              throw new Error('Unexpected response type');
+            }
+          })
+          .then(data => {
+              likeCount.textContent = `Likes: ${data.likes.count}`
+              if (data.liked) {
+                  likeButton.textContent = '👎';
+                  likeCount.textContent = `Likes: ${data.likes.count}` + 1
+              } else {
+                  likeButton.textContent = '👍'
+                  likeCount.textContent = `Likes: ${data.likes.count}` - 1
+              }
+          }).catch(error => {
+            // Handle errors
+            console.error(error)
+          })
+          // Causes page refresh without reloading page
+          return setTimeout(history.go(0), 1000)
+      })
+            </script>
+<!-- in actuality, this is placed right before the closing body tag -->
+{% endblock javascript %}
+```
+
+I refactored the JavaScript to:
+
+```django
+<!-- templates/base.html -->
+{% block javascript %}
+    <script>
+        const likeButton = document.getElementById('like-button');
+        const likeIcon = likeButton.querySelector('i');
+        const likeCount = document.getElementById('like-count');
+        likeButton.addEventListener('pointerdown', function() {
+            const postId = this.dataset.postId
+            fetch(`/like/${postId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                likeCount.textContent = `Likes: ${data.likes_count}`;
+                if (data.liked) {
+                    likeIcon.classList.replace('fa-thumbs-up', 'fa-thumbs-down');
+                } else {
+                    likeIcon.classList.replace('fa-thumbs-down', 'fa-thumbs-up');
+                }
+                likeIcon.classList.toggle('liked', data.liked);
+            }).catch(error => {
+                // Handle errors
+                console.error(error)
+            })
+        })
+    </script>
+{% endblock javascript %}
+```
+
+And in post_detail.html:
+
+```django
+<button class="btn btn-primary ms-4"
+        id="like-button"
+        data-post-id="{{ post.id }}">
+    {% if request.user not in post.likes.all %}
+        <i class="fa-solid fa-thumbs-up"></i>
+    {% else %}
+    <!-- I added the liked class -->
+        <i class="fa-solid fa-thumbs-down liked"></i>
+    {% endif %}
+</button>
+```
+
+And in app.css:
+
+```css
+/* like button color styling on .liked click */
+#like-button i.liked {
+	color: #ff0f0a; /* whatever color fits your site */
+}
+
+/* Thumbs-up Thumbs-down size. I just preferred the thumbs up/down icons a bit bigger. */
+i.fa-thumbs-down,
+i.fa-thumbs-up {
+	font-size: 1.5rem;
+}
+```
+
+In the original JavaScript, I set `likeCount.textContent` to
+`Likes: ${data.likes.count}`, a nested likes object. However, the `like_post`
+view returns
+`return JsonResponse({"likes_count": post.likes.count(), "liked": liked})`. Even
+though the like/unlike button functionality seemed to work client-side,
+`data.likes` didn't actually exist in the JavaScript response. Had the fetch
+ever resolved successfully, this line would have thrown a TypeError reading
+`.count` off undefined. But as explained above, the fetch never got that far. It
+was aborted by the premature reload, which is why the TypeError that actually
+reached the console was the "Load failed" error instead. Either way,
+`data.likes.count` needed to be `data.likes_count` to match what the view
+returns. This was a real flaw, even though it never got the chance to emerge.
+
+As for `setTimeout(history.go(0), 1000)`, it calls `history.go(0)` immediately
+(synchronously) instead of passing it as a callback. So the reload takes place
+immediately, not one second later. So it should either have been
+`setTimeout(() => history.go(0), 1000)` or
+`setTimeout(function() { history.go(0); }, 1000)`. If I fixed the SetTimeout, I
+would also have to fix the `data.likes.count` vs. `likes_count` key mismatch as
+well. However, I went for a cleaner, simpler approach.
+
+I ended up declaring a likeIcon constant and assigning it the value of
+`likeButton.querySelector('i');`. Then I got rid of
+
+```javascript
+if (response.headers.get('Content-Type').includes('application/json')) {
+	// Parse as JSON
+	return response.json()
+} else if (response.headers.get('Content-Type').includes('text/plain')) {
+	// Parse as text
+	return response.text()
+} else {
+	// Handle other response types or errors
+	throw new Error('Unexpected response type')
+}
+```
+
+and simply used:
+
+```javascript
+.then(response => response.json())
+```
+
+I didn't need all that other excess JavaScript. It also made things messy and
+complicated.
+
+After `.then(response => response.json())`, I initially added the following:
+
+```javascript
+.then(data => {
+    likeCount.textContent = `Likes: ${data.likes_count}`
+    likeButton.textContent = data.liked ? '👎' : '👍';
+    setTimeout(() => history.go(0), 1000);
+}).catch(error => {
+    // Handle errors
+    console.error(error)
+})
+```
+
+This worked fine. However, it didn't work as I wanted. I wanted to change the
+color of the thumbs down icon when the user would click on the like/unlike
+button. All that happened here was that the thumbs up or thumbs down icon would
+briefly appear on click and then disappear. That was due to the
+`setTimeout(() => history.go(0), 1000);` refresh. It was also due to the fact
+that I did not replace the Font Awesome icons with the emojis in the if/else
+statement in the `post_detail.html` template.
+
+I first changed the above `.then()` block to the following:
+
+```javascript
+.then(data => {
+    likeCount.textContent = `Likes: ${data.likes_count}`;
+    if (data.liked) {
+        likeIcon.classList.replace('fa-thumbs-up', 'fa-thumbs-down');
+    } else {
+        likeIcon.classList.replace('fa-thumbs-down', 'fa-thumbs-up');
+    }
+    likeIcon.classList.toggle('liked', data.liked);
+}).catch(error => {
+    // Handle errors
+    console.error(error)
+})
+```
+
+In both this rendition and the previous, there was no longer any need to
+compensate for ineffective JavaScript by either + 1 to
+`Likes: ${data.likes.count}` or - 1 from `Likes: ${data.likes.count}` or using
+`history.go(0)` to refresh the page. Instead, if `data.liked` (the user liked
+the post), JavaScript would replace the `'fa-thumbs-up'` icon with the
+`'fa-thumbs-down'` icon. If the user unliked the post, JavaScript would replace
+the `'fa-thumbs-down'` icon with the `'fa-thumbs-up'` icon.
+
+Then, in order to add persistent color to the thumbs down icon when the user
+clicked on the Like button, I added
+`likeIcon.classList.toggle('liked', data.liked);`. And the `.liked` class would
+be added to the icon's class attribute value. This means the color set to the
+`.liked` class in `app.css` would transform the icon's white color to the
+`#ff0f0a;` color hex code. And when the user unliked the post, the icon's
+`.liked` class would be removed from the icon's class attribute value and the
+icon's color would be set back to its original white.
+
+### Replacing the Font Awesome icons with emojis
+
+I really liked the way the emojis looked as opposed to the Font Awesome icons. I
+replaced the Font Awesome icons with the emojis. And this is how I did it:
+
+```javascript
+// in base.html between the {% block javascript %}<script> and </script>{% endblock javascript %}
+const likeButton = document.getElementById('like-button')
+const likeEmoji = document.getElementById('like-emoji') // new
+const likeCount = document.getElementById('like-count')
+
+likeButton.addEventListener('pointerdown', function () {
+	const postId = this.dataset.postId
+	fetch(`/like/${postId}/`, {
+		method: 'POST',
+		headers: {
+			'X-CSRFToken': '{{ csrf_token }}',
+		},
+	})
+		.then((response) => response.json())
+		.then((data) => {
+			likeCount.textContent = `Likes: ${data.likes_count}`
+			likeEmoji.textContent = data.liked ? '👎' : '👍'
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+})
+```
+
+And in post_detail.html:
+
+```django
+<!-- templates/post_detail.html -->
+<button class="btn btn-primary ms-4"
+        id="like-button"
+        data-post-id="{{ post.id }}">
+    {% if request.user not in post.likes.all %}
+       <span id="like-emoji">👍</span>
+    {% else %}
+        <span id="like-emoji">👎</span>
+    {% endif %}
+</button>
+```
+
+And since I was using emojis which I wasn't going to manipulate color-wise, I
+removed the following from `app.css`:
+
+```css
+/* like button color styling on .liked click */
+#like-button i.liked {
+	color: #ff0f0a; /* whatever color fits your site */
+}
+
+/* Thumbs-up Thumbs-down size */
+i.fa-thumbs-down,
+i.fa-thumbs-up {
+	font-size: 1.5rem;
+}
+```
+
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[4163b11](https://github.com/interglobalmedia/django-boards/commit/4163b11ead10998e1cf7c8a2beefcff1b433b0c9)
+and
+[47e5903](https://github.com/interglobalmedia/django-boards/commit/47e590311c67fc7172b44c5c1b90ad55ccf74660).
+
+## Conclusion
+
+In this post, I discussed the errors I encountered in the initial `like_post`
+view and associated JavaScript code for my Django Boards application. Then I
+went through the process of fixing each. I ended up going with the emoji
+implementation in the `like_post` view and like/unlike button JavaScript code
+because I liked how it looks. I did check for browser compatibility before
+making my final decision, and they basically rendered the same everywhere. In
+the Vivaldi browser, the thumbs up/thumbs down emojis are _slightly_ smaller,
+but otherwise look the same.
+
+## Related Resources
+
+- [History: go() method](https://developer.mozilla.org/en-US/docs/Web/API/History/go):
+  _MDN_
+
+## Related Posts
+
+- [How to create a fullstack application using Django and Python Part 28](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-28):
+  _mariadcampbell.com_
+- [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents):
+  _mariadcampbell.com_
+
+[^1]:
+    In Django, Object-Relational Mapping (ORM) allows developers to interact
+    with the database using Python instead of writing raw SQL queries.
