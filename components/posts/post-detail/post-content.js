@@ -125,13 +125,9 @@ function PostContent(props) {
 			const slug = generateSlug(heading)
 
 			return (
-				<h2 id={slug}>
-					<a
-						className={classes['heading-two']}
-						href={`#${slug}`}
-						{...props}
-					></a>
-				</h2>
+				<a className={classes['heading-two']} href={`#${slug}`}>
+					<h2 id={slug} {...props}></h2>
+				</a>
 			)
 		},
 
@@ -153,13 +149,9 @@ function PostContent(props) {
 			const slug = generateSlug(heading)
 
 			return (
-				<h3 id={slug}>
-					<a
-						className={classes['heading-three']}
-						href={`#${slug}`}
-						{...props}
-					></a>
-				</h3>
+				<a className={classes['heading-three']} href={`#${slug}`}>
+					<h3 id={slug} {...props}></h3>
+				</a>
 			)
 		},
 
@@ -181,13 +173,9 @@ function PostContent(props) {
 			const slug = generateSlug(heading)
 
 			return (
-				<h4 id={slug}>
-					<a
-						className={classes['heading-four']}
-						href={`#${slug}`}
-						{...props}
-					></a>
-				</h4>
+				<a className={classes['heading-four']} href={`#${slug}`}>
+					<h4 id={slug} {...props}></h4>
+				</a>
 			)
 		},
 
