@@ -1,20 +1,20 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-32'
 date: '2024-11-24T10:59:44.757Z'
-lastModified: '2026-05-26T14:19:44.757Z'
+lastModified: '2026-07-15T17:24:44.757Z'
 title: 'How to create a fullstack application using Django and Python Part 32'
 author: 'Maria D. Campbell'
 excerpt:
     'In this section, I prepare my django-boards application for deployment to
 Render.'
-image: lala-azizli-8IJ5xNTv1QM-unsplash.jpg
+image: lala-azizli-8IJ5xNTv1QM-unsplash.webp
 tags:
     [   
         'code refactoring',
         'debugging',
         'deployment',
         'django',
-        'environ',
+        'os.environ',
         'fullstack development',
         'local environment',
         'macOS',
@@ -35,10 +35,10 @@ isPublished: true
 isFeatured: false
 ---
 
-![After a successful deployment](lala-azizli-8IJ5xNTv1QM-unsplash.jpg)
+![After a successful deployment](lala-azizli-8IJ5xNTv1QM-unsplash.webp)
 
-_Photo by_ [Lala Azizli](https://unsplash.com/@lazizli) **_on_**
-[unsplash.com](https://unsplash.com/photos/man-in-black-framed-eyeglasses-doing-peace-sign-8IJ5xNTv1QM)
+_Photo by [Lala Azizli](https://unsplash.com/@lazizli) on
+[unsplash.com](https://unsplash.com/photos/man-in-black-framed-eyeglasses-doing-peace-sign-8IJ5xNTv1QM)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -60,7 +60,7 @@ Git.
     - [Local DATABASES configuration vs production DATABASES configuration](#local-databases-configuration-vs-production-databases-configuration)
     - [Local static files configuration vs production staticfiles configuration](#local-static-files-configuration-vs-production-staticfiles-configuration)
     - [Configuring the production database settings](#configuring-the-production-database-settings)
-    - [Adding the whitenoise package to make our static files persist on Render](#adding-the-whitenoise-package-to-make-our-static-files-persist-on-render)
+    - [Adding the whitenoise package to make my static files persist on Render](#adding-the-whitenoise-package-to-make-my-static-files-persist-on-render)
     - [Configuring whitenoise in django_boards/settings.py](#configuring-whitenoise-in-django-boards-settingspy)
     - [Creating a build script](#creating-a-build-script)
     - [Installing Gunicorn and Uvicorn](#installing-gunicorn-and-uvicorn)
@@ -91,10 +91,10 @@ Git.
 - [manage.py to date](#managepy-to-date)
 - [Fine-tuning manage.py so I didn't have to manually switch between development and production](#fine-tuning-managepy-so-i-didnt-have-to-manually-switch-between-development-and-production)
 - [Note regarding likes (again)](#note-regarding-likes-again)
-- [Latest commit for Django Boards on Github](#latest-commit-for-django-boards-on-github)
+- [Latest commit for Django Boards on GitHub](#latest-commit-for-django-boards-on-github)
 - [Running python3 manage.py check](#running-python3-managepy-check)
     - [Updating security settings in settings/production.py](#updating-security-settings-in-settings-productionpy)
-    - [Adding a site to the HSTS preload list](#adding-a-site-to-the-HSTS-preload-list)
+    - [Adding a site to the HSTS preload list](#adding-a-site-to-the-hsts-preload-list)
 - [Regenerating a SECRET_KEY locally for production on Render](#regenerating-a-secret-key-locally-for-production-on-render)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
@@ -107,11 +107,17 @@ that I had to comment out or uncomment so as to switch between local development
 and production on Render. Please visit the section entitled
 [Adding python-decouple](#adding-python-decouple) to learn more.
 
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
+I wrote this series as a live process, so sometimes it might seem confusing, but
+it all works out in the end.
+
 ## Deploying to Render
 
-We can deploy our Django application to `render.com`. We can also store our
-uploaded user avatar images on a persistent disk in our Django project on
-`render.com`.
+I can deploy my Django application to `render.com`. I can also store my uploaded
+user avatar images on a persistent disk in my Django project on `render.com`.
 
 ## Updating an existing Django project for deployment on Render
 
@@ -203,7 +209,7 @@ Initially, I had my web service and database instances set to free plans. They
 had nothing to do with my hobbyist plan. It was specific to my django-boards web
 service and database service instances. My plans were upgraded after I had set
 up my paid managed `Postgres database service` and my paid Django web service
-via `render.yaml`. We will get to all that soon!
+via `render.yaml`. I will get to all that soon!
 
 ### Updating an existing Django project
 
@@ -383,7 +389,7 @@ STATIC_URL = '/static/'
 #     os.path.join(BASE_DIR, 'static'),
 # ]
 
-# This production code might break development mode, so we check whether we're in DEBUG mode
+# This production code might break development mode, so I check whether I'm in DEBUG mode
 # Tell Django to copy static assets into a path called `static` (this is specific to Render)
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
@@ -439,10 +445,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = '/opt/render/project/src/mediafiles/'
 ```
 
-Locally, I set `MEDIA_ROOT` to `os.path.join(BASE_DIR, 'media')`. This is what
-we originally had for our local development settings. I comment it out when I
-push `settings.py` to `GitHub/Render`. When I want to run the application
-locally, I uncomment it, and comment out
+Locally, I set `MEDIA_ROOT` to `os.path.join(BASE_DIR, 'media')`. This is what I
+originally had for my local development settings. I comment it out when I push
+`settings.py` to `GitHub/Render`. When I want to run the application locally, I
+uncomment it, and comment out
 `MEDIA_ROOT = '/opt/render/project/src/mediafiles/'`.
 
 ### Local DATABASES configuration vs production DATABASES configuration
@@ -468,9 +474,9 @@ out when I am using my managed database on Render, and make sure that my Render
 locally, I uncomment the local `DATABASES` configuration, and comment out the
 Render `DATABASES` configuration.
 
-The `dj-database-url` package is a Django utility that allows us to configure
-our database settings using a URL string, commonly stored in an environment
-variable called `DATABASE_URL`. This is a convenient way to manage database
+The `dj-database-url` package is a Django utility that allows me to configure my
+database settings using a URL string, commonly stored in an environment variable
+called `DATABASE_URL`. This is a convenient way to manage database
 configurations, especially in cloud environments. I created a `DATABASE_URL`
 environment variable with the value of the Internal Database URL provided to me
 by Render when I created my Postgres managed database service.
@@ -490,7 +496,7 @@ STATIC_URL = '/static/'
 #     os.path.join(BASE_DIR, 'static'),
 # ]
 
-# This production code might break development mode, so we check whether we're in DEBUG mode
+# This production code might break development mode, so I check whether I'm in DEBUG mode
 # Tell Django to copy static assets into a path called `static` (this is specific to Render)
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 ```
@@ -507,7 +513,7 @@ Next, I had to install `psycopg2-binary` and `dj-database-url`.
 `psycopg2-binary` is the most popular Python adapter for communicating with a
 PostgreSQL database.
 
-`dj-database-url` enables us to specify our database details via the
+`dj-database-url` enables me to specify my database details via the
 `DATABASE_URL` environment variable. I got my database’s URL from the Render
 Dashboard when I created my managed Postgres database service.
 
@@ -534,7 +540,7 @@ To learn more about the `psycopg2-binary` package, please visit
 [psycopg2-binary 2.9.10](https://pypi.org/project/psycopg2-binary/2.9.10/). I
 currently have this version installed in my Django Boards project.
 
-### Adding the whitenoise package to make our static files persist on Render
+### Adding the whitenoise package to make my static files persist on Render
 
 Next, I had to install `whitenoise`.
 
@@ -610,12 +616,12 @@ the file's owner nor members of the file's group (o).
 
 ### Installing Gunicorn and Uvicorn
 
-Next, I had to install `gunicorn` and `uvicorn`. Our project is run on those two
+Next, I had to install `gunicorn` and `uvicorn`. My project is run on those two
 packages.
 
 `Uvicorn` is a lightweight ASGI server. `Gunicorn` is a WSGI server which can be
 used alongside Uvicorn. Django applications have both an `asgi.py` file and a
-`wsgi.py` file inside the same directory as our `settings.py`.
+`wsgi.py` file inside the same directory as my `settings.py`.
 
 Next, I had to copy the following command to my clipboard for later use:
 
@@ -635,9 +641,9 @@ First and foremost, I had to create a Django project from `within` my dashboard.
 In my dashboard, I selected "Projects", then clicked on "Create new project",
 and the following appeared:
 
-![Creating a django project](Screenshot-2024-12-22-at-2.38.34-PM.jpg)
+![Creating a Django project](Screenshot-2024-12-22-at-2.38.34-PM.webp)
 
-_Creating a django project_
+_Creating a Django project_
 
 I named my project `django-boards`, and named my environment `Production`. When
 I created my managed database service and my web service for my `django-boards`
@@ -650,21 +656,21 @@ Next, I created my first web service from within my `django-boards` project. I
 went into my `django-project` in my Render Dashboard, and at the top right,
 clicked on New+.
 
-![Creating a managed Postgres database service](Screenshot-2024-12-22-at-2.04.02-PM.jpg)
+![Creating a managed Postgres database service](Screenshot-2024-12-22-at-2.04.02-PM.webp)
 
 _Creating a managed Postgres database service_
 
 Then I selected PostgreSQL, and the following appeared:
 
-![Configuring the PostgreSQL managed database service part 2 screenshot](Screenshot-2024-12-22-at-2.12.49-PM.jpg)
+![Configuring the PostgreSQL managed database service part 2 screenshot](Screenshot-2024-12-22-at-2.12.49-PM.webp)
 
 _Configuring the PostgreSQL managed database service part 2 screenshot_
 
-![Configuring the PostgreSQL managed database service part 3 screenshot](Screenshot-2024-12-22-at-2.19.38-PM.jpg)
+![Configuring the PostgreSQL managed database service part 3 screenshot](Screenshot-2024-12-22-at-2.19.38-PM.webp)
 
 _Configuring the PostgreSQL managed database service part 3 screenshot_
 
-![Configuring the PostgreSQL managed database service part 4 screenshot](Screenshot-2024-12-22-at-2.22.26-PM.jpg)
+![Configuring the PostgreSQL managed database service part 4 screenshot](Screenshot-2024-12-22-at-2.22.26-PM.webp)
 
 _Configuring the PostgreSQL managed database service part 4_
 
@@ -680,8 +686,8 @@ could always decrease that amount if I found I didn't need so much.
 I created my managed PostgreSQL database service in the following manner:
 
 1. **Name**: Provide a custom name. I provided django-boards-db.
-1. **Database**: Leave field empty. Render will generate this for us.
-1. **User**: Leave field empty. Render will generate this for us.
+1. **Database**: Leave field empty. Render will generate this for me.
+1. **User**: Leave field empty. Render will generate this for me.
 1. **Region**: The region closest to you. And make sure to select the same
    region when creating your web service.
 1. **PostgreSQL Version**: the current version 16.
@@ -749,9 +755,9 @@ I needed to set `PYTHON_VERSION` since Render's default Python version is
 3.11.11, but I needed to use 3.13.0. I changed the `ALLOWED_HOSTS` when I got my
 web service's URL.
 
-`WEB_CONCURRENCY` determines the number of worker processes our web application
-will spawn, essentially controlling how many concurrent requests our application
-can handle simultaneously, allowing us to scale our application based on traffic
+`WEB_CONCURRENCY` determines the number of worker processes my web application
+will spawn, essentially controlling how many concurrent requests my application
+can handle simultaneously, allowing me to scale my application based on traffic
 demands.
 
 Lastly, I clicked on "Create Web Service".
@@ -767,7 +773,7 @@ I had to wait a couple of minutes for the deployment status to change to "Live"
 and then I tested the application by clicking on the newly created site URL. My
 web app's URL is located under the web service name at the top left.
 
-Render automatically redeploys our app every time we check code into our remote
+Render automatically redeploys my app every time I check code into my remote
 repository.
 
 When I got my web service URL, I replaced the `*` value of `ALLOWED_HOSTS` with
@@ -862,7 +868,7 @@ reflected in the `mediafiles` directory on Render. But that was not the case,
 because the `filesystem` on Render is ephemeral. The reason why my static files
 persisted is because of `whitenoise`.
 
-After some reseach, I found that I had to upload my `default.jpg` file from my
+After some research, I found that I had to upload my `default.jpg` file from my
 local machine onto `render.com` inside my `django-boards` web service instance.
 This meant that I had to configure `SSH` on Render to make that possible.
 
@@ -873,7 +879,7 @@ Render. I already had several key pairs on my local machine dedicated to other
 services, which meant I had an `.ssh directory` in my home (`~`) directory.
 
 To create a new `SSH` key pair, I `cd` into my `.ssh` directory from within
-Termninal and ran the following commands:
+Terminal and ran the following commands:
 
 ```shell
 # replace your_email@example.com with your own email
@@ -917,11 +923,11 @@ for) and paste your public key in the `Key field`. Then click on the
 ### Connecting a service with SSH
 
 Next, I had to connect my web service with `SSH` so I could transfer files from
-my local Git reppository on my machine onto my web service on Render. I went
-into my `django-boards` web service and clicked on the Connect button, and then
-the SSH tab:
+my local Git repository on my machine onto my web service on Render. I went into
+my `django-boards` web service and clicked on the Connect button, and then the
+SSH tab:
 
-![Clicking on the Connect button](Screenshot-2024-12-22-at-11.05.26-PM.jpg)
+![Clicking on the Connect button](Screenshot-2024-12-22-at-11.05.26-PM.webp)
 
 _Clicking on the Connect button_
 
@@ -967,7 +973,7 @@ Host render.com
 ```
 
 To make sure that you have successfully added your new SSH key to the
-`ssh-agent`, run the following command in Termninal:
+`ssh-agent`, run the following command in Terminal:
 
 ```shell
 ssh-add -l
@@ -1089,13 +1095,12 @@ liking and unliking posts by logging in and out between users.
 ## A note about liking a post
 
 You have to double click on the like button in order for a Like to appear. The
-same goes for unliking a post. I'm not quite sure why this is happening, but
-we're not working with React or AJAX, for example, but it will have to do for
-now!
+same goes for unliking a post. I'm not quite sure why this is happening, but I'm
+not working with React or AJAX, for example, but it will have to do for now!
 
 ## Commit associated with this post
 
-The latest commit of `django-boards` on Github associated with this post is
+The latest commit of `django-boards` on GitHub associated with this post is
 commit
 [3e81039](https://github.com/interglobalmedia/django-boards/commit/3e8103919696b4c107916783070e45d084c5d506).
 
@@ -1416,7 +1421,7 @@ STATIC_URL = "/static/"
 #     os.path.join(BASE_DIR, "static"),
 # ]
 
-# This production code might break development mode, so we check whether we're in DEBUG mode
+# This production code might break development mode, so I check whether I'm in DEBUG mode
 # Tell Django to copy static assets into a path called `static` (this is specific to Render)
 # STATIC_ROOT = BASE_DIR / 'staticfiles'
 
@@ -1464,7 +1469,7 @@ ALLOWED_HOSTS=django-boards.onrender.com
 Make sure that the production values in `.env` and in production are exactly the
 same. My site URL is `https://django-boards.onrender.com`, so I removed the
 https and just added `django-boards.onrender.com` in both cases. Then, when I
-redeployed, I got a 200 status cade. Yay!
+redeployed, I got a 200 status code. Yay!
 
 Inside `development.py`:
 
@@ -1509,7 +1514,7 @@ DATABASES = {
     "default": dj_database_url.config(default=config("DATABASE_URL"), conn_max_age=600),
 }
 
-# This production code might break development mode, so we check whether we're in DEBUG mode
+# This production code might break development mode, so I check whether I'm in DEBUG mode
 # Tell Django to copy static assets into a path called `static` (this is specific to Render)
 STATIC_ROOT = BASE_DIR / '../staticfiles'
 ```
@@ -1562,7 +1567,7 @@ sure to change it to `'django_boards.settings.production'` before pushing my
 changes to GitHub!
 
 I also had to make sure that I made the same changes to my
-`django_baords/asgi.py` file for the new configuration to work on Render!
+`django_boards/asgi.py` file for the new configuration to work on Render!
 
 To see the code for the commit associated with appending `.production` inside
 `django_boards/asgi.py` file, please visit
@@ -1753,7 +1758,7 @@ and defined it in `development.py`:
 from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# using pyhon-dotenv
+# using python-dotenv
 DEBUG = os.getenv('DEBUG')
 
 # using decouple to point to ALLOWED_HOSTS env var locally
@@ -1826,7 +1831,7 @@ DATABASES = {
     "default": dj_database_url.config(default=config("DATABASE_URL"), conn_max_age=600),
 }
 
-# This production code might break development mode, so we check whether we're in DEBUG mode
+# This production code might break development mode, so I check whether I'm in DEBUG mode
 # Tell Django to copy static assets into a path called `static` (this is specific to Render)
 STATIC_ROOT = BASE_DIR / '../staticfiles'
 ```
@@ -1847,7 +1852,7 @@ To see the associated version (commit) of `settings/base.py`,
 
 The settings directory configuration did not work in production on Render.
 Because I no longer was using the default `settings.py` which resided in the
-same directory as `manage.py` AND my presisted mediafiles directory which
+same directory as `manage.py` AND my persisted mediafiles directory which
 contained my user uploaded avatar images, Django no longer knew how to retrieve
 (production) settings.
 
@@ -1884,7 +1889,7 @@ if development:
 I didn't realize that it was in `django_boards/urls.py` where I would define my
 environments. `@JRO_Cambria` suggested that I would have to add some kind of URL
 that would point to my MEDIA_URL `/media/`. I had never encountered this before,
-but after our online session, I researched it. I came across TWO stackoverflow
+but after my online session, I researched it. I came across TWO stackoverflow
 threads which contained the same code specific to Render, so I thought I'd try
 it out. And guess what, it worked!
 
@@ -1913,9 +1918,9 @@ matches.
 to a function.
 
 name is the name of the URL pattern, used for reverse URL resolution. This means
-that we refer to the URL only by its `name` attribute. If we want to change the
-URL itself or the view it refers to, we can do this by editing in one place
-only, `urls.py`.
+that I refer to the URL only by its `name` attribute. If I want to change the
+URL itself or the view it refers to, I can do this by editing in one place only,
+`urls.py`.
 
 In my media URL pattern, `(?P<path>.*)` is a named group. A named group captures
 a specific part of the URL and passes it as a keyword argument to the view.
@@ -1943,8 +1948,8 @@ means "0 or more instances of the preceding regex token" (or character).
 `django.conf.urls.static` module is used to serve static files during
 development.
 
-serve s a function within the `django.conf.urls.static` module that allows us to
-serve static files like images, CSS, and JavaScript directly from our Django
+serves a function within the `django.conf.urls.static` module that allows me to
+serve static files like images, CSS, and JavaScript directly from my Django
 project during development.
 
 The serve function serves the `file/image` from `MEDIA_ROOT` if it matches the
@@ -2072,7 +2077,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "django_boards.wsgi.application" #subsquently moved to development.py
+WSGI_APPLICATION = "django_boards.wsgi.application" #subsequently moved to development.py
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -2134,7 +2139,7 @@ development.py:
 from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# using pyhon-dotenv
+# using python-dotenv
 DEBUG = os.getenv('DEBUG')
 
 # using decouple to point to ALLOWED_HOSTS env var locally
@@ -2184,7 +2189,7 @@ DATABASES = {
     "default": dj_database_url.config(default=config("DATABASE_URL"), conn_max_age=600),
 }
 
-# This production code might break development mode, so we check whether we're in DEBUG mode
+# This production code might break development mode, so I check whether I'm in DEBUG mode
 # Tell Django to copy static assets into a path called `static` (this is specific to Render)
 STATIC_ROOT = BASE_DIR / '../staticfiles'
 ```
@@ -2330,7 +2335,7 @@ worry about switching manually between `django_boards.settings.development` and
 `DJANGO_SETTINGS_MODULE`. I defined `DJANGO_SETTINGS_MODULE` in production to
 `django_boards.settings.production` and exported it `there`.
 
-The commit associated with the above `manage.py` code on Github is
+The commit associated with the above `manage.py` code on GitHub is
 [73038bc](https://github.com/interglobalmedia/django-boards/tree/73038bccf2a295c959ce925b1b07ea4ecb7f3062).
 
 ## Note regarding likes (again)
@@ -2358,9 +2363,9 @@ recognizes my `daphne` install, but my `requirements.txt` does not include
 results in a failed build. I will talk about how to set up an ASGI server
 locally when `daphne 4.2` is released.
 
-## Latest commit for Django Boards on Github
+## Latest commit for Django Boards on GitHub
 
-To view the latest commit for Django Boards on Github, please visit
+To view the latest commit for Django Boards on GitHub, please visit
 [56b8be1](https://github.com/interglobalmedia/django-boards/tree/56b8be129f26fb59febc6ed597334e533ea75ea1).
 
 ## Running python3 manage.py check
@@ -2520,7 +2525,7 @@ System check identified no issues (0 silenced).
 
 Then I committed the changes and pushed to GitHub/production.
 
-```python
+```shell
 python manage.py check --settings=django_boards.settings.production --deploy
 /opt/render/project/src/mediafiles media root
 /opt/render/project/src/mediafiles media root in development
@@ -2535,7 +2540,7 @@ WARNINGS:
 ```
 
 I also had to change the line `DEBUG = os.environ.get('DEBUG')` in
-`setttings/production.py` explicitly to `DEBUG=False`. Using `os.environ.get()`
+`settings/production.py` explicitly to `DEBUG=False`. Using `os.environ.get()`
 still pointed to `DEBUG=True` in my `.env`. That meant I should explicitly set
 `DEBUG=True` in `settings/development.py` as well.
 
@@ -2574,7 +2579,7 @@ DATABASES = {
     "default": dj_database_url.config(default=config("DATABASE_URL"), conn_max_age=600),
 }
 
-# This production code might break development mode, so we check whether we're in DEBUG mode
+# This production code might break development mode, so I check whether I'm in DEBUG mode
 # Tell Django to copy static assets into a path called `static` (this is specific to Render)
 STATIC_ROOT = BASE_DIR / '../staticfiles'
 ```
@@ -2593,7 +2598,7 @@ for my custom domain was successfully issued.
 Initially, I set `SECURE_HSTS_SECONDS=60` just to make sure that everything is
 working. It is. I was able to access the site and even log in.
 
-Then I increased it to 5 minutes. I was still able to access the site and log
+Then I increased it to five minutes. I was still able to access the site and log
 in. I will increase the time even more when the backend email service has been
 resolved.
 
@@ -2613,7 +2618,7 @@ site), I have to make sure HTTPS is working:
    `SSL certificate` is valid.
 1. `SECURE_HSTS_SECONDS` sets the duration (in seconds) that the browser should
    remember to only access my site over HTTPS.
-1. If `SECURE_HSTS_INCLUDE_SUBDOMAIN` is set to `True`, `HSTS` will also be
+1. If `SECURE_HSTS_INCLUDE_SUBDOMAINS` is set to `True`, `HSTS` will also be
    enforced for all subdomains of my site.
 1. If `SECURE_HSTS_PRELOAD` is set to `True`, my site can be submitted to the
    HSTS preload list maintained by major browsers. This ensures that the site is
@@ -2641,7 +2646,7 @@ To add my site to the HSTS preload list, I should:
 When I add `hrome://net-internals/#hsts` to the Chrome address bar, the
 following appears:
 
-![Checking status of HSTS preload list](Screenshot-2025-01-04-at-2.49.17-PM.jpg)
+![Checking status of HSTS preload list](Screenshot-2025-01-04-at-2.49.17-PM.webp)
 
 _Checking status of HSTS preload list_
 
@@ -2710,7 +2715,7 @@ development environment from my production environment.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards):
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards):
   _interglobalmedia_
 - [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
   _mariadcampbell.com_
