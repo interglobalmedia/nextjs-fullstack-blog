@@ -1,7 +1,7 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-33'
 date: '2024-11-29T14:07:47.200Z'
-lastModified: '2026-05-26T20:08:47.200Z'
+lastModified: '2026-07-15T18:13:47.200Z'
 title: 'How to create a fullstack application using Django and Python Part 33'
 author: 'Maria D. Campbell'
 excerpt:
@@ -12,16 +12,16 @@ faqs, create a view for faqs, create a URLconf for the faqs_index view,
 configure the global URL configuration for faqs_index view in
 django_boards/urls.py, migrate faqs, and make the faqs app modifiable in the
 admin interface.'
-image: pexels-calvinhanson-4935823.jpg
-tags: ['fullstack development', 'macOS', 'django', 'app', 'python3', 'custom domain', 'domain verification', 'backend email service', 'makemigrations', 'migrate', 'mailtrap', 'namecheap', 'series', 'views',]
+image: pexels-calvinhanson-4935823.webp
+tags: ['fullstack development', 'macOS', 'django', 'python3', 'custom domain', 'domain verification', 'backend email service', 'makemigrations', 'migrate', 'mailtrap', 'namecheap', 'series', 'views']
 isPublished: true
 isFeatured: false
 ---
 
-![Letters plaque on mailbox](pexels-calvinhanson-4935823.jpg)
+![Letters plaque on mailbox](pexels-calvinhanson-4935823.webp)
 
-_Photo by_ [Calvin Hanson](https://www.pexels.com/@calvinhanson/) _on_
-[pexels.com](https://www.pexels.com/photo/plaque-on-mailbox-4935823/)
+_Photo by [Calvin Hanson](https://www.pexels.com/@calvinhanson/) on
+[pexels.com](https://www.pexels.com/photo/plaque-on-mailbox-4935823/)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -34,7 +34,7 @@ Git.
 
 - [Getting a custom domain](#getting-a-custom-domain)
     - [Connecting the custom domain to Render](#connecting-the-custom-domain-to-render)
-    - [Configuring Domain Verification with Namecheap for Mailtrap](#configuring-domain-verification-with-namecheap-for-mailtrap)
+    - [Configuring domain verification with Namecheap for Mailtrap](#configuring-domain-verification-with-namecheap-for-mailtrap)
 - [Adding a new app called faqs](#adding-a-new-app-called-faqs)
     - [Creating the models for faqs](#creating-the-models-for-faqs)
     - [Creating the view for faqs](#creating-the-view-for-faqs)
@@ -45,6 +45,14 @@ Git.
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
+- [Footnotes](#footnotes)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
+I wrote this series as a live process, so sometimes it might seem confusing, but
+it all works out in the end.
 
 ## Getting a custom domain
 
@@ -58,9 +66,9 @@ Next, I had to connect my custom domain to Render. To do that, I went into my
 `django-boards` web service settings and scrolled down to "Custom Domains". Then
 I clicked on "Add Custom Domain" and followed the prompts.
 
-When my domain was verified, Render returned "verified", but also returned
+When Render verified my domain, it returned "verified", but also returned
 "Certificate pending". I contacted Namecheap support to determine next steps.
-Their live chat support takes 5-10 minutes to get back with answers. They
+Their live chat support takes five to 10 minutes to get back with answers. They
 explained where the certificate came from and that they had nothing to do with
 it. It was a Render certificate. I went back to my django-boards web service
 Settings and refreshed the page. "Certificate Issued" appeared.
@@ -78,15 +86,15 @@ After my variable was updated, my build and deployment completed, I clicked on
 my custom domain again. This time it worked!
 
 Namecheap is a great place to purchase domains. Their prices are very
-competitive, and their support is really great. If you decide to take that
+competitive, and their support is really terrific. If you decide to take that
 route, please visit Render's
 [Configuring Namecheap DNS](https://render.com/docs/configure-namecheap-dns). It
 takes no time to set up.
 
-### Configuring Domain Verification with Namecheap for Mailtrap
+### Configuring domain verification with Namecheap for Mailtrap
 
 Mailtrap provided me with documentation entitled
-[Domain Verification with Namecheap](https://help.mailtrap.io/article/128-domain-verification-with-namecheap?_gl=1*ck1two*_gcl_au*NDAxNDk2MzYwLjE3MzU3OTY0MDA.),
+[Domain Verification with Namecheap](https://help.mailtrap.io/article/128-domain-verification-with-namecheap),
 and I followed the steps to verification there:
 
 1. I went into my Namecheap dashboard and clicked on djangoboards.org's Manage
@@ -106,12 +114,12 @@ are TXT records.
 1. SPF authorizes the Mailtrap server to send my emails.
 1. DMARC tells email servers what to do when DKIM or SPF fails.
 
-I have been verified on Mailtrap, but only have access to Email Testing at this
-time because my compliance check is not complete. Mailtrap "needs to perform
-additional checks on this domain". This can take up to one business day." It has
-been more than one day that I have not heard from them (1.5.25). With all the
-bad actors on the internet, it has become very difficult for developers to
-create realtime applications towards their "dynamic" portfolios.
+Mailtrap verified me, but I only have access to Email Testing at this time
+because my compliance check is not complete. Mailtrap "needs to perform
+additional checks on this domain. This can take up to one business day." It has
+been more than one day that I have not heard from them (January 5, 2025). With
+all the bad actors on the internet, it has become very difficult for developers
+to create real-time applications towards their "dynamic"[^1] portfolios.
 
 However, I am writing a post regarding Mailtrap email testing. It will be
 published soon!
@@ -144,7 +152,7 @@ class FAQ(models.Model):
     answer = models.TextField()
 
     def __str__(self):
-        return f"{self.question} {self.answer}"
+        return f"{self.question} : {self.answer}"
 ```
 
 At first I thought it would be great to have a bit of HTML which I would create
@@ -189,11 +197,11 @@ urlpatterns = [
 ]
 ```
 
-In order to access `faqs_view` in a browser, we need to map it to a URL. In
-order to map it to a URL, we need to define a URL configuration or URLconf for
-short inside `polls/urls.py`. URLconfs are defined in each Django project app in
-`urls.py`. Note that when we create an app, it does not come with a `urls.py`
-file. We have to create one.
+In order to access `faqs_view` in a browser, I need to map it to a URL. In order
+to map it to a URL, I need to define a URL configuration or URLconf for short
+inside `faqs/urls.py`. URLconfs are defined in each Django project app in
+`urls.py`. Note that when I create an app, it does not come with a `urls.py`
+file. I have to create one.
 
 ### Configuring the global URL configuration for faqs_index view in django_boards/urls.py
 
@@ -209,15 +217,15 @@ urlpatterns = [
 ]
 ```
 
-We define our faqs-specific URLs in `faqs/urls.py`, and then just add
+I define my faqs-specific URLs in `faqs/urls.py`, and then just add
 `path("", include('faqs.urls')),` as indicated above.
 
-The `include()` function lets us reference other `URLconfs`. `include()`
+The `include()` function lets me reference other `URLconfs`. `include()`
 excludes the part of the URL that follows the matched part, i.e., `faqs/`, and
 sends the remaining string to the included `URLconf` for further processing. In
 my case here, all `faqs/` related URLconfs are sent to `django_boards/urls.py`
 for further processing. This approach organizes URLs by app, and also makes the
-global `urls.py` in our Django project much easier to read.
+global `urls.py` in my Django project much easier to read.
 
 ## Migrating faqs
 
@@ -234,7 +242,7 @@ python3 manage.py migrate faqs
 
 ## Making the faqs app modifiable in the admin interface
 
-Next, I had to register the fags app so that it would be modifiable in the admin
+Next, I had to register the faqs app so that it would be modifiable in the admin
 interface. I added the following to `faqs/admin.py`:
 
 ```python
@@ -245,7 +253,7 @@ from .models import FAQ
 admin.site.register(FAQ)
 ```
 
-Now the FAQS app appeared in the Django Boards admin along with Accounts and
+Now the faqs app appeared in the Django Boards admin along with Accounts and
 Boards. This meant that now I could add my FAQs questions and answers from the
 admin as I wanted.
 
@@ -261,14 +269,19 @@ admin interface.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 - [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
   _mariadcampbell.com_
 - [Configuring Namecheap DNS](https://render.com/docs/configure-namecheap-dns):
   _Render documentation_
-- [Domain Verification with Namecheap](https://help.mailtrap.io/article/128-domain-verification-with-namecheap?_gl=1*ck1two*_gcl_au*NDAxNDk2MzYwLjE3MzU3OTY0MDA.):
+- [Domain Verification with Namecheap](https://help.mailtrap.io/article/128-domain-verification-with-namecheap):
   _Mailtrap documentation_
 
 ## Related Posts
 
 - [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
+
+[^1]:
+    A developer's dynamic portfolio displays interactive applications that allow
+    visitors to test them in real-time instead of just listing skills on a
+    static page.
