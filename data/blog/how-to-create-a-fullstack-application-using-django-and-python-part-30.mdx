@@ -1,20 +1,20 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-30
 date: '2024-11-08T11:20:16.435Z'
-lastModified: '2026-05-25T03:50:16.435Z'
+lastModified: '2026-07-15T04:50:16.435Z'
 title: How to create a fullstack application using Django and Python Part 30
 author: Maria D. Campbell
 excerpt: 'In this section, I place the default Django authentication system related
 templates into a new directory called registration inside the templates
-directory, I move the associated URLs into accounts/urls.oy, and add the
+directory, I move the associated URLs into accounts/urls.py, and add the
 associated default url pattern to django_boards/urls.py. This helps ensure that
 django-boards deployment to Heroku would be successful.'
-image: pexels-olly-3771110.jpg
+image: pexels-olly-3771110.webp
 tags:
     [
         'fullstack development',
         'macOS',
-        'default django authentication system',
+        'django default authentication',
         'django',
         'python3',
         'series',
@@ -23,10 +23,10 @@ isPublished: true
 isFeatured: false
 ---
 
-![Reception desk](pexels-olly-3771110.jpg)
+![Reception sign and bell on top of a reception desk](pexels-olly-3771110.webp)
 
-_Photo by_ [Andrea Piacquadio](https://www.pexels.com/@olly/) **_on_**
-[pexels.com](https://www.pexels.com/photo/reception-desk-with-antique-hotel-bell-3771110/)
+_Photo by [Andrea Piacquadio](https://www.pexels.com/@olly/) on
+[pexels.com](https://www.pexels.com/photo/reception-desk-with-antique-hotel-bell-3771110/)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -38,15 +38,23 @@ Git.
 ## Table of Contents
 
 - [Re-organizing the default Django authentication system related templates and URLs](#re-organizing-the-default-django-authentication-system-related-templates-and-urls)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
+I wrote this series as a live process, so sometimes it might seem confusing, but
+it all works out in the end.
 
 ## Re-organizing the default Django authentication system related templates and URLs
 
 According to research I conducted after a couple of failed deployments on
 Heroku, I found that when using the default Django authentication system, the
-following URL pattern should be added in our `accounts/urls.py` file:
+following URL pattern should be added in my `accounts/urls.py` file:
 
 ```python
 urlpatterns = [
@@ -54,7 +62,7 @@ urlpatterns = [
 ]
 ```
 
-Our `accounts/urls.py` file should now look like the following:
+My `accounts/urls.py` file should now look like the following:
 
 ```python
 from django.urls import path
@@ -66,7 +74,7 @@ urlpatterns = [
     path("profile/", profile, name="users-profile"),
     path('profile-detail/<int:pk>/', profile_detail, name='profile'),
     path("profiles/", ProfileListView.as_view(), name="users-profile-list"),
-        path("signup/", signup, name="signup"),
+    path("signup/", signup, name="signup"),
     path(
         "login/", auth_views.LoginView.as_view(), name="login"
     ),
@@ -104,8 +112,8 @@ urlpatterns = [
 ]
 ```
 
-Adding these default `registration/password` reset URLs results in the inclusion
-of the following URL patterns:
+Adding these default `registration/password` reset URLs results in the
+generation of the following URL patterns:
 
 ```shell
 accounts/login/ [name='login']
@@ -121,7 +129,7 @@ accounts/reset/done/ [name='password_reset_complete']
 According to the
 [Django authentication system documentation](https://docs.djangoproject.com/en/5.1/topics/auth/default/),
 the associated templates should reside in a directory called registration. Now
-our templates directory should look like the following:
+my templates directory should look like the following:
 
 ```shell
 - templates/
@@ -140,21 +148,27 @@ our templates directory should look like the following:
     ...
 ```
 
-Since the `signup.html` template is not included in the list above, when a new
-visitor lands on the site, they see the link to the sign in (login) page and not
-the signup page. However, there is a link to the sign in page on the login page.
+Since the `signup.html` template is not included in the list of URL patterns,
+when a new visitor lands on the site, they see the link to the sign in (login)
+page and not the signup page. However, there is a link to the signup page on the
+login page.
+
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[a35acbd](https://github.com/interglobalmedia/django-boards/commit/a35acbd4bf05cd7f10670bcef09f5f2ca8118a2c).
 
 ## Conclusion
 
 In this section, I placed the default Django authentication system related
 templates into a new directory called registration inside the templates
-directory, I moved the associated URLs into `accounts/urls.oy`, and added the
+directory, I moved the associated URLs into `accounts/urls.py`, and added the
 associated default url pattern to `django_boards/urls.py`. This helped ensure
 that django-boards deployment to Heroku would be successful.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 - [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
   _mariadcampbell.com_
 - [Using the Django authentication system](https://docs.djangoproject.com/en/5.1/topics/auth/default/):
