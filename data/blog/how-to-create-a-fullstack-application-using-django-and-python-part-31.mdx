@@ -1,28 +1,24 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-31'
 date: '2024-11-23T23:43:58.688Z'
-lastModified: '2026-05-26T10:19:58.688Z'
+lastModified: '2026-07-15T13:31:58.688Z'
 title: 'How to create a fullstack application using Django and Python Part 31'
 author: 'Maria D. Campbell'
 excerpt:
-    'In this section, I modify settings in django_boards/settings.py for deployment
-on Heroku. I create a new SECRET_KEY for use on Heroku, add gunicorn,
-dj-database-url, psycopg2 and psycopg2-binary packages, create a
-requirements.txt file, create a Procfile, create a .python-version file,
-discuss the purpose of the os module, set DEBUG to false on Heroku,
-differentiate between DEBUG value in local development and production on
-Heroku, configure database access, run the collectstatic command for serving
-static files in production, and install and configure whitenoise.'
-image: elin-gann-XBb6qMPGmV0-unsplash.jpg
-tags:
-    [
+    'In this section, I modified settings in django_boards/settings.py for deployment
+on Heroku. I created a new SECRET_KEY for use on Heroku, added gunicorn,
+dj-database-url, psycopg2 and psycopg2-binary packages.  I created a
+requirements.txt file, a Procfile, a .python-version file, and
+discussed the purpose of the os module. I set DEBUG to false on Heroku, configured database access, ran the collectstatic command for serving
+static files in production, and installed and configured whitenoise.'
+image: elin-gann-XBb6qMPGmV0-unsplash.webp
+tags: [
         'fullstack development',
         'macOS',
         'heroku',
         'deployment',
         'django',
         'python3',
-        'database access',
         'database configuration',
         'development',
         'gunicorn',
@@ -37,10 +33,10 @@ isPublished: true
 isFeatured: false
 ---
 
-![Swedish chocolate balls, cinnamon roll and cardamom rolls in an autumn setting.](elin-gann-XBb6qMPGmV0-unsplash.jpg)
+![Swedish chocolate balls, cinnamon roll and cardamom rolls in an autumn setting.](elin-gann-XBb6qMPGmV0-unsplash.webp)
 
-_Photo by_ [Elin Gann](https://unsplash.com/@elsekind) **_on_**
-[unsplash.com](https://unsplash.com/photos/a-table-topped-with-plates-of-food-covered-in-powdered-sugar-XBb6qMPGmV0)
+_Photo by [Elin Gann](https://unsplash.com/@elsekind) on
+[unsplash.com](https://unsplash.com/photos/a-table-topped-with-plates-of-food-covered-in-powdered-sugar-XBb6qMPGmV0)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -53,7 +49,7 @@ Git.
 
 - [Saving the current settings.py in case if things go wrong](#saving-the-current-settingspy-in-case-if-things-go-wrong)
 - [Preparing for deployment on Heroku](#preparing-for-deployment-on-heroku)
-- [Configuring our Django app for Heroku](#configuring-our-django-app-for-heroku)
+- [Configuring my Django app for Heroku](#configuring-my-django-app-for-heroku)
     - [Creating a new SECRET_KEY for use on Heroku](#creating-a-new-secret-key-for-use-on-heroku)
     - [Adding gunicorn, dj-database-url, psycopg2 and psycopg2-binary packages](#adding-gunicorn-dj-database-url-psycopg2-and-psycopg2-binary-packages)
     - [Creating a requirements.txt file](#creating-a-requirementstxt-file)
@@ -63,18 +59,30 @@ Git.
     - [Setting DEBUG to False on Heroku](#setting-debug-to-false-on-heroku)
     - [Differentiating between DEBUG value in local development and production on Heroku](#differentiating-between-debug-value-in-local-development-and-production-on-heroku)
     - [Configuring database access](#configuring-database-access)
-
-- [Static Files](#static-files)
+- [Static files](#static-files)
     - [Running the collectstatic command](#running-the-collectstatic-command)
     - [Installing whitenoise](#installing-whitenoise)
     - [Configuring whitenoise in django_boards/settings.py](#configuring-whitenoise-in-django-boards-settingspy)
-- [Media Files](#media-files)
-    - [Media Files in development mode](#media-files-in-development-mode)
-    - [Media Files in production](#media-files-in-production)
+- [Media files](#media-files)
+    - [Media files in development mode](#media-files-in-development-mode)
+    - [Media files in production](#media-files-in-production)
 - [django_boards/settings.py up to this point](#django-boards-settingspy-up-to-this-point)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
+
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
+> **Note about this section (July 2026):** I did not manage to successfully
+> deploy my app to Heroku. The documentation was scant and hard to follow. I
+> discuss how I ended up deploying it to render.com in Part 32. The process was
+> smooth, and the documentation was clear. You won't miss anything if you skip
+> this section and move on to Part 32.
+
+I wrote this series as a live process, so sometimes it might seem confusing, but
+it all works out in the end.
 
 ## Saving the current settings.py in case if things go wrong
 
@@ -168,24 +176,22 @@ _to easily_ identify the point in time that change/those changes were made.
 
 Please ignore other commits made directly in the main branch after that. They
 were my desperate attempts at configuring my django-boards structure to Heroku's
-requirements, package requirements, and `settings.py`. I will share the link to
-the successful configuration of django-boards `settings.py` at the end of this
-post for reference.
+requirements, package requirements, and `settings.py`.
 
 ## Preparing for deployment on Heroku
 
-In order to be able to deploy our django-boards app on Heroku, some of the
-things we have to do are the following:
+In order to be able to deploy my django-boards app on Heroku, some of the things
+I have to do are the following:
 
 - Have an account on Heroku
 - Install the heroku CLI
 - Create a Python application on Heroku
-- Add a postgres database add-on to our Heroku application
+- Add a postgres database add-on to my Heroku application
 - Create a new SECRET_KEY for Heroku app
 - Create a Procfile
 
-Once we have created an account on Heroku, we have to install the Heroku CLI.
-For those of you that are on macOS like myself, run the following command:
+Once I have created an account on Heroku, I have to install the Heroku CLI. For
+those of you that are on macOS like myself, run the following command:
 
 ```shell
 brew tap heroku/brew && brew install heroku
@@ -201,16 +207,15 @@ Homebrew on macOS, run the following command:
 To learn more about Homebrew, please visit the
 [Homebrew home page](https://brew.sh).
 
-Once we have installed the Heroku CLI, we can run the following command:
+Once I have installed the Heroku CLI, I can run the following command:
 
 ```shell
 heroku login
 ```
 
-We are then prompted _to open_ Heroku in our web browser _and to_ login to
-Heroku.
+I am then prompted _to open_ Heroku in my web browser _and to_ login to Heroku.
 
-After we have successfully logged into Heroku, we can create our app. I ran the
+After I successfully logged into Heroku, I could create my app. I ran the
 following command to create an app called django-boards:
 
 ```shell
@@ -220,7 +225,7 @@ heroku create django-boards
 After it was created, I ran the following:
 
 ```shell
-# if I have any changes to push ro GitHub
+# if I have any changes to push to GitHub
 git add .
 git commit
 git push origin main
@@ -228,12 +233,12 @@ git push origin main
 git push heroku main
 ```
 
-and my django-boards app is pushed to Heroku.
+And my django-boards app is pushed to Heroku.
 
 Make sure that you have connected the correct GitHub repository with your Heroku
 app. To learn more about how to enable GitHub integration with your Heroku app,
 please visit
-[GitHub Integration (Heroku GitHub Deploys)]().https://devcenter.heroku.com/articles/github-integration
+[GitHub Integration (Heroku GitHub Deploys)](https://devcenter.heroku.com/articles/github-integration).
 
 If I want to check what my git remote URLs are on Heroku, I can run the
 following command from the directory where my `manage.py` resides:
@@ -257,15 +262,14 @@ Then, to open my application, I run:
 heroku open
 ```
 
-At this_point, our app will not be working on Heroku. We have to further
-configure our app for Heroku.
+At this point, my app will not be working on Heroku. I have to further configure
+my app for Heroku.
 
-## Configuring our Django app for Heroku
+## Configuring my Django app for Heroku
 
 ### Creating a new SECRET_KEY for use on Heroku
 
-Next, we create a new `SECRET_KEY` using the following command for use on
-Heroku:
+Next, I create a new `SECRET_KEY` using the following command for use on Heroku:
 
 ```shell
 python manage.py shell
@@ -278,8 +282,8 @@ HPXglo0sJsGs_bnrM0Eipkf_TkT9Rrl4_GKyW0uHTP9lgSOqxaqkX53mnwt2zqbUIRvYMhWnFQHHPBok
 I chose to set a random key that is 100 bytes in size, or 134 characters long.
 This should be large/long enough to be secure.
 
-We use the Python secrets module to create a long random secret key. We pass in
-the byte size we want to the `secrets.token_urlsafe()` method.
+I use the Python secrets module to create a long random secret key. I pass in
+the byte size I want to the `secrets.token_urlsafe()` method.
 
 The secrets module is designed for generating cryptographically strong random
 values, making it ideal for creating secure keys.
@@ -287,15 +291,15 @@ values, making it ideal for creating secure keys.
 The `token_urlsafe(n)` method generates a random URL-safe string containing n
 bytes. I use 100 bytes here, which results in a 134-character string.
 
-After we generate the key we copy the newly generated string of characters and
-paste them as the value of the `SECRET_KEY` variable inside our `.env` file as
-well as the value of a `SECRET_KEY` environment variable inside our
-django-boards application's Settings tab on Heroku.
+After I generate the key I copy the newly generated string of characters and
+paste them as the value of the `SECRET_KEY` variable inside my `.env` file as
+well as the value of a `SECRET_KEY` environment variable inside my django-boards
+application's Settings tab on Heroku.
 
 ### Adding gunicorn, dj-database-url, psycopg2 and psycopg2-binary packages
 
-Next, with our virtual environment activated at the root directory of our Django
-application (django-boards), we run the following command:
+Next, with my virtual environment activated at the root directory of my Django
+application (django-boards), I run the following command:
 
 ```shell
 django-boards (venv) pip install gunicorn psycopg2 psycopg2-binary dj-database-url
@@ -303,12 +307,12 @@ django-boards (venv) pip install gunicorn psycopg2 psycopg2-binary dj-database-u
 
 ### Creating a requirements.txt file
 
-Now that we have added more packages to django-boards and we are preparing for
-deployment, we need to create a `requirements.txt` file which will contain all
-the packages required for our Django application to run in production.
+Now that I have added more packages to django-boards and I am preparing for
+deployment, I need to create a `requirements.txt` file which will contain all
+the packages required for my Django application to run in production.
 
-First, we have to create a `requirements.txt` file at the root of our local Git
-repository where files such as `.gitignore` reside. To create it, we run the
+First, I have to create a `requirements.txt` file at the root of my local Git
+repository where files such as `.gitignore` reside. To create it, I run the
 following command in the root of the `django-boards` repository:
 
 ```shell
@@ -336,59 +340,59 @@ If ever you uninstall a package, run `pip freeze > requirements.txt` again.
 
 ### Creating a Procfile
 
-We need a `Procfile` for any application we host on Heroku. In the case of a
-Django application, we need to add the following to a file called `Procfile`:
+I need a `Procfile` for any application I host on Heroku. In the case of a
+Django application, I need to add the following to a file called `Procfile`:
 
 ```shell
 web: gunicorn --pythonpath django_boards django_boards.wsgi --log-file -
 ```
 
-It should reside in the root of our local Git repository, where such files as
-`.gitignore` reside. In our case, because of the structure of our Django
-application, we must add `django_boards` before `django_boards.wsgi`, because
-files like `manage.py` reside in the first `django_boards` subdirectory of our
+It should reside in the root of my local Git repository, where such files as
+`.gitignore` reside. In my case, because of the structure of my Django
+application, I must add `django_boards` before `django_boards.wsgi`, because
+files like `manage.py` reside in the first `django_boards` subdirectory of my
 local Git repository.
 
-The` Procfile` specifies the commands to run when our application starts. In our
-file, we instruct Heroku to use `Gunicorn` to start our Django application.
+The `Procfile` specifies the commands to run when my application starts. In my
+file, I instruct Heroku to use `Gunicorn` to start my Django application.
 
 `Gunicorn` plays a crucial role when deploying Django applications on Heroku. It
-is a Python WSGI HTTP server. It acts as the interface between our Django
+is a Python WSGI HTTP server. It acts as the interface between my Django
 application and the web, handling incoming HTTP requests and passing them to
 Django for processing.
 
-`Gunicorn` enables our Django app to handle multiple concurrent requests by
+`Gunicorn` enables my Django app to handle multiple concurrent requests by
 utilizing multiple worker processes. This significantly improves the performance
-and responsiveness of our application, especially under heavy traffic.
+and responsiveness of my application, especially under heavy traffic.
 
 `Gunicorn` can gracefully handle worker failures and automatically restart them.
 
-We can easily adjust the number of worker processes to match the load on our
+I can easily adjust the number of worker processes to match the load on my
 application.
 
 `Gunicorn` offers various configuration options to optimize performance.
 
-Gunicorn's `--pythonpath` option allows us to dynamically attach a directory to
+Gunicorn's `--pythonpath` option allows me to dynamically attach a directory to
 the list of directories that the Python runtime searches for when it does module
 look-ups. By adding `--pythonpath` to the `gunicorn` command, the interpreter is
 basically told to
-`'look inside of the (outer) django_boards directory for a package (also) called django_boards which contains a module called wsgi.`
+`'look inside of the (outer) django_boards directory for a package (also) called django_boards which contains a module called wsgi.'`
 
 `--log-file` or `--error-logfile` followed by a `FILE` or `-` stands for the
 default error log file to write to.
 
 And what is the `.wsgi` file for?
 
-In Django, the `.wsgi` file (typically named\_ `wsgi.py`) serves as the entry
-point for our web server to interact with our Django application. It acts as a
-bridge between the web server (like `Gunicorn` or `Apache`) and our Django
+In Django, the `.wsgi` file (typically named `wsgi.py`) serves as the entry
+point for my web server to interact with my Django application. It acts as a
+bridge between the web server (like `Gunicorn` or `Apache`) and my Django
 application, allowing them to communicate and handle requests.
 
-When we configure our web server (e.g., `Gunicorn`), we specify the path to our
+When I configure my web server (e.g., `Gunicorn`), I specify the path to my
 `wsgi.py` file.
 
-The web server imports the application callable from `wsgi.py`. In our `wegi.py`
-file in `django_boards`, our `wsgi.py` looks something like the following:
+The web server imports the application callable from `wsgi.py`. In my `wsgi.py`
+file in `django_boards`, my `wsgi.py` looks something like the following:
 
 ```python
 """
@@ -419,15 +423,15 @@ deprecated.
 
 ### The os module
 
-We need to make sure we are importing our `os` at the top of
-`django_boards/settings.py`. We already have done so:
+I need to make sure I am importing my `os` at the top of
+`django_boards/settings.py`. I already have done so:
 
 ```python
 import os
 ```
 
 `os` refers to the Python's built-in `os` module. It provides a way to interact
-with the operating system, allowing us to perform_tasks like:
+with the operating system, allowing me to perform tasks like:
 
 - File system operations like reading and writing files, creating directories,
   listing directory contents, etc.
@@ -436,20 +440,20 @@ with the operating system, allowing us to perform_tasks like:
 - Accessing and modifying environment variables.
 - Spawning new processes, getting process IDs, etc.
 
-Specifically, importing the `os` module allows us to read environment variables.
+Specifically, importing the `os` module allows me to read environment variables.
 
-For example, we will be using the `os` module in the following way (to be
+For example, I will be using the `os` module in the following way (to be
 discussed a bit later):
 
 ```python
 IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 ```
 
-`os.environ` is a Python dictionary-like object that allows us to access
+`os.environ` is a Python dictionary-like object that allows me to access
 environment variables. These variables are key-value pairs that store
-configuration information external to our code, making it easier to manage and
-customize our application across different environments. The `DYNO` env var is
-set on Heroku CI, but it's not a real Heroku app, so we also have to explicitly
+configuration information external to my code, making it easier to manage and
+customize my application across different environments. The `DYNO` env var is
+set on Heroku CI, but it's not a real Heroku app, so I also have to explicitly
 exclude CI, for example.
 
 ### Setting DEBUG to False on Heroku
@@ -460,9 +464,9 @@ Setting DEBUG and restarting ⬢ django-boards... done, v6
 DEBUG: False
 ```
 
-Here, we set `DEBUG` to `False` on Heroku. Locally, we also want to make sure
-that `DEBUG` is set to `False`. Otherwise, a security warning will be returned
-to Terminal after deployment:
+Here, I set `DEBUG` to `False` on Heroku. Locally, I also want to make sure that
+`DEBUG` is set to `False`. Otherwise, a security warning will be returned to
+Terminal after deployment:
 
 ```shell
 (security.W018) You should not have DEBUG set to True in deployment.
@@ -473,18 +477,17 @@ This is what was returned after I had deployed to Heroku and had `DEBUG` set to
 Heroku itself. I will discuss the command I ran that resulted in this warning a
 bit later.
 
-When we set `DEBUG` to `False` (as above), we lose any custom styling
-(non-Bootstrap) as well as our default topic posts and post detail default
-images locally. We will get to that later.
+When I set `DEBUG` to `False` (as above), I lose any custom styling
+(non-Bootstrap) as well as my default topic posts and post detail default images
+locally. I will get to that later.
 
 ### Differentiating between DEBUG value in local development and production on Heroku
 
-We also want to make sure that we can move between development mode and
-production mode. Heroku provides us with a conditional statement that achieves
-this:
+I also want to make sure that I can move between development mode and production
+mode. Heroku provides me with a conditional statement that achieves this:
 
 ```python
-# The `DYNO` env var is set on Heroku CI, but it's not a real Heroku app, so we also have to
+# The `DYNO` env var is set on Heroku CI, but it's not a real Heroku app, so I also have to
 # explicitly exclude CI:
 # https://devcenter.heroku.com/articles/heroku-ci#immutable-environment-variables
 IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
@@ -510,12 +513,12 @@ This also includes differentiating between `ALLOWED_HOSTS` in production on
 Heroku and `ALLOWED_HOSTS` in development locally. `localhost` is used with the
 `heroku local -p PORT_NUMBER` command. Replace `PORT_NUMBER` with the port
 number you want to use. For example, I like to use port 8000, so I run the
-command `heroku local -p 8000`. `'127.0.0.1'` refers to the IP address we use
+command `heroku local -p 8000`. `'127.0.0.1'` refers to the IP address I use
 when running in development. Specifically, `127.0.0.1:8000`.
 
 ### Configuring database access
 
-Next, we have to find the variable called `DATABASES`:
+Next, I have to find the variable called `DATABASES`:
 
 ```python
 # Database
@@ -529,8 +532,8 @@ DATABASES = {
 }
 ```
 
-Again, Heroku provides us with a conditional statement to differentiate between
-our `sqlite3` development database and our production database on Heroku:
+Again, Heroku provides me with a conditional statement to differentiate between
+my `sqlite3` development database and my production database on Heroku:
 
 ```python
 if IS_HEROKU_APP:
@@ -558,7 +561,7 @@ else:
     }
 ```
 
-This replaces our (original) development configuration using the `sqlite3`
+This replaces my (original) development configuration using the `sqlite3`
 database that comes with Django:
 
 ```python
@@ -573,23 +576,23 @@ DATABASES = {
 ```
 
 This (initial) configuration is for an `sqlite3` (SQLite) database. However, on
-Heroku, we would lose our entire database at least once every 24 hours.
+Heroku, I would lose my entire database at least once every 24 hours.
 
 Even if Heroku’s disks were persistent, running sqlite3 would still not be a
 good fit. Since sqlite3 does not run as a service, each dyno would run a
 separate running copy. Each of these copies need their own disk backed store.
-This would mean that each dyno powering our app would have a different set of
-data since the disks are not synchronized. Instead of using SQLite on Heroku we
-configure our app to run on Postgres as indicated in the if statement above.
+This would mean that each dyno powering my app would have a different set of
+data since the disks are not synchronized. Instead of using SQLite on Heroku I
+configure my app to run on Postgres as indicated in the if statement above.
 
-However, our Postgres configuration will not work until we run the following
+However, my Postgres configuration will not work until I run the following
 command:
 
 ```shell
 django-boards heroku run python django_boards/manage.py migrate
 ```
 
-We run it at the root of our local git repository: `django-boards`.
+I run it at the root of my local git repository: `django-boards`.
 
 The command returns something like the following in Terminal:
 
@@ -662,10 +665,10 @@ to also set the `DATABASE_URL` variable for Heroku using the following command:
 heroku config:set DATABASE_URL=DATABASE_URL_VALUE -a django-boards
 ```
 
-We can get `DATABASE_URL_VALUE` from within Config Vars on Heroku within our
+I can get `DATABASE_URL_VALUE` from within Config Vars on Heroku within my
 application's Settings tab. THEN the `dj_database_url.config()` method will
-work. The `DATABASE_URL` is generated after we add the Heroku Postgres addon to
-our Heroku django-boards application.
+work. The `DATABASE_URL` is generated after I add the Heroku Postgres addon to
+my Heroku django-boards application.
 
 What `dj_database_url.config()` does is it reads the `DATABASE_URL` environment
 variable provided by Heroku and converts it into a format Django can understand.
@@ -673,10 +676,10 @@ variable provided by Heroku and converts it into a format Django can understand.
 `conn_max_age=600` keeps database connections open for a longer duration (around
 10 minutes in this case), improving performance.
 
-`ssl_require=True` enforces secure connections to our database. We have to turn
-on SSL from within our application settings on Heroku. It's very easy to
-implement. Once we have done this, we can also check what our Heroku domain for
-the `django-boards` application is by running the following command:
+`ssl_require=True` enforces secure connections to my database. I have to turn on
+SSL from within my application settings on Heroku. It's very easy to implement.
+Once I have done this, I can also check what my Heroku domain for the
+`django-boards` application is by running the following command:
 
 ```shell
 heroku domains
@@ -708,15 +711,15 @@ Which returns something like the following:
 Enabling maintenance mode for ⬢ django-boards... done
 ```
 
-We can also turn on maintenance mode on Heroku inside our application Settings
+I can also turn on maintenance mode on Heroku inside my application Settings
 tab.
 
-## Static Files
+## Static files
 
 Locally, as long as `DEBUG` is set to `True` in `settings.py`, static files are
 served automatically by the `runserver` command. Django looks automatically for
-static files within each app in a folder called `static`. Initially, we placed
-our static files in a project-level folder called `static`.
+static files within each app in a folder called `static`. Initially, I placed my
+static files in a project-level folder called `static`.
 
 Locally, only two settings are required for static files:
 
@@ -729,22 +732,22 @@ STATICFILES_DIRS = [
 ]
 ```
 
-This already exists in our `django_boards/settings.py`. `STATICFILES_DIRS`
+This already exists in my `django_boards/settings.py`. `STATICFILES_DIRS`
 defines additional locations the built-in `staticfiles` app will look for static
-files outside of an `app/static` directory. We, however, did not set up our
-static files inside our apps. We set them all up in one `static` directory.
+files outside of an `app/static` directory. I, however, did not set up my static
+files inside my apps. I set them all up in one `static` directory.
 
-Our local Django server (`runserver`) is not made for hosting static files in
+My local Django server (`runserver`) is not made for hosting static files in
 production. Best practice is to bundle all static files in one directory and
 then have the production server serve those files.
 
 The Django `collectstatic` command collects static files into `STATIC_ROOT`.
 `STATIC_ROOT` is the absolute path to the directory where the `collectstatic`
-command will collect static files for deployment. This means that we have to add
+command will collect static files for deployment. This means that I have to add
 a `STATIC_ROOT` definition in `django_boards/settings.py`:
 
 ```python
-# what we already have
+# what I already have
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
@@ -753,7 +756,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-# what we need to add
+# what I need to add
 # django_boards/settings.py
 STATIC_ROOT = BASE_DIR / "staticfiles"
 ```
@@ -763,29 +766,28 @@ Now the Static files section should look like the following:
 ```python
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-# This is the way we define STATIC_ROOT according to Heroku
+# This is the way I define STATIC_ROOT according to Heroku
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = 'static/'
 ```
 
-`STATIC_ROOT` ensures Heroku can serve our static files from the `staticfiles`
+`STATIC_ROOT` ensures Heroku can serve my static files from the `staticfiles`
 directory in production, and adding `whitenoise.runserver_nostatic` to the top
-of `INSTALLED_APPS` ensures that we run whitenoise's runserver implementation
+of `INSTALLED_APPS` ensures that I run whitenoise's runserver implementation
 instead of the Django default. This is for development/production parity.
 
-Next, we run `python3 manage.py collectstatic` to compile our static files into
-a folder called `staticfiles` which will be located at the root of our
+Next, I run `python3 manage.py collectstatic` to compile my static files into a
+folder called `staticfiles` which will be located at the root of my
 `django_boards` project, in the same directory as `manage.py`. When I ran the
 command, something like the following was returned in Terminal:
 
-````shell
 And in my case, the following was returned:
 
 ```shell
 You have requested to collect static files at the destination
 location as specified in your settings:
 
-    /Users/mariacam/Python-Development/django-boards/django_boards/staticfiles
+/Users/mariacam/Python-Development/django-boards/django_boards/staticfiles
 
 This will overwrite existing files!
 Are you sure you want to do this?
@@ -793,7 +795,7 @@ Are you sure you want to do this?
 Type 'yes' to continue, or 'no' to cancel: yes
 
 1 static file copied to '/Users/mariacam/Python-Development/django-boards/django_boards/staticfiles', 135 unmodified.
-````
+```
 
 The command results in the following directory and structure:
 
@@ -817,14 +819,14 @@ The command results in the following directory and structure:
         - scroll-top.js
 ```
 
-We run the `collectstatic` command for Heroku, and a `staticfiles` directory is
+When I run the `collectstatic` command for Heroku, a `staticfiles` directory is
 generated from running the command.
 
 ### Running the collectstatic command
 
 Django does not have a built-in solution for serving static files, at least not
-in production when `DEBUG` has `to` be `False`. What we have to do now is set
-`DEBUG` to `False`, which we already did.
+in production when `DEBUG` has to be `False`. What I have to do now is set
+`DEBUG` to `False`, which I already did.
 
 ```python
 # django_boards/settings.py
@@ -832,20 +834,20 @@ in production when `DEBUG` has `to` be `False`. What we have to do now is set
 DEBUG = False
 ```
 
-Before we install `whitenoise`, we run the `collectstatic` command:
+Before I install `whitenoise`, I run the `collectstatic` command:
 
 ```shell
 python3 manage.py collectstatic
 ```
 
-We are then prompted to either type "yes" to continue or "no" not to. I typed
-"yes" to continue.
+I am then prompted to either type "yes" to continue or "no" not to. I type "yes"
+to continue.
 
 ### Installing whitenoise
 
 Django does not support serving static files in production. However, the
-fantastic WhiteNoise project can integrate into our Django application on
-Heroku, and was designed with this purpose in mind.
+fantastic WhiteNoise project can integrate into my Django application on Heroku,
+and was designed with this purpose in mind.
 
 When a Django application is deployed to Heroku,
 `python manage.py collectstatic --noinput` is run automatically during the
@@ -864,7 +866,7 @@ Then re-run `pip freeze > requirements.txt` to include `whitenoise`.
 
 ### Configuring whitenoise in django_boards/settings.py
 
-Next, we have to add the following to our `django_boards/settings.py` file:
+Next, I have to add the following to my `django_boards/settings.py` file:
 
 ```python
 # django_boards/settings.py
@@ -898,7 +900,7 @@ IINSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # Django doesn't support serving static assets in a production-ready way, so we use the
+    # Django doesn't support serving static assets in a production-ready way, so I use the
     # excellent WhiteNoise package to do so instead. The WhiteNoise middleware must be listed
     # after Django's SecurityMiddleware so that security redirects are still performed.
     # See: https://whitenoise.readthedocs.io
@@ -922,7 +924,7 @@ STATIC_URL = "static/"
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 ```
 
-## Media Files
+## Media files
 
 Usually files associated with the `FileField` or `ImageField` model fields
 should be treated as media files.
@@ -932,12 +934,12 @@ Handling media files is configured in `django_boards/settings.py`.
 - Similar to the `STATIC_URL`, the `MEDIA_URL` is the `URL` where users can
   access media files.
 
-- `MEDIA_ROOT` is the absolute path to the directory where our Django
-  application will serve our media files from.
+- `MEDIA_ROOT` is the absolute path to the directory where my Django application
+  will serve my media files from.
 
-### Media Files in development mode
+### Media files in development mode
 
-Our media files development config in `django_boards/settings.py`:
+My media files development config in `django_boards/settings.py`:
 
 ```python
 MEDIA_URL = '/media/'
@@ -945,7 +947,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 ```
 
 However, the Django development server doesn't serve media files by default. But
-we can (and do) add the media root as a static path to the` ROOT_URLCONF` in our
+I can (and do) add the media root as a static path to the `ROOT_URLCONF` in my
 project-level URLs:
 
 ```python
@@ -958,16 +960,16 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
-### Media Files in production
+### Media files in production
 
-When handling media files in production, we don't have as many options as we do
-with static files since we can't use `WhiteNoise` for serving media files.
-Usually we might want to use `Nginx` along with `django-storages` to store media
-files outside the local file system where our application is running in
+When handling media files in production, I don't have as many options as I do
+with static files since I can't use `WhiteNoise` for serving media files.
+Usually I might want to use `Nginx` along with `django-storages` to store media
+files outside the local file system where my application is running in
 production.
 
-However, we are not going that route because we are deploying to Heroku. We will
-configure our media files for production in upcoming part 32.
+However, I am not going that route because I am deploying to Heroku. I will
+configure my media files for production in upcoming part 32.
 
 ## django_boards/settings.py up to this point
 
@@ -1012,7 +1014,7 @@ AVATAR_PROVIDERS = (
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
-# The DYNO env var is set on Heroku CI, but it's not a real Heroku app, so we also have to
+# The DYNO env var is set on Heroku CI, but it's not a real Heroku app, so I also have to
 # explicitly exclude CI:
 # https://devcenter.heroku.com/articles/heroku-ci#immutable-environment-variables
 IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
@@ -1064,7 +1066,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # Django doesn't support serving static assets in a production-ready way, so we use the
+    # Django doesn't support serving static assets in a production-ready way, so I use the
     # excellent WhiteNoise package to do so instead. The WhiteNoise middleware must be listed
     # after Django's SecurityMiddleware so that security redirects are still performed.
     # See: https://whitenoise.readthedocs.io
@@ -1182,9 +1184,6 @@ LOGIN_REDIRECT_URL = 'index'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ```
 
-You can view this version of `django_boards/settings.py` at `git commit`
-[2b99872](https://github.com/interglobalmedia/django-boards/blob/main/django_boards/django_boards/settings.py).
-
 ## Conclusion
 
 In this section, I modified settings in `django_boards/settings.py` for
@@ -1199,7 +1198,7 @@ command for serving static files in production, and installed and configured
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 - [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
   _mariadcampbell.com_
 - [Hosting a Django Project on Heroku](https://realpython.com/django-hosting-on-heroku/):
