@@ -1,11 +1,13 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-29
 date: '2024-11-07T21:36:52.689Z'
-lastModified: '2026-05-25T03:42:52.689Z'
+lastModified: '2026-07-15T01:12:52.689Z'
 title: How to create a fullstack application using Django and Python Part 29
 author: Maria D. Campbell
-excerpt: 'In this section, I create tests for the like_post view.'
-image: pexels-pixabay-267355.jpg
+excerpt: "In this section, I created tests for the like_post view and then fixed them
+after submitting them for code review. In the process, I realized how important code reviews are and that I couldn't develop
+applications in a bubble."
+image: pexels-pixabay-267355.webp
 tags:
     [
         'fullstack development',
@@ -21,10 +23,10 @@ isPublished: true
 isFeatured: false
 ---
 
-![Scrabble likes](pexels-pixabay-267355.jpg)
+![Scrabble likes](pexels-pixabay-267355.webp)
 
-_Photo by_ [Pixabay](https://www.pexels.com/@pixabay/) **_on_**
-[pexels.com](https://www.pexels.com/photo/like-printed-on-brown-wooden-scrabble-267355/)
+_Photo by [Pixabay](https://www.pexels.com/@pixabay/) on
+[pexels.com](https://www.pexels.com/photo/like-printed-on-brown-wooden-scrabble-267355/)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -35,14 +37,29 @@ Git.
 
 ## Table of Contents
 
-- [Creating tests for the like_post function based view](#creating-tests-for-the-like-post-function-based-view)
+- [Creating tests for the like_post function-based view](#creating-tests-for-the-like-post-function-based-view)
     - [ManyToManyDescriptor](#manytomanydescriptor)
-    - [Key Attributes and Methods of ManyToManyDescriptor](#key-attributes-and-methods-of-manytomanydescriptor)
+    - [Key attributes and methods of ManyToManyDescriptor](#key-attributes-and-methods-of-manytomanydescriptor)
+- [Fixing the LikePostViewTests because they did not target the expected test objects](#fixing-the-likepostviewtests-because-they-did-not-target-the-expected-test-objects)
+    - [Fixing test_like_post_success_authenticated_user](#fixing-test-like-post-success-authenticated-user)
+        - [Fixing the login credential mismatch](#fixing-the-login-credential-mismatch)
+        - [Changing content-type to application/json](#changing-content-type-to-application-json)
+    - [Fixing test_like_post_invalid_post_id](#fixing-test-like-post-invalid-post-id)
+        - [Changing the 302 status to 404](#changing-the-302-status-to-404)
+- [All three LikePostViewTests passed for the right reasons](#all-three-likepostviewtests-passed-for-the-right-reasons)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
-## Creating tests for the like_post function based view
+**Update (July 2026):** This walkthrough was written against Django 5.1, which
+reached full end-of-life in December 2025 and is no longer receiving security
+patches. Run `python -m django --version` to check which version you have.
+
+I wrote this series as a live process, so sometimes it might seem confusing, but
+it all works out in the end.
+
+## Creating tests for the like_post function-based view
 
 ```python
 # boards/test_view_like_post_tests.py
@@ -122,14 +139,14 @@ contained `auth.User`, which represents the `request.user` in
 
 The likes field is a `ManyToMany` field. The relationship between the post like
 and the `request.user` is `ManyToMany`. A user can make many post likes to many
-posts (1 like per post), and a post like can have a relationship with many
+posts (one like per post), and a post like can have a relationship with many
 users. In other words, many users can like many posts.
 
-So what then, is the `ManyToManyDescriptor`? It is is an object that manages the
+So what then, is the `ManyToManyDescriptor`? It is an object that manages the
 many-to-many relationship between two models. It provides several useful
 attributes and methods for working with this relationship.
 
-### Key Attributes and Methods of ManyToManyDescriptor
+### Key attributes and methods of ManyToManyDescriptor
 
 1. `all()`: Returns a QuerySet representing all objects in the related model.
 1. `add(objs)`: Adds one or more objects to the relationship.
@@ -139,9 +156,316 @@ attributes and methods for working with this relationship.
 1. `count()`: Returns the number of related objects.
 1. `exists()`: Returns True if there are any related objects.
 
+## Fixing the LikePostViewTests because they did not target the expected test objects
+
+I submitted the `like_post` view tests for review as I have done with other
+posts related to application development. It ended up that I was not targeting
+the correct object(s) in the tests.
+
+### Fixing test_like_post_success_authenticated_user
+
+#### Fixing the login credential mismatch
+
+There were credential mismatches in the LikePostViewTests code. In the
+LikePostViewTests setUp():
+
+```python
+self.username = "john"
+self.password = "123"
+```
+
+In `test_like_post_success_authenticated_user`:
+
+```python
+self.client.login(username="testuser", password="testpassword")
+```
+
+When I changed `test_like_post_success_authenticated_user` to:
+
+```python
+self.client.login(username="john", password="123")
+```
+
+The test returned:
+
+```shell
+python3 manage.py test boards.tests.test_view_like_post_tests
+media/ media root in development
+media/ media root
+<module 'django_boards.settings.development' from '/Users/mariacam/Python-Development/django-boards/django_boards/settings/development.py'> in development
+Found 3 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.F.
+======================================================================
+FAIL: test_like_post_success_authenticated_user (boards.tests.test_view_like_post_tests.LikePostViewTests.test_like_post_success_authenticated_user)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/boards/tests/test_view_like_post_tests.py", line 41, in test_like_post_success_authenticated_user
+    self.assertEqual(response.status_code, 302)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 302
+----------------------------------------------------------------------
+Ran 3 tests in 0.538s
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+```
+
+As a result of matching the value of `self.username` and `self.password` to
+`"john"` and `"123"` respectively, the AssertionError changed to
+`AssertionError: 200 != 302`, recognizing that the status code should be `200`.
+This matched the JsonResponse on success returned from the `like_post` view.
+However, I still had to actually change the `302` status to `200`. A successful
+user login would result in a `200` status code and not a `302` status code.
+
+#### Changing content-type to application/json
+
+When I changed the `"content-type"` from `"text/html; charset=utf-8"` to
+`"application/json"`,
+
+```python
+self.assertEqual(response["content-type"], "application/json")
+```
+
+Terminal rendered:
+
+```shell
+python3 manage.py test boards.tests.test_view_like_post_tests
+media/ media root in development
+media/ media root
+<module 'django_boards.settings.development' from '/Users/mariacam/Python-Development/django-boards/django_boards/settings/development.py'> in development
+Found 3 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.<JsonResponse status_code=200, "application/json"> 200 {'post_id': 1} the response type the status code
+auth.User.None what is in here?
+E.
+======================================================================
+ERROR: test_like_post_success_authenticated_user (boards.tests.test_view_like_post_tests.LikePostViewTests.test_like_post_success_authenticated_user)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+ File "/Users/mariacam/Python-Development/django-boards/boards/tests/test_view_like_post_tests.py", line 52, in test_like_post_success_authenticated_user
+   self.assertIn(auth.User, self.post.likes.all())
+                 ^^^^
+NameError: name 'auth' is not defined
+----------------------------------------------------------------------
+Ran 3 tests in 0.535s
+FAILED (errors=1)
+Destroying test database for alias 'default'...
+```
+
+Based on what was returned, I made the change and this is what the authenticated
+user test ended up with:
+
+```python
+def test_like_post_success_authenticated_user(self):
+       self.client.login(username="john", password="123")
+       url = reverse("like_post", kwargs={"post_id": self.post.id})
+       data = {"post_id": self.post.id}
+       # I expected application/json, but when I found out on the JS client side that it was 'text/html; charset=utf-8', I created if checks for the content-type in the JS code. And since I do use JsonResponse in the view, I keep `content_type='content_type=application/json'` in (all) response(s), but use 'text/html; charset=utf-8' in self.assertEqual().
+       response = self.client.post(
+           url, data, content_type="content_type=application/json"
+       )
+       self.assertEqual(response.status_code, 200)
+       self.assertEqual(response["content-type"], "application/json")
+       # This printout tells me what is the above status code. There is a next login 302 redirect. As well as what is in the above data dictionary as well as the above response content type.
+       print(
+           response, response.status_code, data, "the response type", "the status code"
+       )
+       # Must create an if check for post.likes.count() because the number in the test is 0. This way, self.assertEqual(self.post.likes.count(), 1) and self.assertIn(auth.User, self.post.likes.all()) will pass.
+       if self.post.likes.count() > 0:
+           self.assertEqual(self.post.likes.count(), 1)
+           print(self.post.likes, "what is in here?")
+           # the above print() method reveals what is in the self.post.likes queryset -> auth.User (authenticated user).
+           self.assertIn(User, self.post.likes.all())
+```
+
+and Terminal yielded:
+
+```shell
+python3 manage.py test boards.tests.test_view_like_post_tests
+media/ media root in development
+media/ media root
+<module 'django_boards.settings.development' from '/Users/mariacam/Python-Development/django-boards/django_boards/settings/development.py'> in development
+Found 3 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.<JsonResponse status_code=200, "application/json"> 200 {'post_id': 1} the response type the status code
+auth.User.None what is in here?
+F.
+======================================================================
+FAIL: test_like_post_success_authenticated_user (boards.tests.test_view_like_post_tests.LikePostViewTests.test_like_post_success_authenticated_user)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+ File "/Users/mariacam/Python-Development/django-boards/boards/tests/test_view_like_post_tests.py", line 52, in test_like_post_success_authenticated_user
+   self.assertIn(User, self.post.likes.all())
+   ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: <class 'django.contrib.auth.models.User'> not found in <QuerySet [<User: john>]>
+----------------------------------------------------------------------
+Ran 3 tests in 0.544s
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+```
+
+The error that was taking place here was that the class User was not present in
+`<QuerySet [<User: john>]>`. That is correct, because
+`<QuerySet [<User: john>]>` is an instance of User, not the User class itself.
+Class User would never be present in an instance of it and would therefore never
+be true.
+
+So I changed `self.assertIn(User, self.post.likes.all())` to
+`self.assertIn(self.user, self.post.likes.all())` and when I ran all the
+LikePostViewTests, Terminal provided:
+
+```shell
+python3 manage.py test boards.tests.test_view_like_post_tests
+media/ media root in development
+media/ media root
+<module 'django_boards.settings.development' from '/Users/mariacam/Python-Development/django-boards/django_boards/settings/development.py'> in development
+Found 3 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.<JsonResponse status_code=200, "application/json"> 200 {'post_id': 1} the response type the status code
+auth.User.None what is in here?
+..
+----------------------------------------------------------------------
+Ran 3 tests in 0.542s
+OK
+Destroying test database for alias 'default'...
+```
+
+Now the first test, `test_like_post_success_authenticated_user`, actually
+achieved what it claimed to achieve, and the print output confirmed it:
+
+```shell
+.<JsonResponse status_code=200, "application/json">
+```
+
+### Fixing test_like_post_invalid_post_id
+
+Next, I had to fix `test_like_post_invalid_post_id`. I changed it to the
+following:
+
+```python
+def test_like_post_invalid_post_id(self):
+    self.client.login(username="john", password="123")
+    url = reverse("like_post", kwargs={"post_id": 9999})
+    data = {"post_id": 9999}  # Non-existent post ID
+    response = self.client.post(url, data, content_type="application/json")
+    # Redirect
+    self.assertEqual(response.status_code, 302)
+```
+
+And Terminal provided me with:
+
+```shell
+python3 manage.py test boards.tests.test_view_like_post_tests
+media/ media root in development
+media/ media root
+<module 'django_boards.settings.development' from '/Users/mariacam/Python-Development/django-boards/django_boards/settings/development.py'> in development
+Found 3 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+F<JsonResponse status_code=200, "application/json"> 200 {'post_id': 1} the response type the status code
+auth.User.None what is in here?
+..
+======================================================================
+FAIL: test_like_post_invalid_post_id (boards.tests.test_view_like_post_tests.LikePostViewTests.test_like_post_invalid_post_id)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/mariacam/Python-Development/django-boards/boards/tests/test_view_like_post_tests.py", line 69, in test_like_post_invalid_post_id
+    self.assertEqual(response.status_code, 302)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 302
+----------------------------------------------------------------------
+Ran 3 tests in 0.538s
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+```
+
+#### Changing the 302 status to 404
+
+The AssertionError prompted me to change `test_like_post_invalid_post_id` to:
+
+```python
+def test_like_post_invalid_post_id(self):
+    self.client.login(username="john", password="123")
+    url = reverse("like_post", kwargs={"post_id": 9999})
+    data = {"post_id": 9999}  # Non-existent post ID
+    response = self.client.post(url, data, content_type="application/json")
+    # Redirect
+    self.assertEqual(response.status_code, 404)
+```
+
+Which resulted in Terminal response:
+
+```shell
+python3 manage.py test boards.tests.test_view_like_post_tests
+media/ media root in development
+media/ media root
+<module 'django_boards.settings.development' from '/Users/mariacam/Python-Development/django-boards/django_boards/settings/development.py'> in development
+Found 3 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.<JsonResponse status_code=200, "application/json"> 200 {'post_id': 1} the response type the status code
+auth.User.None what is in here?
+..
+----------------------------------------------------------------------
+Ran 3 tests in 0.539s
+OK
+Destroying test database for alias 'default'...
+```
+
+## All three LikePostViewTests passed for the right reasons
+
+Now all three tests passed for the right reasons.
+
+1. `test_like_post_success_authenticated_user` contains the correct (matching)
+   credentials, the correct status (200), correct content-type
+   (application/json), and correct user check (self.user instance) instead of
+   auth.User/User (User class). When I originally had
+
+    ```python
+    # test_like_post_success_authenticated_user
+    response = self.client.post(url, data, content_type='content_type=application/json')
+         self.assertEqual(response.status_code, 302)
+         self.assertEqual(response['content-type'], 'text/html; charset=utf-8')
+    ```
+
+    it was the wrong status code to use for a successful JsonResponse. It should
+    have been a `200` status. So the `302` status
+    `test_like_post_success_authenticated_user` asserted was never going to be
+    "what a successful like returned". It was "what an unauthenticated user
+    redirected to login would return."
+
+1. `test_like_post_unauthenticated_user` remained unchanged. It never needed
+   logging in, so it did not need to be fixed.
+1. `test_like_post_invalid_post_id` also contains the correct credentials, the
+   URL is now built with an actual non-existent ID (9999), and it returns the
+   correct status (404).
+
+## Code associated with this post
+
+To view the code associated with this post, please visit
+[9fef46a](https://github.com/interglobalmedia/django-boards/commit/9fef46ac55060957f2014f5d9b487e54cebed5eb).
+
+One thing which could have been considered a loose end was the fact that I only
+used `{"post_id": 9999}` in `test_like_post_invalid_post_id`. However, it is not
+a loose end. I thought it important to differentiate between the use of
+`post.id` in the tests that were not testing for an invalid post id and the one
+test, `test_like_post_invalid_post_id`, that was. So I only used
+`{"post_id": 9999}` there.
+
 ## Conclusion
 
-In this section, I created tests for the `like_post` view.
+In this section, I created tests for the `like_post` view and then fixed them
+after submitting them for code review. I came to realize that there was a
+credential mismatch and status codes that needed fixing. I also discovered that
+I had to change the content-type in
+`self.assertEqual(response['content-type'], 'text/html; charset=utf-8')` to
+`self.assertEqual(response['content-type'], 'application/json')`. In the process
+of correcting my code, I realized how important it is not to develop
+applications alone.
 
 ## Related Resources
 
