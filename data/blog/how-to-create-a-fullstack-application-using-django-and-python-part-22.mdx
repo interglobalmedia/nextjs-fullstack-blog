@@ -1,16 +1,16 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-22
 date: '2024-10-01T15:17:34.665Z'
-lastModified: '2026-07-11T15:25:34.665Z'
+lastModified: '2026-07-16T12:16:34.665Z'
 title: How to create a fullstack application using Django and Python Part 22
 author: Maria D. Campbell
-excerpt: "In this section, I implemented a Generic Class Based View and
-pagination to the index/home view, added pagination to the topics view and topic_posts view, and added
-pagination to the associated templates. I refactored the associated urls in
-urls.py, and refactored the associated tests. I also added a copy link button to
+excerpt: "In this section, I implement a Generic Class Based View and
+pagination to the index/home view, add pagination to the topics view and topic_posts view, and add
+pagination to the associated templates. I refactor the associated urls in
+urls.py, and refactor the associated tests. I also add a copy link button to
 copy the link to a topic's replies, a scroll top and scroll bottom
 button using JavaScript to enable their functionality, and JavaScript code
-to make the scrollbar return to the bottom of the page when a pagination item was clicked."
+to make the scrollbar return to the bottom of the page when a pagination item is clicked."
 image: pexels-arkhod-85162625-9939244.webp
 tags: ['fullstack development', 'macOS', 'django', 'bootstrap pagination', 'code refactoring', 'clipboard api', 'generic class based views', 'python3', 'scroll behavior', 'series', 'tests', 'unittest']
 isPublished: true
@@ -89,13 +89,13 @@ it all works out in the end.
 
 ## Using a Class Based View (CBV) on the index/home page
 
-Now I am going to use a Class Based View (CBV) on our home page.
+Now I am going to use a Class Based View (CBV) on my home page.
 
 ### What is a Class Based View?
 
 A view in Django is a callable which takes a request and returns a response.
 This can be more than just a function, and Django provides some classes which
-can be used as views. They allow us to structure our views and reuse code by
+can be used as views. They allow me to structure my views and reuse code by
 making use of inheritance and mixins[^1].
 
 Django provides base view classes (CBVs) which can apply to a wide range of
@@ -130,9 +130,9 @@ class MyView(View):
 
 ## Refactoring the index/home page to include a Generic Class Based View (GCBV)
 
-Now we are going to refactor the `index` view to use a
-`Generic Class Based View` instead of our current `Function Based View` . This
-will permit us to take advantage of some `Class Based View` capabilities.
+Now I am going to refactor the `index` view to use a `Generic Class Based View`
+instead of my current `Function Based View` . This will permit me to take
+advantage of some `Class Based View` capabilities.
 
 ```python
 class BoardListView(ListView):
@@ -187,8 +187,8 @@ FAILED (errors=1)
 ```
 
 I no longer can import name `index` from `boards.views`
-(`from ..views import index`) into our` IndexTests`, because the (function
-based) `index` view is now `class BoardListView` (Class Based View) in
+(`from ..views import index`) into my `IndexTests`, because the (function based)
+`index` view is now `class BoardListView` (Class Based View) in
 `boards/views.py`. So I make the following changes in
 `boards/tests/test_view_index_tests.py`:
 
@@ -390,7 +390,7 @@ paginate. Otherwise, it might give inconsistent or unexpected results.
 ```shell
 # importing the Paginator utility
 >>> from django.core.paginator import Paginator
-# telling Django to paginate our QuerySet to pages of 20 topics
+# telling Django to paginate my QuerySet to pages of 20 topics
 >>> paginator = Paginator(queryset, 20)
 # count the number of elements in the paginator
 >>> paginator.count
@@ -504,7 +504,7 @@ def board_topics(request, pk):
         topics = paginator.page(1)
     except EmptyPage:
         # probably the user tried to add a page number
-        # in the url, so we fallback to the last page
+        # in the url, so I fallback to the last page
         topics = paginator.page(paginator.num_pages)
 
     return render(request, "topics.html", {"board": board, 'topics': topics})
@@ -634,8 +634,8 @@ default variable `object_list`.
 
 ### get_context_data
 
-`get_context_data` gets additional data to a template _when using_ `GCBVs`. We
-subclass our `GCBV` and provide our own implementation of `get_context_data`.
+`get_context_data` gets additional data to a template _when using_ `GCBVs`. I
+subclass my `GCBV` and provide my own implementation of `get_context_data`.
 
 ### Refactoring the board_topics url in urls.py
 
@@ -1234,16 +1234,16 @@ Ran 1 test in 0.000s
 FAILED (errors=1)
 ```
 
-Our tests fail because of the following line (line 6) in
+My tests fail because of the following line (line 6) in
 `test_view_topic_posts_tests`:
 
 ```python
 from ..views import topic_posts
 ```
 
-Our `topic_posts` view is no longer a function based view called `topic_posts`.
+My `topic_posts` view is no longer a function based view called `topic_posts`.
 It's now a generic class based view called `PostListView`. I have already
-updated our URL. I just have to update our tests:
+updated my URL. I just have to update my tests:
 
 ```python
 from ..views import PostListView
@@ -2084,16 +2084,16 @@ and
 
 ## Conclusion
 
-In this section, I experimented with the Python shell to demonstrate how
-pagination works under the hood. I implemented a Generic Class Based View and
-pagination to the `index/home` view, added Class Based View pagination to the
-topics view and `topic_posts` view, and added Bootstrap 5 pagination to the
-associated templates. I refactored the associated urls in `urls.py`, and
-refactored the associated tests. I also added a copy link button to copy the
-link to a topic's replies (posts). I created a scroll top and scroll bottom
-button using JavaScript to enable their functionality, and added JavaScript code
-to make the scrollbar return to the bottom of the page when a pagination item
-(page number) is clicked.
+In this section, I experiment with the Python shell to demonstrate how
+pagination works under the hood. I implement a Generic Class Based View and
+pagination to the index/home view, add Class Based View pagination to the topics
+view and topic_posts view, and add Bootstrap 5 pagination to the associated
+templates. I refactor the associated urls in urls.py, and refactor the
+associated tests. I also add a copy link button to copy the link to a topic's
+replies (posts). I create a scroll top and scroll bottom button using JavaScript
+to enable their functionality, and add JavaScript code to make the scrollbar
+return to the bottom of the page when a pagination item (page number) is
+clicked.
 
 ## Related Resources
 
