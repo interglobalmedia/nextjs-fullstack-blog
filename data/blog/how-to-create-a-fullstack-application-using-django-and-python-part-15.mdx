@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-15
 date: '2024-09-14T07:36:23.164Z'
-lastModified: '2026-07-11T15:12:23.164Z'
+lastModified: '2026-07-16T12:04:23.164Z'
 title: How to create a fullstack application using Django and Python Part 15
 author: Maria D. Campbell
 excerpt: 'In this section, I create an accounts app where everything related to
@@ -14,8 +14,8 @@ isFeatured: false
 
 ![User](mark-stuckey-Yu-W5f_ikts-unsplash.webp)
 
-**_Photo by_** [Mark Stuckey](https://unsplash.com/@m_stuckey) **_on_**
-[unsplash.com](https://unsplash.com/photos/a-close-up-of-the-word-user-on-a-wall-Yu-W5f_ikts)
+_Photo by [Mark Stuckey](https://unsplash.com/@m_stuckey) on
+[unsplash.com](https://unsplash.com/photos/a-close-up-of-the-word-user-on-a-wall-Yu-W5f_ikts)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -196,7 +196,7 @@ def signup(request):
 {% endblock content %}
 ```
 
-When I visit the `http://127.0.0.1:8000/signup/ URL in the browser, the signup
+When I visit the `http://127.0.0.1:8000/signup/` URL in the browser, the signup
 page looks like the following:
 
 ![Rendering the signup page in the browser](Screenshot-2024-09-14-at-10.18.56-AM.webp)
@@ -361,7 +361,6 @@ Looks a bit all over the place, right? I can fix that by adding
     <form method="post" novalidate>
       {% csrf_token %}
       {% include "includes/form.html" %}
-      {{ form.as_p }}
       <button type="submit" class="btn btn-primary">Create an account</button>
     </form>
   </div>
@@ -719,7 +718,7 @@ Now, instead of using the `UserCreationForm` in my `accounts/tests.py`, I'll
 ```python
 # in accounts/tests.py
 from django.contrib.auth.models import User
-from .forms import SignUpForm # SignUpFrom import added replacing UserCreationForm
+from .forms import SignUpForm # SignUpForm import added replacing UserCreationForm
 from django.urls import reverse
 from django.urls import resolve
 from django.test import TestCase
@@ -746,7 +745,7 @@ class SignUpTests(TestCase):
 ```
 
 The previous `UserCreationForm` test case would still pass, because `SignUpForm`
-extends `UserCreationForm`. it is an instance of `UserCreationForm`.
+extends `UserCreationForm`. It is an instance of `UserCreationForm`.
 
 As for class `SuccessfulSignUpTests(TestCase)`, I now have added an `email`
 field to the signup `form` both in `accounts/forms.py` and in
@@ -1027,6 +1026,11 @@ class NewTopicTests(TestCase):
             'subject': '',
             'message': ''
         }
+        response = self.client.post(url, data)
+        # self.assertEquals() is what Vitor Freitas uses (Django 1.11). Should be self.assertEqual()
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse(Topic.objects.exists())
+        self.assertFalse(Post.objects.exists())
 ```
 
 Now I have modularized my `boards/tests.py` file! And the structure of boards
@@ -1226,21 +1230,20 @@ To view the code associated with this post, please visit
 
 ## Conclusion
 
-In this section, I created an `accounts` app where everything related to user
-accounts would reside, created a `signup` view in `accounts/views.py`, a
-`signup.html` template, and I created a `SignUpTests` class in
-`accounts/tests.py`. I tweaked `templates/base.html` to account for
-authentication, implemented `auth_login` in the `signup` view, and referenced
-the authenticated user in `templates/base.html`. I tested for a successful
-signup with a `SuccessfulSignUpTests` class, tested for signup invalid data with
-an `InvalidSignUpTests` class, and created an `accounts/forms.py` file. I
-created a test to verify HTML inputs in `templates/signup.html`, and modularized
-my `boards` and `accounts` tests so that I didn't have to deal with such large
-files.
+In this section, I create an accounts app where everything related to user
+accounts would reside, create a signup view in accounts/views.py, a signup.html
+template, and I create a SignUpTests class in accounts/tests.py. I tweak
+templates/base.html to account for authentication, implement auth_login in the
+signup view, and reference the authenticated user in templates/base.html. I test
+for a successful signup with a SuccessfulSignUpTests class, test for signup
+invalid data with an InvalidSignUpTests class, and create an accounts/forms.py
+file. I create a test to verify HTML inputs in templates/signup.html, and
+modularize my boards and accounts tests so that I don't have to deal with such
+large files.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 
 - [Beautiful asserts with your Django Test Client](https://vicktor.nl/academy/beautiful-asserts-with-your-django-test-client/):
   _vicktor.nl_
@@ -1252,7 +1255,7 @@ files.
 [^1]:
     [form.cleaned_data](<https://stackoverflow.com/questions/53594745/what-is-the-use-of-cleaned-data-in-django#:~:text=cleaned_data%20returns%20a%20dictionary%20of,format%20(i.e.%20not%20objects)>)
     returns a dictionary of validated form input fields and their values, where
-    string primary keys are returned as objects. to view an example, please
+    string primary keys are returned as objects. To view an example, please
     visit the thread entitled
     ["What is the use of cleaned_data in Django?"](<https://stackoverflow.com/questions/53594745/what-is-the-use-of-cleaned-data-in-django#:~:text=cleaned_data%20returns%20a%20dictionary%20of,format%20(i.e.%20not%20objects)%3E>))
     on Stack Overflow.
