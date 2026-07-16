@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-3
 date: '2024-08-27T21:02:57.925Z'
-lastModified: '2026-07-11T14:42:57.925Z'
+lastModified: '2026-07-16T12:27:57.925Z'
 title: How to create a fullstack application using Django and Python Part 3
 author: Maria D. Campbell
 excerpt:
@@ -54,12 +54,13 @@ Git.
     - [tests.py](#testspy)
     - [views.py](#viewspy)
 - [Configuring the boards app in the django_boards project (settings.py)](#configuring-the-boards-app-in-the-django-boards-project-settingspy)
-- [Writing the first boards app view (views.py)](#writing-the-first-board-app-view-viewspy)
+- [Writing the first boards app view (views.py)](#writing-the-first-boards-app-view-viewspy)
 - [Telling the Django project (django_boards) when to serve the view (urls.py)](#telling-the-django-project-django_boards-when-to-serve-the-view-urlspy)
     - [Breaking down the (new) code in urls.py](#breaking-down-the-new-code-in-urlspy)
 - [Running the development server to view the results of the changes made to views.py and urls.py](#running-the-development-server-to-view-the-results-of-the-changes-made-to-viewspy-and-urlspy)
 - [Conclusion](#conclusion)
 - [Related terms](#related-terms)
+- [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 - [Footnotes](#footnotes)
 
@@ -83,8 +84,8 @@ database settings, URL routing, and other global configurations for the apps it
 contains.
 
 A Django app is a self-contained module that can be plugged into any Django
-project. A Django app serves a specific purpose or feature in a Django project,
-and includes, models, views, templates, and static files.
+project. A Django app serves a specific purpose or feature in a Django project:
+includes, models, views, templates, and static files.
 
 However, I can’t run a Django app without a project.
 
@@ -369,8 +370,8 @@ This means I have successfully created my first view!
 In this section, I compare Django projects vs apps, create my first app in the
 Django project, configure the boards app in the django_boards project, write the
 first boards app view, tell the Django project when to serve the view, break
-down the code in `urls.py`, and run the development server to view the results
-of the changes made to `views.py` and `urls.py`.
+down the code in urls.py, and run the development server to view the results of
+the changes made to views.py and urls.py.
 
 ## Related terms
 
@@ -385,6 +386,11 @@ of the changes made to `views.py` and `urls.py`.
   [What is an ORM – The Meaning of Object Relational Mapping Database Tools](https://www.freecodecamp.org/news/what-is-an-orm-the-meaning-of-object-relational-mapping-database-tools/),
   by Ihechikara Abba, freecodecamp
 
+## Related Resources
+
+- [What is Namespace in Python?](https://www.pythonforbeginners.com/basics/what-is-namespace-in-python):
+  _PythonForbeginners_
+
 ## Related Posts
 
 - [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
@@ -398,9 +404,18 @@ of the changes made to `views.py` and `urls.py`.
     [Database Schema Definition](https://www.solarwinds.com/resources/it-glossary/database-schema),
     Solar Winds
 
-[^2]:
-    In general, a namespace is the name of a directory. So the "namespaces"
-    referred to here are the directories located within the Django boards app.
+[^2]: PythonForBeginners best describes what a namespace is:
+
+    > In simple words, A namespace is a collection of names and the details of
+    > the objects referenced by the names. We can consider a namespace as a
+    > python dictionary which maps object names to objects. The keys of the
+    > dictionary correspond to the names and the values correspond to the
+    > objects in python. — from PythonForBeginners in
+    > [What is Namespace in Python?](https://www.pythonforbeginners.com/basics/what-is-namespace-in-python#:~:text=What%20is%20a%20namespace,the%20objects%20in%20python.%C2%A0,-In).
+
+    So the "namespaces" referred to here are the directories located within the
+    Django boards app. Each directory within the Django Boards app creates a
+    namespace.
 
 [^3]:
     Django's URL reversing feature allows developers to dynamically generate
