@@ -1,25 +1,31 @@
 ---
-slug: 'changing-the-git-master-branch-to-main-updated'
+slug: 'changing-the-git-master-branch-to-main'
 date: '2026-05-12T11:07:23.168Z'
-lastModified: '2026-07-16T14:09:00.168Z'
-title: 'Changing the Git master branch to main (updated)'
+lastModified: '2026-07-16T22:56:00.168Z'
+title: 'Changing the Git master branch to main'
 author: 'Maria D. Campbell'
-excerpt: 'Changing the Git master branch to main on Github (updated).'
+excerpt:
+    'In this post, I discuss why GitHub changed the name of the default branch
+    from master to main, and I talk about how I made the default-branch switch
+    locally and on GitHub.'
 image: Screenshot-2026-05-12-at-8.08.06-AM.webp
-tags: ['default branch', 'git', 'macOS', 'main branch', 'master branch']
+tags:
+    ['default branch', 'git', 'github', 'macOS', 'main branch', 'master branch']
 isPublished: true
 isFeatured: true
 ---
 
-![Changing the Git default branch manually on Github](Screenshot-2026-05-12-at-8.08.06-AM.webp)
+![Changing the Git default branch manually on GitHub](Screenshot-2026-05-12-at-8.08.06-AM.webp)
 
-_Changing the Git default branch manually on Github_
+_Changing the Git default branch manually on GitHub_
 
 ## Table of Contents
 
 - [When the Git default branch was changed to main and why](#when-the-git-default-branch-was-changed-to-main-and-why)
 - [How to change the Git default branch from master to main](#how-to-change-the-git-default-branch-from-master-to-main)
 - [What git push -u origin main means](#what-git-push-u-origin-main-means)
+- [Git: Migrating from master to main recap](#git-migrating-from-master-to-main-recap)
+- [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 
 If you're still maintaining older Git projects that use the default master
@@ -31,10 +37,10 @@ branch.
 
 ## When the Git default branch was changed to main and why
 
-The default `Git` branch was changed from `master` to `main` on Octeber 1, 2020.
-It was changed because some (developers) were concerned that the term "master"
-could be associated with slavery and its derogative historical connotations.
-They thought the term "main" would be more inclusive.
+GitHub changed the default branch from `master` to `main` on October 1, 2020. It
+was changed because some developers were concerned that the term "master" could
+be associated with slavery and its derogatory historical connotations. They
+thought the term "main" would be more inclusive.
 
 ## How to change the Git default branch from master to main
 
@@ -43,25 +49,23 @@ June 12, 2020. However, there are a few older projects that I have not yet
 updated. And today I came across one of them.
 
 The process to change `master` to `main` has also changed a little since it was
-first implemented. For one, Github has radically changed since then!
+first implemented. For one, GitHub has radically changed since then!
 
-As of today, the following is how one can change the Git default branch locally
-and on Github from master to main:
+As of today, the following is how I can change the Git default branch locally
+and on GitHub from master to main:
 
 ```shell
 # renames the default local Git branch master to main
 git branch -m master main
-# pushes the new main branch to remote origin (in my case, Github)
+# pushes the new main branch to remote origin (in my case, GitHub)
 git push -u origin main
 # deletes remote master branch
 git push origin --delete master
 ```
 
-This is where I had to stop. Github would not let me delete the `master` branch
-because it was protected. Protected branches (which was a feature rolled out in
-September 2015) became the default setting for the `main` branch (or `master`)
-when GitHub transitioned from using `master` to `main` as the default branch
-name.
+This is where I had to stop. GitHub would not let me delete the `master` branch
+because it was the default branch. So I had to change my default branch in order
+to delete the master branch.
 
 When I executed the command `git push origin --delete master`, the following was
 returned:
@@ -72,30 +76,29 @@ To git@github.com:interglobalmedia/pokemon-api.git
 error: failed to push some refs to 'git@github.com:interglobalmedia/pokemon-api.git'
 ```
 
-This happened because Github expected me to define a "default branch", and
-deleting it is not permitted. AND, it is most probable (as was in my case) that
-the `master` branch was "protected". This meant that I had to change the default
-branch manually on remote from `master to `main` in the following way:
+This happened because GitHub expected me to define a "default branch", and
+deleting it is not permitted. This meant that I had to change the default branch
+manually on remote from `master` to `main` in the following way:
 
-![Changing the Git default branch manually on Github](Screenshot-2026-05-12-at-8.08.06-AM.webp)
+![Changing the Git default branch manually on GitHub](Screenshot-2026-05-12-at-8.08.06-AM.webp)
 
-_Changing the Git default branch manually on Github_
+_Changing the Git default branch manually on GitHub_
 
 When I went to the "General" settings within the "Settings" tab of my
 repository, and scrolled down to "Default Branch", I clicked on the ⇄ (opposite
 arrows) button and the following appeared:
 
-![Switching default branch to another branch within a repository settings Github](Screenshot-2026-05-12-at-8.27.48-AM.webp)
+![Switching default branch to another branch within a repository settings GitHub](Screenshot-2026-05-12-at-8.27.48-AM.webp)
 
-_Switching default branch to another branch within a repository settings Github_
+_Switching default branch to another branch within a repository settings GitHub_
 
 Next, I clicked on the `master` branch name and a dropdown appeared containing
 the available branch names to switch to:
 
-![Dropdown of available branch names to switch to within a repository setting on Github](Screenshot-2026-05-12-at-8.32.54-AM.webp)
+![Dropdown of available branch names to switch to within a repository setting on GitHub](Screenshot-2026-05-12-at-8.32.54-AM.webp)
 
 _Dropdown of available branch names to switch to within a repository setting on
-Github_
+GitHub_
 
 **Note:** I already had switched from `master` to `main` when I took the above
 screenshot, but the steps still apply. In addition, when I first switched to
@@ -129,7 +132,7 @@ hint: To set the upstream, use:
 hint:   git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main
 ```
 
-To suppress this type of message, simply run git `push -u origin main` to set
+To suppress this type of message, simply run `git push -u origin main` to set
 the upstream tracking branch. I did just that when I pushed my subsequent change
 to remote origin, and it suppressed my prior message.
 
@@ -211,6 +214,11 @@ branch to track `origin/main`.
 git branch -D master
 git push origin :master
 ```
+
+## Conclusion
+
+In this post, I walk through how I renamed my default master branch to main
+locally and switched my default branch on GitHub from master to main.
 
 ## Related Resources
 
