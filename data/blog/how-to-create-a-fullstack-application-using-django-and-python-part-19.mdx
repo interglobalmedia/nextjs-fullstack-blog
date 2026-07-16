@@ -1,10 +1,10 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-19
 date: '2024-09-20T09:56:36.150Z'
-lastModified: '2026-07-11T15:18:36.150Z'
+lastModified: '2026-07-16T12:11:36.150Z'
 title: How to create a fullstack application using Django and Python Part 19
 author: Maria D. Campbell
-excerpt: 'In this section, I implemented protecting views and created related tests, and I discussed QuerySets and used them
+excerpt: 'In this section, I implement protecting views and create related tests, and I discuss QuerySets and use them
 to improve the index/home view.'
 image: chittima-stanmore-fLCrjOp4BIA-unsplash.webp
 tags: ['fullstack development', 'macOS', 'django', 'annotate', 'login redirect', 'protecting views', 'python3', 'queryset', 'series', 'tests', 'unittest']
@@ -1199,10 +1199,6 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-```shell
-InvalidReplyTopicTests
-```
-
 Running `test_reply_topic_tests.py`:
 
 ```shell
@@ -1382,7 +1378,7 @@ class Topic(models.Model):
 ```
 
 I am using a `PositiveIntegerField` in the value of the `views` field.
-`PositiveIntegerField` is like a `IntegerField` but must be either positive or
+`PositiveIntegerField` is like an `IntegerField` but must be either positive or
 zero (0). It supports values from 0 to 2147483647, and is safe in all databases
 supported by Django.
 
@@ -1521,13 +1517,13 @@ To view the code associated with this post, please visit
 
 ## Conclusion
 
-In this section, I implemented protecting views, I configured the login next
-redirect, and I created `@login_required` tests. I updated the topic posts view,
-created the `topic_posts.html` template and related tests. I updated the reply
-post (`reply_topic`) view and created related tests, discussed `QuerySets` and
-used them to improve the `index/home` view. I improved the topics view, updated
-the `board_topics` view, updated the `topics.html` template, and added a new
-field to the Topic model.
+In this section, I implement protecting views, I configure the login next
+redirect, and I create @login_required tests. I update the topic posts view,
+create the topic_posts.html template and related tests. I update the reply post
+(reply_topic) view and create related tests, discuss QuerySets and use them to
+improve the index/home view. I improve the topics view, update the board_topics
+view, update the topics.html template, and add a new field to the Topic model.
+In section 20, I will debug the five tests that are currently failing.
 
 In section 20, I will debug the five tests that are currently failing.
 
