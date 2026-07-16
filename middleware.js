@@ -163,6 +163,17 @@ const DELETED_POST_SLUGS = [
 	'how-to-add-files-to-your-gitignore-with-no-sweat',
 	'data/blog/add-husky-to-a-subfolder-of-a-git-root-repository.mdx',
 	'data/blog/adding-husky-to-your-development-workflow.mdx',
+	'data/blog/changing-your-homebrew-postgresql-configuration-from-trust-to-md5.mdx',
+	'data/blog/creating-react-boilerplate-code-in-vs-code.mdx',
+	'data/blog/git-instaweb-and-local-git-commits.mdx',
+	'data/blog/how-itunes-match-saved-me-from-losing-itunes-purchases-bought-under-previous-apple-ids.mdx',
+	'data/blog/how-to-completely-remove-cached-ip-addresses.mdx',
+	'data/blog/how-to-copy-a-directory-from-command-line.mdx',
+	'data/blog/how-to-find-a-folder-on-your-computer.mdx',
+	'data/blog/how-to-unsend-a-gmail-email.mdx',
+	'data/blog/how-to-upgrade-all-the-packages-in-your-django-application-in-one-fell-swoop.mdx',
+	'data/blog/introduction-to-command-prompt-commands-in-windows-11.mdx',
+	'data/blog/narrowly-escaping-the-need-to-remove-giscus.mdx',
 ]
 
 export function middleware(request) {
