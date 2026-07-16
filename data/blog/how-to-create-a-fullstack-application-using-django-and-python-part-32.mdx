@@ -1,7 +1,7 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-32'
 date: '2024-11-24T10:59:44.757Z'
-lastModified: '2026-07-15T17:24:44.757Z'
+lastModified: '2026-07-16T12:31:44.757Z'
 title: 'How to create a fullstack application using Django and Python Part 32'
 author: 'Maria D. Campbell'
 excerpt:
@@ -77,7 +77,7 @@ Git.
     - [Transferring files using the scp command via SSH](#transferring-files-using-the-scp-command-via-ssh)
 - [Creating a superuser in the Render shell](#creating-a-superuser-in-the-render-shell)
 - [A note about liking a post](#a-note-about-liking-a-post)
-- [Commit associated with this post](#commit-associated-with-this-post)
+- [Code associated with this post](#code-associated-with-this-post)
 - [Adding python-decouple](#adding-python-decouple)
 - [Creating a settings directory to separate development settings from production settings](#creating-a-settings-directory-to-separate-development-settings-from-production-settings)
     - [Running the local server using the new settings configuration](#running-the-local-server-using-the-new-settings-configuration)
@@ -985,7 +985,7 @@ public key I added to Render was one of the ones listed, I went to the Render
 article entitled
 [Troubleshooting SSH](https://render.com/docs/ssh-troubleshooting) and clicked
 on the link called Dashboard. That's where I had pasted my SSH public key. This
-time, I didn't paste my public key. I cancelled out of the form and was taken to
+time, I didn't paste my public key. I canceled out of the form and was taken to
 my Account Settings page. That is where I can find my Profile, Appearance,
 Account Security, CLI Tokens, API Keys, SSH Public Keys, PR Requests, and where
 I can delete my account. I compared the SSH key listed in Terminal on my machine
@@ -1098,7 +1098,7 @@ You have to double click on the like button in order for a Like to appear. The
 same goes for unliking a post. I'm not quite sure why this is happening, but I'm
 not working with React or AJAX, for example, but it will have to do for now!
 
-## Commit associated with this post
+## Code associated with this post
 
 The latest commit of `django-boards` on GitHub associated with this post is
 commit
@@ -1230,7 +1230,7 @@ and production, and there was not much else to comment out or uncomment, I
 thought I would give creating a `settings` directory containing a `base.py`,
 `development.py`, and `production.py` file in lieu of a `settings.py` file.
 
-I came across an article by Victor Freitas entitled
+I came across an article by Vitor Freitas entitled
 [Django Tips #20 Working With Multiple Settings Modules](https://simpleisbetterthancomplex.com/tips/2017/07/03/django-tip-20-working-with-multiple-settings-modules.html).
 It made creating this settings directory quite simple. The only thing that was
 not mentioned was the fact that the settings were now inside a directory and no
@@ -2696,22 +2696,20 @@ on Render, please visit
 
 ## Conclusion
 
-In this section, I prepared my `django-boards` application for deployment to
-Render. I updated my existing project for deployment to Render, created a Render
-account, created a `DEBUG` environment variable for production, configured my
-media files for production, configured my static files for production,
-configured my database settings for production, added the `whitenoise` package
-to make my static files persist on Render, created a `build` script for
-deployment on Render, installed `Gunicorn` and `Uvicorn`, created a Django
-project in the Render dashboard, added the `Postgres` managed database service,
-created a `web service`, created a `render.yaml` file, created a
-`persistent Disk` for my web service's media files, created an `SSH` key pair
-locally, connected to my Render web service with `SSH`, added my `SSH` key pair
-to the `ssh-agent` on my local machine, uploaded `default.jpg` to my
-`django-boards` web service, transferred `default.jpg` to Render using the `scp`
-command via SSH, and created a `superuser` in the Render shell. Later I came
-back and created a new `settings directory` where I separated my local
-development environment from my production environment.
+In this section, I prepare my django-boards application for deployment to
+Render. I update my existing project for deployment, create a Render account,
+and create a DEBUG environment variable for production. I configure my media
+files, static files, and my database settings for production. I add the
+whitenoise package to make my static files persist on Render, and create a build
+script for deployment on Render. I install Gunicorn and Uvicorn, create a Django
+project in the Render dashboard, and add the Postgres managed database service.
+I create a web service, a render.yaml file, a persistent Disk for my web
+service's media files, and an SSH key pair locally. I connect to my Render web
+service with SSH, add my SSH key pair to the ssh-agent on my local machine, and
+upload default.jpg to my django-boards web service. I transfer default.jpg to
+Render using the scp command via SSH, and create a superuser in the Render
+shell. Later I come back and create a new settings directory where I separate my
+local development environment from my production environment.
 
 ## Related Resources
 
@@ -2739,7 +2737,7 @@ development environment from my production environment.
 - [Persistent Disks](https://render.com/docs/disks): _Render documentation_
 - [SCP man page](https://man.openbsd.org/scp)
 - [Django Tips #20 Working With Multiple Settings Modules](https://simpleisbetterthancomplex.com/tips/2017/07/03/django-tip-20-working-with-multiple-settings-modules.html):
-  _Victor Freitas, simpleisbetterthancomplex.com_
+  _Vitor Freitas, simpleisbetterthancomplex.com_
 - [Django - How to keep secrets safe with python-dotenv](https://dev.to/earthcomfy/django-how-to-keep-secrets-safe-with-python-dotenv-5811):
   _Hana Belay, dev.to_
 - [Using Py Dotenv (python-dotenv) Package to Manage Env Variables](https://configu.com/blog/using-py-dotenv-python-dotenv-package-to-manage-env-variables/):
