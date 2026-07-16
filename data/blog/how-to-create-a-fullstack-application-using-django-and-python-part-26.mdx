@@ -1,19 +1,19 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-26
 date: '2024-10-10T11:31:24.237Z'
-lastModified: '2026-07-11T20:50:24.237Z'
+lastModified: '2026-07-16T12:22:24.237Z'
 title: How to create a fullstack application using Django and Python Part 26
 author: Maria D. Campbell
 excerpt:
-    'In this section, I extended the built-in Django User with a Profile model
-containing extra fields, created the Profile model in accounts/models.py,
-and extended the User model using a one-to-one relationship with the built-in User.
-I added a profile URL to accounts.urls.py, moved the account URL in boards/urls.py
-to accounts/urls.py, and installed the pillow package to enable use of the
-ImageField in the Profile model. I configured urls.py for user-uploaded media
-files during development, implemented signals in the accounts app, and created an
-update profile form. I also created a profile.html template, deleted existing users pre
-User profile and created new ones, and made styling adjustments to various
+    'In this section, I extend the built-in Django User with a Profile model
+containing extra fields, create the Profile model in accounts/models.py,
+and extend the User model using a one-to-one relationship with the built-in User.
+I add a profile URL to accounts.urls.py, move the account URL in boards/urls.py
+to accounts/urls.py, and install the pillow package to enable use of the
+ImageField in the Profile model. I configure urls.py for user-uploaded media
+files during development, implement signals in the accounts app, and create an
+update profile form. I also create a profile.html template, delete existing users pre
+User profile and create new ones, and make styling adjustments to various
 templates.'
 image: peter-herrmann-muojltrhwhY-unsplash.webp
 tags: ['fullstack development', 'macOS', 'django', 'extended built-in user', 'imagefield', 'one-to-one relationship', 'pillow', 'python3', 'series']
@@ -23,8 +23,8 @@ isFeatured: false
 
 ![Attic full of paintings](peter-herrmann-muojltrhwhY-unsplash.webp)
 
-_Photo by_ [Peter Herrmann](https://unsplash.com/@tama66) **_on_**
-[unsplash.com](https://unsplash.com/photos/a-room-filled-with-lots-of-framed-pictures-next-to-a-window-muojltrhwhY)
+_Photo by [Peter Herrmann](https://unsplash.com/@tama66) on
+[unsplash.com](https://unsplash.com/photos/a-room-filled-with-lots-of-framed-pictures-next-to-a-window-muojltrhwhY)_
 
 **Important Note**: Before committing anything to Git or pushing anything to
 remote, please visit
@@ -1617,16 +1617,15 @@ and
 
 ## Conclusion
 
-In this section, I extended the built-in Django User with a Profile model
-containing extra fields, created the Profile model in `accounts/models.py`,
-extended the User model using a one-to-one relationship with the built-in User,
-added a profile URL to `accounts.urls.py`, moved the account URL in
-`boards/urls.py` to `accounts/urls.py`, installed the `pillow` package to enable
-use of the `ImageField` in the Profile model, configured `urls.py` for
-user-uploaded `media` files during development, implemented `signals` in the
-`accounts` app, created an update profile form, created a `profile.html`
-template, deleted existing users pre User profile and created new ones, and made
-styling adjustments to various templates.
+In this section, I extend the built-in Django User with a Profile model
+containing extra fields, create the Profile model in accounts/models.py, and
+extend the User model using a one-to-one relationship with the built-in User. I
+add a profile URL to accounts.urls.py, move the account URL in boards/urls.py to
+accounts/urls.py, and install the pillow package to enable use of the ImageField
+in the Profile model. I configure urls.py for user-uploaded media files during
+development, implement signals in the accounts app, and create an update profile
+form. I create a profile.html template, delete existing users pre User profile
+and create new ones, and make styling adjustments to various templates.
 
 I couldn't have added image functionality to Django Boards without Hana Belay's
 tutorial series on `dev.to`. I have included links to her Django profile-related
