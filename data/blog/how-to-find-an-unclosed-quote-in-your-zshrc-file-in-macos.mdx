@@ -1,26 +1,31 @@
 ---
 slug: how-to-find-an-unclosed-quote-in-your-zshrc-file-in-macos
 date: '2024-08-25T20:14:31.650Z'
-lastModified: '2026-05-27T09:57:31.650Z'
+lastModified: '2026-07-16T23:27:31.650Z'
 title: How to find an unclosed quote in your .zshrc file in macOS
 author: Maria D. Campbell
-excerpt: How to find an unclosed quote in your .zshrc file in macOS.
-image: mick-haupt-eQ2Z9ay9Wws-unsplash.jpg
+excerpt:
+    In this post, I walk through creating a command to find an unclosed quote in
+    my .zshrc file using grep and regex. I also break down what each character
+    in the regular expression means.
+image: mick-haupt-eQ2Z9ay9Wws-unsplash.webp
 tags: ['macOS', 'ai', 'warp terminal', 'agent mode', 'grep', 'regex']
 isPublished: true
 isFeatured: false
 ---
 
-![Man searching through foreign text with a magnifying glass](mick-haupt-eQ2Z9ay9Wws-unsplash.jpg)
+![Man searching through foreign text with a magnifying glass](mick-haupt-eQ2Z9ay9Wws-unsplash.webp)
 
-_Photo by_ [Mick Haupt](https://unsplash.com/@rocinante_11) _on_
-[unsplash.com](https://unsplash.com/photos/person-holding-magnifying-glass-eQ2Z9ay9Wws)
+_[Photo by](https://unsplash.com/photos/person-holding-magnifying-glass-eQ2Z9ay9Wws)
+[Mick Haupt](https://unsplash.com/@rocinante_11) on
+[unsplash.com](https://unsplash.com/)_
 
 ## Table of Contents
 
 - [Using the grep command to find where an unclosed quote is located in your .zshrc file](#using-the-grep-command-to-find-where-an-unclosed-quote-is-located-in-your-zshrc-file)
 - [Breaking down the grep command](#breaking-down-the-grep-command)
 - [The regex meaning](#the-regex-meaning)
+- [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 
 ## Using the grep command to find where an unclosed quote is located in your .zshrc file
@@ -40,7 +45,7 @@ impossible. I searched for a solution, and found it on
 
 ```shell
 # ran the command from ~ (/Users/mariacam)
-grep -E -n  '^[^"]*"[^"]*$' .zshrc
+grep -E -n '^[^"]*"[^"]*$' .zshrc
 ```
 
 The following was returned in Terminal:
@@ -63,7 +68,7 @@ The `grep` command is for searching text using patterns. In the `grep` command,
 > lines the pattern matched.
 
 I got the answer quickly from the [Warp Terminal](https://docs.warp.dev/) when I
-turned on [Agent Mode](https://docs.warp.dev/features/warp-ai/agent-modea).
+turned on [Agent Mode](https://docs.warp.dev/agent-platform/).
 
 Basically, `grep -E -n '^[^"]*"[^"]*$' .zshrc` means that I am looking for a
 double quote mismatch (a missing double quote) in my `.zshrc` file.
@@ -78,13 +83,19 @@ But what does the `'^[^"]*"[^"]*$'` regex exactly mean?
 - `[^"]*`: Matches zero or more characters that are not double quotes (`"`).
 - `$`: Indicates the position is at the end of the line.
 
-We have `export PATH=` containing characters which are not double quotes,
+I have `export PATH=` containing characters which are not double quotes,
 followed by a single double quote, then `$PATH:/Users/mariacam/.local/bin`
 containing characters which are also not double quotes, and then no closing
 double quote!
 
 This `grep` command can be used in any file that depends on matching double
 quotes, not just a `.zshrc` file.
+
+## Conclusion
+
+In this post, I demonstrate how I came to create a command to find an unclosed
+quote in a file using the grep command and regex. Having access to such a
+command saved me much valuable time and headaches!
 
 ## Related Resources
 
