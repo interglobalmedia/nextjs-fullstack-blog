@@ -161,6 +161,8 @@ const DELETED_POST_SLUGS = [
 	'changing-mac-default-screenshot-file-format-to-jpg',
 	'add-husky-to-s-subfolder-of-a-git-root-repository',
 	'how-to-add-files-to-your-gitignore-with-no-sweat',
+	'data/blog/add-husky-to-a-subfolder-of-a-git-root-repository.mdx',
+	'data/blog/adding-husky-to-your-development-workflow.mdx',
 ]
 
 export function middleware(request) {
