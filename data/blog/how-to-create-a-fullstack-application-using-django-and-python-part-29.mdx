@@ -1,11 +1,11 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-29
 date: '2024-11-07T21:36:52.689Z'
-lastModified: '2026-07-15T03:25:52.689Z'
+lastModified: '2026-07-16T12:26:52.689Z'
 title: How to create a fullstack application using Django and Python Part 29
 author: Maria D. Campbell
-excerpt: "In this section, I created tests for the like_post view and then fixed them
-after submitting them for code review. In the process, I realized how important code reviews are and that I couldn't develop
+excerpt: "In this section, I create tests for the like_post view and then fix them
+after submitting them for code review. In the process, I realize how important code reviews are and that I can't develop
 applications in a bubble."
 image: pexels-pixabay-267355.webp
 tags:
@@ -461,18 +461,17 @@ test, `test_like_post_invalid_post_id`, that was. So I only used
 
 ## Conclusion
 
-In this section, I created tests for the `like_post` view and then fixed them
-after submitting them for code review. I came to realize that there was a
-credential mismatch and status codes that needed fixing. I also discovered that
-I had to change the content-type in
-`self.assertEqual(response['content-type'], 'text/html; charset=utf-8')` to
-`self.assertEqual(response['content-type'], 'application/json')`. In the process
-of correcting my code, I realized how important it is not to develop
-applications alone.
+In this section, I create tests for the like_post view and then fix them after
+submitting them for code review. I come to realize that there is a credential
+mismatch and status codes that need fixing. I also discover that I have to
+change the content-type in self.assertEqual(response['content-type'],
+'text/html; charset=utf-8') to self.assertEqual(response['content-type'],
+'application/json'). In the process of correcting my code, I realize how
+important it is not to develop applications alone.
 
 ## Related Resources
 
-- [Django Boards repository on Github](https://github.com/interglobalmedia/django-boards)
+- [Django Boards repository on GitHub](https://github.com/interglobalmedia/django-boards)
 - [How to create a fullstack application using Django and Python Part 16](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-16):
   _mariadcampbell.com_
 

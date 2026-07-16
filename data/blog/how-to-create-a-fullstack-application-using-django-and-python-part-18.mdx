@@ -1,14 +1,14 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-18
 date: '2024-09-18T12:15:57.613Z'
-lastModified: '2026-07-11T15:17:57.613Z'
+lastModified: '2026-07-16T12:09:57.613Z'
 title: How to create a fullstack application using Django and Python Part 18
 author: Maria D. Campbell
-excerpt: 'In this section, I created the password_reset routes, views, tests, and
-templates. The results of the password reset process were output to the Terminal
-console. I debugged the password_reset_confirm_tests tests to find out what the
-actual csrf token was and hard coded it into the test_csrf (function) test. I
-re-used the Beautiful Soup 4 and Soup Sieve packages to refactor the
+excerpt: 'In this section, I create the password_reset routes, views, tests, and
+templates. The results of the password reset process are output to the Terminal
+console. I debug the password_reset_confirm_tests tests to find out what the
+actual csrf token is and hard code it into the test_csrf (function) test. I
+re-use the Beautiful Soup 4 and Soup Sieve packages to refactor the
 test_form_inputs (function) test.'
 image: towfiqu-barbhuiya-FnA5pAzqhMM-unsplash.webp
 tags:
@@ -159,10 +159,11 @@ want to explicitly tell Django which template the URL is associated with.
 
 Next, inside the templates directory, I create the following templates:
 
-1. **registration/password_reset_form.html**:
+1. **registration/password_reset_form.html**: template which allows users to
+   input their email address to request a password reset.
 1. **password_reset_email.html**: template for when user receives email after
    requesting a password reset. The actual Django template can be found at
-   [registration/password_reset_form.html](https://github.com/django/django/blob/main/django/contrib/admin/templates/registration/password_reset_email.html).
+   [templates/password_reset_email.html](https://github.com/django/django/blob/main/django/contrib/admin/templates/registration/password_reset_email.html).
 1. **registration/password_reset_subject.txt**: will override the subject of the
    password reset email. In order for it to be able to override the subject of
    the password reset email, however, it has to be placed in the (global)
@@ -1297,7 +1298,7 @@ attribute that contains the context used to render the template.
       - __pycache__/
       - migrations/
       - tests/
-        - __pyccache__/
+        - __pycache__/
         - __init__.py
         - test_invalid_password_change_tests.py
         - test_invalid_password_reset_confirm_tests.py
@@ -1310,7 +1311,7 @@ attribute that contains the context used to render the template.
         - test_password_reset_done_tests.py
         - test_password_reset_mail_tests.py
         - test_password_reset_tests.py
-        - test_sign_up_form_test.py # formerly test_view_signup.py which we commented out
+        - test_sign_up_form_test.py # formerly test_view_signup.py which I commented out
         - test_signup_tests.py
         - test_successful_password_change_tests.py
         - test_successful_password_reset_tests.py
@@ -1387,14 +1388,14 @@ To view the code associated with this post, please visit
 
 ## Conclusion
 
-In this section, I created the `password_reset` routes, views, tests, and
-templates. The results of the password reset process were output to the Terminal
+In this section, I create the password_reset routes, views, tests, and
+templates. The results of the password reset process are output to the Terminal
 console. Just as in
 [part 15](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-15),
-I had to debug the `password_reset_confirm_tests` tests to find out what the
-actual `csrf token` was and hard code it into the `test_csrf` (function) test. I
-re-used the `Beautiful Soup 4` and `Soup Sieve` packages to refactor the
-`test_form_inputs` (function) test.
+I debug the password_reset_confirm_tests tests to find out what the actual csrf
+token is and hard code it into the test_csrf (function) test. I re-use the
+Beautiful Soup 4 and Soup Sieve packages to refactor the test_form_inputs
+(function) test.
 
 ## Related Resources
 

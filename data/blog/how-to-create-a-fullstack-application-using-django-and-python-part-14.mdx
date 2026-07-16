@@ -1,13 +1,13 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-14
 date: '2024-09-12T10:25:26.723Z'
-lastModified: '2026-07-11T15:10:26.723Z'
+lastModified: '2026-07-16T12:03:26.723Z'
 title: How to create a fullstack application using Django and Python Part 14
 author: Maria D. Campbell
 excerpt:
     'In this section, I build a NewTopicForm, view, and route. I also add
     NewTopicTests to boards/tests.py.'
-image: Screenshot-24-09-13-at-4.47.07PM.webp
+image: Screenshot-2024-09-13-at-4.47.07-PM.webp
 tags:
     [
         'fullstack development',
@@ -28,7 +28,7 @@ isPublished: true
 isFeatured: false
 ---
 
-![new_topic.html including form.html](Screenshot-24-09-13-at-4.47.07PM.webp)
+![new_topic.html including form.html](Screenshot-2024-09-13-at-4.47.07-PM.webp)
 
 _new_topic.html including form.html_
 
@@ -287,7 +287,7 @@ most part, the `method` attribute accepts the `GET` and `POST` methods.
 
 | Value | Description                                                                                                                                                                                        | Example                                                                                                                                               |
 | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET   | used to retrieve data from the server, appends form-data into the URL in browser address bar in name/value pairs, values are limited to 3000 characters, and it's suitable for non-sensitive data  | Every time I click on a link or type a URL in the browser, I am creating a GET request                                                                |
+| GET   | used to retrieve data from the server, appends form-data into the URL in browser address bar in name/value pairs, values are limited to 1000 characters, and it's suitable for non-sensitive data  | Every time I click on a link or type a URL in the browser, I am creating a GET request                                                                |
 | POST  | Is used when I want to change data on the server, appends form-data inside the body of the HTTP request (data is not shown is in URL), there are no size limits, and are secure for sensitive data | Whenever I send data to the server, i.e. via form data submission creating or updating the state of an object or resource, I should use POST requests |
 
 The `action` attribute specifies the `route` that the `form` data should be sent
@@ -527,7 +527,7 @@ _Adding button going to new_topic view in templates/topics.html_
 
 Clicking on the "New Topic" button takes me to the `new_topic` view:
 
-![Result of clicking on the "New Topic" button (new_topic view)](Screenshot-24-09-13-at-6.54.41-AM.webp)
+![Result of clicking on the "New Topic" button (new_topic view)](Screenshot-2024-09-13-at-6.54.41-AM.webp)
 
 _Clicking on the "New Topic" button (new_topic view)_
 
@@ -777,15 +777,19 @@ The above is how I use a `form` in a view.
 
 ### Breaking down the refactored new_topic view
 
-first I check if the `form` method is a POST request. If it is a POST request,
+First I check if the `form` method is a POST request. If it is a POST request,
 it means the user is submitting some data via the `form` to the server. It also
 means that I should instantiate a `form` instance (`NewTopicForm(request.POST)`)
 passing the POST data to the `form` (`NewTopicForm(request.POST`).
 
 Then, if the `form` is valid (`form.is_valid()`), I can save the data to the
-database (`topic = form.save()`). The `.save()` method returns an instance of
-the `NewTopicForm` saved to the database. And since this is a Topic form, it
-returns the Topic which was created (`topic.form()`).
+database (`topic = form.save(commit=False)`). This first instance of "saving"
+the form doesn't actually save it to the database. It allows me to create a
+model instance of the topic form without immediately saving it to the database
+so that I can make further modifications to it. In this case, I add the
+`topic.board = board` and the `topic.starter = user` modifications before saving
+the form. `Model.save()`, which is what `topic.save()` is, returns "None". What
+`topic.save()` does is persist the Topic instance to the database.
 
 Then the user is redirected to the `board_topics` view (`templates/topics.html`)
 so that the user can't re-submit the same `form` data and to complete the `form`
@@ -1049,7 +1053,7 @@ _Result of using django-widget-tweaks on the NewTopicForm_
 2. Then I render the form fields inside the for in loop with the
    `{% render_field field class="form-control" %}` tag.
 
-The `render_field` is not part of Django. it lives inside
+The `render_field` is not part of Django. It lives inside
 `django-widget-tweaks`. To use it, I have to pass a form field instance as a
 first parameter, followed by arbitrary HTML attributes. Then I can assign
 classes based on certain conditions.
@@ -1112,7 +1116,7 @@ These changes result in the following when I try and submit an empty `form`:
 
 _Result when trying to submit an empty form_
 
-![Result when trying to submit an empty message](Screenshot-24-09-13-at-4.47.07PM.webp)
+![Result when trying to submit an empty message](Screenshot-2024-09-13-at-4.47.07-PM.webp)
 
 _Result when trying to submit an empty message_
 
@@ -1244,16 +1248,15 @@ and
 
 ## Conclusion
 
-In this section, I talked about how to save user input to the database, built a
-`NewTopicForm`, created a new route called `new_topic`, a `new_topic` view, a
-`new_topic` form template, `NewTopicTests`, implemented the CSRF `csrf_token` in
-the `form`, updated `topics.html` template to include a listing of all topics,
-created a button going to the `new_topic` view in `topics.html`, added Model
-Meta to `NewTopicForm`, refactored `boards/views.py` to include `form`
-validation, used the Forms API in `new_topic.html`, added the `help_text`
-attribute to the `Textarea` widget in `forms.py`, used `django-widget-tweaks`
-with Bootstrap, implemented Bootstrap validation tags in `new_topic.html`, and
-created a re-usable `form` template.
+In this section, I talk about how to save user input to the database, build a
+NewTopicForm, create a new route called new_topic, a new_topic view, a new_topic
+form template, NewTopicTests, implement the CSRF `csrf_token` in the form,
+update topics.html template to include a listing of all topics, create a button
+going to the new_topic view in topics.html, add Model Meta to NewTopicForm,
+refactor boards/views.py to include form validation, use the Forms API in
+new_topic.html, add the help_text attribute to the Textarea widget in forms.py,
+use django-widget-tweaks with Bootstrap, implement Bootstrap validation tags in
+new_topic.html, and create a re-usable form template.
 
 ## Related Resources
 
@@ -1266,6 +1269,10 @@ created a re-usable `form` template.
   _Official Django Documentation_
 - [Form fields](https://docs.djangoproject.com/en/5.1/ref/forms/fields/):
   _Official Django Documentation_
+- [Settings](https://docs.djangoproject.com/en/5.0/ref/settings/#data-upload-max-number-fields):
+  _Official Django documentation_
+- [TIL: Django has a field limit](https://www.abenezer.ca/blog/django-data-upload-max-number-fields):
+  _abenezer.ca_
 
 ## Related Posts
 

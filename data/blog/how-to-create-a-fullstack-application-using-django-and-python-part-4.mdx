@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-4
 date: '2024-08-28T17:41:19.571Z'
-lastModified: '2026-07-11T14:43:19.571Z'
+lastModified: '2026-07-16T12:34:19.571Z'
 title: How to create a fullstack application using Django and Python Part 4
 author: Maria D. Campbell
 excerpt:
@@ -52,7 +52,7 @@ it all works out in the end.
 
 ## Why this section?
 
-One thing that many fail to mention in Django Tutorials, development courses, or
+One thing that many fail to mention in Django tutorials, development courses, or
 just in general, is the importance of safeguarding sensitive information that a
 site or application depends on. What do I mean by that? Well, most developers
 use the Git version control system to track changes in the development of their
@@ -131,16 +131,20 @@ pip3 install python-dotenv
 
 ## Importing dotenv into settings.py and configuring it
 
-In order for Django to persistently recognize the python-dotenv package, I have
-to `import` it into `settings.py`, load it, create a path to the `.env` file
-where the `SECRET_KEY` variable resides, and then replace the actual value of
-the `SECRET_KEY` with the `SECRET_KEY` variable from the `.env` file.
+In order for Django to persistently recognize the python-dotenv package, I first
+have to create a .env file at the root of the Django Boards directory, which
+will also be the root of the application's Git repository, when I initialize it.
+I have to import `python-dotenv` into `settings.py`, load it, create a path to
+the `.env` file where the `SECRET_KEY` variable resides, and then replace the
+actual value of the `SECRET_KEY` with the `SECRET_KEY` variable from the `.env`
+file.
 
 Below is how I import `dotenv` (that is the name of the module), take the
 environment variable from `.env`, create a path to it, and then load it into
 `settings.py`:
 
 ```python
+import os
 from dotenv import load_dotenv
 load_dotenv() # take environment variables from .env
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
@@ -155,7 +159,10 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 ```
 
 The `str()` method transforms the value of the `'SECRET_KEY'` variable to a
-string.
+string. If, however, you have not created a .env file yet,
+`str(os.getenv('SECRET_KEY'))` will set the key to the string "None" if the env
+var isn't found. So make sure to create the `.env` file immediately before
+importing `dotenv` into `settings.py` and configuring it.
 
 Inside of the `.env` file, I add something like the following:
 
@@ -173,7 +180,7 @@ solely on my local machine inside an ignored `.env` file.
 
 ## Conclusion
 
-In this section, I discussed how to install the python-dotenv package and why it
+In this section, I discuss how to install the python-dotenv package and why it
 is crucial to do so as to safeguard sensitive information the Django application
 depends on.
 

@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-table-of-contents
 date: '2024-09-03T04:01:33.055Z'
-lastModified: '2026-07-15T22:24:33.055Z'
+lastModified: '2026-07-16T12:43:33.055Z'
 title:
     How to create a fullstack application using Django and Python Table of
     Contents
@@ -89,9 +89,9 @@ you need an account on GitHub to be able to post comments.
 1.  [How to create a fullstack application using Django and Python Part 8](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-8):
     In this section, I add an index.html template to a directory called static,
     test the index (home) page, set up the static files, download Bootstrap,
-    configure the static directory in `settings.py`, discuss the `collectstatic`
-    command, load the Bootstrap CSS file in `index.html`, and edit `index.html`
-    to include Bootstrap styling.
+    configure the static directory in settings.py, discuss the collectstatic
+    command, load the Bootstrap CSS file in index.html, and edit index.html to
+    include Bootstrap styling.
 1.  [How to create a fullstack application using Django and Python Part 9](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-9):
     In this section, I introduce the Django Admin, configure the Django Admin by
     creating a superuser, register the boards app in boards/admin.py, add a
@@ -196,11 +196,11 @@ you need an account on GitHub to be able to post comments.
     associated templates. I refactor the associated urls in urls.py, and
     refactor the associated tests. I also add a copy link button to copy the
     link to a topic's replies (posts). I create a scroll top and scroll bottom
-    button using JavaScript to enable their functionality, and added JavaScript
+    button using JavaScript to enable their functionality, and add JavaScript
     code to make the scrollbar return to the bottom of the page when a
     pagination item (page number) is clicked.
 1.  [How to create a fullstack application using Django and Python Part 23](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-23):
-    In this section, I created a generic class based view called UserUpdateView
+    In this section, I create a generic class based view called UserUpdateView
     (My Account view), associated tests, a URL, and template.
 1.  [How to create a fullstack application using Django and Python Part 24](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-24):
     In this section, I add markdown functionality to the Post model, the
@@ -225,7 +225,15 @@ you need an account on GitHub to be able to post comments.
     user-uploaded media files during development, implement signals in the
     accounts app, and create an update profile form. I create a profile.html
     template, delete existing users pre User profile and create new ones, and
-    make styling adjustments to various templates.
+    make styling adjustments to various templates. I couldn't have added image
+    functionality to Django Boards without Hana Belay's tutorial series on
+    `dev.to`. I have included links to her Django profile-related posts under
+    Related Resources. I also have to give credit to Renne Rocha, who wrote
+    another article regarding extending the built-in Django User with a Profile
+    model. Renne did not get into extensive detail about the whole process, but
+    the explanation regarding extending the built-in Django User and signals was
+    super!
+
 1.  [How to create a fullstack application using Django and Python Part 27](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-27):
     In this section, I add `timezone.now()` to templates/reply_topic.html,
     implement better control over the view count in templates/index.html, limit
@@ -238,7 +246,7 @@ you need an account on GitHub to be able to post comments.
     associated includes, remove the scrolldown button and refactor the scrolltop
     button, move footer HTML markup into a footer.html include, sanitize my
     Markdown, add code formatting and highlighting to my Markdown, create tests
-    for the ProfileListView, protect function-based profile view, and
+    for the ProfileListView, protect the function-based profile view, and
     profile_detail view, update accounts/tests/test_form_signup_test.py, fix the
     topic posts avatar issue, and explain the extended profile functionality.
 1.  [How to create a fullstack application using Django and Python Part 28](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-28):

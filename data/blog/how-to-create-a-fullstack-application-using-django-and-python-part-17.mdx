@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-17
 date: '2024-09-16T10:19:04.312Z'
-lastModified: '2026-07-11T15:15:04.312Z'
+lastModified: '2026-07-16T12:08:04.312Z'
 title: How to create a fullstack application using Django and Python Part 17
 author: Maria D. Campbell
 excerpt:
@@ -258,7 +258,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path("", views.index, name="index"),
     path("signup/", accounts_views.signup, name="signup"),
-    path("logout/", auth_views.LogoutView.as_view(), name='logout'), # addeds
+    path("logout/", auth_views.LogoutView.as_view(), name='logout'), # added
     path("boards/<str:id>/", views.board_topics, name="board_topics"),
     path("boards/<str:id>/new/", views.new_topic, name="new_topic"),
     path("admin/", admin.site.urls),
@@ -339,7 +339,7 @@ When you have grabbed the three scripts and added them to your
                 <a class="dropdown-item" href="#">My account</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">change password</a>
+                <a class="dropdown-item" href="#">Change password</a>
               </li>
               <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
@@ -414,7 +414,7 @@ code snippet above. Specifically, it is the following:
       <a class="dropdown-item" href="#">My account</a>
     </li>
     <li>
-      <a class="dropdown-item" href="#">change password</a>
+      <a class="dropdown-item" href="#">Change password</a>
     </li>
     <form method="post" action="{% url 'logout' %}">
       {% csrf_token %}
@@ -473,7 +473,7 @@ should look like the following:
                   <a class="dropdown-item" href="#">My account</a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">change password</a>
+                  <a class="dropdown-item" href="#">Change password</a>
                 </li>
                 <li>
                   <form method="post" action="{% url 'logout' %}">
@@ -799,7 +799,7 @@ do take the `password` field into account.
 
 Next, inside `boards/`, I create a new directory called `templatetags`. It must
 be called `templatetags`, with no underscores. Inside `templatetags`, I create
-two empty files: _one called_ `__init__`.py, and _the other_ `form_tags.py`.
+two empty files: one called `__init__.py`, and the other `form_tags.py`.
 
 Next, in the `form_tags.py` file, I add the following:
 
@@ -1007,11 +1007,11 @@ To view the code associated with this post, please visit
 
 ## Conclusion
 
-In this section, I improved the `signup.html` template design, added a `logout`
-view and route, created a dropdown menu for logged in users, created a
-`login.html` template, url, and redirect, created a reusable template, added
-`non-field errors` to the `login.html` template, created custom template tags to
-use in the `form.html` includes, and created tests for the template tags.
+In this section, I improve the signup.html template design, add a logout view
+and route, create a dropdown menu for logged in users, create a login.html
+template, url, and redirect, create a reusable template, add `non-field errors`
+to the login.html template, create custom template tags to use in the form.html
+includes, and create tests for the template tags.
 
 ## Related Resources
 

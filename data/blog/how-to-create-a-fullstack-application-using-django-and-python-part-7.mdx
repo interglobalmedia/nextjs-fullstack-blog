@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-7
 date: '2024-09-01T17:19:28.248Z'
-lastModified: '2026-07-11T14:48:28.248Z'
+lastModified: '2026-07-16T12:38:28.248Z'
 title: How to create a fullstack application using Django and Python Part 7
 author: Maria D. Campbell
 excerpt:
@@ -169,7 +169,7 @@ I set the board field to
 use the `models.ForeignKey()` method to define the many-to one relationship
 between the Topic class and the Board class. As shown in my
 [UML class diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
-there can be 0 to many (`..*`) topics to exactly 1 board, and a topic can only
+there can be 0 to many (`0..*`) topics to exactly 1 board, and a topic can only
 have exactly one board. The first option I pass to the `models.ForeignKey()`
 method, and that is a reference to the Board class. Why do I just pass a
 reference to the class? Because it is easier to just reference the class inside
@@ -197,13 +197,13 @@ board.topics.all()
 The starter field which represents the user who starts a topic, is structured in
 the same way as the board field. It is set to the value of
 `starter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='topics')`.
-I use the `models.ForeignKey()` method to define the many-to one relationship
+I use the `models.ForeignKey()` method to define the many-to-one relationship
 between the Topic class and the User class. As shown in my
 [UML class diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
-the user can create 0 to many topics (`..*`), but a topic can only be associated
-with exactly one user. Instead of passing Board as the first argument (option)
-to `models.ForeignKey()`, I am passing User. The second and third arguments
-(options), on_delete and related_name are the same.
+the user can create 0 to many topics (`0..*`), but a topic can only be
+associated with exactly one user. Instead of passing Board as the first argument
+(option) to `models.ForeignKey()`, I am passing User. The second and third
+arguments (options), on_delete and related_name are the same.
 
 ### The Post class model
 
@@ -216,10 +216,10 @@ ramble on and on in a Post.
 
 I set the value of the topic field to
 `models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='posts')`. I
-use the `models.ForeignKey()` method to define the many-to one relationship
+use the `models.ForeignKey()` method to define the many-to-one relationship
 between the Post class and the Topic class. As shown in my
 [UML class diagram](/blog/how-to-create-a-fullstack-application-using-django-and-python-part-6#uml-class-diagram-unified-modeling-language),
-there has to be at least 1 to many (`..*`) posts to exactly 1 topic, and one
+there has to be at least 1 to many (`1..*`) posts to exactly 1 topic, and one
 post can only have exactly one topic. The first option I pass to the
 `models.ForeignKey()` method, and that is a reference to the Topic class. Why do
 I just pass a reference to the class? Because it is easier to just reference the
@@ -257,7 +257,7 @@ I set the updated_at field to `models.DateTimeField(null=True)`. Passing
 initially be set to the updated_at field when first created. In fact, a value
 never has to be set to it. A user might never update their post.
 
-The created by field is set to
+The `created_by` field is set to
 `models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')`. This
 means that a post is created by a user, and if the user is ever deleted, the
 parent post and all its children will also be deleted. As already mentioned,
@@ -649,10 +649,10 @@ The following is returned:
 
 ## Conclusion
 
-In this section, I discussed the Django model basics, I compared the UML Class
-Fields Diagram to the models.py source code, I migrated the models with the
-makemigrations command, applied the model migrations with the migrate command,
-played with the Models API, and discussed the Django model Manager.
+In this section, I discuss the Django model basics, I compare the UML Class
+Fields Diagram to the models.py source code, I migrate the models with the
+makemigrations command, apply the model migrations with the migrate command,
+play with the Models API, and discuss the Django model Manager.
 
 ## Related Resources
 

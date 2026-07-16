@@ -1,7 +1,7 @@
 ---
 slug: how-to-create-a-fullstack-application-using-django-and-python-part-8
 date: '2024-09-06T17:13:22.089Z'
-lastModified: '2026-07-11T14:49:22.089Z'
+lastModified: '2026-07-16T12:40:22.089Z'
 title: How to create a fullstack application using Django and Python Part 8
 author: Maria D. Campbell
 excerpt:
@@ -57,7 +57,6 @@ Git.
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
-- [Footnotes](#footnotes)
 
 **Update (July 2026):** This walkthrough was written against Django 5.1, which
 reached full end-of-life in December 2025 and is no longer receiving security
@@ -172,6 +171,8 @@ To do this, I have to go into `settings.py` located in the django_boards project
 subdirectory also called django_boards and add the following:
 
 ```python
+import os
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -315,14 +316,14 @@ Which looks something like the following:
 | ------------------------------------------------- | ----- | ------ | --------- |
 | **Python**                                        | 0     | 0      |           |
 | Everything related to Python.                     |       |        |           |
-| **Django**                                        | 0     | 0      |
-| This is a board about Django.                     |
-| **Random**                                        | 0     | 0      |
-| Discuss anything.                                 |
-| **Django Models**                                 | 0     | 0      |
-| This board covers Django Models.                  |
-| **Python Objects**                                | 0     | 0      |
-| Where we discuss everything about Python objects. |
+| **Django**                                        | 0     | 0      |           |
+| This is a board about Django.                     |       |        |           |
+| **Random**                                        | 0     | 0      |           |
+| Discuss anything.                                 |       |        |           |
+| **Django Models**                                 | 0     | 0      |           |
+| This board covers Django Models.                  |       |        |           |
+| **Python Objects**                                | 0     | 0      |           |
+| Where we discuss everything about Python objects. |       |        |           |
 
 ## Testing the index (home) page
 
@@ -569,7 +570,7 @@ Django Boards directory structure should look like the following:
     - django_boards/
     - static/
       - css/
-        - css/bootstrap.min.css # copied from the bootstrap download
+        - bootstrap.min.css # copied from the bootstrap download
     - templates/
     - db.sqlite3 # .gitignored
     - manage.py
@@ -603,9 +604,9 @@ STATICFILES_DIRS = [
 `STATIC_URL` tells Django to append static to the base url, which in development
 for me is http://127.0.0.1:8000, when searching for static files.
 
-The `STATICFILES_DIRS` tuple[^1] tells Django where to find static files that
-are not linked to a particular app. Here I am telling Django to look for static
-files in my root folder, not in any particular app (i.e., the board app).
+The `STATICFILES_DIRS` list tells Django where to find static files that are not
+linked to a particular app. Here I am telling Django to look for static files in
+my root folder, not in any particular app (i.e., the board app).
 
 ## The collectstatic command
 
@@ -708,11 +709,11 @@ _Board with Bootstrap CSS_
 
 ## Conclusion
 
-In this section, I added an `index.html` template to a directory called static,
-tested the index (home) page, set up the static files, downloaded Bootstrap,
-configured the static directory in `settings.py`, discussed the `collectstatic`
-command, loaded the Bootstrap CSS file in `index.html`, and edited `index.html`
-to include Bootstrap styling.
+In this section, I add an index.html template to a directory called static, test
+the index (home) page, set up the static files, download Bootstrap, configure
+the static directory in settings.py, discuss the collectstatic command, load the
+Bootstrap CSS file in index.html, and edit index.html to include Bootstrap
+styling.
 
 ## Related Resources
 
@@ -725,9 +726,3 @@ to include Bootstrap styling.
 ## Related Posts
 
 - [How to create a fullstack application using Django and Python Table of Contents](/blog/how-to-create-a-fullstack-application-using-django-and-python-table-of-contents)
-
-[^1]:
-    A Python tuple is a data structure similar to a list. The main difference
-    between the two is that a tuple is immutable, meaning it cannot be changed
-    once it is created. This makes it ideal for storing data that should not be
-    modified, such as database records (aka rows).
