@@ -1,16 +1,16 @@
 ---
 slug: 'how-to-create-a-fullstack-application-using-django-and-python-part-31'
 date: '2024-11-23T23:43:58.688Z'
-lastModified: '2026-07-15T13:31:58.688Z'
+lastModified: '2026-07-16T12:30:58.688Z'
 title: 'How to create a fullstack application using Django and Python Part 31'
 author: 'Maria D. Campbell'
 excerpt:
-    'In this section, I modified settings in django_boards/settings.py for deployment
-on Heroku. I created a new SECRET_KEY for use on Heroku, added gunicorn,
-dj-database-url, psycopg2 and psycopg2-binary packages.  I created a
+    'In this section, I modify settings in django_boards/settings.py for deployment
+on Heroku. I create a new SECRET_KEY for use on Heroku, add gunicorn,
+dj-database-url, psycopg2 and psycopg2-binary packages.  I create a
 requirements.txt file, a Procfile, a .python-version file, and
-discussed the purpose of the os module. I set DEBUG to false on Heroku, configured database access, ran the collectstatic command for serving
-static files in production, and installed and configured whitenoise.'
+discuss the purpose of the os module. I set DEBUG to false on Heroku, configure database access, run the collectstatic command for serving
+static files in production, and install and configure whitenoise.'
 image: elin-gann-XBb6qMPGmV0-unsplash.webp
 tags: [
         'fullstack development',
@@ -1186,15 +1186,14 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ## Conclusion
 
-In this section, I modified settings in `django_boards/settings.py` for
-deployment on Heroku. I created a new `SECRET_KEY` for use on Heroku, added
-`gunicorn`, `dj-database-url`, `psycopg2` and `psycopg2-binary` packages,
-created a `requirements.txt` file, created a `Procfile`, created a
-`.python-version` file, discussed the purpose of the `os` module, set `DEBUG` to
-`False` on Heroku, differentiated between `DEBUG` value in local development and
-production on Heroku, configured database access, ran the `collectstatic`
-command for serving static files in production, and installed and configured
-`whitenoise`.
+In this section, I modify settings in django_boards/settings.py for deployment
+on Heroku. I create a new SECRET_KEY for use on Heroku, and add gunicorn,
+dj-database-url, psycopg2 and psycopg2-binary packages. I create a
+requirements.txt file, a Procfile, and a .python-version file. I discuss the
+purpose of the os module, set DEBUG to False on Heroku, and differentiate
+between DEBUG value in local development and production on Heroku. I configure
+database access, run the collectstatic command for serving static files in
+production, and install and configure whitenoise.
 
 ## Related Resources
 
