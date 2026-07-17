@@ -174,6 +174,7 @@ const DELETED_POST_SLUGS = [
 	'data/blog/how-to-upgrade-all-the-packages-in-your-django-application-in-one-fell-swoop.mdx',
 	'data/blog/introduction-to-command-prompt-commands-in-windows-11.mdx',
 	'data/blog/narrowly-escaping-the-need-to-remove-giscus.mdx',
+	'data/blog/creating-css-grids-without-the-need-for-media-queries.mdx',
 ]
 
 export function middleware(request) {
