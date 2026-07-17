@@ -1,10 +1,11 @@
 ---
 slug: creating-a-file-organizer-based-on-file-extension-using-python3
 date: '2024-08-18T19:37:57.698Z'
-lastModified: '2024-08-22T18:43:57.698Z'
-title: Creating a file organizer based on file extension using Python3
+lastModified: '2026-07-17T23:26:57.698Z'
+title: 'Creating a file organizer based on file extension using Python3'
 author: Maria D. Campbell
-excerpt: How to create a file organizer based on file extension using Python3.
+excerpt: 'In this post, I show how I organized different file types in directories
+created based on their extension names in Python.'
 image: pexels-cup-of-couple-8473782.webp
 tags:
     [
@@ -20,14 +21,15 @@ tags:
         'nested if statement',
         'python module',
     ]
-isPublished: false
+isPublished: true
 isFeatured: false
 ---
 
 ![Person sifting through a cardboard file organizer](pexels-cup-of-couple-8473782.webp)
 
-_Photo by_ [Cup of Couple](https://www.pexels.com/@cup-of-couple/) _on_
-[pexels.com](https://www.pexels.com/photo/a-person-looking-through-a-cardboard-file-organizer-8473782/)
+_[Photo by](https://www.pexels.com/photo/a-person-looking-through-a-cardboard-file-organizer-8473782/)
+[Cup of Couple](https://www.pexels.com/@cup-of-couple/) on
+[pexels.com](https://www.pexels.com/)_
 
 ## Table of Contents
 
@@ -38,14 +40,14 @@ _Photo by_ [Cup of Couple](https://www.pexels.com/@cup-of-couple/) _on_
 - [for loops, nested for loops, and if statements](#for-loops-nested-for-loops-and-if-statements)
     - [The path and verbose variables](#the-path-and-verbose-variables)
     - [The outer for loop](#the-outer-for-loop)
+    - [The glob module](#the-glob-module)
     - [The outer for loop's if statement](#the-outer-for-loops-if-statement)
-    - [The nested for loop](#the-nested-for-loop)
-    - [The nested for loop's if statement](#the-nested-for-loops-if-statement)
     - [The os.path submodule](#the-ospath-submodule)
     - [The nested for loop](#the-nested-for-loop)
     - [The nested for loop's if statement](#the-nested-for-loops-if-statement)
     - [The shutil module](#the-shutil-module)
 - [Further modularizing the application](#further-modularizing-the-application)
+- [Conclusion](#conclusion)
 
 ## The project code
 
@@ -106,7 +108,7 @@ path = r'/home/maria/Desktop'
 # setting verbose to 0 (or False) will show basic necessary info
 verbose = 1
 
-for extension, folder_name in extension.items():
+for extension, folder_name in extensions.items():
   # get all the files matching the extension
   files = glob.glob(os.path.join(path, f'*.{extension}'))
   print(f'[*] Found {len(files)} files with {extension}')
@@ -119,15 +121,121 @@ for extension, folder_name in extension.items():
     basename = os.path.basename(file)
     dst = os.path.join(path, folder_name, basename)
     if verbose:
-      print('[*] Moving {file} to {dst}')
+      print(f'[*] Moving {file} to {dst}')
       shutil.move(file, dst)
 ```
 
+**Note July 17, 2026:** The original code above throws an error. When I run
+`python file_organizer.py`, Terminal returns:
+
+```shell
+python file_organizer.py
+[*] Found 0 files with crt
+[*] Found 1 files with txt
+[+] Making (folder_name) folder
+Traceback (most recent call last):
+  File "/home/maria/Desktop/python-files/file-organization-app/file_organizer.py", line 44, in <module>
+    file_organizer()
+  File "/home/maria/Desktop/python-files/file-organization-app/file_organizer.py", line 31, in file_organizer
+    os.mkdir(os.path.join(path, folder_name, basename))
+                                             ^^^^^^^^
+UnboundLocalError: cannot access local variable 'basename' where it is not associated with a value
+```
+
+This returns something different than what the code above would produce. For
+example, a function is being called. I was testing the final, modularized code
+which you will encounter later on in the post.
+
+`basename` is only defined in the `for file in files` for in loop, but it is
+being passed to `os.mkdir()` in the
+`if not os.path.isdir(os.path.join(path, folder_name)) and files` statement,
+where it is not defined yet. However, this is a very simple fix. All I have to
+do is remove `basename` from `os.mkdir()` in the if not
+os.path.isdir(os.path.join(path, folder_name)) and files` statement. Now the
+code looks like:
+
+```python
+# file_organizer.py
+# Define the source directory containing files in a directory based on the file's extension
+# Import the necessary modules
+
+import os
+import shutil
+import glob
+
+# Create a dictionary to map file extensions to their respective folders
+
+extensions = {
+  'crt': 'crt-files',
+  'txt': 'text-files',
+  'sig': 'sig-files',
+  'py': 'python-files',
+  'sh': 'sh-files',
+  'gpg': 'gpg-files',
+  'enc': 'enc-files',
+  'asc': 'asc-files',
+  'jpg': 'jpg-files',
+  'png': 'png-files',
+  'ico': 'ico-files',
+  'gif': 'gif-files',
+  'svg': 'svg-files',
+  'sql': 'sql-files',
+  'exe': 'exe-files',
+  'pdf': 'pdf-files',
+  'xlsx': 'xlsx-files',
+  'csv': 'csv-files',
+  'rar': 'rar-files',
+  'zip': 'zip-files',
+  'gz': 'gz-files',
+  'tar': 'tar-files',
+  'torrent': 'torrent-files',
+  'ipynb': 'ipynb-files',
+  'pptx': 'pptx-files',
+  'ppt': 'ppt-files',
+  'mp3': 'mp3-files',
+  'wav': 'wav-files',
+  'mp4': 'mp4-files',
+  'm3u8': 'm3u8-files',
+  'webm': 'webm-files',
+  'ts': 'ts-files',
+  'json': 'json-files',
+  'css': 'css-files',
+  'js': 'js-files',
+  'html': 'html-files',
+  'apk': 'apk-files',
+  'sqlite3': 'sqlite3-files'
+}
+
+path = r'/home/maria/Desktop'
+
+# setting verbose to 1 (or True) will show all file moves
+# setting verbose to 0 (or False) will show basic necessary info
+verbose = 1
+
+for extension, folder_name in extensions.items():
+  # get all the files matching the extension
+  files = glob.glob(os.path.join(path, f'*.{extension}'))
+  print(f'[*] Found {len(files)} files with {extension}')
+  if not os.path.isdir(os.path.join(path, folder_name)) and files:
+    # create the folder if it does not exist before
+    print(f'[+] Making {folder_name} folder')
+    os.mkdir(os.path.join(path, folder_name))
+  for file in files:
+    # for each file with that extension, move it to the corresponding folder
+    basename = os.path.basename(file)
+    dst = os.path.join(path, folder_name, basename)
+    if verbose:
+      print(f'[*] Moving {file} to {dst}')
+      shutil.move(file, dst)
+```
+
+No more basename errors! Try it out!
+
 ## Modularizing the code
 
-I `decided` to `modularize` the `code` a bit. I `moved` the `extensions`
-dictionary into a `separate file` called `extensions.py`. `When` I `made` those
-`changes`, my `project structure` looked `like` the `following`:
+I decided to modularize the code a bit. I moved the extensions dictionary into a
+separate file called `extensions.py`. When I made those changes, my project
+structure looked like the following:
 
 ```shell
 ~/Desktop/python-files/file-organization-app
@@ -186,8 +294,8 @@ extensions = {
 ## What is a Python dictionary, and how to access it from another file?
 
 The content of `extensions.py` is a Python dictionary. A dictionary is a data
-structure in Python that stores values as key value pairs. Not dissimilar from
-an object in JavaScript.
+structure in Python that stores values as key value pairs. Similar to an object
+in JavaScript.
 
 When I import extensions into `file_organizer.py`, I access extensions with
 `extensions.extensions`. The line
@@ -222,19 +330,19 @@ for extension, folder_name in extensions.extensions.items():
   if not os.path.isdir(os.path.join(path, folder_name)) and files:
     # create the folder if it does not exist before
     print(f'[+] Making {folder_name} folder')
-    os.mkdir(os.path.join(path, folder_name, basename))
+    os.mkdir(os.path.join(path, folder_name))
   for file in files:
     # for each file with that extension, move it to the corresponding folder
     basename = os.path.basename(file)
     dst = os.path.join(path, folder_name, basename)
     if verbose:
-      print('[*] Moving {file} to {dst}')
+      print(f'[*] Moving {file} to {dst}')
       shutil.move(file, dst)
 ```
 
 ### The path and verbose variables
 
-I define the path and verbose variables outside the outer `for loop` so that
+I define the path and verbose variables outside the outer `for` loop so that
 everything inside the outer `for loop` can access them.
 
 The value of the `path` variable is wrapped in an `r''` raw string:
@@ -255,14 +363,14 @@ files I want to organize into folders based on file extension.
 ### The outer for loop
 
 The outer `for` loop, a `for in` loop, states the purpose of the project and
-where the data is being extracted from. extension represents the key in the
+where the data is being extracted from. `extension` represents the key in the
 dictionary, and the `folder_name` represents the value of the key.
 
-`in extensions.extensions.items()` means that each key value pair is being taken
+`in extensions.extensions.items()` means that the loop pulls each key-value pair
 from the extensions dictionary imported into the `file_organizer.py` file, which
 can be accessed by appending extensions to extensions. The first extensions is
-the file that is imported, and `.extensions` is the dictionary module inside the
-`extensions.py` file.
+the file that is imported, and `.extensions` is the dictionary variable inside
+the `extensions.py` file.
 
 ### The glob module
 
@@ -271,14 +379,14 @@ match a specific pattern or name.
 
 ```python
 # get all the files matching the extension
-  files = glob.glob(os.path.join(path, f'*.{extension}'))
-  print(f'[*] Found {len(files)} files with {extension} extension')
+files = glob.glob(os.path.join(path, f'*.{extension}'))
+print(f'[*] Found {len(files)} files with {extension} extension')
 ```
 
 `f'*.{extension}'` is an example of an f-string literal (formatted string
 literal). An f-string literal simplifies string formatting and interpolation.
-`{extension}` is an example of string interpolation, where one can insert an a
-variable in string. This makes for dynamic strings.
+`{extension}` is an example of string interpolation, where one can insert a
+variable in a string. This makes for dynamic strings.
 
 The `*` wildcard means any file, followed by its extension.
 
@@ -292,16 +400,17 @@ exist, then make that folder:
 
 ```python
 # if a folder does not exist with the associated extension name
-  if not os.path.isdir(os.path.join(path, folder_name)) and files:
-    # create the folder if it does not exist before
-    print(f'[+] Making {folder_name} folder')
-    os.mkdir(os.path.join(path, folder_name, basename))
+if not os.path.isdir(os.path.join(path, folder_name)) and files:
+  # create the folder if it does not exist before
+  print(f'[+] Making {folder_name} folder')
+  os.mkdir(os.path.join(path, folder_name))
 ```
 
 So if a directory named after a file extension name does not exist, but the
 file(s) exist(s), then create a folder with such a name (represented by the
 dictionary value) using the `os.mkdir()` method, and then join the path with the
-`folder_name` and then the `basename` (file).
+`folder_name` (and then the `basename` (file) in the `for file in files` for in
+loop).
 
 Again, the `print()` method contains an f-string literal, so that I can insert
 the variable `folder_name` to make for a dynamic string. The code doesn't know
@@ -338,13 +447,13 @@ to its newly created folder.
 
 ### The nested for loop's if statement
 
-The `if` statement`states`"if
-verbose"`, meaning either containing the value of `0`or`1`(here it is`1`), then move files to their respective folders and show all file moves via the `print()`
-method.
+The `if` statement states `"if verbose"`, meaning either containing the value of
+`0` or `1` (here it is `1`), then move files to their respective folders and
+show all file moves via the `print()` method.
 
 ```python
 if verbose:
-  print('[*] Moving {file} to {dst}')
+  print(f'[*] Moving {file} to {dst}')
   shutil.move(file, dst)
 ```
 
@@ -386,13 +495,13 @@ def file_organizer():
     if not os.path.isdir(os.path.join(path, folder_name)) and files:
       # create the folder if it does not exist before
       print(f'[+] Making {folder_name} folder')
-      os.mkdir(os.path.join(path, folder_name, basename))
+      os.mkdir(os.path.join(path, folder_name))
     for file in files:
       # for each file with that extension, move it to the corresponding folder
       basename = os.path.basename(file)
       dst = os.path.join(path, folder_name, basename)
       if verbose:
-        print('[*] Moving {file} to {dst}')
+        print(f'[*] Moving {file} to {dst}')
         shutil.move(file, dst)
 
 # call the function
@@ -402,3 +511,14 @@ file_organizer()
 I used the same application code to organize my files in my Linux Mint
 "/home/maria" directory. The only thing that was different was the value of the
 path variable.
+
+## Conclusion
+
+In this post, I demonstrate how I organized different file types in folders
+created based on the extension names of the files in Python. What is so great
+about this application is that I didn't have to worry about creating or naming
+the folders ahead of time. The code created them for me. I went on to modularize
+the Python code because application modules were easier to reuse and maintain. I
+did find a bug in the original code, an undefined `basename` variable, but when
+I removed it from the `os.mkdir()` method inside the `if not` statement, the
+`UnboundLocalError` error it threw went away and the application did its magic.
