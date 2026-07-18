@@ -175,6 +175,12 @@ const DELETED_POST_SLUGS = [
 	'data/blog/introduction-to-command-prompt-commands-in-windows-11.mdx',
 	'data/blog/narrowly-escaping-the-need-to-remove-giscus.mdx',
 	'data/blog/creating-css-grids-without-the-need-for-media-queries.mdx',
+	'data/blog/applying-how-i-created-a-figure-element-component-to-creating-a-static-text-tweet-component.mdx',
+	'data/blog/renaming-your-remote-github-repository.mdx',
+	'data/blog/the-importance-of-updates-and-why-they-are-important-in-cybersecurity.mdx',
+	'data/blog/updating-the-node-architecture-on-macbook-pro-silicon.mdx',
+	'data/blog/when-a-bare-bones-automated-js-workflow-makes-sense.mdx',
+	'data/blog/windows-cmd-basics-and-commands-by-example.mdx',
 ]
 
 export function middleware(request) {
