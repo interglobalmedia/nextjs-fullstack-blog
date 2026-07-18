@@ -1,16 +1,19 @@
 ---
 slug: encrypting-and-decrypting-files-and-strings
 date: '2024-01-30T14:15:53.031Z'
-lastModified: '2024-08-30T19:04:53.031Z'
+lastModified: '2026-07-18T20:05:53.031Z'
 title: Encrypting and Decrypting Files and Strings
 author: Maria D. Campbell
 excerpt:
-    How to encrypt and decrypt files and strings with Python vs Command Line.
-image: pexels-rachel-claire-4577718.jpg
+    In this post, I show how to encrypt and decrypt files with a Python
+    encryption/decryption application using the Python Fernet symmetric
+    encryption method and via Command Line using GnuPG.
+image: pexels-rachel-claire-4577718.webp
 tags:
     [
         'decryption',
         'encryption',
+        'gnupg',
         'symmetric encryption',
         'command line',
         'macOS',
@@ -21,32 +24,32 @@ isPublished: true
 isFeatured: false
 ---
 
-![Ancient forms of encryption inside a pyramid](pexels-rachel-claire-4577718.jpg)
+![Ancient forms of encryption inside a pyramid](pexels-rachel-claire-4577718.webp)
 
 _Photo by_ [Rachel Claire](https://www.pexels.com/@rachel-claire/) _on_
 [pexels.com](https://www.pexels.com/photo/woman-standing-near-old-stone-wall-with-carved-images-4577718/)
 
 ## Table of Contents
 
-- [Python Vs Command Line](#python-vs-command-line)
+- [Python vs Command Line](#python-vs-command-line)
 - [Using GnuPG to encrypt and decrypt strings and files via the Command Line](#using-gnupg-to-encrypt-and-decrypt-strings-and-files-via-the-command-line)
 - [Encrypting a file with GnuPG](#encrypting-a-file-with-gnupg)
 - [Decrypting files with GnuPG](#decrypting-files-with-gnupg)
+- [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 
 This _post_ was _originally published_ on
-[Github](https://github.com/interglobalmedia/encrypt-decrypt-files-python).
+[GitHub](https://github.com/interglobalmedia/encrypt-decrypt-files-python).
 
 **Note**: this process does not take into account an actual recipient of the
 message who would normally decrypt the message. I will take that into account in
 a future post.
 
-## Python Vs Command Line
+## Python vs Command Line
 
 In cybersecurity, we want to be as efficient and swift as possible when
-executing our tasks. In this scenario, I want to compare encrypting and
-decrypting files and strings in Python vs doing the same thing via the Command
-Line.
+executing our tasks. In this scenario, I compare encrypting and decrypting files
+and strings in Python vs doing the same thing via the Command Line.
 
 First of all, in my Python approach to encrypting and decrypting a file, I
 wanted to make sure that I modularized my task functions. So I created the
@@ -67,23 +70,15 @@ names that describe the individual tasks they are responsible for. I call this
 "task modularization".
 
 The `create_key.py` file creates an encryption key using the Python Fernet
-symmetric encryption method. It was created by Google and uses
-`128-bit AES keys`. `AES 128-bit encryption` in of itself is safe against
-brute-force attacks. The only `"wildcard"` is the safety of the key. I would say
-that using symmetric encryption is best when you are encrypting and decrypting
-for yourself and don't need to share the key with others for successful
-completion of the process.
+symmetric encryption method. It uses `128-bit AES keys`.
+`AES 128-bit encryption` in and of itself is safe against brute-force attacks.
+The only `"wildcard"` is the safety of the key. I would say that using symmetric
+encryption is best when you are encrypting and decrypting for yourself and don't
+need to share the key with others for successful completion of the process.
 
 The `get_key.py` file's task is to load the key that has been generated. So for
 example, I make the following import statement in the `decrypt_file.py`,
 `decrypt_string.py`, `encrypt_file.py`, `encrypt_string.py`:
-
-```python
-from get_key import load_key
-```
-
-And I also make the following import statement for Python Fernet in all the
-files except for `get_key.py`:
 
 ```python
 from get_key import load_key
@@ -143,17 +138,17 @@ File "/Users/mariacam/Development/cyber-projects/encrypt-decrypt-files-python/ve
     raise InvalidToken
 ```
 
-Lastly, it is important to note that in the `message_decrypt` function, the
-message represented by `message_encrypt.message_encrypted` passed to the
-`f.decrypt()` method, is chained to the `decode()` method instead of the
-`encode()` method. Not only are we decrypting our message, but we also have to
-decode it, since it was encoded when encrypted. Now the message is just
-`"plain text"` as it was originally when first created.
+Lastly, in the `message_decrypt` function, the message represented by
+`message_encrypt.message_encrypted` passed to the `f.decrypt()` method, is
+chained to the `decode()` method instead of the `encode()` method. Not only am I
+decrypting my message, but I also have to decode it, since it was encoded when
+encrypted. Now the message is just `"plain text"` as it was originally when
+first created.
 
 ## Using GnuPG to encrypt and decrypt strings and files via the Command Line
 
 This was a lot of work, right? A programmatic approach will always be more
-complex than executing the same task via the Command Line. And in Cybersecurity,
+complex than executing the same task via the Command Line. And in cybersecurity,
 we won't necessarily have the luxury or even need to programmatically execute
 such tasks.
 
@@ -168,7 +163,7 @@ for [GNU Privacy Guard](https://gnupg.org/), is
 > applications. A wealth of frontend applications and libraries are available.
 > GnuPG also provides support for S/MIME and Secure Shell (ssh).
 
-GNUPG's "claim to fame" is that
+GnuPG's "claim to fame" is that
 
 > GnuPG is one of the tools that Snowden used to uncover the secrets of the NSA.
 
@@ -217,12 +212,12 @@ After `gnupg` was installed, I ran the following command in Terminal:
 echo Hello Maria! > greetings.txt
 ```
 
-**Note**: On macOS, when we run the `echo` command, we should not use quotes
+**Note**: On macOS, when I run the `echo` command, I should not use quotes
 around the string of words. It throws an error.
 
 Then I ran the `gpg` command to encrypt my new `greetings.txt` file, and I
 included the use of a `passphrase`. I even use them when communicating with
-Github, even though I am connected via `SSH`. So:
+GitHub, even though I am connected via `SSH`. So:
 
 ```shell
 gpg --batch --output greetings.txt.gpg --passphrase mypassword --symmetric greetings.txt
@@ -296,7 +291,7 @@ drw-------  2 rik rik  4096 Jun  9 03:28 crls.d    <---- Notice this here
 ```
 
 So `*.d` ensures that all `.d` directories inside have `execution` permissions.
-To view the `source` where I got this information from on Github, please visit
+To view the `source` where I got this information from on GitHub, please visit
 [This fixes the " gpg: WARNING: unsafe permissions on homedir '/home/path/to/user/.gnupg' " error while using Gnupg.](https://gist.github.com/oseme-techguy/bae2e309c084d93b75a9b25f49718f85),
 and scroll down to kirvedx's comment from Jun 13, 2022.
 
@@ -330,7 +325,7 @@ Next, I wanted to verify that my decrypted file matched my original
 diff -s greetings.txt greetings1.txt
 ```
 
-\*And the following was returned in Terminal:
+And the following was returned in Terminal:
 
 ```shell
 Files greetings.txt and greetings1.txt are identical
@@ -338,17 +333,29 @@ Files greetings.txt and greetings1.txt are identical
 
 Success!
 
-**Note**: the `-s` option is short for `--sign`, which stands for "sign a
-message". So basically, I am checking to make sure that the integrity of the
-file when decrypted was intact.
+In its most basic usage, as above, the GNU `diff` command compares the contents
+of two files to see if they are identical or not. The `diff -s` option, short
+for `--report-identical-files`, reports when two files contain the same content.
+
+## Conclusion
+
+In this post, I compare encrypting and decrypting files with a Python
+application using the Python Fernet symmetric encryption method to encrypting
+and decrypting files via Command Line using GnuPG. I use task modularization in
+my Python application. It is an elegant and sophisticated approach. However, it
+takes time to create. The Command Line approach is much quicker but much less
+structured. If I didn't have the luxury of writing up a Python application, I
+would go with the Command Line approach. But if I wanted to create an
+application I could reuse for the same purpose, I choose the application
+approach.
 
 ## Related Resources
 
 - [Encrypt/Decrypt Files with Python](https://github.com/interglobalmedia/encrypt-decrypt-files-python):
-  _by interglobalmedia on Github_
-
+  _by interglobalmedia on GitHub_
 - [Encrypting and Decrypting Files in Linux](https://www.baeldung.com/linux/encrypt-decrypt-files):
   _by Mohan Sundararaju on baeldung.com_
-
 - [How to Encrypt and Decrypt Files in Python](https://thepythoncode.com/article/encrypt-decrypt-files-symmetric-python):
   _by Abdeladim Fadheli on thepythoncode.com_
+- [GNU diffutils manual: diff options](https://www.gnu.org/software/diffutils/manual/html_node/Invoking-diff.html):
+  _gnu.org_
