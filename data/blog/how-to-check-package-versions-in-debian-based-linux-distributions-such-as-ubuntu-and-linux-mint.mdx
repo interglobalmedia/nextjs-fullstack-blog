@@ -1,15 +1,17 @@
 ---
 slug: how-to-check-package-versions-in-debian-based-linux-distributions-such-as-ubuntu-and-linux-mint
 date: '2024-07-30T16:52:17.190Z'
-lastModified: '2026-05-24T04:41:17.190Z'
+lastModified: '2026-07-19T04:11:17.190Z'
 title:
-    How to check package versions in Debian based Linux distributions such as
+    How to check package versions in Debian-based Linux distributions such as
     Ubuntu and Linux Mint
 author: Maria D. Campbell
 excerpt:
-    How to check package versions in Debian based Linux distributions such as
-    Ubuntu and Linux Mint.
-image: pexels-liza-summer-6347527.jpg
+    In this post, I present several different ways to find out package versions
+    in Debian-based Linux distributions such as Ubuntu and Linux Mint. Each
+    approach differs in the way it presents the information and the information
+    it actually shares.
+image: pexels-liza-summer-6347527.webp
 tags:
     [
         'dpkg',
@@ -20,28 +22,28 @@ tags:
         'lsblk',
         'lsmem',
         'util-linux',
-        'version',
     ]
-isPublished: false
+isPublished: true
 isFeatured: false
 ---
 
-![Woman comparing information in notebook and carton box](pexels-liza-summer-6347527.jpg)
+![Woman comparing information in notebook and carton box](pexels-liza-summer-6347527.webp)
 
 _Photo by_ [Liza Summer](https://www.pexels.com/@liza-summer/) _on_
 [pexels.com](https://www.pexels.com/photo/woman-comparing-information-in-notebook-and-carton-box-6347527/)
 
 ## Table of Contents
 
-- [Checking for package versions in Debian based Linux distribution](#checking-for-package-versions-in-debian-based-linux-distribution)
+- [Checking for package versions in Debian-based Linux distributions](#checking-for-package-versions-in-debian-based-linux-distributions)
 - [Checking for the version of the util-linux package using the lsblk command](#checking-for-the-version-of-the-util-linux-package-using-the-lsblk-command)
 - [Checking for the version of the util-linux package using the lsmem command](#checking-for-the-version-of-the-util-linux-package-using-the-lsmem-command)
+- [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 
-## Checking for package versions in Debian based Linux distribution
+## Checking for package versions in Debian-based Linux distributions
 
-In order to check for package versions in Debian based Linux distributions such
-as Ubuntu and Linux Mint, etc., we can run the following commands in Terminal:
+To check for package versions in Debian-based Linux distributions such as Ubuntu
+and Linux Mint, I can run the following commands in Terminal:
 
 ```shell
 dpkg -l packagename
@@ -58,20 +60,16 @@ dpkg -l util-linux
 And it returned the following in Terminal:
 
 ```shell
-ii  util-linux     2.37.2-4ubuntu3.4 amd64        miscellaneous system utilities
-maria@maria-VirtualBox:~/Desktop/simple-http-server$ which chsh
-/usr/bin/chsh
-maria@maria-VirtualBox:~/Desktop/simple-http-server$ dpkg -l util-linux
+maria@maria-VirtualBox:~/Desktop$ dpkg -l util-linux
 Desired=Unknown/Install/Remove/Purge/Hold
 | Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
 |/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
 ||/ Name           Version           Architecture Description
-+++-==============-=================-============-=================================
-ii  util-linux     2.37.2-4ubuntu3.4 amd64        miscellaneous system utilities
++++-==============-=================-============-=============================>
+ii  util-linux     2.39.3-9ubuntu6.5 amd64        miscellaneous system utilities
 ```
 
-I found this `stdout` a bit messy, so I found a short alternative `stdout` of
-this command:
+I found this output a bit messy, so here's a cleaner alternative command:
 
 ```shell
 dpkg -l | grep util-linux
@@ -82,15 +80,34 @@ dpkg-query -l | grep util-linux
 This returned the following:
 
 ```shell
-ii  util-linux                                 2.37.2-4ubuntu3.4                          amd64        miscellaneous system utilities
+maria@maria-VirtualBox:~/Desktop$ dpkg -l | grep util-linux
+ii  util-linux                                 2.39.3-9ubuntu6.5                                amd64        miscellaneous system utilities
 ```
 
 `dpkg -l | grep util-linux` is my personal preference, but to each his/her own!
 
+I can also get a list of all the packages I have installed in my Linux Mint OS
+using the `dpkg -l` command. It returns something like the following
+(truncated):
+
+```shell
+maria@maria-VirtualBox:~/Desktop$ dpkg -l
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                                       Version                         >
++++-==========================================-================================>
+ii  7zip                                       23.01+dfsg-11                   >
+ii  accountsservice                            23.13.9-2ubuntu6                >
+ii  acl                                        2.3.2-1build1.1                 >
+ii  adduser                                    3.137ubuntu1                    >
+ii  adwaita-icon-theme                         46.0-1                          >
+```
+
 ## Checking for the version of the util-linux package using the lsblk command
 
-If I want to find out what the package version of `util-linux` is, of which the
-`lsblk` command is a part, I could find it by using the `lsblk` command along
+If I want to find out what the package version of `util-linux` is, which
+includes the lsblk command, I could find it by using the `lsblk` command along
 with the following flag:
 
 ```shell
@@ -100,28 +117,40 @@ lsblk --version
 Which returns something like the following:
 
 ```shell
-lsblk from util-linux 2.37.32
+lsblk from util-linux 2.39.3
 ```
 
-To view the stackoverflow thread where this command was shared, please visit
+To view the stackoverflow thread where this command was shared, read
 [How to upgrade util-linux from 2.32.1 to 2.34 in Redhat](https://stackoverflow.com/questions/72252837/how-to-upgrade-util-linux-from-2-32-1-to-2-34-in-redhat).
 
-To learn more about the `lsblk` command, please visit my article entitled
+To learn more about the `lsblk` command, go to my article entitled
 [The lsblk command in Linux and what it does](/blog/the-lsblk-command-in-linux-and-what-it-does).
 
 ## Checking for the version of the util-linux package using the lsmem command
 
-I also came across the following command on another thread on
+I also came across the following command within the same thread (even same
+answer) I previously mentioned on
 [stackoverflow](https://unix.stackexchange.com/questions/713304/how-to-check-linux-util-package-version/781085?noredirect=1#comment1495057_781085)
 which is perhaps a bit too succinct for me:
 
 ```shell
 lsmem -V
 # which returned:
-lsmem from util-linux 2.37.2
+lsmem from util-linux 2.39.3
 ```
 
 To learn more about the `lsmem` command, run `man lsmem` in Terminal.
+
+## Conclusion
+
+In this post, I talk about several ways to find package versions in Debian-based
+Linux distributions such as Ubuntu and Linux Mint. They vary from fairly
+uninformative (`<command> -V`): the util-linux package version is returned but
+not the specific tool's own version, to too informative and a bit messy
+(`dpkg -l util-linux`). But then there was the approach that I found the
+cleanest and informative enough: `dpkg -l | grep util-linux`. In the end, each
+approach has its good points. It's just a matter of what information is
+important to me at any given moment.
 
 ## Related Resources
 
