@@ -127,15 +127,29 @@ $asian-green: #96aa9a;
 }
 
 /* Markdown table mixin */
-@mixin equal-columns($num-columns) {
-	@if $num-columns == 2 {
-		width: 50%;
-	} @else if $num-columns == 3 {
-		width: 33.33%;
-	} @else if $num-columns == 4 {
-		width: 25%;
-	} @else {
-		width: 100% / $num-columns; // Default case for more than 4 columns
+// @mixin equal-columns($num-columns) {
+// 	@if $num-columns == 2 {
+// 		width: 50%;
+// 	} @else if $num-columns == 3 {
+// 		width: 33.33%;
+// 	} @else if $num-columns == 4 {
+// 		width: 25%;
+// 	} @else {
+// 		width: 100% / $num-columns; // Default case for more than 4 columns
+// 	}
+// }
+
+@mixin conditional-columns($columns) {
+	@for $i from 1 through $columns {
+		@if $columns == 2 {
+			width: calc(50% / $columns);
+		} @else if $columns == 3 {
+			width: calc(33.33% / $columns);
+		} @else if $columns == 4 {
+			width: calc(25% / $columns);
+		} @else {
+			width: calc(100% / $columns);
+		}
 	}
 }
 
@@ -165,5 +179,5 @@ $asian-green: #96aa9a;
 
 .content td {
 	word-break: break-all;
-	@include equal-columns(3);
+	@include conditional-columns(5);
 }
