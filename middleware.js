@@ -181,6 +181,7 @@ const DELETED_POST_SLUGS = [
 	'data/blog/updating-the-node-architecture-on-macbook-pro-silicon.mdx',
 	'data/blog/when-a-bare-bones-automated-js-workflow-makes-sense.mdx',
 	'data/blog/windows-cmd-basics-and-commands-by-example.mdx',
+	'data/blog/why-your-local-machine-computer-may-not-be-pointing-to-your-newly-propagated-site.mdx',
 ]
 
 export function middleware(request) {
