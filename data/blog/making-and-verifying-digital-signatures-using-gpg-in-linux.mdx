@@ -1,15 +1,20 @@
 ---
 slug: making-and-verifying-digital-signatures-using-gpg-in-linux
 date: '2024-08-09T16:02:09.360Z'
-lastModified: '2026-05-29T17:50:09.360Z'
+lastModified: '2026-07-20T13:37:09.360Z'
 title: Making and verifying digital signatures using GPG in Linux
 author: Maria D. Campbell
-excerpt: How to make and verify digital signatures using GPG in Linux.
-image: pexels-pixabay-326616.jpg
+excerpt:
+    In this article, I discuss what a digital signature is, which should be used
+    (PGP or PKI), and how to create, edit, list, and delete a PGP public key
+    uid. I also describe how to create a revocation certificate for a PGP key
+    pair.
+image: pexels-pixabay-326616.webp
 tags:
     [
         'asymmetric encryption',
         'symmetric encryption',
+        'digital signature',
         'encryption',
         'decryption',
         'pgp key pair',
@@ -25,24 +30,25 @@ isPublished: true
 isFeatured: false
 ---
 
-![Key hole and chain](pexels-pixabay-326616.jpg)
+![Key hole and chain](pexels-pixabay-326616.webp)
 
-_Photo by_ [Pixabay](https://www.pexels.com/@pixabay/) _on_
-[pexels.com](https://www.pexels.com/photo/close-up-of-figurine-326616/)
+_[Photo by](https://www.pexels.com/photo/close-up-of-figurine-326616/)
+[Pixabay](https://www.pexels.com/@pixabay/) on
+[pexels.com](https://www.pexels.com/)_
 
 In this article, I discuss how to make and verify digital signatures using GPG
-in Linux, and I also discuss WHY we would want to use a digital signature in the
+in Linux, and I also discuss WHY I would want to use a digital signature in the
 first place.
 
 ## Table of Contents
 
-- [So what is a digital signature?](#so-what-is-a-digital-signaturet)
+- [So what is a digital signature?](#so-what-is-a-digital-signature)
 - [Why digital signatures?](#why-digital-signatures)
 - [The digital signature process](#the-digital-signature-process)
 - [Why digital signatures should be used with PGP (or PKI)](#why-digital-signatures-should-be-used-with-pgp-or-pki)
 - [Creating a digital signature using PGP](#creating-a-digital-signature-using-pgp)
     - [Creating the PGP key pair](#creating-the-pgp-key-pair)
-    - [Editing the PGP public key](#editing-the-PGP-public-key)
+    - [Editing the PGP public key](#editing-the-pgp-public-key)
     - [Listing the PGP public keys](#listing-the-pgp-public-keys)
     - [Deleting a PGP public key uid](#deleting-a-pgp-public-key-uid)
     - [Creating a revocation certificate for PGP key pair](#creating-a-revocation-certificate-for-pgp-key-pair)
@@ -50,7 +56,7 @@ first place.
         - [Verifying the signature](#verifying-the-signature)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
-- [Asymmetric encryption and decryption series](#asymmetric-encryption-and-decryption-series)
+- [Related Posts](#related-posts)
 - [Footnotes](#footnotes)
 
 ## So what is a digital signature?
@@ -80,8 +86,8 @@ any part of it will completely change the hash.
 
 ## The digital signature process
 
-When we have finished creating our message or document that we want to secure,
-we digitally sign it and send it to the recipient. The recipient then generates
+When I have finished creating my message or document that I want to secure, I
+digitally sign it and send it to the recipient. The recipient then generates
 their own hash of the message or digital document and decrypts the sender's hash
 (included in the original message) using the sender's public key[^3].
 
@@ -92,7 +98,7 @@ verified and the sender is authenticated.
 According to
 [CISA](https://www.cisa.gov/news-events/news/understanding-digital-signatures),
 
-> he security of a digital signature is almost entirely dependent on how well
+> The security of a digital signature is almost entirely dependent on how well
 > the private key is protected. Without PGP or PKI, proving someone's identity
 > or revoking a compromised key is impossible; this could allow malicious actors
 > to impersonate someone without any method of confirmation.
@@ -107,26 +113,23 @@ According to
 
 ## Why digital signatures should be used with PGP (or PKI)
 
-Using digital signatures with
-[PGP](https://www.encryptionconsulting.com/how-to-generate-pgp-key-pair/) or
-[PKI (public key infrastructure)](<https://www.keyfactor.com/education-center/what-is-pki/#:~:text=Public%20key%20infrastructure%20(PKI)%20governs,end%2Dto%2Dend%20communications.>)
-key pairs strengthens the digital signatures and reduces possible security
-issues related to transmitting public keys by validating that the key belongs to
-the sender and verifying the identity of the sender. The security of a digital
-signature depends on how strong the protection of the private key is. Without
-PGP (or PKI), verifying someone's identity or revoking a compromised key is
-impossible. This means malicious actors could impersonate someone without any
-means of confirmation.
+[PGP](https://www.encryptionconsulting.com/how-to-generate-pgp-key-pair/) and
+[PKI (public key infrastructure)](https://www.keyfactor.com/education-center/what-is-pki/)
+use cryptographic key pairs and trusted certificates to confirm who created the
+digital signature for data and that it hasn’t been modified. This ensures the
+authenticity and integrity of both the sender and the data. PKI depends on
+Certificate Authorities to link identities to public keys, while PGP uses a web
+of trust where users vouch for each other’s keys.
 
-Understanding and using digital signatures permits us to better protect our
-information, documents, and transactions in the digital age.
+Understanding and using digital signatures permits me to better protect my
+information, documents, and transactions in this digital age.
 
 ## Creating a digital signature using PGP
 
 Since I already have written articles touching upon PGP,
-[Encrypting and decrypting a file with GPG in Linux](http://localhost:3000/blog/encrypting-and-decrypting-a-file-with-gpg-in-linux)
+[Encrypting and decrypting a file with GPG in Linux](/blog/encrypting-and-decrypting-a-file-with-gpg-in-linux)
 and
-[Encrypting and Decrypting Files and Strings](http://localhost:3000/blog/encrypting-and-decrypting-files-and-strings),
+[Encrypting and Decrypting Files and Strings](/blog/encrypting-and-decrypting-files-and-strings),
 in this article I will show how to create a digital signature using PGP.
 
 ### Creating the PGP key pair
@@ -134,39 +137,37 @@ in this article I will show how to create a digital signature using PGP.
 A PGP key pair is an example of asymmetric encryption. Asymmetric encryption is
 the process of using a public key from a public/private key pair to encrypt
 plaintext, and then using the corresponding private key to decrypt the
-ciphertext. In other words, asymmetric encryption uses two different keys to
-encrypt and decrypt each file, then two more keys to sign and verify each file.
-Both parties – sender and recipient – need to exchange their public keys before
-any transfer can take place.
+ciphertext. Both parties – sender and recipient – need to exchange their public
+keys before any transfer can take place.
 
 The sender encrypts the file using the recipient’s public key. The recipient
 decrypts the file using their private key.
 
 Asymmetric encryption is considered more secure due to the use of two separate
-keys, making it harder for attackers to compromise the system. And we are
-dealing with asymmetric encryption here.
+keys, making it harder for attackers to compromise the system. And I am dealing
+with asymmetric encryption here.
 
 PGP itself provides end-to-end encryption, integrity checking and
 authentication. It is commonly used for encrypting and decrypting texts, files,
 directories and whole disk partitions.
 
 I also wrote an article a while back regarding symmetric encryption entitled
-[Encrypting and Decrypting Files and Strings](http://localhost:3000/blog/encrypting-and-decrypting-files-and-strings)
+[Encrypting and Decrypting Files and Strings](/blog/encrypting-and-decrypting-files-and-strings)
 where I discuss symmetric encryption. Symmetric encryption is not as secure by
 the nature of how it works, and also more limiting. Symmetric encryption is also
 known as a private-key encryption. It is called symmetric because, it makes use
 of the same key for both encryption of plain text (sending message) and
 decryption of cipher text (received message).
 
-In order to be able to sign a message or document, for example, one first has to
-create a PGP private and public key pair`:
+To be able to sign a message or document, for example, I first have to create a
+PGP private and public key pair:
 
 ```shell
 gpg --full-generate-key
 ```
 
 The `--full-generate-key` flag as opposed to `gpg --gen-key`, provides a full
-featured key generation dislog. It returns something like the following:
+featured key generation dialog. It returns something like the following:
 
 ```shell
 gpg (GnuPG) 2.4.4: Copyright (C) 2024 g10 Code GmbH
@@ -185,7 +186,7 @@ Your selection: 1
 RSA keys may be between 1024 and 4096 bits long.
 What keysize do you want? (3072)
 Requested keysize is 3072 bits
-Please specifiy how long the key should be valid.
+Please specify how long the key should be valid.
         0 = key does not expire
     <n>   = key expires in n days
     <n>w  = key expires in n weeks
@@ -200,23 +201,23 @@ Real name: Maria
 Email address: maria@maria-Virtual-Box
 Comment: GPG key pair for local testing purposes
 You selected this USER-ID:
-  "Maria (GPG key pair for local testing purposes) <maria@aria-Virtual-Box"
+  "Maria (GPG key pair for local testing purposes) <maria@maria-Virtual-Box"
 
 Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? o
-We need to generate a lot of random bytes. It is a good idea to perform some other action (type on keyboard, move the mouse, utilize the disks) during the prime generation; this gives the random number generator a better change to gain enough entropy. We need to generate a lot of random bytes. it isd a good idea to perform some other action (type on the keyboard, move the mouse, utilize the disks) during the prime generation; this gives the random number generator a better change to gain enough entropy.
+We need to generate a lot of random bytes. It is a good idea to perform some other action (type on keyboard, move the mouse, utilize the disks) during the prime generation; this gives the random number generator a better chance to gain enough entropy.
 gpg; revocation certificate stored as '/home/maria/.gnupg/openpgp-revocs.d/
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.rev'
 public and secret key created and signed.
 ```
 
-## Editing the PGP public key
+### Editing the PGP public key
 
 I had created a revocation certificate previously. Ideally, you create it right
 after creating your PGP key pair. However, I noticed that I entered the wrong
 local email address. So I did the following to `change` my local email address
 to the correct one:
 
-First I ran `gpg --edit Maria` (the name of my key pair is the real name I
+First I ran `gpg --edit-key Maria` (the name of my key pair is the real name I
 provided at the beginning), and the following appeared:
 
 ```shell
@@ -253,7 +254,7 @@ Save changes? (y/N) y
 During this process I am also prompted for my passphrase I had created when I
 originally created the PGP key pair.
 
-## Listing the PGP public keys
+### Listing the PGP public keys
 
 Next, I can check to make sure that everything was successfully updated by
 running `gpg --list-keys`, and something like the following is returned:
@@ -269,7 +270,7 @@ uid           [ultimate] Maria (GPG key pair for local testing purposes) <maria@
 sub   rsa3072 2024-08-09 [E]
 ```
 
-## Deleting a PGP public key uid
+### Deleting a PGP public key uid
 
 As you can see, I have two uids. I want to get rid of the one that is not
 correct (the second one). So I run the following:
@@ -330,11 +331,11 @@ Now I can check to make sure the edit was successful by running
 `gpg --list-keys` again. And if uid 1 is no longer listed there, I know that my
 edit was successful!
 
-## Creating a revocation certificate for PGP key pair
+### Creating a revocation certificate for PGP key pair
 
-Next, I want to make sure that I create a revocation certificate for my PHP key
-pair in case if I lose my keys or if they have been compromised. One should do
-this before actually starting to use the PGP keys.
+Next, I want to make sure that I create a revocation certificate for my PGP key
+pair in case I lose my keys or if they have been compromised. I should do this
+before actually starting to use the PGP keys.
 
 In order to create a revocation certificate associate with my Maria PGP key
 pair, I do the following:
@@ -370,32 +371,32 @@ your media become unreadable.  But have some caution:  The print system of
 your machine might store the data and make it available to others!
 ```
 
-## Making a signature
+### Making a signature
 
 There are several ways of signing a file: sign, check, encrypt, decrypt.
 
 - The `--sign` or -s flag is used to sign a message/make a signature.
-- The `--clear-sign`flag is used to make a clear text signature.
+- The `--clear-sign` flag is used to make a cleartext signature.
 - The `--detach-sign` or `-b` flag is used to make a detached signature.
 - The `--verify` flag is used to verify a signature.
 
 In this article, I focus on a (complete) signature created with the `--sign` or
 `-s` option.
 
-When we use the `--sign` or `s` flag on a file, the file is effectively
-encrypted with the private key. The signature is created using the private key
-of the signer, and the signature is verified using the corresponding public key.
-As mentioned earlier, the public key is required to view the contents of the
-file. This forces the recipient to verify the origin and removes any clear text
-content[^4] from transit. It is not private since anyone with the public key can
-decrypt the file.
+When I use the `--sign` or `s` flag on a file, the private key effectively
+encrypts the file. The signer's private key creates the signature, and the
+corresponding public key verifies the signature. As mentioned earlier, the
+public key is required to view the contents of the file. This forces the
+recipient to verify the origin and removes any clear text content[^4] from
+transit. It is not private since anyone with the public key can decrypt the
+file.
 
-To make a signature on a file called `make_signature.txt` that contains the
+Below I make a signature on a file called `make_signature.txt` that contains the
 following text:
 
 ```shell
 # command I used to both create the file and the file content:
-echo This is a file I am using for demonstration purposes regarding digital signing. > make_signature.txt`
+echo This is a file I am using for demonstration purposes regarding digital signing. > make_signature.txt
 # command I used to sign the file
 gpg -s make_signature.txt
 # which returned the following:
@@ -404,7 +405,7 @@ gpg -s make_signature.txt
 # the signature command results in a file called make_signature.txt.gpg
 ```
 
-### Verifying the signature
+#### Verifying the signature
 
 To verify only the signature, I run the following command:
 
@@ -434,20 +435,20 @@ gpg: Good signature from "Maria (GPG key pair for local testing with correct ema
 
 ## Conclusion
 
-In this article, we went over:
+In this article, I went over:
 
-- what a digital signature is, why use them,
-- the digital signature process,
-- why they should be used with PGP (or PKI, but that is outside the scope of
-  this article),
-- how to create a digital signature using a PGP key pair (a form of asymmetric
-  encryption),
-- why asymmetric encryption is more secure than symmetric encryption,
-- how to edit a public PGP key, how to list the public PGP keys,
-- how to delete a PGP public key uid,
-- how to create a revocation certificate for a PGP key pair and why you should
-  have one,
-- how to make a signature, and how to verify it.
+1. what a digital signature is, why use them,
+1. the digital signature process,
+1. why they should be used with PGP (or PKI, but that is outside the scope of
+   this article),
+1. how to create a digital signature using a PGP key pair (a form of asymmetric
+   encryption),
+1. why asymmetric encryption is more secure than symmetric encryption,
+1. how to edit a public PGP key, how to list the public PGP keys,
+1. how to delete a PGP public key uid,
+1. how to create a revocation certificate for a PGP key pair and why you should
+   have one,
+1. how to make a signature, and how to verify it.
 
 In my next post regarding digital signatures, I will discuss how to make a
 detached signature using a PGP key pair and how it differs from a complete
@@ -460,26 +461,21 @@ digital signature using a PGP key pair. Stay tuned!
 - [How To Use GPG to Encrypt and Sign Messages](https://www.digitalocean.com/community/tutorials/how-to-use-gpg-to-encrypt-and-sign-messages):
   _by Justin Ellingwood, Digital Ocean_
 - [Pretty Good Privacy (PGP) and Digital Signatures](https://www.linuxjournal.com/content/pretty-good-privacy-pgp-and-digital-signatures):
-  _by Ankur Kothiwalm Linux Journal_
+  _by Ankur Kothiwal, Linux Journal_
 - [Making and verifying signatures](https://www.gnupg.org/gph/en/manual/x135.html):
   _The GNU Privacy Handbook_
 
-## Asymmetric encryption and decryption series
+## Related Posts
 
-- [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
-- [Making and verifying a detached signature using a PGP key pair in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
-- [Making and verifying a cleartext digital signature using a PGP key pair in Linux](http://localhost:3000/blog/making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux)
-- [Using a specific PGP key pair for digital signing](/blog/using-a-specific-pgp-key-pair-for-digital-signing)
-- [Exchanging public keys using a PGP key pair](/blog/exchanging-keys-using-a-pgp-key-pair)
-- [Setting up and using the mutt email client in Linux](http://localhost:3000/blog/setting-up-and-using-the-mutt-email-client-in-linux)
-- [Sending encrypted emails and decrypting received emails using GnuPG](/blog/sending-encrypted-emails-and-decrypting-received-emails-using-gnupg)
+- [Asymmetric encryption and decryption series table of contents](/blog/asymmetric-encryption-and-decryption-series-table-of-contents):
+  _mariadcampbell.com_
 
 [^1]: CISA stands for "Cybersecurity and Infrastructure Security Agency".
 
 [^2]:
-    When we create a PGP key, a key pair containing a public key and private key
-    is generated. We can share the public key with anyone who wishes to send us
-    encrypted messages or files, but the private key must be known only to us
+    When I create a PGP key, a key pair containing a public key and private key
+    is generated. I can share the public key with anyone who wishes to send me
+    encrypted messages or files, but the private key must be known only to me
     and is used to decrypt received messages.
 
 [^3]:
