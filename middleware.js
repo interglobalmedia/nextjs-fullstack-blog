@@ -182,6 +182,7 @@ const DELETED_POST_SLUGS = [
 	'data/blog/when-a-bare-bones-automated-js-workflow-makes-sense.mdx',
 	'data/blog/windows-cmd-basics-and-commands-by-example.mdx',
 	'data/blog/why-your-local-machine-computer-may-not-be-pointing-to-your-newly-propagated-site.mdx',
+	'data/blog/portal-in-nextjs-and-the-sticky-footer.mdx',
 ]
 
 export function middleware(request) {
