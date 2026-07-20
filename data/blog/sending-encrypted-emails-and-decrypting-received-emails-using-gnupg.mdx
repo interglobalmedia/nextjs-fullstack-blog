@@ -1,13 +1,13 @@
 ---
 slug: sending-encrypted-emails-and-decrypting-received-emails-using-gnupg
 date: '2024-08-16T16:21:57.289Z'
-lastModified: '2024-08-16T16:21:57.289Z'
+lastModified: '2026-07-20T13:39:27.289Z'
 title: Sending encrypted emails and decrypting received emails using GnuPG
 author: Maria D. Campbell
 excerpt:
-    Sending encrypted emails and decrypting received emails using GnuPG (Gnu
-    Privacy Guard) via Command Line.
-image: mauro-sbicego-4hfpVsi-gSg-unsplash.jpg
+    In this piece, I demonstrate three ways to verify the decrypted content sent
+    to and received from a user on a local network using the Mutt email client.
+image: mauro-sbicego-4hfpVsi-gSg-unsplash.webp
 tags:
     [
         'linux',
@@ -18,33 +18,36 @@ tags:
         'pgp key pair',
         'gpg',
         'pgp',
-        'gnupg',
         'security',
         'series',
     ]
-isPublished: false
+isPublished: true
 isFeatured: false
 ---
 
-![Cryptography machine](mauro-sbicego-4hfpVsi-gSg-unsplash.jpg)
+![Cryptography machine](mauro-sbicego-4hfpVsi-gSg-unsplash.webp)
 
-_Photo by_ [Mauro Sbicego](https://unsplash.com/@maurosbicego) _on_
-[unsplash.com](https://unsplash.com/photos/black-audio-mixer-4hfpVsi-gSg)
+_[Photo by](https://unsplash.com/photos/black-audio-mixer-4hfpVsi-gSg)
+[Mauro Sbicego](https://unsplash.com/@maurosbicego) on
+[unsplash.com](https://unsplash.com/)_
 
 ## Table of Contents
 
-- [Exchanging PHP key pairs recap](#exchanging-pgp-key-pairs-recap)
+- [Exchanging PGP key pairs recap](#exchanging-pgp-key-pairs-recap)
 - [Sending and receiving encrypted emails from another local user in Linux with whom you have exchanged public PGP keys (Maria sends and Magdala receives)](#sending-and-receiving-encrypted-emails-from-another-local-user-in-linux-with-whom-you-have-exchanged-public-pgp-keys-maria-sends-and-magdala-receives)
 - [Sending and receiving encrypted emails from another local user in Linux with whom you have exchanged public PGP keys (Magdala sends and Maria receives)](#sending-and-receiving-encrypted-emails-from-another-local-user-in-linux-with-whom-you-have-exchanged-public-pgp-keys-magdala-sends-and-maria-receives)
 - [Running the diff -s command to check if the contents of two files are identical](#running-the-diff-s-command-to-check-if-the-contents-of-two-files-are-identical)
 - [Generating sha512sum checksum hashes to check if the contents of two files are identical](#generating-sha512sum-checksum-hashes-to-check-if-the-contents-of-two-files-are-identical)
 - [Using the cmp command to compare the contents of two files](#using-the-cmp-command-to-compare-the-contents-of-two-files)
-- [Asymmetric encryption and decryption series](#asymmetric-encryption-and-decryption-series)
+- [cmp vs diff -s vs sha512sum checksum hash in Linux](#cmp-vs-diff-s-vs-sha512sum-checksum-hash-in-linux)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
-## Exchanging PHP key pairs recap
+## Exchanging PGP key pairs recap
 
 In my article entitled
-[Exchanging public keys using a PGP key pair](/blog/exchanging-keys-using-a-pgp-key-pair),
+[Exchanging public keys using a PGP key pair](/blog/exchanging-public-keys-using-a-pgp-key-pair),
 I discussed:
 
 1. Exporting the PGP public key
@@ -55,23 +58,23 @@ I discussed:
 1. Creating the revocation certificate for magdala PGP key pair
 1. Immediately changing permissions for revocation.crt
 1. Emailing magdala_publickey.asc to user Maria
-1. User Maria imports magdala_publickey.asc
-1. Asymmetric encryption and decryption series
+1. Email recipient user Maria imports magdala_publickey.asc
+1. Executing asymmetric encryption and decryption
 
-Basically, the exchange of public keys with a trusted person makes it possible
-to then send and receive encrypted emails (or email attachments) to and from
-that person, and decrypt those emails (or email attachments) as well. If you
-have not already generated a PGP key using GnuPG (GNU Privacy Guard), please
-visit my article entitled
+The exchange of public keys with a trusted person makes it possible to then send
+and receive encrypted emails (or email attachments) to and from that person, and
+decrypt those emails (or email attachments) as well. If you have not already
+generated a PGP key using GnuPG (GNU Privacy Guard), please visit my article
+entitled
 [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux).
 And make sure to check out my entire Asymmetric encryption and decryption
 series.
 
 ## Sending and receiving encrypted emails from another local user in Linux with whom you have exchanged public PGP keys (Maria sends and Magdala receives)
 
-Since user magdala and I have exchanged PGP public keys, we are ready to send
-each other encrypted content via email and decrypt the content we receive from
-each other.
+Since user magdala and I have exchanged PGP public keys, I am ready to send each
+other encrypted content via email and decrypt the content I receive from each
+other.
 
 First, I created a file called encrypted_message.txt and added some plaintext to
 it:
@@ -121,7 +124,7 @@ mutt -s 'Sending encrypted file confidential.txt.enc' -a confidential.txt.enc --
 
 I was then taken into the `mutt` interface where I completed the email and sent
 it. If you need a refresher on the process, please visit my article entitled
-[Setting up and using the mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux).
+[Setting up and using the Mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux).
 
 Next, user magdala opened up the email and saved the email attachment to her
 local machine. After she did that, she was ready to decrypt the file:
@@ -150,35 +153,33 @@ User magdala then opened up the email and saved the email attachment
 `confidential.txt.enc` to her local machine. She then successfully decrypted
 `confidential.txt.enc` using her private key.
 
-And that was it!
-
 ## Sending and receiving encrypted emails from another local user in Linux with whom you have exchanged public PGP keys (Magdala sends and Maria receives)
 
 Now user magdala created a file called `secret_message.txt` containing plaintext
 with the following command:
 
 ```shell
-gpg --encrypt --recipient mariaa@maria-VirtualBox --output super-secret.txt.enc secret_message.txt
+gpg --encrypt --recipient maria@maria-VirtualBox --output super_secret.txt.enc secret_message.txt
 ```
 
 When she pressed the "Return" key and ran `ls` on her current working directory
 (her `/home/magdala` directory), a new file called `super_secret.txt.enc`
 appeared.
 
-Next, she sent a message to me, user Maria, attaching the `super-secret.txt.enc`
-file as an email attachment using the `mutt` Command Line email client:
+Next, she sent a message to me, user Maria, attaching the `super_secret.txt.enc`
+file as an email attachment using the `mutt` command line email client:
 
 ```shell
 mutt -s 'Sending encrypted file super_secret.txt.enc' -a super_secret.txt.enc -- maria@maria-VirtualBox
 ```
 
-When she pressed the "Return" key, she was taken into the mutt interface,
+When she pressed the "Return" key, she was taken into the `mutt` interface,
 completed her email, and sent it to me.
 
-Next, I opened up the mutt interface by running the `mutt` command, pressed the
-"V" key to view my email, then selected the attachment by using the "Up" or
+Next, I opened up the `mutt` interface by running the `mutt` command, pressed
+the "V" key to view my email, then selected the attachment by using the "Up" or
 "Down" arrow key, then pressed the "S" key to save the attachment to my local
-machine, and then pressed the "Q" key to quit mutt.
+machine, and then pressed the "Q" key to quit `mutt`.
 
 Next, I ran the following command to decrypt the `super_secret.txt.enc` file:
 
@@ -211,7 +212,7 @@ either of us could have run the `diff -s` command between her plaintext file and
 mine. One of us just had to send our plaintext file to the other so that either
 of us had both files to compare to each other.
 
-So user magdala sent me her original plaintext file via mutt, I saved it to my
+So user magdala sent me her original plaintext file via `mutt`, I saved it to my
 local machine, and then I ran the following command:
 
 ```shell
@@ -221,7 +222,7 @@ diff -s secret_message.txt decrypted_super_secret.txt
 Which returned the following in Terminal:
 
 ```shell
-Files secret message.txt and decrypted_super_secret.txt are identical
+Files secret_message.txt and decrypted_super_secret.txt are identical
 ```
 
 ## Generating sha512sum checksum hashes to check if the contents of two files are identical
@@ -231,10 +232,10 @@ I could also generate a sha512sum checksum on both `secret_message.txt` and
 would know that there were no modifications made to the original plaintext or
 the decrypted plaintext, which would also mean that both matched.
 
-First I ran the following command on the `secret message.txt` file:
+First I ran the following command on the `secret_message.txt` file:
 
 ```shell
-sha512sum secret message.txt
+sha512sum secret_message.txt
 ```
 
 And I got the following:
@@ -255,11 +256,11 @@ And I got back:
 b5ab6a7aa7250c2687cc058c6dd01ce88dc99d79804ab63903b99756d19f88b9b33f375731979dd44eb1c2f155681fbbb7a1ba57d0ea2f905b1af2a94edf2cbd  decrypted_super_secret.txt
 ```
 
-Then I redirected the `stdout` of `sha512sum secret message.txt` to a new file
+Then I redirected the `stdout` of `sha512sum secret_message.txt` to a new file
 called `sha512sum_secret_message.txt`:
 
 ```shell
-sha512sum secret message.txt > sha512sum_secret_message.txt
+sha512sum secret_message.txt > sha512sum_secret_message.txt
 ```
 
 Next, I redirected the `stdout` of `sha512sum decrypted_super_secret.txt` to a
@@ -286,16 +287,37 @@ or `--silent`, suppresses all output. And since `-s` suppresses all output, I
 ran `echo $?` afterwards, which printed out the exit code. Specifically, `$?` is
 a special variable which means `execution status of the last command`. An exit
 code of "0", as shown here, means the contents of both files are the same. "1"
-would mean that they`are different.
+would mean that they are different.
 
-And that was it!
+## cmp vs diff -s vs sha512sum checksum hash in Linux
 
-## Asymmetric encryption and decryption series
+| cmp                                                       | diff -s                                                                                 | sha512sum checksum hash                                                                                                                                                                                                                                                                                               |
+| --------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| compares two files character by character (byte by byte). | Compares two files line by line and indicates how the lines in each file are different. | Computes and verifies SHA-512 (Secure Hash Algorithm) checksums. It is used for the verification of data's integrity, that a file has not been modified during download/transfer. The difference here is that the data itself is not checked. It is the hash that is checked and should be identical to the original. |
 
-- [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux)
-- [Making and verifying a detached signature using a PGP key pair in Linux](http://localhost:3000/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
-- [Making and verifying a clear text signature using a PGP key pair in Linux](/blog/making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux)
-- [Using a specific PGP key pair for digital signing](/blog/using-a-specific-pgp-key-pair-for-digital-signing)
-- [Exchanging public keys using a PGP key pair](/blog/exchanging-keys-using-a-pgp-key-pair)
-- [Setting up and using the mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux)
-- [Sending encrypted emails and decrypting received emails using GnuPG](/blog/sending-encrypted-emails-and-decrypting-received-emails-using-gnupg)
+## Conclusion
+
+In this piece, I walk through the process of one local user sending encrypted
+emails to another local user using Mutt. I use three approaches to check whether
+two files are exactly the same. First, I use the `diff -s` command, then I use a
+`sha512sum checksum hash`, and lastly, I use the `cmp` (compare) command. Each
+method has its specific uses, so which one I select depends on the type of data
+being scrutinized.
+
+## Related Resources
+
+- [How To Compare Two Files In Unix: File Comparison Commands](https://www.softwaretestinghelp.com/compare-two-files-unix/):
+  _softwaretestinghelp.com_
+- [Binary Comparison in Linux: A Comprehensive Guide](https://linuxvox.com/blog/binary-compare-linux/#google_vignette):
+  _linuxvox.com_
+- [SHA-256 checksum generation and verification on various platforms](https://tobywf.com/2023/03/sha-256-checksums/):
+  _tobywf.com_
+- [How Cryptographic Hash Functions Work — MD5 vs SHA-256 vs SHA-512 Explained](https://caesarcipher.org/learn/cryptographic-hash-functions-md5-sha256-sha512-explained):
+  _caesarcipher.org_
+- [sha512sum Cheat Sheet](https://www.commandinline.com/cheat-sheet/sha512sum/):
+  _commandinline.com_
+
+## Related Posts
+
+- [Asymmetric encryption and decryption series table of contents](/blog/asymmetric-encryption-and-decryption-series-table-of-contents):
+  _mariadcampbell.com_

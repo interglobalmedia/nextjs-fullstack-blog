@@ -1,0 +1,99 @@
+---
+slug: 'asymmetric-encryption-and-decryption-series-table-of-contents'
+date: '2026-07-20T12:33:36.632Z'
+lastModified: '2026-07-20T13:46:36.632Z'
+title: 'Asymmetric encryption and decryption series table of contents'
+author: 'Maria D. Campbell'
+excerpt:
+    'This is the Asymmetric encryption and decryption series table of contents.
+    The series covers making and verifying digital signatures in Linux.'
+image: pexels-pavel-danilyuk-8112169.webp
+tags:
+    [
+        'asymmetric encryption',
+        'command line',
+        'digital signature',
+        'gpg',
+        'linux',
+        'linux mint',
+        'pgp',
+        'security',
+        'series',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Two hands exchanging keys](pexels-pavel-danilyuk-8112169.webp)
+
+_[Photo by](https://www.pexels.com/photo/a-close-up-shot-of-a-person-holding-keys-8112169/)
+[Pavel Danilyuk](https://www.pexels.com/@pavel-danilyuk/) on
+[pexels.com](https://www.pexels.com/)_
+
+This is the table of contents for my Asymmetric encryption and decryption
+series. I'll add new parts to this series as they are published.
+
+## Asymmetric encryption and decryption series
+
+1.  [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux):
+    In this article, I go over:
+    - what a digital signature is, why use them,
+    - the digital signature process,
+    - why they should be used with PGP (or PKI, but that is outside the scope of
+      this article),
+    - how to create a digital signature using a PGP key pair (a form of
+      asymmetric encryption),
+    - why asymmetric encryption is more secure than symmetric encryption,
+    - how to edit a public PGP key, how to list the public PGP keys,
+    - how to delete a PGP public key uid,
+    - how to create a revocation certificate for a PGP key pair and why you
+      should have one,
+    - how to make a signature, and how to verify it.
+
+    In my next post regarding digital signatures, I will discuss how to make a
+    detached signature using a PGP key pair and how it differs from a complete
+    digital signature using a PGP key pair. Stay tuned!
+
+1.  [Making and verifying a detached signature using a PGP key pair in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux):
+    In this section, I illustrate how to create a detached digital signature
+    using --detach-sign and how to verify it. Then I compare creating a
+    "complete" signature using the gpg -s command vs making a detached one using
+    the gpg --detach-sign. And finally, as I mapped out above, it comes down to
+    whether bundling the data with the signature matters more than keeping them
+    separate. The answer always is, it depends on what kind of data I am using
+    the digital signature for. Learn more in the next post in the series
+    entitled "Making and verifying a cleartext digital signature using a PGP key
+    pair in Linux."
+1.  [Making and verifying a cleartext digital signature using a PGP key pair in Linux](/blog/making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux):
+    In this post, I walk through the process of creating a cleartext digital
+    signature with the --clear-sign option, and verifying it. I also compare
+    detached signatures to cleartext signatures. The difference between a
+    detached and cleartext signature is that the signature itself is stored in a
+    standalone .sig file, separate from the original text file. The original
+    file is also not modified. This is good for situations where it is crucial
+    that the original content remains untouched during the signing process. On
+    the other hand, a cleartext signature contains both the original content and
+    the signature. Whether I use a cleartext digital signature or detached
+    signature depends on what my procedural requirements are.
+1.  [Using a specific PGP key pair for digital signing](/blog/using-a-specific-pgp-key-pair-for-digital-signing):
+    Even though this is a very short piece, I still found it important to
+    include in the series. So next time you hear someone talk about "Digital
+    signing a file using a specific key", you will know exactly what they are
+    talking about!
+1.  [Exchanging public keys using a PGP key pair](/blog/exchanging-public-keys-using-a-pgp-key-pair):
+    In this piece, I walk through the process of how two people can exchange
+    their PGP public keys. This is so they can decrypt messages they send to
+    each other via email on a local network. I will be covering that step in the
+    post entitled
+    [Setting up and using the Mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux),
+    the sixth article in the "Asymmetric encryption and decryption series".
+1.  [Setting up and using the Mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux):
+    In this post, I cover the basics of sending, receiving, and saving email
+    attachments using Mutt.
+1.  [Sending encrypted emails and decrypting received emails using GnuPG](/blog/sending-encrypted-emails-and-decrypting-received-emails-using-gnupg):
+    In this piece, I walk through the process of one local user sending
+    encrypted emails to another local user using Mutt. I use three approaches to
+    check whether two files are exactly the same. First, I use the diff -s
+    command, then I use a sha512sum checksum hash, and lastly, I use the cmp
+    (compare) command. Each method has its specific uses, so which one I select
+    depends on the type of data being scrutinized.
