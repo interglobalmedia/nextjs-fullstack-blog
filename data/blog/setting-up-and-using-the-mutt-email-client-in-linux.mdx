@@ -1,14 +1,14 @@
 ---
 slug: setting-up-and-using-the-mutt-email-client-in-linux
 date: '2024-08-14T14:25:33.908Z'
-lastModified: '2024-08-16T23:59:33.908Z'
-title: Setting up and using the mutt email client in Linux
+lastModified: '2026-07-20T13:40:33.908Z'
+title: Setting up and using the Mutt email client in Linux
 author: Maria D. Campbell
 excerpt:
-    Setting up and using the mutt email client in Linux, which allows users to
-    send and receive email attachments (and other powerful features) which can
-    be saved locally.
-image: Screenshot-from-2024-08-14-18-29-18.png
+    In this post, I set up and use the Mutt email client in Linux. It allows me
+    to send and receive email attachments (and other powerful features) which I
+    can save locally.
+image: Screenshot-from-2024-08-14-18-29-18.webp
 tags:
     [
         'command line',
@@ -19,50 +19,54 @@ tags:
         'security',
         'series',
     ]
-isPublished: false
+isPublished: true
 isFeatured: false
 ---
 
-![Screenshot of user saving email attachment with mutt](Screenshot-from-2024-08-14-18-29-18.png)
+![Screenshot of user saving email attachment with Mutt](Screenshot-from-2024-08-14-18-29-18.webp)
 
-_Screenshot of user saving email attachment with mutt_
+_Screenshot of user saving email attachment with Mutt_
 
 ## Table of Contents
 
-- [What is mutt?](#what-is-mutt)
-- [Installing mutt](#installing-mutt)
+- [What is Mutt?](#what-is-mutt)
+- [Installing Mutt](#installing-mutt)
 - [Sending an email locally to another user which contains an attachment](#sending-an-email-locally-to-another-user-which-contains-an-attachment)
 - [Other user receives email and saves email attachment locally](#other-user-receives-email-and-saves-email-attachment-locally)
-- [Related Resources](#related-resources)
-- [Asymmetric encryption and decryption series](#asymmetric-encryption-and-decryption-series)
 - [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
-## What is mutt?
+I selected Mutt as my email client of choice because I love the fact that I
+could send and receive emails via command line and still be able to include real
+email attachments and save attachments I receive to my Linux Mint VirtualBox.
 
-mutt is a powerful Command Line email client that sends and receives emails via
+## What is Mutt?
+
+Mutt is a powerful command line email client that sends and receives emails via
 Terminal. I use it in addition to mailx, because unlike `mailx`, it is able to
 send real email attachments as well as save those attachments on a user's local
 machine.
 
-mutt supports MIME, GPG, PGP, and threading, making it a powerful tool for
-managing emails directly from the Linux Command Line. mutt also allows system
+Mutt supports MIME, GPG, PGP, and threading, making it a powerful tool for
+managing emails directly from the Linux command line. Mutt also allows system
 administrators to automate and streamline their workflows with automated
 notifications. Email plays a critical role in system security and can be used to
 deliver security alerts, confirm user actions, and even recover lost passwords.
-By properly managing emails using mutt, we can enhance the security of our Linux
+By properly managing emails using Mutt, I can enhance the security of my Linux
 system.
 
-There are many other uses for mutt. To learn more, please visit the article
+There are many other uses for Mutt. To learn more, please visit the article
 entitled
 [Mastering Mutt: How to Install Mutt Command in Linux](https://ioflood.com/blog/install-mutt-command-linux/).
 
-## Installing mutt
+## Installing Mutt
 
-One thing to note: In whichever directory we initialize mutt becomes the default
-directory where email attachments are saved.
+One thing to note: In whichever directory I initialize `mutt` becomes the
+default directory where email attachments are saved.
 
-mutt is not native to Linux. We have to install it. I am on the Ubuntu
-derivative Linux Mint, so I can instal` it with the following commands:
+Mutt is not native to Linux. I have to install it. I am on the Ubuntu derivative
+Linux Mint, so I can install it with the following commands:
 
 ```shell
 sudo apt update
@@ -72,8 +76,8 @@ sudo apt install mutt
 
 Since I only want to use it locally because I have Linux Mint installed with
 VirtualBox and only have so much virtual and hard disk space to work with, I
-decided to pass up on using an external (gmail) email address to send and
-receive emails. My main reason for wanting to use mutt was because of its
+decided to pass up on using an external (Gmail) email address to send and
+receive emails. My main reason for wanting to use Mutt was because of its
 ability to send email attachments and save received attachments locally. There
 are many other powerful features available, but this is the feature that grabbed
 my attention.
@@ -81,38 +85,38 @@ my attention.
 ## Sending an email locally to another user which contains an attachment
 
 If I wanted to send a file to another user on the local network in Linux using
-mutt, I would take the following steps:
+Mutt, I would take the following steps:
 
-1. First, I would `cd` into the directory where I first initialized mutt. For
+1. First, I would `cd` into the directory where I first initialized `mutt`. For
    me, it was my home directory, `/home/maria`.
 2. Next, I would determine which email attachment I wanted to send to the other
    user.
 
 Next, I would send a text file called `email_attachment.txt` to local user
 magdala, which contained the text
-`This is some dummy text for the mutt email attachment demo I am creating for my post entitled "Setting up and using the mutt email client in Linux."`
+`This is some dummy text for the mutt email attachment demo I am creating for my post entitled "Setting up and using the Mutt email client in Linux."`
 I would run the following command in Terminal:
 
 ```shell
 mutt -s "Sending Magdala the email_attachment.txt" -a email_attachment.txt -- magdala@maria-VirtualBox
 ```
 
-This opens up the mutt interface in the nano text editor. It looks something
+This opens up the `mutt` interface in the nano text editor. It looks something
 like the following:
 
-![Screenshot of the "To" email line](Screenshot-from-2024-08-14-18-22-46.png)
+![Screenshot of the "To" email line](Screenshot-from-2024-08-14-18-22-46.webp)
 
 _Screenshot of the "To" email line_
 
 Then I press the "Return" key, and something like the following appears:
 
-![Screenshot of the email subject line](Screenshot-from-2024-08-14-18-24-13.png)
+![Screenshot of the email subject line](Screenshot-from-2024-08-14-18-24-13.webp)
 
 _Screenshot of the email subject line_
 
 Next, I press "Return" and the following appears:
 
-![Screenshot of the body of the email](Screenshot-from-2024-08-14-18-25-28.png)
+![Screenshot of the body of the email](Screenshot-from-2024-08-14-18-25-28.webp)
 
 _Screenshot of the body of the email_
 
@@ -120,7 +124,7 @@ The next part is very important to follow correctly. After I have completed the
 body of my email, I press "Control" + "O" (not zero) key and then the "Return"
 key, and then the following appears:
 
-![Screenshot of sending an email to user magdala](Screenshot-from-2024-08-14-18-25-59.png)
+![Screenshot of sending an email to user magdala](Screenshot-from-2024-08-14-18-25-59.webp)
 
 _Screenshot of sending an email to user magdala_
 
@@ -133,7 +137,7 @@ and then I am taken back to the Terminal command prompt.
 Next, user magdala opens her emails using the `mutt` command, and something like
 the following appears:
 
-![Screenshot of user magdala's email inbox](Screenshot-from-2024-08-14-18-28-33.png)
+![Screenshot of user magdala's email inbox](Screenshot-from-2024-08-14-18-28-33.webp)
 
 _Screenshot of user magdala's email inbox_
 
@@ -141,21 +145,21 @@ Next, user magdala makes sure to select the email which contains the attachment
 she wants to save to her local machine using the "Up" or "Down" arrow key, and
 then she presses the "V" key. This results in something like the following:
 
-![Screenshot of user magdala saving attachment](Screenshot-from-2024-08-14-18-29-18.png)
+![Screenshot of user magdala saving attachment](Screenshot-from-2024-08-14-18-29-18.webp)
 
 _Screenshot of user magdala saving attachment_
 
 Next, user magdala presses the "S" key, and that is when the text "Save to file:
 email_attachment.txt" appears. And then the following appears after that:
 
-![Screenshot of attachment saved](Screenshot-from-2024-08-14-18-30-21.png)
+![Screenshot of attachment saved](Screenshot-from-2024-08-14-18-30-21.webp)
 
 _Screenshot of attachment saved_
 
 Next, user magdala Presses the "Q" key, and is taken back to the Terminal
 command prompt:
 
-![Screenshot of user magdala being taken back to Terminal command prompt](Screenshot-from-2024-08-14-18-31-28.png)
+![Screenshot of user magdala being taken back to Terminal command prompt](Screenshot-from-2024-08-14-18-31-28.webp)
 
 _Screenshot of user magdala being taken back to Terminal command prompt_
 
@@ -165,20 +169,19 @@ it was!
 
 ## Conclusion
 
-We have now covered the basics of sending, receiving, and saving email
-attachments using mutt.
+In this post, I cover the basics of sending, receiving, and saving email
+attachments using Mutt.
 
 ## Related Resources
 
-- [The mailx Command Line email client vs the mutt Command Line email client in Linux](/blog/the-mailx-command-line-email-client-vs-the-mutt-command-line-email-client-in-linux):
+- [The Mailx Command Line email client vs the Mutt Command Line email client in Linux](/blog/the-mailx-command-line-email-client-vs-the-mutt-command-line-email-client-in-linux):
   _mariadcampbell.com_
+- [How to Install Mutt on Linux Mint Latest](https://kb.shells.com/l/en-US/tutorials/Linux_Mint_Latest/Mutt/):
+  _kb.shells.com_
+- [Mutt – A Command Line Email Client to Send Mails from Terminal](https://www.tecmint.com/send-mail-from-command-line-using-mutt-command/):
+  _tecmint.com_
 
-## Asymmetric encryption and decryption series
+## Related Posts
 
-- [Making and verifying digital signatures using GPG in Linux](/blog/making-and-verifying-digital-signatures-using-gpg-in-linux)
-- [Making and verifying a detached signature using a PGP key pair in Linux](/blog/making-and-verifying-a-detached-signature-using-a-pgp-key-pair-in-linux)
-- [Making and verifying a clear text signature using a PGP key pair in Linux](/blog/making-and-verifying-a-cleartext-digital-signature-using-a-pgp-key-pair-in-linux)
-- [Using a specific PGP key pair for digital signing](/blog/using-a-specific-pgp-key-pair-for-digital-signing)
-- [Exchanging public keys using a PGP key pair](http://localhost:3000/blog/exchanging-keys-using-a-pgp-key-pair)
-- [Setting up and using the mutt email client in Linux](http://localhost:3000/blog/setting-up-and-using-the-mutt-email-client-in-linux)
-- [Sending encrypted emails and decrypting received emails using GnuPG](/blog/sending-encrypted-emails-and-decrypting-received-emails-using-gnupg)
+- [Asymmetric encryption and decryption series table of contents](/blog/asymmetric-encryption-and-decryption-series-table-of-contents):
+  _mariadcampbell.com_
