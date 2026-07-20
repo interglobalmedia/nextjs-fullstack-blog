@@ -1,67 +1,108 @@
 ---
 slug: why-you-should-use-the-npkill-node-module
 date: '2022-07-11T18:40:23.845Z'
-lastModified: '2022-07-11T18:40:23.845Z'
-title: Why You Should Use the NPKill Node Module
+lastModified: '2026-07-20T22:00:23.845Z'
+title: Why You Should Use the NPKILL Node Module
 author: Maria D. Campbell
-excerpt: Why you should use the npkill Node module.
+excerpt:
+    In this post, I describe how I was introduced to the NPKILL module and why
+    it is such a great tool.
 image: andre-hunter-ndyfVMhl8qI-unsplash.webp
-tags: ['macOS', 'npkill', 'npm', 'storage']
+tags: ['macOS', 'npkill', 'npm', 'npx', 'storage']
 isPublished: true
 isFeatured: false
 ---
 
 ![Why You Should Use the NPKill Node Module](andre-hunter-ndyfVMhl8qI-unsplash.webp)
 
-***Photo by*** [Andre Hunter](https://unsplash.com/@dre0316) ***on*** [unsplash.com](https://unsplash.com/photos/ndyfVMhl8qI)
+_[Photo by](https://unsplash.com/photos/ndyfVMhl8qI)
+[Andre Hunter](https://unsplash.com/@dre0316) on
+[unsplash.com](https://unsplash.com/)_
 
-**_Recently_** I was **_introduced_** to the `npkill node module` on `Twitter` by [T. Eric Cabrel](https://twitter.com/tericcabrel). To view the tweet on ***X***, please click on the link below:
+## Table of Contents
 
-> [I’m always impressed by the disk space taken by the node_modules. I just saved 17GB of disk space using npkill. An awesome tool](https://twitter.com/tericcabrel/status/1523776752254066688) - @tericcabrel - 5:27 PM, May 9, 2022
+- [How I came across NPKILL](#how-i-came-across-npkill)
+- [Why I chose to use NPKILL](#why-i-chose-to-use-npkill)
+- [Installing NPKILL](#installing-npkill)
+- [Using NPKILL](#using-npkill)
+- [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
 
-What a **great idea** and **tool** it is! I have **_so many_** `projects` on my **laptop** that **_use_** `npm`. And do you **_know_** how much `disk space` they were **taking up**? `34GB`. `34GB`! That is a `MEGALOAD` of `disk space`!
+## How I came across NPKILL
 
-As long as you have `Node.js` and `npm` **_installed_**, it is **_very easy_** to **use**. I **_decided_** to **_remove_** `10GB` for **_starters_**. This is **_what_** I **_had_** to **_do_**:
+Recently I was introduced to the NPKILL node module on Twitter by
+[T. Eric Cabrel](https://twitter.com/tericcabrel). To view the tweet on X[^1],
+please click on the link below:
 
-**_First_**, I had to **_install_** the `package`. I did **_not_** actually
-**_permanently_** install it, because I did **_not want_** to **install** it
-`globally`, but just **_temporarily_** `download` it. That is because I was
-**_not attaching_** it to any **_specific project_** or `folder`. That then
-meant **using** the `npx` command prefix.
+> [I’m always impressed by the disk space taken by the node_modules. I just saved 17GB of disk space using npkill. An awesome tool](https://twitter.com/tericcabrel/status/1523776752254066688) -
+> @tericcabrel - 5:27 PM, May 9, 2022
 
-What is [npx](https://docs.npmjs.com/cli/v8/commands/npx)?
+## Why I chose to use NPKILL
 
-According to [npmjs.org](https://docs.npmjs.com/cli/v8/commands/npx),
+What a great idea and tool it is! I have so many projects on my laptop that use
+NPM. And do you know how much disk space they were taking up? 34GB. 34GB! That
+is a megaload of disk space!
 
-> (The `npx` command prefix) ...allows you to run an arbitrary command from an npm package (either one installed locally, or fetched remotely) in a similar context as running it via `npm run`.
+## Installing NPKILL
 
-What this **_really means_** is that if you **_want_** to **_use_** the
-`latest version` of a `package` **_without installing_** it `globally` (which is `permanent` until you **_choose_** to `delete` it **_manually_**), you can **_use_** `npx` before the `command` you **_want_** to `execute`.
+As long as you have Node.js and NPM installed, it is very easy to use. I decided
+to remove 10GB for starters. This is what I had to do:
 
-I **ran** the `npx npkill -d development` command in order to **_temporarily
-install_** `npkill` and **_use_** it in my `development` **directory**. The
-**_first time_** I **ran** the `command`, I was **_prompted_** as to **whether** I **_wanted_** to `install` it or `not`. I **_responded_** by pressing the `y` key for `yes`. After that, I was **_no longer_** prompted. `npx` **_automatically_** `re-installed` the `package` **_without asking_**.
+First, I had to install the package. I did not actually install it permanently,
+because I did not want to install it globally, but just temporarily download it.
+That is because I was not attaching it to any specific project or folder. That
+meant using the `npx` command prefix.
 
-**_After_** `npkill` is **_installed_** something like the **_following_**
-should appear in your `Terminal` **_window_**:
+What is
+[npx](https://github.com/npm/cli/blob/latest/docs/lib/content/commands/npx.md)?
+According to
+[npx on GitHub](https://github.com/npm/cli/blob/latest/docs/lib/content/commands/npx.md),
+
+> This command allows you to run an arbitrary command from an npm package
+> (either one installed locally, or fetched remotely), in a similar context as
+> running it via npm run.
+
+What this really means is that if you want to use the latest version of a
+package without installing it globally (which is permanent until you choose to
+delete it manually), you can use `npx` before the command you want to execute.
+
+## Using NPKILL
+
+I ran the `npx npkill -d development` command in order to temporarily install
+NPKILL and use it in my `development` directory. The first time I ran the
+command, I was prompted as to whether I wanted to install it or not. I responded
+by pressing the `y` key for `yes`. After that, I was no longer prompted. That's
+because `npx` reuses the copy that was installed to a folder in the npm cache
+when it was first downloaded.
+
+After NPKILL is installed, something like the following should appear in your
+Terminal window:
 
 ![npkill output to Terminal screenshot 1](npkill-screenshot-1.webp)
 
-***npkill output to Terminal screenshot 1***
+_npkill output to Terminal screenshot 1_
 
-The `"space saved"` should **_initially show_** `"0"`, because **_no space_** is`"initially saved"`. As **_indicated_** in the `screenshot`, I **_already_** have `deleted` two instances of `node_modules` when I **_took_** this `screenshot`.
+The "space saved" should initially show "0", because no space is "initially
+saved". As indicated in the screenshot, I already have deleted two instances of
+`node_modules` when I took this screenshot.
 
-The `process` is **_very easy_**, and **_tells_** you **_what_** to **_do_**. The `instructions` are **_highlighted_** in `yellow`. The **_following_** is what my `Terminal` **window instance** looked like **_after_** I **_deleted_** `2.86GB` worth of `node_modules`:
+The process is very easy, and tells you what to do. The instructions are
+highlighted in yellow. The following is what my Terminal window instance looked
+like after I deleted 2.86GB worth of `node_modules`:
 
 ![npkill output to Terminal screenshot 2](npkill-screenshot-2.webp)
 
-***npkill output to Terminal screenshot 2***
+_npkill output to Terminal screenshot 2_
 
-And **_that_** is **_it_**!
+And that was it!
 
-To **_learn more_** about the `npkill Node module`, **_visit_**
-[NPKILL](https://www.npmjs.com/package/npkill) on the `NPM registry`.
+To learn more about the NPKILL node module, visit
+[NPKILL](https://www.npmjs.com/package/npkill) on the NPM registry.
 
 ## Related Resources
 
--   [NPKILL on NPM registry](https://www.npmjs.com/package/npkill)
+- [NPKILL on NPM registry](https://www.npmjs.com/package/npkill)
+
+[^1]:
+    At the time this post was published, Twitter still existed, but now Twitter
+    is known as X.
