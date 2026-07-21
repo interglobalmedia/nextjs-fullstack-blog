@@ -1,31 +1,32 @@
 ---
 slug: 'django-official-advanced-tutorial-on-writing-reusable-apps'
 date: '2025-01-11T20:10:03.835Z'
-lastModified: '2025-01-17T22:30:03.835Z'
+lastModified: '2026-07-21T02:55:03.835Z'
 title: 'Django official advanced tutorial on writing reusable apps'
 author: 'Maria D. Campbell'
-excerpt: "In this post, I discuss why reusability matters, how we can make our apps
-reusable, what a Python package is, how to install our prerequisites, how to
-package our app, and how to install and uninstall our newly packaged app."
-image: david-clode-J_5xvghAvmc-unsplash.jpg
-tags: ['fullstack development', 'macOS']
+excerpt: "In this post, I discuss why reusability matters, how I can make my apps
+reusable, what a Python package is, how to install my prerequisites, how to
+package my app, and how to install and uninstall my newly packaged app."
+image: david-clode-J_5xvghAvmc-unsplash.webp
+tags: ['fullstack development', 'macOS', 'django', 'python3']
 isPublished: true
 isFeatured: false
 ---
 
-![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.jpg)
+![A yawning Carpet Python](david-clode-J_5xvghAvmc-unsplash.webp)
 
-_Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
-[unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)
+_[Photo by](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)
+[David Clode](https://unsplash.com/@davidclode) on
+[unsplash.com](https://unsplash.com/)_
 
 ## Table of Contents
 
 - [Why reusability matters](#why-reusability-matters)
-- [So how can we make our Django Polls app reusable?](#so-how-can-we-make-our-django-polls-app-reusable)
-- [Our project and our reusable app](#our-project-and-our-reusable-app)
+- [So how can I make my Django Polls app reusable?](#so-how-can-i-make-my-django-polls-app-reusable)
 - [So what IS a Python package?](#so-what-is-a-python-package)
+- [My project and my reusable app](#my-project-and-my-reusable-app)
 - [Installing prerequisites](#installing-prerequisites)
-- [Packaging our app](#packaging-our-app)
+- [Packaging my app](#packaging-my-app)
     - [Creating a new parent directory for the polls app](#creating-a-new-parent-directory-for-the-polls-app)
     - [Renaming polls](#renaming-polls)
     - [Editing django_polls/apps.py](#editing-django-polls-appspy)
@@ -33,10 +34,10 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
     - [Creating the django-polls/LICENSE file](#creating-the-django-polls-license-file)
     - [Creating the pyproject.toml file](#creating-the-pyprojecttoml-file)
     - [Creating the django-polls/MANIFEST.in file](#creating-the-django-polls-manifestin-file)
-    - [Creating a docs directory for our package docs](#creating-a-docs-directory-for-our-package-docs)
-- [Using our own package](#using-our-own-package)
+    - [Creating a docs directory for my package docs](#creating-a-docs-directory-for-my-package-docs)
+- [Using my own package](#using-my-own-package)
     - [Installing the app](#installing-the-app)
-    - [Installing our package](#installing-our-package)
+    - [Installing my package](#installing-my-package)
 - [Updating INSTALLED_APPS in settings.py](#updating-installed-apps-in-settingspy)
 - [Updating config/urls.py to point to the new module name](#updating-config-urlspy-to-point-to-the-new-module-name)
 - [Uninstalling the django_polls app](#uninstalling-the-django-polls-app)
@@ -44,9 +45,9 @@ _Photo by_ [David Clode](https://unsplash.com/@davidclode) _on_
 - [Related Resources](#related-resources)
 - [Related Posts](#related-posts)
 
-In this post, we’ll be turning our web-poll into a standalone Python package we
-can reuse in new projects and share with other people. Before you continue
-reading, make sure to check out my post entitled
+In this post, I’ll be turning my web-poll into a standalone Python package I can
+reuse in new projects and share with other people. Before you continue reading,
+make sure to check out my post entitled
 [How to reuse an app created in one Django project in another Django project](/blog/how-to-reuse-an-app-created-in-one-django-project-in-another-django-project).
 
 ## Why reusability matters
@@ -57,12 +58,12 @@ exception. Here's why it matters:
 **Benefits of Reusability**:
 
 1. It saves time and effort. Instead of reinventing the wheel for common
-   functionalities, we can reuse existing apps, saving development time and
+   functionalities, I can reuse existing apps, saving development time and
    effort.
 1. It improves maintainability. Reusable apps are typically well-structured and
    tested, making them easier to maintain and update.
-1. It increases productivity. By leveraging reusable apps, we can focus on
-   building unique features for our project, leading to increased productivity.
+1. It increases productivity. By leveraging reusable apps, I can focus on
+   building unique features for my project, leading to increased productivity.
 1. It promotes consistency. Using reusable apps ensures that common
    functionalities are implemented consistently across different projects.
 1. It encourages collaboration. Reusable apps can be shared with other
@@ -72,42 +73,41 @@ exception. Here's why it matters:
 **Examples of Reusable Django Apps**:
 
 1. Django's built-in authentication system is a great example of a reusable app.
-   We can easily integrate it into our projects to handle user registration,
+   I can easily integrate it into my projects to handle user registration,
    login, and password management.
 1. The Django REST Framework is a popular app that provides a powerful toolkit
    for building REST APIs in Django.
-1. If we need to add content management capabilities to our project, Django CMS
-   is a reusable app that can help.
+1. If I need to add content management capabilities to my project, Django CMS is
+   a reusable app that can help.
 
 **How to Make Django Apps Reusable**:
 
-1. **Design for Modularity**: Break down our app into smaller, self-contained
+1. **Design for Modularity**: Break down my app into smaller, self-contained
    modules.
 1. **Avoid Hard Dependencies**: Minimize dependencies on other apps or external
    libraries.
 1. **Use Generic Views**: Django's generic views provide a reusable foundation
    for common CRUD operations.
 1. **Write Clear Documentation**: Provide comprehensive documentation to help
-   other developers understand and use our app.
-1. **Package and Publish**: Publish our app on PyPI (Python Package Index) to
+   other developers understand and use my app.
+1. **Package and Publish**: Publish my app on PyPI (Python Package Index) to
    make it easily accessible to others.
 
 The [Python Package Index (PyPI)](https://pypi.org) has a vast range of packages
-we can use in our own Python programs. We can check out
-[Django Packages](https://djangopackages.org) for existing reusable apps we
-could incorporate in our project. Django itself is also a normal Python package.
-This means that we can take existing Python packages or Django apps and compose
-them into our own web project. We only have to write the parts that make our
-project unique.
+I can use in my own Python programs. I can check out
+[Django Packages](https://djangopackages.org) for existing reusable apps I could
+incorporate in my project. Django itself is also a normal Python package. This
+means that I can take existing Python packages or Django apps and compose them
+into my own web project. I only have to write the parts that make my project
+unique.
 
-## So how can we make our Django Polls app reusable?
+## So how can I make my Django Polls app reusable?
 
-We are already on our way to making Django Polls reusable. In
-[Tutorial 1](https://docs.djangoproject.com/en/5.1/intro/tutorial01/), we
+I am already on my way to making Django Polls reusable. In
+[Tutorial 1](https://docs.djangoproject.com/en/5.1/intro/tutorial01/), I
 decoupled `polls` from the project-level `URLconf` using an include in
-`django_polls/urls.py`. In this section, we’ll take further steps to make the
-app easy to use in new projects and ready to publish for others to install and
-use.
+`django_polls/urls.py`. In this section, I’ll take further steps to make the app
+easy to use in new projects and ready to publish for others to install and use.
 
 ## So what IS a Python package?
 
@@ -119,17 +119,8 @@ when I created a tests directory for my test files. In order for it to work, I
 had to add an `__init__.py` file so that Django would treat the directory like a
 `"package"`.
 
-More generally, a Python package is a way to structure our Python code into
-reusable components. According to
-[Geeks for Geeks](https://www.geeksforgeeks.org/python-packages/),
-
-> Python Packages are a way to organize and structure your Python code into
-> reusable components. Think of it like a folder that contains related Python
-> files (modules) that work together to provide certain functionality. Packages
-> help keep your code organized, make it easier to manage and maintain, and
-> allow you to share your code with others. They’re like a toolbox where you can
-> store and organize your tools (functions and classes) for easy access and
-> reuse in different projects.
+More generally, a Python package is a way to structure my Python code into
+reusable components.
 
 According to the
 [Django tutorial documentation](https://docs.djangoproject.com/en/5.1/intro/reusable-apps/),
@@ -150,17 +141,17 @@ And:
 > in a Django project. An application may use common Django conventions, such as
 > having models, tests, urls, and views submodules.
 
-## Our project and our reusable app
+## My project and my reusable app
 
 An important note regarding my implementation of the original Django Polls
 structure and naming. My naming of the top level directory containing the
 project and the polls app ended up clashing when I started working on this
 tutorial. I subsequently changed the name of my `django-polls` top level
 directory to `cast-vote`, creating a project called `config`, and then following
-the rest of the steps in the tutorial. However, I now realize that I just could
+the rest of the steps in the tutorial. However, I then realize that I just could
 have renamed my `django-polls` top-level directory to something like
-`django-polls-web-app` and then changing `django_polls` to something like
-`config` would have been fine too.
+`django-polls-web-app` and then change `django_polls` to something like `config`
+would have been fine too.
 
 I am going to go through the steps I took with the creation of a new top level
 directory called `cast-vote`, and a project called `config`.
@@ -169,7 +160,7 @@ Below was my initial directory structure for my original django-polls web
 application.
 
 ```shell
-- django-polls/ # the top-level directory root of our Git repository which contains our django_polls project and polls app
+- django-polls/ # the top-level directory root of my Git repository which contains my django_polls project and polls app
     - .git/
     - .vscode/
     - django_polls/
@@ -200,7 +191,7 @@ application.
             - __pycache__/
             - __init__.py
             - test_question_model_tests.py
-        - __init__.py # which is what makes Django recognize the polls direcotry as an app
+        - __init__.py # which is what makes Django recognize the polls directory as an app
         - admin.py
         - apps.py
         - models.py
@@ -218,21 +209,21 @@ application.
     - requirements.txt
 ```
 
-This differed SLIGHTLY from the official tutorial, but basically it was the
+This differed slightly from the official tutorial, but basically it was the
 same. The only problem was that I did not know I had this tutorial coming and
 the package naming that was to take place. This caused huge problems for me. In
 addition, there was no mention of how to uninstall the package if there were
-issues either (or if we simply wanted to uninstall it). We will be covering the
+issues either (or if I simply wanted to uninstall it). I will be covering the
 snags I encountered in this post. Perhaps you encountered some of them too!
 
-We created `djangotutorial/templates` in Tutorial (part) 7, and
-`polls/templates` in Tutorial (part) 3. Everything that is part of the `polls`
-application is in `polls`, separating it from the project itself. It makes the
-application self-contained and easier to drop into a new project.
+I created `djangotutorial/templates` in Tutorial (part) 7, and `polls/templates`
+in Tutorial (part) 3. Everything that is part of the `polls` application is in
+`polls`, separating it from the project itself. It makes the application
+self-contained and easier to drop into a new project.
 
 The `polls` directory could now be copied into a new Django project and
-immediately reused. However, it’s not quite ready to be published. First, we
-need to package the app to make it easy for others to install.
+immediately reused. However, it’s not quite ready to be published. First, I need
+to package the app to make it easy for others to install.
 
 If you want to avoid such issues, please visit my post entitled
 [How to reuse an app created in one Django project in another Django project](/blog/how-to-reuse-an-app-created-in-one-django-project-in-another-django-project).
@@ -243,11 +234,11 @@ worth a look for starters!
 
 ## Installing prerequisites
 
-We’re going to use `setuptools` to build our package. It’s the recommended
-packaging tool (merged with the distribute fork). We’ll also be using `pip` to
-install and uninstall it. If you don't have `pip` installed yet, install it now
-so that you can then install `setuptools`. To learn how to install `pip`, please
-visit
+I’m going to use `setuptools` to build my package. It’s the recommended
+packaging tool (merged with the distribute fork). I’m also going be using `pip`
+to install and uninstall it. If you don't have `pip` installed yet, install it
+now so that you can then install `setuptools`. To learn how to install `pip`,
+please visit
 [How to install pip on Mac step by step](https://macpaw.com/how-to/install-pip-mac)
 on the MacPaw Blog. `Pip` comes with a Python install, and Python is commonly
 installed using Homebrew on macOS.
@@ -261,16 +252,16 @@ been activated:
 pip install setuptools
 ```
 
-Once we have installed `setuptools`, we can run the following command:
+Once I have installed `setuptools`, I can run the following command:
 
 ```shell
 pip freeze > requirements.txt
 ```
 
-Then we can check our `requirements.txt` file to make sure that it has been
-successfully installed and added to our required packages.
+Then I can check my `requirements.txt` file to make sure that it has been
+successfully installed and added to my required packages.
 
-## Packaging our app
+## Packaging my app
 
 According to the Django tutorial documentation,
 
@@ -281,10 +272,10 @@ According to the Django tutorial documentation,
 
 ### Creating a new parent directory for the polls app
 
-First, we create a parent directory for the package outside of our Django
-project. What this actually means is outside of our current `django-polls`
+First, I create a parent directory for the package outside of my Django project.
+What this actually means is outside of my current `django-polls`
 (`djangotutorial/` following the documentation) top level directory. The
-tutorial tells us to call this directory `django-polls`. However, a member of
+tutorial tells me to call this directory `django-polls`. However, a member of
 the Django Forum stated that the parent directory of the package could be called
 anything. The point is to move the app outside of the `django-polls` directory
 where it originally resided into another directory. I called my new parent
@@ -351,9 +342,9 @@ The next step after moving `polls` into `django-polls`, is to change `polls` to
 
 ### Editing django_polls/apps.py
 
-Next, we edit `django_polls/apps.py` so that "name" refers to the new module
-name `django_polls` and to add a label with the value of `"polls"` as a short
-name for the app:
+Next, I edit `django_polls/apps.py` so that "name" refers to the new module name
+`django_polls` and to add a label with the value of `"polls"` as a short name
+for the app:
 
 ```python
 # django_polls.apps.py
@@ -368,8 +359,8 @@ class PollsConfig(AppConfig):
 
 ### Creating the django-polls/README.rst file
 
-Next, we create a file inside `packages/django-polls/` called `README.rst`. And
-inside that file, we add the following:
+Next, I create a file inside `packages/django-polls/` called `README.rst`. And
+inside that file, I add the following:
 
 ```rst
 ============
@@ -404,7 +395,7 @@ Quick start
 
 ### Creating the django-polls/LICENSE file
 
-Next, we create a `django-polls/LICENSE` file. I went with the `BSD license`
+Next, I create a `django-polls/LICENSE` file. I went with the `BSD license`
 which Django uses. Django is licensed under the `3-clause BSD license`, also
 known as the "New BSD License" or "Revised BSD License." It means the following:
 
@@ -428,7 +419,7 @@ addition of `LICENSE`, it contains the following:
 
 LICENSE contains the following:
 
-```md
+```markdown
 # 3-Clause BSD License
 
 Copyright 2025 Maria D. Campbell
@@ -464,7 +455,7 @@ I got the contents for the `3-Clause BSD License` from
 
 ### Creating the pyproject.toml file
 
-Next, we create the `pyproject.toml` file. This details how to build and install
+Next, I create the `pyproject.toml` file. This details how to build and install
 the app. The full explanation of this file can be found at the
 [Python Packaging User Guide](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/).
 It should also be located in the `django-polls` directory along with `LICENSE`,
@@ -526,9 +517,9 @@ This is as per the `pyproject.toml` file in the
 
 ### Creating the django-polls/MANIFEST.in file
 
-In order to be able to include additional files in our package, we need to
-create a `MANIFEST.in` file. We have to create this `MANIFEST.in` to include the
-package templates and static files. We add the following to it:
+In order to be able to include additional files in my package, I need to create
+a `MANIFEST.in` file. I have to create this `MANIFEST.in` to include the package
+templates and static files. I add the following to it:
 
 ```shell
 # django-polls/MANIFEST.in
@@ -536,24 +527,24 @@ recursive-include django_polls/static *
 recursive-include django_polls/templates *
 ```
 
-### Creating a docs directory for our package docs
+### Creating a docs directory for my package docs
 
-It’s optional, but recommended, to include detailed documentation with our app.
-We should create an empty directory `django-polls/docs` for future
-documentation. The actual documentation can be added later.
+It’s optional, but recommended, to include detailed documentation with my app. I
+should create an empty directory `django-polls/docs` for future documentation.
+The actual documentation can be added later.
 
-The `docs` directory won’t be included in our package unless we add some files
-to it. Many Django apps also provide their documentation online through sites
-like [readthedocs.org](https://about.readthedocs.com/?ref=readthedocs.org).
+The `docs` directory won’t be included in my package unless I add some files to
+it. Many Django apps also provide their documentation online through sites like
+[readthedocs.org](https://about.readthedocs.com/?ref=readthedocs.org).
 
-## Using our own package
+## Using my own package
 
 ### Installing the app
 
 The following steps install `django-polls` as a package. The user library
 approach caused me too many headaches. It is a global install (which is why
 `--user`), and I never like installing packages globally. It potentially results
-in global conflicts. Since we are installing it in a virtual environment anyway,
+in global conflicts. Since I am installing it in a virtual environment anyway,
 there is no reason to install as a user library. As per the Django documentation
 in the tutorial,
 
@@ -564,7 +555,7 @@ in the tutorial,
 > behavior of system tools that run as that user, so using a virtual environment
 > is a more robust solution (see below).
 
-1. Before we can install our package, we have to check that the build package is
+1. Before I can install my package, I have to check that the build package is
    installed (`pip install build`) and try building your package by running
    `python -m build` inside django-polls. This creates a directory called `dist`
    and builds your new package into source and binary formats,
@@ -587,7 +578,7 @@ Requirement already satisfied: pyproject_hooks in /Users/mariacam/.pyenv/version
 ```
 
 But you might have to install `build` with `pip`. If so, run the
-`python -m pip install build)` command to install `build`.
+`python -m pip install build` command to install `build`.
 
 Next, I had to run the `python -m build` command inside `django-polls` to create
 a directory called `dist` and it also build my new package into `source` and
@@ -779,7 +770,7 @@ removing build/bdist.macosx-14.6-arm64/wheel
 Successfully built django_polls-0.1.tar.gz and django_polls-0.1-py3-none-any.whl
 ```
 
-### Installing our package
+### Installing my package
 
 To install my package, I ran the following command inside my `cast-vote`
 top-level directory:
@@ -820,8 +811,8 @@ Note that I didn't use the `--user` option. This meant that I was installing the
 package locally and not globally! Don't ever install anything globally if you
 can help it!
 
-The other thing that the tutorial did not account for is that we had to step out
-of our top-level directory where our project resided in order to access our
+The other thing that the tutorial did not account for is that I had to step out
+of my top-level directory where my project resided in order to access my
 `django-polls` package, if indeed it was located in the directory one-level up.
 Perhaps you placed it somewhere else. So:
 
@@ -895,7 +886,7 @@ include `"django_polls.apps.PollsConfig"` at the top of `INSTALLED_APPS` (it
 must be at the top), Django already knows to include the `django_polls` app in
 the application. There is therefore no need to also include `'django_polls'`.
 Also make sure that you have removed the original "polls" app which should be
-located somewhere at the bottom as well. Otherwsie, another similar error would
+located somewhere at the bottom as well. Otherwise, another similar error would
 be thrown.
 
 ## Updating config/urls.py to point to the new module name
@@ -911,15 +902,15 @@ urlpatterns = [
 ]
 ```
 
-There is also a cursory section regarding publishing our app. I personally am
-not anywhere near being ready to do that. For example, I have not yet written
-any documentation for my app. I just wanted to know that I could install it.
-Next, we are going to discuss UNINSTALLING it.
+There is also a cursory section regarding publishing my app. I personally am not
+anywhere near being ready to do that. For example, I have not yet written any
+documentation for my app. I just wanted to know that I could install it. Next, I
+am going to discuss uninstalling it.
 
 ## Uninstalling the django_polls app
 
-If, for whatever reason, we want to uninstall our newly packaged app, we could
-do the following:
+If, for whatever reason, I want to uninstall my newly packaged app, I could do
+the following:
 
 ```shell
 (venv) (3.13.0) pip3 uninstall django-polls
@@ -937,15 +928,15 @@ Proceed (Y/n)? y
   Successfully uninstalled django-polls-0.1
 ```
 
-When I INSTALLED the package LOCALLY, it was VERY EASY to UNINSTALL. When I
-INSTALLED it GLOBALLY, it was a NIGHTMARE to try and UNINSTALL it. Be
+When I installed the package locally, it was very easy to uninstall. When I
+installed it globally, it was a nightmare to try and uninstall it. Be
 forewarned!
 
 ## Conclusion
 
-In this post, I discussed why reusability matters, how we can make our apps
-reusable, what a Python package is, how to install our prerequisites, how to
-package our app, and how to install and uninstall our newly packaged app.
+In this post, I discussed why reusability matters, how I can make my apps
+reusable, what a Python package is, how to install my prerequisites, how to
+package my app, and how to install and uninstall my newly packaged app.
 
 ## Related Resources
 
