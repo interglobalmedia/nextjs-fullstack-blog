@@ -1,7 +1,7 @@
 ---
 slug: removing-unstaged-changes-to-your-individual-files-in-git
 date: '2022-08-15T11:08:01.251Z'
-lastModified: '2026-06-05T14:04:01.251Z'
+lastModified: '2026-07-21T20:49:01.251Z'
 title: Removing unstaged changes to your individual files in Git
 author: Maria D. Campbell
 excerpt:
@@ -23,9 +23,9 @@ isFeatured: false
 
 ![Groot and Octocat reading a newspaper](praveen-thirumurugan-KPAQpJYzH0Y-unsplash.webp)
 
-_[Photo by](https://unsplash.com/photos/KPAQpJYzH0Y)_
-[Praveen Thirumurugan](https://unsplash.com/@praveentcom) _on_
-[unsplash.com](https://unsplash.com/)
+_[Photo by](https://unsplash.com/photos/KPAQpJYzH0Y)
+[Praveen Thirumurugan](https://unsplash.com/@praveentcom) on
+[unsplash.com](https://unsplash.com/)_
 
 ## Table of Contents
 
@@ -53,7 +53,7 @@ you just want to revert the files individually.
 
 Let’s say I made changes in a project, and I wanted to revert to the latest
 version of a file before I had made the current changes to it. My targeted file
-name is "index.html", and it is located at the root of my project, which we can
+name is "index.html", and it is located at the root of my project, which I can
 call "example-portfolio-site-namecheap". I make some markup changes to
 "index.html", and get something like the following back in the Terminal console
 after making the changes:
@@ -62,20 +62,10 @@ after making the changes:
 git status
 On branch master
 
-Changes to be committed:
-  (use "git reset HEAD <file>..." to unstage)
-
-        modified:   index.html
-
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
 
         modified:   index.html
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-
-        portfolio.html
 ```
 
 Then, before actually staging that file or committing those changes, if I want
@@ -202,7 +192,7 @@ is the stage number, and ".gitignore" is the file (object) name.
 ## The two mode bits in Git
 
 There are two mode bits in Git. One is represented by 644, and the other by 755.
-They represent unix permissions. Just like we have permissions for users on our
+They represent unix permissions. Just like I have permissions for users on my
 macOS with these values. 644 means the owner of the file can read/write,
 group/others can read only, and 755 means read and execute access for everyone
 and also write access for the owner of the file. In my project, I have only 644
@@ -213,7 +203,7 @@ permissions.
 The stage numbers, represented here by 0, are used for handling merge conflicts.
 According to the article
 [Git: Understanding the Index File](https://mincong.io/2018/04/28/git-index/) by
-Mincing Huang (this information was very difficult to find),
+Mincong Huang (this information was very difficult to find),
 
 > Slot 0: “normal”, un-conflicted, all-is-well entry.
 >
@@ -324,9 +314,9 @@ clearly convey their intent.
   _deverrors.com_
 
 [^1]:
-    SHA-1 stands for Secure Hash Algorithm 1. In the context of Git 2.23, it is
-    a cryptographic hash function which creates unique identifiers for objects
-    within Git repositories.
+    SHA-1 stands for Secure Hash Algorithm 1. It is a cryptographic hash
+    function which creates unique identifiers for objects within Git
+    repositories.
 
 [^2]:
     In Git, the working directory refers to the local directory where a project
