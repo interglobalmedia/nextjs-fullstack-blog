@@ -1,57 +1,64 @@
 ---
 slug: nextjs-environment-variable-support-and-the-envlocal-file
 date: '2023-02-19T12:04:21.055Z'
-lastModified: '2026-06-01T11:24:21.055Z'
+lastModified: '2026-07-21T20:07:21.055Z'
 title: Next.js Environment Variable Support and the .env.local File
 author: Maria D. Campbell
-excerpt: Next.js environment variable support and the .env.local file.
-image: neil-thomas-SIU1Glk6v5k-unsplash.jpg
+excerpt:
+    'In this post, I describe what Next.js environment variable support entails.
+    It supports both build-time and runtime environment variables, with public
+    variables prefixed by NEXT_PUBLIC_ inlined at build time and private
+    variables available only on the server.'
+image: neil-thomas-SIU1Glk6v5k-unsplash.webp
 tags: ['nextjs', 'environment variables', 'fullstack development']
 isPublished: true
 isFeatured: false
 ---
 
-![Tree supported by large wooden hand](neil-thomas-SIU1Glk6v5k-unsplash.jpg)
+![Tree supported by large wooden hand](neil-thomas-SIU1Glk6v5k-unsplash.webp)
 
-_[Photo](https://unsplash.com/photos/SIU1Glk6v5k) by_
-[Neil Thomas](https://unsplash.com/@finleydesign) _on_
-[Unsplash](https://unsplash.com/)
+_[Photo by](https://unsplash.com/photos/SIU1Glk6v5k)
+[Neil Thomas](https://unsplash.com/@finleydesign) on
+[unsplash.com](https://unsplash.com/)_
 
 ## Table of Contents
 
 - [Why the NEXT_PUBLIC prefix and process.env are used with environment variables in Next.js recap](#why-the-next-public-prefix-and-processenv-are-used-with-environment-variables-in-nextjs-recap)
-- [The importance of the env.local file](#the-importance-of-the-envlocal-file)
-- [Next.js provides us with three different environments](#nextjs-provides-us-with-three-different-environments)
+- [The importance of the .env.local file](#the-importance-of-the-envlocal-file)
+- [Next.js provides me with three different environments](#nextjs-provides-me-with-three-different-environments)
 - [Environment variable naming](#environment-variable-naming)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 
-**Note 5.31.26:** The current version of Next.js has changed since the original
-publication of this post. When it was published in February 2023,
-`Next.js 13+ < 13.4` was the current version. `Next.js 13.4` was released in
-May 2023. Now I am at `Next.js 16.2.6`. Environment variables are still
-supported, but the way they are loaded and accessed has changed. These changes
-were introduced in Next.js 15 which was released in October 2024. The biggest
-change was the introduction of` @next/env`, which replaced `next/env`.
-`next/env` was introduced in Next.js 12 which was released October 26, 2021.I
-built my `interglobalmedia-tailwind-nextjs` application with it. I had to use
-environment variables in my `interglobalmedia-tailwind-nextjs` application
-because I used Plausible analytics, Giscus comments, and ConvertKit, all of
-which needed to be exposed in the browser in order to work. I did not need to
-use environment variables to store any sensitive information. I am currently not
-using any environment variables here. To learn more about the newer `@next/env`
-introduced in Next.js 15, please visit the
-[Related Resources](#related-resources) section of this post.
+> **Note May 31, 2026:** The current version of Next.js has changed since the
+> original publication of this post. When it was published in February 2023,
+> Next.js 13, earlier than 13.4, was the current version. Next.js 13.4 was
+> released in May 2023. Now I am at Next.js 16.2.6. Environment variables are
+> still supported, but the way they are loaded and accessed has evolved.
+> Built-in .env and `NEXT_PUBLIC_` support was introduced in Next.js v9.4.0 (May
+> 2020). Shortly after, in Next.js a subpath import, next/env, was added for
+> loading env vars outside a component (I built my
+> interglobalmedia-tailwind-nextjs application with it). By Next.js 10.0.5
+> (early 2021), @next/env existed as its own installable package for use outside
+> the Next.js runtime entirely — such as in test setup or ORM config files — and
+> is the version documented today. I had to use environment variables in my
+> interglobalmedia-tailwind-nextjs application because I used Plausible
+> analytics, Giscus comments, and ConvertKit, all of which needed to be exposed
+> in the browser in order to work. I did not need to use environment variables
+> to store any sensitive information. I am currently not using any environment
+> variables here. To learn more about @next/env, please visit the
+> [Related Resources](#related-resources) section of this post.
+
+I always thought that environment variables, especially those that protect
+sensitive information, are so important to get down. So when I learned about
+Next.js environment variables, I was so excited that I actually needed to use
+them that I decided to write a post.
 
 ## Why the NEXT_PUBLIC prefix and process.env are used with environment variables in Next.js recap
 
-Previously, I had written a post entitled
-[Why being able to use dotenv with Next.js is so huge](/blog/why-being-able-to-use-dotenv-with-nextjs-is-so-huge)
-about using the `dotenv` npm package with `Next.js`, and why we add the
-`NEXT_PUBLIC` prefix in front of environment variable names. Adding
-`NEXT_PUBLIC`, then placing `process.env` in front of the environment variable
-name and using it directly in your code will expose it to the browser. You have
-to add `NEXT_PUBLIC` to make it happen. Something like the following:
+Adding `NEXT_PUBLIC`, then placing `process.env` in front of the environment
+variable name and using it directly in your code will expose it to the browser.
+You have to add `NEXT_PUBLIC` to make it happen. Something like the following:
 
 ```js
 const data = { email, api_key: process.env.NEXT_PUBLIC_CONVERTKIT_API_KEY }
@@ -65,27 +72,28 @@ const data = { email, api_key: API_KEY }
 ```
 
 would not, because it is saved as the value of a variable. And that is the way I
-have always approached my environment variables, especially when using `dotenv`.
+have always approached my environment variables, especially when I initially
+used `dotenv`.
 
 However, I found out later, that using the `dotenv` package is redundant with
 Next.js. It is not necessary to use `dotenv` in order to be able to extract
 one’s environment variable values from the `.env.local` file.
 
-## The importance of the env.local file
+## The importance of the .env.local file
 
-It is important to note that you have to save your environment variables in your
-`.env.local` file. That is where Next.js expects you to keep your secrets.
+You have to save your environment variables in your `.env.local` file. That is
+where Next.js expects you to keep your secrets.
 
-It is also (most) important to note that you have to add your `.env.local` file
-to your `.gitignore` file immediately upon creation of your project and before
-committing and pushing any changes to remote. This is both so you don't forget
-to do so later, and to ensure that your sensitive information stored as the
-values of your variables are never exposed on Github or wherever else. Next.js'
-`create-next-app` does create a `.gitignore` file for you which includes the
-`.env.local` file, but if you are new to all this, it is good practice to double
-check that the file is there and populated. The `.env` file is NOT included.
-`.env` is meant for non-sensitive, default `env var` values, and therefore does
-not need to be included in `.gitignore`.
+You also have to add your `.env.local` file to your `.gitignore` file
+immediately upon creation of your project and before committing and pushing any
+changes to remote. This is both so you don't forget to do so later, and to
+ensure that your sensitive information stored as the values of your variables
+are never exposed on GitHub or wherever else. Next.js' `create-next-app` does
+create a `.gitignore` file for you which includes the `.env.local` file, but if
+you are new to all this, it is good practice to double check that the file is
+there and populated. The `.env` file is NOT included. `.env` is meant for
+non-sensitive, default `env var` values, and therefore does not need to be
+included in `.gitignore`.
 
 Below is what I have in my `next.config.js` file for my `Next Blog` which I am
 in the process of building, and in which I have set up both environment
@@ -137,9 +145,9 @@ module.exports = withBundleAnalyzer(nextConfig)
 
 No evidence of `env vars`. No evidence of `dotenv`.
 
-## Next.js provides us with three different environments
+## Next.js provides me with three different environments
 
-By default, `Next.js` provides us with 3 different environments. The
+By default, `Next.js` provides me with three different environments. The
 environments available through Next.js by default are `development`,
 `production`, and `test`.
 
@@ -152,9 +160,9 @@ push to remote.
 
 ## Environment variable naming
 
-However, and this is very important, I keep the `env var` names the same across
-environments and in the code. Otherwise, only one environment, the one defined
-in the code using ONE SET of `env vars`, will work.
+However, I keep the `env var` names the same across environments and in the
+code. Otherwise, only one environment, the one defined in the code using ONE SET
+of `env vars`, will work.
 
 Also very important, is that the `env var` names have to match on `vercel.com`
 as well. If I name my `env var` for my MongoDB database `MONGODB_DATABASE` in
@@ -165,7 +173,7 @@ between development and production.
 
 When I run `npm run dev`, the `env vars` in `.env.development.local` are
 extracted. And when I run `npm start` AFTER running `npm run build` to build my
-application's production code, then tbe `env vars` in `.env.production.local`
+application's production code, then the `env vars` in `.env.production.local`
 are extracted.
 
 Lastly, I have to add my `env vars` to my project on `vercel.com`. There, I also
@@ -183,18 +191,17 @@ The Next.js documentation regarding support for environment variables is pretty
 good, and if you already have been using environment variables with `dotenv` in
 your Node.js projects in the past, it will be fairly easy to follow. I am
 including reference to the Next.js documentation at the end of the post under
-[Related Resources](#related-resources).
+Related Resources.
 
 ## Related Resources
 
 - [How to use different .env files with nextjs?](https://stackoverflow.com/questions/59462614/how-to-use-different-env-files-with-nextjs/61750672#61750672):
   _stackoverflow_
-
-- [Environment Variables](https://nextjs.org/docs/basic-features/environment-variables):
-  _Next.js docs_
-
 - [How to configure Next.js environmental variables](https://blog.logrocket.com/configure-environment-variables-next-js):
   _by Joseph Mawa, LogRocket_
-
 - [Next.js Environment Variables: Complete Guide](https://env.dev/guides/nextjs-env-variables):
   _env.dev_
+- [Better support for runtime environment variables. #44628](https://github.com/vercel/next.js/discussions/44628):
+  _Next.js discussions on GitHub_
+- [How to use environment variables in Next.js](https://nextjs.org/docs/pages/guides/environment-variables):
+  _nextjs.org_
