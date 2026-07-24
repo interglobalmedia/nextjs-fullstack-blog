@@ -1,54 +1,71 @@
 ---
 slug: redirect-operators-in-linux-and-unix-macos
 date: '2024-07-12T10:26:06.081Z'
-lastModified: '2026-06-03T20:17:06.081Z'
-title: Redirect operators in Linux and Unix (macOS)
-author: Maria D. Campbell
+lastModified: '2026-07-24T08:53:06.081Z'
+title: 'Redirect operators in Linux and Unix (macOS)'
+author: 'Maria D. Campbell'
 excerpt:
-    How to use input and output redirect operators in Linux and Unix (macOS) and
-    how they differ.
-image: pexels-isaquepereira-394377.jpg
+    'In this post, I describe what redirect operators are, some different types
+    of redirect operators, and how they differ.'
+image: pexels-isaquepereira-394377.webp
 tags: ['command line', 'linux', 'macOS', 'redirect operator', 'stdin', 'stdout']
-isPublished: false
+isPublished: true
 isFeatured: false
 ---
 
-![Redirecting](pexels-isaquepereira-394377.jpg)
+![A series of glowing arrow signs in a city environment, indicating direction at night.](pexels-isaquepereira-394377.webp)
 
-_Photo by_ [Isaque Pereira](https://www.pexels.com/@isaquepereira/) _on_
-[pexels.com](https://www.pexels.com/photo/yellow-arrow-led-signage-394377/)
+_[Photo by](https://www.pexels.com/photo/yellow-arrow-led-signage-394377/)
+[Isaque Pereira](https://www.pexels.com/@isaquepereira/) on
+[pexels.com](https://www.pexels.com/)_
 
 ## Table of Contents
 
 - [stdin and stdout explained](#stdin-and-stdout-explained)
-- [The output redirector operator (>)](#the-output-redirector-operator-)
-- [The input redirector operator (<)](#the-input-redirector-operator-)
-- [The output redirector append operator (>>)](#the-output-redirector-append-operator-)
+- [The output redirect operator (`>`) and printenv](#the-output-redirect-operator-and-printenv)
+- [The input redirect operator (`<`) and printenv](#the-input-redirect-operator-and-printenv)
+- [The input redirect operator (`<`) and cat](#the-input-redirect-operator-and-cat)
+- [The output redirect append operator (`>>`)](#the-output-redirect-append-operator-)
+- [Other commands that only accept stdin (`<`)](#other-commands-that-only-accept-stdin-)
+    - [The wc command](#the-wc-command)
+- [Other commands that never read stdin regardless of the redirection](#other-commands-that-never-read-stdin-regardless-of-the-redirection)
+    - [ls](#ls)
+    - [Ctrl+C vs Ctrl+D](#ctrlc-vs-ctrld)
+- [Other commands with mixed behavior](#other-commands-with-mixed-behavior)
+    - [grep](#grep)
+- [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
+
+Because I have realized time and time again how important redirect operators are
+in Information Technology (IT) and software application development, I decided
+to write an article about them. These redirect operators have saved me on many
+an occasion. I have used the output redirect operator and the output redirect
+append operator to save data to files on my local machine so that I could refer
+to that data at a later date, for example. I think you will find them quite
+useful as well!
 
 ## stdin and stdout explained
 
-In order to understand what `redirect operators` do in Linux or Unix (macOS),
-one first has to understand what `stdin` and `stdout` mean.
+To understand what `redirect operators` do in Linux or Unix (macOS), we first
+have to understand what `stdin` and `stdout` mean.
 
 In the case of a personal Linux (or macOS) device, for example, by default,
 `stdin` refers to a device's keyboard, and `stdout` refers to Command Line
 (Terminal). And these pathways are called streams.
 
-That being said, we don't always want to output `stdout` to Command Line, which
-is not persistent by default. Perhaps we want to save it somewhere. It is
-possible to change our default input and output locations. This means making the
-OS to obtain information from somewhere other than the `stdin` or send results
-to somewhere other than the `stdout`. This functionality is known as
-`redirection`.
+That being said, I don't always want to output `stdout` to Command Line, which
+is not persistent by default. Perhaps I want to save it somewhere. It is
+possible to change my default input and output locations. This means making the
+OS obtain information from somewhere other than the `stdin` or send results to
+somewhere other than the `stdout`. This functionality is known as `redirection`.
 
-## The output redirector operator (>)
+## The output redirect operator (`>`) and printenv
 
-The default `output redirector operator` is the most popular and well known of
+The default `output redirect operator` is the most popular and well known of
 redirectors. As previously mentioned, by default, when not using `redirection`,
 `stdout` is made in Terminal. However, this output is not persistent because it
-is not saved to Terminal. If it was, we would have an awful lot of clutter
-there!
+is not saved to Terminal. If it was, I would have an awful lot of clutter there!
 
 In Linux Command Line, if I were to run the following in Terminal:
 
@@ -56,7 +73,7 @@ In Linux Command Line, if I were to run the following in Terminal:
 $HOME
 ```
 
-the following would be returned in Terminal:
+the following would be returned:
 
 ```shell
 bash: /home/maria: Is a directory
@@ -65,33 +82,24 @@ bash: /home/maria: Is a directory
 I type `$HOME` with my laptop keyboard, my `stdin`, and it is output to the
 Terminal window, my `stdout`. But it is not saved anywhere, so I can't refer to
 that particular output later. As also previously mentioned, I can `redirect`
-this output somewhere else, and even save the data using the `output redirector`
+this output somewhere else, and even save the data using the `output redirect`
 (`>`). Let's say I run the following command instead:
 
 ```shell
 printenv 'HOME' > home.txt
 ```
 
-Then, if I use the `cat` command to output the contents of `home.txt`:
-
-```shell
-cat home.txt
-```
-
-It results in the following output in Terminal:
-
-```shell
-/home/maria
-```
+The value of `'HOME'` would be output in the `home.txt` file. And if there was
+no `home.txt` file, it would first be created.
 
 However, if I simply ran the following without using the
-`output redirector operator`:
+`output redirect operator`:
 
 ```shell
 printenv 'HOME'
 ```
 
-the following would be returned in Terminal:
+Terminal would return:
 
 ```shell
 /home/maria
@@ -100,124 +108,473 @@ the following would be returned in Terminal:
 And `/home/maria` would not be redirected as output to `home.txt`.
 
 The `printenv` command prints the value of an environment variable, and `$HOME`
-is one of them. In this case, `printenv` is printing the value of the global
-environment variable called `HOME`. And since I am not appending `$` to the
-beginning of `HOME`, it is not being treated as a variable containing a value
-(HOME=/home/maria), but simply as the value of `$HOME`.
-
-## The input redirector operator (<)
-
-The `default input redirector` (`<`) redirects `stdin` somewhere else. For
-example, if I type the following in Terminal followed by the `Return` (`Enter`)
-key:
+is one of them. In this case, `printenv` is printing out the value of an
+environment variable with the _name_ 'HOME'. If I were to simply type 'HOME' by
+itself and press return, the Terminal would yield the following:
 
 ```shell
-printenv 'HOME' < home.txt
+HOME: command not found
 ```
 
-this would result in the following in Terminal:
+## The input redirect operator (`<`) and printenv
+
+The default input redirect operator (`<`) redirects `stdin` somewhere else. For
+example, if I type the following in Terminal followed by the return (enter) key:
 
 ```shell
+printenv 'USER' < home.txt
+```
+
+This would result in:
+
+```shell
+maria
+```
+
+But `maria` would not be printed to `home.txt`:
+
+```shell
+# home.txt
 /home/maria
 ```
 
-And if I open up `home.txt` with the `vim` command:
+But if I were to run:
 
 ```shell
-vim home.txt
+printenv 'USER' > home.txt
 ```
 
-The following would appear:
+And I opened `home.txt` with the `vim` command:
 
 ```shell
+# vim home.txt takes me to home.txt in vim which contains the following content:
+maria
+```
+
+I switched from using the `$HOME` environment variable to the `$USER`
+environment variable so that I could explicitly show that the `printenv` command
+does indeed ignore stdin (`<`). The mismatch between the
+`printenv 'USER' < home.txt` and `printenv 'USER' > home.txt` outcomes proves
+that `printenv` accepts `stdout` but ignores `stdin`.
+
+## The input redirect operator (`<`) and cat
+
+Let's say I ran the following command:
+
+```shell
+echo "this is /home/maria" > home.txt
+```
+
+And then I ran `vim home.txt`. What would I find? The content below:
+
+```shell
+this is /home/maria
+```
+
+The `echo` command creates and redirects the text `"this is /home/maria"` to a
+`home.txt` file. And if the file doesn't already exist, it also creates that
+file before populating it with `"this is /home/maria"`.
+
+Then, if I ran `cat < home.txt`, `cat` would read the contents of `home.txt` and
+print it to Terminal:
+
+```shell
+this is /home/maria
+```
+
+`cat` reads from `stdin`, so this would genuinely be extracting `home.txt`'s
+contents via the input redirect. And if I changed what's inside `home.txt`, the
+output would also change to match.
+
+And if I ran `cat home.txt` without `<`, I would still get back:
+
+```shell
+this is /home/maria
+```
+
+`cat` without `<` displays the contents of `home.txt` in Terminal. It reads the
+file and outputs its content to standard output (Terminal).
+
+## The output redirect append operator (`>>`)
+
+If I just wanted to append the contents of `stdout` (i.e., 'HOME'), I would run
+the following:
+
+```shell
+printenv 'HOME' >> home.txt
+```
+
+This would result in:
+
+```shell
+# home.txt
+this is /home/maria
 /home/maria
 ```
 
-If I were to combine the `input` and `output` operator, for example:
+I could also do something like:
 
 ```shell
-printenv 'HOME' < home.txt > home2.txt
+ls -la >> home.txt
 ```
 
-This command both redirects `stdin` and `stdout`, and also creates a new file
-called `home2.txt` if it does not already exist, thanks to the `output operator`
-(`>`).
-
-When I run the following in Terminal:
+And the contents of `home.txt` would be:
 
 ```shell
-cat home2.txt
-```
-
-it returns the following:
-
-```shell
-/home/maria
-```
-
-When I run the following in Terminal:
-
-```shell
+ls -la >> home.txt
 cat home.txt
-```
-
-it returns the following:
-
-```shell
+this is /home/maria
 /home/maria
+total 52
+drwxr-xr-x 11 maria maria 4096 Jul 22 07:04 .
+drwxr-x--- 28 maria maria 4096 Jul 22 07:04 ..
+... (truncated)
 ```
 
-However, because I am using the (single) `regular output operator` (`>`), it
-overwrites the previous content of `home2.txt` with a new instance of
-`/home/maria`. What if I `didn't want` to overwrite the contents of `home2.txt`?
+This time, the standard output of `ls -la` was redirected to `home.txt` via the
+output redirect append operator (`>>`) and was appended after the existing
+`home.txt` content. So the existing content was not replaced by the newly added
+content.
 
-## The output redirector append operator (>>)
-
-If I just want to append the contents of `stdin` (i.e., `home.txt`) to `stdout`
-(i.e., `home2.txt`), I would run the following in Terminal:
-
-```shell
-printenv 'HOME' < home.txt >> home2.txt
-```
-
-Then, when I run the following command in Terminal:
-
-```shell
-cat home2.txt
-```
-
-it returns the following:
-
-```shell
-/home/maria
-/home/maria
-```
-
-And if I run the following in Terminal:
-
-```shell
-cat home.txt
-```
-
-it returns the following:
-
-```shell
-/home/maria
-```
-
-The contents of `home.txt` remains the same because it is the `stdin`, but
-`home2.txt` now includes a second line of text, which has been appended to the
-original first line of text. No data was overwritten or lost.
-
-**An important thing to note**: Usually one should use the
-`output redirector append operator` (`>>`) instead of the
-`output redirector operator` (`>`) so as not to lose any file data (unless there
+Usually I should use the `output redirect append operator` (`>>`) instead of the
+`output redirect operator` (`>`) so as not to lose any file data (unless there
 is a specific reason to use `>`)!
+
+## Other commands that only accept stdin (`<`)
+
+Other commands that only accept stdin (`<`) are:
+
+1. wc
+1. sort
+1. grep
+1. sed
+1. awk
+1. head
+1. tail
+1. tr
+1. bc
+1. less
+
+### The wc command
+
+`wc` stands for word count. It produces data such as number of lines, words, and
+bytes in a file or standard input.
+
+I use the `wc` command a lot when I want to know how many files (determined by
+the number of lines) are in a directory. For example, I am in the process of
+revamping this site's content, so from time to time, I run `ls | wc -l` inside
+the `data/blog` the directory I am querying to see how many more posts I have to
+submit for editorial review. But I could take it a step further:
+
+```shell
+# I ran this in Unix (macOS)
+ls | wc -l > home.txt
+```
+
+And the command populates `home.txt` with:
+
+```shell
+       123
+```
+
+`123` is the `ls | wc -l > home.txt` output. But what if I did the opposite:
+
+```shell
+ls | wc -l < home.txt
+```
+
+I am passing `home.txt`'s content in as stdin to `wc` using `<`, and since `wc`
+accepts stdin, it does affect the result. But the result only prints to Terminal
+and not to `home.txt`.
+
+Because I am using both pipe (`|`) and the input redirect operator (`<`), the
+result is a bit different, and even differs in Linux bash and macOS zsh. In
+macOS zsh, the command yields the following in Terminal:
+
+```shell
+     124
+```
+
+But when I run `cat home.txt`, it returns:
+
+```shell
+     123
+```
+
+When I run the `ls | wc -l < home.txt` command in Linux, it produces the
+following in Terminal:
+
+```shell
+1
+```
+
+But the output inside the file is:
+
+```shell
+# home.txt
+     11
+```
+
+The mechanism is the same in Linux bash and macOS zsh. Each `home.txt` file
+accurately reflects its own directory's count. But not in Terminal. In macOS
+zsh, even though there are only 123 lines inside the directory, the command
+yields 124 because of something called `MULTIOS`. `MULTIOS` in zsh is a feature
+that allows multiple input descriptors to be used simultaneously, letting
+commands process multiple files as if they were piped together. And that is what
+is happening with the `ls | wc -l < home.txt` command. MULTIOS merges
+`ls | wc -l` pipe and `< home.txt` input redirect into one integrated stream.
+But the reason that Terminal returned 124 instead of 123 is that in Terminal,
+MULTIOS includes the `home.txt`'s number of lines as well. so `123 + 1 = 124`.
+
+Bash does not have the MULTIOS feature. So when I ran `ls | wc -l < home.txt` in
+Terminal, only `1` was returned. That `1` represents the number of lines in
+`home.txt`. And `home.txt`'s content was `11`, representing `11` lines in the
+Desktop directory.
+
+However, I could imitate Linux's default NO MULTIOS behavior in macOS by running
+the following in Terminal:
+
+```shell
+# confirm the presence of zsh
+echo $ZSH_VERSION
+# which for me returns:
+5.9
+# Disbale MULTIOS feature
+setopt NO_MULTIOS
+```
+
+Then, when I run `ls | wc -l < home.txt` again, Terminal yields only `1`, which
+represents the number of lines in `home.txt`, just like in Linux bash.
+
+So in macOS zsh, MULTIOS merges pipe + redirect into one integrated stream by
+default. In Linux bash, the redirect overrides pipe, so `ls`'s output is
+ignored.
+
+## Other commands that never read stdin regardless of the redirection
+
+Other commands that never read stdin (like `printenv`) are:
+
+1. printenv (already covered)
+1. ls
+1. ps
+1. date
+1. pwd
+1. whoami
+
+### ls
+
+The `ls` command lists a directory's contents.
+
+Going back to another `home.txt` example, let's say I run the following command
+in macOS Terminal:
+
+```shell
+ls < home.txt
+```
+
+Terminal outputs:
+
+```shell
+a-must-have-frontend-developer-tool.mdx
+abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-part-1.mdx
+abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-part-2.mdx
+abstractuser-vs-abstractbaseuser-vs-user-extended-profile-in-django-table-of-contents.mdx
+... (truncated)
+```
+
+However, the contents of `home.txt` remain unchanged:
+
+```shell
+      123
+```
+
+`ls`, like `printenv`, ignores stdin.
+
+One way to determine whether a command takes stdin is by typing it without any
+arguments. For example, when I type the `cat` command followed by the enter key,
+the cursor goes to the next line and "hangs". It "hangs" because it is waiting
+for stdin. When it is not provided with anything, it waits for the default
+stdin, which is keyboard input.
+
+When I type `cat`, press enter, type some text and press enter again, `cat`
+repeats what I have typed:
+
+```shell
+cat
+# then press enter and type:
+this is the end of the road
+# then press enter again, and cat repeats what I have typed
+this is the end of the road
+```
+
+But if I type yet another line after running cat with no arguments, and don't
+press enter, followed by `Ctrl+D`, the following happens:
+
+```shell
+cat
+# then press enter and type (once):
+# but then pres Ctrl+D instead of enter, and the cat command repeats the stdin, which is what it is meant to do. No space in between.
+I can't wait to see the Fifth Element at my local movie theater on Sunday!I can't wait to see the Fifth Element at my local movie theater on Sunday!
+# press Ctrl+D again, and you exit the program because cat has nothing more to process.
+```
+
+If I used Ctrl+C instead, I exit out of `cat` immediately. I use Ctrl+C when I
+don't care about completing a process.
+
+### Ctrl+C vs Ctrl+D
+
+| Line State                        | Ctrl+C                                                                                                            | Ctrl+D                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Text typed line not yet submitted | Sends a SIGINT (signal interruption) signal which is used to immediately interrupt a running process in Terminal. | If stdin is present, `Ctrl+D` goes to the terminal driver[^1] (aka canonical mode line buffering[^2]) which holds onto whatever I type until I press enter, and then hands that whole line to `cat`. `cat` echoes what I have typed. If however, I execute `cat` without any arguments, press enter and type (once), and then press `Ctrl+D` instead of enter after typing, `cat` echoes the stdin, which is what it is meant to do. No space in between. |
+| Line is empty                     | `Ctrl+C` interrupts immediately. There is nothing to unload.                                                      | If I hadn't typed any input after executing `cat` and pressing the enter key, and then I pressed `Ctrl+D`, I would immediately exit the program. That's because there was nothing there to execute.                                                                                                                                                                                                                                                       |
+
+## Other commands with mixed behavior
+
+1. cat (already covered)
+1. wc
+1. sort
+1. curl -d @-
+1. tar -xf -
+1. grep
+
+### grep
+
+The `grep` command searches for text files and prints each line that matches a
+pattern (usually a regular expression). It can also be configured with options
+such as `-n` (shows the line numbers) and `-i` (ignore case).
+
+I recently started using `grep` to delete all (feature) branches except `main`.
+Sometimes they tend to pile up in this local Blog repository, and I am too lazy
+to delete them one at a time. The command is:
+
+```shell
+git branch | grep -v "main" | xargs git branch -D
+```
+
+However, I could exclude more than one branch:
+
+```shell
+git branch | grep -v "main" | grep -v "edit-redirect-operators-in-linux-and-unix-macos" | xargs git branch -D
+```
+
+I could do this with any feature branch, but right now, since I am
+editing/updating this post and am therefore on the
+`"edit-redirect-operators-in-linux-and-unix-macos"` branch, I want to make sure
+that I don't delete that one as well.
+
+I recently found out that there is a difference between the `-D` flag and the
+`-d` flag. `-D` force-deletes a branch regardless of merge status. It will
+delete a branch even if it has commits that were never merged anywhere without
+warning or confirmation. `-d`, on the other hand, deletes a branch, but only if
+it's been fully merged into its upstream branch (main) or the branch I'm
+currently on. If Git detects unmerged commits in a branch, it refuses to delete
+it and prints something like:
+
+```shell
+the branch 'X' is not fully merged
+```
+
+This is a safety check that protects me from losing work.
+
+To break down the command:
+
+1. `git branch` lists the current existing branches.
+1. `grep -v "main"` means find lines not matching "main".
+1. `xargs git branch -D` means delete all existing branches except for the main
+   branch. In other words, pipe the results of the previous two commands to
+   `git branch -D`.
+
+`xargs` reads input from standard input and builds command lines to execute. As
+in this case, it is often used to convert input (like a list of filenames or
+branches) into arguments for another command (in this case `git branch -D`).
+This makes it easier to manage long lists of input and avoid argument length
+limits.
+
+But, as mentioned previously, I changed the command to:
+
+```shell
+git branch | grep -v "main" | grep -v "edit-redirect-operators-in-linux-and-unix-macos" | xargs git branch -d
+```
+
+When I ran the above command (including `-d`), Terminal returned:
+
+```shell
+git branch | grep -v "main" | grep -v "edit-redirect-operators-in-linux-and-unix-macos" | xargs git branch -d
+zsh: correct 'git' to '.git' [nyae]? n
+Deleted branch edit-cron-job-that-creates-backups-of-a-directory-in-linux (was e5c408d).
+Deleted branch edit-django-official-advanced-tutorial-on-writing-reusable-apps (was f4ef5a7).
+Deleted branch edit-even-more-posts-7-20-26 (was efa3a2f).
+Deleted branch edit-linuxunix-command-line-commands-applicable-to-cybersecurity (was e4c5f85).
+Deleted branch edit-nextjs-environment-variable-support-and-the-envlocal-file (was f34e781).
+Deleted branch edit-removing-unstaged-changes-to-your-individual-files-in-git (was ad82acb).
+Deleted branch edit-what-bypassed-rule-violations-means-when-pushing-changes-to-github-remote (was 949b67b).
+```
+
+Then I ran the `git branch` command to see what branches were not deleted:
+
+```shell
+git branch
+```
+
+The command produced:
+
+```shell
+* edit-redirect-operators-in-linux-and-unix-macos
+main
+```
+
+My command did exactly what I wanted it to do! I deleted all feature branches
+except the one I am currently on
+(`edit-redirect-operators-in-linux-and-unix-macos`) and also excluded the `main`
+branch from deletion.
+
+Pipe (`|`) is also a type of redirect operator that transmits the output of one
+command to the input of another command in sequence. It allows for the creation
+of complex sequences of command chains.
+
+## Conclusion
+
+In this post, I discuss the output redirect operator, the input redirect
+operator and the output redirect append operator, and how they differ from each
+other. I also talk about commands that only accept stdin, those that never read
+stdin despite the redirection, and those that have mixed behavior. Perhaps you
+will be able to apply the information and commands in this post to your daily
+workflows!
 
 ## Related Resources
 
 - [I/O redirection](https://tldp.org/LDP/intro-linux/html/sect_05_01.html): _by
   Machtelt Garrels, Introduction to Linux_
-
 - [Five ways to use redirect operators in Bash](https://www.redhat.com/sysadmin/redirect-operators-bash):
   _by Damon Garn, RedHat_
+- [How to delete all the local branches except the current one? [duplicate]](https://stackoverflow.com/questions/28572293/how-to-delete-all-the-local-branches-except-the-current-one/28572339#28572339):
+  _Stack Overflow_
+- [xargs(1) — Linux manual page](https://www.man7.org/linux/man-pages/man1/xargs.1.html):
+  _man7.org_
+- [End-of-Transmission character](https://en.wikipedia.org/wiki/End-of-Transmission_character#Meaning_in_Unix):
+  _Wikipedia_
+- [Terminal mode](https://en.wikipedia.org/wiki/Terminal_mode): _Wikipedia_
+- [ioctl](https://en.wikipedia.org/wiki/Ioctl): _Wikipedia_
+
+[^1]:
+    In Linux/Unix, the terminal driver handles terminal input/output buffering
+    and settings like cooked (line-based) vs raw terminal mode[^3], and it works
+    with ioctl-style controls[^4].
+
+[^2]:
+    Canonical mode is a terminal setting where input is line-buffered. This
+    means that the input is collected until the enter key is pressed before it
+    is sent to the program. This mode allows users to edit their input before
+    submission, but it does not allow for immediate character-by-character
+    input.
+
+[^3]:
+    Cooked mode and raw mode are two types of terminal modes in Unix-like
+    systems. In cooked mode, the terminal preprocesses input and interprets
+    special characters like backspace and control keys before handing over the
+    data to programs. In raw mode, the data is passed to the program as-is.
+
+[^4]:
+    ioctl-style controls are used to manage terminal drivers by allowing
+    user-mode applications to send specific commands to the driver, enabling
+    operations like configuring terminal settings.
