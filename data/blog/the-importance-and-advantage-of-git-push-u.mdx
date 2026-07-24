@@ -1,41 +1,62 @@
 ---
 slug: the-importance-and-advantage-of-git-push-u
 date: '2020-02-15T12:17:31.267Z'
-lastModified: '2020-02-15T12:17:31.267Z'
+lastModified: '2026-07-24T21:39:31.267Z'
 title: The importance and advantage of git push -u
 author: Maria D. Campbell
-excerpt: The importance and advantage of the -u flag when pushing a local git repository to remote for the first time.
+excerpt:
+    In this post, I talk about the importance of git push -u origin main when
+    pushing local commits to remote origin. I also discuss how Git made the -u
+    flag optional with the global git config push.autoSetupRemote, and the
+    behavioral differences between the two approaches.
 image: ravi-palwe-PJEyTCV1aFs-unsplash.webp
-tags: ['git', 'git push']
+tags: ['git', 'git config', 'git push', 'git push -u', 'push.autoSetupRemote']
 isPublished: true
 isFeatured: false
 ---
 
-![The importance and advantage of git push -u](ravi-palwe-PJEyTCV1aFs-unsplash.webp)
+![Super Nintendo Entertainment System - SNES](ravi-palwe-PJEyTCV1aFs-unsplash.webp)
 
-***Photo by*** [Ravi Palwe](https://unsplash.com/@ravipalwe) ***on*** [unsplash.com](https://unsplash.com/photos/PJEyTCV1aFs)
+_[Photo by](https://unsplash.com/photos/PJEyTCV1aFs)
+[Ravi Palwe](https://unsplash.com/@ravipalwe) on
+[unsplash.com](https://unsplash.com/)_
+
+## Table of Contents
+
+- [Why the git push -u command?](#why-the-git-push-u-command)
+- [Replacing git push -u with the global push.autoSetupRemote configuration](#replacing-git-push-u-with-the-global-pushautosetupremote-configuration)
+- [git push -u origin main vs git push origin main terminal output](#git-push-u-origin-main-vs-git-push-origin-main-terminal-output)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
 
 I have been executing the `git push -u origin master` command for what seems
-like forever now, and knew it was important for **_syncing_** my
-`local git repository` with my `remote git repository` when **_pushing_** to
-**remote** for the first time, but I never knew the extent of its importance or the convenience it provided.
+like forever now. I knew it was important for syncing my local Git repository
+with my remote Git repository the first time I pushed to remote. What I never
+knew was the extent of its importance, or the convenience it provided.
 
-The other day I completed a slide deck entitled basic Git commands, and I
-researched the `-u` flag. I came across a fabulous website dedicated to `Git` **commands**, and it went into depth about what `-u` actually does. According to [jquery-az.com](https://www.jquery-az.com/),
+## Why the git push -u command?
 
-```shell
-The -u flag is used to set origin as the upstream remote in your git config. As you push a branch successfully or up to date it, it adds upstream reference.
+The other day I completed a slide deck entitled "Basic Git commands", and I
+researched the `-u` flag. I came across a fabulous thread on StackOverflow that
+went into depth about what `-u` actually does. According to the
+[What exactly does the "u" do? "git push -u origin master" vs "git push origin master"](https://stackoverflow.com/questions/5697750/what-exactly-does-the-u-do-git-push-u-origin-master-vs-git-push-origin-ma)
+thread on Stack Overflow:
 
-As you push local branch with (the) git push -u option, that local branch is linked with the remote branch automatically. The advantage is, you may use git pull without any arguments.
-```
+> What is important here is that this lets you do a git pull without supplying
+> any more arguments. For example, once you do a git push -u origin master, you
+> can later call git pull and git will know that you actually meant git pull
+> origin master. — _by
+> [Felipe Augusto](https://stackoverflow.com/users/7385033/felipe-augusto),
+> edited Aug 28, 2018 at 21:55_
 
-The key here is in
+The key line is this:
 
-```shell
-The advantage is, you may use git pull without any arguments.
-```
+> What is important here is that this lets you do a git pull without supplying
+> any more arguments.
 
-So whenever you want to sync your local repo with remote, or want to make sure that you have incorporated all the changes that other contributors have made to the repository, you can use
+So whenever you want to sync your local repo with remote, or want to make sure
+that you have incorporated all the changes that other contributors have made to
+the repository, you can use
 
 ```shell
 git pull
@@ -47,12 +68,181 @@ instead of
 git pull remoteRepositoryUrl
 ```
 
-It saves you fetching the url from the remote or going into your git config to retrieve it. This saves much time and inconvenience!
+It saves you fetching the url from the remote or going into your git config to
+retrieve it. This saves time and avoids the inconvenience!
 
-Over the years I have asked people who **_don't_** **use** `git push -u` but
-only `git push`, "Don't you have to use the `-u` flag when **_first_** pushing your local repository to remote?" They would always say, "No. Don't need to, and never have had any problems". They were always right, but they probably didn't realize that it meant having to use the `remote url` each time they had to `git pull`, for example, which meant extra time and some inconvenience. Those two little characters may be of use to them after all! I know I have **_never_** had to use the `remote repository url` when `git pulling`!
+Over the years I have asked people who don't use `git push -u` but only
+`git push`, "Don't you have to use the `-u` flag when first pushing your local
+repository to remote?" They would always say, "No. Don't need to, and never have
+had any problems". They were always right, but they probably didn't realize that
+it meant having to use the `remote url` each time they had to `git pull`, for
+example, which meant extra time and some inconvenience. Those two little
+characters may be of use to them after all! I know I have never had to use the
+`remote repository url` when `git pulling`!
+
+## Replacing git push -u with the global push.autoSetupRemote configuration
+
+In July 2022, Git 2.37 added the global `push.autoSetupRemote` configuration.
+
+When I learned about it (recently), I created a local repository called
+"test-push-auto-setup-remote" to test it out. Not having to do `git push -u`
+anymore and not having to worry about forgetting to do so in the first place, is
+a beautiful thing!
+
+After I set up the test repository, I ran the following:
+
+```shell
+git init
+Initialized empty Git repository in /Users/mariacam/Development/test-push-auto-setup-remote/.git/
+# configures push.autoSetupRemote, which replaces git push -u when pushing to remote the first time
+git config --global push.autoSetupRemote true
+git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+    README.md
+    index.html
+
+nothing added to commit but untracked files present (use "git add" to track)
+# adds everything at once
+git add .
+git commit
+# Write commit message in Vim
+[main (root-commit) 944de23] Add files first commit
+ 2 files changed, 26 insertions(+)
+ create mode 100644 README.md
+ create mode 100644 index.html
+git push origin main
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 10 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 792 bytes | 792.00 KiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), done.
+To github.com:interglobalmedia/test-push-auto-setup-remote.git
+ * [new branch]      main -> main
+```
+
+## git push -u origin main vs git push origin main terminal output
+
+`git push -u origin main` achieves the same thing as `git push origin main` with
+`git config --global push.autoSetupRemote true` set up beforehand. But do they
+result in the same terminal output? My answer is no.
+
+You saw the output that `git push origin main` produced after I executed
+`git config --global push.autoSetupRemote true`. But what does
+`git push -u origin main` produce?
+
+I created another test repository called `test-repo-two`, and went through the
+similar steps, but using `git push -u origin main`:
+
+```shell
+git init
+Initialized empty Git repository in /Users/mariacam/Development/test-repo-two/.git/
+git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+    README.md
+
+nothing added to commit but untracked files present (use "git add" to track)
+git add .
+git commit
+# write commit message in Vim
+[main (root-commit) 31ce903] Add files first commit
+ 1 file changed, 3 insertions(+)
+ create mode 100644 README.md
+ git remote add origin git@github.com:interglobalmedia/test-repo-two.git
+ git push -u origin main
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 10 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 321 bytes | 321.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To github.com:interglobalmedia/test-repo-two.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+```
+
+There is only one difference between the terminal output of the two versions of
+`git push`:
+
+`git push -u origin main` contains the line
+`branch 'main' set up to track 'origin/main'.`
+
+`git push origin main` does not.
+
+I haven't found any documentation that compares git `push -u origin main` to
+`git push origin main` terminal output after running
+`git config --global push.autoSetupRemote true`, but my take is that since the
+config is pre-configuring `--set-upstream` (-u), it does not find the need to
+output the message `branch 'main' set up to track 'origin/main'`. This is also
+another way of confirming that the configuration was successful.
+
+Another way of confirming the configuration's success is by running
+
+```shell
+git config --global --get-all push.autoSetupRemote
+# which, when pressing enter, returns:
+true
+```
+
+And then, if I wanted to make sure that the configuration was set in my actual
+`.gitconfig`, but I didn't know where it was, I could run:
+
+```shell
+git config --show-origin push.autoSetupRemote
+```
+
+Which, for me, returned:
+
+```shell
+file:/Users/mariacam/.gitconfig true
+```
+
+And if I wanted to make sure that my `autoSetupRemote` was actually added to the
+`.gitconfig` itself, I could run:
+
+```shell
+# from inside my macOS ~ directory
+vim .gitconfig
+```
+
+For me, it returned:
+
+```shell
+...
+56     autoSetupRemote = true
+...
+```
+
+## Conclusion
+
+In this post, I talk about what `git push -u origin main` means and why it is
+important to use when pushing local Git repository commits to remote for the
+first time. I also explain that Git made the `-u` flag optional with the
+`git config --global push.autoSetupRemote true` configuration introduced in Git
+version 2.37, and prove its successful implementation in a variety of ways.
+`git push -u` without `git config --global push.autoSetupRemote true` means the
+need to `git push -u` the first time I push to remote origin. `git push` with
+`git config --global push.autoSetupRemote true` preconfigured means dropping the
+`-u` flag and only using `git push`. It is not so much the reduction in typing
+that is important here, but the fact that I don't have to remember to use the
+`-u` flag the first time I push to remote!
 
 ## Related Resources
 
--   [The Purpose of Git Push command](https://www.jquery-az.com/git-push-command/): ***by Atiq Zia, jquery-az.com***
-
+- [git-push - Update remote refs along with associated objects](https://git-scm.com/docs/git-push#Documentation/git-push.txt--u):
+  _git-scm.com_
+- [git-config - Get and set repository or global options](https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushautoSetupRemote):
+  _git-scm.com_
+- [The Git Config You Didn’t Know You Needed](https://blog.aman.wiki/the-git-config-you-didnt-know-you-needed-0b4ef4bcb6f5):
+  _by Aman Jain, medium.com_
