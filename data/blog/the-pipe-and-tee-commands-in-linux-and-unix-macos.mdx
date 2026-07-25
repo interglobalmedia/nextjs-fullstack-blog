@@ -1,35 +1,58 @@
 ---
 slug: the-pipe-and-tee-commands-in-linux-and-unix-macos
 date: '2024-07-14T17:21:43.791Z'
-lastModified: '2024-07-14T17:21:43.791Z'
+lastModified: '2026-07-24T00:35:43.791Z'
 title: The pipe (|) and tee commands in Linux and Unix (macOS)
 author: Maria D. Campbell
-excerpt: The pipe (|) and tee commands in Linux and Unix (macOS)
-image: pexels-kampus-6542382.jpg
-tags: ['command line', 'linux', 'unix', 'macOS', 'pipe', 'tee', 'wc']
+excerpt:
+    'In this post, I discuss the pipe and tee commands and how they interact
+    with commands such as cat and wc, which accept stdin. I also talk about how
+    the history command interacts with pipe and tee, and I provide live,
+    practical examples of how these commands work together.'
+image: pexels-kampus-6542382.webp
+tags:
+    [
+        'command line',
+        'linux',
+        'unix',
+        'macOS',
+        'pipe',
+        'tee',
+        'wc',
+        'cat',
+        'history',
+    ]
 isPublished: true
 isFeatured: false
 ---
 
-![Tee](pexels-kampus-6542382.jpg)
+![Close-up of a hand placing a golf ball on a tee in sunlight, outdoors.](pexels-kampus-6542382.webp)
 
-**_Photo by_** [Kampus Production](https://www.pexels.com/@kampus/) **_on_**
-[pexels.com](https://www.pexels.com/photo/a-person-holding-a-golf-ball-6542382/)
+_[Photo by](https://www.pexels.com/photo/a-person-holding-a-golf-ball-6542382/)
+[Kampus Production](https://www.pexels.com/@kampus/) on
+[pexels.com](https://www.pexels.com/)_
 
-I just finished a article entitled
-[Using pipe (|) and grep in Linux and Unix (macOS)](http://localhost:3000/blog/using-pipe-and-grep-in-linux-and-unix-macos).
-In this article, I will discuss using pipe (`|`) and `tee` in `Linux`.
+## Table of Contents
 
-As discussed in my article
-[Using pipe (|) and grep in Linux and Unix (macOS)](/blog/using-pipe-and-grep-in-linux-and-unix-macos),
-the pipe (`|`) command, aka `un-named pipe`, `transmits` the `output` of one
-command to another command. It can `redirect stdout`, `stdin`, or `stderr` of
-one process to another for further processing.
+- [What is the tee command?](#what-is-the-tee-command)
+- [Explaining the tee command by example](#explaining-the-tee-command-by-example)
+- [The tee command and cat](#the-tee-command-and-cat)
+- [The tee command, history and the -a flag](#the-tee-command-history-and-the-a-flag)
+- [The tee command, cat, and two file inputs](#the-tee-command-cat-and-two-file-inputs)
+- [The tee command and wc](#the-tee-command-and-wc)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+
+In this article, I discuss the pipe (`|`) command, aka `unnamed pipe`, which
+transmits output of one command as input to another command. It redirects the
+`stdout` of one process to the `stdin` of another for further processing.
+
+## What is the tee command?
 
 The `tee` command reads the
 [stdin](/blog/stdin-stdout-and-stderr-in-linux-and-unix-macos) and writes it to
 both [stdout](/blog/stdin-stdout-and-stderr-in-linux-and-unix-macos) and one or
-more `files`. According to
+more files. According to
 [Geeks for Geeks](https://www.geeksforgeeks.org/tee-command-linux-example/),
 
 > The (tee) command is named after the T-splitter used in plumbing.
@@ -39,14 +62,16 @@ more `files`. According to
 > It basically breaks the output of a program so that it can be both displayed
 > and saved in a file. It does both the tasks simultaneously...
 
-The best way to describe what tee does is by example. Let's say I ran the
-following in `Terminal` from inside a `folder` called `text-files`:
+## Explaining the tee command by example
+
+The best way to describe what `tee` does is by example. Let's say I ran the
+following in Terminal from inside a folder called text-files:
 
 ```shell
 ls | tee tee.txt
 ```
 
-It would return the following in `Terminal`:
+It would return the following:
 
 ```shell
 duplicates.txt
@@ -57,7 +82,7 @@ names2.txt
 tee.txt
 ```
 
-And if I ran `cat tee.txt`, the following would be returned in `Terminal`:
+And if I ran `cat tee.txt`, it would yield:
 
 ```shell
 duplicates.txt
@@ -68,33 +93,21 @@ names2.txt
 tee.txt
 ```
 
-The `stdout` of the `ls` command is `"piped"` into the `tee` command via `|` as
-`stdin`, and then is both `displayed` as `stdout` in `Terminal` and `written` in
+The `stdout` of the `ls` command is "piped" into the `tee` command via `|` as
+`stdin`, and then is both displayed as `stdout` in Terminal and written in
 `tee.txt` as `stdout`.
 
-And if I ran the following command:
+And if I ran:
 
 ```shell
 history | tee history.txt
 ```
 
-Something like the following is `output` in `Terminal`:
+Something like the following would be output in Terminal:
 
 ```shell
-  1 cd ..
-  2 cd Desktop
-  3 ls
-  4 touch file1.txt
-  5 vim file1.txt
-  6 sudo apt install vim
-  7 vim file1.txt
-  8 expand file1.txt
-  9 expand file1.txt > file2.txt
- 10 cat file2.txt
- 11 unexpand -a file2.txt
- 12 mv file1.txt names1.txt
-
-...
+# history.txt
+... (truncated)
 
 372 ls | tee -a names1.txt names2.txt tee.txt
 373 cat tee.txt
@@ -104,29 +117,18 @@ Something like the following is `output` in `Terminal`:
 377 history | tee history.txt
 ```
 
-And the `same content` as `output` to `Terminal` is `saved` to a newly created
-`file` called `history.txt`, thanks to the `tee` command.
+And the same content to Terminal is saved to a newly created file called
+`history.txt` as output, thanks to the `tee` command.
 
-And if I run `cat history.txt | tee history.txt history2.txt` in `Terminal`, the
-exact same content as `stdout` to `Terminal` and `history.txt` is saved to a
-newly created `history2.txt` file which did not previously exist, thanks to the
-`tee` command.
+## The tee command and cat
+
+If I run `cat history.txt | tee history.txt history2.txt`, the exact same
+content is saved to a newly created `history2.txt` file as `stdout` to Terminal
+and `history.txt`, thanks to the `tee` command.
 
 ```shell
-  1 cd ..
-  2 cd Desktop
-  3 ls
-  4 touch file1.txt
-  5 vim file1.txt
-  6 sudo apt install vim
-  7 vim file1.txt
-  8 expand file1.txt
-  9 expand file1.txt > file2.txt
- 10 cat file2.txt
- 11 unexpand -a file2.txt
- 12 mv file1.txt names1.txt
-
-...
+# history2.txt
+... (truncated)
 
 372 ls | tee -a names1.txt names2.txt tee.txt
 373 cat tee.txt
@@ -135,19 +137,21 @@ newly created `history2.txt` file which did not previously exist, thanks to the
 376 cat tee.txt
 377 history | tee history.txt
 ```
+
+## The tee command, history and the -a flag
 
 Let's say I ran more commands, and then wanted to append these new commands
-added to `Terminal history` to the bottom of the `history.txt` file. Running
+added to Terminal history to the bottom of the `history.txt` file. Running
 `history | tee history.txt` would erase all previous content and replace it with
-the new history. In order to make sure that the new commands are appended to the
-end of the file and don't overwrite its previous contents, I run the following
-in `Terminal`:
+the new history. To make sure that the new commands are appended to the end of
+the file and don't overwrite its previous contents, I run the following in
+Terminal:
 
 ```shell
 history | tee -a history.txt
 ```
 
-This results in the following in `Terminal`:
+This results in the following:
 
 ```shell
 ...
@@ -162,6 +166,7 @@ This results in the following in `Terminal`:
 And inside `history.txt`:
 
 ```shell
+# history.txt
 ...
 
 378 ls
@@ -172,95 +177,109 @@ And inside `history.txt`:
 ```
 
 The `-a` flag, aka `--append`, is analogous to the
-[`output redirector append operator` (`>>`)](/blog/redirect-operators-in-linux-and-unix-macos).
-It `appends` new `data` to the `end` of a `file`, thereby `not overwriting` what
-is `already there`.
+[output redirect append operator (`>>`)](/blog/redirect-operators-in-linux-and-unix-macos#the-output-redirect-append-operator-).
+It appends new data to the end of a file, thereby not overwriting what is
+already there.
 
-Let's say I run the following command in `Terminal`:
+## The tee command, cat, and two file inputs
+
+Let's say I run:
 
 ```shell
 cat history.txt | tee history.txt history2.txt
 ```
 
-This `command` returns the `complete contents` of `history.txt` in `Terminal`
-and `copies` its `content` into a newly created `history2.txt`. And if I run
-this command `again` after a bit of time and a few more commands, and add the
-`-a` or `--append` flag:
+This command returns the complete contents of `history.txt` in Terminal and
+copies its content to a newly created `history2.txt`. And if I run this command
+again after a bit of time and a few more commands, and add the `-a` or
+`--append` flag:
 
 ```shell
 cat history.txt | tee -a history.txt history2.txt
 ```
 
-And then I run the following command:
+Running `cat` again appends `history.txt`'s contents to its previous content,
+thereby doubling the number of lines in the file. The same goes for
+`history2.txt`. Its number of lines doubled as well.
+
+## The tee command and wc
+
+The `wc` command finds the number of lines, words, characters, bytes, and
+maximum line length of files, in that order. But it does not necessarily find
+all those items at once.
+
+When I execute:
 
 ```shell
 wc -l history2.txt
 ```
 
-it returns the following in `Terminal`:
+it returns the following in Terminal:
 
 ```shell
 804 history2.txt
 ```
 
-And when I ran:
+And when I run:
 
 ```shell
 wc -l history.txt
 ```
 
-The `wc` command finds the `number` of `lines`, `words`, `characters`, `bytes`,
-and `maximum line length` of `files`, in that order.
-
-the following is returned in `Terminal`:
+It produces the following in Terminal:
 
 ```shell
 804 history.txt
 ```
 
-When I ran the `cat` command again, the contents of `history.txt` were appended
-to its previous content, thereby doubling the number of lines in the file. The
-same went for `history2.txt`. its number of files doubled as well.
-
-If I run the following command:
+If I run the command:
 
 ```shell
 wc history.txt
 ```
 
-the following is returned:
+it produces:
 
 ```shell
 804 2094 21800 history.txt
 ```
 
-`804` represents the `number` of (new) `lines`, `2094` represents the `number`
-of `words`, adn `21800` the `number` of `bytes`. And if I ran the following in
-`Terminal`:
+`804` represents the number of (new) lines, `2094` represents the number of
+words, and `21800` the number of `bytes`. And if I run the following in
+Terminal:
 
 ```shell
 wc -L history.txt
 ```
 
-it returns the following:
+It yields:
 
 ```shell
 67 history.txt
 ```
 
-`67` represents the `max length` or `"width"` of a line. In other words,
-`67 characters` (including spaces).
+`67` represents the `max length` or `"width"` of a line. In other words, 67
+characters (including spaces).
 
-There are other other options to choose from for `wc` and `tee`, and you can
-learn more about them by running `man wc` and `man tee` in `Terminal`.
+There are other options to choose from for `wc` and `tee`, and you can learn
+more about them by running `man wc` and `man tee` in Terminal.
+
+## Conclusion
+
+In this piece, I walk through how the `pipe` and `tee` commands work together in
+conjunction with other commands such as `cat`, `wc`, and `history` to create
+practical instructions applicable in daily workflows. I accompany my
+explanations with live code snippets and their outputs.
 
 ## Related Resources
 
--   [How to Save Terminal Output to a File for Future Reference](/blog/how-to-save-terminal-output-to-a-file-for-future-reference):
-    **_mariadcampbell.com_**
-
--   [Count Lines in a File in Bash](https://www.baeldung.com/linux/bash-count-lines-in-file):
-    **_baeldung.com_**
-
--   [tee command in Linux with examples](https://www.geeksforgeeks.org/tee-command-linux-example/):
-    **_Geeks for Geeks_**
+- [3.2.3 Pipelines](https://www.gnu.org/software/bash/manual/html_node/Pipelines.html):
+  _gnu.org_
+- [tee(1) — Linux manual page](https://www.man7.org/linux/man-pages/man1/tee.1.html):
+  _man7.org_
+- [Count Lines in a File in Bash](https://www.baeldung.com/linux/bash-count-lines-in-file):
+  _baeldung.com_
+- [pipe(2) — Linux manual page](https://www.man7.org/linux/man-pages/man2/pipe.2.html):
+  _man7.org_
+- [tee command in Linux with examples](https://www.geeksforgeeks.org/tee-command-linux-example/):
+  _Geeks for Geeks_
