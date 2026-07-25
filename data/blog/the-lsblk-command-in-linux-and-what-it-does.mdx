@@ -1,82 +1,86 @@
 ---
 slug: the-lsblk-command-in-linux-and-what-it-does
 date: '2024-07-30T12:04:14.757Z'
-lastModified: '2024-07-30T12:04:14.757Z'
+lastModified: '2026-07-25T14:37:14.757Z'
 title: The lsblk command in Linux and what it does
 author: Maria D. Campbell
 excerpt:
     The lsblk command in Linux lists information about all available or
-    specified block devices in Linux.
-image: iker-urteaga-TL5Vy1IM-uA-unsplash.jpg
+    specified block devices on the system.
+image: iker-urteaga-TL5Vy1IM-uA-unsplash.webp
 tags: ['linux', 'linux mint', 'lsblk', 'util-linux']
 isPublished: true
 isFeatured: false
 ---
 
-![Blue lego blocks](iker-urteaga-TL5Vy1IM-uA-unsplash.jpg)
+![Blue lego blocks](iker-urteaga-TL5Vy1IM-uA-unsplash.webp)
 
-**_Photo by_** [Iker Urteaga](https://unsplash.com/@iurte) **_on_**
-[unsplash.com](https://unsplash.com/photos/blue-building-block-lot-TL5Vy1IM-uA)
+_[Photo by](https://unsplash.com/photos/blue-building-block-lot-TL5Vy1IM-uA)
+[Iker Urteaga](https://unsplash.com/@iurte) on
+[unsplash.com](https://unsplash.com/)_
 
 ## Table of Contents
 
--   [lsblk introduction](#lsblk-introduction)
--   [What is the lsblk command and what does it do?](#what-is-the-lsblk-command-and-what-does-it-do)
--   [Installing util-linux if your distro does not have it by default](#installing-util-linux-if-your-distro-does-not-have-it-by-default)
--   [lsblk syntax](#lsblk-syntax)
--   [Running the lsblk command](#running-the-lsblk-command)
--   [Footnotes](#footnotes)
--   [Related Resources](#related-resources)
+- [lsblk introduction](#lsblk-introduction)
+- [What is the lsblk command and what does it do?](#what-is-the-lsblk-command-and-what-does-it-do)
+- [Installing util-linux if your distro does not have it by default](#installing-util-linux-if-your-distro-does-not-have-it-by-default)
+- [lsblk syntax](#lsblk-syntax)
+- [Running the lsblk command](#running-the-lsblk-command)
+- [What each column name in the lsblk output means](#what-each-column-name-in-the-lsblk-output-means)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
 
 ## lsblk introduction
 
 The `lsblk` command comes as part of the `util-linux` package, which is a
-`package` comprised of `essential utilities` for `Linux systems`. It `provides`
-a wide range of `functionality` including `tools` for `managing files`, `disks`,
-and `system resources`. `util-linux` comes installed with Linux Mint, for
-example. According to the Linux Mint community,
+package that consists of essential utilities for Linux systems. It provides a
+wide range of functionality including tools for managing files, disks, and
+system resources. `util-linux` comes installed with Linux Mint, for example.
+According to
+[the util-linux package page on Debian's site](https://packages.debian.org/trixie/util-linux),
 
 > (`util-linux`) contains a number of important utilities, most of which are
 > oriented towards maintenance of your system. Some of the more important
 > utilities included in this package allow you to view kernel messages, create
-> new filesystems, view `block device information`, interface with real time
+> new filesystems, view block device information, interface with real time
 > clock, etc.
 
 ## What is the lsblk command and what does it do?
 
 The `lsblk` command stands for `list block devices`, and it provides detailed
-information about `block devices` such as `hard drives`, `solid state drives`,
-and other `storage related devices` that are `connected` to the `computer`. It
-queries the [/sys virtual filesystem](/blog/the-linux-filesystem-hierarchy) and
-`udev db` **[^1]** to `obtain` the `information` that it `displays`.
+information about block devices such as hard drives, solid state drives, and
+other storage related devices that are connected to the computer. It queries the
+[/sys virtual filesystem](/blog/the-linux-filesystem-hierarchy) and
+`udev db`[^1] to obtain the information that it displays.
 
 ## Installing util-linux if your distro does not have it by default
 
-If by any chance you are not using `Linux Mint`, or `Ubuntu` or an
-`Ubuntu derivate` for example, and your `Linux` distro does not contain the
-`util-linux` package, you can `install` it:
+If by any chance you are not using Linux Mint, or Ubuntu or an Ubuntu
+derivative, for example, and your Linux distro does not contain the `util-linux`
+package, you can install it:
 
 ```shell
 # Debian/Ubuntu
 sudo apt-get install util-linux
-# in Linux Mint, I have installed my packages doing sudo apt install packagename. But util-linus is already installed in Linux Mint anyway.
+# in Linux Mint, I have installed my packages doing sudo apt install packagename. But util-linux is already installed in Linux Mint anyway.
 ```
 
 ## lsblk syntax
 
-The `syntax` for the `lsblk` command is the `following`:
+The syntax for the `lsblk` command is:
 
 ```shell
 lsblk [options] [device]
 ```
 
-`[options]` refers to the `flags` available to the `lsblk` command. `[device]`
-refers to the `specific` block devices that we `want` to `list`. If `no device`
-is `specified`, `lsblk` will `list` all `block devices`.
+[options] refers to the flags available to the `lsblk` command. [device] refers
+to the specific block devices that I want to list. If no device is specified,
+`lsblk` will list all block devices.
 
 ## Running the lsblk command
 
-If I run `lsblk` in `Terminal`, it `returns` the `following`:
+If I run `lsblk` in Terminal, it returns:
 
 ```shell
 NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
@@ -87,14 +91,13 @@ sda      8:0    0   50G  0 disk
 sr0     11:0    1 50.4M  0 rom  /media/maria/VBox_GAs_7.0.18
 ```
 
-If I `want` to get `all block devices` including `empty ones`, I would `run` the
-`following`:
+If I want to get all block devices including empty ones, I would run:
 
 ```shell
 lsblk -a
 ```
 
-`Which` for me `returns`:
+which, for me, yields:
 
 ```shell
 NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
@@ -113,14 +116,14 @@ sda      8:0    0   50G  0 disk
 sr0     11:0    1 50.4M  0 rom  /media/maria/VBox_GAs_7.0.18
 ```
 
-If I `want` to `print out` the `information` in `list format`, I would `run` the
-`following`:
+If I want to print out the information in list format, I would run the
+following:
 
 ```shell
 lsblk -l
 ```
 
-`Which` for me `returns`:
+which produces something like:
 
 ```shell
 NAME MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
@@ -131,16 +134,16 @@ sda3   8:3    0 49.5G  0 part /
 sr0   11:0    1 50.4M  0 rom  /media/maria/VBox_GAs_7.0.18
 ```
 
-Now `devices` are `listed` without showing `which ones` are `related` to
-`each other` like `with` the `lsblk` command.
+Now devices are listed without showing which ones are related to each other,
+like with `lsblk` alone.
 
-If I `run` the `following command` in `Terminal`:
+If I run:
 
 ```shell
 lsblk -p
 ```
 
-For me, it `returns` the `following`:
+It yields something like:
 
 ```shell
 NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
@@ -151,42 +154,65 @@ NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
 /dev/sr0     11:0    1 50.4M  0 rom  /media/maria/VBox_GAs_7.0.18
 ```
 
-The `-p` flag `produces output` in `key value pairs`. The `big difference` here
-is the `absolute path` to the `device` as well as the `relationships` between
-`related devices` is also `displayed`. To `learn more` about `lsblk`, run
-`man lsblk` in `Terminal`.
+The `-p` flag prints out full device paths. The big difference here is the
+absolute path to the device as well as the relationships between related devices
+are also displayed. To learn more about `lsblk`, run `man lsblk` in `Terminal`.
 
-## Footnotes
+## What each column name in the lsblk output means
 
-**[^1]**: [udev (db)](https://man7.org/linux/man-pages/man7/udev.7.html) or
-`user /dev` is systemd's device manager for the Linux kernel. It manages device
-nodes in /dev and handles all user space actions when adding or removing
-devices.
+| Column name | Meaning                                                             |
+| ----------- | ------------------------------------------------------------------- |
+| NAME        | Name of the device (e.g., sda, sr0)                                 |
+| MAJ:MIN     | Displays major and minor device numbers used by the kernel          |
+| RM          | Indicates if the device is removable (1 for yes, 0 for no)          |
+| SIZE        | Displays the size of the device (e.g., 50G)                         |
+| RO          | Displays Read-only status (1 for yes, 0 for no)                     |
+| TYPE        | Indicates the type of device (e.g., disk, part for partition)       |
+| MOUNTPOINTS | Indicates the directory where the device is mounted (if applicable) |
 
-According to `man udev`, udev supplies the system software with device events,
-manages permissions of device nodes and may create additional symlinks in the
-/dev/ directory, or renames network interfaces. The kernel usually just assigns
-unpredictable device names based on the order of discovery. Meaningful symlinks
-or network device names provide a way to reliably identify devices based on
-their properties or current configuration.
+## Conclusion
 
-The udev daemon,
-[systemd-udevd.service(8)](https://manpages.debian.org/bullseye/udev/systemd-udevd.service.8.en.html),
-receives device uevents directly from the kernel whenever a device is added or
-removed from the system, or it changes its state. When udev receives a device
-event, it matches its configured set of rules against various device attributes
-to identify the device. Rules that match may provide additional device
-information to be stored in the udev database or to be used to create meaningful
-symlink names.
-
-All device information udev processes is stored in the udev database and sent
-out to possible event subscribers. Access to all stored data and the event
-sources is provided by the library libudev.
+In this article, I describe how the lsblk command lists block devices and
+provides detailed information in a table format. The reason why I felt it
+important to write a post about it is because anyone working with Linux systems
+should understand the lsblk command. And knowing where block devices and their
+associated partitions reside is essential for effective storage management.
 
 ## Related Resources
 
--   [The Linux Filesystem Hierarchy](/blog/the-linux-filesystem-hierarchy):
-    **_mariadcampbell.com_**
--   [How to List All Block Devices in Linux | lsblk Command](https://www.geeksforgeeks.org/lsblk-command-in-linux-with-examples/):
-    **_Geeks for Geeks_**
--   [How to check package versions in Debian based Linux distributions such as Ubuntu and Linux Mint](/blog/how-to-check-package-versions-in-debian-based-linux-distributions-such-as-ubuntu-and-linux-mint)
+- [The Linux Filesystem Hierarchy](/blog/the-linux-filesystem-hierarchy):
+  _mariadcampbell.com_
+- [lsblk(8) — Linux manual page](https://www.man7.org/linux/man-pages/man8/lsblk.8.html):
+  _man7.org_
+- [How to check package versions in Debian based Linux distributions such as Ubuntu and Linux Mint](/blog/how-to-check-package-versions-in-debian-based-linux-distributions-such-as-ubuntu-and-linux-mint):
+  _mariadcampbell.com_
+- [util-linux](https://en.wikipedia.org/wiki/Util-linux): _Wikipedia_
+- [Package: util-linux (2.41-5) [essential]](https://packages.debian.org/trixie/util-linux):
+  _debian.org_
+
+[^1]:
+    [udev (db)](https://man7.org/linux/man-pages/man7/udev.7.html) or
+    `user /dev` is systemd's device manager for the Linux kernel. It manages
+    device nodes in /dev and handles all user space actions when adding or
+    removing devices.
+
+    According to `man udev`, udev supplies the system software with device
+    events, manages permissions of device nodes and may create additional
+    symlinks in the /dev/ directory, or renames network interfaces. The kernel
+    usually just assigns unpredictable device names based on the order of
+    discovery. Meaningful symlinks or network device names provide a way to
+    reliably identify devices based on their properties or current
+    configuration.
+
+    The udev daemon,
+    [systemd-udevd.service(8)](https://manpages.debian.org/bullseye/udev/systemd-udevd.service.8.en.html),
+    receives device uevents directly from the kernel whenever a device is added
+    or removed from the system, or it changes its state. When udev receives a
+    device event, it matches its configured set of rules against various device
+    attributes to identify the device. Rules that match may provide additional
+    device information to be stored in the udev database or to be used to create
+    meaningful symlink names.
+
+    All device information udev processes is stored in the udev database and
+    sent out to possible event subscribers. Access to all stored data and the
+    event sources is provided by the library libudev.
