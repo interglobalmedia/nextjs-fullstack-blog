@@ -1,135 +1,137 @@
 ---
 slug: stdin-stdout-and-stderr-in-linux-and-unix-macos
 date: '2024-07-12T10:19:49.747Z'
-lastModified: '2024-07-12T22:18:49.747Z'
+lastModified: '2026-07-25T12:36:49.747Z'
 title: stdin stdout and stderr in Linux and Unix (macOS)
 author: Maria D. Campbell
-excerpt: stdin stdout and stderr in Linux and Unix (macOS)
-image: pexels-thisisengineering-3861969.jpg
+excerpt:
+    Learn about standard input, output, and standard error streams and how to
+    use them in daily workflows.
+image: pexels-thisisengineering-3861969.webp
 tags:
     ['command line', 'linux', 'redirect operator', 'stdin', 'stdout', 'stderr']
-isPublished: false
+isPublished: true
 isFeatured: false
 ---
 
-![data streams](pexels-thisisengineering-3861969.jpg)
+![A woman with digital code projections on her face, representing technology and future concepts.](pexels-thisisengineering-3861969.webp)
 
-**_Photo by_** [ThisIsEngineering](https://www.pexels.com/@thisisengineering/)
-**_on_**
-[pexels.com](https://www.pexels.com/photo/code-projected-over-woman-3861969/)
+_[Photo by](https://www.pexels.com/photo/code-projected-over-woman-3861969/)
+[ThisIsEngineering](https://www.pexels.com/@thisisengineering/) on
+[pexels.com](https://www.pexels.com/)_
 
 ## Table of Contents
 
 - [The stdin, stdout, and stderr data streams in Linux](#the-stdin-stdout-and-stderr-data-streams-in-linux)
 - [Streams are treated like files in Linux](#streams-are-treated-like-files-in-linux)
 - [stderr data stream](#stderr-data-stream)
+    - [Suppressing output with /dev/null](#suppressing-output-with-dev-null)
+    - [macOS vs. Linux: MULTIOS and double redirects](#macos-vs-linux-multios-and-double-redirects)
+- [stdin vs stdout vs stderr](#stdin-vs-stdout-vs-stderr)
+- [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
 
 I just published a post entitled
 [Redirect operators in Linux and Unix (macOS)](/blog/redirect-operators-in-linux-and-unix-macos),
-in which I discussed how to redirect `stdin` (`standard input`) and `stdout`
-(`standard output`), and why one would want to do it in the first place. This
-post will take the concept of redirection to the next level.
+in which I discussed how to redirect `stdin` (standard input) and `stdout`
+(standard output), and why one would want to do it in the first place. This post
+will take the concept of redirection to the next level.
 
 In
 [Redirect operators in Linux and Unix (macOS)](/blog/redirect-operators-in-linux-and-unix-macos),
-I discussed default `stdin` and `stdout` and their associated
-`redirector operators`: `<` representing the `stdin redirector operator`, and
-`>` representing the `stdout redirector operator`. There is a third
-`data stream` called `stderr`.
+I discussed default `stdin` and `stdout` and their associated redirect
+operators: `<` representing the `stdin` redirect operator, and `>` representing
+the `stdout` redirect operator. There is a third data stream called `stderr`.
 
 ## The stdin, stdout, and stderr data streams in Linux
 
-There are 3 `data streams` in `Linux` that can be used to transport data related
+There are three data streams in Linux that can be used to transport data related
 to a command. As discussed in my article entitled
 [Redirect operators in Linux and Unix (macOS)](/blog/redirect-operators-in-linux-and-unix-macos),
-`stdin` is the `input stream`, `stdout` is the `output stream`, and `stderr` is
-the `error stream`. If you are a developer, IT network administrator, network
-support specialist, or cybersecurity professional, for example, you are very
-familiar with errors. Cybersecurity professionals are constantly dealing with
-logging errors related to network security.
+`stdin` is the input stream, `stdout` is the output stream, and then there is
+`stderr`, which is the error stream. If you are a developer, IT network
+administrator, network support specialist, or cybersecurity professional, for
+example, you are very familiar with errors. Cybersecurity professionals are
+constantly dealing with logging errors related to network security.
 
-`stdin`, `stdout`, and `stderr` are three standard `data streams` that one
-`creates` when `executing` a `command` in `Linux`. And what is a `stream`?
-According to
+`stdin`, `stdout`, and `stderr` are three standard data streams that one creates
+when executing a command in Linux. And what is a stream? According to
 [opensource.com](https://opensource.com/article/18/10/linux-data-streams),
 
 > As its name implies, a data stream is a stream of data—especially text
 > data—being passed from one file, device, or program to another using STDIO
-> (stdin/stdout). &mdash; **_David Both,
-> [opensource.com](https://opensource.com/article/18/10/linux-data-streams)_**
+> (stdin/stdout). &mdash; _David Both,
+> [opensource.com](https://opensource.com/article/18/10/linux-data-streams)_
 
 And then David Both goes on to say,
 
-> In the `Unix` and `Linux` worlds, a `stream` is a `flow` of `text data` that
-> originates at some source; the `stream` may flow to one or more programs that
-> `transform` it in some way, and then it may be stored in a file or displayed
-> in a `terminal` session. As a `sysadmin`, your job is intimately associated
-> with `manipulating` the `creation` and `flow` of these `data streams`. In this
-> post, we will explore `data streams`—what they are, how to create them, and a
-> little bit about how to use them.
+> In the Unix and Linux worlds, a stream is a flow of text data that originates
+> at some source; the stream may flow to one or more programs that transform it
+> in some way, and then it may be stored in a file or displayed in a terminal
+> session. As a sysadmin, your job is intimately associated with manipulating
+> the creation and flow of these data streams. In this post, we will explore
+> data streams—what they are, how to create them, and a little bit about how to
+> use them.
 
-`stdin` is `represented` by `File handle 0`, `stdout` is `represented` by
-`File handle 1`, and `stderr` is `represented` by `File handle 2`.
+`stdin` is represented by `File descriptor 0`, `stdout` is represented by
+`File descriptor 1`, and `stderr` is represented by `File descriptor 2`.
 
 ## Streams are treated like files in Linux
 
-So why `File handle 0`, `file handle 1`, and `File handle 2`, when dealing with
-`stdin`, `stdout`, and `stderr`? Because in `Linux`, `streams` are treated like
-`files`. We can `read` a `file` or `write data` into a `file`.
+So why `File descriptor 0`, `File descriptor 1`, and `File descriptor 2`, when
+dealing with `stdin`, `stdout`, and `stderr`? Because in Linux, streams are
+treated like files. We can read a file or write data into a file.
 
 ## stderr data stream
 
-When a `stdout` is `redirected` to a `file` instead of `Terminal`, and the
-s`tdout` is `not displayed` in the `Terminal` window because of an `error` in
-the `data output` represented by `stderr` to the `Terminal window`
-(`by default`) instead, there is a `redirector` which can `redirect` the
-`stderr data` from `Terminal` to `another source`. This can also `ensure` that
-the `data persists` and saved somewhere (else). This proves very useful in
-`cybersecurity` for **_saving_** `network logging errors` to a `file`, for
-example.
+When a `stdout` is redirected to a file instead of Terminal, the `stdout` is not
+displayed in the Terminal window because of an error in the data output
+represented by `stderr`. There is a redirect operator that can redirect the
+`stderr` data from Terminal to another source. This can also ensure that the
+data persists and is saved somewhere (else). This proves very useful in
+cybersecurity for saving network logging errors to a file, for example.
 
-Let's say I run a command in `Terminal` that `lists` the `contents` of a
-`directory` that `does not exist`:
+Let's say I run a command in Terminal that lists the contents of a directory
+that does not exist:
 
 ```shell
 ls linux-scripting
 ```
 
-The following is returned in `Terminal`:
+The command produces:
 
 ```shell
 ls: cannot access 'linux-scripting': No such file or directory
 ```
 
-Let's say I run `ls linux-scripting` but `redirect` this `command`:
+Let's say I run `ls linux-scripting` but redirect the command:
 
 ```shell
 ls linux-scripting > list-directory.txt
 ```
 
-The following is `added` to the `list-directory.txt file`:
+It adds the following to the `list-directory.txt` file:
 
 ```shell
 ls: cannot access 'linux-scripting': No such file or directory
 ```
 
-The same message is output to `Terminal`, because `stderr` itself has `not` been
-`redirected`. Now let's say I run the following command in `Terminal`:
+The same message is output to Terminal, because `stderr` itself has not been
+redirected. Now let's say I run:
 
 ```shell
 ls linux-scripting 2> list-directory.txt
 ```
 
-The following is returned in `Terminal`:
+The following is returned:
 
 ```shell
 
 ```
 
-That's right. Nothing! That's because I am using a `stderr redirector operator`.
-The `2` points to `stderr` (represented by `File handle 2`), and `>` is the
-`stdout redirector operator`, and `redirects` the `stderr output` to the
+That's right. Nothing! That's because I am using a `stderr` redirect operator.
+The `2` points to `stderr` (represented by `File descriptor 2`), and `>` is the
+`stdout` redirect operator, and redirects the `stderr` output to the
 `list-directory.txt` file. When I open `list-directory.txt` with the `vim`
 command:
 
@@ -143,20 +145,19 @@ or run the `cat` command on `list-directory.txt`:
 cat list-directory.txt
 ```
 
-the following appears in `vim` or is returned in `Terminal`:
+the command outputs the following in Vim or Terminal:
 
 ```shell
 ls: cannot access 'linux-scripting': No such file or directory
 ```
 
-I can also `redirect` both `stdout` and `stderr` to my `list-directory.txt` file
-with the following command:
+I can also redirect both `stdout` and `stderr` to my `list-directory.txt` file:
 
 ```shell
 ls macos-scripting linux-scripting > list-directory.txt 2>&1
 ```
 
-results in the following in `Terminal`:
+It produces:
 
 ```shell
 ls: cannot access 'linux-scripting': No such file or directory
@@ -165,48 +166,46 @@ macos-scripting:
 
 Now two lines exist. `macos-scripting:` just means that it is an empty directory
 (which it actually is). And what does `2>&1` mean? It means that I want to
-`redirect` the `output` of the results of both my `stdout` represented by
-`File handle 1` AND `stderr` represented by `File handle 2` to my
-`list-directory.txt` file. And the regular `stdout redirector operator`
-**_redirects_** the `output` of `ls macos-scripting linux-scripting` to
-`list-directory.txt`. But since there is no `linux-scripting` directory, the
-`stderr` resulting from that `redirects` to `list-directory.txt` as well, but
-**_does not_** `output` to `Terminal` because of the `2>&1` `stderr stdout`
-**_redirect_**.
+redirect the output of both my `stdout` represented by `File descriptor 1` _and_
+`stderr` represented by `File descriptor 2` to my `list-directory.txt` file. The
+regular `stdout` redirect operator redirects the output of
+`ls macos-scripting linux-scripting` to `list-directory.txt`. But since there is
+no `linux-scripting` directory, the `stderr` resulting from that redirects to
+`list-directory.txt` as well, but does not output to Terminal because of the
+`2>&1` `stderr stdout` redirect.
 
-There is also a `shortcut` for `2>&1`. It is the following:
+There is also a shortcut for `2>&1`. It is:
 
 ```shell
 ls macos-scripting linux-scripting &> list-directory.txt
 ```
 
-The `result` is the same as for `2>&1` appended to the end of the command. So
-the following appears when I run `vim list-directory.txt`:
+The result is the same as for `2>&1` appended to the end of the command.
+
+When I run `vim list-directory.txt`, it yields:
 
 ```shell
 ls: cannot access 'linux-scripting': No such file or directory
 macos-scripting:
 ```
 
-And when I run `cat list-directory.txt`, the following is returned in `Terminal`
-as well:
+When I run `cat list-directory.txt`, it also responds with:
 
 ```shell
 ls: cannot access 'linux-scripting': No such file or directory
 macos-scripting:
 ```
 
-`&>` is the `shortcut` for `2>&1`.
+### Suppressing output with /dev/null
 
-But let's say that I want to `get rid of` the `stderr message` altogether? I
-would run the following:
+But let's say that I want to get rid of the `stderr` message altogether? I could
+run:
 
 ```shell
 ls linux-scripting macos-scripting 2> /dev/null > list-directory.txt
 ```
 
-and then I run `cat list-directory.txt` and the following is returned in
-Terminal:
+Then I run `cat list-directory.txt`, which returns:
 
 ```shell
 macos-scripting:
@@ -216,9 +215,9 @@ script2.txt
 
 This time the `macos-scripting` directory is not empty. It contains two files
 called `script1.txt` and `script2.txt`. There is no error message because it was
-redirected to a special file called `/dev/null` on the `Linux OS`.
+redirected to a special file called `/dev/null` on the Linux OS.
 
-According to `Aidela Karamyan` on
+According to Aidela Karamyan on
 [baeldung.com](https://www.baeldung.com/linux/fix-missing-dev-null),
 
 > In the shell scripting world /dev/null is a fundamental concept. Its
@@ -234,43 +233,42 @@ She goes on to say,
 > device used to discard any output redirected to it. &mdash; Aidela Karamyan,
 > [baeldung.com](https://www.baeldung.com/linux/fix-missing-dev-null)
 
-One can also **_suppress_** `stdout` as well. Perhaps in certain cases all we
-want to save IS the `stderr message` and not the `stdout data`. Let's try that
-out!
+I can also suppress `stdout`. Perhaps in certain cases all I want to save is the
+`stderr` message and not the `stdout` data. Let's try that out!
 
 ```shell
 ls macos-scripting linux-scripting &> /dev/null
 ```
 
 returns nothing. `ls macos-scripting` is also suppressed. But when I run the
-following in `Terminal`:
+following:
 
 ```shell
 ls macos-scripting
 ```
 
-the following is returned in `Terminal`:
+it returns:
 
 ```shell
 script1.txt script2.txt
 ```
 
-So `ls macos-scripting linux-scripting &> /dev/null` suppresses both `stdout`
-and `stderr`, `redirecting` their `outputs` to the special `/dev/null` file
-which then `discards` that `redirected output` forever.
+`ls macos-scripting linux-scripting &> /dev/null` suppresses both `stdout` and
+`stderr`, redirecting their outputs to the special `/dev/null` file which then
+discards that redirected output forever.
 
-If I run the following in `Terminal`:
+If I run:
 
 ```shell
 ls macos-scripting > /dev/null
 ```
 
 it is the same as running the command `ls macos-scripting 1> /dev/null`. By
-`omitting` the `File handle`, `1` or `2`, it implicitly refers to `stdout`,
-because `>` is the `stdout redirector operator` and `stdout` has a `File handle`
-of `1`.
+omitting the `File descriptor`, `1` or `2`, it implicitly refers to `stdout`,
+because `>` is the `stdout` redirect operator and it has a `File descriptor` of
+`1`.
 
-Now let's say I ran the following in `Terminal`:
+Now let's say I ran:
 
 ```shell
 echo Hi there! > /dev/null
@@ -282,56 +280,175 @@ And then ran:
 cat /dev/null
 ```
 
-The following would be returned in `Terminal`:
+It would produce:
 
 ```shell
 
 ```
 
-That's right. Nothing. `/dev/null` discards `Hi there!`. But let's say I did the
-following:
+That's right. Nothing. `/dev/null` discards `Hi there!`.
+
+### macOS vs. Linux: MULTIOS and double redirects
+
+But let's say I did the following:
 
 ```shell
-ls macos-scripting linux-scripting &> /dev/null > list-directory.txt
+ls macos-scripting linux-scripting &> list-directory1.txt > list-directory2.txt
 ```
 
-And then I ran the following:
+And then I ran:
 
 ```shell
-cat list-directory.txt
+cat list-directory1.txt
 ```
 
-The following is returned in `Terminal`:
+It would result in:
 
 ```shell
+# list-directory1.txt
+ls: linux-scripting: No such file or directory
 macos-scripting:
-script1.txt
-script2.txt
+-file
+... (truncated)
 ```
 
-You may wonder why there is actually content inside the `list-directory.txt`. I
-did make sure to delete the contents of `list-directory.txt` before running the
-command. Even though `&>` is supposed to `redirect` both `stderr` and `stdout`
-to `/dev/null` and then be discarded there, it is only the `stderr` resulting
-from `ls linux-scripting` that is redirected to `/dev/null`. The output of
-`ls macos-scripting` is `redirected` to `list-directory.txt`. `&>` is short for
-`2>&1`, which means that first stderr is redirected to `/dev/null`, and then
-`&1`, which refers to `stdout`, is redirected to `> list-directory.txt`.
-
-Again, if I run the following:
+And:
 
 ```shell
-ls macos-scripting linux-scripting &> /dev/null
+cat list-directory2.txt
 ```
 
-Nothing would be returned in `Terminal`. The results of
-`ls macos-scripting linux-scripting` would all be `redirected` to `/dev/null`
-and `discarded`.
+Would yield:
+
+```shell
+# list-directory2.txt
+macos-scripting:
+-file
+... (truncated)
+```
+
+Since I run
+`ls macos-scripting linux-scripting &> list-directory1.txt > list-directory2.txt`
+on macOS, the output of the command exhibited macOS MULTIOS behavior. What does
+that mean? It means that it duplicates the output to both the first and second
+redirect destinations.
+
+Just like the example in
+[Redirect operators in Linux and Unix (macOS)](/blog/redirect-operators-in-linux-and-unix-macos#:~:text=MULTIOS%20in%20zsh%20is%20a%20feature%20that%20allows%20multiple%20input%20descriptors%20to%20be%20used%20simultaneously%2C%20letting%20commands%20process%20multiple%20files%20as%20if%20they%20were%20piped%20together.),
+MULTIOS merges the output of `ls linux-scripting` with `ls macos-scripting` in
+`list-directory1.txt` and only the output of `ls macos-scripting` is redirected
+to `list-directory2.txt`. As expected with `&>`, the output of stderr is
+included in `list-directory1.txt` along with the output of `ls macos-scripting`.
+So MULTIOS repeats the `ls macos-scripting` output to both `list-directory1.txt`
+and `list-directory2.txt`.
+
+If I were to run the following in Linux Mint:
+
+```shell
+ls cron-job-scripts linux-scripting &> file-one.txt > file-two.txt
+```
+
+And then I ran
+
+```shell
+cat file-one.txt
+```
+
+It would return the following in Terminal:
+
+```shell
+ls: cannot access 'linux-scripting': No such file or directory
+```
+
+And if I ran:
+
+```shell
+vim file-one.txt
+```
+
+It would yield the same content:
+
+```shell
+ls: cannot access 'linux-scripting': No such file or directory
+```
+
+If I ran:
+
+```shell
+cat file-two.txt
+```
+
+It would produce the following in Terminal:
+
+```shell
+cron-job-scripts:
+delete_backups.sh
+desktop_backup.sh
+home.txt
+```
+
+And if I ran:
+
+```shell
+vim file-two.txt
+```
+
+It would also yield:
+
+```shell
+# file-two.txt
+cron-job-scripts:
+delete_backups.sh
+desktop_backup.sh
+home.txt
+```
+
+Linux bash does not have the MULTIOS feature. So when I ran
+`ls cron-job-scripts linux-scripting &> file-one.txt > file-two.txt`, it only
+output `ls: cannot access 'linux-scripting': No such file or directory` in
+`file-one.txt` and only listed the contents of `cron-job-scripts` in
+`file-two.txt`. The `stderr` message and the contents of `cron-job-scripts`
+aren't merged together as expected in `file-one.txt` because, as I state in
+[Redirect operators in Linux and Unix (macOS)](/blog/redirect-operators-in-linux-and-unix-macos#:~:text=So%20in%20macOS%20zsh%2C%20MULTIOS%20merges%20pipe%20%2B%20redirect%20into%20one%20integrated%20stream%20by%20default.%20In%20Linux%20bash%2C%20the%20redirect%20overrides%20pipe%2C%20so%20ls%27s%20output%20is%20ignored.):
+
+> So in macOS zsh, MULTIOS merges `&>` + redirect into one integrated stream by
+> default. In Linux bash, the redirect overrides `&>`, so `ls`'s output is
+> ignored.
+
+In this case, it is not that `ls`'s output is entirely ignored. It's only
+ignored as far as `file-one.txt` is concerned. It still lands in `file-two.txt`.
+So it never reaches `file-one.txt`, though it's still captured in
+`file-two.txt`.
+
+## stdin vs stdout vs stderr
+
+| Stream name                      | Abbreviation        | File descriptor no.                       | Default destination | Redirect operator                                           |
+| -------------------------------- | ------------------- | ----------------------------------------- | ------------------- | ----------------------------------------------------------- |
+| standard input                   | `stdin`             | `File descriptor 0`                       | Keyboard            | `input` redirect operator (`<`)                             |
+| standard output                  | `stdout`            | `File descriptor 1`                       | Terminal            | `output` redirect operator (`>`)                            |
+| standard error                   | `stderr`            | `File descriptor 2`                       | Terminal            | `stderr` redirect operator (`2>`)                           |
+| standard output + standard error | `stdout` + `stderr` | `File descriptor 1` + `File descriptor 2` | Terminal            | `stderr` to `stdout` redirect (`2>&1`)                      |
+| standard output + standard error | `stdout` + `stderr` | `File descriptor 1` + `File descriptor 2` | Terminal            | `stderr` + `stdout` redirect to the same destination (`&>`) |
+
+## Conclusion
+
+This article continues where
+[Redirect operators in Linux and Unix (macOS)](/blog/redirect-operators-in-linux-and-unix-macos)
+left off. I round off `stdin` and `stdout` by introducing `stderr`. `stderr` is
+critical to roles in Information Technology, cybersecurity, and software
+application development. What differentiates the `stderr` stream from `stdin`
+and `stdout` is that stderr is specifically used for error messages, while stdin
+is the input stream for data, and stdout is the output stream for normal results
+or informational messages. This separation helps distinguish regular output from
+error messages, making it easier to debug programs.
 
 ## Related Resources
 
-- [Redirect operators in Linux and Unix (macOS)](http://localhost:3000/blog/redirect-operators-in-linux-and-unix-macos):
-  **_mariadcampbell.com_**
-
+- [Redirect operators in Linux and Unix (macOS)](/blog/redirect-operators-in-linux-and-unix-macos):
+  _mariadcampbell.com_
+- [null(4) — Linux manual page](https://man7.org/linux/man-pages/man4/null.4.html):
+  _man7.org_
+- [stdin(3) — Linux manual page](https://www.man7.org/linux/man-pages/man3/stderr.3.html):
+  _man7.org_
 - [How to Create /dev/null](https://www.baeldung.com/linux/fix-missing-dev-null):
-  **_by Aidela Karamyan, baeldung.com_**
+  _by Aidela Karamyan, baeldung.com_
