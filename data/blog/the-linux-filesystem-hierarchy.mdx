@@ -1,72 +1,103 @@
 ---
 slug: the-linux-filesystem-hierarchy
 date: '2024-07-28T13:30:00.176Z'
-lastModified: '2024-07-28T13:30:00.176Z'
+lastModified: '2026-07-27T04:20:00.176Z'
 title: The Linux Filesystem Hierarchy
 author: 'Maria D. Campbell'
-excerpt: The Linux filesystem hierarchy.
-image: pexels-cottonbro-6333856.jpg
-tags: ['linux', 'filesystem']
+excerpt:
+    In this post, I walk through the Linux filesystem hierarchy, providing a bit
+    of history and live examples.
+image: pexels-cottonbro-6333856.webp
+tags:
+    [
+        'command line',
+        'debian',
+        'linux',
+        'linux mint',
+        'filesystem',
+        'tree',
+        'ls',
+        'ld.so',
+        'fhs',
+    ]
 isPublished: true
 isFeatured: false
 ---
 
-![File system](pexels-cottonbro-6333856.jpg)
+![Vintage library card catalog with classic lamps, symbolizing knowledge and organization.](pexels-cottonbro-6333856.webp)
 
-**_Photo by_** [cottonbro studio](https://www.pexels.com/@cottonbro/) **_on_**
-[pexels.com](https://www.pexels.com/photo/an-organized-brown-wooden-drawers-6333856/)
+_[Photo by](https://www.pexels.com/photo/an-organized-brown-wooden-drawers-6333856/)
+[cottonbro studio](https://www.pexels.com/@cottonbro/) on
+[pexels.com](https://www.pexels.com/)_
 
 ## Table of Contents
 
--   [The Linux filesystem](#the-linux-filesystem)
--   [Types of files in Linux](#types-of-files-in-linux)
--   [/](#-)
--   [/bin](#-bin)
--   [/boot](#-boot)
-    -   [/boot partition](#-boot-partition)
--   [/cdrom](#-cdrom)
--   [/dev](#-dev)
-    -   [block devicea](#block-devices)
-    -   [character devices](#character-devices)
-    -   [Device major and minor numbers](#device-major-and-minor-numbers)
-    -   [Device names](#device-names)
-    -   [Symbolic links](#symbolic-links)
--   [/etc](#-etc)
--   [/home](#-home)
--   [/lib](#-lib)
--   [/lib64](#-lib64)
--   [/lost+found](#-lostfound)
--   [/media](#-media)
--   [/mnt](#-mnt)
--   [/opt](#-opt)
--   [/proc](#-proc)
--   [/root](#-root)
--   [/run](#-run)
--   [/sbin](#-sbin)
-    -   [/usr/sbin](#-usr-sbin)
--   [/srv](#-srv)
--   [/swapfile](#-swapfile)
--   [/sys](#-sys)
--   [/tmp](#-tmp)
--   [/usr](#-usr)
--   [/var](#-var)
+- [The Linux filesystem](#the-linux-filesystem)
+- [Types of files in Linux](#types-of-files-in-linux)
+- [/](#-)
+- [/bin](#-bin)
+- [/boot](#-boot)
+    - [/boot partition](#-boot-partition)
+- [/cdrom](#-cdrom)
+- [/dev](#-dev)
+    - [Block devices](#block-devices)
+    - [Character devices](#character-devices)
+    - [Device major and minor numbers](#device-major-and-minor-numbers)
+    - [Device names](#device-names)
+    - [Symbolic links](#symbolic-links)
+- [/etc](#-etc)
+- [/home](#-home)
+- [/lib](#-lib)
+- [/lib64](#-lib64)
+- [/lost+found](#-lostfound)
+- [/media](#-media)
+- [/mnt](#-mnt)
+- [/opt](#-opt)
+- [/proc](#-proc)
+- [/root](#-root)
+- [/run](#-run)
+- [/sbin](#-sbin)
+- [/srv](#-srv)
+- [/swapfile](#-swapfile)
+- [/sys](#-sys)
+- [/tmp](#-tmp)
+- [/usr](#-usr)
+    - [History of the /bin, /lib, /lib64, and /sbin symlinks in Linux distributions](#history-of-the-bin-lib-lib64-and-sbin-symlinks-in-linux-distributions)
+    - [/usr subdirectories](#-usr-subdirectories)
+    - [/usr/bin](#-usr-bin)
+    - [/usr/games](#-usr-games)
+    - [/usr/include](#-usr-include)
+    - [/usr/lib](#-usr-lib)
+    - [/usr/lib64](#-usr-lib64)
+    - [/usr/libexec](#-usr-libexec)
+    - [/usr/local](#-usr-local)
+    - [/usr/sbin](#-usr-sbin)
+    - [/usr/share](#-usr-share)
+    - [/usr/src](#-usr-src)
+- [/var](#-var)
+- [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
+
+I have been a long-time Mac user, so when I started working with Linux, I
+realized that there were differences between the macOS and Linux filesystems. I
+initially wrote this post for myself, but perhaps others might be interested in
+the subject matter as well.
 
 ## The Linux filesystem
 
-At a `high level`, the `Linux filesystem` follows the
-`Filesystem Hierarchy Standard` (`FHS`). This standard `describes` the common
-`layout conventions` used `by` most `UNIX` and `UNIX-like` systems. It
-`consists` of a `single primary` or `root directory` with multiple
-`branching sub-directories`.
+At a high level, the Linux filesystem follows the Filesystem Hierarchy Standard
+(FHS). This standard describes the common layout conventions used by most UNIX
+and UNIX-like systems. It consists of a single primary or root directory with
+multiple branching sub-directories.
 
-`/` represents the `root` of the `Linux filesystem`. It is `under` this `root`
-directory that `all` other `files` and `directories reside`. The
-`Filesystem Hierarchy Standard` (`FHS`) `describes` the `different directories`
-and `what files` are `located` in `which directories`.
+`/` represents the root of the Linux filesystem. It is under this root directory
+that all other files and directories reside. The Filesystem Hierarchy Standard
+(FHS) describes the different directories and what files are located in which
+directories.
 
-If we have `Ubuntu` or a `Ubuntu derivative` installed (like `Linux Mint` for
-example), we can `install` a `package` called `tree` by `running` the
-`following command` in `Terminal`:
+If you have Ubuntu or a Ubuntu derivative installed (like Linux Mint for
+example), you can install a package called tree by running the following command
+in Terminal:
 
 ```shell
 # to update current packages. updates the list of available packages and their versions, but it does not install or upgrade any packages.
@@ -77,30 +108,29 @@ sudo apt upgrade
 sudo apt install tree
 ```
 
-Now we can `run` a `command` like the `following`:
+Now you can run a command like:
 
 ```shell
 tree /
 ```
 
-The `tree` command `lists contents` of `directories` in a `tree-like` format in
-`Linux`. `With` no `args`, it `lists` the `files` and `sub-directories` in the
-`current directory`. `With` directory `args` (such as `/` or `~`), `tree` lists
-`all` the `files` and/or `directories` found in the `given directories`.
-`When completing` the `list` of all `files` and `directories` found, `tree`
-returns the `total number` of `files` and/or `directories` listed. It is far too
-long to share here, but `you should` definitely `run` this `command` to see what
-is the `resulting output`.
+The tree command lists the contents of directories in a tree-like format in
+Linux. With no args, it lists the files and sub-directories in the current
+directory. With directory args (such as `/` or `~`), `tree` lists all the files
+and/or directories found in the given directories. When completing the list of
+all files and directories found, `tree` returns the total number of files`and/or
+directories listed. It is far too long to share here, but you should definitely
+run this command to see what the resulting output looks like.
 
-If we want a `short list` of `files` and `directories` in `root` (`/`), for
-example, we can `run` something like the `following` instead:
+If I want a short list of files and directories in root (`/`), for example, I
+can run something like the following instead:
 
 ```shell
 # run from root directory `/`
 tree -L 1 /
 ```
 
-`This results` in the following `stdout` to `Terminal`:
+This yields the following `stdout` to `Terminal`:
 
 ```shell
 /
@@ -130,46 +160,60 @@ tree -L 1 /
 21 directories. 1 file
 ```
 
-`What` this `command` essentially `is doing` is it `shows only` the
-`first level` of the `directory tree` starting at `root` (/). The `-L option`
-tells `tree` how many `levels down` we `want` to `see`. `Here`, we `indicate` 1
-`level`.
+This command shows only the first level of the directory tree starting at root
+(/). The `-L` option tells `tree` how many levels down I want to see. Here, I
+indicate one level.
 
-Let's say I `run` the `following command` instead, also from `/` root:
+Let's say I run the following command instead, also from `/` root:
 
 ```shell
 tree -L 2 /
 ```
 
-`This results` in the `following stdout` to `Terminal`:
+This displays the following `stdout` to Terminal:
 
 ```shell
 ...
 479 directories, 369 files
 ```
 
-The `stdout` is `too long` to `share` here, but as shown above, it `results` in
-`479 directories` and `369 files`! And so on.
+The `stdout` is too long to share here, but, as shown above, it provides 479
+directories and 369 files! And so on.
 
 ## Types of files in Linux
 
-In `Linux` and `Unix systems`, `everything` is `considered` a `file`. `If` it
-`isn't`, it's a `running process`. Basically, `files` fall under `three`
-different `categories` in `Linux`:
+In Linux and Unix systems, everything is considered a file. If it isn't, it's a
+running process.
 
--   `Regular files`: these include text files, photos, videos, programs, and
-    executable files.
--   `Directories`: in Linux, directories are also considered files since they
-    provide storage for other files and sub-directories.
--   `Special files`: device files that are made up of symbolic links, block
-    files, socket files, and named pipe files.
+Files fall under three different categories in Linux:
+
+- **Regular files**: these include text files, photos, videos, programs, and
+  executable files.
+- **Directories**: in Linux, directories are also considered files since they
+  provide storage for other files and sub-directories.
+- **Special files**: device files that are made up of symbolic links, block
+  files, socket files, and named pipe files.
+
+## /
+
+The forward slash (`/`) represents the root directory of the filesystem, which
+is the top-level directory from which all other directories and files emanate.
+Every file and directory in Linux resides under this root directory.
 
 ## /bin
 
-The `/bin` directory, which stands for `'binary'` directory, is the `root`
-`/bin` directory where `executable files` are `stored`. These `/bin` directories
-are `storage locations` for important `commands` and `programs`. If I `run` the
-`ls /bin` command, the `following` is `returned`:
+Historically, the `/bin` directory, which stands for `'binary'`, is the `root`
+`/bin` directory where executable files are stored. Now is also the symlink to
+`/usr/bin.
+
+```shell
+# ls -la bin from inside /
+lrwxrwxrwx 1 root root 7 Aug 7 2024 bin -> usr/bin
+```
+
+The `/bin`directories are storage locations for important commands and programs.
+
+If I run the`ls /bin`command from inside`/`, it responds with:
 
 ```shell
 '['
@@ -210,15 +254,14 @@ zstdless
 zstdmt
 ```
 
-And if I run `ls /bin | wc -l`, the `following` is `returned`:
+And if I run `ls /bin | wc -l`, it delivers:
 
 ```shell
 1941
 ```
 
-`That` is `a lot` of `commands` and `programs`! One can find out the path to a
-command by running the `which` command followed by the `command` itself.
-`Something` like the `following`:
+That is a lot of commands and programs! I can find out the path to a command by
+running the `which` command followed by the command itself. Something like:
 
 ```shell
 which crontab
@@ -226,9 +269,8 @@ which crontab
 /usr/bin/crontab
 ```
 
-The `which` command `locates` a `command` in `/bin`. Here it `locates` the
-`path` to the `crontab` command. I can also `locate` the `grep` command, for
-example:
+The `which` command locates a command in `/bin`. Here it locates the path to the
+`crontab` command. I can also locate the `grep` command, for example:
 
 ```shell
 which grep
@@ -236,22 +278,23 @@ which grep
 /usr/bin/grep
 ```
 
-`On` the `other hand`, a `command` like `cd` is a built-in `shell` command, so
-running `which cd` returns `nothing`. To `learn more` about built-in `shell`
-commands in `Ubuntu bash`, please visit
+On the other hand, a command like `cd` is a built-in shell command, so running
+`which cd` returns nothing. To learn more about built-in shell commands in
+`Ubuntu bash`, please visit
 [Ubuntu bash builtins](https://manpages.ubuntu.com/manpages/focal/en/man7/bash-builtins.7.html).
-There is also a `great explanation` of why `cd`, for example, `cannot` be an
-`executable` on `"ask Ubuntu"` in the `thread` entitled
+There is also a great explanation of why `cd`, for example, cannot be an
+executable on "ask Ubuntu" in the thread entitled
 [Why wouldn't the `which` command work for `cd`? I can't find the executable for `cd` either!](https://askubuntu.com/questions/532788/why-wouldnt-the-which-command-work-for-cd-i-cant-find-the-executable-for).
+
+To view `/usr/bin`, please visit [/usr/bin](#-usr-bin).
 
 ## /boot
 
-The `/boot` directory `contains` all the `files` needed for `starting` the
-`system` (aka `boot process`). The `/boot` directory is `mounted directly` on
-the `root directory` (`/`) and is called `/boot`.
+The `/boot` directory contains all the files needed for starting the system (aka
+boot process). The `/boot` directory is mounted directly on the root directory
+(`/`) and is called `/boot`.
 
-When I run `ls /boot` in my `Linux Mint OS` Virtual Machine, I `get back` the
-`following`:
+When I run `ls /boot` in my Linux Mint OS Virtual Machine, I get back:
 
 ```shell
 config-5.15.0-117-generic      initrd.img.old
@@ -263,27 +306,25 @@ initrd.img-5.15.0-117-generic  vmlinuz-5.15.0-91-generic
 initrd.img-5.15.0-91-generic   vmlinuz.old
 ```
 
-`Files` included in `/boot` are `grub` boot loader `files` **[^1]**, `root`
-filesystem `files`, `Linux` kernel `files` (`vmlinuz`), and other `boot`
-configuration files.
+Files included in `/boot` are grub boot loader files[^1], root filesystem files,
+Linux kernel files (`vmlinuz`), and other boot configuration files.
 
 `grub`, or [GRand Unified Bootloader](https://wiki.archlinux.org/title/GRUB), is
-the `boot loader`. The `current grub` is also known as `GRUB 2`.
+the boot loader. The current `grub` is also known as `GRUB 2`.
 
-`GRUB` includes its `own support` for `multiple file systems`, especially
-`FAT32`, `ext4`, `Btrfs` or `XFS`.
+`GRUB` includes its own support for multiple file systems, especially `FAT32`,
+`ext4`, `Btrfs` or `XFS`.
 
-`initrd`, or `initial ramdisk`, is `used` for `loading` a temporary
-`root filesystem` into `memory`, to be `used` as `part` of the `Linux` startup
-process. `initramfs` is `used` as `another way` of `loading` a temporary
-`root filesystem` into `memory` and is `used` as `part` of the `Linux` startup
-process as well. `Both methods` are `commonly used` to `make preparations`
-before the real `root file system` can be `mounted`.
+`initrd`, or initial ramdisk, is used for loading a temporary root filesystem
+into memory, to be used as part of the Linux startup process. `initramfs` is
+used as another way of loading a temporary root filesystem into memory and is
+used as part of the Linux startup process as well. Both methods are commonly
+used to make preparations before the real root file system can be mounted.
 
 ### /boot partition
 
 [According to archlinux](https://wiki.archlinux.org/title/Partitioning#/boot) (a
-lightweight `Linux distribution`),
+lightweight Linux distribution),
 
 > The
 > [boot loader](https://wiki.archlinux.org/title/Arch_boot_process#Boot_loader)
@@ -308,37 +349,36 @@ lightweight `Linux distribution`),
 > [FAT32](https://wiki.archlinux.org/title/FAT) since it is supported by
 > practically everything and it will not be getting any new features.
 
-In addition, `FAT32` works `with` all `versions` of `Mac`, `Windows`, `Linux`
-machines, and `gaming devices`.
+In addition, `FAT32` works with all versions of macOS, Windows, Linux machines,
+and gaming devices.
 
-That being said and shown, it is `important` to `note` that we should` not`
-touch anything in `/boot`, `otherwise` it `might break` our `system` and we
-would `not` be `able` to `run` our `Linux OS`. However, `as long as` we are
-`not running` as `root`, we would `not` be `able` to access `/boot` anyway.
+That being said and shown, I should not touch anything in `/boot`, otherwise it
+might break my system and I wouldn't be able to run my Linux OS. However, as
+long as I'm not running as root, I wouldn't be able to access `/boot` anyway.
 
 ## /cdrom
 
-When I ran `ls -l /cdrom`, the `following` was `returned`:
+When I ran `ls -l /cdrom`, it produced:
 
 ```shell
 total 0
 ```
 
-Apparently, it is an `empty directory` in `Linux Mint`. I could `not` find
-`anything` specifically `about` this `directory` in `Linux Mint`, but I
-`did find` the `following` about `/cdrom` in `Linux` on
+Apparently, it is an empty directory in Linux Mint. I couldn't find anything
+specific about this directory in Linux Mint, but I did find the following about
+`/cdrom` on
 [askUbuntu](https://askubuntu.com/questions/13706/why-does-cdrom-folder-exist-shouldnt-it-be-media-cdrom-or-mnt-cdrom):
 
 > While /mnt/ and /media/ are common places to mount devices, the device
 > location can be just about anywhere. /cdrom/ was probably chosen for either
 > brevity or legacy support.
 
-But of course `this` was from `2010`, so who knows what its `function` is
-`today` on `Linux Mint`, `especially` since `it is` an `empty directory`. I
-subsequently `found` another `thread` entitled
+But this was from 2010, so who knows what its function is today on Linux Mint,
+especially since it is an empty directory. I subsequently found another thread
+entitled
 [cdrom folder empty](https://forums.linuxmint.com/viewtopic.php?t=202858) on the
-`Linux Mint` forum, and a `user` there `stated` the `following` in `response` to
-`another` user's `question` as to `why` the `/cdrom` directory was `empty`:
+Linux Mint forum, and a user there stated the following in response to another
+user's question as to why the `/cdrom` directory was empty:
 
 > What makes you think that the folders should go anywhere other than where they
 > already are?... and what makes you think that you should open them?
@@ -354,107 +394,100 @@ subsequently `found` another `thread` entitled
 > or M; what Mint version and DE your are using; does the DVD icon appear in you
 > Computer view?; etc...
 
-`Don't worry` about `this one`, `especially` if you are a `Linux Mint` user
-`like myself`. It's an `empty directory`, and `it seems` to `be meant` to
-`be empty`. Just move on!
+Don't worry about this one, especially if you are a Linux Mint user like me.
+It's an empty directory, and it seems to be meant to be empty. Just move on!
 
 ## /dev
 
-`/dev` contains `device files`. `When` we `connect` a `device` to our `machine`,
-the `device` usually `needs` a `device driver` to `function` properly. We can
-`interact` with `device drivers` through `device files` or `device nodes`
-**[^1]**. These are `special files` that `look` like `regular files`. Since
-these `device files` are just `like` regular `files`, we can `use` programs such
-as `ls`, `cat`, `etc`., to `interact` with `them`.
+`/dev` contains device files. When we connect a device to our machine, the
+device usually needs a device driver to function properly. We can interact with
+device drivers through device files or device nodes[^1]. These are special files
+that look like regular files. Since these device files are just like regular
+files, I can use programs such as `ls`, `cat`, `etc`., to interact with them.
 
-The `system` creates `/dev` files `during installation`, and they `must` be
-`available` during the `boot process`. `Device` files are `abstractions` of
-`standard devices` that applications `interact with` via `I/O system calls`
-**[^2]**.
+The system creates `/dev` files during installation, and they must be available
+during the boot process. Device files are abstractions of standard devices that
+applications interact with via I/O system calls[^2].
 
-`Most` of the `files listed` (ls -l /dev) are either `block` or `character`
-devices. We can tell `which` is `which` by the `first character` in the `file`'s
-`permissions`. For example, `if` the `first character` in the file's permissions
-`is` a `c`, that `means` it is a `character` file.
+Most of the files listed (`ls -l /dev`) are either block or character devices.
+We can tell which is which by the first character in the file's permissions. For
+example, if the first character in the file's permissions is a `c`, that means
+it is a character file.
 
-### block devices
+### Block devices
 
 ```shell
 # example of a black file in /dev
 brw-rw----  1 root disk     7,  0 Jul 28 09:33 loop0
 ```
 
-The `above` is a `block device` file as `indicated by` the `b` in `column 1`,
-the `file permissions`.
+The above is a block device file as indicated by the `b` in column 1, the file
+permissions.
 
-`Column 2` is the `number` of `links`.
+Column 2 is the number of links.
 
-`Column 3` is the `owner` (`root`).
+Column 3 is the owner (root).
 
-`Column 4` is the `group` (`disk`).
+Column 4 is the group (disk).
 
-`Column 5` is the `major device number` (`7`).
+Column 5 is the major device number (7).
 
-`Column 6` is the `minor device number` (`0`).
+Column 6 is the minor device number (0).
 
-`Column 7` is the `timestamp` (`Jul 28 09:33`).
+Column 7 is the timestamp (Jul 28 09:33).
 
-`Column 8` is the `device name` (`loop0`).
+Column 8 is the device name (loop0).
 
-[`/dev/loop*`](https://askubuntu.com/questions/906581/what-is-dev-loopx) are
-`loop devices` making `plain files` accessible as `block` devices. They are
-typically `used` for mounting `disk images`. `Drivers` access `data` from
-`block` devices via a `cache`, and `drivers` communicate with `block` devices by
-sending `blocks` of `data`. Examples of `block` devices are `hard drives`,
-`filesystems`, or `USBs` (`Universal Serial Bus`).
+[`/dev/loop`](https://askubuntu.com/questions/906581/what-is-dev-loopx) are loop
+devices making plain files accessible as block devices. They are typically used
+for mounting disk images. Drivers access data from block devices via a cache,
+and drivers communicate with block devices by sending blocks of data. Examples
+of block devices are hard drives, filesystems, or USBs (Universal Serial Bus).
 
-### character devices
+### Character devices
 
-`Character device` files in `Linux` are `special files` that allow
-`direct communication` between `user programs` and `hardware devices`. They are
-part of the `Linux filesystem` and play a `crucial role` in `Linux` system
-administration.
+Character device files in Linux are special files that allow direct
+communication between user programs and hardware devices. They are part of the
+Linux filesystem and play a crucial role in Linux system administration.
 
-`Character device` files, also known as `character special files`,
-`provide access` to `devices` that `transfer` data `character` by `character`.
-`These devices` typically include `terminals`, `serial ports`, and
-`input/output` (`I/O`) `devices` such as `keyboards` and `mice`. `Unlike`
-regular `files`, `character device` files do `not` store `data` but `instead`
-act as a `conduit` for `data transfer` between `user programs` and the
-`underlying hardware`.
+Character device files, also known as character special files, provide access to
+devices that transfer data character by character. These devices typically
+include terminals, serial ports, and input/output (I/O) devices such as
+keyboards and mice. Unlike regular files, character device files do not store
+data but act as a conduit for data transfer between user programs and the
+underlying hardware.
 
 ### Device major and minor numbers
 
-`Devices` are `characterized` using `two numbers`. `Major device number` and
-`minor device number`. The `major device number` represents the `device driver`
-that is `used`, and the `minor device number` tells the `kernel` which
-`unique device` it is in the `driver class`. A `0` as `shown` in the
-`example below`, `indicates` that it's the `first device`.
+Devices are characterized by using two numbers, a major device number and minor
+device number. The major device number represents the device driver that is
+used, and the minor device number tells the kernel which unique device it is in
+the driver class. A `0` as shown in the example below, indicates that it's the
+first device.
 
 ```shell
 brw-rw----  1 root    disk      8,   0 Jul 28 09:33 sda # first hard disk
 ```
 
-`Each driver` is assigned a `unique major number`, and all `device files` with
-the `same major number` are `controlled` by the `same driver`.
+Each driver is assigned a unique major number, and all device files with the
+same major number are controlled by the same driver.
 
-The `minor number` is `used` by the `driver` to `distinguish between` the
-`different hardwares` it `controls`. For example, `although` three `devices` may
-be `handled by` the `same driver`, they have `unique minor numbers` because the
-`driver` sees `them` as being `different pieces` of `hardware`.
+The minor number is used by the driver to distinguish between the different
+hardwares it controls. For example, although three devices may be handled by the
+same driver, they have unique minor numbers because the driver sees them as
+being different pieces of hardware.
 
 ### Device names
 
-The most common `device names` that `appear` in `/dev` are `SCSI` devices,
-`Pseudo` devices, and `PATA` devices.
+The most common device names that appear in `/dev` are SCSI devices, Pseudo
+devices, and PATA devices.
 
-`SCSI` devices `use` the `SCSI protocol`. `SCSI` stands for
-`Small Computer System Interface`, and it is `used` to allow `communications`
-between `disks`, `printers`, `scanners`, and `other peripherals` on the
-`system`. `SCSI devices` are `not used` on `modern systems`,` but` in `Linux`,
-`SCSI disks` correspond with `hard disk drives` in `/dev`. They are
-`identified by` the `sd` prefix (`SCSI disk`). In my `Linux Mint OS`, I `have`
-the following `sds`:
+SCSI devices use the SCSI protocol. SCSI stands for Small Computer System
+Interface, and it is used to allow communications between disks, printers,
+scanners, and other peripherals on the system. SCSI devices are not used on
+modern systems, but in Linux, SCSI disks correspond with hard disk drives in
+`/dev`. They are identified by the `sd` prefix (SCSI disk). In my Linux Mint OS,
+I have the following `sds`:
 
 ```shell
 brw-rw----  1 root    disk      8,   0 Jul 28 09:33 sda # first hard disk
@@ -463,10 +496,10 @@ brw-rw----  1 root    disk      8,   2 Jul 28 09:33 sda2 # second partition on t
 brw-rw----  1 root    disk      8,   3 Jul 28 09:33 sda3 # third partition on the first hard disk
 ```
 
-And if I had `/dev/sdb`, it `would represent` the `second hard disk`.
+And if I had `/dev/sdb`, it would represent the second hard disk.
 
-`Pseudo` devices are `not` really `connected` to the `system`. And most
-`pseudo devices` are `character devices` such `as` the `following`:
+Pseudo devices are not really connected to the system. And most pseudo devices
+are character devices such as the following:
 
 ```shell
 # accepts and discards all input, produces no output
@@ -477,8 +510,8 @@ crw-rw-rw-  1 root root   1, 8 Jul 28 09:33 random
 crw-rw-rw-  1 root root   1, 4 Jul 28  09:33  zero
 ```
 
-With `PATA` devices, `which appear` in `older systems`, we may see `hard drives`
-that are `represented by` the `hd` prefix:
+With PATA devices, which appear in older systems, we may see hard drives that
+are represented by the `hd` prefix:
 
 ```shell
 /dev/hda # First hard disk
@@ -487,10 +520,9 @@ that are `represented by` the `hd` prefix:
 
 ### Symbolic links
 
-`Symbolic links` in `/dev` are `there` for a `number` of `reasons`.
+Symbolic links in `/dev` are there for a number of reasons.
 
-`Examples` of `symbolic links` are `/dev/stdin`, `/dev/stdout`, and
-`/dev/stderr`:
+Examples of symbolic links are `/dev/stdin`, `/dev/stdout`, and `/dev/stderr`:
 
 ```shell
 lrwxrwxrwx  1 root    root          15 Jul 28 09:33 stderr -> /proc/self/fd/2
@@ -498,129 +530,94 @@ lrwxrwxrwx  1 root    root          15 Jul 28 09:33 stdin -> /proc/self/fd/0
 lrwxrwxrwx  1 root    root          15 Jul 28 09:33 stdout -> /proc/self/fd/1
 ```
 
-A `symbolic link`, aka symlink, to `another file` is `indicated by` an `l` at
-the `beginning` of the `file permission`, as above. A `symbolic link` is a file
-in `Linux` that `points` to `other files` or `directories` and `represents`
-their `absolute` or `relative path`.
+A symbolic link, aka symlink, to another file, is indicated by an `l` at the
+beginning of the file permission as above. A symbolic link is a file in Linux
+that points to other files or directories and represents their absolute or
+relative path.
 
-`/dev/stdin` points to /proc/self/fd/0, for example, because `/proc/self` sits
-on the `/proc` filesystem. `When` a `process` reads `/proc/self`, it
-`gets information` about itself `using` its `process id`. The `/proc/self`
-directory is a `symbolic link` as well:
+`/dev/stdin` points to `/proc/self/fd/0`, for example, because `/proc/self` sits
+on the `/proc` filesystem. When a process reads `/proc/self`, it gets
+information about itself using its process id. The `/proc/self` directory is a
+symbolic link as well:
 
 ```shell
 lrwx------ 1 maria maria 64 Jul 29 06:53 /proc/self/fd/0 -> /dev/pts/0
 ```
 
-When I run `ls -l /dev/cdrom`, the `following` is `returned` in `Terminal`:
+When I run `ls -l /dev/cdrom`, it returns:
 
 ```shell
 lrwxrwxrwx  root root 3 Jul 28 09:33 /dev/cdrom -> sr0
 ```
 
-And what does `/dev/cdrom -> sr0` mean? `sr0` is a `device` on the
-`scsi controller` **[^3]** (hypervisor). For those of us that use `Linux` in A
-`VM` (`virtual machine`) like `VirtualBox`, for instance, it is the `"cdrom"`
-that we `use` to `upload` our `Linux` `".iso"` image **[^4]** file into
-`VirtualBox` to `install` our `Linux distribution` in the `VM`.
+And what does `/dev/cdrom -> sr0` mean? `sr0` is a device on the SCSI
+controller[^3] (hypervisor). For those of us that use Linux in A VM (virtual
+machine) like VirtualBox, for instance, it is the "cdrom" that we use to upload
+our Linux ".iso" image[^4] file into VirtualBox to install our Linux
+distribution.
 
-There are 203 `files` and `folders` in my `Linux Mint` `/dev` directory. Among
-them (and in `Linux` in `general`)are `/dev/null`, which is a `virtual device`
-that `discards` any `output` of a `script` or `command` that we `redirect` to
-`it`. I `discuss it` and `provide examples` in my `article` entitled
-[stdin stdout and stderr in Linux and Unix (macOS)](/blog/stdin-stdout-and-stderr-in-linux-and-unix-macos).
+There are 203 files and folders in my Linux Mint `/dev` directory. Among them
+(and in Linux in general) is `/dev/null`, which is a virtual device that
+discards any output of a script or command that I redirect to it.
 
-`There` is `more` to `/dev` than covered here. To `learn more`, you can visit
-[devices](https://linuxjourney.com/lesson/dev-directory) on `linuxjourney.com`.
+There is more to `/dev` than covered here. To learn more, you can visit
+[devices](https://linuxjourney.com/lesson/dev-directory) on _linuxjourney.com_.
 
 ## /etc
 
-`/etc` originally `stood` for `"et cetera"` because it was `where anything` that
-was `difficult` to `find` a `place for` was `placed`. Now `"etc"` refers to
-`everything` that `needs` to be `configured`. It `contains most` if `not all`
-system-wide `configuration` files. Some `examples` of `configuration` files in
-`/etc`:
+`/etc` originally stood for `"et cetera"` because it was where anything that was
+difficult to find a place for was placed. Now `"etc"` refers to everything that
+needs to be configured. It contains most, if not all, system-wide configuration
+files. Some examples of configuration files in `/etc`:
 
 ```shell
 # The user database, with fields giving the username, real name, home directory, and other information about each user. The format is documented in the passwd manual page.
--rw-r--r--  1 root root 3035  Jul 26 00:08  /etc/passwd
+-rw-r--r--  1 root root 2983  Aug 7 2024  /etc/passwd
 # /etc/shadow is an encrypted file the holds user passwords.
-4 -rw--r------ 1 root shadow 1584Jul 26 00:08 /etc/shadow
+-rw-r----- 1 root shadow 1417 Aug 7 2024 /etc/shadow
 # Files executed at login or startup time by the Bourne, BASH , or C shells. These allow the system administrator to set global defaults for all users. Users can also create individual copies of these in their home directory to personalize their environment. See the manual pages for the respective shells.
--rw-r--r--   1 root root  582 Oct 15 2021 /etc/profile
--rw-r--r--   1 root root 2319 Jan  6 2022 /etc/hash.bashrc
+-rw-r--r--   1 root root  582 Apr 22 2024 /etc/profile
+-rw-r--r--   1 root root 2319 Mar 31 2024 /etc/bash.bashrc
 # Lists trusted shells. The chsh command allows users to change their login shell only to shells listed in this file. ftpd, is the server process that provides FTP services for a machine, will check that the user's shell is listed in /etc/shells and will not let people log in unless the shell is listed there.
--rw-r--r--   1 root root  128 Jan  9 2024 /etc/shells
+-rw-r--r--   1 root root  118 Jul 21 2024 /etc/shells
 ```
 
 ## /home
 
-`/home` is where `users'` personal `directories` reside. In my case, there is
-`one directory` under `/home`: `/home/maria`. I have `created` another `user` on
-the `system` called `magdala`, and her `/home` directory contains
-`/home/magdala`.
+`/home` is where users' personal directories reside. In my case, there is one
+directory under `/home`: `/home/maria`. I have created another user on the
+system called `magdala`, and her `/home` directory contains `/home/magdala`.
 
 ## /lib
 
-`/lib` is a `symbolic link` for `usr/lib`:
+`/lib` is a symbolic link for `usr/lib`:
 
 ```shell
+# ls -la lib from insde /
 lrwxrwxrwx  1 root root 7 Jul 12 20:38 /lib -> usr/lib
 ```
 
-There are 137 `files` and `folders` in `/usr/lib`:
-
-```shell
-ls -l /usr/lib | wc -l
-# which returns:
-137
-```
-
-[/usr/ib](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch04s06.html)
-includes `libraries` for `programming` and `packages`. On some systems, it `may`
-also `include` internal `binaries` that are `not intended` to be
-`executed directly` by `users` or `shell scripts`.
-
-`Applications` may `use` a single `sub-directory` under `/usr/lib`. `If` an
-`application` uses a `sub-directory`, `all` architecture-dependent `data`
-exclusively `used` by the `application` must `be placed` within that
-`sub-directory`. Some examples are:
-
-```shell
-drwxr-xr-x  5 root root 4096 Jul 25 13:14 libreoffice
-drwxr-xr-x  3 root root 4096 Jan  9 2024  linux
-drwxr-xr-x 13 root root 4096 Jan  9 2024  linuxmint
-```
+To learn more about `/usr/lib`, please go to [/usr/lib](#-usr-lib).
 
 ## /lib64
 
-`/lib64` is a `symbolic link` to `/usr/lib64`:
+The `/lib64` directory holds 64-bit shared libraries that applications need to
+run on 64-bit architectures.
+
+`/lib64` is a symbolic link to `/usr/lib64`:
 
 ```shell
+# ls -la lib64 from inside /
 lrwxrwxrwx  1 root root 9 Jul 12 20:38 /lib64 -> usr/lib64
 ```
 
-`/usr/lib64` is for `64-bit` libraries.
-
-According to
-[eitca.org](https://eitca.org/cybersecurity/eitc-is-lsa-linux-system-administration/linux-filesystem/filesystem-layout-overview/examination-review-filesystem-layout-overview/what-is-the-significance-of-the-lib-and-lib64-directories-in-linux/),
-
-> /lib64 also includes libraries for programming and packages. /lib64 (and /lib)
-> directories are the default locations where shared libraries are stored in
-> Linux systems. The "lib" directory is present on 32-bit systems, while the
-> "lib64" directory is used on 64-bit systems. These directories contain
-> numerous shared libraries that are essential for the functioning of the Linux
-> kernel, system utilities, and third-party applications. From a Linux system
-> administration perspective, the "lib" and "lib64" directories are critical for
-> managing shared libraries. Administrators need to ensure that these
-> directories are properly maintained, as any issues with shared libraries can
-> lead to application crashes, security vulnerabilities, or system instability.
+To view `/usr/lib64`, please visit [/usr/lib64](#-usr-lib64).
 
 ## /lost+found
 
-My `/lost+found` directory is `empty`, and oftentimes `they are`. However, they
-are `system created directories` and should `not` be `touched`. They `may` be
-`used` by the `system`, `specifically` the `fsck` command.
+My `/lost+found` directory is empty, and oftentimes they are. However, they are
+system-created directories and should not be touched. They may be used by the
+system, specifically the `fsck` command.
 
 According to `man fsck`,
 
@@ -632,10 +629,13 @@ According to `man fsck`,
 > program will try to handle filesystems on different physical disk drives in
 > parallel to reduce the total amount of time needed to check all of them.
 
+Another great source of information on `fsck` and `/lost+found` is the UNIX &
+LINUX Stack Exchange thread entitled
+[What is the purpose of the lost+found folder in Linux and Unix?](https://unix.stackexchange.com/questions/18154/what-is-the-purpose-of-the-lostfound-folder-in-linux-and-unix).
+
 ## /media
 
-On my `Linux Mint OS` in `VirtualBox`, the `/media` directory `contains` the
-`following`:
+On my Linux Mint OS in VirtualBox, the `/media` directory contains:
 
 ```shell
 ls -lh /media
@@ -649,29 +649,28 @@ total 3.0K
 dr-xr-xr-x 5 maria maria 2.6K May 22 05:22 VBox_GAs_7.0.18
 ```
 
-`The above` is my `Guest Additions`, which is `needed` in `order` to `select`
-bidirectional `Drag and Drop` and `Shared Clipboard`. By default, `they` are
-both `disabled`. `In order` to `change them` to `"Bidirectional"`, we have to go
-to the `General` tab in our `Linux Mint Settings` and then `select` the
-`"Advanced"` tab. If we `want` to `be able` to `copy` from `Linux Mint` in
-`VirtualBox` onto our `native OS` (like `Windows 11` for example), we need to
-properly mount and install `VBox_GAs_7.0.18` `".iso"` in `VirtualBox`.
+The above is my Guest Additions, which is needed to select bidirectional "Drag
+and Drop" and "Shared Clipboard". By default, they are both disabled. To change
+them to "Bidirectional", I have to go to the General tab in my Linux Mint
+Settings and then select the "Advanced" tab. If I want to be able to copy from
+Linux Mint in VirtualBox onto my native OS (like Windows 11, for example), I
+need to properly mount and install VBox_GAs_7.0.18 ".iso" in VirtualBox.
 
 ## /mnt
 
-`/mnt` is a `legacy` directory. `It` is `where` we `used` to `manually` mount
-`storage devices` or `partitions`. It is `not used` much `these days`.
+`/mnt` is a legacy directory. It is where we used to manually mount storage
+devices or partitions. It is not used much these days.
 
 According to the
-[Linux Mint forum](https://forums.linuxmint.com/viewtopic.php?t=272434), one can
-delete `/mnt` if one `wants to` as `long` as the `directory` is `empty`. For
-example, `mine` is `empty`, but I'm `not` going to `touch it` anyway.
+[Linux Mint forum](https://forums.linuxmint.com/viewtopic.php?t=272434), I can
+delete `/mnt` if I want to as long as the directory is empty. For example, mine
+is empty, but I'm not going to touch it anyway.
 
 ## /opt
 
-The `/opt` directory is `used` for `optional` add-on `software packages`, or
-`anything` that is `not` part of the `base system`. For example, in my `/opt`
-directory, I `have` the `following`:
+The `/opt` directory is used for optional add-on software packages, or anything
+that is not part of the base system. For example, in my `/opt` directory, I
+have:
 
 ```shell
 ls -lh /opt
@@ -680,24 +679,24 @@ total 4.0K
 drwxr-xr-x 8 root root 4.0K Jul 26 00:08 VBoxGuestAdditions-7.0.18
 ```
 
-`Only` some `distributions` use `/opt`. `Others` use `/usr/local`.
+Only some distributions use `/opt`. Others use `/usr/local`.
 
 ## /proc
 
-`/proc`, aka the `proc filsesystem`, like `/dev`, is a `virtual directory`. It
-`contains` special `files` that `provide us` with `information` about our
-`computer` such as the `CPU` and the `kernel` our `Linux OS` is `running`. The
-`files` and `directories` are `generated` when our `computer starts`, or `on`
-the `fly`, `as` our `system` is `running` and `things change`. `/proc` is
-`regarded` as the `information` and `control center` of the `Linux` kernel.
+`/proc`, aka the proc filesystem, like `/dev`, is a virtual directory. It
+contains special files that provide me with information about my computer such
+as the CPU and the kernel my Linux OS is running. The files and directories are
+generated when our computer starts, or on the fly, as our system is running and
+things change. `/proc` is regarded as the information and control center of the
+Linux kernel.
 
-The `proc filesystem` is `removed` once the `system` is `powered off`. It is
-`mounted` at `/proc mount point` during the `booting process`.
+The OS removes the proc filesystem once the system is powered off. It is mounted
+at the `/proc` mount point during the booting process.
 
 ## /root
 
-The `/root` directory, as `opposed` to `/`, `contains` the `following` in my
-`Linux Mint OS`:
+The `/root` directory, as opposed to `/`, contains the following in Linux Mint
+OS:
 
 ```shell
 ls -lah /root
@@ -712,13 +711,13 @@ drwx------  3 root root 4.0K Jul 25 23:53 .synaptic
 -rw-------  1 root root 1.3K Jul 21 19:37 .viminfo
 ```
 
-The `root` (`/`) `directory`, mentioned previously, `represents` the `root` of
-the `Linux` filesystem. It is `under` this `root` directory that `all` other
-`files` and `directories` reside. `On` the `other hand`, the `/root` directory
-is the `home` directory for the `root` user. The `/root` contains the `files` we
-`created` when `we` were `root` user `and also` the `hidden configuration` files
-for some `applications` or `packages` we `installed`. For example, I `installed`
-the `vim` text editor, and now `/root` contains a `file` called `.viminfo`.
+The `root` (`/`) directory, mentioned earlier, represents the root of the Linux
+filesystem. It is under this `/root` directory that all other files and
+directories reside. On the other hand, the `/root` directory is the home
+directory for the root user. `/root` contains the files I create when I am the
+root user and also the hidden configuration files for some applications or
+packages I install. For example, I installed the Vim text editor, and now
+`/root` contains a file`called `.viminfo`.
 
 The `.viminfo` file is
 [used to store](https://vimhelp.org/starting.txt.html#viminfo):
@@ -737,12 +736,12 @@ The `.viminfo` file is
 
 ## /run
 
-`/run` is a `temporary filesystem` that contains `volatile runtime data` that
-`shows` what the `system` has `since` it was `booted`. `Files` under the `/run`
-directory `must` be `deleted` (`removed` or `truncated` for `convenience`) `at`
-the `start` of the `boot process`.
+`/run` is a temporary filesystem that contains volatile runtime data that shows
+what the system has since it was booted. The OS must delete (remove or truncate
+for convenience) files under the `/run` directory at the start of the boot
+process.
 
-When I run `ls /run` the `following` is `returned` in `Terminal`:
+When I run `ls /run` inside `/run`, it responds with:
 
 ```shell
 acpid.pid             cups             lvm              speech-dispatcher
@@ -761,56 +760,56 @@ cryptsetup            log              shm              zed.state
 
 ## /sbin
 
-`/sbin` is `similar` to `/bin`, but it `contains applications` that only the
-`superuser` needs. We can `use` these `applications` with the `sudo` command
-that `provides us` with `superuser powers` on `many distributions`. `/sbin`
-typically `contains tools` that can `install things`, `delete things` and
-`format things`. `Some` of these `instructions` are `lethal` if we `don't` use
-them `properly`, so we `should` handle `them` very `carefully`.
+`/sbin` is similar to `/bin`, but it contains applications that only the
+`superuser` needs. I can use these applications with the `sudo` command that
+provides me with superuser powers on many distributions. `/sbin` typically
+contains tools that can install things, delete things and format things. Some of
+these instructions are lethal if I don't use them properly, so I have to handle
+them very carefully.
 
-### /usr/sbin
+`/sbin` now is also the symlink for `/usr/sbin`.
 
-`/usr/sbin` contains `executable programs`,` mostly used` by
-`system administrators`, `usually` the `superuser`. `These programs` require
-`root permissions`.
+```shell
+# la -la from inside /
+lrwxrwxrwx 1 root root 8 August 7 2024 sbin -> usr/sbin
+```
+
+To view `/usr/sbin`, please visit [/usr/sbin](#-usr-sbin).
 
 ## /srv
 
-`/srv` contains `data` for `servers`. My `/srv` directory is `empty`, but then I
-have `not` yet `tried` to `set up` a `server`. I `have`, `however`, installed
-`node.js` and will be `testing out` creating `simple servers` with it
-`re-building` projects I have `created` on `macOS` to quickly `see` what the
-`similarities` are `and` the `differences` in the `build process`.
+`/srv` contains data for servers. My `/srv` directory is empty, but then I have
+not yet tried to set up a server. I have, however, installed Node.js and will be
+testing out creating simple servers with it. This is so I can re-build projects
+I have created on macOS to quickly see what the similarities and differences are
+in the build process.
 
 ## /swapfile
 
-`/swapfile` is a `swap space partition` which is either `configured by` the
-`user` or `system installer`. `Such` a `partition` is `dedicated` to `swapping`.
-It may be `slightly faster` than `using` a `swapfile`, `which` is `just` a
-`regular` file `inside` our `directory tree` (`and` likely `stored` in the
-`root` folder) if it is on the `same disk` as the `operating system`. The `size`
-of my `swapfile partition` is `slightly bigger` than `2GB`, which is
-`pretty large`.
+`/swapfile` is a swap-space partition which is either configured by the user or
+system installer. Such a partition is dedicated to swapping. It may be slightly
+faster than using a `swapfile` which is just a regular file inside my directory
+tree (and likely stored in the `/root` folder) if it is on the same disk as the
+OS. The size of my `swapfile` partition is 6.0GB, which is pretty large.
 
-When I run `ls -lah /swapfile`, the `following` is `returned`:
+When I run `ls -lah /swapfile`, it renders:
 
 ```shell
--rw------- 1 root 2.06 Jul 12 Jul 12 20:38 /swapfile
+-rw------- 1 root root 6.0G Aug 7 2024 /swapfile
 ```
 
 ## /sys
 
-`/sys` is another `virtual` directory like` /proc` and `/dev` and also
-`contains information` from `devices connected` to our `computer`. In some cases
-we can also `manipulate` those `devices`. But to do that we `have` to become
-`superuser`. The `reason` for that is, as with so many other `virtual`
-directories, `messing` with the `contents` and `files` in `/sys` can be
-`dangerous` and we can `destroy` our `system`. `Writing` to these `files` may or
-may `not` write to the `actual device`, `depending` on the `setting` we're
-`changing`. It `isn't only` for `managing devices`, but it is `mostly used` for
-`that`.
+`/sys` is another virtual directory-like `/proc`, and it also contains
+information from devices connected to my computer. In some cases I can also
+manipulate those devices. But to do that I have to become superuser. The reason
+for that is, as with so many other virtual directories, messing with the
+contents and files in `/sys` can be dangerous, and can destroy my system.
+Writing to these files may or may not write to the actual device, depending on
+the setting I'm changing. It isn't only for managing devices, but it is mostly
+used for that.
 
-When I run `ls /sys`, the `following` is `returned`:
+When I run `ls /sys`, it produces:
 
 ```shell
 block   class   devices   fs          kernel  power
@@ -819,16 +818,15 @@ bus     dev     firmware  hypervisor  module
 
 ## /tmp
 
-The `/tmp` directory contains `temporary` files, usually `placed there` by
-`applications` that we are `running`. The` files` and `directories` often (not
-always) `contain data` that an `application` doesn’t need `right now`, but
-`may need` later `on`.
+The `/tmp` directory contains temporary files, usually placed there by
+applications that I am running. The files and directories often (not always)
+contain data that an application doesn’t need right now, but may need later on.
 
-We can `also` use `/tmp` to `store` our `own` temporary `files`. `/tmp` is `one`
-of the `few directories` under `/` that we `can` actually `interact`
-with` `without`the`need`to become`superuser`.
+We can also use `/tmp` to store our own temporary files. `/tmp` is one of the
+few directories under `/` that we can actually interact with without the need to
+become `superuser`.
 
-When I run `ls -lah /tmp`, the `following` is `returned`:
+When I run `ls -lah /tmp`, it yields:
 
 ```shell
 total 68K
@@ -855,17 +853,22 @@ drwxrwxrwt  2 root  root  4.0K Jul 29 09:27 .XIM-unix
 
 ## /usr
 
-The `/usr` directory is `one` of the `most important` directories `because` it
-`contains` all `user binaries`, their `documentation`, `libraries`,
-`header files`, etc. `User programs` like `telnet`, `ftp`, etc. also
-`reside here`. Originally, `/usr` was `where` the `home` directories of the
-`users` were `placed` (`/usr/someone` was `then` the `directory` `now` known as
-`/home/someone`). `/usr` is where `user` programs and data (as `opposed` to
-'system' programs and data) are. The name hasn't changed, but it's `meaning` has
-`narrowed` and `lengthened` from `"everything user related"` to
-`"user usable programs and data"`.
+According to
+[tldp.org](https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/usr.html),
 
-When I run `ls -lah /usr`, the `following` is `returned`:
+> /usr usually contains by far the largest share of data on a system. Hence,
+> this is one of the most important directories in the system as it contains all
+> the user binaries, their documentation, libraries, header files, etc.... X and
+> its supporting libraries can be found here. User programs like telnet, ftp,
+> etc.... are also placed here. In the original Unix implementations, /usr was
+> where the home directories of the users were placed (that is to say,
+> /usr/someone was then the directory now known as /home/someone). In current
+> Unices, /usr is where user-land programs and data (as opposed to 'system land'
+> programs and data) are. The name hasn't changed, but it's meaning has narrowed
+> and lengthened from "everything user related" to "user usable programs and
+> data".
+
+When I run `ls -lah /usr`, I get back:
 
 ```shell
 total 136K
@@ -883,75 +886,952 @@ drwxr-xr-x 322 root root  12K Jul 27 07:32 share
 drwxr-xr-x   6 root root 4.0K Jul 26 00:06 src
 ```
 
-## /var
+### History of the /bin, /lib, /lib64, and /sbin symlinks in Linux distributions
 
-The `/var` directory `originally` got its `name` because its `contents` was
-considered `variable`, because it `changed frequently`. Today the `name` is a
-bit `misleading`, because there are many `other directories` that `also` contain
-`data` that `changes frequently`, especially `virtual` directories such as
-`/proc`, `/sys`, and `/dev`, for example.
+Debian, the second oldest Linux distribution still being developed[^5], changed
+its filesystem hierarchy. It officially dropped the `/bin`, `/sbin`, `/lib`, and
+`/lib64` legacy directories for `/usr/bin`, `/usr/sbin`, `/usr/lib`, and
+`/usr/lib64`, and replaced them with symlinks to `/usr/bin`, `/usr/sbin`,
+`/usr/lib`, and `/usr/lib64` with the release of
+[Debian 12, codenamed "Bookworm,"](https://www.debian.org/releases/bookworm/amd64/release-notes/ch-information.en.html#a-merged-usr-is-now-required)
+on June 10, 2023. This change was dubbed “merged-/usr”, and it was required with
+the Debian 12 release. Ubuntu followed suit later, and since Linux Mint is an
+Ubuntu derivative, it did as well.
 
-`/var` contains `things` like `logs` in the `/var/log` sub-directories. `Logs`
-are `files` that `register events` that `happen` on the `system`. `If` something
-`fails` in the `kernel`, it `will` be `logged` in a `file` in `/var/log`, `If`
-someone `tries` to `break` into `our computer` from `outside`,` our firewall`
-will also `log` the `attempt` in `/var`. It also contains `spools` for `tasks`.
-These `“tasks”` can be the `jobs` we `send` to a `shared printer` when the
-`task` is `queued`, because `another user` is `printing` a `long document`, or
-`mail` that is `queued` to be `delivered` to `users` on the `system`.
+### /usr subdirectories
 
-When I run `ls -lah /var`, the `following` is `returned`:
+Below are the `/usr` subdirectories on my Linux Mint OS:
 
 ```shell
-total 44K
-drwxr-xr-x 11 root root   4.0K Jan  9  2024 .
-drwxr-xr-x 19 root root   4.0K Jul 12 20:46 ..
-drwxr-xr-x  2 root root   4.0K Jul 28 23:20 backups
-drwxr-xr-x 21 root root   4.0K Jul 26 00:04 cache
-drwxr-xr-x 74 root root   4.0K Jul 27 07:32 lib
-drwxrwsr-x  2 root staff  4.0K Apr 18  2022 local
-lrwxrwxrwx  1 root root      9 Jul 12 20:46 lock -> /run/lock
-drwxrwxr-x 12 root syslog 4.0K Jul 229 06:30 mail
-drwxr-xr-x  2 root root   4.0K Ja9 09:27 log
-drwxrwsr-x  2 root mail   4.0K Jul n  9  2024 opt
-lrwxrwxrwx  1 root root      4 Jul 12 20:46 run -> /run
-drwxr-xr-x  8 root root   4.0K Jul 25 13:24 spool
-drwxrwxrwt  9 root root   4.0K Jul 29 12:57 tmp
+bin
+games
+include
+lib
+lib64
+libexec
+local
+sbin
+share
+src
 ```
 
-## Footnotes
+### /usr/bin
 
-**[^1]**: Device nodes, aka devices, are the files that the kernel,
-applications, and even command-line tools use when they need to access the
-hardware.
+This is the directory where most executable programs reside. Like `apt`, `bash`,
+`cat`, `chmod`, `chown`, `cinnamon`, `cinnamon-remove-application`, `curl`,
+`dpkg`, `du`, `dumpcap`, `echo`, `find`, `geany`, `wireshark`, just to name a
+few.
 
-**[^2]**: I/O (input/output) system calls are calls that a program makes to the
-system kernel to provide services the program does not have direct access to.
-Examples are providing access to `stdin` devices such as keyboards and stdout
-devices such as a terminal window/screen.
+When I run `ls | wc -l` inside `/usr/bin`, it returns:
 
-**[^3]**: Storage controllers connect disk drives to a computer. In the context
-of virtual machines, they are used to access virtual disks, CD/DVD-ROM, and SCSI
-devices. An scsi controller is a type of storage controller.
+```shell
+1975
+```
 
-**[^4]**: An ISO image (.iso) a CD-ROM image saved in ISO-9660 format. ISO
-images are mainly used as source files from which to create CDs. As an example,
-most distributions of Linux release ISO images of the installation CDs. These
-images are usually freely available online. --
-[LinuxLookup](https://www.linuxlookup.com/linux_iso)
+### /usr/games
+
+The `/usr/games` subdirectory is where binaries for games and educational
+programs reside.
+
+When I run `ls | wc -l` inside `/usr/games`, it yields:
+
+```shell
+3
+```
+
+And since the list is so short, I run `ls` and get back:
+
+```shell
+gamemodelist
+gamemoderun
+gamemode-simulate-game
+```
+
+### /usr/include
+
+The `/usr/include` subdirectory contains user header files that end with the
+`.h` extension. These header files define interfaces, set system constants, and
+provide declarations necessary for compiling programs.
+
+When I run `ls | wc -l` inside `/usr/include`, it returns:
+
+```shell
+187
+```
+
+And `ls` responds with:
+
+```shell
+...
+cryot.h
+...
+math.h
+...
+md2.h
+md4.h
+md5.h
+...
+regex.h
+regexp.h
+...
+sha256.h
+sha2.h
+sha512.h
+...
+```
+
+### /usr/lib
+
+The `/usr/lib` subdirectory serves as storage for libraries necessary for
+programming and software packages.
+
+According to
+[linuxfoundation.org](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch04s06.html),
+
+> [/usr/lib](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch04s06.html)
+> includes libraries for programming and packages. On some systems, it may also
+> include internal binaries that are not intended to be executed directly by
+> users or shell scripts.
+>
+> Applications may use a single sub-directory under `/usr/lib`. If an
+> application uses a sub-directory, all architecture-dependent data exclusively
+> used by the application must be placed within that sub-directory.
+
+There are 137 files and folders in `/usr/lib`:
+
+```shell
+ls -l /usr/lib | wc -l
+# which returns:
+137
+```
+
+In my Linux Mint OS, `/usr/lib` contains:
+
+```shell
+ls
+# which yields:
+7zip                                  locale
+apg                                   lp_solve
+apparmor                              lsb
+apt                                   man-db
+aspell                                mime
+bfd-plugins                           mintstick
+binfmt.d                              modprobe.d
+brltty                                modules
+bulky                                 modules-load.d
+caribou                               mutt
+casper                                netplan
+cnf-update-db                         networkd-dispatcher
+command-not-found                     NetworkManager
+compat-ld                             nvidia
+console-setup                         nvidia-prime-applet
+cpp                                   openssh
+cryptsetup                            openvpn
+cups                                  os-probes
+dbus-1.0                              os-release
+debug                                 pam.d
+dhcpcd                                pcmciautils
+dkms                                  pcrlock.d
+dpkg                                  pkgconfig
+dracut                                pm-utils
+emacsen-common                        policykit-1
+environment.d                         policykit-1-gnome
+evolution-data-server                 polkit-1
+file                                  postfix
+finalrd                               pppd
+firefox                               python3
+firewalld                             python3.10
+firmware                              python3.12
+gcc                                   recovery-mode
+ghc                                   rhythmbox
+girepository-1.0                      rsyslog
+git-core                              sasl2
+gnome-settings-daemon-3.0             sendmail
+gnupg                                 shim
+gnupg2                                speech-dispatcher-modules
+gold-ld                               ssl
+groff                                 sticky
+grub                                  sysctl.d
+grub-legacy                           syslinux
+gvfs                                  SYSLINUX
+haskell-packages                      systemd
+hdparm                                sysusers.d
+hypnotix                              thingy
+init                                  thunderbird
+initramfs-tools                       tmpfiles.d
+ispell                                ubiquity
+kernel                                udev
+klibc                                 udisks2
+klibc-sw0VayLfV0hmLGCQE9vyfOnj81g.so  ufw
+libreoffice                           unity-settings-daemon-1.0
+lightdm                               user-setup
+lightdm-settings                      valgrind
+linux                                 webapp-manager
+linux-boot-probes                     X11
+linuxmint                             x86_64-linux-gnu
+linux-sound-base                      xorg
+linux-tools                           xserver-xorg-video-intel
+linux-tools-6.8.0-124                 xviewer
+linux-tools-6.8.0-39                  zfs-linux
+linux-tools-6.8.0-40
+```
+
+If I run ls -la inside `/usr/lib`, I get:
+
+```shell
+# inside /usr/lib
+ls -la
+...
+drwxr-xr-x  5 root root 4096 Jul 25 13:14 libreoffice
+drwxr-xr-x  3 root root 4096 Jan  9 2024  linux
+drwxr-xr-x 13 root root 4096 Jan  9 2024  linuxmint
+...
+```
+
+### /usr/lib64
+
+`/usr/lib64` is where the dynamic linker file `ld-linux-x86-64.so.2` physically
+resides. The top-level `/lib64` is the compatibility symlink pointing to it.
+
+To invoke this dynamic linker, I run `ld.so`, which stands for dynamic
+linker/loader.
+
+When I run `ld.so --help`, it returns:
+
+```shell
+Usage: ld.so [OPTION]... EXECUTABLE-FILE [ARGS-FOR-PROGRAM...]
+You have invoked 'ld.so', the program interpreter for dynamically-linked
+ELF programs.  Usually, the program interpreter is invoked automatically
+when a dynamically-linked executable is started.
+
+You may invoke the program interpreter program directly from the command
+line to load and run an ELF executable file; this is like executing that
+file itself, but always uses the program interpreter you invoked,
+instead of the program interpreter specified in the executable file you
+run.  Invoking the program interpreter directly provides access to
+additional diagnostics, and changing the dynamic linker behavior without
+setting environment variables (which would be inherited by subprocesses).
+
+  --list                list all dependencies and how they are resolved
+  --verify              verify that given object really is a dynamically linked
+                        object we can handle
+  --inhibit-cache       Do not use /etc/ld.so.cache
+  --library-path PATH   use given PATH instead of content of the environment
+                        variable LD_LIBRARY_PATH
+  --glibc-hwcaps-prepend LIST
+                        search glibc-hwcaps subdirectories in LIST
+  --glibc-hwcaps-mask LIST
+                        only search built-in subdirectories if in LIST
+  --inhibit-rpath LIST  ignore RUNPATH and RPATH information in object names
+                        in LIST
+  --audit LIST          use objects named in LIST as auditors
+  --preload LIST        preload objects named in LIST
+  --argv0 STRING        set argv[0] to STRING before running
+  --list-tunables       list all tunables with minimum and maximum values
+  --list-diagnostics    list diagnostics information
+  --help                display this help and exit
+  --version             output version information and exit
+
+This program interpreter self-identifies as: /lib64/ld-linux-x86-64.so.2
+
+Shared library search path:
+  (libraries located via /etc/ld.so.cache)
+  /lib/x86_64-linux-gnu (system search path)
+  /usr/lib/x86_64-linux-gnu (system search path)
+  /lib (system search path)
+  /usr/lib (system search path)
+
+Subdirectories of glibc-hwcaps directories, in priority order:
+  x86-64-v4
+  x86-64-v3
+  x86-64-v2 (supported, searched)
+```
+
+### /usr/libexec
+
+`/usr/libexec` usually contains internal binaries that are not executed directly
+by users or shell scripts. They are usually used by applications to run specific
+tasks.
+
+When I run `ls` inside `/usr/libexec`, it responds with:
+
+```shell
+accounts-daemon                           gvfsd-afp-browse
+at-spi2-registryd                         gvfsd-archive
+at-spi-bus-launcher                       gvfsd-burn
+blueman-mechanism                         gvfsd-cdda
+blueman-rfcomm-watcher                    gvfsd-computer
+bluetooth                                 gvfsd-dav
+boltd                                     gvfsd-dnssd
+camel-gpg-photo-saver                     gvfsd-ftp
+camel-index-control-1.2                   gvfsd-fuse
+camel-lock-helper-1.2                     gvfsd-google
+cinnamon                                  gvfsd-gphoto2
+colord                                    gvfsd-http
+colord-sane                               gvfsd-localtest
+colord-session                            gvfsd-metadata
+coreutils                                 gvfsd-mtp
+cpucorectl                                gvfsd-network
+cpugovctl                                 gvfsd-nfs
+csd-a11y-settings                         gvfsd-onedrive
+csd-automount                             gvfsd-recent
+csd-background                            gvfsd-sftp
+csd-backlight-helper                      gvfsd-smb
+csd-clipboard                             gvfsd-smb-browse
+csd-color                                 gvfsd-trash
+csd-datetime-mechanism                    gvfsd-wsdd
+csd-housekeeping                          gvfs-goa-volume-monitor
+csd-input-helper                          gvfs-gphoto2-volume-monitor
+csd-keyboard                              gvfs-mtp-volume-monitor
+csd-media-keys                            gvfs-udisks2-volume-monitor
+csd-power                                 iio-sensor-proxy
+csd-printer                               installed-tests
+csd-print-notifications                   man-db
+csd-screensaver-proxy                     mate-panel
+csd-settings-remap                        mbim-proxy
+csd-smartcard                             muffin-restart-helper
+csd-wacom                                 nemo-preview-start
+csd-wacom-led-helper                      netplan
+csd-wacom-oled-helper                     nm-daemon-helper
+csd-xsettings                             nm-dhcp-helper
+dconf-service                             nm-dispatcher
+dpkg                                      nm-initrd-generator
+evolution-addressbook-factory             nm-openvpn-auth-dialog
+evolution-addressbook-factory-subprocess  nm-openvpn-service
+evolution-calendar-factory                nm-openvpn-service-openvpn-helper
+evolution-calendar-factory-subprocess     nm-pptp-auth-dialog
+evolution-data-server                     nm-pptp-service
+evolution-scan-gconf-tree-xml             nm-priv-helper
+evolution-source-registry                 p11-kit
+evolution-user-prompter                   packagekitd
+file-roller                               packagekit-direct
+flatpak-oci-authenticator                 pk-debconf-helper
+flatpak-portal                            pk-gstreamer-install
+flatpak-session-helper                    pk-offline-update
+flatpak-system-helper                     plymouth
+flatpak-validate-icon                     polkit-agent-helper-1
+fprintd                                   polkit-mate-authentication-agent-1
+fwupd                                     procsysctl
+gcc                                       qmi-proxy
+gcr4-ssh-askpass                          revokefs-fuse
+gcr-prompter                              rhythmbox-metadata
+gcr-ssh-agent                             rtkit-daemon
+gcr-ssh-askpass                           samba
+geoclue                                   seahorse
+geoclue-2.0                               sudo
+glib-pacrunner                            switcheroo-control
+gnome-calculator-search-provider          udisks2
+gnome-system-monitor                      upowerd
+gnome-terminal-preferences                vte-urlencode-cwd
+gnome-terminal-server                     warpinator
+goa-daemon                                xapps
+goa-identity-service                      xdg-desktop-portal
+goa-oauth2-handler                        xdg-desktop-portal-gtk
+gpuclockctl                               xdg-desktop-portal-rewrite-launchers
+gsd-disk-utility-notify                   xdg-desktop-portal-validate-icon
+gst-install-plugins-helper                xdg-desktop-portal-validate-sound
+gvfs-afc-volume-monitor                   xdg-desktop-portal-xapp
+gvfsd                                     xdg-document-portal
+gvfsd-admin                               xdg-permission-store
+gvfsd-afc                                 xfsprogs
+gvfsd-afp                                 xreaderd
+```
+
+### /usr/local
+
+`/usr/local` is used for programs and data that are shareable among multiple
+machines but not found in the standard `/usr` directory.
+
+When I run `ls` inside `/usr/local`, I get back:
+
+```shell
+bin
+etc
+games
+include
+lib
+man
+sbin
+share
+src
+```
+
+### /usr/sbin
+
+`/usr/sbin` contains executable programs, mostly used by system administrators,
+usually the superuser. These programs require root permissions.
+
+When I run `ls` inside `/usr/sbin`, it returns:
+
+```shell
+aa-load                      mkfs.exfat
+aa-remove-unknown            mkfs.ext2
+aa-status                    mkfs.ext3
+aa-teardown                  mkfs.ext4
+accessdb                     mkfs.fat
+addgnupghome                 mkfs.hfs
+addgroup                     mkfs.hfsplus
+add-shell                    mkfs.jfs
+adduser                      mkfs.minix
+agetty                       mkfs.msdos
+alsa                         mkfs.ntfs
+alsabat-test                 mkfs.reiserfs
+alsactl                      mkfs.vfat
+alsa-info                    mkfs.xfs
+anacron                      mkhomedir_helper
+apparmor_parser              mkinitramfs
+apparmor_status              mklost+found
+applygnupgdefaults           mkntfs
+aptd                         mkreiserfs
+aptk                         mkswap
+arcstat                      ModemManager
+arc_summary                  modinfo
+arp                          modprobe
+arpd                         mount.cifs
+arptables                    mount.ecryptfs
+arptables-nft                mount.ecryptfs_private
+arptables-nft-restore        mount.exfat-fuse
+arptables-nft-save           mount.fuse
+arptables-restore            mount.fuse3
+arptables-save               mount.lowntfs-3g
+aspell-autobuildhash         mount.ntfs
+avahi-autoipd                mount.ntfs-3g
+avahi-daemon                 mount.smb3
+badblocks                    mount.vboxsf
+biosdecode                   mount.zfs
+blkdeactivate                nameif
+blkdiscard                   netplan
+blkid                        NetworkManager
+blkzone                      newusers
+blockdev                     nfnl_osf
+bluetoothd                   nft
+bpftool                      nologin
+bridge                       ntfsclone
+brltty                       ntfscp
+brltty-setup                 ntfslabel
+capsh                        ntfsresize
+casper-getty                 ntfsundelete
+casper-login                 on_ac_power
+casper-new-uuid              openvpn
+casper-snapshot              ownership
+casper-stop                  pam-auth-update
+cfdisk                       pam_extrausers_chkpwd
+cgdisk                       pam_extrausers_update
+chat                         pam_getenv
+chcpu                        pam_namespace_helper
+chgpasswd                    pam_timestamp_check
+chmem                        paperconfig
+chpasswd                     parted
+chroot                       partprobe
+cifs.idmap                   pccardctl
+cifs.upcall                  pivot_root
+cpgr                         plipconfig
+cppw                         plocate-build
+cracklib-check               plymouthd
+cracklib-format              pm-hibernate
+cracklib-packer              pm-powersave
+cracklib-unpacker            pm-suspend
+create-cracklib-dict         pm-suspend-hybrid
+cron                         postalias
+cryptdisks_start             postcat
+cryptdisks_stop              postconf
+cryptsetup                   postdrop
+ctrlaltdel                   postfix
+cupsaccept                   postfix-add-filter
+cups-browsed                 postfix-add-policy
+cupsctl                      postfix-collate
+cupsd                        postkick
+cupsdisable                  postlock
+cupsenable                   postlog
+cupsfilter                   postmap
+cups-genppdupdate            postmulti
+cupsreject                   postqueue
+dbufstat                     postsuper
+dcb                          posttls-finger
+debugfs                      poweroff
+debugfs.reiserfs             pppd
+debugreiserfs                pppdump
+delgroup                     pppoe-discovery
+deluser                      pppstats
+depmod                       pptp
+devlink                      pptpsetup
+dhclient                     pvchange
+dhclient-script              pvck
+dhcpcd                       pvcreate
+dkms                         pvdisplay
+dmeventd                     pvmove
+dmidecode                    pvremove
+dmraid                       pvresize
+dmraid-activate              pvs
+dmsetup                      pvscan
+dmstats                      pwck
+dnsmasq                      pwconv
+dosfsck                      pwhistory_helper
+dosfslabel                   pwunconv
+dpkg-preconfigure            qmqp-sink
+dpkg-reconfigure             qmqp-source
+dumpe2fs                     qshape
+dump.exfat                   rarp
+e2freefrag                   rcvboxadd
+e2fsck                       rcvboxadd-service
+e2image                      rdate
+e2label                      readprofile
+e2mmpstatus                  reboot
+e2scrub                      reiserfsck
+e2scrub_all                  reiserfstune
+e2undo                       remove-default-ispell
+e4crypt                      remove-default-wordlist
+e4defrag                     remove-shell
+ebtables                     request-key
+ebtables-nft                 resize2fs
+ebtables-nft-restore         resize_reiserfs
+ebtables-nft-save            resolvconf
+ebtables-restore             rfkill
+ebtables-save                rmail
+ebtables-translate           rmmod
+ethtool                      rmt
+exfat2img                    rmt-tar
+exfatlabel                   route
+faillock                     rsyslogd
+fatlabel                     rtacct
+fdisk                        rtcwake
+filefrag                     rtkitctl
+findfs                       rtmon
+fixparts                     runlevel
+fsadm                        runuser
+fsck                         samba_kcc
+fsck.btrfs                   saned
+fsck.cramfs                  select-default-ispell
+fsck.exfat                   select-default-wordlist
+fsck.ext2                    sendmail
+fsck.ext3                    sensors-detect
+fsck.ext4                    service
+fsck.fat                     setcap
+fsck.hfs                     setvesablank
+fsck.hfsplus                 setvtrgb
+fsck.jfs                     sfdisk
+fsck.minix                   sgdisk
+fsck.msdos                   shadowconfig
+fsck.reiserfs                shutdown
+fsck.vfat                    slattach
+fsck.xfs                     slick-greeter
+fsck.zfs                     smtp-sink
+fsfreeze                     smtp-source
+fstab-decode                 start-stop-daemon
+fstrim                       sudo_logsrvd
+gdisk                        sudo_sendlog
+genl                         sulogin
+getcap                       swaplabel
+getpcaps                     swapoff
+getty                        swapon
+getweb                       switch_root
+gnome-menus-blacklist        synaptic
+groupadd                     sync-available
+groupdel                     sysctl
+groupmems                    system-tools-backends
+groupmod                     tarcat
+grpck                        tc
+grpconv                      telinit
+grpunconv                    thermald
+grub-bios-setup              tipc
+grub-install                 tune2fs
+grub-macbless                tune.exfat
+grub-mkconfig                tunefs.reiserfs
+grub-mkdevicemap             u-d-c-print-pci-ids
+grub-probe                   ufw
+grub-reboot                  umount.ecryptfs
+grub-set-default             umount.ecryptfs_private
+guest-account                umount.udisks2
+halt                         unix_chkpwd
+hdparm                       unix_update
+iconvconfig                  update-ca-certificates
+ifconfig                     update-catalog
+init                         update-cracklib
+insmod                       updatedb.plocate
+installkernel                update-default-aspell
+install-sgmlcatalog          update-default-ispell
+integritysetup               update-default-wordlist
+invoke-rc.d                  update-dictcommon-aspell
+ip                           update-dictcommon-hunspell
+ip6tables                    update-fonts-alias
+ip6tables-apply              update-fonts-dir
+ip6tables-legacy             update-fonts-scale
+ip6tables-legacy-restore     update-grub
+ip6tables-legacy-save        update-grub2
+ip6tables-nft                update-grub-gfxpayload
+ip6tables-nft-restore        update-gsfontmap
+ip6tables-nft-save           update-icon-caches
+ip6tables-restore            update-ieee-data
+ip6tables-restore-translate  update-inetd
+ip6tables-save               update-info-dir
+ip6tables-translate          update-initramfs
+ipmaddr                      update-locale
+ippevepcl                    update-mime
+ippeveprinter                update-passwd
+ippeveps                     update-pciids
+ipp-usb                      update-rc.d
+iptables                     update-secureboot-policy
+iptables-apply               update-shells
+iptables-legacy              update-xmlcatalog
+iptables-legacy-restore      upgrade-from-grub-legacy
+iptables-legacy-save         usb_modeswitch
+iptables-nft                 usb_modeswitch_dispatcher
+iptables-nft-restore         usbmuxd
+iptables-nft-save            useradd
+iptables-restore             userdel
+iptables-restore-translate   usermod
+iptables-save                uuidd
+iptables-translate           validlocale
+iptunnel                     vbox-greeter
+irqbalance                   VBoxService
+irqbalance-ui                vbox-uninstall-guest-additions
+isadump                      vcstime
+isaset                       vdpa
+isosize                      veritysetup
+ispell-autobuildhash         vgcfgbackup
+iucode-tool                  vgcfgrestore
+iucode_tool                  vgchange
+iwconfig                     vgck
+iwevent                      vgconvert
+iwgetid                      vgcreate
+iwlist                       vgdisplay
+iwpriv                       vgexport
+iwspy                        vgextend
+jfs_debugfs                  vgimport
+jfs_fsck                     vgimportclone
+jfs_fscklog                  vgmerge
+jfs_logdump                  vgmknodes
+jfs_mkfs                     vgreduce
+jfs_tune                     vgremove
+kbdrate                      vgrename
+kerneloops                   vgs
+key.dns_resolver             vgscan
+killall5                     vgsplit
+kpartx                       vigr
+ldattach                     vipw
+ldconfig                     visudo
+ldconfig.real                vpddecode
+lightdm                      wipefs
+lightdm-session              wpa_action
+locale-gen                   wpa_cli
+logrotate                    wpa_supplicant
+logsave                      xfs_admin
+losetup                      xfs_bmap
+lpadmin                      xfs_copy
+lpc                          xfs_db
+lpinfo                       xfs_estimate
+lpmove                       xfs_freeze
+lsmod                        xfs_fsr
+lspcmcia                     xfs_growfs
+luksformat                   xfs_info
+lvchange                     xfs_io
+lvconvert                    xfs_logprint
+lvcreate                     xfs_mdrestore
+lvdisplay                    xfs_metadump
+lvextend                     xfs_mkfile
+lvm                          xfs_ncheck
+lvmconfig                    xfs_quota
+lvmdiskscan                  xfs_repair
+lvmdump                      xfs_rtcp
+lvmpolld                     xfs_scrub
+lvmsadc                      xfs_scrub_all
+lvmsar                       xfs_spaceman
+lvreduce                     xtables-legacy-multi
+lvremove                     xtables-monitor
+lvrename                     xtables-nft-multi
+lvresize                     zdb
+lvs                          zed
+lvscan                       zerofree
+make-ssl-cert                zfs
+mdadm                        zfs_ids_to_path
+mdmon                        zgenhostid
+mii-tool                     zhack
+mkdosfs                      zic
+mke2fs                       zpool
+mkfs                         zramctl
+mkfs.bfs                     zstream
+mkfs.btrfs                   zstreamdump
+mkfs.cramfs                  zvol_wait
+```
+
+### /usr/share
+
+`/usr/share` contains manuals and guides for applications, online manuals for
+command line tools, data related to language and regional settings, and other
+shared resources that don't require modification.
+
+When I run `ls` inside `/usr/share`, I get back:
+
+```shell
+accountsservice                 liblouis
+aclocal                         liblouisutdml
+alsa                            libmate-desktop
+alsa-base                       libmateweather
+alsa-card-profile               libmysofa
+app-install                     libreoffice
+application-registry            libthai
+applications                    libtimezonemap
+apport                          libvisual-plugins-0.4
+apps                            libwacom
+appstream                       lightdm
+aptitude                        lintian
+apturl                          linuxmint
+aspell                          linux-sound-base
+avahi                           locale
+backgrounds                     localechooser
+base-files                      locale-langpack
+base-passwd                     locales
+bash-completion                 lto-disabled-list
+binfmts                         m2300w
+blueman                         man
+brasero                         man-db
+brltty                          mate
+bug                             mate-about
+build-essential                 mate-background-properties
+bulky                           mate-menus
+ca-certificates                 mate-panel
+caja-python                     maven-repo
+caribou                         mdadm
+casper                          mdm
+catdoc                          media-player-info
+cinnamon                        menu
+cinnamon-background-properties  mesa-demos
+cinnamon-control-center         metainfo
+cinnamon-screensaver            mfx
+cinnamon-session                mime
+cinnamon-settings-daemon        mint-artwork
+circle-flags-svg                mint-mirrors
+cmake                           mintsources
+color                           mintstick
+colord                          mint-upgrade-info
+common-licenses                 misc
+consolefonts                    mobile-broadband-provider-info
+console-setup                   ModemManager
+consoletrans                    motd
+cryptsetup                      mousetweaks
+cups                            mysql-common
+dbus-1                          mythes
+debconf                         nano
+debhelper                       nautilus
+debianutils                     nemo
+defaults                        nemo-preview
+desktop-directories             nemo-python
+dhcpcd                          nemo-share
+dict                            netplan
+dictionaries-common             networks
+directfb-1.7.7                  onboard
+distro-info                     openal
+djvu                            open-vm-tools
+dns                             openvpn
+dnsmasq-base                    orca
+doc                             os-prober
+doc-base                        p11-kit
+dot.bashrc                      PackageKit
+dot.profile                     pam
+dot.profile.md5sums             pam-configs
+dpkg                            perl
+drawing                         perl5
+drirc.d                         perl-openssl-defaults
+ecryptfs-utils                  pipewire
+emacs                           pix
+emacsen-common                  pixmaps
+enchant-2                       pkgconfig
+evolution-data-server           plymouth
+file                            pnm2ppa
+file-roller                     polkit-1
+finalrd                         poppler
+fish                            postfix
+flatpak                         ppd
+folder-color-switcher           ppdc
+fontconfig                      ppp
+fonts                           profile
+fonts-droid-fallback            profile.md5sums
+foo2qpdl                        publicsuffix
+foo2zjs                         python3
+fwupd                           python-apt
+gamemode                        python-tinycss2-common
+gcc                             qt5
+GConf                           qt6
+gdb                             readline
+gdebi                           rhythmbox
+gdm                             rsync
+geany                           rsyslog
+geany-plugins                   samba
+GeoIP                           seahorse
+gettext                         secureboot
+gettext-0.21                    sensible-utils
+ghostscript                     session-migration
+gir-1.0                         sgml
+git-core                        sgml-base
+gitweb                          sgml-data
+glade                           simplescreenrecorder
+glib-2.0                        slick-greeter
+glvnd                           snmp
+gnome                           software-center
+gnome-background-properties     sounds
+gnome-control-center            source-highlight
+gnome-shell                     spa-0.2
+gnome-system-monitor            speech-dispatcher
+gnupg                           ssl-cert
+groff                           staff-group-for-usr-local
+grub                            sticky
+grub-gfxpayload-lists           synaptic
+gst-plugins-base                system-config-printer
+gstreamer-1.0                   systemd
+gtk-3.0                         system-tools-backends-2.0
+gtk-4.0                         tabset
+gtk-doc                         tcltk
+gtk-engines                     terminfo
+gtksourceview-2.0               themes
+gtksourceview-3.0               thingy
+gtksourceview-4                 thumbnailers
+gufw                            Thunar
+guile                           timeshift
+gutenprint                      touchegg
+gvfs                            tracker3
+help                            transmission
+help-langpack                   ubuntu-drivers-common
+hfsprogs                        ubuntu-system-adjustments
+hplip                           ucf
+hunspell                        ufw
+hwdata                          upstart
+hyphen                          usb_modeswitch
+hypnotix                        util-linux
+i18n                            vala
+icons                           vim
+ieee-data                       vulkan
+ImageMagick-6                   wallpapers
+im-config                       warpinator
+info                            wayland-sessions
+info.dir                        webapp-manager
+initramfs-tools                 wireplumber
+installed-tests                 wireshark
+ipp-usb                         X11
+iptables                        xapp
+iso-codes                       xawtv
+iso-flag-png                    xdg-desktop-portal
+java                            xdg-terminals
+javascript                      xed
+kde4                            xfce4
+keyrings                        xfsprogs
+keyutils                        xgreeters
+ladspa                          xml
+language-tools                  xml-core
+ldm                             xreader
+libc-bin                        xsessions
+libdebuginfod-common            xviewer
+libdrm                          yelp
+libexttextcat                   yelp-xsl
+libgcrypt20                     zenity
+libgnomekbd                     zfs
+libgweather-4                   zoneinfo
+libinput                        zsh
+liblangtag
+```
+
+### /usr/src
+
+`/usr/src` stores Linux kernel source files for compilation and is used to build
+third-party kernel modules that require access to the kernel source.
+
+When I run `ls` inside `/usr/src`, it responds with:
+
+```shell
+linux-headers-6.8.0-124          linux-headers-6.8.0-39
+linux-headers-6.8.0-124-generic  linux-headers-6.8.0-39-generic
+linux-headers-6.8.0-38           linux-headers-6.8.0-40
+linux-headers-6.8.0-38-generic   linux-headers-6.8.0-40-generic
+```
+
+## /var
+
+The `/var` directory originally got its name because its contents were
+considered variable. This is because it changed frequently. Today the name is a
+bit misleading, because there are many other directories that also contain data
+that changes frequently, especially virtual directories such as `/proc`, `/sys`,
+and `/dev`, for example.
+
+`/var` contains things like log files in the `/var/log` sub-directories. Logs
+register events that happen on the system. If something fails in the kernel, it
+is logged in a file in `/var/log`. If someone tries to break into my computer
+from outside, my firewall will also log the attempt in `/var`. It also contains
+spools for tasks. These `“tasks”`can be the jobs I send to a shared printer when
+the task is queued, because another user is printing a long document, or mail
+that is queued to be delivered to users on the system.
+
+When I run `ls -lah /var`, it responds with:
+
+```shell
+total 48K
+drwxr-xr-x 11 root root   4.0K Aug  7  2024 .
+drwxr-xr-x 22 root root   4.0K Aug  7  2024 ..
+drwxr-xr-x  2 root root   4.0K Jul 26 17:51 backups
+drwxr-xr-x 23 root root   4.0K Aug  7  2024 cache
+drwxr-xr-x 74 root root   4.0K Jul 17 13:55 lib
+drwxrwsr-x  2 root staff  4.0K Apr 22  2024 local
+lrwxrwxrwx  1 root root      9 Aug  7  2024 lock -> /run/lock
+drwxrwxr-x 13 root syslog 4.0K Jul 26 09:17 log
+drwxrwsr-x  2 root mail   4.0K Jul 25 09:15 mail
+drwxr-xr-x  2 root root   4.0K Jul 21  2024 opt
+lrwxrwxrwx  1 root root      4 Aug  7  2024 run -> /run
+drwxr-xr-x  8 root root   4.0K Aug  7  2024 spool
+drwxrwxrwt 11 root root   4.0K Jul 26 22:54 tmp
+-rw-r--r--  1 root root    208 Jul 21  2024 .updated
+```
 
 ## Related Resources
 
--   [GRUB](https://wiki.archlinux.org/title/GRUB): **_archlinux_**
+- [hier(7) — Linux manual page](https://www.man7.org/linux/man-pages/man7/hier.7.html):
+  _man7.org_
+- [GRUB](https://wiki.archlinux.org/title/GRUB): _archlinux_
+- [Classic SysAdmin: The Linux Filesystem Explained](https://www.linuxfoundation.org/blog/blog/classic-sysadmin-the-linux-filesystem-explained):
+  _The Linux Foundation_
+- [Understanding the /dev Directory in Linux](https://www.baeldung.com/linux/dev-directory):
+  _baeldung.com_
+- [The /etc directory](https://tldp.org/LDP/sag/html/etc-fs.html): _Linux System
+  Administrators Guide_
+- [The lost+found Directory in Linux and UNIX](https://www.baeldung.com/linux/lost-found-directory):
+  _baeldung.com_
+- [Linux Mint 22: qt applications no longer use system theme #718](https://github.com/linuxmint/linuxmint/issues/718):
+  _Linux Mint issues on GitHub_
+- [Linux Mint 20 did not follow upstream usrmerge #294](https://github.com/linuxmint/linuxmint/issues/294):
+  _Linux Mint issues on GitHub_
+- [ld.so(8) — Linux manual page](https://man7.org/linux/man-pages/man8/ld.so.8.html):
+  _man7.org_
+- [What Is /lib64/ld-linux-x86-64.so.2?](https://www.baeldung.com/linux/dynamic-linker):
+  _by Burak Gökmen, baeldung.com_
+- [The Debian /usr Merge](https://wiki.debian.org/UsrMerge): _debian.org_
+- [TC decision on "Merged /usr" - #914897](https://lists.debian.org/debian-devel-announce/2019/03/msg00001.html):
+  _debian.org_
+- [The Case for the /usr Merge](https://www.freedesktop.org/wiki/Software/systemd/TheCaseForTheUsrMerge/?__goaway_challenge=meta-refresh&__goaway_id=cdf8a5eb61e54d2031402fb66acd9b05):
+  _freedesktop.org_
+- [Seeking the endgame for Debian's /usr merge](https://lwn.net/Articles/933043/):
+  _lwn.net_
+- [Chapter 5. Issues to be aware of for bookworm](https://www.debian.org/releases/bookworm/amd64/release-notes/ch-information.en.html#a-merged-usr-is-now-required):
+  _debian.org_
+- [What is /lib64/ld-linux-x86-64.so.2 and why can it be used to execute file?](https://unix.stackexchange.com/questions/400621/what-is-lib64-ld-linux-x86-64-so-2-and-why-can-it-be-used-to-execute-file)
 
--   [Classic SysAdmin: The Linux Filesystem Explained](https://www.linuxfoundation.org/blog/blog/classic-sysadmin-the-linux-filesystem-explained):
-    **_The Linux Foundation_**
+[^1]:
+    Device nodes, aka devices, are the files that the kernel, applications, and
+    even command-line tools use when they need to access the hardware.
 
--   [Understanding the /dev Directory in Linux](https://www.baeldung.com/linux/dev-directory):
-    **_baeldung.com_**
+[^2]:
+    I/O (input/output) system calls are calls that a program makes to the system
+    kernel to provide services the program does not have direct access to.
+    Examples are providing access to `stdin` devices such as keyboards and
+    stdout devices such as a terminal window/screen.
 
--   [The /etc directory](https://tldp.org/LDP/sag/html/etc-fs.html): **_Linux
-    System Administrators Guide_**
+[^3]:
+    Storage controllers connect disk drives to a computer. In the context of
+    virtual machines, they are used to access virtual disks, CD/DVD-ROM, and
+    SCSI devices. An SCSI controller is a type of storage controller.
 
--   [The lost+found Directory in Linux and UNIX](https://www.baeldung.com/linux/lost-found-directory):
-    **_baeldung.com_**
+[^4]:
+    An ISO image (.iso) a CD-ROM image saved in ISO-9660 format. ISO images are
+    mainly used as source files from which to create CDs. As an example, most
+    distributions of Linux release ISO images of the installation CDs. These
+    images are usually freely available online. --
+    [LinuxLookup](https://www.linuxlookup.com/linux_iso)
+
+[^5]:
+    As per the [Debian page](https://en.wikipedia.org/wiki/Debian) on Wikipedia.
