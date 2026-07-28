@@ -30,6 +30,7 @@ $min-1280: '(min-width: 1280px)';
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+
 	@media #{$min-1280} {
 		flex-direction: row;
 		gap: 0.5rem;

@@ -1,7 +1,7 @@
 /* @use functions */
 @use 'sass:color';
 
-.dark a button[rel=next], .dark a button[rel=previous] {
+.dark a button[rel="next"], .dark a button[rel="previous"] {
   /* stylelint-disable scss/no-global-function-names */
   color: color.adjust($tailwind-darkest-orange, $lightness: 1.25%);
 }

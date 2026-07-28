@@ -1,12 +1,13 @@
 import '@testing-library/jest-dom'
 import PostItem from '../components/posts/post-item'
 
+vi.mock('react-transition-group', () => {
+	return {
+		CSSTransition: (props) => (props.in ? props.children : null),
+	}
+})
+
 describe('PostItem', () => {
-	jest.mock('react-transition-group', () => {
-		return {
-			CSSTransition: (props) => (props.in ? props.children : null),
-		}
-	})
 	it('renders a post item in the posts grid', () => {
 		// Replace `new Date()` with the actual value of `post.date`
 		const formattedDate = new Date()

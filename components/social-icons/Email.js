@@ -1,11 +1,9 @@
 import * as React from 'react'
 const SvgEmail = (props) => (
 	<svg
-		width={60}
-		height={60}
-		viewBox="0 0 12 12"
-		xmlSpace="preserve"
 		xmlns="http://www.w3.org/2000/svg"
+		xmlSpace="preserve"
+		viewBox="0 0 12 12"
 		{...props}
 	>
 		<g fill="#1D1D1B">
