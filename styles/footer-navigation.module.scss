@@ -24,6 +24,7 @@ $min-1024: '(min-width: 1024px)';
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+
 	@media #{$min-1024} {
 		gap: 0.5rem;
 		margin: 6rem 0 0;

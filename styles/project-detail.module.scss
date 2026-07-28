@@ -104,8 +104,7 @@ $tailwind-lightest-orange: rgb(229 178 160 / 100%);
 /* external links */
 .links {
 	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
+	flex-flow: row wrap;
 	gap: var(--size-4);
 	margin-bottom: var(--size-4);
 	margin-top: var(--size-4);

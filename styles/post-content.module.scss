@@ -20,6 +20,7 @@ $asian-green: #96aa9a;
 	max-width: 60rem;
 	padding: var(--size-4);
 	width: 95%;
+
 	@media #{$min-768} {
 		padding: var(--size-8);
 	}
@@ -179,5 +180,6 @@ $asian-green: #96aa9a;
 
 .content td {
 	word-break: break-all;
+
 	@include conditional-columns(5);
 }

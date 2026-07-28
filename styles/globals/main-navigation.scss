@@ -64,6 +64,7 @@ a.menu-link {
 		/* always keep ham on top of everything */
 		z-index: 21;
 	}
+
 	@media #{$min-1280} {
 		display: none;
 	}
@@ -135,6 +136,7 @@ a.menu-link {
 			width: 6rem;
 		}
 	}
+
 	@media #{$max-1279} {
         /* stylelint-disable scss/no-global-function-names */
 		background-color: color.adjust(#1c1c1c, $lightness: -1.25%);
@@ -189,7 +191,7 @@ a.menu-link {
 
 .dark .main-nav {
 	@media #{$max-1279} {
-		background: rgba(44 62 80 / 100%);
+		background: rgb(44 62 80 / 100%);
 	}
 }
 
@@ -266,7 +268,6 @@ a.menu-link {
 		height: 2px;
 		background: color.adjust($aussie-blue, $lightness: 3.5%);
 		margin-bottom: 0;
-		transition: background-color 3s linear;
 		visibility: visible;
 		transform: scaleX(1);
 
@@ -323,7 +324,6 @@ a.menu-link {
 		height: 2px;
 		background: color.adjust($tailwind-dark-orange, $lightness: 3.5%);
 		margin-bottom: 0;
-		transition: background-color 3s linear;
 		visibility: visible;
 		transform: scaleX(1);
 
@@ -411,5 +411,5 @@ a.menu-link {
 
 .dark
 	.fixed.h-full.w-full.transform.bg-gray-200.opacity-95.duration-300.ease-in-out {
-	background: rgba(44 62 80 / 100%);
+	background: rgb(44 62 80 / 100%);
 }

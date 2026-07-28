@@ -25,6 +25,7 @@ h1.heading-one {
 	color: $main-black;
 	text-transform: lowercase;
 	width: 90%;
+
 	@media #{$min-740} {
 		font-size: 1.5rem;
 	}
@@ -44,6 +45,7 @@ h1.heading-one {
 		margin: 0 0 1.25rem 2.5rem;
 		padding-left: 0.5rem;
 		width: 97.5%;
+
 		@media #{$min-740} {
 			margin-left: 5rem;
 		}

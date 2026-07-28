@@ -15,10 +15,12 @@ $min-1024: '(min-width: 1024px)';
   text-transform: uppercase;
   top: 1.5rem;
   width: 100%;
+
   @media #{$min-360} {
     font-size: var(--size-10);
     top: 1.125rem;
   }
+
   @media #{$min-1024} {
     left: 6rem;
   }

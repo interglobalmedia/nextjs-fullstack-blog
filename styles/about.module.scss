@@ -26,6 +26,7 @@ $aussie-blue: #80d0ff;
 	text-align: center;
 	-webkit-text-stroke-color: #000;
 	-webkit-text-stroke-width: 1.25px;
+
 	@media #{$min-768} {
 		font-size: var(--size-16);
 	}

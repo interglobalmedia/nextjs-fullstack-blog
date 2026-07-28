@@ -22,6 +22,7 @@ $aussie-blue: #80d0ff;
 	font-size: var(--size-12);
 	margin: 0 auto;
 	text-align: center;
+
 	@media #{$min-768} {
 		font-size: var(--size-16);
 	}

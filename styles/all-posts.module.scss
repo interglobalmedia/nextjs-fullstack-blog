@@ -17,6 +17,7 @@ $min-768: '(min-width: 768px)';
 	font-family: var(--oswald-font);
 	font-size: var(--size-12);
 	text-align: center;
+
 	@media #{$min-768} {
 		font-size: var(--size-16);
 	}
