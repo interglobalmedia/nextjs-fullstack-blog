@@ -28,7 +28,7 @@ export default function ProjectTagPage({
 					projects tag: {tag} — page {currentPage}
 				</title>
 			</Head>
-			<section className={classes.tag}>
+			<section className={`project-tag ${classes['project-tag']}`}>
 				<h1>projects tag: {tag}</h1>
 				<ul style={{ listStyle: 'none', padding: 0 }}>
 					{projects.map((project) => (
