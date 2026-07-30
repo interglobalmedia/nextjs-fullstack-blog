@@ -33,12 +33,51 @@ $aussie-blue: #80d0ff;
 	padding: 0 !important;
 }
 
+/* Wraps just the tag chips (not the $/label prefix), so nth-of-type below
+   counts cleanly among only the chips, independent of the $/label spans.
+
+   Uses the SAME diagonal pill() treatment as project/post tags (not a
+   simplified rounded chip) — the fix for multi-row wrapping isn't a
+   different visual style, it's applying the negative margin to EVERY
+   child (no :first-child exception) and adding matching padding-left here.
+   That padding exactly cancels the shift for whichever pill happens to
+   start each wrapped row, so every row's first pill sits flush at the true
+   edge — not just row 1's. Pills that aren't row-starters still interlock
+   with their true left neighbor exactly as before. */
+.tag-list {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 0.4rem 0.3rem;
+}
+
+/* "/" separator via pseudo-element rather than a real sibling span — a
+   real separator element would be the same <span> tag type as the tag
+   chips themselves, throwing off the nth-of-type color counting below
+   (the same issue worked around earlier for the $/label prefix). A
+   pseudo-element never counts as a sibling, so this sidesteps that
+   entirely. */
+.tag-list :global(span.skill-tag):not(:last-child)::after {
+	content: '/';
+	margin-left: 0.3rem;
+	opacity: 0.6;
+}
+
+/* When a chip needs to actually link somewhere (e.g. the Resume header's
+   email/LinkedIn/GitHub pills), the <a> lives nested inside the pill span
+   rather than being the pill itself — keeps every chip the same element
+   type for nth-of-type counting. This makes the nested link inherit the
+   pill's color instead of showing default blue/underline. */
+.tag-list :global(span.skill-tag a) {
+	color: inherit;
+	text-decoration: none;
+}
+
 .prompt {
 	align-items: center;
 	display: inline-flex;
 	flex-wrap: wrap;
 	font-family: Inconsolata, monospace;
-	font-size: 1rem;
+	font-size: 1.25rem;
 	row-gap: 0.4rem;
 }
 
@@ -56,15 +95,11 @@ $aussie-blue: #80d0ff;
 /* ---- light mode (default) ---- */
 
 .symbol {
-	@include pill(var(--color-primary-500));
-
-	font-size: 1.2rem;
+	@include pill(#2b2b2b);
 }
 
 .label {
-	@include pill(color.adjust($aussie-blue, $lightness: -25%));
-
-	font-size: 1.1rem;
+	@include pill(#495057);
 }
 
 .prompt :global(a.project-tag),
@@ -80,32 +115,52 @@ $aussie-blue: #80d0ff;
 
 .prompt :global(a.project-tag):nth-of-type(4n + 1),
 .prompt :global(a.post-tag):nth-of-type(4n + 1) {
-	@include pill(color.adjust(#c94700, $lightness: 5%));
+	@include pill(#b8460a);
 }
 
 .prompt :global(a.project-tag):nth-of-type(4n + 2),
 .prompt :global(a.post-tag):nth-of-type(4n + 2) {
-	@include pill(color.adjust($aussie-blue, $lightness: -30%));
+	@include pill(#0b7a5c);
 }
 
 .prompt :global(a.project-tag):nth-of-type(4n + 3),
 .prompt :global(a.post-tag):nth-of-type(4n + 3) {
-	@include pill(color.adjust(#843897, $lightness: 15%));
+	@include pill(#7048e8);
 }
 
 .prompt :global(a.project-tag):nth-of-type(4n),
 .prompt :global(a.post-tag):nth-of-type(4n) {
-	@include pill(color.adjust(#a10c4a, $lightness: 5%));
+	@include pill(#b02358);
+}
+
+/* ---- tag-list (light mode): plain colored text, no background — same
+   panel-verified colors already used for Education/Achievements labels,
+   for full-page consistency on the Resume page's fixed light-blue panel */
+
+.tag-list :global(span.skill-tag):nth-of-type(4n + 1) {
+	@include plain(#7a3008);
+}
+
+.tag-list :global(span.skill-tag):nth-of-type(4n + 2) {
+	@include plain(#06503a);
+}
+
+.tag-list :global(span.skill-tag):nth-of-type(4n + 3) {
+	@include plain(#4527a8);
+}
+
+.tag-list :global(span.skill-tag):nth-of-type(4n) {
+	@include plain(#7a1840);
 }
 
 /* ---- card variant (light mode): plain colored text, no background ---- */
 
 .prompt.card .symbol {
-	@include plain(color.adjust(#c94700, $lightness: 0%));
+	@include plain(color.adjust(#c94700, $lightness: -10%));
 }
 
 .prompt.card .label {
-	@include plain(color.adjust($aussie-blue, $lightness: -30%));
+	@include plain(color.adjust($aussie-blue, $lightness: -35%));
 }
 
 .prompt.card :global(a.project-tag):hover,
@@ -116,22 +171,22 @@ $aussie-blue: #80d0ff;
 
 .prompt.card :global(a.project-tag):nth-of-type(4n + 1),
 .prompt.card :global(a.post-tag):nth-of-type(4n + 1) {
-	@include plain(color.adjust(#c94700, $lightness: 0%));
+	@include plain(color.adjust(#c94700, $lightness: -10%));
 }
 
 .prompt.card :global(a.project-tag):nth-of-type(4n + 2),
 .prompt.card :global(a.post-tag):nth-of-type(4n + 2) {
-	@include plain(color.adjust($aussie-blue, $lightness: -30%));
+	@include plain(color.adjust($aussie-blue, $lightness: -35%));
 }
 
 .prompt.card :global(a.project-tag):nth-of-type(4n + 3),
 .prompt.card :global(a.post-tag):nth-of-type(4n + 3) {
-	@include plain(color.adjust(#843897, $lightness: 10%));
+	@include plain(color.adjust(#843897, $lightness: 20%));
 }
 
 .prompt.card :global(a.project-tag):nth-of-type(4n),
 .prompt.card :global(a.post-tag):nth-of-type(4n) {
-	@include plain(color.adjust(#a10c4a, $lightness: 10%));
+	@include plain(color.adjust(#a10c4a, $lightness: 20%));
 }
 
 .prompt.card .separator {
@@ -169,6 +224,45 @@ $aussie-blue: #80d0ff;
 	@include pill(var(--color-error-500));
 }
 
+/* ---- tag-list (dark mode): same plain colors as light mode — the
+   Resume panel background doesn't change with the site's dark/light
+   toggle, so there's no need for a separate dark-mode palette here. */
+
+:global(.dark) .tag-list :global(span.skill-tag):nth-of-type(4n + 1) {
+	@include plain(#7a3008);
+}
+
+:global(.dark) .tag-list :global(span.skill-tag):nth-of-type(4n + 2) {
+	@include plain(#06503a);
+}
+
+:global(.dark) .tag-list :global(span.skill-tag):nth-of-type(4n + 3) {
+	@include plain(#4527a8);
+}
+
+:global(.dark) .tag-list :global(span.skill-tag):nth-of-type(4n) {
+	@include plain(#7a1840);
+}
+
+/* Modifier: forces plain black text and a solid purple pipe separator
+   instead of the 4-color rotation and faded slash — for tag-lists that
+   want the layout/wrapping but not the color variety (Resume's Skills
+   section, at the user's request). Combine as
+   `${sp['tag-list']} ${sp['plain-tags']}`. One rule covers both light and
+   dark mode since the Resume panel background is fixed either way — same
+   reasoning as the rotation colors above. Extra specificity from the
+   compound .tag-list.plain-tags selector guarantees this wins over the
+   nth-of-type rotation rules regardless of source order. */
+.tag-list.plain-tags :global(span.skill-tag) {
+	color: #000 !important;
+}
+
+.tag-list.plain-tags :global(span.skill-tag):not(:last-child)::after {
+	content: '|';
+	color: #8d0a9d;
+	opacity: 1;
+}
+
 /* ---- dark mode, card variant: plain colored text, no background ---- */
 
 :global(.dark) .prompt.card .symbol {
@@ -191,12 +285,12 @@ $aussie-blue: #80d0ff;
 
 :global(.dark) .prompt.card :global(a.project-tag):nth-of-type(4n + 3),
 :global(.dark) .prompt.card :global(a.post-tag):nth-of-type(4n + 3) {
-	@include plain(color.adjust(#c94700, $lightness: 15%));
+	@include plain(color.adjust(#843897, $lightness: 20%));
 }
 
 :global(.dark) .prompt.card :global(a.project-tag):nth-of-type(4n),
 :global(.dark) .prompt.card :global(a.post-tag):nth-of-type(4n) {
-	@include plain(var(--color-error-500));
+	@include plain(color.adjust(#a10c4a, $lightness: 20%));
 }
 
 :global(.dark) .prompt.card .separator {
