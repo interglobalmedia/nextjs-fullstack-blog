@@ -68,7 +68,7 @@ function MainNavigation() {
 								key={link.text}
 								href={link.href}
 								className={`${router.pathname} ===
-                    ${link.href} ? 'active' : ''} menu-link relative mr-6 flex flex-col font-medium text-gray-900 dark:text-gray-100 sm:mr-8 sm:p-4`}
+                    ${link.href} ? 'active' : ''} menu-link relative mr-6 flex flex-col font-medium dark:text-gray-100 sm:mr-8 sm:p-4`}
 							>
 								{link.text}
 								{isActiveLink(link.href, router.pathname) && (
