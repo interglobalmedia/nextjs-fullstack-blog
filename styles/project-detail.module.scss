@@ -47,6 +47,13 @@ $tailwind-lightest-orange: rgb(229 178 160 / 100%);
 	color: var(--color-grey-800);
 }
 
+.content .author,
+.content .read-time,
+.content .dates,
+.content .tags a {
+	font-size: 1.25rem;
+}
+
 .content p {
 	color: var(--color-grey-800);
 }
