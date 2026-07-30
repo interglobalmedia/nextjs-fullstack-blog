@@ -29,7 +29,7 @@ function FooterNavigation() {
 						<Link
 							href="/about"
 							className={`${router.pathname} ===
-                    '/about' ? 'active' : ''} menu-link relative mr-6 flex flex-col font-medium text-gray-900 dark:text-gray-100 sm:mr-8 sm:p-4`}
+                    '/about' ? 'active' : ''} menu-link relative mr-6 flex flex-col font-medium dark:text-gray-100 sm:mr-8 sm:p-4`}
 						>
 							About
 							{isActiveLink(`/about`, router.pathname) && (
@@ -47,12 +47,12 @@ function FooterNavigation() {
 					</li>
 					<li className="menu-link-li">
 						<Link
-							href="/skills"
+							href="/resume"
 							className={`${router.pathname} ===
-                    '/skills' ? 'active' : ''} menu-link relative mr-6 flex flex-col font-medium text-gray-900 dark:text-gray-100 sm:mr-8 sm:p-4`}
+                    '/resume' ? 'active' : ''} menu-link relative mr-6 flex flex-col font-medium dark:text-gray-100 sm:mr-8 sm:p-4`}
 						>
-							Skills
-							{isActiveLink(`/skills`, router.pathname) && (
+							Resume
+							{isActiveLink(`/resume`, router.pathname) && (
 								<motion.div
 									layoutId="navigation-underline"
 									className="navigation-underline active"
