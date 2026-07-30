@@ -19,7 +19,7 @@ export default function ProjectTag({ projects, tag, currentPage, totalPages }) {
 			<Head>
 				<title>projects tag: {tag}</title>
 			</Head>
-			<section className={classes.tag}>
+			<section className={`project-tag ${classes['project-tag']}`}>
 				<h1>projects tag: {tag}</h1>
 				<ul style={{ listStyle: 'none', padding: 0 }}>
 					{projects.map((project) => (
