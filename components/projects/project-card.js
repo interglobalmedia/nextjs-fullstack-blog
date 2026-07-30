@@ -4,6 +4,7 @@ import { Oswald } from 'next/font/google'
 import { Fragment } from 'react'
 import { getProjectTagLink } from './get-project-tag-link'
 import classes from '../../styles/project-card.module.scss'
+import sp from '../../styles/stack-prompt.module.scss'
 
 const oswald = Oswald({
 	weight: ['400'],
@@ -23,7 +24,6 @@ const Card = ({
 	slug,
 	more,
 }) => {
-	console.log('slug:', slug, 'imgSrc:', imgSrc)
 	return (
 		<li className={`card ${classes.card}`}>
 			<h2 className={classes['heading-two']}>
@@ -40,7 +40,7 @@ const Card = ({
 			</h2>
 			{imgSrc && (
 				<figure className={classes.image}>
-					<div style={{ position: 'relative' }}>
+					<div className={classes['image-wrapper']}>
 						<Image
 							alt={title}
 							src={`/images/projects/${slug}/${imgSrc}`}
@@ -55,11 +55,17 @@ const Card = ({
 						className={`${classes.content} ${oswald.variable}`}
 					>
 						<p>{summary}</p>
-						<p className={classes.tag}>
+						<p
+							className={`${classes['project-tag']} ${sp.prompt} ${sp.card}`}
+						>
+							<span className={sp.symbol}>$</span>
+							<span className={sp.label}>stack:</span>
 							{tags.map((tag, index) => (
 								<Fragment key={tag}>
 									{getProjectTagLink(tag)}
-									{index < tags.length - 1 && ', '}
+									{index < tags.length - 1 && (
+										<span className={sp.separator}>/</span>
+									)}
 								</Fragment>
 							))}
 						</p>
