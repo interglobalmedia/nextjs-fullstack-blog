@@ -6,14 +6,16 @@ $min-768: '(min-width: 768px)';
 
 /* stylelint-disable scss/no-global-function-names */
 
-.tag {
+.project-tag,
+.post-tag {
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 60rem;
 	width: 90%;
 }
 
-.tag > li figure {
+.project-tag > li figure,
+.post-tag > li figure {
 	border-bottom-right-radius: 6px;
 	border-top-right-radius: 6px;
 	border-bottom-left-radius: 6px;
@@ -22,7 +24,8 @@ $min-768: '(min-width: 768px)';
 	border-top-left-radius: 6px;
 }
 
-.tag > li figure img {
+.project-tag > li figure img,
+.post-tag > li figure img {
 	border-top-left-radius: 6px;
 	border-top-right-radius: 6px;
 
@@ -32,8 +35,8 @@ $min-768: '(min-width: 768px)';
 	}
 }
 
-.tag > h1 {
-	color: color.adjust(#1c1c1c, $lightness: -1.25%);
+.project-tag > h1,
+.post-tag > h1 {
 	font-size: var(--size-8);
 	margin: var(--size-8) auto;
 	text-align: center;
@@ -41,4 +44,9 @@ $min-768: '(min-width: 768px)';
 	@media #{$min-768} {
 		font-size: var(--size-12);
 	}
+}
+
+.dark .project-tag > h1,
+.dark .post-tag > h1 {
+	color: color.adjust(#fff, $lightness: -1.25%) !important;
 }
