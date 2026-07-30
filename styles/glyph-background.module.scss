@@ -1,0 +1,60 @@
+/* glyph-background.module.scss */
+
+/* Ported from guess-the-keys: styles/scss/base/_global.scss (the body grid
+   layout) and styles/scss/partials/_background.scss (the .char-div gradient
+   + text-stroke treatment). Originally applied globally to <body>; here it's
+   position: fixed so it covers the full viewport the way a fixed CSS
+   background gradient on body would — behind nav, content, and footer alike,
+   regardless of where in the page this component actually mounts. */
+
+.glyph-background {
+	position: fixed;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	z-index: -1;
+
+	display: grid;
+	grid-auto-flow: row;
+	grid-auto-rows: 75px;
+	grid-template-columns: repeat(auto-fill, 75px);
+	justify-content: center;
+}
+
+.char-div {
+	--deg: 40deg;
+	--colorbg: #fa4659;
+	--colortx: #fa4659;
+	--scalex: 2;
+	--scaley: 2;
+
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	font-family: Quicksand, sans-serif;
+	font-size: 75px;
+	font-weight: 600;
+
+	background: linear-gradient(
+		var(--deg),
+		transparent 50%,
+		var(--colorbg) 50%
+	);
+
+	/* needed for Chrome and Safari */
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-text-stroke: var(--colortx);
+	-webkit-text-stroke-width: 2px;
+	color: transparent;
+}
+
+/* Wraps the About page content. No longer needs position: relative or
+   overflow: hidden — the glyph background is position: fixed now, so it's
+   sized against the viewport, not this wrapper. min-height stays so the
+   content-overlay panel still fills at least the viewport height on short
+   pages. */
+.page-wrapper {
+	min-height: 100vh;
+}
