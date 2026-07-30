@@ -72,9 +72,9 @@ function AboutPage() {
 							Here&apos;s where I am now... focused on Linux/Unix
 							systems and Python/Django, still writing, still
 							weighing one approach against another. I&apos;m
-							available for remote-first work, and the proof is in
-							the Projects and Posts, project by project, post by
-							post.
+							available for remote-first work and open to speaking
+							and presenting opportunities, and the proof is on
+							the Projects page, project by project, post by post.
 						</p>
 						<p className={classes.info}>
 							If you would like to contact me, you can email me by
