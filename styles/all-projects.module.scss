@@ -13,7 +13,6 @@ $min-768: '(min-width: 768px)';
 }
 
 .projects > h1 {
-	color: color.adjust(#1c1c1c, $lightness: -1.25%);
 	font-family: var(--oswald-font);
 	font-size: var(--size-12);
 	text-align: center;
@@ -21,4 +20,8 @@ $min-768: '(min-width: 768px)';
 	@media #{$min-768} {
 		font-size: var(--size-16);
 	}
+}
+
+.dark .projects > h1 {
+	color: color.adjust(#fff, $lightness: -1.25%) !important;
 }

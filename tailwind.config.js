@@ -35,11 +35,7 @@ module.exports = {
 				gray: colors.neutral,
 				transparent: 'transparent',
 				black: '#000',
-				white: '#ff73fa',
-				gray: {
-					100: '#f7fafc',
-					900: '#1a202c',
-				},
+				white: '#fff',
 			},
 			typography: (theme) => ({
 				DEFAULT: {

@@ -1,0 +1,204 @@
+/* stack-prompt.module.scss */
+
+/* powerline/zsh-style pill segments for the "$ stack: ..." motif on the individual
+   project page. Each segment carries its OWN background, so contrast never depends
+   on the surrounding page background. Light and dark mode get genuinely different
+   palettes, toggled via the site's existing .dark ancestor class.
+
+   The .card modifier (combine with .prompt, e.g. `${sp.prompt} ${sp.card}`) is for
+   the feed cards — plain colored text with a "/" separator, no backgrounds/boxes,
+   matching the original pre-pill styling. */
+
+@use 'sass:color';
+
+$aussie-blue: #80d0ff;
+
+@mixin pill($bg, $fg: #fff) {
+	background-color: $bg;
+	clip-path: polygon(0.6em 0, 100% 0, calc(100% - 0.6em) 100%, 0 100%);
+	color: $fg !important;
+	display: inline-block;
+	font-weight: 600;
+	line-height: 1.7;
+	padding: 0.05em 1em;
+}
+
+@mixin plain($fg) {
+	background: none !important;
+	clip-path: none !important;
+	color: $fg !important;
+	display: inline !important;
+	font-weight: normal !important;
+	line-height: normal !important;
+	padding: 0 !important;
+}
+
+.prompt {
+	align-items: center;
+	display: inline-flex;
+	flex-wrap: wrap;
+	font-family: Inconsolata, monospace;
+	font-size: 1rem;
+	row-gap: 0.4rem;
+}
+
+/* pull each pill into its neighbor by the same amount the clip-path cuts away,
+   so the angled edges line up exactly with no diamond-shaped gap between them */
+.prompt > *:not(:first-child) {
+	margin-left: -0.6em;
+}
+
+/* card variant: plain text, normal spacing, no pill overlap needed */
+.prompt.card > *:not(:first-child) {
+	margin-left: 0.35em;
+}
+
+/* ---- light mode (default) ---- */
+
+.symbol {
+	@include pill(var(--color-primary-500));
+
+	font-size: 1.2rem;
+}
+
+.label {
+	@include pill(color.adjust($aussie-blue, $lightness: -25%));
+
+	font-size: 1.1rem;
+}
+
+.prompt :global(a.project-tag),
+.prompt :global(a.post-tag) {
+	text-decoration: none;
+}
+
+.prompt :global(a.project-tag):hover,
+.prompt :global(a.post-tag):hover {
+	filter: brightness(1.15);
+	text-decoration: none;
+}
+
+.prompt :global(a.project-tag):nth-of-type(4n + 1),
+.prompt :global(a.post-tag):nth-of-type(4n + 1) {
+	@include pill(color.adjust(#c94700, $lightness: 5%));
+}
+
+.prompt :global(a.project-tag):nth-of-type(4n + 2),
+.prompt :global(a.post-tag):nth-of-type(4n + 2) {
+	@include pill(color.adjust($aussie-blue, $lightness: -30%));
+}
+
+.prompt :global(a.project-tag):nth-of-type(4n + 3),
+.prompt :global(a.post-tag):nth-of-type(4n + 3) {
+	@include pill(color.adjust(#843897, $lightness: 15%));
+}
+
+.prompt :global(a.project-tag):nth-of-type(4n),
+.prompt :global(a.post-tag):nth-of-type(4n) {
+	@include pill(color.adjust(#a10c4a, $lightness: 5%));
+}
+
+/* ---- card variant (light mode): plain colored text, no background ---- */
+
+.prompt.card .symbol {
+	@include plain(color.adjust(#c94700, $lightness: 0%));
+}
+
+.prompt.card .label {
+	@include plain(color.adjust($aussie-blue, $lightness: -30%));
+}
+
+.prompt.card :global(a.project-tag):hover,
+.prompt.card :global(a.post-tag):hover {
+	filter: none;
+	text-decoration: underline;
+}
+
+.prompt.card :global(a.project-tag):nth-of-type(4n + 1),
+.prompt.card :global(a.post-tag):nth-of-type(4n + 1) {
+	@include plain(color.adjust(#c94700, $lightness: 0%));
+}
+
+.prompt.card :global(a.project-tag):nth-of-type(4n + 2),
+.prompt.card :global(a.post-tag):nth-of-type(4n + 2) {
+	@include plain(color.adjust($aussie-blue, $lightness: -30%));
+}
+
+.prompt.card :global(a.project-tag):nth-of-type(4n + 3),
+.prompt.card :global(a.post-tag):nth-of-type(4n + 3) {
+	@include plain(color.adjust(#843897, $lightness: 10%));
+}
+
+.prompt.card :global(a.project-tag):nth-of-type(4n),
+.prompt.card :global(a.post-tag):nth-of-type(4n) {
+	@include plain(color.adjust(#a10c4a, $lightness: 10%));
+}
+
+.prompt.card .separator {
+	color: var(--color-grey-500, #888);
+	margin: 0 0.1em;
+}
+
+/* ---- dark mode ---- */
+
+:global(.dark) .symbol {
+	@include pill(var(--color-grey-900));
+}
+
+:global(.dark) .label {
+	@include pill(color.adjust($aussie-blue, $lightness: -25%));
+}
+
+:global(.dark) .prompt :global(a.project-tag):nth-of-type(4n + 1),
+:global(.dark) .prompt :global(a.post-tag):nth-of-type(4n + 1) {
+	@include pill(var(--color-success-500));
+}
+
+:global(.dark) .prompt :global(a.project-tag):nth-of-type(4n + 2),
+:global(.dark) .prompt :global(a.post-tag):nth-of-type(4n + 2) {
+	@include pill(var(--color-primary-500));
+}
+
+:global(.dark) .prompt :global(a.project-tag):nth-of-type(4n + 3),
+:global(.dark) .prompt :global(a.post-tag):nth-of-type(4n + 3) {
+	@include pill(rgb(201 71 0 / 100%));
+}
+
+:global(.dark) .prompt :global(a.project-tag):nth-of-type(4n),
+:global(.dark) .prompt :global(a.post-tag):nth-of-type(4n) {
+	@include pill(var(--color-error-500));
+}
+
+/* ---- dark mode, card variant: plain colored text, no background ---- */
+
+:global(.dark) .prompt.card .symbol {
+	@include plain(var(--color-grey-300, #ccc));
+}
+
+:global(.dark) .prompt.card .label {
+	@include plain(color.adjust($aussie-blue, $lightness: -10%));
+}
+
+:global(.dark) .prompt.card :global(a.project-tag):nth-of-type(4n + 1),
+:global(.dark) .prompt.card :global(a.post-tag):nth-of-type(4n + 1) {
+	@include plain(var(--color-success-500));
+}
+
+:global(.dark) .prompt.card :global(a.project-tag):nth-of-type(4n + 2),
+:global(.dark) .prompt.card :global(a.post-tag):nth-of-type(4n + 2) {
+	@include plain(var(--color-primary-500));
+}
+
+:global(.dark) .prompt.card :global(a.project-tag):nth-of-type(4n + 3),
+:global(.dark) .prompt.card :global(a.post-tag):nth-of-type(4n + 3) {
+	@include plain(color.adjust(#c94700, $lightness: 15%));
+}
+
+:global(.dark) .prompt.card :global(a.project-tag):nth-of-type(4n),
+:global(.dark) .prompt.card :global(a.post-tag):nth-of-type(4n) {
+	@include plain(var(--color-error-500));
+}
+
+:global(.dark) .prompt.card .separator {
+	color: var(--color-grey-500, #888);
+}

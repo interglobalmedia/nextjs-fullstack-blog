@@ -11,18 +11,28 @@ $aussie-blue: #80d0ff;
 }
 
 .about-article {
-	background: $aussie-blue;
+	background: rgb(128 208 255 / 85%);
 	border-radius: 5px;
 	border: 1.5px solid;
 	box-shadow: 3px 6px 6px rgb(28 28 28 / 20%);
 	padding: 0.5rem 1.25rem;
 }
 
+.about-article p {
+	color: var(--color-grey-800);
+}
+
 .about-section > h1 {
-	color: var(--color-grey-300);
+	background: rgb(128 208 255 / 85%);
+	border-radius: 5px;
+	border: 1.5px solid var(--color-grey-800);
+	box-shadow: 3px 6px 6px rgb(28 28 28 / 20%);
+	color: white;
+	display: table;
 	font-family: var(--oswald-font);
 	font-size: var(--size-12);
-	margin: var(--size-4) 0;
+	margin: var(--size-4) auto;
+	padding: 0.25rem 1.25rem;
 	text-align: center;
 	-webkit-text-stroke-color: #000;
 	-webkit-text-stroke-width: 1.25px;

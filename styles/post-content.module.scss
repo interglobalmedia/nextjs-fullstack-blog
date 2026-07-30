@@ -11,7 +11,6 @@ $asian-green: #96aa9a;
 /* stylelint-disable scss/no-global-function-names */
 
 .content {
-	background-color: var(--color-grey-200);
 	background-color: color.adjust($asian-green, $lightness: 7.5%);
 	border-radius: 6px;
 	font-size: var(--size-5);
@@ -127,19 +126,7 @@ $asian-green: #96aa9a;
 	}
 }
 
-/* Markdown table mixin */
-// @mixin equal-columns($num-columns) {
-// 	@if $num-columns == 2 {
-// 		width: 50%;
-// 	} @else if $num-columns == 3 {
-// 		width: 33.33%;
-// 	} @else if $num-columns == 4 {
-// 		width: 25%;
-// 	} @else {
-// 		width: 100% / $num-columns; // Default case for more than 4 columns
-// 	}
-// }
-
+/* React Markdown table styling */
 @mixin conditional-columns($columns) {
 	@for $i from 1 through $columns {
 		@if $columns == 2 {
@@ -154,7 +141,6 @@ $asian-green: #96aa9a;
 	}
 }
 
-/* Markdown table styling */
 .content table {
 	border-spacing: 0 !important;
 	border-collapse: collapse !important;

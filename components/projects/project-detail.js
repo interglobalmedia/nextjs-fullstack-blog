@@ -18,6 +18,7 @@ import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { getProjectTagLink } from './get-project-tag-link'
 import classes from '../../styles/project-detail.module.scss'
+import sp from '../../styles/stack-prompt.module.scss'
 import getReadTime from '../../lib/utils/read-time'
 import Share from '../share/share'
 import CodeCopyBtn from '../posts/post-detail/code-copy-btn'
@@ -225,11 +226,15 @@ function ProjectDetail({ project }) {
 				<p className={`dates ${classes.dates}`}>
 					Last modified on {lastModifiedFormattedDate}
 				</p>
-				<p className={`tags ${classes.tags}`}>
+				<p className={`tags ${classes.tags} ${sp.prompt}`}>
+					<span className={sp.symbol}>$</span>
+					<span className={sp.label}>stack:</span>
 					{tags.map((tag, index) => (
 						<Fragment key={tag}>
 							{getProjectTagLink(tag)}
-							{index < tags.length - 1 && ', '}
+							{index < tags.length - 1 && (
+								<span className={sp.separator}>/</span>
+							)}
 						</Fragment>
 					))}
 				</p>

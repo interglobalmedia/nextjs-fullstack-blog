@@ -1,8 +1,8 @@
-/* scss @media variables */
+/* scss variables */
 $min-320: '(min-width: 320px)';
 $min-768: '(min-width: 768px)';
 
-/* scss color variable */
+/* scss color variables */
 $white: #fff;
 
 /* @use functions */
@@ -10,7 +10,7 @@ $white: #fff;
 
 /* stylelint-disable scss/no-global-function-names */
 
-.card {
+.content {
 	background: transparent;
 
 	/* Adding css grid here makes all post items the same! */
@@ -18,7 +18,7 @@ $white: #fff;
 	grid-template-columns: repeat(1, 1fr);
 	height: 100%;
 	list-style-type: none;
-	margin-bottom: 0; // come back to this
+	margin-bottom: 1.5rem;
 	margin-left: 1.0875rem;
 	transition: opacity 0.3s ease-in-out;
 	width: 100%;
@@ -28,24 +28,26 @@ $white: #fff;
 	}
 }
 
-/* Takes care of spacing of project title on projects page */
-.card .heading-two {
-	margin-bottom: 0.5rem;
-	margin-top: 1.5rem;
+.content:last-of-type {
+	margin-bottom: 6rem;
 }
 
-.card a:hover {
+.content a {
+	color: var(--color-grey-100);
+	word-break: normal;
+}
+
+.content a:hover {
 	text-decoration: none;
 }
 
-.image {
+.content .image {
 	background-color: color.adjust(#1c1c1c, $lightness: -1.25%);
 	background-position: center;
 	background-size: cover;
 	box-shadow: -2px 2px 10px 0 rgb(68 68 68 / 40%);
 	box-sizing: border-box;
-	display: grid;
-	grid-template-columns: repeat(1, 1fr);
+	color: $white;
 	cursor: pointer;
 
 	/*  Add height property so that the figure element, figure img and figcaption completely fill up the space! And this is achieved with the auto property value. And making it auto also makes the height of each image the same. */
@@ -62,22 +64,6 @@ $white: #fff;
 	@media #{$min-768} {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-	}
-}
-
-/* Wraps the Next.js <Image fill> element. It needs its own explicit height —
-   previously this was an inline `style={{ position: 'relative' }}` div with no
-   height at all, which only "worked" at 768px+ because .image's 2-column grid
-   row height happened to be driven by figcaption's content, and this div
-   stretched to match. Below 768px (single column), this div was alone in its
-   own row with nothing to size against, so it collapsed to height: 0 — hence
-   the "has fill and a height value of 0" warning. */
-.image-wrapper {
-	position: relative;
-	height: 220px; /* adjust to taste for the single-column mobile layout */
-
-	@media #{$min-768} {
-		height: 100%; /* at 768px+, matches the 2-column grid row height again */
 	}
 }
 
@@ -122,7 +108,7 @@ $white: #fff;
 
 .content::after {
 	color: #444;
-	font-size: 1.1rem;
+	font-size: 1rem;
 	font-weight: bold;
 	padding-left: 1rem;
 	padding-right: 1em;
@@ -142,50 +128,13 @@ $white: #fff;
 }
 
 .content p {
-	color: var(--color-grey-200) !important;
+	color: var(--color-grey-200);
 	line-height: var(--size-6);
 	margin: var(--size-2) 0;
-	font-size: 1rem;
-}
-
-/* override global h2 spacing inside card */
-.card h2 {
-	margin-bottom: 1.5rem;
-	margin-top: 0;
-	padding: 0;
 }
 
 /* tag styling */
 
-.card h2 a {
-	color: color.adjust(#1c1c1c, $lightness: -1.25%);
-}
-
-.card .content .project-tag * {
-	color: $white;
-}
-
 .content .project-tag:hover {
-	text-decoration: none;
-}
-
-/* round the card outer corners */
-
-.card figure {
-	border-bottom-right-radius: 6px;
-	border-top-right-radius: 6px;
-	border-bottom-left-radius: 6px;
-
-	/* stylelint-disable declaration-block-no-redundant-longhand-properties */
-	border-top-left-radius: 6px;
-}
-
-.card figure img {
-	border-top-left-radius: 6px;
-	border-top-right-radius: 6px;
-
-	@media #{$min-768} {
-		border-bottom-left-radius: 6px;
-		border-top-right-radius: 0;
-	}
+	text-decoration: underline;
 }

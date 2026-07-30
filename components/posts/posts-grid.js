@@ -28,7 +28,7 @@ function PostsGrid(props) {
 					type="text"
 					onChange={(e) => setSearchValue(e.target.value)}
 					placeholder="Search articles"
-					className={`${classes.search} block w-full rounded-md bg-primary-500 border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100`}
+					className={`${classes.search} block w-full rounded-md bg-primary-500 border border-gray-300 px-4 py-2 focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-800 dark:text-gray-100`}
 					autoFocus
 				/>
 				<svg
