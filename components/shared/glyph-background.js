@@ -8,16 +8,27 @@ import classes from '../../styles/glyph-background.module.scss'
    built to pick randomly among several colors passed as arguments, but it
    was only ever called with a single argument (pickColor(getRandomColor())),
    so it always just returned that one color back. Functionally a no-op as
-   used, so this version calls getRandomColor() directly instead. */
+   used, so this version calls getRandomColor() directly instead.
 
-const CELL_SIZE = 75 // px, matches .char-div font-size / grid cell in the original
+   Generalized to accept a generateContent prop, so the same component backs
+   both the About page (wide Unicode range, default behavior below) and the
+   Resume page (command-line symbols + short commands, passed in by the
+   caller) — one component, two very different looks. */
 
-function range(from, to) {
+const CELL_SIZE = 75 // px, matches the grid cell size in the original
+
+export function range(from, to) {
 	return ~~(Math.random() * (to - from + 1) + from)
 }
 
-function getChar() {
+function defaultGetChar() {
 	return String.fromCharCode(range(2300, 23))
+}
+
+// Default content generator: reproduces the original About-page behavior
+// exactly (one random wide-range Unicode character, no column spanning).
+function defaultGenerateContent() {
+	return { text: defaultGetChar(), span: 1 }
 }
 
 function getRandomColor() {
@@ -29,12 +40,14 @@ function getRandomColor() {
 	return color
 }
 
-function generateGlyphs(count) {
+function generateGlyphs(count, generateContent) {
 	const glyphs = []
 	for (let i = 0; i < count; i++) {
 		const color = getRandomColor()
+		const { text, span } = generateContent()
 		glyphs.push({
-			char: getChar(),
+			text,
+			span,
 			deg: `${range(75, 230)}deg`,
 			color,
 		})
@@ -42,7 +55,7 @@ function generateGlyphs(count) {
 	return glyphs
 }
 
-const GlyphBackground = () => {
+const GlyphBackground = ({ generateContent = defaultGenerateContent }) => {
 	const containerRef = useRef(null)
 	const [glyphs, setGlyphs] = useState([])
 
@@ -56,9 +69,11 @@ const GlyphBackground = () => {
 			const { offsetWidth, offsetHeight } = container
 			const columns = Math.ceil(offsetWidth / CELL_SIZE) || 1
 			const rows = Math.ceil(offsetHeight / CELL_SIZE) || 1
-			// small buffer so partial cells at the edges still get filled
-			const count = columns * rows + columns
-			setGlyphs(generateGlyphs(count))
+			// small buffer so partial cells at the edges still get filled,
+			// and so column-spanning items (which use up more than one
+			// cell each) still leave enough items to fill out each row
+			const count = columns * rows + columns * 2
+			setGlyphs(generateGlyphs(count, generateContent))
 		}
 
 		fillContainer()
@@ -74,7 +89,7 @@ const GlyphBackground = () => {
 			clearTimeout(resizeTimeout)
 			window.removeEventListener('resize', handleResize)
 		}
-	}, [])
+	}, [generateContent])
 
 	return (
 		<div
@@ -85,14 +100,19 @@ const GlyphBackground = () => {
 			{glyphs.map((glyph, index) => (
 				<div
 					key={index}
-					className={classes['char-div']}
+					className={
+						glyph.span > 1
+							? `${classes['char-div']} ${classes.command}`
+							: classes['char-div']
+					}
 					style={{
 						'--deg': glyph.deg,
 						'--colorbg': glyph.color,
 						'--colortx': glyph.color,
+						gridColumn: `span ${glyph.span}`,
 					}}
 				>
-					{glyph.char}
+					{glyph.text}
 				</div>
 			))}
 		</div>

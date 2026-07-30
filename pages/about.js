@@ -3,7 +3,7 @@ import Head from '../components/seo/head'
 import siteMetadata from '../data/siteMetadata'
 import classes from '../styles/about.module.scss'
 import bgClasses from '../styles/glyph-background.module.scss'
-import GlyphBackground from '../components/about/glyph-background'
+import GlyphBackground from '../components/shared/glyph-background'
 
 const DEFAULT_IMAGE = `${siteMetadata.siteUrl}${siteMetadata.defaultImage}`
 

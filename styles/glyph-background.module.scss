@@ -50,6 +50,18 @@
 	color: transparent;
 }
 
+/* Modifier for short command text (e.g. "ls", "git push") on the Resume
+   page's background — these span multiple grid columns instead of being
+   squeezed into one 75px cell, so they need a much smaller font-size than
+   the single large symbols do. Monospace reads more "terminal" for actual
+   command text than the site's default Quicksand does. */
+.command {
+	font-family: 'Courier New', Consolas, monospace;
+	font-size: 26px;
+	letter-spacing: 0.02em;
+	white-space: nowrap;
+}
+
 /* Wraps the About page content. No longer needs position: relative or
    overflow: hidden — the glyph background is position: fixed now, so it's
    sized against the viewport, not this wrapper. min-height stays so the

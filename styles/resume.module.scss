@@ -1,0 +1,187 @@
+/* resume.module.scss */
+
+$min-768: '(min-width: 768px)';
+$panel-bg: rgb(128 208 255 / 85%);
+
+.resume-section {
+	margin: 3rem auto 6rem;
+	max-width: 48rem;
+	width: 92%;
+}
+
+.resume-header {
+	background: $panel-bg;
+	border: 1.5px solid var(--color-grey-800);
+	border-radius: 5px;
+	box-shadow: 3px 6px 6px rgb(28 28 28 / 20%);
+	margin-bottom: 1.5rem;
+	padding: 1.25rem 1.25rem 1.5rem;
+	text-align: left;
+}
+
+.name {
+	color: white;
+	font-family: var(--oswald-font);
+	font-size: var(--size-12);
+	margin: 0 0 0.75rem;
+	-webkit-text-stroke-color: #000;
+	-webkit-text-stroke-width: 1.25px;
+
+	@media #{$min-768} {
+		font-size: var(--size-16);
+	}
+}
+
+/* $ before the name — plain black, no background/pill, matching the h2
+   title symbols. Sized up from the earlier 1.5rem, which read as
+   dwarfed/insignificant next to the huge name text — scales at the same
+   breakpoint .name does, so the proportion holds on both mobile and
+   desktop. */
+.name-symbol {
+	color: #000;
+	font-size: 2.1rem;
+	font-weight: 700;
+	vertical-align: middle;
+
+	@media #{$min-768} {
+		font-size: 3rem;
+	}
+}
+
+$download-color: #8d0a9d;
+
+.download-link {
+	color: $download-color;
+	display: inline-block;
+	font-weight: 600;
+	margin-top: 0.25rem;
+}
+
+/* Contact row: its own independent flex row rather than reusing the
+   shared sp.prompt/tag-list system — that system is shared with
+   Skills/Languages and has its own layout behavior tied to those sections;
+   giving Contact its own simple flex container keeps this fully isolated.
+   Left-aligned to match the rest of the page's terminal-output feel —
+   nothing else on this page centers, so the header shouldn't either.
+   Plain black text, no $ symbol, no color rotation — just text per item. */
+.contact-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	justify-content: flex-start;
+	margin-bottom: 0.5rem;
+}
+
+.contact-item {
+	color: #000;
+	font-family: Inconsolata, monospace;
+	font-size: 1.1rem;
+}
+
+/* Pipe separator between contact items — genuinely CLI-flavored (command
+   chaining: `ps aux | grep ...`), full contrast, normal size. Matches
+   .download-link's explicit violet rather than black, per request.
+   Pseudo-element rather than a real sibling element, so it never shows up
+   after the last item. */
+.contact-item:not(:last-child)::after {
+	content: '|';
+	color: $download-color;
+	font-weight: 700;
+	margin-left: 1rem;
+}
+
+.contact-item a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.contact-item a:hover {
+	text-decoration: underline;
+}
+
+.panel {
+	background: $panel-bg;
+	border: 1.5px solid var(--color-grey-800);
+	border-radius: 5px;
+	box-shadow: 3px 6px 6px rgb(28 28 28 / 20%);
+	margin-bottom: 1.5rem;
+	padding: 0.75rem 1.25rem 1.25rem;
+}
+
+.panel h2 {
+	align-items: center;
+	color: #000;
+	display: flex;
+	font-family: var(--oswald-font);
+	font-size: var(--size-8);
+	gap: 0.5rem;
+	margin-bottom: 0.75rem;
+}
+
+/* Plain $ — no background, matching the h2 titles' black. Used everywhere
+   except the name header, which keeps its own pill treatment unchanged. */
+.plain-symbol {
+	color: #000;
+	font-weight: 700;
+}
+
+/* Solid pill wrapping the section title text itself (e.g. "ls education"),
+   not the individual content inside a section. Simple rounded pill rather
+   than the diagonal clip-path chain style — there's only ever one of these
+   per title, so there's no adjacent segment to interlock with, and a
+   plain rounded pill is simpler for a single standalone badge. Reuses the
+   same 4 colors already verified for white-text contrast elsewhere. */
+@mixin title-pill($bg) {
+	background-color: $bg;
+	border-radius: 4px;
+	color: #fff;
+	display: inline-block;
+	font-weight: 700;
+	padding: 0.1em 0.6em;
+}
+
+.title-rust {
+	@include title-pill(#b8460a);
+}
+
+.title-teal {
+	@include title-pill(#0b7a5c);
+}
+
+.title-violet {
+	@include title-pill(#7048e8);
+}
+
+.title-pink {
+	@include title-pill(#b02358);
+}
+
+.job {
+	margin-bottom: 1.25rem;
+}
+
+.job:last-child {
+	margin-bottom: 0;
+}
+
+.job-title {
+	font-size: 1.15rem;
+	font-weight: 700;
+}
+
+.job-meta {
+	font-size: 0.95rem;
+	font-style: italic;
+	margin-bottom: 0.35rem;
+}
+
+.info {
+	font-size: 1.1rem;
+	line-height: 1.5;
+}
+
+.prompt-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+}
