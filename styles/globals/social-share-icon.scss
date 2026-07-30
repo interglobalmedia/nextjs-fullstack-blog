@@ -2,12 +2,12 @@
 @use 'sass:color';
 
 /* dark social share icon styling */
-.dark div > div.share-hacker-news,
+.dark div .share-hacker-news,
 .dark div > div.share-twitter,
 .dark div > div.share-reddit,
 .dark div > div.share-linkedin,
 .dark div > div.share-tumblr {
-    /* stylelint-disable scss/no-global-function-names */
+	/* stylelint-disable scss/no-global-function-names */
 	fill: color.adjust($aussie-blue, $lightness: 2.5%);
 
 	&:hover {
