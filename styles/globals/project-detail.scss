@@ -31,7 +31,7 @@
 }
 
 /* dark theme for tags */
-.dark .tags a {
+.dark .tags .project-tag a {
 	color: color.adjust($tailwind-lightest-orange, $lightness: -2.5%);
 }
 
@@ -63,9 +63,13 @@
 	margin-bottom: 0.5em !important;
 	/* stylelint-disable property-no-vendor-prefix */
 	/* stylelint-disable color-function-notation */
-	-webkit-box-shadow: -10px 0 13px -7px #000, 10px 0 13px -7px #000,
+	-webkit-box-shadow:
+		-10px 0 13px -7px #000,
+		10px 0 13px -7px #000,
 		35px -23px 2px -16px rgb(0 0 0 / 0%);
-	box-shadow: -10px 0 13px -7px #000, 10px 0 13px -7px #000,
+	box-shadow:
+		-10px 0 13px -7px #000,
+		10px 0 13px -7px #000,
 		35px -23px 2px -16px rgb(0 0 0 / 0%);
 	position: relative;
 }
