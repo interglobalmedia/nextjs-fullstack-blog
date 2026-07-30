@@ -18,7 +18,7 @@ export default function Tag(props) {
 			<Head>
 				<title>tag: {tag}</title>
 			</Head>
-			<section className={classes.tag}>
+			<section className={` post-tag ${classes['post-tag']}`}>
 				<h1>tag: {tag}</h1>
 				{posts.map((post) => (
 					<DynamicPostItem
