@@ -27,12 +27,9 @@ function Footer() {
 				</h2>
 				<div className={`${classes['svg-wrapper']}`}>
 					<div className={`footer-email ${classes['footer-email']}`}>
-						<DynamicSocialIcon
-							name="email"
-							href={`mailto:${siteMetadata.email}`}
-							// default={siteMetadata.email}
-							size="6"
-						/>
+						<Link href="/contact" aria-label="Contact me">
+							<DynamicSocialIcon name="email" size="6" />
+						</Link>
 					</div>
 					<div
 						className={`footer-github ${classes['footer-github']}`}

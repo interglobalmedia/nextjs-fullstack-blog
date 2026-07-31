@@ -65,6 +65,26 @@ function FooterNavigation() {
 							)}
 						</Link>
 					</li>
+					<li className="menu-link-li">
+						<Link
+							href="/contact"
+							className={`${router.pathname} ===
+                    '/contact' ? 'active' : ''} menu-link relative mr-6 flex flex-col font-medium dark:text-gray-100 sm:mr-8 sm:p-4`}
+						>
+							Contact
+							{isActiveLink(`/contact`, router.pathname) && (
+								<motion.div
+									layoutId="navigation-underline"
+									className="navigation-underline active"
+									transition={{
+										duration: 0.5,
+										type: 'tween',
+									}}
+									animate
+								></motion.div>
+							)}
+						</Link>
+					</li>
 				</ul>
 			</nav>
 		</header>
