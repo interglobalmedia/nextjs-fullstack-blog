@@ -62,6 +62,16 @@ $tailwind-lightest-orange: rgb(229 178 160 / 100%);
 	margin-top: 0.5rem;
 }
 
+.content a {
+	text-decoration: underline;
+	color: #8d0a9d;
+	word-break: break-all;
+}
+
+.content a:hover {
+	text-decoration: none;
+}
+
 /* stylelint-disable-next-line selector-class-pattern */
 .content .image {
 	margin: var(--size-4) auto;

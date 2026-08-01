@@ -44,9 +44,9 @@ ol {
 }
 
 a {
-	text-decoration: none;
 	color: #8d0a9d;
 	word-break: break-all;
+	text-decoration: none;
 }
 
 a:hover {
@@ -94,7 +94,8 @@ blockquote {
 }
 
 .dark .inline-code {
-	color: color.adjust(#c0c0c0, $lightness: -20%);
+	color: #e6e1cf;
+	background: #1e1e1e;
 }
 
 /* stylelint-disable no-descending-specificity */

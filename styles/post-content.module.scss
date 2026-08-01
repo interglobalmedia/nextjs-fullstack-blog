@@ -39,6 +39,37 @@ $asian-green: #96aa9a;
 	margin-top: 0.5rem;
 }
 
+.content a {
+	text-decoration: underline;
+	color: #5f0770;
+	word-break: break-all;
+}
+
+.content a:hover {
+	text-decoration: none;
+}
+
+:global(.dark) .content a {
+	color: #7fb0d9;
+}
+
+:global(.dark) .content .heading-two,
+:global(.dark) .content .heading-three,
+:global(.dark) .content .heading-four {
+	color: #dd9982;
+	text-decoration: none;
+}
+
+:global(.dark) .content a:global(.post-tag) {
+	color: #d98a9c;
+}
+
+:global(.dark) .content .blockquote,
+:global(.dark) .content .blockquote p {
+	background-color: #1e1e1e;
+	color: #e6e1cf;
+}
+
 /* stylelint-disable-next-line selector-class-pattern */
 .content .image {
 	margin: var(--size-4) auto;

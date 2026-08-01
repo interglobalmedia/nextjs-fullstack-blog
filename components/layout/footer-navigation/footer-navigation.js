@@ -24,18 +24,21 @@ function FooterNavigation() {
 	return (
 		<header className={`footer-header ${classes['footer-header']}`}>
 			<nav className={classes['footer-navbar']}>
-				<ul className={`footer-nav ${classes['footer-nav']}`}>
+				<ul
+					className={`footer-nav footer-navigation-underline ${classes['footer-nav']} ${classes['footer-navigation-underline']}`}
+				>
 					<li className="menu-link-li">
 						<Link
 							href="/about"
-							className={`${router.pathname} ===
-                    '/about' ? 'active' : ''} menu-link relative mr-6 flex flex-col font-medium dark:text-gray-100 sm:mr-8 sm:p-4`}
+							className={`${
+								router.pathname === '/about' ? 'active' : ''
+							} menu-link relative mr-6 flex flex-col font-medium dark:text-gray-100 sm:mr-8 sm:p-4`}
 						>
 							About
 							{isActiveLink(`/about`, router.pathname) && (
 								<motion.div
-									layoutId="navigation-underline"
-									className="navigation-underline active"
+									layoutId="footer-navigation-underline"
+									className="footer-navigation-underline active"
 									transition={{
 										duration: 0.5,
 										type: 'tween',
@@ -48,14 +51,15 @@ function FooterNavigation() {
 					<li className="menu-link-li">
 						<Link
 							href="/resume"
-							className={`${router.pathname} ===
-                    '/resume' ? 'active' : ''} menu-link relative mr-6 flex flex-col font-medium dark:text-gray-100 sm:mr-8 sm:p-4`}
+							className={`${
+								router.pathname === '/resume' ? 'active' : ''
+							} menu-link relative mr-6 flex flex-col font-medium dark:text-gray-100 sm:mr-8 sm:p-4`}
 						>
 							Resume
 							{isActiveLink(`/resume`, router.pathname) && (
 								<motion.div
-									layoutId="navigation-underline"
-									className="navigation-underline active"
+									layoutId="footer-navigation-underline"
+									className="footer-navigation-underline active"
 									transition={{
 										duration: 0.5,
 										type: 'tween',
@@ -68,14 +72,15 @@ function FooterNavigation() {
 					<li className="menu-link-li">
 						<Link
 							href="/contact"
-							className={`${router.pathname} ===
-                    '/contact' ? 'active' : ''} menu-link relative mr-6 flex flex-col font-medium dark:text-gray-100 sm:mr-8 sm:p-4`}
+							className={`${
+								router.pathname === '/contact' ? 'active' : ''
+							} menu-link relative mr-6 flex flex-col font-medium dark:text-gray-100 sm:mr-8 sm:p-4`}
 						>
 							Contact
 							{isActiveLink(`/contact`, router.pathname) && (
 								<motion.div
-									layoutId="navigation-underline"
-									className="navigation-underline active"
+									layoutId="footer-navigation-underline"
+									className="footer-navigation-underline active"
 									transition={{
 										duration: 0.5,
 										type: 'tween',
