@@ -80,7 +80,8 @@ a.menu-link {
 	fill: none;
 	stroke: #fff;
 	stroke-width: 6;
-	transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+	transition:
+		stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
 		stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -118,27 +119,16 @@ a.menu-link {
 }
 
 /* end svg styling */
+
 .main-nav {
 	@media #{$max-767} {
 		& li > a {
 			display: block;
 		}
-
-		& li:nth-of-type(1) > a {
-			width: 5rem;
-		}
-
-		& li:nth-of-type(2) > a {
-			width: 5rem;
-		}
-
-		& li:nth-of-type(3) > a {
-			width: 6rem;
-		}
 	}
 
 	@media #{$max-1279} {
-        /* stylelint-disable scss/no-global-function-names */
+		/* stylelint-disable scss/no-global-function-names */
 		background-color: color.adjust(#1c1c1c, $lightness: -1.25%);
 		display: block;
 		height: 100vh;
@@ -244,8 +234,7 @@ a.menu-link {
 }
 
 /* stylelint-disable no-duplicate-selectors */
-.navigation-underline.active,
-.menu-link.active {
+.navigation-underline.active {
 	&::before {
 		content: '';
 		position: absolute;
@@ -300,8 +289,7 @@ a.menu-link {
 	}
 }
 
-.dark .navigation-underline.active,
-.dark .menu-link.active {
+.dark .navigation-underline.active {
 	&::before {
 		content: '';
 		position: absolute;
@@ -363,7 +351,7 @@ a.menu-link {
 /* stylelint-disable-next-line no-descending-specificity */
 .navigation-underline.active,
 .menu-link.active {
-	color: color.adjust($aussie-blue, $lightness: 5%);
+	// color: color.adjust($aussie-blue, $lightness: 5%);
 	text-shadow: 1px 1px 2px color.adjust($discord-charcoal, $lightness: 15%);
 	transition: color 0.5s ease-in-out;
 }
@@ -383,7 +371,8 @@ a.menu-link {
 .menu-link {
 	&:hover {
 		color: color.adjust($aussie-blue, $lightness: 15%);
-		text-shadow: 1px 1px 2px color.adjust($discord-charcoal, $lightness: 15%);
+		text-shadow: 1px 1px 2px
+			color.adjust($discord-charcoal, $lightness: 15%);
 		text-decoration: none;
 		transition: color 0.5s ease-in-out;
 	}
