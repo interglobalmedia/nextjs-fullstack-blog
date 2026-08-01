@@ -280,7 +280,7 @@ $aussie-blue: #80d0ff;
 
 :global(.dark) .prompt.card :global(a.project-tag):nth-of-type(4n + 2),
 :global(.dark) .prompt.card :global(a.post-tag):nth-of-type(4n + 2) {
-	@include plain(var(--color-primary-500));
+	@include plain(var(--color-primary-50));
 }
 
 :global(.dark) .prompt.card :global(a.project-tag):nth-of-type(4n + 3),
