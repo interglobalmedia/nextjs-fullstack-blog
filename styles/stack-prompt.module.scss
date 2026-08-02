@@ -12,6 +12,7 @@
 @use 'sass:color';
 
 $aussie-blue: #80d0ff;
+$ghost-white: #f8f8ff;
 
 @mixin pill($bg, $fg: #fff) {
 	background-color: $bg;
@@ -261,6 +262,16 @@ $aussie-blue: #80d0ff;
 	content: '|';
 	color: #8d0a9d;
 	opacity: 1;
+}
+
+:global(.dark) .tag-list.plain-tags :global(span.skill-tag) {
+	color: $ghost-white !important;
+}
+
+:global(.dark)
+	.tag-list.plain-tags
+	:global(span.skill-tag):not(:last-child)::after {
+	color: #000;
 }
 
 /* ---- dark mode, card variant: plain colored text, no background ---- */
