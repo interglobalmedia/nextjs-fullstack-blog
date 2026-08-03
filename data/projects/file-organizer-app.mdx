@@ -1,0 +1,65 @@
+---
+slug: 'file-organizer-app'
+date: '2026-08-03T22:19:21.192Z'
+lastModified: '2026-08-03T22:19:23.507Z'
+title: 'File Organizer App'
+author: 'Maria D. Campbell'
+summary:
+    'A Python3 script that sorts files into folders automatically based on their
+    file extension.'
+repository: 'https://github.com/interglobalmedia/file-organization-app'
+website: 'https://github.com/interglobalmedia/file-organization-app'
+image: pexels-cup-of-couple-8473782.webp
+tags: ['python3', 'os', 'shutil', 'glob', 'modularization', 'project']
+isPublished: true
+isFeatured: false
+---
+
+This is a small `Python3` command-line script that organizes files into folders
+based on their extension. Point it at a directory, and it sorts everything
+inside into extension-named folders: `.py` files go into `python-files`, `.jpg`
+files go into `jpg-files`, and so on, for a few dozen extensions covering text,
+code, media, and archive formats.
+
+The project is intentionally modularized. The extension-to-folder mapping lives
+in its own `extensions.py` file as a dictionary, separate from the
+`file_organizer.py` script that does the actual work. `file_organizer.py`
+imports that dictionary, loops over each extension, creates the destination
+folder if it doesn't already exist, and uses the `shutil` and `glob` modules to
+find and move matching files.
+
+Keeping the extension mapping separate from the logic that acts on it makes the
+dictionary easy to extend or reuse without touching the core script.
+
+## Running the application
+
+Clone the repository and `cd` into it:
+
+```shell
+git clone https://github.com/interglobalmedia/file-organization-app.git
+cd file-organization-app
+```
+
+Open `file_organizer.py` and set the `path` variable to the directory you want
+organized:
+
+```shell
+path = r'/home/maria/Desktop'
+```
+
+Then run the script with:
+
+```shell
+python3 file_organizer.py
+```
+
+The script will create extension-named folders inside that directory as needed,
+and move each file into its matching folder. Set `verbose = 0` in
+`file_organizer.py` if you'd rather not see each file move printed to the
+terminal.
+
+## Related Resources
+
+- [Creating a file organizer based on file extension using Python3](/blog/creating-a-file-organizer-based-on-file-extension-using-python3)
+  — a full line-by-line walkthrough of the script, including the `for` loops,
+  the `if` statements, and a bug I ran into (and fixed) along the way.
