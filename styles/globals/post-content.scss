@@ -43,13 +43,13 @@ ol {
 	color: $white;
 }
 
-a {
+.content a {
 	color: #8d0a9d;
 	word-break: break-all;
 	text-decoration: none;
 }
 
-a:hover {
+.content a:hover {
 	text-decoration: underline;
 }
 
