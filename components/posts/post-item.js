@@ -44,7 +44,7 @@ function PostItem(props) {
 					<figcaption
 						className={`${classes.content} ${oswald.variable}`}
 					>
-						<h3>{post.title}</h3>
+						<h2>{post.title}</h2>
 						<time className={`time`}>{formattedDate}</time>
 						<p>{post.author}</p>
 						<p>{post.excerpt}</p>

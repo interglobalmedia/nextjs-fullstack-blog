@@ -8,7 +8,7 @@ export default function CodeCopyBtn({ children }) {
 
 	const iconColor = isCopyOk ? '#0af20a' : '#ddd'
 
-	const handleClick = (e) => {
+	const handleClick = () => {
 		navigator.clipboard.writeText(children[0].props.children[0])
 
 		setIsCopyOk(true)
@@ -18,16 +18,14 @@ export default function CodeCopyBtn({ children }) {
 	}
 
 	return (
-		<button className={classes['code-copy-btn']}>
-			{!isCopyOk && (
-				<IoCopyOutline
-					onClick={handleClick}
-					style={{ color: iconColor }}
-				/>
-			)}
+		<button
+			className={classes['code-copy-btn']}
+			onClick={handleClick}
+			aria-label={isCopyOk ? 'Copied' : 'Copy code'}
+		>
+			{!isCopyOk && <IoCopyOutline style={{ color: iconColor }} />}
 			{isCopyOk && (
 				<IoIosCheckmark
-					onClick={handleClick}
 					style={{
 						backgroundColor: iconColor,
 						color: '#000',

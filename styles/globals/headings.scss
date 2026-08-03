@@ -43,20 +43,23 @@ h4 {
 	}
 }
 
-.dark h1,
+.dark h1 {
+	color: color.adjust($white, $lightness: 0%);
+}
+
 .dark h2,
 .dark h3,
 .dark h4 {
 	/* stylelint-disable scss/no-global-function-names */
-	color: color.adjust($white, $lightness: 5%);
+	color: color.adjust(#da583e, $lightness: 5%);
 }
 
 .dark h2 a,
 .dark h3 a,
 .dark h4 a {
-	color: color.adjust($white, $lightness: 5%) !important;
+	color: color.adjust($tailwind-dark-orange, $lightness: 5%) !important;
 }
 
 .dark .card a h2 a {
-	color: color.adjust($white, $lightness: -1.25%) !important;
+	// color: color.adjust($white, $lightness: -1.25%) !important;
 }

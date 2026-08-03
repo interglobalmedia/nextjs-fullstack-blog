@@ -31,3 +31,7 @@ $aussie-blue: #80d0ff;
 		font-size: var(--size-16);
 	}
 }
+
+:global(.dark) .contact-section > h1 {
+	background: rgb(74 92 115 / 85%);
+}

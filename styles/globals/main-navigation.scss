@@ -1,3 +1,9 @@
+/* color variables */
+
+$tailwind-dark-orange: rgb(202 96 60 / 100%);
+$cream: #ffe9d6;
+$discord-charcoal: #23272a;
+
 /* @use functions */
 @use 'sass:color';
 
@@ -80,7 +86,8 @@ a.menu-link {
 	fill: none;
 	stroke: #fff;
 	stroke-width: 6;
-	transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+	transition:
+		stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
 		stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -118,27 +125,16 @@ a.menu-link {
 }
 
 /* end svg styling */
+
 .main-nav {
 	@media #{$max-767} {
 		& li > a {
 			display: block;
 		}
-
-		& li:nth-of-type(1) > a {
-			width: 5rem;
-		}
-
-		& li:nth-of-type(2) > a {
-			width: 5rem;
-		}
-
-		& li:nth-of-type(3) > a {
-			width: 6rem;
-		}
 	}
 
 	@media #{$max-1279} {
-        /* stylelint-disable scss/no-global-function-names */
+		/* stylelint-disable scss/no-global-function-names */
 		background-color: color.adjust(#1c1c1c, $lightness: -1.25%);
 		display: block;
 		height: 100vh;
@@ -244,8 +240,7 @@ a.menu-link {
 }
 
 /* stylelint-disable no-duplicate-selectors */
-.navigation-underline.active,
-.menu-link.active {
+.navigation-underline.active {
 	&::before {
 		content: '';
 		position: absolute;
@@ -300,8 +295,7 @@ a.menu-link {
 	}
 }
 
-.dark .navigation-underline.active,
-.dark .menu-link.active {
+.dark .navigation-underline.active {
 	&::before {
 		content: '';
 		position: absolute;
@@ -363,7 +357,7 @@ a.menu-link {
 /* stylelint-disable-next-line no-descending-specificity */
 .navigation-underline.active,
 .menu-link.active {
-	color: color.adjust($aussie-blue, $lightness: 5%);
+	// color: color.adjust($aussie-blue, $lightness: 5%);
 	text-shadow: 1px 1px 2px color.adjust($discord-charcoal, $lightness: 15%);
 	transition: color 0.5s ease-in-out;
 }
@@ -379,11 +373,23 @@ a.menu-link {
 	}
 }
 
+.dark .navbar .menu-link.active {
+	color: color.adjust($tailwind-dark-orange, $lightness: 3.5%);
+	text-shadow: 1px 1px 2px $discord-charcoal;
+	transition: all 0.5s ease-in-out;
+
+	&:hover {
+		color: color.adjust($cream, $lightness: -15%);
+		transition: all 0.5s ease-in-out;
+	}
+}
+
 /* stylelint-disable no-descending-specificity */
 .menu-link {
 	&:hover {
 		color: color.adjust($aussie-blue, $lightness: 15%);
-		text-shadow: 1px 1px 2px color.adjust($discord-charcoal, $lightness: 15%);
+		text-shadow: 1px 1px 2px
+			color.adjust($discord-charcoal, $lightness: 15%);
 		text-decoration: none;
 		transition: color 0.5s ease-in-out;
 	}

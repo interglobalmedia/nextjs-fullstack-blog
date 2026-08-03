@@ -3,6 +3,8 @@ import ReactMarkdown from 'react-markdown'
 import { Fragment } from 'react'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import atomDark from 'react-syntax-highlighter/dist/cjs/styles/prism/atom-dark'
+// import coldarkDark from 'react-syntax-highlighter/dist/cjs/styles/prism/coldark-dark'
+// import vscDarkPlus from 'react-syntax-highlighter/dist/cjs/styles/prism/vsc-dark-plus'
 import python from 'react-syntax-highlighter/dist/cjs/languages/prism/python'
 import django from 'react-syntax-highlighter/dist/cjs/languages/prism/django'
 import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript'
@@ -105,6 +107,14 @@ function PostContent(props) {
 				)
 			}
 			return <p>{paragraph.children}</p>
+		},
+
+		blockquote({ node, children, ...props }) {
+			return (
+				<blockquote className={classes.blockquote} {...props}>
+					{children}
+				</blockquote>
+			)
 		},
 
 		h2({ node, ...props }) {

@@ -43,13 +43,13 @@ ol {
 	color: $white;
 }
 
-a {
-	text-decoration: none;
+.content a {
 	color: #8d0a9d;
 	word-break: break-all;
+	text-decoration: none;
 }
 
-a:hover {
+.content a:hover {
 	text-decoration: underline;
 }
 
@@ -94,7 +94,8 @@ blockquote {
 }
 
 .dark .inline-code {
-	color: color.adjust(#c0c0c0, $lightness: -20%);
+	color: #e6e1cf;
+	background: #1e1e1e;
 }
 
 /* stylelint-disable no-descending-specificity */

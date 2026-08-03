@@ -12,6 +12,7 @@
 @use 'sass:color';
 
 $aussie-blue: #80d0ff;
+$ghost-white: #f8f8ff;
 
 @mixin pill($bg, $fg: #fff) {
 	background-color: $bg;
@@ -201,12 +202,12 @@ $aussie-blue: #80d0ff;
 }
 
 :global(.dark) .label {
-	@include pill(color.adjust($aussie-blue, $lightness: -25%));
+	@include pill(#0568a3);
 }
 
 :global(.dark) .prompt :global(a.project-tag):nth-of-type(4n + 1),
 :global(.dark) .prompt :global(a.post-tag):nth-of-type(4n + 1) {
-	@include pill(var(--color-success-500));
+	@include pill(#0d7a34);
 }
 
 :global(.dark) .prompt :global(a.project-tag):nth-of-type(4n + 2),
@@ -263,6 +264,16 @@ $aussie-blue: #80d0ff;
 	opacity: 1;
 }
 
+:global(.dark) .tag-list.plain-tags :global(span.skill-tag) {
+	color: $ghost-white !important;
+}
+
+:global(.dark)
+	.tag-list.plain-tags
+	:global(span.skill-tag):not(:last-child)::after {
+	color: #000;
+}
+
 /* ---- dark mode, card variant: plain colored text, no background ---- */
 
 :global(.dark) .prompt.card .symbol {
@@ -280,17 +291,7 @@ $aussie-blue: #80d0ff;
 
 :global(.dark) .prompt.card :global(a.project-tag):nth-of-type(4n + 2),
 :global(.dark) .prompt.card :global(a.post-tag):nth-of-type(4n + 2) {
-	@include plain(var(--color-primary-500));
-}
-
-:global(.dark) .prompt.card :global(a.project-tag):nth-of-type(4n + 3),
-:global(.dark) .prompt.card :global(a.post-tag):nth-of-type(4n + 3) {
-	@include plain(color.adjust(#843897, $lightness: 20%));
-}
-
-:global(.dark) .prompt.card :global(a.project-tag):nth-of-type(4n),
-:global(.dark) .prompt.card :global(a.post-tag):nth-of-type(4n) {
-	@include plain(color.adjust(#a10c4a, $lightness: 20%));
+	@include plain(color.adjust($aussie-blue, $lightness: -10%));
 }
 
 :global(.dark) .prompt.card .separator {

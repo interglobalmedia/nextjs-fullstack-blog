@@ -114,11 +114,12 @@ $white: #fff;
 	padding-right: 1em;
 }
 
-.content > h3 {
+.content > h2 {
 	color: var(--color-grey-100);
 	font-family: var(--oswald-font);
-	font-size: var(--size-6);
-	margin: var(--size-2) 0;
+	font-size: var(--size-5-5);
+	margin: 0;
+	padding: 0;
 }
 
 .content time {

@@ -78,7 +78,8 @@ function Footer() {
 				<p>
 					{`© ${new Date().getFullYear()}`} {` • `}{' '}
 					{`${siteMetadata.author}`} {` • `}
-					<Link href="/">{`${siteMetadata.title}`}</Link>
+					{/* <Link href="/">{`${siteMetadata.title}`}</Link> */}
+					{`${siteMetadata.title}`}
 				</p>
 			</footer>,
 			document.getElementById('footer'),

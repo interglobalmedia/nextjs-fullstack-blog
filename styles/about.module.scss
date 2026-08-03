@@ -3,6 +3,7 @@ $min-768: '(min-width: 768px)';
 
 /* color variables */
 $aussie-blue: #80d0ff;
+$ghost-white: #f8f8ff;
 
 .about-section {
 	margin: 3rem auto 6rem;
@@ -45,4 +46,19 @@ $aussie-blue: #80d0ff;
 .info {
 	font-size: 1.4rem;
 	word-break: normal;
+}
+
+:global(.dark) .about-article {
+	background: rgb(74 92 115 / 85%);
+	border-color: var(--color-grey-800);
+}
+
+:global(.dark) .about-article p {
+	color: var(--color-grey-100);
+}
+
+:global(.dark) .about-section > h1 {
+	background: rgb(74 92 115 / 85%);
+	border-color: var(--color-grey-800);
+	color: $ghost-white;
 }

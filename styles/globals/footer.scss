@@ -4,7 +4,7 @@
 /* dark theme styling for footer */
 
 /* dark footer anchor styling */
-.dark footer a {
+.dark footer a:not(.footer-menu-link) {
 	/* stylelint-disable scss/no-global-function-names */
 	color: color.adjust($tailwind-lighter-orange, $lightness: 7.5%);
 }
