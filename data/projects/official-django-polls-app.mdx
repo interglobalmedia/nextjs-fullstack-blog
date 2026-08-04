@@ -31,10 +31,10 @@ isFeatured: false
 _Photo by [David Clode](https://unsplash.com/@davidclode) on
 [unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)_
 
-This project is a Django Polls application built by following Django's own
-official Polls tutorial from the ground up. The tutorial is maintained by the
-Django developers themselves, and this build is structured as a set of reusable
-apps rather than a single monolithic project.
+This project is a Django Polls application built by following Django's official
+tutorial from the ground up, after refactoring an earlier version of the same
+app that had been sitting untouched for seven years. It's structured as a set of
+reusable apps rather than a single monolithic project.
 
 Along the way it covers setting up a virtual environment and starting a Django
 project, defining and activating the polls models, working the interactive
@@ -45,7 +45,9 @@ development and the Django Debug Toolbar for inspecting requests in the browser.
 Code quality is enforced with flake8, Black, and djLint, run automatically
 through pre-commit hooks.
 
-For the full walkthrough, see the companion series,
-[Creating the official Django Polls app](https://www.mariadcampbell.com/blog/creating-the-official-django-polls-app-table-of-contents),
-which breaks the build down into eight parts from initial setup through testing,
-static files, and next steps.
+## Related Resources
+
+- [Creating the official Django Polls app table of contents](/blog/creating-the-official-django-polls-app-table-of-contents):
+  the eight-part series documenting this build
+- [Django Polls Package](/projects/django-polls-package): this app repackaged as
+  a standalone, installable Python package

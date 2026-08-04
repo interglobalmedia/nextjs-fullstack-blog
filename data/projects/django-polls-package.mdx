@@ -1,0 +1,54 @@
+---
+slug: 'django-polls-package'
+date: '2026-08-04T14:43:36.249Z'
+lastModified: '2026-08-04T14:43:37.226Z'
+title: 'Django Polls Package'
+author: 'Maria D. Campbell'
+summary:
+    "The Official Django Polls App repackaged as a standalone, installable
+    Python package, following the Django project's advanced tutorial on writing
+    reusable apps, complete with a pyproject.toml build config, MANIFEST.in, and
+    BSD-licensed distribution."
+repository: 'https://github.com/interglobalmedia/django-polls-package'
+website: 'https://github.com/interglobalmedia/django-polls-package'
+image: david-clode-J_5xvghAvmc-unsplash.webp
+tags:
+    [
+        'python3',
+        'django',
+        'reusable-apps',
+        'packaging',
+        'setuptools',
+        'pypi',
+        'project',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+_Photo by [David Clode](https://unsplash.com/@davidclode) on
+[unsplash.com](https://unsplash.com/photos/a-close-up-of-a-snake-on-a-rock-J_5xvghAvmc)_
+
+This project takes the Official Django Polls App a step further, turning it into
+a standalone Python package that can be installed into any Django project with
+pip. It follows Django's advanced tutorial on writing reusable apps, working
+through the packaging process end to end rather than just building the app
+itself.
+
+That process meant pulling the polls app out of its original project,
+restructuring it as an independent package, and adding the files Python
+packaging expects: a README, a BSD 3-Clause LICENSE, a pyproject.toml describing
+the build, and a MANIFEST.in to include templates and static files in the
+distribution. From there the package builds into both source and wheel formats
+with Python's build tool, and installs cleanly into a virtual environment the
+same way any third-party Django app would.
+
+The result is a self-contained, pip-installable polls app, ready to drop into a
+new Django project without copying files by hand.
+
+## Related Resources
+
+- [Django official advanced tutorial on writing reusable apps](/blog/django-official-advanced-tutorial-on-writing-reusable-apps):
+  the companion post walking through this package's build process
+- [Official Django Polls App](/projects/official-django-polls-app): the original
+  project this package is built from
