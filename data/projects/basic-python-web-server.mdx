@@ -1,0 +1,50 @@
+---
+slug: 'basic-python-web-server'
+date: '2026-08-04T00:16:20.631Z'
+lastModified: '2026-08-04T00:16:21.675Z'
+title: 'Basic Python Web Server'
+author: 'Maria D. Campbell'
+summary:
+    'A Python3 project exploring how to build simple synchronous and
+    asynchronous HTTP servers using http.server, socketserver, and asyncio.'
+repository: 'https://github.com/interglobalmedia/basic-python-web-server'
+website: 'https://github.com/interglobalmedia/basic-python-web-server'
+image: nicolas-picard--lp8sTmF9HA-unsplash.webp
+tags:
+    [
+        'python3',
+        'http.server',
+        'socketserver',
+        'asyncio',
+        'web-server',
+        'project',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+_Photo by [Nicolas Picard](https://unsplash.com/@artnok) on
+[unsplash.com](https://unsplash.com/photos/selective-focus-photography-of-spiderweb--lp8sTmF9HA)_
+
+This project is a small collection of Python3 web server implementations, built
+to run simple, uncomplicated applications in the browser without reaching for a
+full framework.
+
+`web.py` uses the standard library's `http.server` module together with
+`socketserver.TCPServer` to serve a static `index.html` file — the same approach
+Python3 uses to replace the old Python2 `SimpleHTTPServer`. It handles requests
+synchronously, one at a time, which is enough for local development, quick file
+sharing on a network, or serving static assets during offline work.
+
+`async-server.py` takes the same basic goal — serve a page over HTTP — and
+implements it with `asyncio` instead, using `asyncio.start_server` and a
+coroutine-based request handler. It's considerably more code than the
+`socketserver` version for the same result, which is part of the point: it shows
+what asyncio buys you (non-blocking, concurrent request handling) and what it
+costs in complexity versus the synchronous approach.
+
+For the full breakdown, see the companion post,
+[Creating a basic Python web server in Linux](https://www.mariadcampbell.com/blog/creating-a-basic-python-web-server-in-linux).
+It covers the difference between `ForkingMixIn` and `ThreadingMixIn`, and how
+`socketserver`'s server classes divide responsibility with request handler
+classes. Finally, it provides a line-by-line look at the asyncio implementation.
