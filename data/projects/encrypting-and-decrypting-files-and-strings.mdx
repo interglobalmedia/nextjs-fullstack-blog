@@ -1,0 +1,65 @@
+---
+slug: 'encrypting-and-decrypting-files-and-strings'
+date: '2026-08-04T16:33:49.322Z'
+lastModified: '2026-08-04T16:33:49.940Z'
+title: 'Encrypting/Decrypting Files and Strings'
+author: 'Maria D. Campbell'
+summary:
+    'A Python encryption/decryption toolkit comparing Fernet symmetric
+    encryption in Python against GnuPG on the Command Line, for encrypting and
+    decrypting both files and strings.'
+repository: 'https://github.com/interglobalmedia/encrypt-decrypt-files-python'
+website: 'https://github.com/interglobalmedia/encrypt-decrypt-files-python'
+image: pexels-rachel-claire-4577718.webp
+tags:
+    [
+        'python3',
+        'encryption',
+        'decryption',
+        'gnupg',
+        'symmetric encryption',
+        'command line',
+        'macOS',
+        'project',
+        'security',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+_[Photo](https://www.pexels.com/photo/woman-standing-near-old-stone-wall-with-carved-images-4577718/)
+by [Rachel Claire](https://www.pexels.com/@rachel-claire/) on
+[pexels.com](https://www.pexels.com/)_
+
+## Overview
+
+A comparison of two approaches to encrypting and decrypting data: a modularized
+Python application using the Fernet symmetric encryption method, and the GnuPG
+(`gpg`) command-line tool. The project covers both file encryption and string
+encryption, with each task split into its own single-purpose file.
+
+## Task Modularization
+
+The Python approach splits encryption and decryption into individual files by
+responsibility:
+
+- `create_key.py` — generates a 128-bit AES encryption key
+- `get_key.py` — loads the generated key for use in the other scripts
+- `encrypt_file.py` / `decrypt_file.py` — encrypt and decrypt a file
+- `encrypt_string.py` / `decrypt_string.py` — encrypt and decrypt a string
+
+The string-based functions required a bit more care: the encrypted message
+generated in `encrypt_string.py` has to be imported into `decrypt_string.py` so
+the correct token gets passed to `message_decrypt`, avoiding an `InvalidToken`
+error from the `cryptography` package.
+
+## Command Line Alternative
+
+The same encrypt/decrypt tasks are also carried out using GnuPG, comparing the
+tradeoffs of a programmatic approach against a quicker, less structured
+command-line workflow using AES256 symmetric encryption.
+
+## Related Resources
+
+- [Encrypting and Decrypting Files and Strings](/blog/encrypting-and-decrypting-files-and-strings):
+  companion post covering both approaches in full detail
