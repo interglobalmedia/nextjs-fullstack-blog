@@ -87,8 +87,12 @@ $tailwind-lightest-orange: rgb(229 178 160 / 100%);
 
 /* project image */
 .project-image {
-	margin: var(--size-4) auto;
+	margin: var(--size-4) auto 0;
 	width: 100%;
+}
+
+.share-icons-wrapper + p {
+	text-align: center;
 }
 
 /* author */
