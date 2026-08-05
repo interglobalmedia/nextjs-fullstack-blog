@@ -1,0 +1,359 @@
+---
+slug: how-to-send-and-receive-local-emails-in-linux-mint-virtualbox
+date: '2024-07-25T19:36:27.998Z'
+lastModified: '2026-08-05T19:49:27.998Z'
+title: How to send/receive local emails in Linux Mint/VirtualBox
+author: Maria D. Campbell
+excerpt:
+    "In this post, I describe how to set up and use the mail command to send and
+    receive emails on a local network in Linux Mint. I also discuss mail/mailx's
+    limitations that made me switch to the Mutt email client. And finally, I
+    point out the potential pitfalls I encountered when conducting research
+    concerning this post."
+image: pexels-edotommo99-1467217.webp
+tags:
+    [
+        'command line',
+        'linux',
+        'linux mint',
+        'local mail',
+        'postfix',
+        'mail command',
+        'mailx command',
+        'mailutils',
+        'terminal',
+        'virtualbox',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+![Mail flying through the air](pexels-edotommo99-1467217.webp)
+
+_[Photo](https://www.pexels.com/photo/selective-focus-photo-of-hanging-papers-on-clothes-line-1467217/)
+by [Edoardo Tommasini](https://www.pexels.com/@edotommo99/) on
+[pexels.com](https://www.pexels.com/)_
+
+## Table of Contents
+
+- [Installing postfix and mailutils](#installing-postfix-and-mailutils)
+- [mailx vs mail command](#mailx-vs-mail-command)
+- [Using the echo and mail commands to send a local email](#using-the-echo-and-mail-commands-to-send-a-local-email)
+- [Using the mail or mailx command to view my local inbox](#using-the-mail-or-mailx-command-to-view-my-local-inbox)
+- [Deleting a message from my local inbox](#deleting-a-message-from-my-local-inbox)
+- [Sending emails to other users on the local network](#sending-emails-to-other-users-on-the-local-network)
+- [Sending a copy of an email to myself using the cat command](#sending-a-copy-of-an-email-to-myself-using-the-cat-command)
+- [Sending an email with an attachment using the mail command: a demonstration](#sending-an-email-with-an-attachment-using-the-mail-command-a-demonstration)
+- [Including an attachment name field to the email](#including-an-attachment-name-field-to-the-email)
+- [Introducing Mutt](#introducing-mutt)
+- [The search pitfall of confusing the new Mailx program with the mailutils mailx command](#the-search-pitfall-of-confusing-the-new-mailx-program-with-the-mailutils-mailx-command)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
+
+I have begun acquainting myself with cron jobs in Linux, and I want to be able
+to send myself local emails inside `Linux Mint/VirtualBox` to see if the cron
+job was successful or not. It is actually quite easy, but not so easy to find
+all the correct information. But I finally did!
+
+## Installing postfix and mailutils
+
+At first I thought that I should send an email from Linux Mint Terminal to my
+actual Gmail email. I installed `postfix` for mail transfer and then `mailutils`
+because I was trying out the `mail` command and needed to install `mailutils` if
+I wanted to use it.
+
+## mailx vs mail command
+
+After some investigation, I found it to be too complicated and not even
+necessary. There is a simple mail user agent program called `mailx`, available
+via the `mailutils` package.
+
+I ended up using the `mail` command, but `mailx` is used in the same way. In
+fact, I have used them interchangeably. They are both available with the
+`mailutils` package, which is what I installed in order to be able to use the
+`mail` command. What is interesting is that `mail` and `mailx` are two separate
+commands, and they have their own `bin`. But they basically do the same thing.
+
+When I did try to send an email to my Gmail account, of course it did not work.
+I don't think I could accomplish that these days from a local email address
+inside my Linux Mint/VirtualBox instance. So that's why I decided to stick with
+this approach since I am working inside a virtual machine anyway. It will be
+interesting to find out if I can send an email to Gmail in macOS when I set up
+cron jobs there. That's for another time!
+
+## Using the echo and mail commands to send a local email
+
+I used the following command to send myself a local email with the `mail`
+(and/or `mailx`) command from Terminal:
+
+```shell
+echo "My first test message" | mail -s "My first test message subject line" maria@maria-VirtualBox
+# or
+echo "My first test message" | mailx -s "My first test message subject line" maria@maria-VirtualBox
+```
+
+## Using the mail or mailx command to view my local inbox
+
+And then to view my local `mail/mailx` inbox, I run the following in Terminal:
+
+```shell
+mail
+# or
+mailx
+```
+
+And when I hit the Enter key, Terminal returns:
+
+```shell
+"/var/mail/maria": 1 message 1 unread
+>U 1 Maria            Thu Jul 25 16:53  17/601  My first test message sub...
+?
+```
+
+## Deleting a message from my local inbox
+
+If I want to delete the message, I type the following after the `?` prompt:
+
+```shell
+? d 1
+```
+
+Then hitting the Enter key followed by Control key + D key exits me out of the
+mail/mailx program back to the shell prompt. But before I actually exit out,
+Terminal responds with:
+
+```shell
+Held 0 messages in /var/mail/maria
+```
+
+The `-s` flag stands for subject. There are other options to choose from with
+`mailx`. In order to learn more, check out `man mailx` in Terminal.
+
+## Sending emails to other users on the local network
+
+I can also send emails to other users on the system. For example, I could send
+an email to user magdala. Then I could take advantage of things like attaching a
+file to the email. Let's say I run the following in Terminal:
+
+```shell
+cat /home/maria/Desktop/history.txt | mail -s "Hi Magdala, just checking in!" magdala@maria-VirtualBox
+```
+
+Since I am sending the email via Terminal, and it is being received by user
+magdala also via Terminal, I have to stick to what the CLI (Command Line
+Interface or Terminal) understands. So for the Terminal (bash specifically) to
+interpret the contents of my `history.txt` file properly, `cat` outputs the
+file's contents, and the pipe feeds that as `mailx`'s stdin.
+
+## Sending a copy of an email to myself using the cat command
+
+If I wanted to send a copy of the email to myself I could do the following:
+
+```shell
+cat /home/maria/Desktop/history.txt | mail -s "Hi Magdala, just checking in!" magdala@maria-VirtualBox maria@maria-VirtualBox
+```
+
+And if the user magdala wants to save the contents to a file, she can copy it
+from the email body and paste it into a new `.txt` file. It is not perfect on
+the receiving end, but for cron job notification purposes, for example, it would
+work just fine. As well as `.txt` files containing log information, for example,
+that are not too lengthy.
+
+If I did not do it as above using the `cat` command, the contents of the file
+would be unintelligible.
+
+## Sending an email with an attachment using the mail command: a demonstration
+
+If I want to send an email to myself (or someone else), I do something like the
+following:
+
+```shell
+cat /home/maria/history.txt | mail -s "This is a local network test for attachments" -A /home/maria/history.txt maria@maria-VirtualBox
+```
+
+And when I execute mail to open up my local email inbox, something like the
+following appears:
+
+```shell
+>N  26 Maria              Wed Aug  5 09:07 143/55946 This is a local network t
+```
+
+And when I open the email:
+
+```shell
+# First run mail command to open the email inbox
+mail
+# Select the message you want to open. The newest message will appear when you are directed to the inbox. It will contain >N followed by the email number. Type the email number you want to open after the ? prompt and press return.
+? 26
+```
+
+This results in something like:
+
+```shell
+Return-Path: <maria@maria-VirtualBox>
+X-Original-To: maria@maria-VirtualBox
+Delivered-To: maria@maria-VirtualBox
+Received: by maria-VirtualBox.mynetworksettings.com (Postfix, from userid 1000)
+id E187A220F50; Wed,  5 Aug 2026 09:37:24 -0400 (EDT)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="2061219202-1785937044=:3899"
+Subject: This is a local network test for attachments
+To: <maria@maria-VirtualBox>
+User-Agent: mail (GNU Mailutils 3.17)
+Date: Wed,  5 Aug 2026 09:37:24 -0400
+Message-Id: <20260805133724.E187A220F50@maria-VirtualBox.mynetworksettings.com>
+From: Maria <maria@maria-VirtualBox>
+
+--2061219202-1785937044=:3899
+Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-ID: <20260805093724.3899@maria-VirtualBox>
+
+    2  ls
+    3  ls cron-job-scripts
+    4  cd ..
+    (...truncated)
+```
+
+Because I used `cat` to read the contents of history.txt as stdin to the mail
+command, the output is included in the email. If, however, I had run:
+
+```shell
+mail -s "This is a local network test for attachments" -A /home/maria/history.txt maria@maria-VirtualBox
+```
+
+The contents of the attachment would not appear in the email. Instead, I would
+enter the mail command program, and it would prompt me to include a CC email,
+and then a message body. No opportunity for attachments.
+
+## Including an attachment name field to the email
+
+By default, the mail/mailx command does not produce either an attachment name
+field or include the name of the attachment in the body of the email. To create
+a custom filename field, I run the following command:
+
+```shell
+cat /home/maria/history.txt | mail -s "This is a local network test for attachments" -A /home/maria/history.txt -a "X-Attachment-Name: history.txt" maria@maria-VirtualBox
+```
+
+And Terminal responds with:
+
+```shell
+Return-Path: <maria@maria-VirtualBox>
+X-Original-To: maria@maria-VirtualBox
+Delivered-To: maria@maria-VirtualBox
+Received: by maria-VirtualBox.mynetworksettings.com (Postfix, from userid 1000)
+id 773F1220F50; Wed,  5 Aug 2026 11:45:06 -0400 (EDT)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="1337911927-1785944706=:6131"
+Subject: This is a local network test for attachments
+X-Attachment-Name: history.txt
+To: <maria@maria-VirtualBox>
+User-Agent: mail (GNU Mailutils 3.17)
+Date: Wed,  5 Aug 2026 11:45:06 -0400
+Message-Id: <20260805154506.773F1220F50@maria-VirtualBox.mynetworksettings.com>
+From: Maria <maria@maria-VirtualBox>
+
+--1337911927-1785944706=:6131
+Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-ID: <20260805114506.6131@maria-VirtualBox>
+
+    2  ls
+    3  ls cron-job-scripts
+    (...truncated)
+```
+
+## Introducing Mutt
+
+Creating this custom file-attachment name field is the only way to reference the
+name of the file attachment in mail or mailx. That is why I switched to Mutt.
+Mutt actually provides me with a real attachment that I can download:
+
+```shell
+:Send  q:Abort  t:To  c:CC  s:Subj  a:Attach file  d:Descrip  ?:Help
+    From: Maria <maria@maria-VirtualBox>
+      To: maria@maria-virtualbox
+      Cc:
+     Bcc:
+ Subject: Sending myself the history.txt attachment
+Reply-To:
+     Fcc: ~/sent
+     Mix: <no chain defined>
+Security: None
+
+-- Attachments
+- I     1 /var/tmp/mutt-maria-VirtualBox-1000-5817[text/plain, 7bit, us-ascii, 0
+  A     2 ~/history.txt                       [text/plain, 7bit, us-ascii, 22K]
+```
+
+And the command I used:
+
+```shell
+mutt -s "Sending myself the history.txt attachment" -a /home/maria/history.txt -- maria@maria-VirtualBox
+```
+
+## The search pitfall of confusing the new Mailx program with the mailutils mailx command
+
+When initially doing research regarding Mailutils, and the mail and mailx
+commands, I wanted to see if there was any difference between the mail and mailx
+commands. Sometimes I ran a search with the keywords:
+
+```text
+Is mailutils the linux user agent program and mailx or mail the commands to use?
+```
+
+And the top results I got were:
+
+- [How to Send Email in Linux from the Command Line](https://www.digitalocean.com/community/tutorials/send-email-linux-command-line):
+  _digitalocean.com_
+- [How to Use the Linux mail Command](https://phoenixnap.com/kb/linux-mail-command):
+  _phoenixnap.com_
+
+But when I did another search with the keywords:
+
+```text
+mail vs mailx command utilities features Linux
+```
+
+I got different top results:
+
+- [Mailx beta launch - Audited, open-source email aliasing service by IVPN](https://discuss.privacyguides.net/t/mailx-beta-launch-audited-open-source-email-aliasing-service-by-ivpn/29132):
+  _privacyguides.net_
+- [How to Send Email in Linux from the Command Line](https://www.digitalocean.com/community/tutorials/send-email-linux-command-line):
+  _digitalocean.com_
+
+The Mailx referenced in the second search had nothing to do with the mailx
+command included with the Linux mailutils package. When doing a Google search
+(or any other kind for that matter) for information regarding a subject,
+sometimes product-name conflicts will arise. Make sure that you discern whether
+the information really pertains to the subject matter you are investigating!
+
+## Conclusion
+
+In this post, I walk through how to install mailutils and use the mailx or mail
+command to send, view, and delete messages. I also describe how to send messages
+to other users on the local network, and how to send a copy of a message to
+myself. Since the mail command is a utility that allows me to send and receive
+emails via Terminal, it is a bit cumbersome to use as a main form of email
+communication with others. For example, I use it solely to receive notifications
+when my cron jobs complete. To learn more about using the mail command for
+sending notifications related to cron jobs, please visit
+[The Cron daemon in Linux and how to create a cron job](/blog/the-cron-daemon-in-linux-and-how-to-create-a-cron-job).
+
+## Related Resources
+
+- [mailx(1p) — Linux manual page](https://www.man7.org/linux/man-pages/man1/mailx.1p.html):
+  _man7.org_
+- [GNU Mailutils manual](https://mailutils.org/manual//mailutils.html):
+  _mailutils.org_
+- [The Cron daemon in Linux and how to create a cron job](/blog/the-cron-daemon-in-linux-and-how-to-create-a-cron-job):
+  _mariadcampbell.com_
+
+## Related Posts
+
+- [Sending and receiving local email in Linux Mint/VirtualBox series table of contents](/blog/sending-and-receiving-local-email-in-linux-mint-virtualbox-series-table-of-contents):
+  _mariadcampbell.com_

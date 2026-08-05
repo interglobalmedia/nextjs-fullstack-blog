@@ -1,23 +1,30 @@
 ---
 slug: the-mailx-command-line-email-client-vs-the-mutt-command-line-email-client-in-linux
 date: '2024-08-15T12:19:35.182Z'
-lastModified: '2026-07-20T19:13:35.182Z'
+lastModified: '2026-08-05T19:49:35.182Z'
 title:
-    The Mailx Command Line Email Client vs the Mutt Command Line Email Client in
+    The Mailx command line email client vs the Mutt command line email client in
     Linux
 author: 'Maria D. Campbell'
 excerpt:
     In this post, I explain why I switched from using the Mailx email client to
     the Mutt email client in Linux Mint.
 image: pexels-pixabay-207580.webp
-tags: ['command line', 'linux', 'mutt email client', 'mailx email client']
+tags:
+    [
+        'command line',
+        'linux',
+        'mutt email client',
+        'mailx email client',
+        'series',
+    ]
 isPublished: true
 isFeatured: false
 ---
 
 ![Close-up of colorful text on a computer screen, showcasing cybersecurity concepts](pexels-pixabay-207580.webp)
 
-_[Photo by](https://www.pexels.com/photo/computer-codes-207580/)
+_[Photo](https://www.pexels.com/photo/computer-codes-207580/) by
 [Pixabay](https://www.pexels.com/@pixabay/) on
 [pexels.com](https://www.pexels.com/)_
 
@@ -26,19 +33,20 @@ _[Photo by](https://www.pexels.com/photo/computer-codes-207580/)
 - [What is Mailx?](#what-is-mailx)
 - [Mutt history](#mutt-history)
 - [What is Mutt?](#what-is-mutt)
-- [The mutt -a and -s options](#the-mutt-a-and-s-options)
+- [The Mutt -a and -s options](#the-mutt-a-and-s-options)
 - [Mutt features](#mutt-features)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 - [Footnotes](#footnotes)
 
 I have both Mailx and Mutt installed on my Linux Mint OS. And I just recently
 found out that emails that were going to Mailx when I only had Mailx installed
 are also now going to Mutt.
 
-There is an important thing to note about this article. I discuss using Mailx or
-Mutt to send messages to other users on the local Linux Mint 22 system, which is
-installed via VirtualBox.
+One important note about this article: I discuss using Mailx or Mutt to send
+messages to other users on the local Linux Mint 22 system, which is installed
+via VirtualBox.
 
 ## What is Mailx?
 
@@ -61,9 +69,9 @@ package to access the `mail` or `mailx` command.
 
 Michael Elkins originally wrote Mutt in 1995 and released it under the
 [GNU General Public License](https://en.wikipedia.org/wiki/GNU_General_Public_License)
-version 2 or any later version. He initially designed Mutt as a
-[Mail User Agent](https://en.wikipedia.org/wiki/Email_client), and it depended
-on a locally accessible mailbox and
+version 2 and later. He originally meant Mutt to be a
+[Mail User Agent](https://en.wikipedia.org/wiki/Email_client) which depended on
+a locally accessible mailbox and
 [sendmail](https://en.wikipedia.org/wiki/Sendmail) infrastructure.
 
 ## What is Mutt?
@@ -81,7 +89,7 @@ According to `man mutt`,
 > electronic mail under unix operating systems. It includes support for color
 > terminals, MIME, OpenPGP, and threaded sorting mode.
 
-## The mutt -a and -s options
+## The Mutt -a and -s options
 
 The most important option to me was the ability to attach files as email
 attachments and send them to others, and the ability to receive email
@@ -108,11 +116,11 @@ emails in its inbox, so it took forever for the message headers to upload. Mutt
 even crashed a couple of times in the process. For the purposes of my Linux Mint
 OS installed in VirtualBox, sticking with local Mutt emails works fine for me.
 
-1. Supports color support
+1. Provides color support
 1. Supports single or multiple email attachments.
 1. Supports CC (Carbon Copy)[^2] and BCC (Blind Carbon Copy)[^3] fields.
 1. Supports message threading[^4].
-1. Supports various to support mailing lists[^5], including list-reply.
+1. Provides support for mailing lists[^5], including list-reply.
 1. Supports different mailbox formats like `mbox`[^6], `maildir`[^7],
    `MMDF`[^8], and `MH`[^9].
 1. Supports an active development community.
@@ -134,7 +142,7 @@ OS installed in VirtualBox, sticking with local Mutt emails works fine for me.
 
 To learn more about how to send and receive messages and save email attachments
 to your local machine, please visit my article entitled
-[Setting up and using the mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux).
+[Setting up and using the Mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux).
 
 ## Conclusion
 
@@ -149,19 +157,20 @@ well as my cron jobs. I haven't looked back since.
 
 ## Related Resources
 
-- [Setting up and using the mutt email client in Linux](/blog/setting-up-and-using-the-mutt-email-client-in-linux):
-  _mariadcampbell.com_
 - [Mastering Mutt: How to Install Mutt Command in Linux](https://ioflood.com/blog/install-mutt-command-linux/):
   _I/O FLOOD_
 - [Mutt: ArchWiki](https://wiki.archlinux.org/title/Mutt): _ArchWiki, ArchLinux_
 - [How to Install and Configure Mutt With Gmail on Linux](https://www.makeuseof.com/install-configure-mutt-with-gmail-on-linux/):
   _MAKEUSEOF_
-- [Mutt, SMTP and automated email sending with new Gmail regulations](https://superuser.com/questions/1727429/mutt-smtp-and-automated-email-sending-with-new-gmail-regulations/1727430#1727430):
-  _superuser_
 - [message thread](https://www.pcmag.com/encyclopedia/term/message-thread):
   _PCMag_
 - [MuttGuide](https://gitlab.com/muttmua/mutt/-/wikis/MuttGuide): _MuttGuide,
   GitLab_
+
+## Related Posts
+
+- [Sending and receiving local email in Linux Mint/VirtualBox series table of contents](/blog/sending-and-receiving-local-email-in-linux-mint-virtualbox-series-table-of-contents):
+  _mariadcampbell.com_
 
 [^1]:
     MIME (Multipurpose Internet Mail Extensions) is an extension of the original
@@ -213,9 +222,9 @@ well as my cron jobs. I haven't looked back since.
     text in a single file. Each message starts with the four characters "From"
     followed by a space (the so-called "From line") and the sender's email
     address. RFC 4155 defines that a UTC timestamp follows after another
-    separating space character. Both Mutt and Mailx support mbox, and is why
-    when I either use Mailx or Mutt to send an email, both Mutt and Mailx record
-    the emails.
+    separating space character. Both Mutt and Mailx support mbox, and this is
+    why when I either use Mailx or Mutt to send an email, both Mutt and Mailx
+    record the emails.
 
 [^7]:
     The maildir e-mail format is a common way of storing email messages on a
