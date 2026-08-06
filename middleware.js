@@ -185,6 +185,7 @@ const DELETED_POST_SLUGS = [
 	'data/blog/portal-in-nextjs-and-the-sticky-footer.mdx',
 	'data/blog/what-the-util-linux-package-actually-consists-of-in-linux-part-1.mdx',
 	'data/blog/the-script-command-in-linux-and-unix-macos.mdx',
+	'data/blog/ekeycode-ewhich.mdx',
 ]
 
 export function middleware(request) {
