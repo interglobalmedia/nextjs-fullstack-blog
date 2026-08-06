@@ -1,7 +1,7 @@
 ---
 slug: the-pipe-and-tee-commands-in-linux-and-unix-macos
 date: '2024-07-14T17:21:43.791Z'
-lastModified: '2026-07-25T00:35:43.791Z'
+lastModified: '2026-08-06T22:27:43.791Z'
 title: The pipe (|) and tee commands in Linux and Unix (macOS)
 author: Maria D. Campbell
 excerpt:
@@ -36,12 +36,12 @@ _[Photo by](https://www.pexels.com/photo/a-person-holding-a-golf-ball-6542382/)
 
 - [What is the tee command?](#what-is-the-tee-command)
 - [Explaining the tee command by example](#explaining-the-tee-command-by-example)
-- [The tee command and cat](#the-tee-command-and-cat)
 - [The tee command, history and the -a flag](#the-tee-command-history-and-the-a-flag)
 - [The tee command, cat, and two file inputs](#the-tee-command-cat-and-two-file-inputs)
 - [The tee command and wc](#the-tee-command-and-wc)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 In this article, I discuss the pipe (`|`) command, aka `unnamed pipe`, which
 transmits output of one command as input to another command. It redirects the
@@ -53,14 +53,11 @@ The `tee` command reads the
 [stdin](/blog/stdin-stdout-and-stderr-in-linux-and-unix-macos) and writes it to
 both [stdout](/blog/stdin-stdout-and-stderr-in-linux-and-unix-macos) and one or
 more files. According to
-[Geeks for Geeks](https://www.geeksforgeeks.org/tee-command-linux-example/),
+[Wikipedia](<https://en.wikipedia.org/wiki/Tee_(command)>),
 
-> The (tee) command is named after the T-splitter used in plumbing.
-
-`Geeks for Geeks` also states,
-
-> It basically breaks the output of a program so that it can be both displayed
-> and saved in a file. It does both the tasks simultaneously...
+> [tee] derives from the tee pipe fitting even though the tee command duplicates
+> the input into each output instead of dividing the input into portions for
+> each output.
 
 ## Explaining the tee command by example
 
@@ -120,24 +117,6 @@ Something like the following would be output in Terminal:
 And the same content to Terminal is saved to a newly created file called
 `history.txt` as output, thanks to the `tee` command.
 
-## The tee command and cat
-
-If I run `cat history.txt | tee history.txt history2.txt`, the exact same
-content is saved to a newly created `history2.txt` file as `stdout` to Terminal
-and `history.txt`, thanks to the `tee` command.
-
-```shell
-# history2.txt
-... (truncated)
-
-372 ls | tee -a names1.txt names2.txt tee.txt
-373 cat tee.txt
-374 ls | tee tee.txt
-375 ls
-376 cat tee.txt
-377 history | tee history.txt
-```
-
 ## The tee command, history and the -a flag
 
 Let's say I ran more commands, and then wanted to append these new commands
@@ -183,30 +162,47 @@ already there.
 
 ## The tee command, cat, and two file inputs
 
-Let's say I run:
+`tee` can write the same input to more than one file at once. Let's say I run:
 
 ```shell
 cat history.txt | tee history.txt history2.txt
 ```
 
-This command returns the complete contents of `history.txt` in Terminal and
-copies its content to a newly created `history2.txt`. And if I run this command
-again after a bit of time and a few more commands, and add the `-a` or
-`--append` flag:
+This command returned two empty files and nothing to Terminal. Why?
+
+The command erased the contents of history.txt before reading it. This happened
+because of how the command line handles pipes and file redirection.
+
+When I run a pipeline using the unnamed pipe, the shell opens and prepares the
+commands at the same time. The shell starts running `cat history.txt` and
+`tee history.txt history2.txt` simultaneously.
+
+To write data to `history.txt`, the `tee` command instantly opens the file and
+wipes it clean to start from scratch.
+
+If the `tee` command opens the file to write it right before `cat` finishes
+reading it, history.txt becomes completely empty. `cat` then reads an empty
+file, sending nothing through the pipe, and both `history.txt` and
+`history2.txt` become blank.
+
+Before running the `cat history.txt | tee history.txt history2.txt` again, I
+repopulated `history.txt` with `history > history.txt`, since the previous
+command had wiped it out. And when I ran this command again after a bit of time
+and a few more commands, I added the `-a` or `--append` flag:
 
 ```shell
 cat history.txt | tee -a history.txt history2.txt
 ```
 
-Running `cat` again appends `history.txt`'s contents to its previous content,
-thereby doubling the number of lines in the file. The same goes for
-`history2.txt`. Its number of lines doubled as well.
+Running `cat` again, along with the `-a` flag, appends `history.txt`'s contents
+to its previous content, thereby doubling the number of lines in the file. The
+same goes for `history2.txt`. Its number of lines doubled as well.
 
 ## The tee command and wc
 
-The `wc` command finds the number of lines, words, characters, bytes, and
-maximum line length of files, in that order. But it does not necessarily find
-all those items at once.
+`wc` can report the number of lines, words, characters, bytes, and maximum line
+length. But by default, with no flags, it returns just lines, words, and bytes,
+in that order. It does not necessarily find all those items at once.
 
 When I execute:
 
@@ -283,3 +279,8 @@ explanations with live code snippets and their outputs.
   _man7.org_
 - [tee command in Linux with examples](https://www.geeksforgeeks.org/tee-command-linux-example/):
   _Geeks for Geeks_
+
+## Related Posts
+
+- [Using pipe (|) and grep in Linux and Unix (macOS)](/blog/using-pipe-and-grep-in-linux-and-unix-macos):
+  _mariadcampbell.com_
