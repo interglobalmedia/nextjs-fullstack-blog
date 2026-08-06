@@ -186,6 +186,7 @@ const DELETED_POST_SLUGS = [
 	'data/blog/what-the-util-linux-package-actually-consists-of-in-linux-part-1.mdx',
 	'data/blog/the-script-command-in-linux-and-unix-macos.mdx',
 	'data/blog/ekeycode-ewhich.mdx',
+	'data/blog/when-deploying-an-app-to-gh-pages-that-uses-confetti-js.mdx',
 ]
 
 export function middleware(request) {
