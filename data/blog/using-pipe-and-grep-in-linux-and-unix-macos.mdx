@@ -1,80 +1,104 @@
 ---
 slug: using-pipe-and-grep-in-linux-and-unix-macos
 date: '2024-07-13T10:02:39.445Z'
-lastModified: '2024-07-14T11:34:39.445Z'
+lastModified: '2026-08-06T22:30:39.445Z'
 title: Using pipe (|) and grep in Linux and Unix (macOS)
 author: Maria D. Campbell
-excerpt: Using pipe (|) and grep in Linux and Unix (macOS)
-image: chuttersnap-6Qdeoaql5GA-unsplash.jpg
+excerpt:
+    'How the | operator and grep work together in Linux and Unix, plus a
+    hands-on look at named pipes and why I ended up not using them.'
+image: chuttersnap-6Qdeoaql5GA-unsplash.webp
 tags:
-    ['linux', 'grep', 'fifo', 'named pipe', 'pipe', 'redirect operator', 'unix']
-isPublished: false
+    [
+        'macOS',
+        'linux',
+        'grep',
+        'fifo',
+        'named pipe',
+        'pipe',
+        'redirect operator',
+        'unix',
+    ]
+isPublished: true
 isFeatured: false
 ---
 
-![Pipes](chuttersnap-6Qdeoaql5GA-unsplash.jpg)
+![Black and brown ceramic mug on brown wooden table](chuttersnap-6Qdeoaql5GA-unsplash.webp)
 
-**_Photo by_** [CHUTTERSNAP](https://unsplash.com/@chuttersnap) **_on_**
-[unsplash.com](https://unsplash.com/photos/black-and-brown-ceramic-mug-on-brown-wooden-table-6Qdeoaql5GA)
+_[Photo](https://unsplash.com/photos/black-and-brown-ceramic-mug-on-brown-wooden-table-6Qdeoaql5GA)
+by [CHUTTERSNAP](https://unsplash.com/@chuttersnap) on
+[unsplash.com](https://unsplash.com/)_
 
 ## Table of Contents
 
 - [The pipe (|) command](#the-pipe-command)
-- [The un-named pipe (|) command in Linux](#the-un-named-pipe-command-in-linux)
 - [The grep command](#the-grep-command)
+- [The unnamed pipe (|) command in Linux](#the-unnamed-pipe-command-in-linux)
+- [Basic use of the grep command](#basic-use-of-the-grep-command)
 - [Combining pipe (|) with grep](#combining-pipe-with-grep)
+- [The advantages of using the unnamed pipe and grep together](#the-advantages-of-using-the-unnamed-pipe-and-grep-together)
 - [So what is a named pipe anyway?](#so-what-is-a-named-pipe-anyway)
+- [Creating a named pipe](#creating-a-named-pipe)
+- [Unnamed pipe vs named pipe](#unnamed-pipe-vs-named-pipe)
+- [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
+
+I use the grep and unnamed pipe commands together to solve various issues in my
+daily workflow, so I thought I would write a post about the two commands so that
+others could benefit from my knowledge and so I could also benefit from having
+access to a solid reference.
 
 ## The pipe (|) command
 
-The `pipe` command, `|`, aka `un-named pipe`, transmits the output of one
-command to another command. It can redirect `stdout`, `stdin`, or `stderr` of
-`one process` to `another` for `further processing`.
+The `pipe` command, `|`, aka unnamed pipe, transmits the output of one command
+to another command. It connects the `stdout` of the left command to the `stdin`
+of the right command.
 
-The `grep` command, short for `global regular expression print`, is used for
-`searching` and `manipulating` **_text patterns_** in `files`.
+## The grep command
 
-## The un-named pipe (|) command in Linux
+The `grep` command, short for "global regular expression print", is used for
+searching and manipulating text patterns in files.
 
-A basic use of the `un-named pipe` (`|`) is the following:
+## The unnamed pipe (|) command in Linux
+
+A basic use of the unnamed pipe (`|`) is:
 
 ```shell
 ls -la /etc | less
 ```
 
-If I ran this command in `Terminal`, I would get the complete listing of the
-contents in the `/etc` folder in `Linux`, including `dot` (`.`) hidden files
-thanks to the `-a` flag which includes `hidden files`, and the long list of the
+If I ran this command in Terminal, I would get the complete listing of the
+contents in the `/etc` folder in Linux, including `dot` (`.`) hidden files
+thanks to the `-a` flag which includes hidden files, and the long list of the
 contents inside `/etc` represented by the `-l` flag. `-la` is just short for
 `-l` and `-a` together.
 
-`Long list` (`-l`) returns `file permissions`, the `number` of `links`,
-`owner name`, `owner group`, `file size`, `time of last modification`, and the
-`file` or `directory name`. To learn more, run `man ls` in `Terminal`.
+Long list (`-l`) returns file permissions, the number of links, owner name,
+owner group, file size, time of last modification, and the file or directory
+name. To learn more, run `man ls` in Terminal.
 
 After `ls -la /etc`, comes pipe (`|`) followed by `less`. The pipe command
-transmits `ls -la /etc` to the `less` command. The `less` command is a
-`Terminal` pager program used to `view` the `contents` of a `text file` one
-`Terminal screen` (`window`) at a time. This is great for `scrolling through`
-very `long files`. You just `use` the `up` or d`own` arrow keys to
-`scroll through` the `file contents`.
+transmits `ls -la /etc` to the `less` command. The `less` command is a Terminal
+pager program used to view the contents of a text file one Terminal screen
+(window) at a time. This is great for scrolling through very long files. You
+just use the up or down arrow keys to scroll through the file contents.
 
-So what the above command means is that the `less` command is being `applied` to
-the `ls -la /etc` command, which makes it possible to `scroll through` the
-contents of `/etc` with the `up` or `down` arrow keys. If I simply used
-`ls -la /etc`, I `would` only `see` the `end screen` of the `contents` of
-`/etc`. I would not be able to scroll up to see the rest of it.
+So what the above command means is that the `less` command is being applied to
+the `ls -la /etc` command, which makes it possible to scroll through the
+contents of `/etc` with the up or down arrow keys. If I simply used
+`ls -la /etc`, I would only see the end screen of the contents of `/etc`. I
+would not be able to scroll up to see the rest of it.
 
-## The grep command
+## Basic use of the grep command
 
-A `basic use` of the `grep` command would be something like the following:
+A basic use of the `grep` command would be something like the following:
 
 ```shell
 grep "Doe" names2.txt
 ```
 
-where the `contents` of `names2.txt` is the following:
+where the content of `names2.txt` is the following:
 
 ```shell
 1 Doe
@@ -82,50 +106,50 @@ where the `contents` of `names2.txt` is the following:
 3 Sue
 ```
 
-`grep "Doe" names2.txt` returns the following in `Terminal`:
+`grep "Doe" names2.txt` returns the following in Terminal:
 
 ```shell
 1 Doe
 2 Doe
 ```
 
-If I ran the following command in `Terminal`:
+If I ran:
 
 ```shell
 grep -c "Doe" names2.txt
 ```
 
-the following would be returned in `Terminal`:
+it would return:
 
 ```shell
 2
 ```
 
-The `-c` flag `prints` the `count` of `matching lines` for each `grep search`.
-In this case, there are `two instances`, each on a different line, of `"Doe"`.
+The `-c` flag prints the count of matching lines for each `grep` search. Here,
+there are two instances, each on a different line, of "Doe".
 
-If I were to run the following in `Terminal`:
+If I were to run:
 
 ```shell
 grep -v "Doe" names2.txt
 ```
 
-it would return the following:
+it would return:
 
 ```shell
 3 Sue
 ```
 
-The `-v` flag, or `--invert-match`, selects `non-matching lines`. In this case,
-It is `Sue` on line 3.
+The `-v` flag, or `--invert-match`, selects "non-matching lines". In this
+instance, it is "Sue" on line three.
 
-Let's say I ran the following in `Terminal`:
+Let's say I ran:
 
 ```shell
 grep -i "doe" names2.txt
 ```
 
-It would return the following:
+It would provide:
 
 ```shell
 1 Doe
@@ -133,103 +157,103 @@ It would return the following:
 ```
 
 The `-i` flag, or `--ignore-case`, ignores whether the text pattern being
-searched is upper or lowercase, so that's why when **_searching_** `"doe"` I am
-able to get back `"Doe`".
+searched is upper or lowercase, so that's why, when searching "doe", I am able
+to get back "Doe".
 
-If I run the following command `Terminal`:
+If I ran:
 
 ```shell
 grep -L "John" *
 ```
 
-it would return the following:
+it would yield:
 
 ```shell
 duplicates.txt
 names2.txt
 ```
 
-The `L` flag, short for `--file-without-match`, returns the files in the current
-directory that do NOT contain the text pattern `"John"`.
+The `L` flag, short for `--files-without-match`, returns the files in the
+current directory that do _not_ contain the text pattern "John".
 
-But if I ran the following in `Terminal`:
+But if I ran:
 
 ```shell
 grep -l "John" *
 ```
 
-It would return the following:
+It would respond with:
 
 ```shell
 names1.txt
 ```
 
-The `-l` flag, short for `--files-with-matches`, returns the files that `Do`
-contain the `text pattern` being `searched` in the `current working directory`.
-In this case, `"John"`.
+The `-l` flag, short for `--files-with-matches`, returns the files that do
+contain the text pattern being searched in the current working directory. In
+this case, "John".
 
-`"John"` followed by `*` or the `wildcard character`, is telling `grep` to
-search through all the files in the `current working directory`.
+"John" followed by `*` or the wildcard character, is telling `grep` to search
+through all the files in the current working directory.
 
-There is much more to `grep`, and you can learn more by running `man grep` in
-`Terminal` to access the `grep manual`.
+There is much more to `grep`, and you can learn about it by running `man grep`
+in Terminal to access the `grep` manual.
 
 ## Combining pipe (|) with grep
 
-`pipe` (`|`) and
-`grep are frequently used together. Let's say I run the following command in `Terminal`using both`|`and`grep`:
+`pipe` (`|`) and `grep` are frequently used together. Let's say I ran the
+following in Terminal using both `|` and `grep`:
 
 ```shell
 cat names2.txt | grep "Sue"
 ```
 
-This returns the following:
+This returns:
 
 ```shell
 3 Sue
 ```
 
-Basically, the `grep` command `filters` through cat `names2.txt` to `match` the
-text search pattern `"Sue"`. Sweet, huh? I'm going to take this a step further
-and actually use `|` and `grep` to search through a large file. In fact, I would
-use `/etc` again. So:
+The `grep` command filters through `cat names2.txt` to match the text search
+pattern "Sue". Sweet, huh? I'm going to take this a step further and actually
+use `|` and `grep` to search through a large file. In fact, I'll use `/etc`
+again. So:
 
 ```shell
 ls -la /etc | grep -c "root"
 ```
 
-would return the following:
+would return something like:
 
 ```shell
 252
 ```
 
 This means that "root" appears in 252 lines in `/etc`. `/etc` sure does have a
-large number of lines in its `stdout` to `Terminal`!
+large number of lines in its output to Terminal!
 
-Let's make `|` and `grep` a bit more interesting. Let's say I want to `redirect`
-the `output` of `ls -la` to `/home/maria/Desktop/list-home-directory.txt`. I
-`add` an `absolute path` to a new file I want to create called
-`list-home-directory.txt` because I am running it from `/home/maria/Desktop`.
-First I type the following command in `Terminal`:
+Let's make `|` and `grep` a bit more interesting. Let's say I want to redirect
+the output of `ls -la` to `/home/maria/Desktop/list-home-directory.txt`. I add
+an absolute path to a new file I want to create called
+`list-home-directory.txt`, because I am running it from `/home/maria/Desktop`.
+First I type:
 
 ```shell
-maria@maria-VirtualBox: ls -la /home/maria > /home/maria/Desktop/list-home-directory.txt
+ls -la /home/maria > /home/maria/Desktop/list-home-directory.txt
 ```
 
-Then I `cd` into `Desktop` again, and run `cat list-home-directory.txt` to make
-sure that my command worked. And it worked! The complete contents of
-`/home/maria` was redirected to the newly created `file` on the `Desktop` called
-`list-home-directory.txt`!
+Then I `cd` into the Desktop directory again, and run
+`cat list-home-directory.txt` to make sure that my command works. And it does! I
+redirect the complete contents of `/home/maria` to the newly created file on the
+Desktop called `list-home-directory.txt`!
 
-Next, I run the following command using `|` AND `grep`:
+Next, I run another command using `|` AND `grep`:
 
 ```shell
 cat list-home-directory.txt | grep drwx
 ```
 
-This `returns` the `directories` where I have `read`, `write`, and `execute`
-permissions. The following is returned:
+This returns the directories where I have read, write, and execute permissions.
+The command yields:
 
 ```shell
 drwxr-x--- 16 maria maria 4096 Jul 13 11:14 .
@@ -249,94 +273,123 @@ drwxrwxr-x  2 maria maria 4096 Jul 12 20:56 .themes
 drwxr-xr-x  2 maria maria 4096 Jul 12 20:54 Videos
 ```
 
-I `filtered through` the `contents` of `list-home-directory.txt` to find
-`file permissions` for `directories` where use`r permissions` are `rwx`, and the
-search text pattern is `dwrx`, `d` standing for `directory`. A lot less lines
-than are contained in `list-home-directory.txt`. This was a quick way of going
-through a `long list` of `lines` to find out which directories in `/home/maria`
-for which I have `rwx` permissions.
+I filter through the contents of `list-home-directory.txt` to find file
+permissions for directories where user permissions are `rwx`, and the search
+text pattern is `dwrx`, `d` standing for `directory`. There are a lot fewer
+lines than are contained in `list-home-directory.txt`. This is a quick way of
+going through a long list of lines to find out which directories in
+`/home/maria` have `rwx` permissions.
+
+## The advantages of using the unnamed pipe and grep together
+
+Using the unnamed pipe and grep together lets me filter through large files
+instantly. The combination of both allows me to integrate multiple commands such
+as cat, ps, or ls with grep. grep's filtering feature permits me to filter out
+content and show only the lines I need.
 
 ## So what is a named pipe anyway?
 
-An `un-named pipe` (`|`) in `Terminal` is `not persistent` by default. The `|`
-command `cannot` be `accessed` by another `Terminal` window session. Only within
-the current window. The `|` is `created temporarily` to `accommodate` the
-`execution` of the `command` to the left of it and `redirect stdout`. `|` is
-deleted after successful execution of the command.
+An unnamed pipe (`|`) is not persistent by default. The `|` command cannot be
+accessed by another Terminal window session. Only within the current window. The
+`|` is created temporarily to accommodate the execution of the command to the
+left of it and redirect `stdout`. `|` is deleted after successful execution of
+the command.
 
-On the other hand, a `named pipe` can last as long as the system is up and
-running or until the `named pipe` is `deleted`. It is a `special file` that
-follows the `FIFO` (`first in`, `first out`) method. In fact, it is a
-`FIFO method`.
+On the other hand, a named pipe persists as a file until it's deleted. It is a
+special file that follows the FIFO (first in, first out) method. In fact, it is
+a FIFO method.
 
-To create a `named pipe`, I run the following command in the directory I want to
+## Creating a named pipe
+
+To create a named pipe, I run the following command in the directory I want to
 save it to:
 
 ```shell
-maria@maria-VirtualBox:~/Desktop/text-files$ mkfifo first-named-pipe
+# Running the command from ~/Desktop/text-files directory/path
+mkfifo first-named-pipe
 ```
 
-And when I run the `ls -la` command in the `text-files` directory to double
-check my command:
+You can call your named pipe whatever you want.
+
+And when I run the `ls -la` command in the text-files directory to double check
+my command:
 
 ```shell
 ls -la
 ```
 
-it returns the following:
+it returns:
 
 ```shell
-total 24
-drwxrwxr-x  2 maria maria   4096    Jul 13 16:21    .
-drwxr-xr-x  4 maria maria   4096    Jul 13 16:10    ..
--rw-rw-r--  1 maria maria     47    Jul 12 21:28    duplicates.txt
-prw-rw-r--  1 maria maria      0    Jul 13 16:21    first-named-pipe
--rw-rw-r--  1 maria maria   1477    Jul 13 12:23    list-home-directory.txt
--rw-rw-r--  1 maria maria     21    Jul 12 21:10    names1.txt
--rw-rw-r--  1 maria maria     18    Jul 12 21:18    names2.txt
+total 8
+drwxrwxr-x  2 maria maria 4096 Aug  6 07:32 .
+drwxr-xr-x 11 maria maria 4096 Jul 25 09:15 ..
+-rw-rw-r--  1 maria maria    0 Aug  6 07:30 duplicates.txt
+prw-rw-r--  1 maria maria    0 Aug  6 07:32 first-named-pipe
+-rw-rw-r--  1 maria maria    0 Jul 17 11:53 image.txt
+-rw-rw-r--  1 maria maria    0 Aug  6 07:30 list-home-directory.txt
+-rw-rw-r--  1 maria maria    0 Aug  6 07:30 names1.txt
+-rw-rw-r--  1 maria maria    0 Aug  6 07:30 names2.txt
 ```
 
-Next, I run the following command to make sure that executing `first-named-pipe`
-does not keep hanging in Terminal:
+Next, I run the command below to make sure that executing first-named-pipe does
+not keep hanging in Terminal:
 
 ```shell
 exec 3<>first-named-pipe
 ```
 
-Next, I `redirect` the `command` I want to `capture` with `first-named-pipe` by
-running the following:
+Then I redirect the command I want to capture with first-named-pipe by running:
 
 ```shell
-maria@maria-VirtualBox:~/Desktop.text-files$ ls -la > first-named-pipe
+# Running the command from the ~/Desktop/text-files directory/path
+ls -la > first-named-pipe
 ```
 
-This redirects `ls -la` for the contents of `text-files` as `stdout` to the
-`first-named-pipe` **named pipe** file.
+This redirects `ls -la` for the contents of text-files as `stdout` to the
+first-named-pipe named pipe file.
 
-Finally, I execute the `named pipe` itself with the `cat` command:
+Finally, I execute the named pipe itself with the `cat` command:
 
 ```shell
-maria@maria-VirtualBox:~/Desktop.text-files$ cat first-named-pipe
+# Running the command from the ~/Desktop/text-files directory/path
+cat first-named-pipe
 ```
 
 Which returns:
 
 ```shell
-duplicates.txt
-first-named-pipe
-list-home-directory.txt
-names1.txt
-names2.txt
+total 8
+drwxrwxr-x  2 maria maria 4096 Aug  6 07:47 .
+drwxr-xr-x 11 maria maria 4096 Jul 25 09:15 ..
+-rw-rw-r--  1 maria maria    0 Aug  6 07:30 duplicates.txt
+prw-rw-r--  1 maria maria    0 Aug  6 07:47 first-named-pipe
+-rw-rw-r--  1 maria maria    0 Jul 17 11:53 image.txt
+-rw-rw-r--  1 maria maria    0 Aug  6 07:30 list-home-directory.txt
+-rw-rw-r--  1 maria maria    0 Aug  6 07:30 names1.txt
+-rw-rw-r--  1 maria maria    0 Aug  6 07:30 names2.txt
 ```
 
-However, I did have problems getting my `named pipe` to work. The fact that I
-had to set `exec 3<>` on `first-named-pipe` so that `execution` of the
-`named pipe` would not `hang`, and that `after` the `first execution`, I was not
-able to execute again, told me that named pipes just are not worth it. And they
-cannot handle much data either. I would just stick with shell scripts!
+I did have problems getting my named pipe to work. The fact that I had to set
+`exec 3<>` on first-named-pipe so that execution of the named pipe would not
+hang, and that after the first execution, I was not able to execute again, told
+me that named pipes just are not worth it. And they cannot handle much data
+either. I would just stick with shell scripts! If you want your named pipe to
+work, make sure to take the following steps in the exact order displayed below:
+
+```shell
+mkfifo first-named-pipe
+ls -la
+exec 3<>first-named-pipe
+ls -la > first-named-pipe
+cat first-named-pipe
+```
+
+If you do not run the above commands in that exact sequence,
+`cat first-named-pipe` will not work!
 
 I subsequently found the following on
-[stackoverflow](https://askubuntu.com/questions/439289/cat-to-named-pipe-causes-hang):
+[Ask Ubuntu](https://askubuntu.com/questions/439289/cat-to-named-pipe-causes-hang):
 
 > cat $file >/tmp/stream_pipe didn't work, but I was able to make it work (to
 > some degree) by assigning the pipe to a file descriptor like so:... I said it
@@ -348,7 +401,7 @@ I subsequently found the following on
 > issue. Any writes to a full pipe will block (it looks like a hang, but it's
 > not) until data is consumed at which point the write will continue.
 
-I am using `Linux Mint`, which is `derived` from `Ubuntu`, and there is a `1 MB`
+I am using Linux Mint, which is a derivative of Ubuntu, and there is a 1 MiB
 buffer limit, so I ran the following to see how big my buffer limit was when
 executing my named pipe:
 
@@ -362,62 +415,81 @@ returns:
 fs.pipe-max-size = 1048576
 ```
 
-which denotes `1048576` bytes. `1048576` bytes is `1MB`. That is not much in the
-grand scheme of things, but I was having issues with very small amounts of data
-as well. `Each time` I `wanted` to `execute` my `named pipe`, I had to do
-something like the following:
+which denotes `1048576` bytes. `1048576` bytes is `1MiB`. That is not much in
+the grand scheme of things, but I was having issues with very small amounts of
+data as well. Each time I wanted to execute my named pipe, I had to do something
+like the following:
 
 ```shell
 exec 3<>first-named-pipe
-ls -l > first-namede-pipe
-cat first named-pipe
+ls -l > first-named-pipe
+cat first-named-pipe
 ```
 
-The `named pipe` is executed, but remains hanging after the `output` of the
-`named pipe` has been `executed`. So I have to do `Control key` + `C key` to
-`exit` the `pipe`.
+I execute the named pipe, but it remains hanging after its output is completed.
+So I have to press the Control key + C key to exit the `pipe`.
 
 What is interesting, however, is that after having done the above (several
-times), I had no problem `redirecting stdout` to `first-named-pipe` and then
-`cat > first-named-pipe`. I just had to make sure to `redirect` a `command` to
-`first-named-pipe` before `re-executing` it. I could not simply run
+times), I had no problem redirecting `stdout` to `first-named-pipe` and then
+`cat > first-named-pipe`. I just had to make sure to redirect a command to
+`first-named-pipe` before re-executing it. I could not simply re-run
 `cat first-named-pipe` right after running `cat first-named-pipe`. It would
-`result` in an `empty hang` containing `no stdout`. But if I were to try and
+result in an empty hang containing no `stdout`. But if I were to try and
 redirect a large amount of data, let's say from `/etc`, that would be way beyond
-the `1 MB` limit, and `first-named-pipe` would never execute!
+the `1 MiB` limit, and `first-named-pipe` would never execute!
 
-I am still `not` quite `sure` what are the `true benefits` of `named pipes`, but
-as I learn more, I will share my findings!
+I am still not quite sure what the true benefits of named pipes are, but as I
+learn more, I will share my findings!
 
-**Note**: The `one advantage` of a `named pipe` is if I run the following in one
-`Terminal` window inside the `text-files` folder:
+**Note**: The one advantage of a named pipe is if I run the following in one
+Terminal window inside the text-files folder:
 
 ```shell
 ls -la > first-named-pipe
 ```
 
-And then open up another `Terminal` window inside `text-files` and run the
-following:
+And then open up another Terminal window inside text-files and run:
 
 ```shell
 cat first-named-pipe
 ```
 
-`cat first-named-pipe` would `execute` in `Terminal` window 2.
+`cat first-named-pipe` would execute in Terminal window two.
+
+## Unnamed pipe vs named pipe
+
+| Feature      | Unnamed pipe                       | Named pipe                                                  |
+| ------------ | ---------------------------------- | ----------------------------------------------------------- |
+| Persistence  | Deleted after command executes     | Persists as a file until removed                            |
+| Creation     | Implicit, via unnamed pipe         | Explicit, via mkfifo                                        |
+| Access       | Only within the same shell/session | Any process with the path, including other Terminal windows |
+| Type         | Shell operator                     | Special file (FIFO)                                         |
+| Buffer limit | 1 MiB pipe buffer                  | 1 MiB pipe buffer                                           |
+
+## Conclusion
+
+In this post, I talk about the unnamed and named pipe, the `grep` command, and
+how they can be combined together with other commands. The unnamed pipe is
+implicitly created by typing `|`, and the named pipe is created with the
+`mkfifo` command. However, for the named pipe to work, I have to follow an exact
+sequence of steps. I also describe how the grep command is often combined with
+the unnamed pipe. This is advantageous because it allows me to filter through
+large amounts of text very quickly. I can send the output of one command right
+into grep without saving temporary files. This saves me both time and disk
+space.
 
 ## Related Resources
 
 - [An introduction to pipes and named pipes in Linux](https://opensource.com/article/18/8/introduction-pipes-linux):
-  **_by Archit Modi, opensource.com_**
-
+  _by Archit Modi, opensource.com_
 - [How to Use Linux Pipe for Redirection](https://www.liquidweb.com/blog/how-to-use-linux-pipe-for-redirection/):
-  **_by Matthew Stevens, Liquid Web_**
-
-- [grep command in Unix/Linux](https://www.geeksforgeeks.org/grep-command-in-unixlinux/):
-  **_Geeks for Geeks_**
-
+  _by Matthew Stevens, Liquid Web_
 - [Grep Command in Linux/UNIX](https://www.digitalocean.com/community/tutorials/grep-command-in-linux-unix):
-  **_by Pankaj, Digital Ocean_**
-
+  _by Pankaj, Digital Ocean_
 - [Anonymous and Named Pipes in Linux](https://www.baeldung.com/linux/anonymous-named-pipes):
-  **_baeldung.com_**
+  _baeldung.com_
+
+## Related Posts
+
+- [The pipe (|) and tee commands in Linux and Unix (macOS)](/blog/the-pipe-and-tee-commands-in-linux-and-unix-macos):
+  _mariadcampbell.com_
