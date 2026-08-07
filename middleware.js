@@ -187,6 +187,7 @@ const DELETED_POST_SLUGS = [
 	'data/blog/the-script-command-in-linux-and-unix-macos.mdx',
 	'data/blog/ekeycode-ewhich.mdx',
 	'data/blog/when-deploying-an-app-to-gh-pages-that-uses-confetti-js.mdx',
+	'data/blog/swapping-columns-of-a-text-file-and-then-joining-its-contents-with-another-text-file-via-command-line.mdx',
 ]
 
 export function middleware(request) {
