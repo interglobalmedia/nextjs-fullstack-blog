@@ -1,7 +1,7 @@
 ---
 slug: create-a-cron-job-that-monitors-disk-space-usage-and-notification-if-it-exceeds-specified-threshold-in-linux
 date: '2024-08-08T04:46:21.147Z'
-lastModified: '2026-07-16T20:59:21.147Z'
+lastModified: '2026-08-07T13:33:21.147Z'
 title:
     Create a cron job that monitors disk space usage and sends a notification if
     it exceeds specified threshold in Linux
@@ -34,6 +34,7 @@ _Photo by [Ksenia Chernaya](https://www.pexels.com/@kseniachernaya/) on
 - [Adding the disk_space_alert.sh shell script to crontab](#adding-the-disk-space-alertsh-shell-script-to-crontab)
 - [Conclusion](#conclusion)
 - [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
 
 I run my Linux Mint distribution in VirtualBox, so the virtual disk space I have
 allocated to it is not as much as I would like. I want to be able to have hard
@@ -153,7 +154,7 @@ After the cron job is executed, I receive a local email via `mailx` telling me
 either `"Disk space is running low!"` or `"Disk space is okay."`.
 
 To learn how to create a cron job in Linux, please visit my article entitled
-[The Cron daemon in Linux and how to create a cron job](/blog/the-cron-daemon-in-linux-and-how-to-create-a-cron-job).
+[The cron daemon in Linux and how to create a cron job](/blog/the-cron-daemon-in-linux-and-how-to-create-a-cron-job).
 
 To learn about the `mailx` command and local emails in Linux, please visit my
 article entitled
@@ -186,3 +187,10 @@ whether my disk space is low or not!
   _cyberciti.biz_
 - [awk(1p) — Linux manual page](https://www.man7.org/linux/man-pages/man1/awk.1p.html):
   _man7.org_
+
+## Related Posts
+
+- [The cron daemon in Linux and how to create a cron job](/blog/the-cron-daemon-in-linux-and-how-to-create-a-cron-job):
+  _mariadcampbell.com_
+- [Cron job that creates backups of a directory in Linux](/blog/cron-job-that-creates-backups-of-a-directory-in-linux):
+  _mariadcampbell.com_
