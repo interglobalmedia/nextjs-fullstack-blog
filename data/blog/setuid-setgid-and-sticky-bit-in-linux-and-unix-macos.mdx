@@ -1,7 +1,7 @@
 ---
 slug: setuid-setgid-and-sticky-bit-in-linux-and-unix-macos
 date: '2024-07-21T09:59:34.401Z'
-lastModified: '2026-06-08T23:10:34.401Z'
+lastModified: '2026-08-07T17:53:34.401Z'
 title: setuid, setgid, and sticky bit in Linux and Unix (macOS)
 author: Maria D. Campbell
 excerpt:
@@ -168,7 +168,7 @@ them. This then would indicate whether `standard user`(s) I create with my
 `standard user` account with access to `sudo` have access to those commands
 (executables).
 
-For example, if I run `which su` (switch user), which returns:
+For example, if I run `which su` (substitute user), which returns:
 
 ```shell
 /usr/bin/su
@@ -445,7 +445,7 @@ drwxrwxr-t maria maria 4096 Jul 22 19:33 stickybit-directory
 Then I create a file inside `stickybit-directory` called `stickybit-file1.txt`.
 
 Next, I switch out of maria user with the `su magdala` command (`su` stands for
-switch user) and try to delete owner maria's
+substitute user) and try to delete owner maria's
 `stickybit-directory/stickybit-file1.txt`:
 
 ```shell
