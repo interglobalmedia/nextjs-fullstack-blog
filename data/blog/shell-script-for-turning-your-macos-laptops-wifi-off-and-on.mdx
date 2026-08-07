@@ -1,25 +1,62 @@
 ---
 slug: shell-script-for-turning-your-macos-laptops-wifi-off-and-on
 date: '2024-07-06T17:32:24.667Z'
-lastModified: '2024-07-06T17:32:24.667Z'
-title: Shell script for turning your macOS laptop's WiFi off and on
+lastModified: '2026-08-07T10:29:24.667Z'
+title: Shell script for turning your macOS laptop's Wi-Fi off and on
 author: Maria D. Campbell
-excerpt: Shell script for turning your macOS laptop's WiFi off and on.
-image: ann-b7ooyxpub4A-unsplash.jpg
-tags: ['chmod', 'command line', 'file permissions', 'macOS', 'networksetup']
-isPublished: false
+excerpt:
+    'A step-by-step walkthrough of writing a zsh script to toggle macOS Wi-Fi
+    off and on, including the chmod permissions needed to run it.'
+image: ann-b7ooyxpub4A-unsplash.webp
+tags:
+    [
+        'chmod',
+        'command line',
+        'file permissions',
+        'macOS',
+        'networksetup',
+        'shell scripting',
+        'wifi',
+        'zsh',
+    ]
+isPublished: true
 isFeatured: false
 ---
 
-![WiFi unavailable](ann-b7ooyxpub4A-unsplash.jpg)
+![Image of a wooden gate with the words "There is no Wi-Fi in the forest but you will find a better connection"](ann-b7ooyxpub4A-unsplash.webp)
 
-**_Photo by_** [Ann](https://unsplash.com/@ann10) **_on_**
-[unsplash.com](https://unsplash.com/photos/there-is-no-wifi-in-the-forest-but-you-will-find-a-better-connection-b7ooyxpub4A)
+_[Photo](https://unsplash.com/photos/there-is-no-wifi-in-the-forest-but-you-will-find-a-better-connection-b7ooyxpub4A)
+by [Ann](https://unsplash.com/@ann10) on
+[unsplash.com](https://unsplash.com/photos/there-is-no-wifi-in-the-forest-but-you-will-find-a-better-connection-b7ooyxpub4A)_
 
-Recently I wrote a couple of articles regarding AppleScript and an arrticle
-regarding integrating an AppleScript into a zsh shell script. Now I talk about
-creating a shell script in macOS that turns off and on the Wifi on my macOS
-laptop.
+## Table of Contents
+
+- [Creating a shell script file](#creating-a-shell-script-file)
+- [Adding the shebang and path to the zsh binary to the file](#adding-the-shebang-and-path-to-the-zsh-binary-to-the-file)
+- [Adding comments to the shell script](#adding-comments-to-the-shell-script)
+- [Adding code for turning off WiFi](#adding-code-for-turning-off-wifi)
+- [Finding out the hardware port of a device's WiFi](#finding-out-the-hardware-port-of-a-devices-wifi)
+- [Adding the code to turn on the WiFi again](#adding-the-code-to-turn-on-the-wifi-again)
+- [Using the echo command to add feedback in Terminal while the shell script is running](#using-the-echo-command-to-add-feedback-in-terminal-while-the-shell-script-is-running)
+- [The complete script](#the-complete-script)
+- [Running the script](#running-the-script)
+- [Changing the shell script's file permissions](#changing-the-shell-scripts-file-permissions)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+
+> **Update August 7, 2026:** There has been much debate as to the status of
+> AppleScript. "Is it in maintenance mode?", "Are Apple Shortcuts replacing
+> AppleScript?", and so on. I had quite a few AppleScripts which no longer work,
+> so something has definitely shifted in the AppleScript ecosystem. I wrote this
+> article at a time when my AppleScripts were still working. Consider any
+> reference to AppleScripts or articles on AppleScripts as outdated.
+
+## Creating a shell script file
+
+Recently I wrote a couple of articles regarding AppleScript and an article
+regarding integrating an AppleScript into a zsh shell script. Now I'd like to
+talk about creating a shell script in macOS that turns off and on the WiFi on my
+macOS laptop.
 
 First I create a `wifi_reset.sh` file inside a folder called macos-scripting
 located at the root of my home folder (`~`):
@@ -30,8 +67,9 @@ macos-scripting/
   concatenate.sh concatenate.txt
   download_install_firefox.sh
   play_album.sh play_song.sh wifi_reset.sh
-  wifi_reset.sh
 ```
+
+## Adding the shebang and path to the zsh binary to the file
 
 Next, I add the `shebang` and `path` to `zsh binary` at the top of the file:
 
@@ -39,33 +77,37 @@ Next, I add the `shebang` and `path` to `zsh binary` at the top of the file:
 #!/bin/zsh
 ```
 
+## Adding comments to the shell script
+
 Then I add a set of comments that is sometimes referred to as a script frame or
 set of commented steps that helps me better think through the code I need to
 create in each step of the scripting process:
 
 ```shell
-# Reset Wi Fi
+# Reset Wi-Fi
 # by turning it off and on again
 
-# turn off WiFi
+# turn off Wi-Fi
 
 # wait for a few seconds
 
-# turn on WiFi
+# turn on Wi-Fi
 ```
 
-First let's add the code for turning off the WiFi and break it down:
+## Adding code for turning off Wi-Fi
+
+First let's add the code for turning off the Wi-Fi and break it down:
 
 ```shell
-# Reset Wi Fi
+# Reset Wi-Fi
 # by turning it off and on again
 
-# turn off WiFi
+# turn off Wi-Fi
 networksetup -setairportpower en0 off
 
 # wait for a few seconds
 
-# turn on WiFi
+# turn on Wi-Fi
 ```
 
 `networksetup` is a macOS built-in tool that controls and modifies network
@@ -76,23 +118,25 @@ The `-setairportpower` flag sets Wi-Fi power to either on or off. To learn more
 about networksetup and its available flags, you can run `man networksetup` in
 Terminal.
 
-`en0` represents the my laptop's hardware port. It follows the
-`-setairportpower` flag. However, I need to take another step via Terminal to
-find out what the value of my WiFi's hardware port is. The syntax for the
-`-setairportpower` flag is:
+`en0` represents my laptop's hardware port. It follows the `-setairportpower`
+flag. However, I need to take another step via Terminal to find out what the
+value of my Wi-Fi's hardware port is. The syntax for the `-setairportpower` flag
+is:
 
 ```shell
 -setairportpower hardwareport on | off
 ```
 
-In order to find out what the hardware port of my laptop's WiFi is, I run the
+## Finding out the hardware port of a device's Wi-Fi
+
+In order to find out what the hardware port of my laptop's Wi-Fi is, I run the
 following command in Terminal:
 
 ```shell
 networksetup -listallhardwareports
 ```
 
-And it returns the following in Terminal:
+And it yields:
 
 ```shell
 # The ethernet addresses have been removed
@@ -132,67 +176,95 @@ VLAN Configurations
 ===================
 ```
 
-The `Hardware Port: Wi-Fi` value, the value of its Device key is `en0`. So that
-is what follows `networksetup -setairportpower`. And since I want to turn off my
-WiFi, `off` follows `en0`.
+For the `Hardware Port: Wi-Fi` entry, the value of its` Device key` is `en0`. So
+that is what follows `networksetup -setairportpower`. And since I want to turn
+off my Wi-Fi, `off` follows `en0`.
 
-Next, I'll add the code for turning on my WiFi again:
+## Adding the code to turn on the Wi-Fi again
+
+Next, I add the code for turning on my Wi-Fi again:
 
 ```shell
-# Reset Wi Fi
+# Reset Wi-Fi
 # by turning it off and on again
 
-# turn off WiFi
+# turn off Wi-Fi
 networksetup -setairportpower en0 off
 
 # wait for a few seconds
 
-# turn on WiFi
+# turn on Wi-Fi
 networksetup -setairportpower en0 on
 ```
 
-I also want to set a delay between turning WiFi off and on again, so that
+I also want to set a delay between turning Wi-Fi off and on again, so that
 switching it off is actually perceptible:
 
 ```shell
-# Reset Wi Fi
+# Reset Wi-Fi
 # by turning it off and on again
 
-# turn off WiFi
+# turn off Wi-Fi
 networksetup -setairportpower en0 off
 
 # wait for a few seconds
 sleep 5
 
-# turn on WiFi
+# turn on Wi-Fi
 networksetup -setairportpower en0 on
 ```
 
 The macOS sleep command takes a single argument, which is the length of time
-that you want to pause before restarting a process suchb as turning on the WiFi
-again. Here, the length of the pause is 5 seconds.
+that you want to pause before restarting a process such as turning on the Wi-Fi
+again. Here, the length of the pause is five seconds.
+
+## Using the echo command to add feedback in Terminal while the shell script is running
 
 I can also add feedback in the Terminal while the shell script is running so
-that I better know what is going on. When is the Wifi turned off and when is it
+that I better know what is going on. When is the Wi-Fi turned off and when is it
 turned on again? So I add the following:
 
 ```shell
-# Reset Wi Fi
+# Reset Wi-Fi
 # by turning it off and on again
 
-# turn off WiFi
+# turn off Wi-Fi
 echo "Disabling Wi-Fi"
 networksetup -setairportpower en0 off
 
 # wait for a few seconds
 sleep 5
 
-# turn on WiFi
+# turn on Wi-Fi
 networksetup -setairportpower en0 on
 ```
 
+## The complete script
+
+The complete `wifi_reset.sh` script:
+
+```shell
+#!/bin/zsh
+
+# Reset Wi-Fi
+# by turning it off and on again
+
+
+# turn off Wi-Fi
+echo "Disabling Wi-Fi"
+networksetup -setairportpower en0 off
+# wait for five seconds
+echo "Waiting..."
+sleep 5
+# turn on Wi-Fi
+networksetup -setairportpower en0 on
+echo "Re-enabled Wi-Fi"
+```
+
+## Running the script
+
 Now, when I run the `./wifi_reset.sh` shell script, the following is returned in
-TGerminal:
+Terminal:
 
 ```shell
 Disabling Wi-Fi
@@ -200,13 +272,15 @@ Waiting...
 Re-enabled Wi-Fi
 ```
 
-If I removed the echo commands, nothing would be output to Terminal. I would
-just have to watch the WiFi status menu icon in the Apple menu to see when the
-icon transforms into a `\` (off) and then the WiFi icon again (on).
+If I removed the `echo` commands, nothing would be output to Terminal. I would
+just have to watch the Wi-Fi status menu icon in the Apple menu to see when the
+icon transforms into a `\` (off) and then the Wi-Fi icon again (on).
 
 **Note**: the `echo` command outputs text that follows the command. And if you
 want to output text which consists of multiple lines, you would wrap it in
 double quotes.
+
+## Changing the shell script's file permissions
 
 Last but not least, I have to change my shell script file's permissions. If I
 did not complete this step, by default, I would not be able to run the script:
@@ -233,7 +307,7 @@ within the macos-scripting folder in Terminal (where the shell script resides):
 chmod +x wifi_reset.sh
 ```
 
-And then run the `ls -l wifi_reset.sh` command, the following is returned:
+And then run the `ls -l wifi_reset.sh` command, it returns:
 
 ```shell
 -rwxr-xr-x  1 mariacam  staff  264 Jul  5 14:31 wifi_reset.sh
@@ -258,26 +332,32 @@ Terminal:
 Now `groups` and `other` (`users`) don't have the default `read` (`r`) anymore.
 I set all my permissions this way. It's much safer!
 
-**Note**: the `chmod`, aka `change mode` command allows an administrator to set
-or modify a file's permissions.
+**Note**: the `chmod`, aka `change mode` command modifies file and directory
+access permissions. It controls whether the file owner, a designated user group,
+or everyone else can read, write, or execute a file.
+
+## Conclusion
+
+In this post, I walk through how to create a shell script to turn my macOS
+laptop's Wi-Fi off and on. I introduce the macOS `networksetup` tool that
+controls network settings from the command line. And I also include the
+`networksetup` flag, `-setairportpower`, that turns a device's Wi-Fi on and off.
+And last but not least, is `en0`, that is the primary Ethernet or Wi-Fi
+interface on macOS, and it represents the main network connection used for
+internet access. The shell script file setup itself applies to any shell script.
+For those of you new to the concept of `networksetup` or shell scripting, or
+both, this is a good and useful place to begin!
 
 ## Related Resources
 
-- [man echo](https://ss64.com/mac/echo.html)
-
-- [networksetup(8) [osx man page]](https://www.unix.com/man-page/osx/8/networksetup/)
-
+- [man echo](https://ss64.com/mac/echo.html): _ss64.com_
+- [networksetup(8) [osx man page]](https://www.unix.com/man-page/osx/8/networksetup/):
+  _unix.com_
 - [Understanding User Accounts in macOS](https://www.intego.com/mac-security-blog/understanding-user-accounts-in-macos/):
-  **_by Kirk McElhearn, intego.com_**
-
+  _by Kirk McElhearn, intego.com_
 - [How to Change Mac Permissions via the Mac Terminal](https://www.techrepublic.com/article/change-mac-permissions-via-the-command-line-to-save-time/):
-  **_by Cory Bohon, techrepublic.com_**
-
+  _by Cory Bohon, techrepublic.com_
 - [Linux chmod command](https://www.computerhope.com/unix/uchmod.htm):
-  **_computerhope.com_**
-
+  _computerhope.com_
 - [Changing permissions using symbolic mode and numeric mode in Linux and Unix (macOS)](/blog/changing-permissions-using-symbolic-mode-and-numeric-mode-in-linux-and-unix-macos):
-  **_mariadcampbell.com_**
-
-- [How to show hidden files or folders on macOS](/blog/how-to-show-hidden-files-or-folders-on-macos):
-  **_mariadcampbell.com_**
+  _mariadcampbell.com_
