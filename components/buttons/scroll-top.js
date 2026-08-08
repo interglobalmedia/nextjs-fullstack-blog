@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import classes from '../../styles/scroll-buttons.module.scss'
+import useIsMounted from '../../hooks/useIsMounted'
 
 export default function GoTop() {
+	const isMounted = useIsMounted()
 	const [showGoTop, setShowGoTop] = useState(false)
 	const [showMe, setShowMe] = useState(false)
 
@@ -27,6 +29,7 @@ export default function GoTop() {
 	}, [handleVisibleButton])
 
 	if (typeof document === 'object') {
+		if (!isMounted.current) return null
 		return createPortal(
 			<>
 				<button

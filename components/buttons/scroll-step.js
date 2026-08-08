@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import classes from '../../styles/scroll-buttons.module.scss'
+import useIsMounted from '../../hooks/useIsMounted'
 
 export default function ScrollStep() {
+	const isMounted = useIsMounted()
 	const [showScrollStep, setShowScrollStep] = useState(false)
 	const [showMe, setShowMe] = useState(false)
 
@@ -29,6 +31,7 @@ export default function ScrollStep() {
 	}, [handleVisibleButton, showMe])
 
 	if (typeof document === 'object') {
+		if (!isMounted.current) return null
 		return createPortal(
 			<button
 				className={`icon-fill ${classes.scroll} ${classes.bottom} ${classes.icon} ${classes['icon-fill']}`}
