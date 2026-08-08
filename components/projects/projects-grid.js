@@ -22,8 +22,10 @@ function ProjectsGrid(props) {
 
 	return (
 		<>
-			<div className={`relative ${classes.relative}`}>
+			<div className="relative">
 				<input
+					id="projects-search"
+					name="projects-search"
 					aria-label="Search projects"
 					type="text"
 					onChange={(e) => setSearchValue(e.target.value)}
