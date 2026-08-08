@@ -4,7 +4,8 @@ import Head from 'next/head'
 import ThemeProvider from '../components/context/theme-provider'
 import { motion } from 'framer-motion'
 import { Inconsolata, Oswald } from 'next/font/google'
-import PlausibleProvider from 'next-plausible'
+import Script from 'next/script'
+import { useEffect } from 'react'
 
 const inconsolata = Inconsolata({
 	weight: ['300', '400', '700'],
@@ -26,6 +27,17 @@ const variants = {
 }
 
 export default function App({ Component, pageProps, router }) {
+	useEffect(() => {
+		const handleRouteChange = (url) => {
+			if (window.goatcounter?.count) {
+				window.goatcounter.count({ path: url })
+			}
+		}
+		router.events.on('routeChangeComplete', handleRouteChange)
+		return () => {
+			router.events.off('routeChangeComplete', handleRouteChange)
+		}
+	}, [router.events])
 	return (
 		<ThemeProvider>
 			<Layout>
@@ -50,13 +62,16 @@ export default function App({ Component, pageProps, router }) {
 					variants={variants}
 					transition={{ duration: 0.5, type: 'tween' }}
 				>
-					<PlausibleProvider domain="mariadcampbell.com">
-						<main
-							className={`${inconsolata.className} ${oswald.variable}`}
-						>
-							<Component {...pageProps} />
-						</main>
-					</PlausibleProvider>
+					<Script
+						data-goatcounter="https://interglobalmedia.goatcounter.com/count"
+						src="//gc.zgo.at/count.js"
+						strategy="afterInteractive"
+					/>
+					<main
+						className={`${inconsolata.className} ${oswald.variable}`}
+					>
+						<Component {...pageProps} />
+					</main>
 				</motion.div>
 			</Layout>
 		</ThemeProvider>
