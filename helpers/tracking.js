@@ -1,14 +1,10 @@
-function trackEvent({ name, value, type = 'type' }) {
-  const { splitbee } = window;
-
-  if (splitbee) {
-    if (!name) return;
-    if (name === value) {
-      splitbee.track(name);
-    } else {
-      splitbee.track(name, { [type]: value });
-    }
-  }
+function trackEvent({ name, value }) {
+	if (window.goatcounter?.count) {
+		window.goatcounter.count({
+			path: value || name,
+			event: true,
+		})
+	}
 }
 
-export default trackEvent;
+export default trackEvent
