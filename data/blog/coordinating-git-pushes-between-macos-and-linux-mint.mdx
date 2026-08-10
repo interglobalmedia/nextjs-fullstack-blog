@@ -1,0 +1,345 @@
+---
+slug: 'coordinating-git-pushes-between-macos-and-linux-mint'
+date: '2026-08-10T11:29:26.059Z'
+lastModified: '2026-08-10T16:46:26.059Z'
+title: 'Coordinating Git Pushes Between macOS and Linux Mint'
+author: 'Maria D. Campbell'
+excerpt:
+    'Learn how a solo developer coordinates Git pushes to remote origin from two
+    machines.'
+image: pexels-ketut-subiyanto-4853053.webp
+tags: ['macOS', 'linux', 'linux mint', 'command line', 'git']
+isPublished: true
+isFeatured: false
+---
+
+![Two adults exercising and stretching against an outdoor urban wall, focusing on fitness and well-being.](pexels-ketut-subiyanto-4853053.webp)
+
+_[Photo](https://www.pexels.com/photo/a-man-and-a-woman-stretching-4853053/) by
+[Ketut Subiyanto](https://www.pexels.com/@ketut-subiyanto/) on
+[pexels.com](https://www.pexels.com/)_
+
+## Table of Contents
+
+- [Coordinating Git pushes between my macOS and Linux Mint](#coordinating-git-pushes-between-my-macos-and-linux-mint)
+    - [Confirming the merge commit made it to GitHub](#confirming-the-merge-commit-made-it-to-github)
+- [Commands used in this post](#commands-used-in-this-post)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+- [Related Posts](#related-posts)
+
+Just before writing this post, I wrote a post entitled
+[Show Git Branch and Status in Your Bash Prompt on Linux Mint](/blog/show-git-branch-and-status-in-your-bash-prompt-on-linux-mint),
+where I customize the bare-bones Linux Mint Git prompt. This post is a
+continuation of the experience. Because I was sharing one Git-repository
+workflow between my MacBook Pro and my Dell laptop, I thought readers would be
+interested in the coordinated-pushing process that took place. It is a common
+practice within teams, but I wanted to show that even solo developers with no
+team members can still experience a multi-device coordination.
+
+## Coordinating Git pushes between my macOS and Linux Mint
+
+An interesting thing about my file-organization app in my VirtualBox Linux Mint
+OS. I have the same exact repository on both my MacBook Pro and my Dell laptop's
+VirtualBox Linux Mint OS. And I have pushed to remote from both devices. Up until
+this point, I have had no conflicts.
+
+Since I had unstaged changes in my Linux Mint repository, I wanted to compare
+them to my MacBook Pro's repository status.
+
+The change that I had made to the file_organizer.py file in Linux Mint was meant
+to mirror the state of the same file in macOS. So no problem there, right?
+
+Well, I did end up having another unstaged change to my .gitignore file on
+macOS:
+
+```shell
+git diff .gitignore
+diff --git a/.gitignore b/.gitignore
+index f54607b..c436004 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,2 +1,2 @@
+ image.txt
+-__pycache__
+\ No newline at end of file
++__pycache__/
+\ No newline at end of file
+```
+
+So I first committed my changes in macOS:
+
+```shell
+git add .gitignore
+git commit
+git push origin main
+```
+
+The result of my push to origin main:
+
+```shell
+git push origin main:
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 10 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 426 bytes | 426.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To github.com:interglobalmedia/file-organization-app.git
+   1dd7344..36c8677  main -> main
+```
+
+This was a clean push. A fast-forward, no issues, and the `.gitignore` change
+was now on origin/main (1dd7344..36c8677).
+
+Then I went back into Linux Mint and did a `git status` followed by a
+`git fetch`.
+
+git status:
+
+```shell
+git status:
+
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+modified:   file_organizer.py
+```
+
+I fetched. Here was the output:
+
+```shell
+git fetch origin
+
+remote: Enumerating objects: 12, done.
+remote: Counting objects: 100% (12/12), done.
+remote: Compressing objects: 100% (7/7), done.
+remote: Total 11 (delta 2), reused 11 (delta 2), pack-reused 0 (from 0)
+Unpacking objects: 100% (11/11), 1.87 KiB | 147.00 KiB/s, done.
+From github.com:interglobalmedia/file-organization-app
+   5b671cf..36c8677  main -> origin/main
+```
+
+The fetch pulled down more than just the single `.gitignore` commit. The range
+5b671cf..36c8677 suggested Mint's local knowledge of origin/main was behind by
+more than one commit (11 objects unpacked), not just the one push I watched
+happen. It was worth deciphering before pulling.
+
+Next, I ran `git status` again, and still had the same status as before the
+`git fetch`.
+
+Then I ran:
+
+```shell
+git log --oneline origin/main -5:
+
+36c8677 (origin/main) Add trailing slash to __pycache__ in .gitignore for directory matching
+1dd7344 Remove __pycache__ from tracking
+289e483 Add README.md
+20458a8 Ignore image.txt __pycache__
+5b671cf (HEAD -> main) First commit add all files and folders
+```
+
+I remembered those changes.
+
+HEAD -> main on Mint was still sitting at 5b671cf (the first commit), while
+origin/main moved all the way up through four more commits to 36c8677. So Linux
+Mint wasn't behind by just the one `.gitignore` push. It was behind all four of
+the macOS commits. This meant Mint's local repository never had a `git pull`
+execution since it was first cloned/initialized.
+
+Next, I had to commit my local repository changes and push to remote:
+
+```shell
+git add file_organizer.py
+git commit
+git pull origin main
+```
+
+When I ran git commit, I was taken into the default Nano editor. I much prefer
+Vim, so I ran the following to change my default editor from Nano to Vim:
+
+```shell
+git config --global core.editor "vim"
+```
+
+To confirm that the command was successful, I ran:
+
+```shell
+git config --global core.editor
+```
+
+It returned `vim`. The command _was_ successful.
+
+After I committed my changes and tried to push to remote, Git told me that I had
+divergent branches. Of course I did because I pushed from two different devices
+with two different main branches with different (divergent) commit histories.
+Below was the output of my
+`git pull origin/git pull origin main/git pull origin main --no-rebase` command:
+
+```shell
+git pull origin
+You asked to pull from the remote 'origin', but did not specify
+a branch. Because this is not the default configured remote
+for your current branch, you must specify a branch on the command line.
+maria@maria-VirtualBox:~/Desktop/python-files/file-organization-app (main)$ git pull origin main
+From github.com:interglobalmedia/file-organization-app
+ * branch            main       -> FETCH_HEAD
+hint: You have divergent branches and need to specify how to reconcile them.
+hint: You can do so by running one of the following commands sometime before
+hint: your next pull:
+hint:
+hint:   git config pull.rebase false  # merge
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint:
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+fatal: Need to specify how to reconcile divergent branches.
+maria@maria-VirtualBox:~/Desktop/python-files/file-organization-app (main)$ git pull origin main --no-rebase
+From github.com:interglobalmedia/file-organization-app
+ * branch            main       -> FETCH_HEAD
+Merge made by the 'ort' strategy.
+ .gitignore                             |   2 ++
+ README.md                              |  46 +++++++++++++++++++++++++++++++++
+ __pycache__/extensions.cpython-312.pyc | Bin 1444 -> 0 bytes
+ 3 files changed, 48 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 README.md
+ delete mode 100644 __pycache__/extensions.cpython-312.pyc
+```
+
+I knew I had prompts in there too, but copying like this was easiest.
+
+I finally made a successful `git pull` with the
+`git pull origin main --no-rebase` command.
+
+As per the `git pull` output, I made a merge by the "ort" strategy. This meant
+it was a clean, real merge commit with no conflict markers. The four incoming
+commits (.gitignore, README.md, the removal of the `__pycache__` file) never
+touched the `file_organizer.py` file. This was a good example of "coordinated
+pushing" because even though there were divergent branches, there were no
+overlapping changes. Git merged automatically.
+
+Finally, to confirm the concluding state of things, I ran:
+
+```shell
+git log --oneline -6
+# which returned:
+6f0971c (HEAD -> main) Merge branch 'main' of github.com:interglobalmedia/file-organization-app
+ac1f143 Update file_organizer.py to match remote version
+36c8677 (origin/main) Add trailing slash to __pycache__ in .gitignore for directory matching
+1dd7344 Remove __pycache__ from tracking
+289e483 Add README.md
+20458a8 Ignore image.txt __pycache__
+
+git status
+# which returned:
+On branch main
+nothing to commit, working tree clean
+```
+
+### Confirming the merge commit made it to GitHub
+
+To confirm that my local merge commits made it to GitHub, I executed:
+
+```shell
+git log origin/main --oneline -3
+```
+
+However, Git did not like this log command:
+
+```shell
+fatal: ambiguous argument "origin/main": unknown revision or path not in the working tree.
+```
+
+The reason I got this message is because no tracking had been set between my
+local and remote main branches. My `remote -v` was fine. I always check with
+every new local Git repository. But I never did a `git push -u origin main` or
+`--set-upstream-to=origin/main main`.
+
+I ran the following to rectify the matter:
+
+```shell
+git fetch origin
+git branch --set-upstream-to=origin/main main
+```
+
+Then I ran `git status -sb` to confirm that my local and remote branches synced
+successfully:
+
+```shell
+git status -sb
+
+# returned:
+
+## main...origin/main [ahead 2]
+```
+
+`git status -sb` confirmed that I set up tracking between local and remote
+successfully. It also showed that my Linux Mint's local Git repository was ahead
+of remote origin by two commits. That meant I had commits to push to remote
+origin:
+
+```shell
+git push origin main
+# which outputted:
+Enumerating objects: 9, done.
+Counting objects: 100% (8/8), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (5/5), 602 bytes | 602.00 KiB/s, done.
+Total 5 (delta 3), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To github.com:interglobalmedia/file-organization-app.git
+   36c8677..6f0971c  main -> main
+```
+
+I pushed both the file_organizer.py and the merge commit (36c8677..6f0971c) to remote origin.
+
+For final confirmation that there were no other commits to push to origin main,
+I ran `git status -sb` again:
+
+```shell
+## main...origin/main
+```
+
+## Commands used in this post
+
+| Command                                         | Purpose                                                         |
+| ----------------------------------------------- | --------------------------------------------------------------- |
+| `git diff .gitignore`                           | Shows the difference between commits                            |
+| `git add .gitignore`                            | Adds the .gitignore file to the staging area                    |
+| `git commit`                                    | Creates a commit message and records a change to the repository |
+| `git push origin main`                          | Uploads local changes made in main to remote origin's main      |
+| `git status`                                    | Shows the working tree status                                   |
+| `git fetch origin`                              | Fetches updates remote origin without merging into local branch |
+| `git log --oneline origin/main -5`              | Shows the latest 5 commits one-line each                        |
+| `git config --global core.editor "vim"`         | Configures Vim as the default editor                            |
+| `git config --global core.editor`               | Names the default editor                                        |
+| `git pull origin`                               | Requests a pull from remote origin without specifying a branch  |
+| `git pull origin main`                          | Requests a pull from remote origin's main branch                |
+| `git pull origin main --no-rebase`              | Merges remote origin with local repository                      |
+| `git log --oneline -6`                          | Lists the latest 6 commits on one line each                     |
+| `git log origin/main --oneline -3`              | Lists latest 3 merge commits made to origin main          |
+| `git branch --set-upstream-to=origin/main main` | Sets the default remote branch for the current local branch     |
+| `git status -sb`                                | Shows working tree status and branch information tersely        |
+
+## Conclusion
+
+In this post, I walk through how I coordinated working with divergent branches
+of the same Git repository on two local machines and one remote origin. By
+intentionally coordinating my Git workflows, I show how I am able to avoid merge
+conflicts despite the existence of divergent branches. This walk-through
+confirms that even solo developers have access to multi-device experiences.
+
+## Related Resources
+
+- [Git Cheat Sheet](https://git-scm.com/cheat-sheet): _git-scm.com_
+
+## Related Posts
+
+- [Show Git Branch and Status in Your Bash Prompt on Linux Mint](/blog/show-git-branch-and-status-in-your-bash-prompt-on-linux-mint): _mariadcampbell.com_
