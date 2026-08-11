@@ -1,7 +1,7 @@
 ---
 slug: 'guess-the-keys-app'
 date: '2026-05-17T15:04:37.933Z'
-lastModified: '2026-05-17T15:04:38.888Z'
+lastModified: '2026-08-11T18:47:22.000Z'
 title: 'Guess the Keys App'
 author: 'Maria D. Campbell'
 summary: 'A fun little game made with JavaScript, SCSS/CSS3, and HTML.'
@@ -12,21 +12,31 @@ tags:
     [
         'disabled property',
         'event listeners',
+        'coverage',
+        'istanbul',
         'javascript',
         'keypress event',
         'project',
+        'tests',
+        'unittests',
+        'vite',
+        'vitest',
     ]
 isPublished: true
 isFeatured: false
 ---
+
+_A wrong guess ('henry') triggers the 'Wrong input' message, set against the app's glyph background, which changes color and glyphs on each reload_
 
 A while back, I created a little game with vanilla `JavaScript` revolving around
 the `keypress` event that might end up being reused one day in a bigger project.
 There was a lot more going on under the hood than met the eye, and I learned a
 new thing or two in the process. So I thought it was time to write another post!
 
-The
-JavaScript`file consists of 146 lines of`code`, a few of which are empty to break the `code`up, and much of which is`CSS`in`JS`. Then there is the `JavaScript`related to the`keypress`and`input`validation. There are two parts to the`game`.
+The game's code lives across `index.mjs` and eight small modules in a
+`modules` folder, some of which handle `CSS` in `JS` and the rest of which
+handle the `keypress` and `input` validation. There are two parts to the
+`game`.
 
 The first part is to guess the keys you should press in order that a phrase from
 a song appears in a colored box with a dashed border above the text "Answer".
@@ -67,7 +77,7 @@ important highlights.
 
 - Adding page refresh code to the "click event" for the button.
 
-At first I didn’t add an `input` value condition to the `keypress listener`. I
+At first I didn't add an `input` value condition to the `keypress listener`. I
 had all these conditions for the keypresses and then an `else` statement which
 simply returned the error message "Wrong input. Try again!", but no condition
 against the correct answer which is supposed to be typed into the `input`. I
@@ -88,6 +98,17 @@ inputted and the `return` key has been pressed.
 Lastly, I had to add a way to refresh the page so that `disabled.true` is erased
 and the user can type in the input field again.
 
-I didn’t share code here on purpose because that would spoil the game for you!
+Since first writing this post, I went back and updated the project. The build
+now runs on `Vite` instead of `Webpack`, which also replaced the manual `SCSS`
+setup that was there before. I added a test suite for the game logic using
+`Vitest`, with coverage tracked through `Istanbul`. The suite covers eight
+modules across 17 tests, and coverage currently sits at 100% across
+statements, branches, functions, and lines.
+
+The background styling from this project turned out to be reusable elsewhere.
+I pulled the same background-related modules into this site, where they now
+power the animated backgrounds on the About, Resume, and Contact pages.
+
+I didn't share code here on purpose because that would spoil the game for you!
 Please do check it out on `Github`, and give it a whirl! And let me know what
 you think!
