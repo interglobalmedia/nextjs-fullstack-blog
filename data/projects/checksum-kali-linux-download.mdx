@@ -1,0 +1,70 @@
+---
+slug: 'checksum-kali-linux-download'
+date: '2023-09-30T00:00:00.000Z'
+lastModified: '2026-08-13T13:49:33.000Z'
+title: 'Checksum Verification: Kali Linux Download'
+author: 'Maria D. Campbell'
+summary:
+    'Verifying a Kali Linux ISO download with a SHA-256 checksum on macOS
+    using shasum, then installing it into an isolated UTM virtual machine on
+    Apple Silicon.'
+repository: 'https://github.com/interglobalmedia/checksum-kali-linux-download'
+website: 'https://github.com/interglobalmedia/checksum-kali-linux-download'
+image: checksum-kali-linux-download.webp
+tags:
+    [
+        'checksum',
+        'sha-256',
+        'shasum',
+        'kali linux',
+        'cybersecurity',
+        'security',
+        'macOS',
+        'command line',
+        'utm',
+        'virtualization',
+        'virtual machine',
+        'project',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+_Verifying the SHA-256 checksum of a Kali Linux ISO download against the hash
+published on kali.org, using macOS's built-in `shasum` command_
+
+Before installing any security tooling, I want to know two things: that the
+file I downloaded is actually the file the distributor built, and that
+whatever I do with it next stays isolated from my main system. This project
+covers both: verifying a Kali Linux `.iso` with a SHA-256 checksum on macOS,
+then installing it into an isolated virtual machine.
+
+## Verifying the download
+
+macOS ships with `shasum` built in, so no third-party tools are needed to
+check a download's integrity. Running `shasum -a 256` against the downloaded
+`.iso` produces a SHA-256 hash, a fixed-length "fingerprint" of the file.
+It gets compared against the checksum kali.org publishes for that same
+build. A match means the file wasn't corrupted or tampered with in transit;
+any change to the file, even a single bit, produces a completely different
+hash.
+
+## Installing in an isolated VM
+
+Verifying the download is only half the job. The other half is making sure
+that running security tools like Wireshark, or testing anything exploit- or
+protocol-related, stays contained to a disposable environment instead of
+touching the host Mac. I used [UTM](https://mac.getutm.app/) (free,
+QEMU-based) to run Kali on Apple Silicon, which is a straightforward path but
+comes with a handful of ARM64/QEMU-specific quirks: a CD/DVD drive reference
+that doesn't fully clear via the UI, a graphical installer that can go
+visually blank (worked around with a Serial console device), and a LUKS
+disk-encryption prompt that renders invisibly at early boot due to a
+keyboard-layout mismatch between typed and pasted input.
+
+## More detail
+
+This isn't a step-by-step install tutorial. Plenty of those already exist.
+The checksum verification steps, SHA-256 background, and the specific UTM
+quirks and fixes above are written up in full in the
+[project README on GitHub](https://github.com/interglobalmedia/checksum-kali-linux-download).
