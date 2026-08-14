@@ -1,7 +1,7 @@
 ---
 slug: wireshark-vs-tcpdump-macos
 date: '2023-12-11T18:36:24.375Z'
-lastModified: '2023-12-11T22:51:24.375Z'
+lastModified: '2026-08-14T02:59:00.000Z'
 title: Wireshark vs tcpdump (macOS)
 author: Maria D. Campbell
 excerpt:
@@ -20,31 +20,27 @@ tags:
         'tcpdump',
         'wireshark',
     ]
-isPublished: false
+isPublished: true
 isFeatured: false
 ---
 
 ![Wireshark vs tcpdump](pexels-george-desipris-726478.jpg)
 
-**_Photo by_** [George Desipris](https://www.pexels.com/@george-desipris/)
-**_on_** [pexels.com](https://www.pexels.com/)
+_[Photo]() by [George Desipris](https://www.pexels.com/@george-desipris/)
+on [pexels.com](https://www.pexels.com/)_
 
 ## Table of Contents
 
 - [So why use Wireshark or tcpdump?](#so-why-use-wireshark-or-tcpdump)
 - [Installing Wireshark and tcpdump on macOS](#installing-wireshark-and-tcpdump-on-macos)
+- [Installing the Wireshark CLI](#installing-the-wireshark-cli)
+- [Update: August 13, 2026](#update-august-13-2026)
+- [Why use Wireshark and tcpdump together?](#why-use-wireshark-and-tcpdump-together)
 - [Main differences between Wireshark and tcpdump](#main-differences-between-wireshark-and-tcpdump)
 - [Main similarities between Wireshark and tcpdump](#main-similarities-between-wireshark-and-tcpdump)
-- [Installing the Wireshark CLI](#installing-the-wireshark-cli)
-- [Update 10-23-23](#update-10-23-23)
-- [Why use Wireshark and tcpdump together?](#why-use-wireshark-and-tcpdump-together)
 - [Conclusion](#conclusion)
-    - [tcpdump advantages](#tcpdump-advantages)
-    - [tcpdump disadvantages](#tcpdump-disadvantages)
-    - [Wireshark advantages](#wireshark-advantages)
-    - [Wireshark disadvantages](#wireshark-disadvantages)
-    - [Similarities between tcpdump and Wireshark](#similarities-between-tcpdump-and-wireshark)
 - [Related Resources](#related-resources)
+- [Footnotes](#footnotes)
 
 ## So why use Wireshark or tcpdump?
 
@@ -111,82 +107,6 @@ entitled
 [Recording a Packet Trace](https://developer.apple.com/documentation/network/recording_a_packet_trace)
 on `developer.apple.com`.
 
-## Main differences between Wireshark and tcpdump
-
-- The first difference between Wireshark and tcpdump for me? tcpdump is a
-  pre-installed tool on macOS. Wireshark is not.
-
-- Wireshark is a graphic user interface, whereas tcpdump is a command line
-  interface (CLI) tool. Wireshark's graphical user interface provides a user
-  friendly experience, and it has advanced features such as real-time analysis
-  and fitering. tcpdump is ideal to run in remote servers or devices for which a
-  GUI is not available, to collect data that can be analyzed later.
-
-- tcpdump is lightweight and can be used on servers without a graphical user
-  interface. This makes it a great choice for network administrators who
-  [need to monitor remote servers](https://skillsstreet.com/mainframe-vs-server/).
-  On the other hand, Wireshark is typically deployed on workstations instead of
-  servers, because it comes with a GUI that offers more advanced features and
-  greater flexibility.
-
-- tcpdump has a greater learning curve because it requires a solid understanding
-  of syntax and commands, which can be intimidating to beginners. On the other
-  hand, Wireshark's visual interface is more user friendly, and might be
-  preferred by those less familiar with networking concepts.
-
-- Wireshark can capture traffic and decode the messages which can be saved to a
-  file to an understandable format for the user to find the reasons of poor
-  performance, intermittent connectivity, etc. On the other hand, tcpdump output
-  saved to files are not easily understandable to the user.
-
-- Wireshark is both a packet sniffer and analyzer. Wireshark offers a wide range
-  of analysis features with its powerful tool set. With color coding, filters,
-  and protocol dissectors, it has the ability to reassemble and follow streams,
-  providing in-depth analysis of packets. tcpdump, on the other hand, is limited
-  in its analysis capabilities, so it works more as a traffic capturing tool and
-  not an analyzer. It displays packet data directly in Terminal. So if you want
-  deep traffic analysis and troubleshooting, Wireshark is the tool to go with.
-
-- Wireshark displays all the data inside the packet but TCPdump only shows
-  information in packet headers. It does not display all the data inside the
-  packet.
-
-- tcpdump can only show the information of TCP/IP based packets and does its job
-  well. While Wireshark is much more versatile and can interpret and show
-  different protocols.
-
-- tcpdump has problems with some commands working with IPv6 packets. As a
-  result, IPv6 users should use Wireshark.
-
-- tcpdump is known for its ability to consume less resources, which makes it
-  better for long term monitoring of tasks or systems with limited resources. On
-  the other hand, because Wireshark is a GUI with more complex features, it
-  consumes more system resources.
-
-## Main similarities between Wireshark and tcpdump
-
-- Both Wireshark and tcpdump are open source software projects, and therefore
-  free.
-
-- Both Wireshark and tcpdump are compatible with different types of operating
-  systems such as Linux, Solaris, FreeBSD, NetBSD, OpenBSD, Mac OS X, other
-  Unix-like systems, and Windows.
-
-- Like Wireshark, TCPdump also has a good filtering language to capture only the
-  desired packets that match a specified filter.
-
-- Neither Wireshark nor TCPdump function as an intrusion detection system.
-
-- Wireshark and tcpdump both cannot generate alarms or hints when an active or
-  passive attack or strange behavior happens on the network. However, they might
-  help the analyst find out what is really going on inside the network.
-
-- Both oWireshark and tcpdump can only be used to measure or capture
-  information.
-
-- The captured file format for both Wireshark and tcpdump is in “libpcap”
-  format.
-
 ## Installing the Wireshark CLI
 
 There actually is a Wireshark CLI called TShark, and you can install it
@@ -230,24 +150,50 @@ binary plugins supported.
 
 I have not tried `tshark` out yet, but I will leave that for another time!
 
-## Update 10-23-23
+## Update: August 13, 2026
 
-I removed `Wireshark` from **macOS**, and re-installed it via my **_virtual_**
-`Kali Linux` **_install_**, since the only place where I would want to use it
-would be in `Kali Linux`. To **_install_** `Wireshark` in `Kali Linux`, I
-**_ran_** the **_following_** `command`:
+That original Kali Linux install never actually worked out. I'd followed some
+bad instructions, so I deleted that `UTM` instance entirely and started over
+with a fresh `Kali Linux` virtual machine.
 
-```shell
-sudo apt install wireshark
-```
-
-And to get Wireshark up and running, I ran the following command:
+First, I made sure everything on the new instance was current:
 
 ```shell
-wireshark
+sudo apt-get update && sudo apt-get upgrade
 ```
 
-`TShark` is **_also installed_** when `Wireshark` is **_installed_**.
+Before installing anything, I checked whether `Wireshark` was already on the
+system:
+
+```shell
+which wireshark
+```
+
+```shell
+/usr/bin/wireshark
+```
+
+It was. Same story with `TShark`:
+
+```shell
+sudo apt install tshark
+```
+
+```shell
+tshark is already the newest version (4.6.6-1).
+tshark set to manually installed.
+```
+
+```shell
+which tshark
+```
+
+```shell
+/usr/bin/tshark
+```
+
+Both `wireshark` and `tshark` came pre-installed on this Kali image, so this
+time around there was nothing left to actually install, just confirm.
 
 ## Why use Wireshark and tcpdump together?
 
@@ -263,93 +209,42 @@ remote server and then run Wireshark to take a look at the captured traffic on
 our local machine. With the proper command line options, we can export a tcpdump
 (remote) session that is compatible with Wireshark.
 
-## Conclusion
-
 Wireshark and tcpdump are both powerful network protocol analyzers that capture
 network traffic for analysis. However, they both have their advantages and
 disadvantages as well as differences.
 
-### tcpdump advantages
+## Main differences between Wireshark and tcpdump
 
-- `tcpdump` comes pre-installed on macOS. Wireshark does not.
-- `tcpdump` is lightweight and can be used on servers without a graphical user
-  interface. This makes it a great choice for network administrators who need to
-  monitor remote servers. On the other hand, `Wireshark` is typically deployed
-  on local workstations instead of servers because it comes with a GUI that
-  offers more advanced features and greater flexibility. It would be virtually
-  impossible to use `Wireshark` for network capture on remote servers.
-- `tcpdump` is known for its ability to consume less resources, which makes it
-  better for long term monitoring of tasks or systems with limited resources. On
-  the other hand, because Wireshark is a GUI with more complex features, it
-  consumes more system resources.
+| Aspect                 | Wireshark                                                                                                                                            | tcpdump                                                                                                                                                                    |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pre-installed on macOS | No                                                                                                                                                     | Yes                                                                                                                                                                        |
+| Interface               | GUI, with advanced features such as real-time analysis and filtering                                                                                   | CLI, ideal for remote servers or devices where a GUI isn't available, to collect data you analyze later                                                                  |
+| Typical deployment      | Workstations, since the GUI comes with more advanced features and greater flexibility                                                                  | Servers, since it's lightweight and a good choice for [network administrators who need to monitor remote servers](https://skillsstreet.com/mainframe-vs-server/)         |
+| Learning curve          | More user friendly, thanks to the visual interface                                                                                                     | Steeper, since it requires a solid understanding of syntax and commands                                                                                                   |
+| Output                  | Captures and decodes traffic into an understandable format you can save to a file, useful for finding the cause of poor performance or intermittent connectivity | Output saved to files isn't easily understandable                                                                                                                          |
+| Analysis capabilities   | Both a packet sniffer and analyzer, with color coding, filters, protocol dissectors, and the ability to reassemble and follow streams                  | Works more as a traffic capturing tool than an analyzer; displays packet data directly in Terminal                                                                        |
+| Packet detail           | Displays all the data inside the packet                                                                                                                 | Only shows information in packet headers                                                                                                                                  |
+| Protocol support        | Versatile, interprets and displays many different protocols                                                                                             | Mainly shows TCP/IP based packet information                                                                                                                              |
+| IPv6                    | The better choice for IPv6 traffic                                                                                                                      | Has had problems with some commands on IPv6 packets                                                                                                                       |
+| Resource usage          | Consumes more system resources, given the GUI and more complex features                                                                                 | Consumes fewer resources, better for long-term monitoring on systems with limited resources                                                                              |
 
-### tcpdump disadvantages
+## Main similarities between Wireshark and tcpdump
 
-- `tcpdump` has a greater learning curve because it requires a solid
-  understanding of syntax and commands, which can be intimidating to beginners.
-- `tcpdump` output saved to files are not easily understandable to the user.
-- `tcpdump` is limited in its analysis capabilities, so it works more as a
-  traffic capturing tool and not an analyzer. It displays packet data directly
-  in Terminal. So if you want deep traffic analysis and troubleshooting,
-  `Wireshark` is the tool to go with.
-- `tcpdump` only shows information in packet headers. It does not display all
-  the data inside the packet.
-- `tcpdump` can only show the information of TCP/IP based packets.
-- `tcpdump` has problems with some commands working with IPv6 packets. As a
-  result, IPv6 users should use `Wireshark`.
+| Similarity               | Details                                                                                                                                                    |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Open source               | Both are open source software projects, and therefore free.                                                                                               |
+| Cross-platform             | Both are compatible with different operating systems, including Linux, Solaris, FreeBSD, NetBSD, OpenBSD, macOS, other Unix-like systems, and Windows.    |
+| Filtering                  | Both have a good filtering language for capturing only the packets that match a specified filter.                                                         |
+| Not intrusion detection    | Neither functions as an intrusion detection system.                                                                                                        |
+| No alerting                | Neither can generate alarms or hints when an active or passive attack, or other strange behavior, happens on the network, though they can help you figure out what's actually going on. |
+| Measurement only           | Both can only be used to measure or capture information.                                                                                                   |
+| Capture file format        | Both save captured files in the “libpcap” format[^1].                                                                                                      |
 
-### Wireshark advantages
+## Conclusion
 
-- `Wireshark`'s graphical user interface provides a user friendly experience,
-  and it has advanced features such as real-time analysis and filtering.
-- `Wireshark` is typically deployed on workstations instead of servers, because
-  it comes with a GUI that offers more advanced features and greater
-  flexibility.
-- `Wireshark`'s visual interface is more user friendly, and might be preferred
-  by those less familiar with networking concepts.
-- `Wireshark` can capture traffic and decode the messages which can be saved to
-  a file to an understandable format for the user to find the reasons of poor
-  performance, intermittent connectivity, etc.
-- `Wireshark` is both a packet sniffer and analyzer. `Wireshark` offers a wide
-  range of analysis features with its powerful tool set. With color coding,
-  filters, and protocol dissectors, it has the ability to reassemble and follow
-  streams, providing in-depth analysis of packets.
-- `Wireshark` displays all the data inside the packet.
-- IPv6 users should use `Wireshark`. `tcpdump` has problems with some commands
-  working with IPv6 packets.
-- `Wireshark` is much more versatile than tcpdump in that it can interpret and
-  show different protocols. `tcpdump` can only show the information of TCP/IP
-  based packets.
-
-### Wireshark disadvantages
-
-- `Wireshark` does not come pre-installed on macOS.
-- `Wireshark` cannot be used to run on remote servers where a GUI is not
-  available.
-- Because Wireshark is a GUI with more complex features, it consumes more system
-  resources.
-
-### Similarities between tcpdump and Wireshark
-
-- Both Wireshark and tcpdump are open source software projects, and therefore
-  free.
-- Both Wireshark and tcpdump are compatible with different types of operating
-  systems such as Linux, Solaris, FreeBSD, NetBSD, OpenBSD, Mac OS X, other
-  Unix-like systems, and Windows.
-- Like Wireshark, TCPdump also has a good filtering language to capture only the
-  desired packets that match a specified filter.
-- Neither Wireshark nor TCPdump function as an intrusion detection system.
-- Wireshark and tcpdump both cannot generate alarms or hints when an active or
-  passive attack or strange behavior happens on the network. However, they might
-  help the analyst find out what is really going on inside the network.
-- Both oWireshark and tcpdump can only be used to measure or capture
-  information.
-- The captured file format for both Wireshark and tcpdump is in “libpcap”
-  format.
-
-**So both tcpdump and Wireshark are powerful network packet capture and protocol
+**Both tcpdump and Wireshark are powerful network packet capture and protocol
 analyzer tools with their advantages and disadvantages. Which one you choose to
-use will depend on the use case and which tool fits it.** s
+use will depend on the use case and which tool fits it.**
 
 ## Related Resources
 
@@ -366,3 +261,13 @@ use will depend on the use case and which tool fits it.** s
 - [Use Wireshark at the Linux command line with TShark](https://opensource.com/article/20/1/wireshark-linux-tshark)
 
 - [Installing Wireshark on MacOS is not as simple as `brew install wireshark`](https://wiert.me/2022/03/16/installing-wireshark-on-macos-is-not-as-simple-as-brew-install-wireshark/)
+
+- [PCAP Capture File Format](https://datatracker.ietf.org/doc/id/draft-gharris-opsawg-pcap-00.html): _ietf.org_
+
+[^1]: According to the [Wireshark Wiki](https://wiki.wireshark.org/Development/LibpcapFileFormat),
+
+    > This file format is a very basic format to save captured network data. As the libpcap library became the "de facto" standard of network capturing 
+    > on UN*X, it became the "common denominator" for network capture files in the open source world (there seems to be no such thing as a "common 
+    > denominator" in the commercial network capture world at all).
+    >
+    > Libpcap, and the Windows port of libpcap, Npcap, use the same file format.
