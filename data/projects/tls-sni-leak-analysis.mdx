@@ -1,0 +1,55 @@
+---
+slug: 'tls-sni-leak-analysis'
+date: '2026-08-17T10:02:18.568Z'
+lastModified: '2026-08-17T10:02:19.953Z'
+title: 'TLS SNI Leak Analysis'
+author: 'Maria D. Campbell'
+summary:
+    'A network traffic analysis using Wireshark and tcpdump that captures a
+    TLS handshake and shows how the destination hostname still leaks in
+    plaintext through the SNI field.'
+repository: 'https://github.com/interglobalmedia/tls-sni-leak-analysis'
+website: 'https://github.com/interglobalmedia/tls-sni-leak-analysis'
+image: pexels-nithin-pa-789164-2583028-2.webp
+tags:
+    [
+        'cybersecurity',
+        'infosec',
+        'network-security',
+        'packet-capture',
+        'pcap',
+        'tcpdump',
+        'tcpdump-capture',
+        'tls',
+        'wireshark',
+        'project',
+    ]
+isPublished: true
+isFeatured: false
+---
+
+_A close-up shot of a water droplet hanging from a stainless steel faucet, highlighting surface tension_
+
+This project is a network traffic analysis built around a single question:
+what does a TLS connection actually reveal before encryption exists? Using
+tcpdump to capture live traffic on a Kali Linux interface and Wireshark to
+analyze it, the project traces a full TLS 1.3 handshake from the first
+plaintext bytes through to a decrypted HTTPS response.
+
+The core finding is the Server Name Indication (SNI) field inside the TLS
+ClientHello message. Even though the rest of an HTTPS connection is
+encrypted, the SNI field travels in plaintext, because it's sent before any
+session keys are negotiated. That means the destination hostname is visible
+to anyone capturing traffic on the network, regardless of encryption. The
+project also includes a separate decryption walkthrough, using the
+SSLKEYLOGFILE environment variable to have Wireshark decrypt a live HTTPS
+session directly, confirming what's actually inside the encrypted traffic
+once the keys are available.
+
+## More detail
+
+This isn't a summary of the whole investigation. The full walkthrough,
+including the tcpdump commands, the Wireshark analysis steps, the
+SSLKEYLOGFILE decryption process, and the TLS 1.2-versus-1.3 handshake
+comparison, is written up in full in the
+project README on GitHub.
