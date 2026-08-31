@@ -1,0 +1,704 @@
+---
+slug: 'mocking-localstorage-in-vitest-with-jsdom-chasing-100-branch-coverage'
+date: '2026-08-28T04:34:58.092Z'
+lastModified: '2026-08-31T21:23:58.092Z'
+title: 'Mocking localStorage in Vitest with jsdom: Chasing 100% Branch Coverage'
+author: 'Maria D. Campbell'
+excerpt: 'How I mocked localStorage across five Vitest test files with jsdom, and used coverage isolation to figure out which of two near-identical tests was actually forcing 100% branch coverage.'
+image: pexels-shvets-production-7203725.webp
+tags: ['javascript', 'jsdom', 'localStorage', 'tests', 'unit testing', 'vite', 'vitest', 'mocking', 'branch coverage', 'doMock', 'spyOn']
+isPublished: true
+isFeatured: false
+---
+
+![A young man surrounded by moving boxes indoors, contemplating unpacking.](pexels-shvets-production-7203725.webp)
+
+_[Photo](https://www.pexels.com/photo/man-between-stacks-of-cardboard-boxes-at-home-7203725/) by [SHVETS production](https://www.pexels.com/@shvets-production/) on [pexels.com](https://www.pexels.com/)_
+
+## Table of Contents
+
+- [Storage Fun with Forms Rebuild modularization](#storage-fun-with-forms-rebuild-modularization)
+- [constants.js and the Storage Fun with Forms Rebuild modules](#constantsjs-and-the-storage-fun-with-forms-rebuild-modules)
+- [vi.doMock in populateStorage.test.js](#vidomock-in-populatestoragetestjs)
+- [setStyles.js and populateStorage.test.js](#setstylesjs-and-populatestoragetestjs)
+- [jsdom color-normalization in setStyles.test.js](#jsdom-color-normalization-in-setstylestestjs)
+- [Per module test cases](#per-module-test-cases)
+    - [clearStorage.js](#clearstoragejs)
+    - [emptyStorage.js](#emptystoragejs)
+    - [restoreNote.js](#restorenotejs)
+    - [setStyles.js](#setstylesjs)
+    - [populateStorage.js](#populatestoragejs)
+        - [populateStorage.test.js happy path test](#populatestoragetestjs-happy-path-test)
+        - [populateStorage.test.js unsupported branch test](#populatestoragetestjs-unsupported-branch-test)
+        - [populateStorage.test.js quota-exceeded branch test](#populatestoragetestjs-quota-exceeded-branch-test)
+        - [populateStorage.test.js rethrow branch test](#populatestoragetestjs-rethrow-branch-test)
+        - [populateStorage.test.js Firefox quota-exceeded variant branch test](#populatestoragetestjs-firefox-quota-exceeded-variant-branch-test)
+- [Achieving 100% test coverage](#achieving-100-test-coverage)
+- [Conclusion](#conclusion)
+
+I recently upgraded a project called Storage Fun with Forms (Rebuild). I modernized its workflow, incorporated testing, and modularized the project code. When I got to working on the `populateStorage` module, I encountered some intriguing challenges that were unfamiliar to me. This prompted me to write about them in this post. To learn more about its original workflow and upgrade, please visit [Storage Fun with Forms Rebuild repo README.md](https://github.com/interglobalmedia/storage-fun-with-forms-rebuild).
+
+## Storage Fun with Forms Rebuild modularization
+
+Originally, Storage Fun with Forms Rebuild consisted of one large JavaScript file called `main.js`.  However, I wanted to break it down into smaller modules so that they could either be reused in other projects and/or be easier to test.
+
+| Original JS structure | Modularized JS |
+| --- | --- |
+| main.js | <ul><li>clearStorage</li><li>emptyStorage</li><li>localStorageSupport.js</li><li>populateStorage.js</li><li>renderFooter.js</li><li>restoreNote.js</li><li>setStyles.js</li><li>withHash.js</li></ul> |
+
+## constants.js and the Storage Fun with Forms Rebuild modules
+
+Not only did I modularize `main.js` into eight parts, but I also created a file called `constants.js` which contains all the constants originally used in `main.js`. Constants ended up being imported into `clearStorage.js`, `emptyStorage.js`, `populateStorage.js`,  `restoreNote.js`,  and `setStyles.js`. However, I did not import those constants at the top of the modules' respective test files but import them dynamically inside the respective `it` blocks.
+
+- `renderFooter.js` queries/computes inside
+the function body. It looks up its footer element on every call, not once at
+import time, so the `beforeEach` mounting `document.body.innerHTML` at the top of the `describe` block
+before each run works fine.
+- `localStorageSupport.js` and `withHash.js` don't touch the `DOM` or `constants.js`, so they are excluded from the `constants.js` import issue.
+- `clearStorage.js`, `emptyStorage.js`, `populateStorage.js`, `restoreNote.js`, and `setStyles.js`, which all import element references from `src/constants.js`, and those constants are run once at module-evaluation time into top-level const bindings. For example:
+
+```js
+export const bgColorInput = document.querySelector('#bgcolor')
+// ...
+```
+
+- Since ES module evaluation is cached and import statements are hoisted, a static import at the top of the test file such as `import { clearStorage } from '../src/modules/clearStorage.js'` would run before the DOM fixture (an element's innerHTML value) once. It would be imported directly inside the describe block and not inside `beforeEach`/`beforeAll`. It is also never reset between tests in that file.
+- `constants.js` would evaluate against an empty document, and every element and all const references would be null for the rest of that file's run.
+- The module being tested (and anything from
+`constants.js` the test needs, like `STORAGE_KEYS`) is dynamically imported 
+within each it block using async await. For example:
+
+```js
+it('The clearStorage function clears the note from the textarea element', async () => {
+    const { clearStorage } = await import('../src/modules/clearStorage.js')
+    const { STORAGE_KEYS } = await import('../src/constants.js')
+    ...
+})
+```
+
+This is so that `constants.js` only evaluates after the fixture already exists.
+
+As far as mocking localStorage in clearStorage.test.js, emptyStorage.test.js, restoreNote.test.js, and setStyles.test.js, it is assigned to `global.localStorage` inside a `beforeAll()` at the top of the describe block. Those files use `beforeAll()` because the mock only needs to exist once per file.
+
+For example:
+
+`restoreNote.test.js`:
+
+```js
+describe('restoreNote', () => {
+	beforeAll(() => {
+		global.localStorage = {
+			store: {},
+			getItem(key) {
+				return this.store[key] ?? null
+			},
+			setItem(key, value) {
+				this.store[key] = value
+			},
+			removeItem(key) {
+				delete this.store[key]
+			},
+			clear() {
+				this.store = {}
+			},
+			get length() {
+				return Object.keys(this.store).length
+			},
+		}
+	})
+
+	const body = document.querySelector('body')
+	body.innerHTML = `<form id="fun-form">...</form>`
+
+	it('The restoreNote function should get the saved note from localStorage', async () => {
+		const { restoreNote } = await import('../src/modules/restoreNote.js')
+		const { STORAGE_KEYS } = await import('../src/constants.js')
+
+		localStorage.setItem(STORAGE_KEYS.note, 'I wrote a note yesterday!')
+		restoreNote()
+
+		expect(document.getElementById('textArea').value).toBe('I wrote a note yesterday!')
+	})
+})
+```
+
+On the other hand, `populateStorage.test.js` assigns `global.localStorage` inside a `beforeEach()` because its later tests spy on `setItem` to force error branches, and each `it` needs a clean, unspied mock instead of one still wired from the previous test:
+
+```js
+beforeEach(() => {
+        global.localStorage = {
+            store: {},
+            getItem(key) {
+                return this.store[key] ?? null
+            },
+            setItem(key, value) {
+                this.store[key] = value
+            },
+            removeItem(key) {
+                delete this.store[key]
+            },
+            clear() {
+                this.store = {}
+            },
+            get length() {
+                return Object.keys(this.store).length
+            },
+        }
+    })
+
+    // This removes the fake replacement so the next import of that path goes back to getting the real localStorageSupport.js
+    afterEach(() => {
+        vi.doUnmock('../src/modules/localStorageSupport.js')
+    })
+
+    let body = document.querySelector('body')
+    body.innerHTML = `<div class="wrapper">
+        <h1 class="title">Storage Fun With Forms</h1>
+        <p class="font-color font-style">
+            Write a note about your experience here and save it to local storage. All the
+            other selections you make here are also being saved to local storage so that you may be reminded of them
+            when you return!
+        </p>
+        <form id="fun-form">
+            <div class="storage-buttons">
+                <a class="clear" href="#">Clear Storage</a>
+                <a class="empty" href="#">Empty Storage</a>
+            </div>
+            <div id="storage-quota-msg"></div>
+            <div>
+                <label for="bgcolor">Choose Background Color:</label>
+                <div class="inputs">
+                    <input name="bgcolor" id="bgcolor" value="#FF0000" class="coloris" />
+                </div>
+            </div>
+            <div>
+                <label for="fontcolor">Choose Font Color:</label>
+                <div class="inputs">
+                    <input name="fontcolor" id="fontcolor" class="coloris" value="#000000" />
+                </div>
+            </div>
+            <div class="select-font">
+                <label for="font">Choose Font Style:</label>
+                <select id="font" name="font">
+                    <option value="'Noto Sans', sans-serif">Noto Sans Sans-Serif</option>
+                    <option value="'Inconsolata', monospace">Inconsolata Monospace</option>
+                    <option value="'Arvo', serif">Arvo Serif</option>
+                    <option value="'Dosis', sans-serif"> Dosis Sans-Serif</option>
+                    <option value="'Quicksand', sans-serif">Quicksand Sans-Serif</option>
+                    <option value="'Bitter', serif">Bitter Serif</option>
+                    <option value="'PT Sans', sans-serif">PT Sans Sans-Serif</option>
+                </select>
+            </div>
+            <div class="select-image">
+                <label for="image">Select Image:</label>
+                <select id="image" name="image">
+                    <option value="images/pinpng.com-boba-png-1646192.png">Boba</option>
+                    <option value="images/pinpng.com-cupcake-png-581578.png">
+                        Cupcake 1
+                    </option>
+                    <option value="images/pinpng.com-cupcake-png-582129.png">
+                        Cupcake 2
+                    </option>
+                    ...
+                </select>
+            </div>
+            <div class="note">
+                <label for="textArea">Type Note:</label>
+                <textarea id="textArea" name="textArea">Write a note!</textarea>
+            </div>
+            <div class="note-btn-wrapper">
+                <button type="button" id="note-btn">Submit Note</button>
+                <button type="button" id="get-note-btn">Get Note</button>
+            </div>
+            <img class="image" alt="Selected decorative clipart" />
+        </form>
+    </div>`
+```
+
+Two things which should be kept consistent across all five files, matching what shipped instead of a stricter reset-everything-every-test pattern:
+
+- The DOM fixture (`body.innerHTML`) is not wiped between each `it` in a file, in any of the five files. Several rely on state carrying over, or an explicit cleanup inside a later `it` itself (e.g. `restoreNote.test.js`'s second
+test calls `localStorage.removeItem(STORAGE_KEYS.note`) before asserting the "no saved note" branch, instead of a hook doing it for it.
+    - The `localStorage` mock follows that same "not wiped" pattern in
+    `clearStorage.test.js`, `emptyStorage.test.js`, `restoreNote.test.js`, and
+    `setStyles.test.js`. All four test files build the mock once via `beforeAll`, so its contents persist across that file's tests.
+    - `populateStorage.test.js` uses `beforeEach` so the mock is rebuilt fresh before every `it`.
+- Only the module being tested (and whatever it needs as an import from `constants.js`) is dynamically imported inside the it block. Vitest's `describe`/
+  `it`/`expect`/`vi`/`beforeAll`/`beforeEach`/`afterEach` remain as static imports at the top of the test file.
+
+## vi.doMock in populateStorage.test.js
+
+`vi.resetModules()` clears the module registry, so the next dynamic import re-evaluates a module's top-level code from scratch (e.g., `const bgColorInput = document.querySelector('#bgcolor')`) instead of returning a cached instance. This ensures that tests run with a clean slate, especially when the state of a module may have changed between previous tests. What it does not do is touch the separate mock registry that `vi.doMock(path, factory)` writes to: a mock registered with doMock stays active across `resetModules()` calls, because the two are independent bookkeeping systems. One tracks evaluated module instances, the other tracks mock registrations. That distinction is what makes the manual cleanup 
+
+```js
+afterEach(() => {
+    vi.doUnmock('../src/modules/localStorageSupport.js')
+})
+```
+    
+necessary.
+
+In `populateStorage.test.js`, later tests call
+`vi.doMock('../src/modules/localStorageSupport.js', ...)` to force the
+unsupported and quota-exceeded branches. Without unregistering that mock, a
+subsequent dynamic import of `populateStorage.js` could silently inherit it.
+The fix actually used is `vi.doUnmock(path)` in `afterEach`.
+
+This removes the mock so the next import of that path goes back to getting the real `localStorageSupport.js`.
+
+## setStyles.js and populateStorage.test.js
+
+`setStyles()` is not mocked anywhere. `populateStorage()` calls the real `setStyles`, so there is nothing to unmock there.
+
+
+## jsdom color-normalization in setStyles.test.js
+
+Setting `htmlElem.style.backgroundColor = '#aabbcc'` and expecting it to return as that string will not necessarily be the case. It can come back from jsdom as `'rgb(170, 187, 204)'` instead, depending on jsdom version. The safe bet is to do something like the following:
+
+```js
+let bgColorInput = document.getElementById('bgcolor')
+bgColorInput.value = '#FF0000'
+```
+
+This way the value remains a plain string.
+
+## Per module test cases
+
+### clearStorage.js
+
+`clearStorage.js` only clears the note (`localStorage.removeItem(STORAGE_KEYS.note)`), including the note textarea and corresponding `localStorage key`. 
+
+```js
+// clearStorage.js
+import { STORAGE_KEYS, textAreaInput } from '../constants.js'
+/** Clears only the saved note, both from the textarea and from storage. */
+export function clearStorage() {
+	textAreaInput.value = ''
+	localStorage.removeItem(STORAGE_KEYS.note)
+}
+```
+
+### emptyStorage.js
+
+`emptyStorage.js` removes all items from `localStorage`.
+
+```js
+import { textAreaInput } from '../constants.js'
+/** Empties all app data from localStorage and resets the note field. */
+export function emptyStorage() {
+	textAreaInput.value = ''
+	localStorage.clear()
+}
+```
+
+### restoreNote.js
+
+`#textArea.value` represents the saved note's value. When no note is saved, `localStorage.getItem` returns `null`, and `#textArea.value` remains at whatever the default textContent is. And it is explicitly asserted that it is not the string `"null"`.
+
+```js
+it('The restoreNote function fails to get a note because none has been saved', async () => {
+    const { restoreNote } = await import('../src/modules/restoreNote.js')
+    const { STORAGE_KEYS } = await import('../src/constants.js')
+    localStorage.removeItem(STORAGE_KEYS.note)
+    let savedNote = localStorage.getItem(STORAGE_KEYS.note)
+    expect(savedNote).toBeNull()
+    let textAreaElem = document.getElementById('textArea')
+    textAreaElem.value = 'unchanged'
+
+    restoreNote()
+    expect(textAreaElem.value).toBe('unchanged')
+    expect(textAreaElem.value).not.toBe('null')
+})
+```
+
+### setStyles.js
+
+- When all four keys (`bgcolor`, `fontfamily`, `image`, `fontcolor`) are saved, each corresponding input/select value and page style actually updates. `bgcolor` and `fontcolor` pass through `withHash`. This asserts the input `.value` reflects a `#-prefixed hex` even if storage contains a bare hex string.
+- If nothing is saved to localStorage, all four `localStorage.getItem`(s) return `null`. This means every input/select remains at its default value, and none of them become literal string `"null"`.
+- If one key is saved, and the other three not, this proves that the four `if` blocks are independent of each other.
+
+### populateStorage.js
+
+- This is the one ES module that contains real branching and needs the most test cases. ES module branching refers to using conditional statements within JavaScript modules to control execution flow, such as if/else or switch statements. `populateStorage.js` contains real branching because its branches lead to truly different outcomes and need genuinely different test setups (different mocks, different spied error types) to reach. On the other hand, `setStyles.js`'s four `if` statements are parallel, same-shaped toggles.
+- `localStorageSupport` is mocked via `vi.doMock` so `unsupported/quota-exceeded/rethrow` branches can be forced:
+
+```js
+// unsupported branch
+it('correctly identifies when localStorage is undefined', async () => {
+    // This clears out whatever's already cached from the first test (which already imported the real populateStorage.js, wired to the real localStorageSupport).
+    vi.resetModules()
+    // registers the fake localStorageSupport()
+    vi.doMock('../src/modules/localStorageSupport.js', () => ({ localStorageSupport: () => false }))
+
+    const { populateStorage } = await import('../src/modules/populateStorage')
+    const {
+        STORAGE_KEYS,
+        storageQuotaMsg,
+    } = await import('../src/constants.js')
+
+    let bgColorInput = document.querySelector('#bgcolor')
+    bgColorInput.value = '#613b16'
+
+    populateStorage()
+
+    expect(storageQuotaMsg.textContent).toBe('Sorry. No HTML5 local storage support here.')
+    expect(localStorage.getItem(STORAGE_KEYS.bgColor)).toBeNull()
+})
+
+// quota-exceeded branch
+it('localStorageSupport is present but the storage quota has been exceeded and the "Local Storage Quota Exceeded!" message is returned', async () => {
+    vi.resetModules()
+    vi.doMock('../src/modules/localStorageSupport.js', () => ({ localStorageSupport: () => true }))
+    const {
+        STORAGE_KEYS,
+        storageQuotaMsg,
+    } = await import('../src/constants.js')
+    const { populateStorage } = await import('../src/modules/populateStorage')
+
+    let bgColorInput = document.querySelector('#bgcolor')
+    bgColorInput.value = '#613b16'
+
+    // Simulate the quota exceeded error
+    vi.spyOn(global.localStorage, 'setItem').mockImplementation(() => {
+        throw new DOMException(
+            'Local Storage Quota Exceeded!',
+            'QuotaExceededError'
+        )
+    })
+
+    populateStorage()
+
+    expect(storageQuotaMsg.textContent).toBe('Local Storage Quota Exceeded!')
+    expect(localStorage.getItem(STORAGE_KEYS.bgColor)).toBeNull()
+})
+
+// rethrow branch
+it('localStorage is set to true but localStorage.setItem throws a plain Error and populateStorage throws that error instead of swallowing it', async () => {
+    vi.resetModules()
+    vi.doMock('../src/modules/localStorageSupport.js', () => ({ localStorageSupport: () => true }))
+    const {
+        STORAGE_KEYS,
+        storageQuotaMsg,
+    } = await import('../src/constants.js')
+    const { populateStorage } = await import('../src/modules/populateStorage')
+
+    let bgColorInput = document.querySelector('#bgcolor')
+    bgColorInput.value = '#613b16'
+
+    // 1. Create the spy and force it to throw a specific error
+    const setItemSpy = vi.spyOn(global.localStorage, 'setItem')
+        .mockImplementation(() => {
+
+            throw new Error('Saving to localStorage failed')
+        })
+
+    expect(() => populateStorage()).toThrow('Saving to localStorage failed')
+})
+```
+
+`populateStorage.test.js` contains five `it` blocks (tests) in total:
+
+#### populateStorage.test.js happy path test
+
+In testing terms, the `happy path` just means that everything runs as expected.
+
+The happy path test in populateStorage is that `localStorageSupport` is set to true. All five form fields (bgColor, fontColor, fontFamily, image, and note) contain values. populateStorage() is called. Each `localStorage` key is asserted as written with the matching field's value, and the mocked setStyles is called once:
+
+```js
+it('Should set localStorage to bgColor, fontColor, fontFamily, image, and note to true', async () => {
+
+    const { populateStorage } = await import('../src/modules/populateStorage.js')
+    const { localStorageSupport } = await import('../src/modules/localStorageSupport.js')
+    const { setStyles } = await import('../src/modules/setStyles.js')
+    const {
+        STORAGE_KEYS,
+        storageQuotaMsg,
+    } = await import('../src/constants.js')
+
+    let bgColorInput = document.querySelector('#bgcolor')
+    bgColorInput.value = '#613b16'
+    let fontColorInput = document.querySelector('#fontcolor')
+    fontColorInput.value = '#66a3b6'
+    let fontFamilyInput = document.getElementById('font')
+    fontFamilyInput.value = "'Inconsolata', monospace"
+    let textAreaInput = document.querySelector('#textArea')
+    let imageSrcSelect = document.querySelector('#image')
+    let imageElem = document.querySelector('img.image')
+    textAreaInput.value = "I've written a really cool note!"
+    populateStorage()
+
+    expect(bgColorInput.value).toBe('#613b16')
+    expect(fontColorInput.value).toBe('#66a3b6')
+    expect(fontFamilyInput.value).toBe("'Inconsolata', monospace")
+    expect(imageElem.src).toContain('pinpng.com-boba-png-1646192.png')
+    expect(textAreaInput.value).toBe("I've written a really cool note!")
+
+    // these are to make sure the setItems stuck
+    expect(localStorage.getItem(STORAGE_KEYS.bgColor)).toBe('#613b16')
+    expect(localStorage.getItem(STORAGE_KEYS.fontColor)).toBe('#66a3b6')
+    expect(localStorage.getItem(STORAGE_KEYS.fontFamily)).toBe("'Inconsolata', monospace")
+    expect(localStorage.getItem(STORAGE_KEYS.note)).toBe(`I've written a really cool note!`)
+})
+```
+#### populateStorage.test.js unsupported branch test
+
+In this test, `localStorageSupport` is set to false. `#storage-quota-msg` is asserted to get the exact `"Sorry. No HTML5 local storage support
+  here.` text, and nothing is written to localStorage.
+
+```js
+it('correctly identifies when localStorage is undefined', async () => {
+    // This clears out whatever's already cached from the first test (which already imported the real populateStorage.js, wired to the real localStorageSupport).
+    vi.resetModules()
+    // registers the fake localStorageSupport()
+    vi.doMock('../src/modules/localStorageSupport.js', () => ({ localStorageSupport: () => false }))
+
+    const { populateStorage } = await import('../src/modules/populateStorage')
+    const {
+        STORAGE_KEYS,
+        storageQuotaMsg,
+    } = await import('../src/constants.js')
+
+    let bgColorInput = document.querySelector('#bgcolor')
+    bgColorInput.value = '#613b16'
+
+    populateStorage()
+
+    expect(storageQuotaMsg.textContent).toBe('Sorry. No HTML5 local storage support here.')
+    expect(localStorage.getItem(STORAGE_KEYS.bgColor)).toBeNull()
+})
+```
+
+#### populateStorage.test.js quota-exceeded branch test
+
+`localStorageSupport` is mocked to true. `global.localStorage.setItem` is spied on, the hand-rolled mock's own method. The mock is a plain object, not a real `Storage` instance, so there was no prototype to intercept. `new DOMException('Local Storage Quota Exceeded!', 'QuotaExceededError')` is thrown. `#storage-quota-msg` is asserted as getting the "Local Storage Quota Exceeded!" message. The call also does not throw out of `populateStorage()`:
+
+```js
+it('localStorageSupport is present but the storage quota has been exceeded and the "Local Storage Quota Exceeded!" message is returned', async () => {
+    vi.resetModules()
+    vi.doMock('../src/modules/localStorageSupport.js', () => ({ localStorageSupport: () => true }))
+    const {
+        STORAGE_KEYS,
+        storageQuotaMsg,
+    } = await import('../src/constants.js')
+    const { populateStorage } = await import('../src/modules/populateStorage')
+
+    let bgColorInput = document.querySelector('#bgcolor')
+    bgColorInput.value = '#613b16'
+
+    // Simulate the quota exceeded error
+    vi.spyOn(global.localStorage, 'setItem').mockImplementation(() => {
+        throw new DOMException(
+            'Local Storage Quota Exceeded!',
+            'QuotaExceededError'
+        )
+    })
+
+    populateStorage()
+
+    expect(storageQuotaMsg.textContent).toBe('Local Storage Quota Exceeded!')
+    expect(localStorage.getItem(STORAGE_KEYS.bgColor)).toBeNull()
+})
+```
+
+#### populateStorage.test.js rethrow branch test
+
+`global.localStorage.setItem` is spied upon again, but this time `setItem` throws a plain `Error`. it is asserted that populateStorage() does throw that error instead of swallowing it.
+
+```js
+it('localStorage is set to true but localStorage.setItem throws a plain Error and populateStorage throws that error instead of swallowing it', async () => {
+    vi.resetModules()
+    vi.doMock('../src/modules/localStorageSupport.js', () => ({ localStorageSupport: () => true }))
+    const {
+        STORAGE_KEYS,
+        storageQuotaMsg,
+    } = await import('../src/constants.js')
+    const { populateStorage } = await import('../src/modules/populateStorage')
+
+    let bgColorInput = document.querySelector('#bgcolor')
+    bgColorInput.value = '#613b16'
+
+    // 1. Create the spy and force it to throw a specific error
+    const setItemSpy = vi.spyOn(global.localStorage, 'setItem')
+        .mockImplementation(() => {
+
+            throw new Error('Saving to localStorage failed')
+        })
+
+    expect(() => populateStorage()).toThrow('Saving to localStorage failed')
+})
+```
+
+#### populateStorage.test.js Firefox quota-exceeded variant branch test
+
+This branch has the same setup as the `quota-exceeded` branch, but the spy throws `new DOMException('Local Storage Quota Exceeded!', 'NS_ERROR_DOM_QUOTA_REACHED')` instead of `'QuotaExceededError'`. This is still a distinct 5th test and not a duplicate of the `quota-exceeded` branch. It exists because it explicitly checks for both error names `error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED'`. This is since different browsers have historically used different names for the same underlying quota error. Without this test, the `NS_ERROR_DOM_QUOTA_REACHED` part of the `||` condition would be untested.
+
+```js
+it('localStorageSupport is present but the storage quota has been exceeded and the "Local Storage Quota Exceeded!" message is returned', async () => {
+    vi.resetModules()
+    vi.doMock('../src/modules/localStorageSupport.js', () => ({ localStorageSupport: () => true }))
+    const {
+        STORAGE_KEYS,
+        storageQuotaMsg,
+    } = await import('../src/constants.js')
+    const { populateStorage } = await import('../src/modules/populateStorage')
+
+    let bgColorInput = document.querySelector('#bgcolor')
+    bgColorInput.value = '#613b16'
+
+    // Simulate the quota exceeded error
+    vi.spyOn(global.localStorage, 'setItem').mockImplementation(() => {
+        throw new DOMException(
+            'Local Storage Quota Exceeded!', 'NS_ERROR_DOM_QUOTA_REACHED'
+        )
+    })
+
+    populateStorage()
+
+    expect(storageQuotaMsg.textContent).toBe('Local Storage Quota Exceeded!')
+    expect(localStorage.getItem(STORAGE_KEYS.bgColor)).toBeNull()
+})
+```
+
+## Achieving 100% test coverage
+
+As for all my projects, my goal is to achieve 100% test coverage. With Storage Fun with Forms Rebuild, this is clearly demonstrated with the `quota-exceeded branch` test and the `Firefox quota-exceeded variant branch` test in `populateStorage.test.js`.
+
+Both tests contain the `'localStorageSupport is present but the storage quota has been exceeded and the "Local Storage Quota Exceeded!" message is returned'` `it` block description because they do assert the exact same outcome, but it is in the body of the test that the differentiator, which error name gets thrown, lives.
+
+To prove this assertion, I first commented out the `Firefox quota-exceeded variant branch` test, and ran `npm run coverage`. In Terminal, this resulted in:
+
+```shell
+npm run coverage
+
+> storage-fun-with-forms@2.0.0 coverage
+> vitest run --coverage
+
+
+ RUN  v4.1.11 /Users/mariacam/Development/storage-fun-with-forms-rebuild
+      Coverage enabled with istanbul
+
+ ✓ test/localStorageSupport.test.js (1 test) 2ms
+ ✓ test/renderFooter.test.js (2 tests) 7ms
+ ✓ test/emptyStorage.test.js (2 tests) 71ms
+ ✓ test/withHash.test.js (3 tests) 3ms
+ ✓ test/clearStorage.test.js (1 test) 49ms
+ ✓ test/restoreNote.test.js (2 tests) 24ms
+ ✓ test/setStyles.test.js (2 tests) 64ms
+ ✓ test/populateStorage.test.js (4 tests) 83ms
+
+ Test Files  8 passed (8)
+      Tests  17 passed (17)
+   Start at  08:30:55
+   Duration  720ms (transform 533ms, setup 0ms, import 709ms, tests 303ms, environment 3.43s)
+
+ % Coverage report from istanbul
+-------------------------|---------|----------|---------|---------|-------------------
+File                     | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------------|---------|----------|---------|---------|-------------------
+All files                |     100 |    95.23 |     100 |     100 |                   
+ src                     |     100 |      100 |     100 |     100 |                   
+  constants.js           |     100 |      100 |     100 |     100 |                   
+ src/modules             |     100 |    95.23 |     100 |     100 |                   
+  clearStorage.js        |     100 |      100 |     100 |     100 |                   
+  emptyStorage.js        |     100 |      100 |     100 |     100 |                   
+  localStorageSupport.js |     100 |      100 |     100 |     100 |                   
+  populateStorage.js     |     100 |    85.71 |     100 |     100 | 33                
+  renderFooter.js        |     100 |      100 |     100 |     100 |                   
+  restoreNote.js         |     100 |      100 |     100 |     100 |                   
+  setStyles.js           |     100 |      100 |     100 |     100 |                   
+  withHash.js            |     100 |      100 |     100 |     100 |                   
+  ```
+
+  And in the browser:
+
+  ![Screenshot of populateStorage.test.js test coverage with the Firefox quota-exceeded variant branch test commented out](Screenshot-2026-08-31-at-9.34.19-AM.webp)
+
+  _populateStorage.test.js test coverage with the Firefox quota-exceeded variant branch test commented out_
+
+  Then I commented out the quota-exceeded branch test and ran `npm run coverage`. In Terminal, this resulted in:
+
+```shell
+  npm run coverage
+
+> storage-fun-with-forms@2.0.0 coverage
+> vitest run --coverage
+
+
+ RUN  v4.1.11 /Users/mariacam/Development/storage-fun-with-forms-rebuild
+      Coverage enabled with istanbul
+
+ ✓ test/withHash.test.js (3 tests) 3ms
+ ✓ test/localStorageSupport.test.js (1 test) 2ms
+ ✓ test/renderFooter.test.js (2 tests) 7ms
+ ✓ test/emptyStorage.test.js (2 tests) 68ms
+ ✓ test/clearStorage.test.js (1 test) 124ms
+ ✓ test/restoreNote.test.js (2 tests) 71ms
+ ✓ test/setStyles.test.js (2 tests) 142ms
+ ✓ test/populateStorage.test.js (4 tests) 65ms
+
+ Test Files  8 passed (8)
+      Tests  17 passed (17)
+   Start at  09:41:11
+   Duration  954ms (transform 759ms, setup 0ms, import 695ms, tests 481ms, environment 4.95s)
+
+ % Coverage report from istanbul
+-------------------------|---------|----------|---------|---------|-------------------
+File                     | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------------|---------|----------|---------|---------|-------------------
+All files                |     100 |      100 |     100 |     100 |                   
+ src                     |     100 |      100 |     100 |     100 |                   
+  constants.js           |     100 |      100 |     100 |     100 |                   
+ src/modules             |     100 |      100 |     100 |     100 |                   
+  clearStorage.js        |     100 |      100 |     100 |     100 |                   
+  emptyStorage.js        |     100 |      100 |     100 |     100 |                   
+  localStorageSupport.js |     100 |      100 |     100 |     100 |                   
+  populateStorage.js     |     100 |      100 |     100 |     100 |                   
+  renderFooter.js        |     100 |      100 |     100 |     100 |                   
+  restoreNote.js         |     100 |      100 |     100 |     100 |                   
+  setStyles.js           |     100 |      100 |     100 |     100 |                   
+  withHash.js            |     100 |      100 |     100 |     100 |                   
+-------------------------|---------|----------|---------|---------|-------------------
+```
+
+ And in the browser:
+
+ ![Screenshot of test coverage of populateStorage.test.js with the quota-exceeded branch test commented out](Screenshot-2026-08-31-at-9.42.40-AM.webp)
+
+ _Test coverage of populateStorage.test.js with the quota-exceeded branch test commented out_
+
+Much to my surprise, even though I had commented out the `quota-exceeded branch` test, I still achieved 100% test coverage. However, this was not a mistake on my part. Commenting out the `Firefox quota-exceeded variant branch` test should have shown me a real coverage drop (as it did). The right side of the `||` (the `NS_ERROR_DOM_QUOTA_REACHED` check) would go unreached. That's because nothing left is exercising it once that test is commented out.
+
+So what is it about the `||` that causes this behavior? For `||` expression, coverage tools like istanbul/c8 credit the left operand as "hit" any time it gets evaluated at all, true or false. The right operand is "hit" only when evaluation actually reaches it, which only happens when the left operand returns falsy.
+
+The `QuotaExceededError` test makes the left operand (`error.name === 'QuotaExceededError'`) evaluate to true, so the right operand never runs. It short-circuits.
+
+The `Firefox-variant` test makes the left operand evaluate to false (its `error.name` doesn't match `'QuotaExceededError'`), which forces the right operand to run, and that one evaluates true. So the `Firefox` test alone causes both operands to be evaluated: left evaluates falsy and right evaluates truthy. That's everything the `||` branch needs for 100% coverage.
+
+The `QuotaExceededError` test removes nothing the `Firefox` test wasn't already covering. The left operand still gets evaluated by the `Firefox` test (it just resolves to false there instead of true), and the right operand still runs. That's exactly why my before/after screenshots came out identical at 7/7 branches (100% coverage). The `QuotaExceededError` test is never the one keeping that branch alive. It's the `Firefox` test that affects coverage on this line. When both tests run together, the coverage report only tells you the branch is covered — it can't tell you which test did it. That ambiguity is exactly why the isolation was necessary: only by commenting out the Firefox test and watching coverage drop, then commenting out the QuotaExceededError test and watching coverage hold steady at 100%, could I pin down that it's specifically the Firefox test forcing the right side of the || to run. The QuotaExceededError test's own execution never reaches it, full suite or not — you just can't see that from the combined report alone.
+
+This discovery proved to me that both tests are not equally necessary for coverage as I originally thought. The one that mirrors Chrome/Safari behavior (`QuotaExceededError`) turns out to be redundant from a pure `branch-coverage` standpoint, and the one modeling Firefox's quirky error name is the one actually forcing full coverage of that line. That's because it is the only test that makes the left side fail and the right side run. Both tests still earn their place for correctness (I do want to assert the `QuotaExceededError` path behaves correctly, coverage or not), but coverage-wise, it's asymmetric.
+
+## Conclusion
+
+In this post, I describe how I approached localStorage branch testing in Vitest with jsdom. I assigned mocking `localStorage` to `global.localStorage` inside a `beforeAll()` at the top of a `describe` block in `clearStorage.test.js`, `emptyStorage.test.js`, `restoreNote.test.js`, and `setStyles.test.js`. I assigned mocking `localStorage` to `global.localStorage` inside a `beforeEach()` instead. I did not wipe out `body.innerHTML` between each `it` in a file in any of the five files in question. The `localStorage` mock also is not wiped out between each `it` block. In addition, only the module undergoing testing (and whatever it needs as an import from `constants.js`) is dynamically imported inside the it block. And finally, I discovered that the `quota-exceeded branch` test and the `Firefox quota-exceeded variant branch` test are not equally necessary for coverage as I originally thought. I realized that I do want to assert the `QuotaExceededError` path behaves correctly, coverage or not, but coverage-wise, the two tests are asymmetric. This discovery alone proves that 100% test coverage is crucial to a complete understanding of an application's behavior.
+
+## Related Resources
+
+- [Storage Fun with Forms Rebuild Git repo on GitHub](https://github.com/interglobalmedia/storage-fun-with-forms-rebuild)
+- [Vitest's vi](https://vitest.dev/api/vi); _vitest.dev_
+- [Colors are not interpreted correctly
+ #48](https://github.com/jsdom/cssstyle/issues/48): _cssstyle GitHub repository issues_
+ - [Firefox: NS_ERROR_DOM_QUOTA_REACHED: Persistent storage maximum size reached
+ #458](https://github.com/browserstate/history.js/issues/458): _history.js GitHub repository issues_
+- [Always catch LocalStorage security and quota exceeded errors](https://crocodillon.com/blog/always-catch-localstorage-security-and-quota-exceeded-errors): _crocodillon.com_
+
+
+
+
+
+
+
+
+
+
+
