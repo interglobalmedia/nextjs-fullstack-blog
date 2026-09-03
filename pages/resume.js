@@ -44,88 +44,95 @@ const TITLE_COLOR_CLASSES = [
 
 const EXPERIENCE = [
 	{
-		title: 'Founder/President',
-		org: 'Inter-Global Media Network, Inc.',
-		location: 'New York, NY',
-		dates: '2012 – Present',
-		description:
-			'Founded as a photography/video/social media venture; shifted focus to front-end and full-stack development in 2015. Built and maintained client and personal web applications, technical documentation, and presentations.',
+		title: `Founder/President`,
+		org: `Inter-Global Media Network, Inc.`,
+		location: `New York, NY`,
+		dates: `2012 – 2024`,
+		description: `Founded as a photography/video/social media venture; shifted focus to front-end and full-stack development in 2015. Built and maintained client and personal web applications, technical documentation, and presentations.`,
 	},
 	{
-		title: 'Trademark Database Management (via Inter-Global Media Network)',
-		org: 'Calvin Klein, Inc.',
-		location: 'New York, NY',
-		dates: '2017 – 2019',
-		description:
-			"Managed Calvin Klein's Legal Department trademark system (CPI database), maintaining continuous communication with the legal team and applying close attention to detail.",
+		title: `Trademark Database Management (via Inter-Global Media Network)`,
+		org: `Calvin Klein, Inc.`,
+		location: `New York, NY`,
+		dates: `2017 – 2019`,
+		description: `Managed Calvin Klein's Legal Department trademark system (CPI database), maintaining continuous communication with the legal team and applying close attention to detail.`,
 	},
 	{
-		title: 'Adjunct Professor, Communication Design',
-		org: 'New York City College of Technology',
-		location: 'Brooklyn, NY',
+		title: `Adjunct Professor, Communication Design`,
+		org: `New York City College of Technology`,
+		location: `Brooklyn, NY`,
 		dates: 'Jan. 2020 – Dec. 2022',
-		description:
-			'Taught Dynamic Web 1 (JavaScript) and Web Design 1. Transitioned coursework fully online during the COVID-19 pandemic using Blackboard, Discord, and GitHub for course delivery and student collaboration. Mentored students individually outside class sessions.',
+		description: `Taught Dynamic Web 1 (JavaScript) and Web Design 1. Transitioned coursework fully online during the COVID-19 pandemic using Blackboard, Discord, and GitHub for course delivery and student collaboration. Mentored students individually outside class sessions.`,
 	},
 ]
 
 const ACHIEVEMENTS = [
 	{
-		label: 'Presenter',
-		detail: 'React Workflow Presentation — React NYC Meetup, 9.28.17',
+		label: `Creator`,
+		detail: `project modernization/new-project playbooks and migration checklists, spanning legacy JS project upgrades and Python cybersecurity/crypto projects`,
 	},
 	{
-		label: 'Presenter',
-		detail: 'Evolution in Design and Development — React Camp, 11.18.17',
+		label: `Creator`,
+		detail: `Cmdbook, personal command-line reference`,
 	},
 	{
-		label: 'Open',
-		detail: 'to speaking and presenting opportunities',
+		label: `Creator`,
+		detail: `personal scratch-file workflow (commit-message drafts, terminal-output logs, running notes) used across projects`,
+	},
+	{
+		label: `Presenter`,
+		detail: `React Workflow Presentation — React NYC Meetup, 9.28.17`,
+	},
+	{
+		label: `Presenter`,
+		detail: `Evolution in Design and Development — React Camp, 11.18.17`,
+	},
+	{
+		label: `Open`,
+		detail: `to speaking and presenting opportunities`,
 	},
 ]
 
 const EDUCATION = [
 	{
-		institution: 'The Linux Foundation',
-		program: 'An Introduction to Linux (LFS101)',
-		dates: 'July 2024 – In Progress',
+		institution: `The Linux Foundation`,
+		program: `An Introduction to Linux (LFS101)`,
+		dates: `July 2024 – In Progress`,
 	},
 	{
-		institution: 'LinuxJourney.com',
-		program: '',
-		dates: 'July 2024 – In Progress',
+		institution: `LinuxJourney.com`,
+		program: ``,
+		dates: `July 2024 – In Progress`,
 	},
 	{
-		institution: 'Google Cybersecurity Professional Certificate, Coursera',
-		program: '',
-		dates: 'July 2023 – Oct. 2023',
+		institution: `Google Cybersecurity Professional Certificate, Coursera`,
+		program: ``,
+		dates: `July 2023 – Oct. 2023`,
 	},
 	{
-		institution: 'New York Coding and Design Academy, NY NY',
-		program: 'Evening Full Stack JavaScript Intensive',
-		dates: 'Jan. 2018 – June 2018',
+		institution: `New York Coding and Design Academy, NY NY`,
+		program: `Evening Full Stack JavaScript Intensive`,
+		dates: `Jan. 2018 – June 2018`,
 	},
 	{
-		institution: 'New York Coding and Design Academy, NY NY',
-		program: 'Web Development 100 & Front End Development 101',
-		dates: 'Sept. 2015 – Feb. 2016',
+		institution: `New York Coding and Design Academy, NY NY`,
+		program: `Web Development 100 & Front End Development 101`,
+		dates: `Sept. 2015 – Feb. 2016`,
 	},
 	{
-		institution:
-			'Columbia University School of International and Public Affairs, NY NY',
-		program:
-			'Master of Arts, International Affairs — International Finance and Banking, Eastern European Studies concentration',
-		dates: '',
+		institution: `Columbia University School of International and Public Affairs, NY NY`,
+		program: `Master of Arts, International Affairs — International Finance and Banking, Eastern European Studies concentration`,
+		dates: ``,
 	},
 	{
-		institution: 'Barnard College, NY NY',
-		program: 'Bachelor of Arts, French Literature',
-		dates: '',
+		institution: `Barnard College, NY NY`,
+		program: `Bachelor of Arts, French Literature`,
+		dates: ``,
 	},
 	{
-		institution: 'Fashion Institute of Technology, NY NY',
-		program: 'A.A.S., Fashion Design, Lingerie Specialization',
-		dates: '',
+		institution: `Fashion Institute of Technology, NY NY`,
+		program: `A.A.S., Fashion Design, Lingerie Specialization`,
+		dates: ``,
 	},
 ]
 

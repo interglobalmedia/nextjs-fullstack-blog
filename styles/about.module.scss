@@ -48,6 +48,17 @@ $ghost-white: #f8f8ff;
 	word-break: normal;
 }
 
+.resume-item {
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 0.3em;
+	text-decoration-thickness: 1px;
+}
+
+.resume-item:hover {
+	text-decoration: none;
+}
+
 :global(.dark) .about-article {
 	background: rgb(74 92 115 / 85%);
 	border-color: var(--color-grey-800);

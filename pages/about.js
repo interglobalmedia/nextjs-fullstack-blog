@@ -1,4 +1,5 @@
 import { Fragment } from 'react'
+import Link from 'next/link'
 import Head from '../components/seo/head'
 import siteMetadata from '../data/siteMetadata'
 import classes from '../styles/about.module.scss'
@@ -70,11 +71,26 @@ function AboutPage() {
 						</p>
 						<p className={classes.info}>
 							Here&apos;s where I am now... focused on Linux/Unix
-							systems and Python/Django, still writing, still
-							weighing one approach against another. I&apos;m
+							systems and Python/Django. Creating a project called
+							Cmdbook, which is a compilation of personal
+							command-line commands I actually use. Working on
+							making it into a book of sorts, likely an e-book. I
+							have created playbooks and checklists for both
+							legacy-project upgrades and new projects. I&apos;m
 							available for remote-first work and open to speaking
-							and presenting opportunities, and the proof is on
-							the Projects page, project by project, post by post.
+							and presenting opportunities, and the proof is both
+							on the Blog and Projects feeds, project by project,
+							post by post.
+						</p>
+						<p className={classes.info}>
+							If you would like to learn more, please visit my{' '}
+							<Link
+								className={classes['resume-item']}
+								href="/resume"
+							>
+								Resume page
+							</Link>
+							.
 						</p>
 						<p className={classes.info}>
 							If you would like to contact me, you can email me by
