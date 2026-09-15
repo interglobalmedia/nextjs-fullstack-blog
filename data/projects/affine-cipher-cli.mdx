@@ -1,0 +1,20 @@
+---
+slug: 'affine-cipher-cli'
+date: '2026-09-15T02:31:03.312Z'
+lastModified: '2026-09-15T02:31:04.398Z'
+title: 'Affine Cipher CLI'
+author: 'Maria D. Campbell'
+summary: 'A command-line tool that encrypts and decrypts text using the affine cipher, with case preservation and both known-key and brute-force decryption.'
+repository: 'https://github.com/interglobalmedia/affine_cipher'
+website: 'https://pypi.org/project/affine-cipher/'
+image: tomas-martinez-axYekjy6Kn4-unsplash.jpg
+tags: ['project', 'python3', 'uv', 'pytest', 'ruff', 'mypy', 'bandit', 'pip-audit', 'github-actions-ci', 'pre-commit hooks', 'pypi package']
+isPublished: true
+isFeatured: false
+---
+
+_[Photo](https://unsplash.com/photos/black-and-white-checkered-textile-axYekjy6Kn4) by [Tomas Martinez](https://unsplash.com/@tomasmartinez) on [unsplash.com](https://unsplash.com/)_
+
+This project is a Python command-line implementation of the affine cipher, a classical substitution cipher where each letter is transformed by `E(x) = (ax + b) mod 26` and reversed using the modular multiplicative inverse of `a`. It's built with `uv`, has a full test suite, and carries a thorough linting, type-checking, and security-scanning toolchain enforced through pre-commit hooks and GitHub Actions CI.
+
+The CLI encrypts and decrypts text through `encrypt`/`decrypt` subcommands. Encryption requires an explicit key, validated to ensure it's mathematically accurate before it's used, so a bad key fails loudly instead of silently breaking the cipher. Decryption works either with a known key or by brute-forcing every valid key when the key isn't known. Both directions preserve each letter's original case and leave punctuation and spacing untouched.
