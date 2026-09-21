@@ -1,11 +1,11 @@
 ---
 slug: how-to-write-protect-a-file-in-macos
 date: '2024-07-06T10:36:50.119Z'
-lastModified: '2026-05-28T09:11:50.119Z'
+lastModified: '2026-09-21T14:36:50.119Z'
 title: How to write protect a file in macOS
 author: 'Maria D. Campbell'
-excerpt: How to write protect a file in macOS.
-image: mr-cup-fabien-barral-o6GEPQXnqMY-unsplash.jpg
+excerpt: Learn how to write protect files and folders so they can't be modified or deleted by dangerous commands such as rm or rm -rf!
+image: mr-cup-fabien-barral-o6GEPQXnqMY-unsplash.webp
 tags:
     [
         'chflags',
@@ -13,42 +13,58 @@ tags:
         'macOS',
         'modify file flags',
         'schg',
+        'shell scripting',
         'system immutable flag',
         'uchg',
         'user immutable flag',
         'write protect files',
     ]
 isPublished: true
-isFeatured: false
+isFeatured: true
 ---
 
-![Immutable records](mr-cup-fabien-barral-o6GEPQXnqMY-unsplash.jpg)
+![Vinyl collection at a record store](mr-cup-fabien-barral-o6GEPQXnqMY-unsplash.webp)
 
-_Photo by_ [Mr Cup / Fabien Barral](https://unsplash.com/@iammrcup) _on_
-[unsplash.com](https://unsplash.com/photos/assorted-color-folder-lot-o6GEPQXnqMY)
+_[Photo](https://unsplash.com/photos/assorted-color-folder-lot-o6GEPQXnqMY) by [Mr Cup / Fabien Barral](https://unsplash.com/@iammrcup) on
+[unsplash.com](https://unsplash.com/)_
 
-Sometimes you want to make sure that important files are not removed via Command
-Line when using the `rm` (remove) command. You want to make sure that these
-important files are write protected.
+## Table of Contents
 
-I'm going to use one of my shell script files I have created and spoke about in
-previous posts as an example. In general, I want to make sure that my shell
+- [Write protecting files with chflags schg](#write-protecting-files-with-chflags-schg)
+- [Un-write protecting files with chflags noschg](#un-write-protecting-files-with-chflags-noschg)
+- [Write protecting files with chflags uchg](#write-protecting-files-with-chflags-uchg)
+- [Un-write protecting files with chflags nouchg](#un-write-protecting-files-with-chflags-nouchg)
+- [Write protecting folders with chflags -R schg](#write-protecting-folders-with-chflags-r-schg)
+- [Un-write protecting folders with chflags -R noschg](#un-write-protecting-folders-with-chflags-r-noschg)
+- [Write protecting folders with chflags -R uchg](#write-protecting-folders-with-chflags-r-uchg)
+- [Un-write protecting folders with chflags -R nouchg](#un-write-protecting-folders-with-chflags-r-nouchg)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+
+I wrote this post for those of us who have regrettably deleted files and folders, never to see them again. This post discusses how to write protect those files and folders.
+
+## Write protecting files with chflags schg
+
+Sometimes you want to make sure that important files are not removed via command
+line when using the `rm` (remove) or `rm -rf` (remove + `-r` for recursive and `-f` for force) commands. You want to make sure that these
+important files are write protected from such commands.
+
+I'm going to use one of my shell script files I keep for demonstrations such as these. In general, I want to make sure that my shell
 scripts cannot accidentally be removed either!
 
 When a file is "write protected", that means that it is "unalterable". It cannot
-be changed or deleted by any type of user, including the `root` (or `superuser`)
-in the macOS UNIX operating system.
+be changed or deleted by any type of user, including `root` (or `superuser`)
+in the macOS UNIX operating system. And only `root` or a user with `sudo` privileges can clear the `schg` flag.
 
 First I use the `chflags` (change flags) command followed by the `schg` (set the
-system immutable flag) flag. This sets the "set the system immutable flag" type
-to a file:
+system immutable flag) flag. This sets the "system immutable flag" type
+on a file:
 
 ```shell
 chflags schg hello.sh
 ```
 
-However, if I run the above command as is, the following is returned in
-Terminal:
+However, if I run the above command as is, the Terminal prints:
 
 ```shell
 chflags: hello.sh: Operation not permitted
@@ -61,7 +77,7 @@ beginning of the command like so:
 sudo chflags schg hello.sh
 ```
 
-And the following is returned:
+And the Terminal prompts:
 
 ```shell
 Password:
@@ -69,85 +85,314 @@ Password:
 
 I have to input my user password.
 
-Then, if I try and delete the `hello.sh` file with the command `rm hello.sh`,
-the following is returned in Terminal:
+Then, if I try to delete the `hello.sh` script file with the command `rm hello.sh`,
+the Terminal displays:
 
 ```shell
 override rwx------ mariacam/staff schg for hello.sh?
 ```
 
-If I do actually want to delete the file, I type "y" for "yes", and if this was
-a mistake and I don't want to delete it, I type "n" for "no".
+If I run the `ls -lO hello.sh` (lowercase L and uppercase O) command, it returns:
 
-I can also run the following command without `sudo` (which stands for "superuser
-do"):
+```shell
+-rwx------@ 1 mariacam  staff  schg 44 Jul  5  2024 hello.sh
+```
+
+`schg` appears to the right of `staff`, indicating that it is a `schg` write protected file.
+
+## Un-write protecting files with chflags noschg
+
+To clear the `schg` flag so I can go back to being able to manipulate my file(s) again, I run:
+
+```shell
+sudo chflags noschg hello.sh
+```
+
+Then I run `ls -lO hello.sh` and get back:
+
+```shell
+-rwx------@ 1 mariacam  staff  - 44 Jul  5  2024 hello.sh
+```
+
+Now the `schg` flag is gone and I can manipulate `hello.sh` however I want. If I want to change the name of the file, for instance, I can:
+
+```shell
+~/macos-scripting  mv hello.sh hi.sh
+~/macos-scripting  ls
+-file                       paste.txt
+banana.txt                  paste2.txt
+concatenate.sh              peanutes.txt
+concatenate.txt             peanuts.txt
+cut.txt                     play_album.sh
+download_install_firefox.sh play_song.sh
+file1.txt                   result.txt
+file1a.txt                  set-browser.sh
+file2.txt                   show_hidden_files.sh
+hi.sh                       some-file.txt
+hide_hidden_files.sh        test.txt
+list-directory.txt          wifi_reset.sh
+myoutput.txt
+```
+
+This is proof that the `sudo chflags noschg hello.sh` command to remove the `schg` flag worked. And, if I want to change back `hi.sh` to `hello.sh`, I can:
+
+```shell
+~/macos-scripting  mv hi.sh hello.sh
+```
+
+And then:
+
+```shell
+~/macos-scripting  ls
+-file                       paste.txt
+banana.txt                  paste2.txt
+concatenate.sh              peanutes.txt
+concatenate.txt             peanuts.txt
+cut.txt                     play_album.sh
+download_install_firefox.sh play_song.sh
+file1.txt                   result.txt
+file1a.txt                  set-browser.sh
+file2.txt                   show_hidden_files.sh
+hello.sh                    some-file.txt
+hide_hidden_files.sh        test.txt
+list-directory.txt          wifi_reset.sh
+myoutput.txt
+```
+
+I am able to successfully change the name of the `hi.sh` file back to `hello.sh` because I first remove the `schg` flag from it.
+
+## Write protecting files with chflags uchg
+
+I can also run the following command without `sudo`:
 
 ```shell
 chflags uchg hello.sh
 ```
 
 `uchg` represents the "user immutable flag". With the "system immutable flag"
-(`schg`), the `superuser` can remove whichever file across the whole computer
-system, no matter who owns which file. With the "user immutable flag", only the
-owner can delete files which they own. Other users on the system cannot delete
-another owner/user's files.
+(`schg`), the `superuser` can remove whichever `schg` `chflags` flag is present, no matter who owns which file. With the "user immutable flag" (`uchg`), only the
+owner can delete protected files which they own only after removing the `uchg` `chflags` flag. Other users on the system cannot remove
+another owner/user's `uchg` flags. Only the `superuser` can.
 
-So if I run the `chflags uchg test.txt` command, followed by the `rm test.txt`
-command, the following is returned in Terminal:
+So if I run the `chflags uchg hello.sh` command, followed by the `rm hello.sh`
+command, I get:
 
 ```shell
-override rwx------ mariacam/staff uchg for test.txt?
+override rwx------ mariacam/staff uchg for hello.sh?
 ```
 
-Again, I can either type "y" for "yes" if I want to actually delete the file, or
+I can either type "y" for "yes" if I want to actually delete the file, or
 "n" for "no" if I don't. This prompt gives me the opportunity to change my mind
 before actually deleting the file. However, if I do type "y" to remove the file,
-I get the following in Terminal:
+I get back:
 
 ```shell
-rm: test.txt: Operation not permitted
+rm: hello.sh: Operation not permitted
 ```
 
-This proves that the `test.txt` file is truly "write protected" or "immutable".
+This proves that the `hello.sh` file is truly "write protected" or "immutable".
 
-If I decide that I no longer want the `test.txt` file to be write protected, I
+## Un-write protecting files with chflags nouchg
+
+If I decide that I no longer want the `hello.sh` file to be write protected, I
 can "unprotect" the file and therefore delete it with the `rm` command. To
-achieve this, I run the following command in Terminal:
+achieve this, I run:
 
 ```shell
-chflags nouchg test.txt
+chflags nouchg hello.sh
 ```
 
 And then if I run the following command:
 
 ```shell
-ls -l test.txt
+ls -lO hello.sh
 ```
 
-The following is returned in Terminal:
+Terminal shows:
 
 ```shell
--rwx------  1 mariacam  staff  0 Jul  6 07:21 test.txt
+-rwx------@ 1 mariacam  staff  - 44 Jul  5  2024 hello.sh
 ```
 
-And then if I run `rm test.txt` followed by the `ls` command inside the
-macos-scripting folder, the following is returned:
+And then if I run `rm hello.sh` followed by the `ls` command inside the
+macos-scripting folder where `hello.sh` resided, Terminal yields:
 
 ```shell
-concatenate.sh              play_album.sh
-concatenate.txt             play_song.sh
-download_install_firefox.sh wifi_reset.sh
-hello.sh
+~/macos-scripting ls
+-file                       paste.txt
+banana.txt                  paste2.txt
+concatenate.sh              peanutes.txt
+concatenate.txt             peanuts.txt
+cut.txt                     play_album.sh
+download_install_firefox.sh play_song.sh
+file1.txt                   result.txt
+file1a.txt                  set-browser.sh
+file2.txt                   show_hidden_files.sh
+hide_hidden_files.sh        some-file.txt
+list-directory.txt          test.txt
+myoutput.txt                wifi_reset.sh
 ```
 
-The `test.txt` file is successfully removed. The same can be done with the
-`schg` flag. Instead of `nouchg` I would use `noschg`. I simply have to put `no`
-in front of either the "user immutable flag" (`uchg`) or the "system immutable
-flag" (`schg`) to remove the file's write protection. `no` clears the flag.
+The `hello.sh` file is successfully removed.
 
-**Note**: The above commands work for both files and folders alike.
+## Write protecting folders with chflags -R schg
+
+The `chflags` command (and `uchg` flag) is not limited to files. It can be used on folders as well.
+
+I can create a directory called `chflags-demo-folder`, and inside it I can add the following subfolders and files:
+
+```shell
+~/chflags-demo-folder  ls
+chflags-schg-two.txt schg-folder
+chflags-schg.txt     schg-folder-two
+```
+
+Then I run `sudo chflags -R schg chflags-demo-folder` followed by `ls -ldO chflags-demo-folder` to make sure that the command took:
+
+```shell
+# ls -ldO chflags-demo-folder displays the parent directory settings
+drwxr-xr-x  6 mariacam  staff  schg 192 Sep 20 20:20 chflags-demo-folder
+```
+
+It took! Next, I want to make sure that the directory contents were affected as well:
+
+```shell
+# this command displays the contents of the parent directory
+ls -lO chflags-demo-folder
+total 0
+-rw-r--r--  1 mariacam  staff  schg   0 Sep 20 20:01 chflags-schg-two.txt
+-rw-r--r--  1 mariacam  staff  schg   0 Sep 20 20:01 chflags-schg.txt
+drwxr-xr-x  4 mariacam  staff  schg 128 Sep 20 20:21 schg-folder
+drwxr-xr-x  4 mariacam  staff  schg 128 Sep 20 20:21 schg-folder-two
+```
+
+`chflags -R schg` write protects all the directory's subfolders and files.
+
+But I want to make sure that the subfolders' files have also been protected:
+
+```shell
+~ cd chflags-demo-folder
+~/chflags-demo-folder  ls
+chflags-schg-two.txt schg-folder
+chflags-schg.txt     schg-folder-two
+~/chflags-demo-folder  cd schg-folder
+~/chflags-demo-folder/schg-folder  ls
+test-file-one.txt test-file-two.txt
+~/chflags-demo-folder/schg-folder  ls -lO
+total 0
+-rw-r--r--  1 mariacam  staff  schg 0 Sep 20 20:20 test-file-one.txt
+-rw-r--r--  1 mariacam  staff  schg 0 Sep 20 20:21 test-file-two.txt
+```
+
+Not only does the command protect the parent directory's subfolders and files, but it also protects the subfolders' files.
+
+But I also want to make sure that this folder and its contents are protected from potentially dangerous commands such as (previously mentioned) `rm -rf`.
+
+When I run `rm -rf chflags-demo-folder`, it results in:
+
+```shell
+~ rm -rf chflags-demo-folder
+rm: chflags-demo-folder/schg-folder-two/test-file-three.txt: Operation not permitted
+rm: chflags-demo-folder/schg-folder-two/test-file-four.txt: Operation not permitted
+rm: chflags-demo-folder/schg-folder-two: Operation not permitted
+rm: chflags-demo-folder/chflags-schg.txt: Operation not permitted
+rm: chflags-demo-folder/chflags-schg-two.txt: Operation not permitted
+rm: chflags-demo-folder/schg-folder/test-file-two.txt: Operation not permitted
+rm: chflags-demo-folder/schg-folder/test-file-one.txt: Operation not permitted
+rm: chflags-demo-folder/schg-folder: Operation not permitted
+rm: chflags-demo-folder: Operation not permitted
+```
+
+`chflags -R schg` provides robust protection against the `rm -rf` command while the `schg` flag is set.
+
+## Un-write protecting folders with chflags -R noschg
+
+Un-write protecting folders and all their contents is similar to un-write protecting files. To un-write protect chflags-demo-folder, I run:
+
+```shell
+sudo chflags -R noschg chflags-demo-folder
+```
+
+And then:
+
+```shell
+# -l flag stands for long format. It lists permissions, owner,
+# size, and date.
+
+# -d shows a directory itself, as if it were a plain file,
+# instead of listing what's inside it.
+
+# -O includes the file flags in the long listing.
+# This is the option that shows schg or uchg,
+# and it's a capital letter O.
+~ ls -ldO chflags-demo-folder
+drwxr-xr-x  6 mariacam  staff  - 192 Sep 20 20:20 chflags-demo-folder
+```
+
+The command clears all protection from the parent directory and its contents. Running `ls -lO chflags-demo-folder` and then `ls -lO schg-folder` and `ls -lO schg-folder-two` confirms it:
+
+```shell
+~ ls -lO chflags-demo-folder
+total 0
+-rw-r--r--  1 mariacam  staff  -   0 Sep 20 20:01 chflags-schg-two.txt
+-rw-r--r--  1 mariacam  staff  -   0 Sep 20 20:01 chflags-schg.txt
+drwxr-xr-x  4 mariacam  staff  - 128 Sep 20 20:21 schg-folder
+drwxr-xr-x  4 mariacam  staff  - 128 Sep 20 20:21 schg-folder-two
+
+~/chflags-demo-folder ls -lO schg-folder
+total 0
+-rw-r--r--  1 mariacam  staff  - 0 Sep 20 20:20 test-file-one.txt
+-rw-r--r--  1 mariacam  staff  - 0 Sep 20 20:21 test-file-two.txt
+
+~/chflags-demo-folder ls -lO schg-folder-two
+total 0
+-rw-r--r--  1 mariacam  staff  - 0 Sep 20 20:21 test-file-four.txt
+-rw-r--r--  1 mariacam  staff  - 0 Sep 20 20:21 test-file-three.txt
+```
+
+## Write protecting folders with chflags -R uchg
+
+To write protect a folder using the `uchg` flag, I use the following command:
+
+```shell
+~ chflags -R uchg chflags-demo-folder
+# Then:
+~ ls -lO chflags-demo-folder
+total 0
+-rw-r--r--  1 mariacam  staff  uchg   0 Sep 20 20:01 chflags-schg-two.txt
+-rw-r--r--  1 mariacam  staff  uchg   0 Sep 20 20:01 chflags-schg.txt
+drwxr-xr-x  4 mariacam  staff  uchg 128 Sep 20 20:21 schg-folder
+drwxr-xr-x  4 mariacam  staff  uchg 128 Sep 20 20:21 schg-folder-two
+```
+
+## Un-write protecting folders with chflags -R nouchg
+
+To un-write protect the `chflags-demo-folder`, I use:
+
+```shell
+~ chflags -R nouchg chflags-demo-folder
+```
+
+Followed by:
+
+```shell
+ls -lO chflags-demo-folder
+# Which results in:
+total 0
+-rw-r--r--  1 mariacam  staff  -   0 Sep 20 20:01 chflags-schg-two.txt
+-rw-r--r--  1 mariacam  staff  -   0 Sep 20 20:01 chflags-schg.txt
+drwxr-xr-x  4 mariacam  staff  - 128 Sep 20 20:21 schg-folder
+drwxr-xr-x  4 mariacam  staff  - 128 Sep 20 20:21 schg-folder-two
+```
+
+## Conclusion
+
+In this post, I demonstrate how to write protect files and folders in UNIX/macOS. I discuss how only a `superuser` or a user with `sudo` (which stands for "superuser
+do") privileges can set the `schg` (System Immutable) `chflags` flag on a file or folder. On the other hand, users can use the `uchg` (user immutable) `chflags` flag without `sudo` on files or folders, and only the owner of the protected file (or the `superuser`) can remove that flag. The same principles apply to folders. So if you have important and/or sensitive files or folders that you cannot afford to lose, the `chflags` command and related flags are for you!
 
 ## Related Resources
 
-[Apple OS X: Write Protect File From Command Line](https://www.cyberciti.biz/faq/apple-osx-write-protecting-file-folders-bash-command/):
+- [Apple OS X: Write Protect File From Command Line](https://www.cyberciti.biz/faq/apple-osx-write-protecting-file-folders-bash-command/):
 by Vivek Gite, cyberciti.biz
+
+- [chflags man page](https://keith.github.io/xcode-man-pages/chflags.1.html): _Xcode man pages on GitHub_
