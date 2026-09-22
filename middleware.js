@@ -189,6 +189,7 @@ const DELETED_POST_SLUGS = [
 	'data/blog/when-deploying-an-app-to-gh-pages-that-uses-confetti-js.mdx',
 	'data/blog/swapping-columns-of-a-text-file-and-then-joining-its-contents-with-another-text-file-via-command-line.mdx',
 	'data/blog/rewording-a-pushed-git-commit-message.mdx',
+	'when-you-forget-to-make-your-first-git-commit-to-remote-origin-checkout-into-a-new-branch-and-then-merge-into-main.mdx',
 ]
 
 export function middleware(request) {
