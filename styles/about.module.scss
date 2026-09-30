@@ -48,14 +48,16 @@ $ghost-white: #f8f8ff;
 	word-break: normal;
 }
 
-.resume-item {
+.resume-item,
+.achievement-item {
 	color: inherit;
 	text-decoration: underline;
 	text-underline-offset: 0.3em;
 	text-decoration-thickness: 1px;
 }
 
-.resume-item:hover {
+.resume-item:hover,
+.achievement-item:hover {
 	text-decoration: none;
 }
 
@@ -72,4 +74,12 @@ $ghost-white: #f8f8ff;
 	background: rgb(74 92 115 / 85%);
 	border-color: var(--color-grey-800);
 	color: $ghost-white;
+}
+
+/* Keyboard focus styling */
+
+.resume-item:focus-visible,
+.achievement-item:focus-visible {
+	outline: 2px solid currentcolor;
+	outline-offset: 2px;
 }
