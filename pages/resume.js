@@ -44,11 +44,18 @@ const TITLE_COLOR_CLASSES = [
 
 const EXPERIENCE = [
 	{
-		title: `Founder/President`,
-		org: `Inter-Global Media Network, Inc.`,
+		title: `Technical Collaboration with Claude`,
+		org: `Freelance`,
 		location: `New York, NY`,
-		dates: `2012 – 2024`,
-		description: `Founded as a photography/video/social media venture; shifted focus to front-end and full-stack development in 2015. Built and maintained client and personal web applications, technical documentation, and presentations.`,
+		dates: `May 2026 – Present`,
+		description: `Work as a team with Claude, who serves as technical editor (including fact-checking and verification), code reviewer, and project collaborator. Together we build project-specific checklists and topic-based playbooks for upgrading legacy projects and starting new ones. We maintain workflow files (e.g. git-commit-messages.md) to track progress across local repositories. Also collaborated on revamping mariadcampbell.com: retiring outdated posts, updating ones still worth keeping, and editing new writing before publication.`,
+	},
+	{
+		title: `Adjunct Professor, Communication Design`,
+		org: `New York City College of Technology`,
+		location: `Brooklyn, NY`,
+		dates: 'Jan. 2020 – Dec. 2022',
+		description: `Taught Dynamic Web 1 (JavaScript) and Web Design 1. Transitioned coursework fully online during the COVID-19 pandemic using Blackboard, Discord, and GitHub for course delivery and student collaboration. Mentored students individually outside class sessions.`,
 	},
 	{
 		title: `Trademark Database Management (via Inter-Global Media Network)`,
@@ -58,18 +65,28 @@ const EXPERIENCE = [
 		description: `Managed Calvin Klein's Legal Department trademark system (CPI database), maintaining continuous communication with the legal team and applying close attention to detail.`,
 	},
 	{
-		title: `Adjunct Professor, Communication Design`,
-		org: `New York City College of Technology`,
-		location: `Brooklyn, NY`,
-		dates: 'Jan. 2020 – Dec. 2022',
-		description: `Taught Dynamic Web 1 (JavaScript) and Web Design 1. Transitioned coursework fully online during the COVID-19 pandemic using Blackboard, Discord, and GitHub for course delivery and student collaboration. Mentored students individually outside class sessions.`,
+		title: `Founder/President`,
+		org: `Inter-Global Media Network, Inc.`,
+		location: `New York, NY`,
+		dates: `2012 – 2024`,
+		description: `Founded as a photography/video/social media venture; shifted focus to front-end and full-stack development in 2015. Built and maintained client and personal web applications, technical documentation, and presentations.`,
 	},
 ]
 
 const ACHIEVEMENTS = [
 	{
+		label: `Organizer`,
+		detail: `The Debug Table, an in-person tech meetup, founded 9.23.26`,
+		url: `https://www.meetup.com/the-debug-table/?eventOrigin=your_groups`,
+	},
+	{
+		label: `Published`,
+		detail: `affine-cipher, a Python cybersecurity/cryptography project, on PyPI`,
+		url: `https://pypi.org/project/affine-cipher/`,
+	},
+	{
 		label: `Creator`,
-		detail: `project modernization/new-project playbooks and migration checklists, spanning legacy JS project upgrades and Python cybersecurity/crypto projects`,
+		detail: `Project modernization/new-project playbooks and migration checklists, spanning legacy JS project upgrades and Python cybersecurity/crypto projects`,
 	},
 	{
 		label: `Creator`,
@@ -77,7 +94,7 @@ const ACHIEVEMENTS = [
 	},
 	{
 		label: `Creator`,
-		detail: `personal scratch-file workflow (commit-message drafts, terminal-output logs, running notes) used across projects`,
+		detail: `Personal scratch-file workflow (commit-message drafts, terminal-output logs, running notes) used across projects`,
 	},
 	{
 		label: `Presenter`,
@@ -207,7 +224,7 @@ function ResumePage() {
 							Developer with a focus on Linux/Unix systems and
 							Python/Django, and a writer who documents what I
 							build along the way. I dig into why one approach
-							beats another, not just how either one works — an
+							beats another, not just how either one works: an
 							instinct that shows up equally in my code and my
 							writing. Available for remote-first work.
 						</p>
@@ -289,7 +306,18 @@ function ResumePage() {
 									key={`${item.label}-${index}`}
 									className={classes.info}
 								>
-									<strong>{item.label}:</strong> {item.detail}
+									<strong>{item.label}:</strong>{' '}
+									{item.url ? (
+										<Link
+											href={item.url}
+											target="_blank"
+											rel="noreferrer"
+										>
+											{item.detail}
+										</Link>
+									) : (
+										item.detail
+									)}
 								</p>
 							))}
 						</div>
