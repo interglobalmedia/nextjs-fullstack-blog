@@ -25,13 +25,14 @@ export default async function handler(req, res) {
       `,
 		})
 
-		// Optional: confirmation email to the sender
-		await transporter.sendMail({
-			from: `"Your Blog" <${process.env.GMAIL_USER}>`,
-			to: email,
-			subject: 'Thanks for reaching out!',
-			text: `Hi ${name}, thanks for your message — I'll get back to you soon.`,
-		})
+		// Auto-reply disabled: sends to an unverified address (open relay risk).
+		// Re-enable after input validation in harden-contact-form.
+		// await transporter.sendMail({
+		// 	from: `"Your Blog" <${process.env.GMAIL_USER}>`,
+		// 	to: email,
+		// 	subject: 'Thanks for reaching out!',
+		// 	text: `Hi ${name}, thanks for your message — I'll get back to you soon.`,
+		// })
 
 		return res.status(200).json({ message: 'Email sent successfully' })
 	} catch (error) {
