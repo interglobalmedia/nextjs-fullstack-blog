@@ -15,12 +15,12 @@ function AboutPage() {
 		<Fragment>
 			<Head
 				title="About"
-				excerpt="Learn about Maria D. Campbell's site — covering security, fullstack development, macOS, command line, Linux, shell scripting, Windows, Git, and ethics in technology."
+				excerpt="Learn about Maria D. Campbell's site, covering security, fullstack development, macOS, command line, Linux, shell scripting, Windows, Git, and ethics in technology."
 				url={url}
 				author={siteMetadata.author}
 				image={DEFAULT_IMAGE}
-				imageAlt="Maria D. Campbell — Security, Fullstack Development, macOS, Linux"
-				keywords="ai, applescript, awk, chflags, schg, chmod, command line, command prompt, cryptography, css, cybersecurity, django 4, encryption, environment variables, file conversion, file permissions, git, git hooks, github, branch protection, grep, husky, jira, javascript, html, lint-staged, linux, kali linux, keyboard shortcuts, macos, mysql, next.js, node.js, npm, pipe, python, react, react portal, redirect operators, shell scripting, software updates, sql, ssh, stdin, stdout, stderr, unix, virtualbox, windows, windows 11, write protect files, zsh"
+				imageAlt="Maria D. Campbell: Security, Fullstack Development, macOS, Linux"
+				keywords="ai, applescript, awk, chflags, schg, chmod, command line, command prompt, css, cybersecurity, django 4, encryption, environment variables, file conversion, file permissions, git, git hooks, github, branch protection, grep, husky, javascript, html, lint-staged, linux, kali linux, keyboard shortcuts, macos, mysql, next.js, node.js, npm, pipe, python, react, react portal, redirect operators, shell scripting, software updates, sql, ssh, stdin, stdout, stderr, unix, virtualbox, windows, windows 11, write protect files, zsh"
 				type="website"
 			/>
 			<div className={bgClasses['page-wrapper']}>
