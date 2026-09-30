@@ -70,16 +70,49 @@ function AboutPage() {
 							the instinct to investigate doesn&apos;t.
 						</p>
 						<p className={classes.info}>
+							Since May 2026, I&apos;ve been working as a team
+							with Claude. Claude serves as my technical editor,
+							fact-checking and verifying what I write, and as my
+							code reviewer and project collaborator. I still do
+							the building and the writing myself. Together we
+							create project-specific checklists and topic-based
+							playbooks for upgrading legacy projects and starting
+							new ones. We also maintain workflow files that track
+							progress across my repositories. It&apos;s the same
+							documentation-first habit I&apos;ve always had, now
+							with a second set of eyes on every commit. We used
+							the same process to revamp this site: retiring
+							outdated posts, updating the ones worth keeping, and
+							editing new writing before it goes live.
+						</p>
+						<p className={classes.info}>
 							Here&apos;s where I am now... focused on Linux/Unix
 							systems and Python/Django. Creating a project called
 							Cmdbook, which is a compilation of personal
 							command-line commands I actually use. Working on
 							making it into a book of sorts, likely an e-book. I
-							have created playbooks and checklists for both
-							legacy-project upgrades and new projects. I&apos;m
-							available for remote-first work and open to speaking
-							and presenting opportunities, and the proof is both
-							on the Blog and Projects feeds, project by project,
+							founded{' '}
+							<Link
+								className={classes['achievement-item']}
+								href="https://www.meetup.com/the-debug-table/"
+								target="_blank"
+								rel="noreferrer"
+							>
+								The Debug Table
+							</Link>
+							, an in-person tech meetup, and published{' '}
+							<Link
+								className={classes['achievement-item']}
+								href="https://pypi.org/project/affine-cipher/"
+								target="_blank"
+								rel="noreferrer"
+							>
+								affine-cipher
+							</Link>
+							, a Python project, on PyPI. I&apos;m available for
+							remote-first work and open to speaking and
+							presenting opportunities, and the proof is both on
+							the Blog and Projects feeds, project by project,
 							post by post.
 						</p>
 						<p className={classes.info}>
