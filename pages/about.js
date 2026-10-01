@@ -126,14 +126,17 @@ function AboutPage() {
 							.
 						</p>
 						<p className={classes.info}>
-							If you would like to contact me, you can email me by
-							clicking on the envelope in the site footer.
+							If you would like to contact me, please use my{' '}
+							<Link
+								className={classes['contact-item']}
+								href="/contact"
+							>
+								contact form
+							</Link>
+							.
 						</p>
 						<p className={classes.info}>
 							Looking forward to hearing from you!
-						</p>
-						<p className={classes.info}>
-							Spam will be automatically blocked and deleted.
 						</p>
 					</article>
 				</section>
