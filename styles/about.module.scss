@@ -49,7 +49,8 @@ $ghost-white: #f8f8ff;
 }
 
 .resume-item,
-.achievement-item {
+.achievement-item,
+.contact-item {
 	color: inherit;
 	text-decoration: underline;
 	text-underline-offset: 0.3em;
@@ -57,7 +58,8 @@ $ghost-white: #f8f8ff;
 }
 
 .resume-item:hover,
-.achievement-item:hover {
+.achievement-item:hover,
+.contact-item:hover {
 	text-decoration: none;
 }
 
@@ -77,9 +79,9 @@ $ghost-white: #f8f8ff;
 }
 
 /* Keyboard focus styling */
-
 .resume-item:focus-visible,
-.achievement-item:focus-visible {
+.achievement-item:focus-visible,
+.contact-item:focus-visible {
 	outline: 2px solid currentcolor;
 	outline-offset: 2px;
 }
