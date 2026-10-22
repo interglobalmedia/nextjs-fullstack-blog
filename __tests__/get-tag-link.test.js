@@ -10,6 +10,6 @@ describe('getTagLink', () => {
 		expect(link).toBeInTheDocument()
 		expect(link).toHaveAttribute('href', '/blog/tag/macOS')
 		expect(link).toHaveTextContent('#macOS')
-		expect(link).toHaveClass('tag')
+		expect(link).toHaveClass('post-tag')
 	})
 })
