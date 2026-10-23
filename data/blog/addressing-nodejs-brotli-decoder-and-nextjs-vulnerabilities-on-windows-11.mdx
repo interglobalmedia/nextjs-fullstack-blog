@@ -1,0 +1,62 @@
+---
+slug: 'addressing-nodejs-brotli-decoder-and-nextjs-vulnerabilities-on-windows-11'
+date: '2026-10-22T23:39:28.236Z'
+lastModified: '2026-10-22T23:39:28.236Z'
+title: 'Addressing Node.js Brotli decoder and Next.js vulnerabilities on Windows 11'
+author: 'Maria D. Campbell'
+excerpt: 'Addressing Node.js Brotli decoder and Next.js vulnerabilities on Windows 11.'
+image: markus-spiske-iar-afB0QQw-unsplash.webp
+tags: ["nextjs"]
+isPublished: true
+isFeatured: false
+---
+
+![Hacker binary attack code.](markus-spiske-iar-afB0QQw-unsplash.webp)
+
+_[Photo](https://unsplash.com/photos/matrix-movie-still-iar-afB0QQw) by [Markus Spiske](https://unsplash.com/@markusspiske) on [unsplash.com](https://unsplash.com/)_
+
+## Table of Contents
+
+- [The focus of the security vulnerabilities](#the-focus-of-the-security-vulnerabilities)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+
+Yesterday morning, I went into my Gmail account as I always do every morning, and came acrossmy daily email alert from The Hacker News. I opened it to find that serious vulnerabilities had been discovered in Node.js version 26.12.0, which had just shipped October 14, 2026, and I had installed it on my Dell around the same time. I immediately updated this blog to the patched version, 26.12.1, and pushed it to remote. It is especially important these days to stay on top of what is going on in the world of Cybersecurity, and how it might be affecting daily tech workflows. So, I decided to write a post about my Node.js patch process and what else the flaws affected in my workflow.
+
+## The focus of the security vulnerabilities
+
+The focus of the post I saw was a Brotli Decoder bug. In fact, that was the only thing that was mentioned in the post title: "Node.js Brotli Decoder Bug Could Allow Remote Code Execution in All Supported Versions." So at first, I thought that was the only vulnerability addressed in the Node.js security release. But it turned out not to be the case. There were 10 different security vulnerabilites addressed in the release, and they were all pretty important ones. But first comes the Brotli Decoder bug, since that one attracted so much attention.
+
+## The Brotli Decoder
+
+So what is the Brotli Decoder? According to [Google Research](https://research.google/pubs/brotli-a-general-purpose-data-compressor/):
+
+> Brotli is an open source general-purpose data compressor introduced by Google in late 2013 and now adopted in most known browsers and Web servers. It is publicly available on GitHub and its data format was submitted as RFC 7932 in July 2016. Brotli is based on the Lempel-Ziv compression scheme and planned as a generic replacement of Gzip and ZLib. The main goal in its design was to compress data on the Internet, which meant optimizing the resources used at decoding time, while achieving maximal compression density. — _Alakuijala, J., Farruggia, A., Ferragina, P., Kliuchnikov, E., Obryk, R., Szabadka, Z., & Vandevenne, L. (2019). Brotli: A General-Purpose Data Compressor. ACM Transactions on Information Systems._
+
+In other words, a Google library implemented just about everywhere on the web, and adopted by Node.js as well. It even created its own copy.
+
+## The Brotli Decoder Bug
+
+So who would have known that such a little thing created a long time ago would end up being such a big deal for all the wrong reasons?
+
+The Brotli Decoder Bug, which went viral Ocotber 21, and rated high severity, refers to malformed compressed input that makes the decoder write past the end of its buffer, which is an out-of-bounds write.
+
+According to the NIST (National Institute of Standards and Technology) [National Vulnerability Databse (NVD)](https://nvd.nist.gov/vuln/detail/cve-2026-111497), there was:
+
+> A buffer overflow vulnerability in the Brotli decoder ... [that] allows a remote unauthenticated attacker to corrupt adjacent decoder state memory, disclose sensitive memory contents, cause a denial of service, or potentially execute arbitrary code using a crafted Brotli-compressed stream.
+
+According to the Node.js Project on their blog, updates were available on October 21, 2026 for the 26.x, 24.x, 22.x versions of Node.js.
+
+### Version 26.x vulnerabilities and fixes
+
+The flaws found in Node.js 26.x were:
+
+- dns.resolve truncates names containing NUL char (CVE-2026-105482) - (high):
+
+## Conclusion
+
+## Related Resources
+
+- [Wednesday, October 21, 2026 Security Releases](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases): _The Node.js Project_
+- [Node.js Brotli Decoder Bug Could Allow Remote Code Execution in All Supported Versions](https://thehackernews.com/2026/10/nodejs-brotli-decoder-bug-could-allow.html): by _Swati Khandelwal, The Hacker News_
+- [Brotli: A General-Purpose Data Compressor](https://research.google/pubs/brotli-a-general-purpose-data-compressor/): _Alakuijala, J., Farruggia, A., Ferragina, P., Kliuchnikov, E., Obryk, R., Szabadka, Z., & Vandevenne, L. (2019). Brotli: A General-Purpose Data Compressor. ACM Transactions on Information Systems, Google Research_
