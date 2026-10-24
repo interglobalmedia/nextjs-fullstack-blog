@@ -29,6 +29,7 @@
 		"@mui/material": "^6.5.0",
 		"@next/mdx": "^16.4.2",
 		"@tailwindcss/typography": "^0.5.19",
+		"@vercel/analytics": "^2.0.1",
 		"@vercel/og": "^0.4.2",
 		"browser-monads": "^1.0.0",
 		"classnames": "^2.5.1",
