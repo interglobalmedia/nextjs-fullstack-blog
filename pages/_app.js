@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { Inconsolata, Oswald } from 'next/font/google'
 import Script from 'next/script'
 import { useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/next'
 
 const inconsolata = Inconsolata({
 	weight: ['300', '400', '700'],
@@ -74,6 +75,7 @@ export default function App({ Component, pageProps, router }) {
 					</main>
 				</motion.div>
 			</Layout>
+			<Analytics />
 		</ThemeProvider>
 	)
 }
