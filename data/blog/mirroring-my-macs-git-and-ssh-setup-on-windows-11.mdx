@@ -1,0 +1,70 @@
+---
+slug: 'mirroring-my-macs-git-and-ssh-setup-on-windows-11'
+date: '2026-10-25T16:12:23.748Z'
+lastModified: '2026-10-25T16:12:23.748Z'
+title: 'Mirroring my Mac’s Git and SSH setup on Windows 11'
+author: 'Maria D. Campbell'
+excerpt: 'Mirroring my Mac’s Git and SSH setup on Windows 11.'
+image: sekatsky-OwR9cyMNe4c-unsplash.jpg
+tags: ["git"]
+isPublished: false
+isFeatured: false
+---
+
+![Reflection of a hand in a circular mirror](sekatsky-OwR9cyMNe4c-unsplash.jpg)
+
+_[Photo](https://unsplash.com/photos/person-in-black-long-sleeve-shirt-OwR9cyMNe4c) by [Михаил Секацкий](https://unsplash.com/@sekatsky) on [unsplash.com](https://unsplash.com/)_
+
+## Table of Contents
+
+- [So why set up Git and SSH on Windows 11?](#so-why-set-up-git-and-ssh-on-windows-11)
+- [Going with the native Windows and Git Bash route](#going-with-the-native-windows-and-git-bash-route)
+- [Conclusion](#conclusion)
+- [Related Resources](#related-resources)
+
+A week ago, I was checking how much battery percentage I had left on my MacBook Pro, and an alert appeared beside the percentage. It prompted me to go into Battery Settings to find out more. Apparently, my battery health was not great. It was at 75%, well below the healthy battery level of 80%. I was paying for extended Apple Care for just such situations, so I decided to take it to the Apple Genius Bar and replace the battery. This meant that I wasn't going to have my primary laptop for approximately a week. One week! What was I going to do? But wait a second... I had a nice little Dell Inspiron I would could work from. And that is exactly what I have been doing.
+
+## So why set up Git and SSH on Windows 11?
+
+Before I could get to work on my Dell, I had to mirror the tools and workflow I have on my MacBook Pro so I could toggle between the two machines seamlessly. The only thing I had installed on the Dell was my Linux Mint OS in VirtualBox, but that was of no use to me day-to-day. It consumed very little space on the Dell.
+
+## Going with the native Windows and Git Bash route
+
+Before I did anything, I checked to see what I already had on my Windows 11 machine. I ran:
+
+```shell
+$ git --version
+# which returned:
+git version 2.46.0.windows.1
+```
+
+Git for Windows 2.46.0 includes all changes since v2.45.2, which was released on June 3, 2024. The current release (as of October 15, 2026) is 2.56.0.windows.2, shipped October 5, 2026. That meant that I was roughly two years behind on updates, including security fixes, so it was a good idea to upgrade before connecting to GitHub.
+
+Next, I ran:
+
+```shell
+ssh -V
+# which returned:
+OpenSSH_9.8p1, OpenSSL 3.2.2 4 Jun 2024
+```
+
+So I was not starting from scratch. I had installed both Git Bash and SSH in 2024. The SSH version I had was bundled with my Git for Windows from 2024 as well, so that needed some serious updating too.
+
+But before doing anything about it, I wanted to see what resided in my ~/.ssh folder to begin with:
+
+```shell
+$ ls -la ~/.ssh
+total 23
+drwxr-xr-x 1 Owner 197121   0 Jul  9  2024 ./
+drwxr-xr-x 1 Owner 197121   0 Oct 14 00:36 ../
+-rw-r--r-- 1 Owner 197121 464 Jul  9  2024 id_ed25519
+-rw-r--r-- 1 Owner 197121 107 Jul  9  2024 id_ed25519.pub
+-rw-r--r-- 1 Owner 197121 828 Jul  9  2024 known_hosts
+-rw-r--r-- 1 Owner 197121  92 Jul  9  2024 known_hosts.old
+```
+
+
+
+## Conclusion
+
+## Related Resources
