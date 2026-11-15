@@ -15,6 +15,30 @@ isFeatured: false
 
 _[Photo](https://unsplash.com/photos/black-and-white-checkered-textile-axYekjy6Kn4) by [Tomas Martinez](https://unsplash.com/@tomasmartinez) on [unsplash.com](https://unsplash.com/)_
 
+## Table of Contents
+
+- [How it works](#how-it-works)
+- [The CLI](#the-cli)
+- [Where it's published](#where-its-published)
+- [How it's released](#how-its-released)
+- [Supply-chain hardening](#supply-chain-hardening)
+
+## How it works
+
 This project is a Python command-line implementation of the affine cipher, a classical substitution cipher where each letter is transformed by `E(x) = (ax + b) mod 26` and reversed using the modular multiplicative inverse of `a`. It's built with `uv`, has a full test suite, and carries a thorough linting, type-checking, and security-scanning toolchain enforced through pre-commit hooks and GitHub Actions CI.
 
-The CLI encrypts and decrypts text through `encrypt`/`decrypt` subcommands. Encryption requires an explicit key, validated to ensure it's mathematically accurate before it's used, so a bad key fails loudly instead of silently breaking the cipher. Decryption works either with a known key or by brute-forcing every valid key when the key isn't known. Both directions preserve each letter's original case and leave punctuation and spacing untouched.
+## The CLI
+
+The CLI encrypts and decrypts text through `encrypt`/`decrypt` subcommands. Encryption requires an explicit key, validated to ensure it's mathematically valid before it's used, so a bad key fails loudly instead of silently breaking the cipher. Decryption works either with a known key or by brute-forcing every valid key when the key isn't known. Both directions preserve each letter's original case and leave punctuation and spacing untouched.
+
+## Where it's published
+
+It's published on PyPI, so people can install it (`pip install affine-cipher`) or run it without installing (`uvx affine-cipher`).
+
+## How it's released
+
+It's released through Trusted Publishing from GitHub Actions, with Full provenance, so each release is signed by GitHub Actions and verified by PyPI rather than uploaded by hand with a token.
+
+## Supply-chain hardening
+
+GitHub Actions are SHA-pinned, `uv` has a 7-day dependency cooldown, and Dependabot version updates are on the same cooldown. A clean `zizmor` audit backs that up.
